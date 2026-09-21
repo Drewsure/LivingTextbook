@@ -1164,6 +1164,8 @@ try {
     tenantId: "tenant-1",
     sourceId: "source-1",
     targetPackageId: "package-1",
+    targetLanguage: "en",
+    assistLanguages: ["ja"],
     extractionPacketId: "extraction-1",
     label: "Candidate package assembly",
     mode: "review-only",
@@ -1186,6 +1188,23 @@ try {
     approvalCaptureAllowed: false,
   };
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
+  const missingSourceLanguagePolicyErrors = sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+    ...validSourcePackageAssemblyPacket,
+    targetLanguage: "ja",
+    assistLanguages: ["en"],
+  });
+  assertIncludes(missingSourceLanguagePolicyErrors, "Non-English source package assembly requires an explicit target-language policy.");
+  const validJapaneseSourceAssembly = sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+    ...validSourcePackageAssemblyPacket,
+    targetLanguage: "ja",
+    assistLanguages: ["en"],
+    targetLanguagePolicy: {
+      language: "ja", progressionRole: "target", scriptPolicy: "hiragana-first",
+      segmentationPolicy: "japanese-aware", targetLanguageAudioRequired: true,
+      supportLanguageProgressAllowed: false,
+    },
+  });
+  assertEqual(validJapaneseSourceAssembly.length, 0);
   assertIncludes(
     sourcePackageAssembly.validateSourcePackageAssemblyPacket({
       ...validSourcePackageAssemblyPacket,

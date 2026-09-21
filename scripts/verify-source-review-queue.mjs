@@ -107,6 +107,8 @@ requireText(sourcePackageAssemblyModel, "approvalCaptureAllowed", "Source packag
 requireText(sourcePackageAssemblyModel, "SHA256_CHECKSUM_PATTERN", "Source package assembly must validate source checksums.");
 requireText(sourcePackageAssemblyModel, "must contain unique identifiers", "Source package assembly must reject duplicate candidate units.");
 requireText(sourcePackageAssemblyModel, "Draft-candidate source package assembly requires", "Source package assembly must require review evidence for draft candidates.");
+requireText(sourcePackageAssemblyModel, "targetLanguagePolicy", "Source package assembly must preserve target-language policy evidence.");
+requireText(sourcePackageAssemblyModel, "Non-English source package assembly requires", "Source package assembly must block non-English packages without policy evidence.");
 requireText(packageApprovalLedgerModel, "PackageApprovalLedger", "Approval ledger must have a shared contract.");
 requireText(packageApprovalLedgerModel, "validatePackageApprovalLedger", "Approval ledger must have shared validation.");
 requireText(packageApprovalLedgerModel, 'mode !== "review-only"', "Approval ledger must enforce review-only mode.");

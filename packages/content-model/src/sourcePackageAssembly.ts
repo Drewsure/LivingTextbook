@@ -1,3 +1,6 @@
+import { validateTargetLanguagePolicy } from "./targetLanguagePolicy";
+import type { TargetLanguagePolicy } from "./targetLanguagePolicy";
+
 export type SourcePackageAssemblyMode = "review-only";
 export type SourcePackageAssemblyStatus = "evidence-only" | "draft-candidate" | "blocked";
 
@@ -6,6 +9,9 @@ export interface SourcePackageAssemblyPacket {
   tenantId: string;
   sourceId: string;
   targetPackageId: string;
+  targetLanguage: string;
+  assistLanguages: string[];
+  targetLanguagePolicy?: TargetLanguagePolicy;
   extractionPacketId: string;
   label: string;
   mode: SourcePackageAssemblyMode;
@@ -59,6 +65,7 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
     ["tenantId", packet.tenantId],
     ["sourceId", packet.sourceId],
     ["targetPackageId", packet.targetPackageId],
+    ["targetLanguage", packet.targetLanguage],
     ["extractionPacketId", packet.extractionPacketId],
     ["label", packet.label],
     ["sourceChecksum", packet.sourceChecksum],
@@ -71,6 +78,33 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
 
   if (packet.mode !== "review-only") {
     errors.push("Source package assembly must remain review-only.");
+  }
+
+  if (!Array.isArray(packet.assistLanguages)) {
+    errors.push("Source package assembly assistLanguages must be an array.");
+  } else {
+    if (packet.assistLanguages.some((language) => typeof language !== "string" || language.trim().length === 0)) {
+      errors.push("Source package assembly assistLanguages must contain only non-blank strings.");
+    }
+    if (new Set(packet.assistLanguages).size !== packet.assistLanguages.length) {
+      errors.push("Source package assembly assistLanguages must contain unique languages.");
+    }
+    if (packet.assistLanguages.some((language) => typeof packet.targetLanguage === "string" && language.trim().toLowerCase() === packet.targetLanguage.trim().toLowerCase())) {
+      errors.push("Source package assembly assist languages must not equal the target language.");
+    }
+  }
+
+  const normalizedTargetLanguage = typeof packet.targetLanguage === "string" ? packet.targetLanguage.trim().toLowerCase() : "";
+  if (normalizedTargetLanguage && normalizedTargetLanguage !== "en" && !packet.targetLanguagePolicy) {
+    errors.push("Non-English source package assembly requires an explicit target-language policy.");
+  }
+  if (packet.targetLanguagePolicy) {
+    errors.push(...validateTargetLanguagePolicy({
+      tenantId: packet.tenantId,
+      targetLanguage: packet.targetLanguage,
+      assistLanguages: packet.assistLanguages,
+      policy: packet.targetLanguagePolicy,
+    }));
   }
 
   if (!["evidence-only", "draft-candidate", "blocked"].includes(packet.status)) {

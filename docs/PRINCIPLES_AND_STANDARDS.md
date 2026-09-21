@@ -5493,3 +5493,16 @@ and `docs/adr/0933-content-package-target-language-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1006,
 `docs/decision-register/DR-1006-non-english-package-policy-gate.md`, and
 `docs/adr/0934-non-english-package-policy-gate.md`.
+
+## 350. Source Assembly Language Lineage Standard
+
+- Source-to-package assembly must preserve target and assist language intent.
+- Target and assist languages must be explicit and distinct.
+- Non-English candidates require policy evidence before extraction output can
+  be considered a package candidate.
+- Source assembly remains review-only and cannot promote, write, activate, or
+  assign content.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1007,
+`docs/decision-register/DR-1007-source-assembly-language-lineage.md`, and
+`docs/adr/0935-source-assembly-language-lineage.md`.
