@@ -13,6 +13,8 @@ import { ClassRosterReadinessPanel } from "@/features/teacher/ClassRosterReadine
 import { TeacherReportPersistenceRehearsalPanel } from "@/features/teacher/TeacherReportPersistenceRehearsalPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { resolveSampleTeacherReportPersistenceRehearsal } from "@/data/sampleTeacherReportPersistenceRehearsal";
+import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
+import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
 
 const reportContexts = [
   resolveSampleTeacherSessionMonitorContext("demo-unit-1"),
@@ -72,6 +74,9 @@ export default function TeacherReportingReadinessPage() {
               <ReportBoundaryCard context={context} />
               <TeacherReportPersistenceRehearsalPanel
                 result={resolveSampleTeacherReportPersistenceRehearsal(context)}
+              />
+              <TeacherReportSnapshotRecoveryRehearsalPanel
+                rehearsal={resolveSampleTeacherReportSnapshotRecoveryRehearsal(context)}
               />
             </div>
           ))}

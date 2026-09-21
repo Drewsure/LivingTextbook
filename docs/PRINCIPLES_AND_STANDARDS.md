@@ -5297,3 +5297,18 @@ and `docs/adr/0920-report-snapshot-recovery-review-surface.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-993,
 `docs/decision-register/DR-993-local-companion-report-snapshot-parity.md`,
 and `docs/adr/0921-local-companion-report-snapshot-parity.md`.
+
+## 337. Reporting Workbench Recovery Coverage Standard
+
+- The teacher reporting workbench must demonstrate the shared report snapshot
+  recovery contract for the flagship MiniStar tenant and at least one
+  publisher tenant.
+- Each tenant context must resolve its own package and launch identity; no
+  cross-tenant selector may widen the review scope.
+- Cross-tenant comparison is evidence of white-label parity only. It does not
+  authorize export, backup, restore, provider writes, or progression changes.
+- Privacy exclusions remain identical across tenants.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-994,
+`docs/decision-register/DR-994-reporting-workbench-recovery-coverage.md`,
+and `docs/adr/0922-reporting-workbench-recovery-coverage.md`.

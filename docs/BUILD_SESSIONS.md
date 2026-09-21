@@ -4121,3 +4121,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept local file writes, recovery execution, export, and package activation
   blocked.
 - Added route assertions and recorded ADR 0921 and DR-993.
+
+## Build session 0922: Reporting workbench recovery coverage
+
+- Added the shared recovery rehearsal to the teacher reporting workbench for
+  MiniStar and the sample publisher contexts.
+- Kept package and launch identity independently resolved per tenant.
+- Added route-level assertions and recorded ADR 0922 and DR-994.
