@@ -4971,3 +4971,16 @@ and `docs/adr/0898-app-shell-hydration-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-971,
 `docs/decision-register/DR-971-locale-independent-content-matching.md`,
 and `docs/adr/0899-locale-independent-content-matching.md`.
+
+## 315. Tenant-Scoped Browser Evidence Key Standard
+
+- Browser rehearsal evidence keys must include tenant, content package, launch,
+  and student-session identity.
+- Key components must be encoded, and the stored record must be checked
+  against the same scoped lookup before teacher review reads it.
+- This boundary protects white-label isolation without turning browser-local
+  rehearsal evidence into hosted persistence or an institutional record.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-972,
+`docs/decision-register/DR-972-tenant-scoped-browser-evidence-key.md`,
+and `docs/adr/0900-tenant-scoped-browser-evidence-key.md`.

@@ -1,6 +1,6 @@
 import type { GameProgressEvent, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 
-export const LOCAL_SESSION_EVIDENCE_VERSION = 2;
+export const LOCAL_SESSION_EVIDENCE_VERSION = 3;
 
 export interface LocalSessionEvidence {
   version: typeof LOCAL_SESSION_EVIDENCE_VERSION;
@@ -15,8 +15,22 @@ export interface LocalSessionEvidence {
   savedAt: string;
 }
 
-export function getLocalSessionEvidenceStorageKey(launchCode: string): string {
-  return `living-textbook:browser-rehearsal:${launchCode}`;
+export interface LocalSessionEvidenceLookup {
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+  studentSessionId: string;
+}
+
+export function getLocalSessionEvidenceStorageKey(lookup: LocalSessionEvidenceLookup): string {
+  return [
+    "living-textbook",
+    "browser-rehearsal",
+    lookup.tenantId,
+    lookup.packageId,
+    lookup.launchCode,
+    lookup.studentSessionId,
+  ].map((part) => encodeURIComponent(part)).join(":");
 }
 
 export function createLocalSessionEvidence(args: {
@@ -70,7 +84,8 @@ export function appendLocalSessionEvidence(
     return { errors: ["Local session evidence can only be saved in a browser session."] };
   }
 
-  const existing = readLocalSessionEvidence(args.launchSession.launchCode);
+  const lookup = createEvidenceLookup(args);
+  const existing = readLocalSessionEvidence(lookup);
   if (existing && !sameEvidenceSession(existing, args)) {
     return { errors: ["Existing browser rehearsal evidence belongs to a different package or student session."] };
   }
@@ -84,12 +99,12 @@ export function appendLocalSessionEvidence(
   return errors.length > 0 ? { errors } : { evidence, errors: [] };
 }
 
-export function readLocalSessionEvidence(launchCode: string): LocalSessionEvidence | undefined {
+export function readLocalSessionEvidence(lookup: LocalSessionEvidenceLookup): LocalSessionEvidence | undefined {
   if (typeof window === "undefined") return undefined;
 
   let raw: string | null;
   try {
-    raw = window.localStorage.getItem(getLocalSessionEvidenceStorageKey(launchCode));
+    raw = window.localStorage.getItem(getLocalSessionEvidenceStorageKey(lookup));
   } catch {
     return undefined;
   }
@@ -97,22 +112,22 @@ export function readLocalSessionEvidence(launchCode: string): LocalSessionEviden
 
   try {
     const value: unknown = JSON.parse(raw);
-    return isLocalSessionEvidence(value) ? value : undefined;
+    return isLocalSessionEvidence(value) && sameEvidenceLookup(value, lookup) ? value : undefined;
   } catch {
     return undefined;
   }
 }
 
 export function subscribeToLocalSessionEvidence(
-  launchCode: string,
+  lookup: LocalSessionEvidenceLookup,
   onChange: (evidence: LocalSessionEvidence | undefined) => void,
 ): () => void {
   if (typeof window === "undefined") return () => undefined;
 
-  const storageKey = getLocalSessionEvidenceStorageKey(launchCode);
+  const storageKey = getLocalSessionEvidenceStorageKey(lookup);
   const handleStorage = (event: StorageEvent) => {
     if (event.key !== storageKey) return;
-    onChange(readLocalSessionEvidence(launchCode));
+    onChange(readLocalSessionEvidence(lookup));
   };
 
   window.addEventListener("storage", handleStorage);
@@ -151,6 +166,22 @@ function sameEvidenceSession(
   );
 }
 
+function createEvidenceLookup(args: AppendLocalSessionEvidenceArgs): LocalSessionEvidenceLookup {
+  return {
+    tenantId: args.launchSession.tenantId,
+    packageId: args.packageId,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+  };
+}
+
+function sameEvidenceLookup(evidence: LocalSessionEvidence, lookup: LocalSessionEvidenceLookup): boolean {
+  return evidence.tenantId === lookup.tenantId
+    && evidence.packageId === lookup.packageId
+    && evidence.launchCode === lookup.launchCode
+    && evidence.studentSessionId === lookup.studentSessionId;
+}
+
 function mergeEventHistory(
   existing: GameProgressEvent[],
   incoming: GameProgressEvent[],
@@ -186,7 +217,12 @@ function writeLocalSessionEvidence(evidence: LocalSessionEvidence): string[] {
 
   try {
     window.localStorage.setItem(
-      getLocalSessionEvidenceStorageKey(evidence.launchCode),
+      getLocalSessionEvidenceStorageKey({
+        tenantId: evidence.tenantId,
+        packageId: evidence.packageId,
+        launchCode: evidence.launchCode,
+        studentSessionId: evidence.studentSessionId,
+      }),
       JSON.stringify(evidence),
     );
     return [];

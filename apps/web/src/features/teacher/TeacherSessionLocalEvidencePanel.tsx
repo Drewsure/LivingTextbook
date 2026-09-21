@@ -31,7 +31,13 @@ export function TeacherSessionLocalEvidencePanel({
 
   useEffect(() => {
     function readBoundEvidence() {
-      const nextEvidence = readLocalSessionEvidence(launchCode);
+      const lookup = {
+        tenantId: expectedTenantId,
+        packageId: expectedPackageId,
+        launchCode,
+        studentSessionId: expectedStudentSessionId,
+      };
+      const nextEvidence = readLocalSessionEvidence(lookup);
       if (!nextEvidence) {
         setEvidence(undefined);
         setBindingErrors([]);
@@ -48,7 +54,12 @@ export function TeacherSessionLocalEvidencePanel({
     }
 
     readBoundEvidence();
-    return subscribeToLocalSessionEvidence(launchCode, readBoundEvidence);
+    return subscribeToLocalSessionEvidence({
+      tenantId: expectedTenantId,
+      packageId: expectedPackageId,
+      launchCode,
+      studentSessionId: expectedStudentSessionId,
+    }, readBoundEvidence);
   }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, launchCode]);
 
   useEffect(() => {

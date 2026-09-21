@@ -14,6 +14,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-content-model-pu
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-locale-independent-content-matching.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-evidence-tenant-key.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-cross-route-persistence.mjs", import.meta.url))], {
   stdio: "inherit",
 });

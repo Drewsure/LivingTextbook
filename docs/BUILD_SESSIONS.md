@@ -3918,3 +3918,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved display localization while keeping identity, coverage, and evidence
   stable across white-label tenant locales.
 - Recorded ADR 0899 and DR-971.
+
+## Build session 0900: Tenant-scoped browser evidence key
+
+- Scoped browser rehearsal evidence by tenant, package, launch, and
+  student-session identity.
+- Added embedded-record validation and teacher-panel lookup parity.
+- Versioned the local evidence contract so old launch-only keys are stale
+  rather than silently reused.
+- Recorded ADR 0900 and DR-972.
