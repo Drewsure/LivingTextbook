@@ -5464,3 +5464,18 @@ and `docs/adr/0931-package-readiness-source-binding-validation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1004,
 `docs/decision-register/DR-1004-target-language-policy-contract.md`, and
 `docs/adr/0932-target-language-policy-contract.md`.
+
+## 348. Content Package Target-Language Binding Standard
+
+- A content package may declare its target language, assist languages, and
+  target-language policy explicitly.
+- A declared policy requires an explicit package target language and must match
+  the package tenant language configuration.
+- Runtime target language must match the package binding before package audio,
+  game, or progression evidence can be treated as applicable.
+- Existing packages may migrate through optional metadata, but new non-English
+  packages must preserve the binding before pilot review.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1005,
+`docs/decision-register/DR-1005-content-package-target-language-binding.md`,
+and `docs/adr/0933-content-package-target-language-binding.md`.

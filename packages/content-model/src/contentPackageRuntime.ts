@@ -1,5 +1,5 @@
 import type { ContentPackage, ContentReviewStatus } from "./index";
-import { getUnitKey, validateAssistLanguageScriptPolicy, validateContentPackage } from "./index";
+import { getUnitKey, validateAssistLanguageScriptPolicy, validateContentPackage, validateTargetLanguagePolicy } from "./index";
 
 export type ContentPackageRuntimeMode = "review-only" | "hosted-managed" | "local-classroom" | "hybrid";
 
@@ -74,6 +74,18 @@ export function validateContentPackageRuntimeRequest(request: ContentPackageRunt
   if (contentPackage.meta.tenantId !== request.tenantId) errors.push("content package tenant must match runtime tenantId");
   if (contentPackage.meta.packageId !== request.packageId) errors.push("content package id must match runtime packageId");
   if (!curatedPathwayReviewed) errors.push("curated activity pathway review is required");
+
+  if (contentPackage.meta.targetLanguagePolicy) {
+    if (!contentPackage.meta.targetLanguage || !languageMatches(contentPackage.meta.targetLanguage, request.targetLanguage)) {
+      errors.push("content package target language must match the runtime target language");
+    }
+    errors.push(...validateTargetLanguagePolicy({
+      tenantId: request.tenantId,
+      targetLanguage: contentPackage.meta.targetLanguage ?? request.targetLanguage,
+      assistLanguages: contentPackage.meta.assistLanguages ?? [],
+      policy: contentPackage.meta.targetLanguagePolicy,
+    }));
+  }
 
   errors.push(...validateContentPackage(contentPackage));
 

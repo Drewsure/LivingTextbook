@@ -1473,6 +1473,34 @@ try {
     },
     units: [audioUnit], audioCues, audioSupportPlans: [audioPlan],
   };
+  const japaneseTargetPolicy = {
+    language: "ja", progressionRole: "target", scriptPolicy: "hiragana-first",
+    segmentationPolicy: "japanese-aware", targetLanguageAudioRequired: true,
+    supportLanguageProgressAllowed: false,
+  };
+  const japanesePolicyPackage = {
+    ...audioPackage,
+    meta: {
+      ...audioPackage.meta, targetLanguage: "ja", assistLanguages: ["en"],
+      targetLanguagePolicy: japaneseTargetPolicy,
+    },
+  };
+  assertEqual(contentModel.validateContentPackage(japanesePolicyPackage).length, 0);
+  const japanesePolicyProgressErrors = contentModel.validateContentPackage({
+    ...japanesePolicyPackage,
+    meta: {
+      ...japanesePolicyPackage.meta,
+      targetLanguagePolicy: { ...japaneseTargetPolicy, supportLanguageProgressAllowed: true },
+    },
+  });
+  assertIncludes(japanesePolicyProgressErrors, "Target-language policy must keep support-language progress disabled.");
+  const japaneseRuntimeBindingErrors = contentPackage.validateContentPackageRuntimeRequest({
+    tenantId: "tenant-1", packageId: "audio-package-1", targetLanguage: "en",
+    contentPackage: japanesePolicyPackage, curatedPathwayReviewed: true,
+    storagePolicyAccepted: false, persistenceReady: false, teacherReleaseApproved: false,
+    studentFacingUseRequested: false, qrActivationRequested: false,
+  });
+  assertIncludes(japaneseRuntimeBindingErrors, "content package target language must match the runtime target language");
   const audioGameCues = [
     ...audioCues,
     {

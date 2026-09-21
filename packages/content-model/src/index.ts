@@ -1,6 +1,7 @@
 import phaserCandidateProfileData from "./phaserCandidateProfiles.json";
 import type { GameEventType } from "./gameEventTypes";
 import type { TargetLanguagePolicy } from "./targetLanguagePolicy";
+import { validateTargetLanguagePolicy } from "./targetLanguagePolicy";
 
 export { GAME_EVENT_TYPES, isGameEventType } from "./gameEventTypes";
 export type { GameEventType } from "./gameEventTypes";
@@ -286,6 +287,9 @@ export interface ContentPackageMeta {
   updatedAt?: string;
   sourceDocumentName?: string;
   sourceDocumentHash?: string;
+  targetLanguage?: LocaleCode;
+  assistLanguages?: LocaleCode[];
+  targetLanguagePolicy?: TargetLanguagePolicy;
   textbookReference?: TextbookReference;
 }
 
@@ -1066,6 +1070,19 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
   if (contentPackage.meta.curriculumId.trim().length === 0) {
     errors.push("Content package metadata must include a curriculum identifier.");
+  }
+
+  if (contentPackage.meta.targetLanguagePolicy) {
+    if (!contentPackage.meta.targetLanguage?.trim()) {
+      errors.push("Content package target-language policy requires an explicit target language.");
+    } else {
+      errors.push(...validateTargetLanguagePolicy({
+        tenantId: contentPackage.meta.tenantId,
+        targetLanguage: contentPackage.meta.targetLanguage,
+        assistLanguages: contentPackage.meta.assistLanguages ?? [],
+        policy: contentPackage.meta.targetLanguagePolicy,
+      }));
+    }
   }
 
   if (!isValidTimestamp(contentPackage.meta.createdAt)) {
