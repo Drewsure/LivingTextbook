@@ -137,6 +137,7 @@ import { GamePrototypeAssignmentPanel } from "@/features/game-offers/GamePrototy
 import { ParentEngineReadinessPanel } from "@/features/game-offers/ParentEngineReadinessPanel";
 import { UnitGameOfferMapPanel } from "@/features/game-offers/UnitGameOfferMapPanel";
 import { TargetLanguageExpansionPanel } from "@/features/language/TargetLanguageExpansionPanel";
+import { TargetLanguageTenantPreviewPanel } from "@/features/language/TargetLanguageTenantPreviewPanel";
 import { GameBackgroundMediaPolicyPanel } from "@/features/multimedia/GameBackgroundMediaPolicyPanel";
 import { CompetitiveFeatureCoveragePanel } from "@/features/policy/CompetitiveFeatureCoveragePanel";
 import { BuildStageMapPanel } from "@/features/policy/BuildStageMapPanel";
@@ -194,6 +195,7 @@ import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignm
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
 import { TeacherSessionSettingsReviewPacketPanel } from "@/features/teacher/TeacherSessionSettingsReviewPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { sampleJapaneseTargetTenantPreview } from "@/data/sampleTargetLanguageTenantPreview";
 
 export default function TeacherIntakePage() {
   return (
@@ -248,6 +250,7 @@ export default function TeacherIntakePage() {
         <TenantLibraryPlanPanel plan={sampleTenantLibraryPlan} />
         <ShareEmbedReadinessPanel plan={sampleShareEmbedReadinessPlan} />
         <TargetLanguageExpansionPanel plan={sampleTargetLanguageExpansionPlan} />
+        <TargetLanguageTenantPreviewPanel preview={sampleJapaneseTargetTenantPreview} />
         <ActivityPathwayCompatibilityPanel matrix={sampleActivityPathwayCompatibilityMatrix} />
         <PrintableOutputReadinessPanel plan={samplePrintableOutputPlan} />
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />

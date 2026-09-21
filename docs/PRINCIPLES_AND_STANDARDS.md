@@ -5536,3 +5536,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1008,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1009,
 `docs/decision-register/DR-1009-media-language-role-review-surface.md`, and
 `docs/adr/0937-media-language-role-review-surface.md`.
+
+## 353. Target-Language Tenant Preview Standard
+
+- A prospective white-label tenant may be represented in teacher intake before
+  its student route or content package exists.
+- Preview status must distinguish tenant configurability from curriculum and
+  release readiness.
+- Non-English target tenants must preserve target-language-only progression;
+  support-language activity cannot unlock mastery.
+- Japanese previews must expose curriculum, audio, script, and segmentation
+  gates and must remain blocked from assignment until evidence is approved.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1010,
+`docs/decision-register/DR-1010-japanese-target-tenant-preview.md`, and
+`docs/adr/0938-japanese-target-tenant-preview.md`.

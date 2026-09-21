@@ -4182,3 +4182,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Corrected FR-009 so the verified Memory Match evidence-only Z.ai handoff is
   visible as open while direct integration remains blocked.
 - Recorded ADR 0937 and DR-1009.
+## Build session 0928: Japanese target-tenant preview boundary
+
+- Added a teacher-only Japanese target-language tenant preview to make the
+  white-label opportunity concrete without registering an unfinished student
+  route.
+- Kept Japanese package creation, target audio, script policy, segmentation,
+  speech activities, and assignment blocked until review evidence exists.
+- Added a dedicated verifier and recorded ADR-0938 / DR-1010.

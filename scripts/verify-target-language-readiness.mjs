@@ -12,6 +12,9 @@ const contentModel = readSource("../packages/content-model/src/index.ts");
 const teacherMonitor = readSource("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
 const targetPolicy = readSource("../packages/content-model/src/targetLanguagePolicy.ts");
 const japaneseTenant = readSource("../apps/web/src/features/tenant/sampleJapaneseTenant.ts");
+const japaneseTenantPreview = readSource("../apps/web/src/data/sampleTargetLanguageTenantPreview.ts");
+const japaneseTenantPreviewPanel = readSource("../apps/web/src/features/language/TargetLanguageTenantPreviewPanel.tsx");
+const intakePage = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const failures = [];
 
 const requiredLanes = [
@@ -66,6 +69,14 @@ requireText(targetPolicy, "segmentationPolicy", "Target-language policy must dec
 requireText(targetPolicy, "targetLanguageAudioRequired", "Target-language policy must require target-language audio.");
 requireText(japaneseTenant, 'targetLanguage: "ja"', "Japanese target tenant fixture must configure Japanese as the target language.");
 requireText(japaneseTenant, 'segmentationPolicy: "japanese-aware"', "Japanese target tenant must use Japanese-aware segmentation.");
+requireText(japaneseTenantPreview, "sampleJapaneseTargetTenantPreview", "Japanese target tenant preview must exist.");
+requireText(japaneseTenantPreview, 'status: "blocked"', "Japanese target tenant preview must remain blocked.");
+requireText(japaneseTenantPreview, 'registryStatus: "not-registered"', "Japanese target tenant route must remain unregistered.");
+requireText(japaneseTenantPreview, 'packageStatus: "not-created"', "Japanese target tenant package must remain uncreated.");
+requireText(japaneseTenantPreview, "English support cannot unlock progress", "Japanese preview must preserve target-language-only progression.");
+requireText(japaneseTenantPreviewPanel, "White-label tenant preview", "Teacher intake must expose the target tenant preview.");
+requireText(japaneseTenantPreviewPanel, "Student route blocked", "Target tenant preview must visibly block the student route.");
+requireText(intakePage, "TargetLanguageTenantPreviewPanel", "Teacher intake must render the target tenant preview panel.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
