@@ -5266,3 +5266,19 @@ and `docs/adr/0918-provider-neutral-report-package-snapshot.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-991,
 `docs/decision-register/DR-991-provider-neutral-report-snapshot-recovery.md`,
 and `docs/adr/0919-provider-neutral-report-snapshot-recovery.md`.
+
+## 335. Report Snapshot Recovery Review Surface Standard
+
+- The same provider-neutral report snapshot recovery rehearsal must be
+  visible on the persistence workbench and the tenant-aware report-package
+  preview.
+- Hosted-managed and closed-local evidence must be shown as two deployment
+  rehearsals over one resolved tenant/package/launch snapshot.
+- A valid packet is evidence of contract alignment, never permission to
+  execute backup, restore, export, or provider writes.
+- Review surfaces must continue excluding raw event records, learner audio,
+  transcripts, and real learner identifiers.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-992,
+`docs/decision-register/DR-992-report-snapshot-recovery-review-surface.md`,
+and `docs/adr/0920-report-snapshot-recovery-review-surface.md`.

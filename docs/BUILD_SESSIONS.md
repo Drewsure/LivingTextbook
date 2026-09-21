@@ -4102,3 +4102,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept raw events, learner audio, transcripts, and real learner identifiers
   outside the packet.
 - Recorded ADR 0919 and DR-991.
+
+## Build session 0920: Report snapshot recovery review surface
+
+- Reused the tenant-aware report snapshot builder for the teacher persistence
+  workbench and report-package preview.
+- Added side-by-side hosted-managed and closed-local recovery rehearsal cards.
+- Kept provider activation, backup, restore, export, writes, and raw learner
+  data blocked and visibly separate from evidence validity.
+- Added route-level report runtime verification and recorded ADR 0920 and
+  DR-992.
