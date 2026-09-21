@@ -4,6 +4,7 @@ export type PackageReadinessPersistenceStore = "hosted-database" | "local-classr
 
 export interface PackageReadinessEvidenceLaneRefs {
   sourceAssemblyPacketId: string;
+  sourceAssemblyChecksum: string;
   approvalLedgerId: string;
   verifierEvidencePacketId: string;
   targetLanguageAudioApprovalId: string;
@@ -51,6 +52,7 @@ export function buildPackageReadinessPersistenceIntent(
     provider: null,
     evidenceLaneRefs: {
       sourceAssemblyPacketId: reconciliation.sourceAssemblyPacketId,
+      sourceAssemblyChecksum: reconciliation.sourceAssemblyChecksum,
       approvalLedgerId: reconciliation.approvalLedgerId,
       verifierEvidencePacketId: reconciliation.verifierEvidencePacketId,
       targetLanguageAudioApprovalId: reconciliation.targetLanguageAudioApprovalId,
@@ -105,6 +107,7 @@ export function validatePackageReadinessPersistenceIntent(intent: unknown): stri
   } else {
     for (const field of [
       "sourceAssemblyPacketId",
+      "sourceAssemblyChecksum",
       "approvalLedgerId",
       "verifierEvidencePacketId",
       "targetLanguageAudioApprovalId",

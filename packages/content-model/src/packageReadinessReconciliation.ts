@@ -20,6 +20,7 @@ export interface PackageReadinessReconciliation {
   mode: "review-only";
   status: "blocked" | "review-only";
   sourceAssemblyPacketId: string;
+  sourceAssemblyChecksum: string;
   approvalLedgerId: string;
   verifierEvidencePacketId: string;
   targetLanguageAudioApprovalId: string;
@@ -65,6 +66,7 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
     "label",
     "summary",
     "sourceAssemblyPacketId",
+    "sourceAssemblyChecksum",
     "approvalLedgerId",
     "verifierEvidencePacketId",
     "targetLanguageAudioApprovalId",
@@ -83,6 +85,10 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
   if (reconciliation.promotionAllowed !== false) errors.push("Package readiness reconciliation promotion must remain blocked.");
   if (reconciliation.studentFacingActivationAllowed !== false) {
     errors.push("Package readiness reconciliation student-facing activation must remain blocked.");
+  }
+
+  if (isNonEmptyString(reconciliation.sourceAssemblyChecksum) && !/^sha256:[0-9a-f]{64}$/i.test(reconciliation.sourceAssemblyChecksum)) {
+    errors.push("Package readiness reconciliation sourceAssemblyChecksum must use the sha256:<64 hexadecimal characters> format.");
   }
 
   if (!Array.isArray(reconciliation.lanes) || reconciliation.lanes.length === 0) {

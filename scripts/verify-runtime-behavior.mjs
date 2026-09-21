@@ -1282,6 +1282,7 @@ try {
     mode: "review-only",
     status: "blocked",
     sourceAssemblyPacketId: "assembly-1",
+    sourceAssemblyChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     approvalLedgerId: "ledger-1",
     verifierEvidencePacketId: "verifier-1",
     targetLanguageAudioApprovalId: "audio-1",
@@ -1318,6 +1319,13 @@ try {
       lanes: validPackageReadinessReconciliation.lanes.filter((lane) => lane.laneId !== "target-language-audio"),
     }),
     "Package readiness reconciliation is missing lane: target-language-audio.",
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessReconciliation({
+      ...validPackageReadinessReconciliation,
+      sourceAssemblyChecksum: "checksum-1",
+    }),
+    "Package readiness reconciliation sourceAssemblyChecksum must use the sha256:<64 hexadecimal characters> format.",
   );
 
   const validPackageReadinessPersistenceIntent = packageReadinessPersistence.buildPackageReadinessPersistenceIntent(

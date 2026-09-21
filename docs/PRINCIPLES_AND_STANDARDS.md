@@ -5419,3 +5419,17 @@ and `docs/adr/0928-pilot-handoff-persistence-gate-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1001,
 `docs/decision-register/DR-1001-source-package-assembly-lineage-integrity.md`,
 and `docs/adr/0929-source-package-assembly-lineage-integrity.md`.
+
+## 345. Package Readiness Source Lineage Binding Standard
+
+- Package readiness must carry both the source assembly packet id and the
+  exact canonical SHA-256 checksum of that packet.
+- Hosted and closed-local metadata previews must preserve the checksum in
+  their evidence-lane references.
+- A malformed or missing lineage checksum fails the package-readiness gate.
+- Lineage binding is evidence only and cannot authorize storage writes,
+  package promotion, route activation, or student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1002,
+`docs/decision-register/DR-1002-package-readiness-source-lineage-binding.md`,
+and `docs/adr/0930-package-readiness-source-lineage-binding.md`.

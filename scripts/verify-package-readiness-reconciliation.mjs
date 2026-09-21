@@ -13,6 +13,7 @@ for (const marker of [
   "validatePackageReadinessReconciliation",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
+  "sourceAssemblyChecksum",
   "approvalLedgerId",
   "targetLanguageAudioApprovalId",
   "promotionAllowed",
@@ -33,7 +34,7 @@ for (const marker of [
 for (const marker of [
   "LaneCard",
   "reconciliation.lanes.map",
-  "Student activation",
+  "No student-facing activation",
   "Progress rule:",
 ]) {
   requireText(panel, marker, `Package readiness panel is missing ${marker}.`);
