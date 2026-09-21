@@ -4160,3 +4160,25 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added persistence readiness tests and teacher workbench visibility without
   exposing secrets, learner records, raw audio, or transcripts.
 - Recorded ADR 0925 and DR-997.
+
+## Build session 0926: Multilingual media language role
+
+- Added explicit target, assist, and neutral language roles for policy-bound
+  audio and video assets.
+- Target media must match the package target language and assist media must
+  match a configured assist language.
+- Preserved language-neutral image review through labelled-diagram,
+  accessibility, and target-language audio contracts.
+- Recorded ADR 0936 and DR-1008.
+
+## Build session 0927: Media language role review surface
+
+- Added media language and language-role evidence to teacher media-rights and
+  media-library previews.
+- Added the same requirement to upload-channel readiness so intake and review
+  use one language-role rule.
+- Kept upload, storage, release, playlist, assignment, and progression
+  behavior blocked from the review surface.
+- Corrected FR-009 so the verified Memory Match evidence-only Z.ai handoff is
+  visible as open while direct integration remains blocked.
+- Recorded ADR 0937 and DR-1009.

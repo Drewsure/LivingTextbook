@@ -376,15 +376,19 @@ References:
 
 ## FR-009: Controlled Z.ai Game Intake Timing
 
-Status: Future checkpoint; not open for direct integration yet.
+Status: Evidence-only Memory Match intake is open; direct integration remains
+blocked.
 
 Requirement: Preserve the value of ongoing Z.ai game work without letting external prototypes bypass the LivingTextbook foundation.
 
 Accepted direction:
 
 - The user may continue directing Z.ai work in `Drewsure/ministar-lab`.
-- Codex will explicitly alert the user when the LivingTextbook foundation is ready for controlled Z.ai game intake.
-- Until that alert, Z.ai output remains external prototype inventory, not source material for direct promotion into `apps/web`, `apps/ai-service`, routes, scoring, rewards, assignments, playlists, or package assembly.
+- Codex has alerted the user that the foundation is ready for one controlled,
+  evidence-only Memory Match handoff.
+- Z.ai output remains external prototype evidence, not source material for
+  direct promotion into `apps/web`, `apps/ai-service`, routes, scoring,
+  rewards, assignments, playlists, or package assembly.
 - Intake must start with inventory and classification, not copy/paste integration.
 
 Required intake gates:
@@ -407,12 +411,23 @@ Future capabilities:
 - Fixture, event, audio, scoring, and mobile replay reports.
 - Codex promotion decision record.
 
-Revisit when:
+Current controlled intake:
+
+- The first requested candidate is Memory Match in the pairing parent engine.
+- The human may send `docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`
+  to Z.ai while keeping work scoped to `Drewsure/ministar-lab`.
+- A returned evidence packet must pass provenance, fixture, event, audio,
+  deterministic scoring, accessibility, tenant, and wrapper review before any
+  integration proposal exists.
+- Balloon Pop remains the next candidate after Memory Match evidence review.
+
+Revisit the next candidate when:
 
 - Foundation route verification remains stable.
 - The shared game contracts are stable enough to judge returned prototypes.
 - At least one parent-engine wrapper path is ready for controlled prototype review.
-- The user asks whether it is time to draw in Z.ai work.
+- Memory Match evidence is returned and its Codex integration decision is
+  recorded.
 
 References:
 
