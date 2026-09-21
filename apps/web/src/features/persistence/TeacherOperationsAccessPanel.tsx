@@ -46,7 +46,7 @@ export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string })
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Teacher access boundary</p>
           <h2 className="mt-1 text-lg font-bold">Tenant-scoped operations review</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
-            Sign in with the school-approved review code to view this tenant&apos;s metadata-only recovery receipts. This session cannot access student gameplay or change persistence.
+            Sign in with the school-approved review code to view this tenant&apos;s metadata and bounded launch-scoped event review. This session cannot access student gameplay, raw learner audio, or transcripts, and cannot change persistence.
           </p>
         </div>
         <StatusPill label={authenticated ? "Authenticated" : "Protected"} tone={authenticated ? "success" : "warning"} />

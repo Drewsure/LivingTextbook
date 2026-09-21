@@ -7,6 +7,7 @@ import { TeacherSessionPreflightPanel } from "@/features/teacher/TeacherSessionP
 import { TeacherSessionRosterIdentityCard } from "@/features/teacher/TeacherSessionRosterIdentityCard";
 import { TeacherSessionLocalEvidencePanel } from "@/features/teacher/TeacherSessionLocalEvidencePanel";
 import { HostedProgressEventReviewPanel } from "@/features/persistence/HostedProgressEventReviewPanel";
+import { TeacherOperationsAccessPanel } from "@/features/persistence/TeacherOperationsAccessPanel";
 
 export default async function TeacherSessionMonitorPage({
   params,
@@ -26,6 +27,7 @@ export default async function TeacherSessionMonitorPage({
         <TeacherSessionRosterIdentityCard rosterPlan={context.classRosterPlan} />
         <TeacherSessionLaunchGateBoundaryPanel boundary={context.launchGateBoundary} />
         <TeacherSessionPreflightPanel checks={context.preflightChecks} />
+        <TeacherOperationsAccessPanel tenantId={context.tenant.id} />
         <TeacherSessionMonitorPanel context={context} />
         <HostedProgressEventReviewPanel
           request={{

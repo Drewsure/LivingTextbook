@@ -4050,3 +4050,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   learner audio, and transcripts remain outside the UI boundary.
 - Rechecks after an authorized teacher operations session changes.
 - Recorded ADR 0914 and DR-986.
+
+## Build session 0915: Teacher review authorization handoff
+
+- Placed the existing tenant-scoped teacher operations session control on the
+  teacher launch monitor before event review is attempted.
+- Clarified that the review session covers metadata and bounded launch review
+  only; it cannot control gameplay, expose raw learner media, or write
+  persistence.
+- Reused the existing session-change event so the review panel refreshes after
+  sign-in or sign-out without creating a second authorization path.

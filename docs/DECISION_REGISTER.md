@@ -7135,3 +7135,20 @@ Required invariants:
 Evidence: `docs/adr/0914-teacher-event-review-panel.md`,
 `apps/web/src/features/persistence/HostedProgressEventReviewPanel.tsx`,
 `apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts`.
+
+# DR-987: Teacher Review Authorization Handoff
+
+Decision: Place the existing tenant-scoped teacher operations session on the
+launch monitor and reuse its session-change event to refresh the bounded event
+review panel.
+
+Required invariants:
+
+- No second login path or client-held access token is introduced.
+- Session tenant must match the launch tenant.
+- Review remains read-only and excludes raw learner media.
+- Sign-out removes access and refreshes the dependent panel.
+
+Evidence: `docs/adr/0915-teacher-review-authorization-handoff.md`,
+`apps/web/src/app/teacher/sessions/[launchCode]/page.tsx`,
+`apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx`.

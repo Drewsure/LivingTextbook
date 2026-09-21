@@ -5180,3 +5180,18 @@ and `docs/adr/0913-teacher-launch-scoped-event-review.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-986,
 `docs/decision-register/DR-986-teacher-event-review-panel.md`,
 and `docs/adr/0914-teacher-event-review-panel.md`.
+
+## 330. Teacher Review Authorization Handoff Standard
+
+- Teacher authorization controls must appear at the point of review, not only
+  in a separate administration workbench.
+- A white-label tenant uses one tenant-scoped review session and one
+  session-change signal; duplicate login paths and client-held access tokens
+  are prohibited.
+- Sign-in may trigger a bounded re-read, but never broadens the launch scope
+  or grants student gameplay control.
+- Sign-out must remove access and leave dependent review surfaces protected.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-987,
+`docs/decision-register/DR-987-teacher-review-authorization-handoff.md`,
+and `docs/adr/0915-teacher-review-authorization-handoff.md`.
