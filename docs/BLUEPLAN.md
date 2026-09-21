@@ -535,11 +535,21 @@ The foundation has now implemented the structural vertical slice:
 - Basic avatar choice
 - Static validated JSON payload
 - Teacher Launch Protocol
+- Shared keyboard skip navigation, current-route semantics, and tenant-aware
+  focus styling
+- Shared learning-audio status for reviewed media and speech fallback
+- Accessibility verification carried through the canonical game and route gates
 
 The next implementation phase may deepen canonical game behavior only after
 the evidence gate and integration decision are complete. Do not connect live
 AI generation or promote external Phaser source until the payload schema,
 verification rules, event evidence, scoring ownership, audio coverage,
 identity, accessibility, and tenant boundaries are proven.
+
+The immediate controlled handoff remains the isolated Memory Match candidate
+return package requested in
+`docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`. No package is present
+until the external builder returns the required evidence folder, so the frozen
+Phaser snapshot remains review-only and outside the canonical application.
 
 This gives the platform a controlled first win and creates the contract that future AI agents, including Z.ai, must obey.
