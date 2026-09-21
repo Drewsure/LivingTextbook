@@ -2,19 +2,8 @@ import { notFound } from "next/navigation";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
-import type { EditionQrAlias } from "@/data/sampleEditionQrAliasPlan";
+import { findEditionQrAlias, parseEditionQrPath } from "@/data/editionQrAliasResolver";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
-
-interface ParsedQrPath {
-  tenantId: string;
-  seriesId: string;
-  bookId: string;
-  unitId: string;
-  activityId: string;
-  language?: string;
-  edition?: string;
-  version?: string;
-}
 
 export default async function EditionQrPreviewPage({
   params,
@@ -23,7 +12,7 @@ export default async function EditionQrPreviewPage({
 }) {
   const { segments } = await params;
   const parsed = parseQrSegments(segments);
-  const alias = findAlias(parsed);
+  const alias = findEditionQrAlias(parsed, sampleEditionQrAliasPlan.aliases);
 
   if (!parsed || !alias) {
     notFound();
@@ -99,53 +88,6 @@ function ResolveFact({ label, value }: { label: string; value: string }) {
   );
 }
 
-function parseQrSegments(segments: string[]): ParsedQrPath | undefined {
-  const parsed: ParsedQrPath = {
-    tenantId: getSegmentValue(segments, "tenant"),
-    seriesId: getSegmentValue(segments, "series"),
-    bookId: getSegmentValue(segments, "book"),
-    unitId: getSegmentValue(segments, "unit"),
-    activityId: getSegmentValue(segments, "activity"),
-    language: getOptionalSegmentValue(segments, "language"),
-    edition: getOptionalSegmentValue(segments, "edition"),
-    version: getOptionalSegmentValue(segments, "version"),
-  };
-
-  if (!parsed.tenantId || !parsed.seriesId || !parsed.bookId || !parsed.unitId || !parsed.activityId) {
-    return undefined;
-  }
-
-  return parsed;
-}
-
-function getSegmentValue(segments: string[], key: string): string {
-  return getOptionalSegmentValue(segments, key) ?? "";
-}
-
-function getOptionalSegmentValue(segments: string[], key: string): string | undefined {
-  const index = segments.indexOf(key);
-  const value = index >= 0 ? segments[index + 1] : undefined;
-
-  return value ? decodeURIComponent(value) : undefined;
-}
-
-function findAlias(parsed?: ParsedQrPath): EditionQrAlias | undefined {
-  if (!parsed) {
-    return undefined;
-  }
-
-  return sampleEditionQrAliasPlan.aliases.find((alias) => {
-    const requiredMatch =
-      alias.tenantId === parsed.tenantId &&
-      alias.seriesId === parsed.seriesId &&
-      alias.bookId === parsed.bookId &&
-      alias.unitId === parsed.unitId &&
-      alias.activityId === parsed.activityId;
-
-    const languageMatch = !parsed.language || alias.language === parsed.language;
-    const editionMatch = !parsed.edition || alias.edition === parsed.edition;
-    const versionMatch = !parsed.version || alias.version === parsed.version;
-
-    return requiredMatch && languageMatch && editionMatch && versionMatch;
-  });
+function parseQrSegments(segments: string[]) {
+  return parseEditionQrPath(segments);
 }

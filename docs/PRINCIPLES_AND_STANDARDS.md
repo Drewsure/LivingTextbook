@@ -5551,3 +5551,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1009,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1010,
 `docs/decision-register/DR-1010-japanese-target-tenant-preview.md`, and
 `docs/adr/0938-japanese-target-tenant-preview.md`.
+
+## 354. Stable QR Resolver Standard
+
+- Printed QR paths must resolve through a reusable alias resolver, not page-
+  local parsing or direct file paths.
+- QR parsing must fail closed for missing, duplicate, or malformed segments and
+  must preserve tenant, edition, language, and version identity.
+- A preview resolver may display the reviewed target, but it must not mutate
+  production redirects or silently activate a package.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1011,
+`docs/decision-register/DR-1011-stable-qr-resolver.md`, and
+`docs/adr/0939-stable-qr-resolver.md`.

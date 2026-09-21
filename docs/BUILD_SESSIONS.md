@@ -4190,3 +4190,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept Japanese package creation, target audio, script policy, segmentation,
   speech activities, and assignment blocked until review evidence exists.
 - Added a dedicated verifier and recorded ADR-0938 / DR-1010.
+
+## Build session 0929: reusable edition QR resolver
+
+- Extracted QR parsing and alias matching from the preview page into a
+  reusable, tenant-scoped resolver.
+- Added fail-closed handling for duplicate keys and malformed encoded values.
+- Kept direct file, development-host, and production redirect mutation blocked.
+- Recorded ADR-0939 / DR-1011 and added a focused resolver verifier.
