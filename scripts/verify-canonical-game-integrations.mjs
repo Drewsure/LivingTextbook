@@ -460,7 +460,7 @@ for (const [label, path, fragments] of [
   ["Fill in the Blank", "apps/web/src/features/game-shell/text-spelling/FillInBlankPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
   ["Sentence Builder", "apps/web/src/features/game-shell/text-spelling/SentenceBuilderPracticeGame.tsx", ["cue={instructionCue}", "cue={sentenceCue}", "cue={feedbackCue}"]],
   ["Spelling Practice", "apps/web/src/features/game-shell/text-spelling/SpellingPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
-  ["Type Answer", "apps/web/src/features/game-shell/text-spelling/TypeAnswerPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}"]],
+  ["Type Answer", "apps/web/src/features/game-shell/text-spelling/TypeAnswerPracticeGame.tsx", ["cue={instructionCue}", "cue={promptCue}", "cue={feedbackCue}", 'id="type-answer-input-label"', 'aria-labelledby="type-answer-input-label"']],
 ]) {
   const source = readText(path);
   for (const fragment of fragments) {

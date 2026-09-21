@@ -3891,3 +3891,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Marked only the most-specific matching route with `aria-current="page"` and
   retained tenant-configured active styling.
 - Recorded ADR 0896 and DR-968.
+
+## Build session 0897: Audio label interaction boundary
+
+- Separated the Type Answer speakable instruction from the native input label.
+- Added an explicit `aria-labelledby` relationship while preserving audio and
+  keeping submit, scoring, persistence, reward, and progression ownership in
+  the game flow.
+- Recorded ADR 0897 and DR-969.

@@ -4930,3 +4930,16 @@ and `docs/adr/0895-audio-status-accessibility.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-968,
 `docs/decision-register/DR-968-app-shell-current-route.md`,
 and `docs/adr/0896-app-shell-current-route.md`.
+
+## 312. Audio Label Interaction Boundary Standard
+
+- Clickable learning-audio controls must not be nested inside native form
+  labels.
+- Speakable prompts must use an explicit prompt container and an
+  `aria-labelledby` relationship when naming a text-entry field.
+- Separating prompt audio from input activation must not create a second
+  submit, scoring, persistence, reward, or progression path.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-969,
+`docs/decision-register/DR-969-audio-label-interaction-boundary.md`,
+and `docs/adr/0897-audio-label-interaction-boundary.md`.

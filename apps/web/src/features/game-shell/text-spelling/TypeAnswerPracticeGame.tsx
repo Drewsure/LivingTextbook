@@ -313,7 +313,7 @@ export function TypeAnswerPracticeGame({
       </section>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
-        <label htmlFor="type-answer-input" className="text-sm font-bold text-[var(--tenant-text)]">
+        <div id="type-answer-input-label" className="text-sm font-bold text-[var(--tenant-text)]">
           <AudioCueText
             text="Type your answer."
             language={targetLanguage}
@@ -321,9 +321,10 @@ export function TypeAnswerPracticeGame({
             className="text-sm font-bold"
             onPlay={() => emitAudioRequested("instruction", "Type your answer.", targetLanguage, "type-answer-input-label")}
           />
-        </label>
+        </div>
         <input
           id="type-answer-input"
+          aria-labelledby="type-answer-input-label"
           value={answer}
           onChange={(event) => setAnswer(event.target.value)}
           disabled={completed}
