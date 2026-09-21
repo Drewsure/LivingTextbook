@@ -5026,3 +5026,16 @@ and `docs/adr/0902-non-blank-browser-evidence-identity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-975,
 `docs/decision-register/DR-975-browser-evidence-runtime-harness.md`,
 and `docs/adr/0903-browser-evidence-runtime-harness.md`.
+
+## 319. Browser Evidence Write Boundary Standard
+
+- Every browser rehearsal evidence write must pass the complete scoped identity
+  and shape validator before touching localStorage.
+- Lower-level save helpers must not bypass tenant, unit, launch, student,
+  timestamp, event, or progression checks.
+- Invalid writes must leave existing valid evidence unchanged and must remain
+  browser-local with no hosted side effects.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-976,
+`docs/decision-register/DR-976-browser-evidence-write-boundary.md`,
+and `docs/adr/0904-browser-evidence-write-boundary.md`.

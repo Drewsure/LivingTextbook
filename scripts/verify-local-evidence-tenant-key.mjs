@@ -17,6 +17,7 @@ for (const marker of [
   "getEvidenceIdentityErrors(args, args.events)",
   "isNonBlankString(record.packageId)",
   "isNonBlankString(record.type)",
+  "if (!isLocalSessionEvidence(evidence))",
 ]) {
   requireText(store, marker, `Local evidence tenant-key marker missing: ${marker}`);
 }

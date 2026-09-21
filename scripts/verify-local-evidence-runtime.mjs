@@ -34,6 +34,7 @@ try {
     appendLocalSessionEvidence,
     getLocalSessionEvidenceStorageKey,
     readLocalSessionEvidence,
+    saveLocalSessionEvidence,
   } = require(join(output, "localSessionEvidenceStore.js"));
 
   const launchSession = {
@@ -97,7 +98,14 @@ try {
   }));
   assert(readLocalSessionEvidence(lookup) === undefined, "malformed blank identity record must be hidden");
 
-  console.log("PASS browser rehearsal evidence runtime rejects cross-tenant, mixed-session, and blank-identity records without mutation.");
+  storage.delete(storageKey);
+  saveLocalSessionEvidence({
+    ...accepted.evidence,
+    unitKey: "different-unit",
+  });
+  assert(readLocalSessionEvidence(lookup) === undefined, "direct save bypass must not write malformed evidence");
+
+  console.log("PASS browser rehearsal evidence runtime rejects cross-tenant, mixed-session, blank-identity, and direct-save bypass records without mutation.");
 } finally {
   rmSync(output, { recursive: true, force: true });
   delete globalThis.window;

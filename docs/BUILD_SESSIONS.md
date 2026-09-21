@@ -3954,3 +3954,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added the harness to foundation composition so the evidence boundary is
   tested behaviorally on every full gate.
 - Recorded ADR 0903 and DR-975.
+
+## Build session 0904: Browser evidence write boundary
+
+- Applied the complete v4 evidence validator inside the shared localStorage
+  write helper, protecting direct save callers as well as append callers.
+- Added runtime coverage proving malformed direct saves do not write evidence.
+- Recorded ADR 0904 and DR-976.

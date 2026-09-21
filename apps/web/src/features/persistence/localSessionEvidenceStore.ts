@@ -279,6 +279,7 @@ function getEventFingerprint(event: GameProgressEvent): string {
 
 function writeLocalSessionEvidence(evidence: LocalSessionEvidence): string[] {
   if (typeof window === "undefined") return ["Local session evidence can only be saved in a browser session."];
+  if (!isLocalSessionEvidence(evidence)) return ["Browser rehearsal evidence failed identity validation."];
 
   try {
     window.localStorage.setItem(
