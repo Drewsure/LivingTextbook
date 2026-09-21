@@ -15,6 +15,8 @@ for (const marker of [
   "sameEvidenceLookup(value, lookup)",
   "hasBoundEvidenceContents(record as unknown as LocalSessionEvidence)",
   "getEvidenceIdentityErrors(args, args.events)",
+  "isNonBlankString(record.packageId)",
+  "isNonBlankString(record.type)",
 ]) {
   requireText(store, marker, `Local evidence tenant-key marker missing: ${marker}`);
 }

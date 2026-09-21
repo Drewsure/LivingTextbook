@@ -5000,3 +5000,16 @@ and `docs/adr/0900-tenant-scoped-browser-evidence-key.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-973,
 `docs/decision-register/DR-973-canonical-identity-browser-evidence-contents.md`,
 and `docs/adr/0901-canonical-identity-browser-evidence-contents.md`.
+
+## 317. Non-Blank Browser Evidence Identity Standard
+
+- Browser rehearsal records must reject empty or whitespace-only package,
+  tenant, unit, launch, student-session, timestamp, progression, and event
+  identity fields.
+- Primitive string typing is not sufficient evidence of a usable identity.
+- This validation remains local and review-only; it must not be interpreted as
+  authorization for hosted persistence, export, assignment, or release.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-974,
+`docs/decision-register/DR-974-non-blank-browser-evidence-identity.md`,
+and `docs/adr/0902-non-blank-browser-evidence-identity.md`.

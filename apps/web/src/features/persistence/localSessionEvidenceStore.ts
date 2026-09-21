@@ -148,15 +148,15 @@ function isLocalSessionEvidence(value: unknown): value is LocalSessionEvidence {
   const isValidShape = (
     record.version === LOCAL_SESSION_EVIDENCE_VERSION &&
     record.storageMode === "browser-rehearsal-only" &&
-    typeof record.packageId === "string" &&
-    typeof record.launchCode === "string" &&
-    typeof record.tenantId === "string" &&
-    typeof record.unitKey === "string" &&
-    typeof record.studentSessionId === "string" &&
+    isNonBlankString(record.packageId) &&
+    isNonBlankString(record.launchCode) &&
+    isNonBlankString(record.tenantId) &&
+    isNonBlankString(record.unitKey) &&
+    isNonBlankString(record.studentSessionId) &&
     isProgression(record.progression) &&
     Array.isArray(record.events) &&
     record.events.every(isGameProgressEvent) &&
-    typeof record.savedAt === "string"
+    isNonBlankString(record.savedAt)
   );
 
   return isValidShape && hasBoundEvidenceContents(record as unknown as LocalSessionEvidence);
@@ -302,9 +302,9 @@ function isProgression(value: unknown): value is StudentProgressionState {
 
   const record = value as Record<string, unknown>;
   return (
-    typeof record.studentSessionId === "string" &&
-    typeof record.launchCode === "string" &&
-    typeof record.unitKey === "string" &&
+    isNonBlankString(record.studentSessionId) &&
+    isNonBlankString(record.launchCode) &&
+    isNonBlankString(record.unitKey) &&
     typeof record.currentStep === "string" &&
     Array.isArray(record.unlockedGameModes) &&
     Array.isArray(record.completedGameModes) &&
@@ -318,12 +318,12 @@ function isGameProgressEvent(value: unknown): value is GameProgressEvent {
 
   const record = value as Record<string, unknown>;
   return (
-    typeof record.type === "string" &&
-    typeof record.unitKey === "string" &&
-    typeof record.gameMode === "string" &&
-    typeof record.occurredAt === "string" &&
-    (record.launchCode === undefined || typeof record.launchCode === "string") &&
-    (record.studentSessionId === undefined || typeof record.studentSessionId === "string") &&
+    isNonBlankString(record.type) &&
+    isNonBlankString(record.unitKey) &&
+    isNonBlankString(record.gameMode) &&
+    isNonBlankString(record.occurredAt) &&
+    (record.launchCode === undefined || isNonBlankString(record.launchCode)) &&
+    (record.studentSessionId === undefined || isNonBlankString(record.studentSessionId)) &&
     (record.metadata === undefined || isMetadata(record.metadata))
   );
 }
@@ -333,4 +333,8 @@ function isMetadata(value: unknown): value is Record<string, string | number | b
   return Object.values(value as Record<string, unknown>).every(
     (entry) => typeof entry === "string" || typeof entry === "number" || typeof entry === "boolean",
   );
+}
+
+function isNonBlankString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
 }

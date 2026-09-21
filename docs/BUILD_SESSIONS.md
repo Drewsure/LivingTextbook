@@ -3937,3 +3937,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Treated pre-v4 local records as stale without migration or hosted writes.
 - Recorded the hardening in DR-973 while retaining the review-only persistence
   boundary.
+
+## Build session 0902: Non-blank browser evidence identity
+
+- Replaced primitive string checks with non-blank identity validation for
+  browser evidence, progression, and event records.
+- Preserved the v4 tenant/package/unit/launch/student-session boundary and
+  review-only persistence semantics.
+- Recorded ADR 0902 and DR-974.
