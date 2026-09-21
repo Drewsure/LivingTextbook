@@ -4112,3 +4112,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   data blocked and visibly separate from evidence validity.
 - Added route-level report runtime verification and recorded ADR 0920 and
   DR-992.
+
+## Build session 0921: Local companion report snapshot parity
+
+- Added the shared report snapshot recovery rehearsal to MiniStar and sample
+  publisher local companion previews.
+- Resolved each local preview from its tenant-aware monitor context.
+- Kept local file writes, recovery execution, export, and package activation
+  blocked.
+- Added route assertions and recorded ADR 0921 and DR-993.

@@ -5282,3 +5282,18 @@ and `docs/adr/0919-provider-neutral-report-snapshot-recovery.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-992,
 `docs/decision-register/DR-992-report-snapshot-recovery-review-surface.md`,
 and `docs/adr/0920-report-snapshot-recovery-review-surface.md`.
+
+## 336. Local Companion Report Snapshot Parity Standard
+
+- Closed local companion previews must expose the same sanitized teacher report
+  snapshot recovery evidence as hosted review.
+- Each local tenant resolves its own report context; local and hosted routes
+  must not share identity by browser-supplied selectors.
+- Local parity evidence does not authorize local file writes, backup, restore,
+  export, or package activation.
+- Raw events, learner audio, transcripts, and real learner identifiers remain
+  excluded from local preview surfaces.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-993,
+`docs/decision-register/DR-993-local-companion-report-snapshot-parity.md`,
+and `docs/adr/0921-local-companion-report-snapshot-parity.md`.

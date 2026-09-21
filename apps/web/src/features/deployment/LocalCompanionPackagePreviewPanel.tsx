@@ -20,6 +20,8 @@ import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
 import { LocalBundleAssetEvidencePanel } from "./LocalBundleAssetEvidencePanel";
 import { LocalBundleHandoffPersistencePanel } from "./LocalBundleHandoffPersistencePanel";
 import type { PersistenceHandoffPacket } from "@living-textbook/content-model";
+import type { TeacherReportSnapshotRecoveryRehearsalPackage } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
+import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
 
 interface LocalCompanionPackagePreviewPanelProps {
   manifest: LocalBundleManifestSummary;
@@ -27,6 +29,7 @@ interface LocalCompanionPackagePreviewPanelProps {
   preflight: LocalDeploymentPreflightPlan;
   releaseGate: LocalCompanionReleaseGate;
   persistencePacket: PersistenceHandoffPacket;
+  reportSnapshotRecovery: TeacherReportSnapshotRecoveryRehearsalPackage;
 }
 
 const readinessTone: Record<LocalBundleReadiness, "neutral" | "success" | "warning"> = {
@@ -65,7 +68,7 @@ const artifactTone: Record<LocalCompanionArtifactStatus, "neutral" | "success" |
   ready: "success",
 };
 
-export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, preflight, releaseGate, persistencePacket }: LocalCompanionPackagePreviewPanelProps) {
+export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, preflight, releaseGate, persistencePacket, reportSnapshotRecovery }: LocalCompanionPackagePreviewPanelProps) {
   const blockedCount = countLocalDeploymentChecks(preflight, "blocked");
   const warningCount = countLocalDeploymentChecks(preflight, "warning");
   const releaseBlockedCount = countLocalCompanionReleaseGateItems(releaseGate, "blocked");
@@ -122,6 +125,8 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
       <LocalBundleHandoffPacketPanel packet={handoff.packet} errors={handoff.errors} />
 
       <LocalBundleHandoffPersistencePanel preview={persistenceAdmission.preview} errors={[...handoff.errors, ...persistenceAdmission.errors]} />
+
+      <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

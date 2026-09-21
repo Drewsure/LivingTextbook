@@ -8,6 +8,8 @@ import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCo
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
+import { resolveSampleTeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
 
 export default function MinistarLocalCompanionPage() {
   const manifest = sampleLocalBundleManifests.find((item) => item.bundleId === "ministar-level-1-unit-1-demo") ?? sampleLocalBundleManifests[0];
@@ -27,6 +29,9 @@ export default function MinistarLocalCompanionPage() {
           preflight={sampleLocalDeploymentPreflightPlan}
           releaseGate={sampleLocalCompanionReleaseGate}
           persistencePacket={samplePersistenceHandoffPacket}
+          reportSnapshotRecovery={resolveSampleTeacherReportSnapshotRecoveryRehearsal(
+            resolveSampleTeacherSessionMonitorContext("demo-unit-1"),
+          )}
         />
       </div>
     </AppShell>

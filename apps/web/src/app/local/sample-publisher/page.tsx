@@ -8,6 +8,8 @@ import { LocalCompanionPackagePreviewPanel } from "@/features/deployment/LocalCo
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveSampleTeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
 
 export default function SamplePublisherLocalCompanionPage() {
   const manifest = sampleLocalBundleManifests.find((item) => item.bundleId === "sample-publisher-unit-1-planning") ?? sampleLocalBundleManifests[0];
@@ -27,6 +29,9 @@ export default function SamplePublisherLocalCompanionPage() {
           preflight={sampleLocalDeploymentPreflightPlan}
           releaseGate={sampleLocalCompanionReleaseGate}
           persistencePacket={samplePersistenceHandoffPacket}
+          reportSnapshotRecovery={resolveSampleTeacherReportSnapshotRecoveryRehearsal(
+            resolveSampleTeacherSessionMonitorContext("partner-demo-unit-1"),
+          )}
         />
       </div>
     </AppShell>
