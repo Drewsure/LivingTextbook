@@ -2049,6 +2049,20 @@ try {
     recommendedPilotWindow: "8 weeks",
     recommendedDeployment: "Hosted PWA first",
     summary: "Review-only pilot handoff.",
+    reportSnapshotEvidence: {
+      snapshotId: "teacher-report-package-snapshot-v1:tenant-1:package-1:launch-1",
+      tenantId: "tenant-1",
+      packageId: "package-1",
+      launchCode: "launch-1",
+      snapshotFingerprint: "teacher-report-package-snapshot-fnv1a-v1:12345678",
+      deploymentModes: ["hosted-managed", "local-classroom"],
+      recoveryPacketsValid: true,
+      exportAllowed: false,
+      writesAllowed: false,
+      rawLearnerAudioIncluded: false,
+      learnerTranscriptIncluded: false,
+      realLearnerIdentifiersIncluded: false,
+    },
     releaseControlEvidence: {
       bindingId: "release-binding-1",
       releaseGateId: "release-gate-1",
@@ -2088,6 +2102,13 @@ try {
       mode: "live",
     }),
     "Pilot handoff package must remain review-only.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      reportSnapshotEvidence: { ...validPilotHandoffPackage.reportSnapshotEvidence, exportAllowed: true },
+    }),
+    "Pilot handoff report snapshot exportAllowed must remain false.",
   );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({

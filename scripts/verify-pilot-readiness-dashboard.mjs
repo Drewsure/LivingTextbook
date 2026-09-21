@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const dashboardData = readSource("../apps/web/src/data/samplePilotReadinessDashboard.ts");
 const dashboardPanel = readSource("../apps/web/src/features/pilot/PilotReadinessDashboardPanel.tsx");
+const pilotHandoffPanel = readSource("../apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx");
 const pilotPage = readSource("../apps/web/src/app/teacher/pilot/page.tsx");
 const readinessSummary = readSource("../apps/web/src/data/samplePilotReadinessSummary.ts");
 const classroomLaunchGate = readSource("../apps/web/src/data/sampleClassroomLaunchGate.ts");
@@ -139,6 +140,10 @@ for (const marker of requiredIntegrationMarkers) {
 }
 
 requireText(dashboardPanel, "Pilot readiness dashboard", "Dashboard panel must render its heading.");
+requireText(pilotHandoffPanel, "Report evidence handoff", "Pilot handoff panel must render report evidence handoff.");
+requireText(pilotHandoffPanel, "Hosted/local snapshot parity", "Pilot handoff panel must render hosted/local snapshot parity.");
+requireText(pilotHandoffPanel, "recoveryPacketsValid", "Pilot handoff panel must consume recovery packet validity.");
+requireText(pilotHandoffPanel, "No packet export", "Pilot handoff panel must preserve the no-export boundary.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

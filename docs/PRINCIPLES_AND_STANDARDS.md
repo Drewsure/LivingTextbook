@@ -5312,3 +5312,19 @@ and `docs/adr/0921-local-companion-report-snapshot-parity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-994,
 `docs/decision-register/DR-994-reporting-workbench-recovery-coverage.md`,
 and `docs/adr/0922-reporting-workbench-recovery-coverage.md`.
+
+## 338. Pilot Handoff Report Snapshot Evidence Standard
+
+- Partner pilot handoff packets may carry sanitized report snapshot evidence
+  for both hosted-managed and closed/local rehearsal modes.
+- Tenant, package, launch, deployment, and deterministic fingerprint scope must
+  remain visible and aligned inside the packet.
+- Recovery packet validity is evidence of contract alignment only; it does not
+  authorize backup, restore, export, provider activation, or classroom launch.
+- Export, writes, raw learner audio, transcripts, and real learner identifiers
+  remain blocked or excluded until separate policy, retention, access, and
+  release gates are accepted.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-995,
+`docs/decision-register/DR-995-pilot-handoff-report-snapshot-evidence.md`,
+and `docs/adr/0923-pilot-handoff-report-snapshot-evidence.md`.

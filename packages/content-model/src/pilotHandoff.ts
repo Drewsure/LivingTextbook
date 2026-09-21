@@ -1,4 +1,5 @@
 import { validateReleaseControlEvidence, type ReleaseControlEvidence } from "./releaseControlEvidence";
+import type { TeacherReportPackageSnapshotDeployment } from "./teacherReportPackageSnapshot";
 
 export type PilotHandoffStatus = "ready" | "needs-review" | "blocked";
 export type PilotHandoffOwner = "codex" | "tenant" | "school" | "shared";
@@ -30,6 +31,21 @@ export interface PilotHandoffDecision {
   note: string;
 }
 
+export interface PilotHandoffReportSnapshotEvidence {
+  snapshotId: string;
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+  snapshotFingerprint: string;
+  deploymentModes: TeacherReportPackageSnapshotDeployment[];
+  recoveryPacketsValid: boolean;
+  exportAllowed: false;
+  writesAllowed: false;
+  rawLearnerAudioIncluded: false;
+  learnerTranscriptIncluded: false;
+  realLearnerIdentifiersIncluded: false;
+}
+
 export interface PilotHandoffPackage {
   packageId: string;
   tenantId: string;
@@ -39,6 +55,7 @@ export interface PilotHandoffPackage {
   recommendedDeployment: string;
   summary: string;
   releaseControlEvidence: ReleaseControlEvidence;
+  reportSnapshotEvidence: PilotHandoffReportSnapshotEvidence;
   routes: PilotHandoffRoute[];
   assets: PilotHandoffAsset[];
   decisions: PilotHandoffDecision[];
@@ -86,6 +103,27 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   requireText(packet.recommendedDeployment, "recommendedDeployment", errors);
   requireText(packet.summary, "summary", errors);
   errors.push(...validateReleaseControlEvidence(packet.releaseControlEvidence).map((error) => `Pilot handoff ${error.charAt(0).toLowerCase()}${error.slice(1)}`));
+
+  const reportSnapshotEvidence = packet.reportSnapshotEvidence;
+  if (!reportSnapshotEvidence || typeof reportSnapshotEvidence !== "object" || Array.isArray(reportSnapshotEvidence)) {
+    errors.push("Pilot handoff report snapshot evidence is required.");
+  } else {
+    for (const field of ["snapshotId", "tenantId", "packageId", "launchCode", "snapshotFingerprint"] as const) {
+      requireText(reportSnapshotEvidence[field], `report snapshot ${field}`, errors);
+    }
+    if (reportSnapshotEvidence.tenantId !== packet.tenantId) {
+      errors.push("Pilot handoff report snapshot tenant must match the handoff tenant.");
+    }
+    if (!Array.isArray(reportSnapshotEvidence.deploymentModes) || reportSnapshotEvidence.deploymentModes.length !== 2 || !reportSnapshotEvidence.deploymentModes.includes("hosted-managed") || !reportSnapshotEvidence.deploymentModes.includes("local-classroom")) {
+      errors.push("Pilot handoff report snapshot evidence must cover hosted-managed and local-classroom modes.");
+    }
+    if (reportSnapshotEvidence.recoveryPacketsValid !== true) {
+      errors.push("Pilot handoff report snapshot recovery packets must be valid before pilot review.");
+    }
+    for (const field of ["exportAllowed", "writesAllowed", "rawLearnerAudioIncluded", "learnerTranscriptIncluded", "realLearnerIdentifiersIncluded"] as const) {
+      if (reportSnapshotEvidence[field] !== false) errors.push(`Pilot handoff report snapshot ${field} must remain false.`);
+    }
+  }
 
   if (packet.mode !== "review-only") {
     errors.push("Pilot handoff package must remain review-only.");

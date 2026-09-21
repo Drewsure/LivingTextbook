@@ -66,6 +66,31 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
       </section>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Report evidence handoff</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Hosted/local snapshot parity</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The pilot packet carries only sanitized snapshot metadata and recovery validation. It proves evidence alignment without storing raw events, exporting reports, or activating a provider.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.reportSnapshotEvidence.recoveryPacketsValid ? "Packets valid" : "Review needed"} tone={handoffPackage.reportSnapshotEvidence.recoveryPacketsValid ? "success" : "warning"} />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Tenant" value={handoffPackage.reportSnapshotEvidence.tenantId} />
+          <HandoffFact label="Launch" value={handoffPackage.reportSnapshotEvidence.launchCode} />
+          <HandoffFact label="Modes" value={handoffPackage.reportSnapshotEvidence.deploymentModes.join(", ")} />
+          <HandoffFact label="Fingerprint" value={handoffPackage.reportSnapshotEvidence.snapshotFingerprint} />
+        </dl>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <StatusPill label="Export blocked" tone="warning" />
+          <StatusPill label="No packet export" tone="warning" />
+          <StatusPill label="Writes blocked" tone="warning" />
+          <StatusPill label="Raw learner media excluded" tone="success" />
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Shared handoff contract</p>
@@ -174,6 +199,15 @@ function HandoffMetric({
       </div>
       <p className="mt-2 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</p>
     </section>
+  );
+}
+
+function HandoffFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-[var(--tenant-border)] p-3">
+      <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
+      <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
+    </div>
   );
 }
 

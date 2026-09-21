@@ -4128,3 +4128,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
   MiniStar and the sample publisher contexts.
 - Kept package and launch identity independently resolved per tenant.
 - Added route-level assertions and recorded ADR 0922 and DR-994.
+
+## Build session 0923: Pilot handoff report snapshot evidence
+
+- Added sanitized report snapshot evidence to the partner pilot handoff
+  contract for hosted-managed and local-classroom rehearsal modes.
+- Preserved tenant, package, launch, deployment, fingerprint, and recovery
+  validity evidence without importing raw learner event data.
+- Kept export, writes, provider activation, and classroom launch blocked.
+- Removed the pilot fixture dependency cycle introduced by the first evidence
+  integration and verified the full active route surface.
+- Recorded ADR 0923 and DR-995.

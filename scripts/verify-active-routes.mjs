@@ -159,6 +159,7 @@ for (const path of [
 
 expectedTextByPath.get("/teacher/intake")?.push("settings_context_summary");
 expectedTextByPath.get("/teacher/intake")?.push("Progression continuity", "Envelope valid", "Review-only", "No side effect");
+expectedTextByPath.get("/teacher/intake")?.push("Report evidence handoff", "Hosted/local snapshot parity", "Packets valid", "Raw learner media excluded");
 expectedTextByPath.get("/teacher/intake")?.push(
   "prototype_intake_queue_item",
   "Prototype intake queue item record",
@@ -261,6 +262,10 @@ expectedTextByPath.set("/teacher/pilot", [
   "School launch policy gate preview",
   "Pilot evidence packet preview",
   "Pilot handoff package",
+  "Report evidence handoff",
+  "Hosted/local snapshot parity",
+  "Packets valid",
+  "Raw learner media excluded",
   "Shared handoff contract",
   "Review-only package validation",
   "Contract valid",
