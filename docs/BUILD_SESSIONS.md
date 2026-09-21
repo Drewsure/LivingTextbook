@@ -3927,3 +3927,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Versioned the local evidence contract so old launch-only keys are stale
   rather than silently reused.
 - Recorded ADR 0900 and DR-972.
+
+## Build session 0901: Canonical-identity browser evidence contents
+
+- Expanded browser rehearsal evidence to a v4 key containing tenant, package,
+  launch, unit, and student-session identity.
+- Rejected progression snapshots and event batches whose unit, launch,
+  student-session, or tenant metadata does not match the active session.
+- Treated pre-v4 local records as stale without migration or hosted writes.
+- Recorded the hardening in DR-973 while retaining the review-only persistence
+  boundary.

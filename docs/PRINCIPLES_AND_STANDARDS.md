@@ -4984,3 +4984,19 @@ and `docs/adr/0899-locale-independent-content-matching.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-972,
 `docs/decision-register/DR-972-tenant-scoped-browser-evidence-key.md`,
 and `docs/adr/0900-tenant-scoped-browser-evidence-key.md`.
+
+## 316. Canonical-Identity Browser Evidence Contents Standard
+
+- Browser rehearsal evidence keys must include tenant, content package, launch,
+  unit, and student-session identity.
+- The progression snapshot and every stored event must preserve the same unit,
+  launch, student-session, and tenant metadata identity.
+- Mixed or incomplete event batches must be rejected before local evidence is
+  merged, and malformed stale records must remain hidden from teacher review.
+- This remains browser rehearsal evidence only; it must not become hosted
+  persistence, export, assignment, or release state without later policy and
+  storage gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-973,
+`docs/decision-register/DR-973-canonical-identity-browser-evidence-contents.md`,
+and `docs/adr/0901-canonical-identity-browser-evidence-contents.md`.

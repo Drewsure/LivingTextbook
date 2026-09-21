@@ -1,6 +1,6 @@
 import type { GameProgressEvent, LaunchSession, StudentProgressionState } from "@living-textbook/content-model";
 
-export const LOCAL_SESSION_EVIDENCE_VERSION = 3;
+export const LOCAL_SESSION_EVIDENCE_VERSION = 4;
 
 export interface LocalSessionEvidence {
   version: typeof LOCAL_SESSION_EVIDENCE_VERSION;
@@ -19,6 +19,7 @@ export interface LocalSessionEvidenceLookup {
   tenantId: string;
   packageId: string;
   launchCode: string;
+  unitKey: string;
   studentSessionId: string;
 }
 
@@ -29,6 +30,7 @@ export function getLocalSessionEvidenceStorageKey(lookup: LocalSessionEvidenceLo
     lookup.tenantId,
     lookup.packageId,
     lookup.launchCode,
+    lookup.unitKey,
     lookup.studentSessionId,
   ].map((part) => encodeURIComponent(part)).join(":");
 }
@@ -85,6 +87,11 @@ export function appendLocalSessionEvidence(
   }
 
   const lookup = createEvidenceLookup(args);
+  const identityErrors = getEvidenceIdentityErrors(args, args.events);
+  if (identityErrors.length > 0) {
+    return { errors: identityErrors };
+  }
+
   const existing = readLocalSessionEvidence(lookup);
   if (existing && !sameEvidenceSession(existing, args)) {
     return { errors: ["Existing browser rehearsal evidence belongs to a different package or student session."] };
@@ -138,7 +145,7 @@ function isLocalSessionEvidence(value: unknown): value is LocalSessionEvidence {
   if (!value || typeof value !== "object") return false;
 
   const record = value as Record<string, unknown>;
-  return (
+  const isValidShape = (
     record.version === LOCAL_SESSION_EVIDENCE_VERSION &&
     record.storageMode === "browser-rehearsal-only" &&
     typeof record.packageId === "string" &&
@@ -151,6 +158,8 @@ function isLocalSessionEvidence(value: unknown): value is LocalSessionEvidence {
     record.events.every(isGameProgressEvent) &&
     typeof record.savedAt === "string"
   );
+
+  return isValidShape && hasBoundEvidenceContents(record as unknown as LocalSessionEvidence);
 }
 
 function sameEvidenceSession(
@@ -171,6 +180,7 @@ function createEvidenceLookup(args: AppendLocalSessionEvidenceArgs): LocalSessio
     tenantId: args.launchSession.tenantId,
     packageId: args.packageId,
     launchCode: args.launchSession.launchCode,
+    unitKey: args.launchSession.unitKey,
     studentSessionId: args.progression.studentSessionId,
   };
 }
@@ -179,7 +189,62 @@ function sameEvidenceLookup(evidence: LocalSessionEvidence, lookup: LocalSession
   return evidence.tenantId === lookup.tenantId
     && evidence.packageId === lookup.packageId
     && evidence.launchCode === lookup.launchCode
+    && evidence.unitKey === lookup.unitKey
     && evidence.studentSessionId === lookup.studentSessionId;
+}
+
+function hasBoundEvidenceContents(evidence: LocalSessionEvidence): boolean {
+  if (
+    evidence.progression.studentSessionId !== evidence.studentSessionId
+    || evidence.progression.launchCode !== evidence.launchCode
+    || evidence.progression.unitKey !== evidence.unitKey
+  ) {
+    return false;
+  }
+
+  return evidence.events.every((event) => (
+    event.unitKey === evidence.unitKey
+    && event.launchCode === evidence.launchCode
+    && event.studentSessionId === evidence.studentSessionId
+    && event.metadata?.tenantId === evidence.tenantId
+  ));
+}
+
+function getEvidenceIdentityErrors(
+  args: AppendLocalSessionEvidenceArgs,
+  events: GameProgressEvent[],
+): string[] {
+  const errors = new Set<string>();
+  const expected = {
+    tenantId: args.launchSession.tenantId,
+    unitKey: args.launchSession.unitKey,
+    launchCode: args.launchSession.launchCode,
+    studentSessionId: args.progression.studentSessionId,
+  };
+
+  if (args.progression.launchCode !== expected.launchCode) {
+    errors.add("Progression launch identity does not match the browser rehearsal session.");
+  }
+  if (args.progression.unitKey !== expected.unitKey) {
+    errors.add("Progression unit identity does not match the browser rehearsal session.");
+  }
+
+  for (const event of events) {
+    if (event.unitKey !== expected.unitKey) {
+      errors.add("A browser rehearsal event belongs to a different unit.");
+    }
+    if (event.launchCode !== expected.launchCode) {
+      errors.add("A browser rehearsal event belongs to a different launch.");
+    }
+    if (event.studentSessionId !== expected.studentSessionId) {
+      errors.add("A browser rehearsal event belongs to a different student session.");
+    }
+    if (event.metadata?.tenantId !== expected.tenantId) {
+      errors.add("A browser rehearsal event does not preserve the expected tenant.");
+    }
+  }
+
+  return [...errors];
 }
 
 function mergeEventHistory(
@@ -221,6 +286,7 @@ function writeLocalSessionEvidence(evidence: LocalSessionEvidence): string[] {
         tenantId: evidence.tenantId,
         packageId: evidence.packageId,
         launchCode: evidence.launchCode,
+        unitKey: evidence.unitKey,
         studentSessionId: evidence.studentSessionId,
       }),
       JSON.stringify(evidence),

@@ -6841,3 +6841,30 @@ student-session identity before reading or writing localStorage.
 - `apps/web/src/features/persistence/localSessionEvidenceStore.ts`
 - `apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx`
 - `scripts/verify-local-evidence-tenant-key.mjs`
+
+# DR-973: Canonical-Identity Browser Evidence Contents
+
+## Decision
+
+Browser rehearsal evidence must bind not only its localStorage key but also
+its progression snapshot and every event to the same tenant, content package,
+unit, launch, and student-session identity. Mixed or incomplete event batches
+are rejected before local evidence is merged.
+
+## Required Invariants
+
+- The v4 storage key includes encoded tenant, package, launch, unit, and
+  student-session identity.
+- The progression snapshot must match the outer evidence identity.
+- Every persisted event must preserve unit, launch, student-session, and tenant
+  metadata identity.
+- Invalid incoming batches and stale malformed records remain hidden from
+  teacher review.
+- This is still browser rehearsal evidence only; it does not enable hosted
+  persistence, export, assignment, or release state.
+
+## Evidence
+
+- `apps/web/src/features/persistence/localSessionEvidenceStore.ts`
+- `apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx`
+- `scripts/verify-local-evidence-tenant-key.mjs`

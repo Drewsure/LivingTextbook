@@ -1,18 +1,20 @@
-# Build Session: Tenant-Scoped Browser Evidence Key
+# Build Session: Canonical-Identity Browser Evidence Key
 
 ## Goal
 
-Prevent local browser rehearsal records from colliding across white-label
-tenants that reuse launch codes.
+Prevent local browser rehearsal records and their event histories from
+colliding across white-label tenants, units, launches, and student sessions.
 
 ## Change
 
-The evidence storage key now includes encoded tenant, package, launch, and
-student-session identity. Reads verify the embedded record against that same
-lookup, and teacher review uses the scoped lookup directly.
+The evidence storage key now includes encoded tenant, package, launch, unit,
+and student-session identity. Reads verify the embedded record against that
+same lookup. Progression identity and every event's unit, launch,
+student-session, and tenant metadata are checked before merge, and teacher
+review uses the scoped lookup directly.
 
-The browser evidence version moved to `3`; old launch-only records are stale
-and are not migrated into the new scope.
+The browser evidence version moved to `4`; pre-v4 records are stale and are
+not migrated into the new scope.
 
 ## Boundary
 

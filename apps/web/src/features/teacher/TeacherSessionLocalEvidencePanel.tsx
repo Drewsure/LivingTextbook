@@ -14,6 +14,7 @@ interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
   expectedTenantId: string;
   expectedPackageId: string;
+  expectedUnitKey: string;
   expectedStudentSessionId: string;
   targetLanguage: string;
 }
@@ -22,6 +23,7 @@ export function TeacherSessionLocalEvidencePanel({
   launchCode,
   expectedTenantId,
   expectedPackageId,
+  expectedUnitKey,
   expectedStudentSessionId,
   targetLanguage,
 }: TeacherSessionLocalEvidencePanelProps) {
@@ -35,6 +37,7 @@ export function TeacherSessionLocalEvidencePanel({
         tenantId: expectedTenantId,
         packageId: expectedPackageId,
         launchCode,
+        unitKey: expectedUnitKey,
         studentSessionId: expectedStudentSessionId,
       };
       const nextEvidence = readLocalSessionEvidence(lookup);
@@ -58,9 +61,10 @@ export function TeacherSessionLocalEvidencePanel({
       tenantId: expectedTenantId,
       packageId: expectedPackageId,
       launchCode,
+      unitKey: expectedUnitKey,
       studentSessionId: expectedStudentSessionId,
     }, readBoundEvidence);
-  }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, launchCode]);
+  }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, expectedUnitKey, launchCode]);
 
   useEffect(() => {
     let active = true;

@@ -30,6 +30,7 @@ export default async function TeacherSessionMonitorPage({
           launchCode={context.launchSession.launchCode}
           expectedTenantId={context.tenant.id}
           expectedPackageId={context.contentPackage.meta.packageId}
+          expectedUnitKey={context.launchSession.unitKey}
           expectedStudentSessionId={context.progression.studentSessionId}
           targetLanguage={context.contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === context.launchSession.unitKey)?.targetLanguage ?? context.tenant.languageSettings?.targetLanguage ?? "en"}
         />
