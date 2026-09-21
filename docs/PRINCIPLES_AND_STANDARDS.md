@@ -4872,3 +4872,16 @@ and `docs/adr/0891-persistence-provider-conformance-and-payload-idempotency.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-964,
 `docs/decision-register/DR-964-phaser-provenance-verifier-identity.md`,
 and `docs/adr/0892-phaser-provenance-verifier-identity.md`.
+
+## 308. Canonical Memory Match Accessibility State Standard
+
+- Canonical Memory Match cards must expose their revealed, mismatched, and
+  matched state through semantic button state, not visual styling alone.
+- The learner-facing result message must be a polite live region so keyboard
+  and assistive-technology users receive match, retry, and completion feedback.
+- Accessibility state must remain derived from the platform-owned pairing
+  engine; it must not create a second scoring, persistence, or progression path.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-965,
+`docs/decision-register/DR-965-memory-match-accessibility-state.md`,
+and `docs/adr/0893-memory-match-accessibility-state.md`.

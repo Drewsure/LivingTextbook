@@ -18,6 +18,9 @@ const integrations = [
       'emitInteractionEvent("mastery_updated"',
       "completeGameMode",
       "onComplete(result)",
+      "aria-pressed={visible}",
+      'role="status"',
+      'aria-live="polite"',
     ],
   },
   {

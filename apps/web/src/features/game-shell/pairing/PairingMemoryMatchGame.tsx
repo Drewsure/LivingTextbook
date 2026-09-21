@@ -269,7 +269,7 @@ export function PairingMemoryMatchGame({
       </dl>
 
       <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {engineState.cards.map((card) => {
+        {engineState.cards.map((card, cardIndex) => {
           const visible = card.status === "matched" || engineState.selectedCardIds.includes(card.id) || mismatchCardIds.includes(card.id);
           const selected = engineState.selectedCardIds.includes(card.id);
           const mismatched = mismatchCardIds.includes(card.id);
@@ -279,7 +279,8 @@ export function PairingMemoryMatchGame({
               key={card.id}
               type="button"
               onClick={() => handleCardSelect(card)}
-              aria-label={visible ? `Card says ${card.label}` : "Hidden Memory Match card"}
+              aria-label={visible ? `Card says ${card.label}` : `Hidden Memory Match card ${cardIndex + 1} of ${engineState.cards.length}. Press Enter to reveal.`}
+              aria-pressed={visible}
               className={`aspect-[4/3] rounded-lg border p-3 text-center text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
                 card.status === "matched"
                   ? "border-emerald-400 bg-emerald-50 text-emerald-900"
@@ -296,7 +297,7 @@ export function PairingMemoryMatchGame({
         })}
       </div>
 
-      <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]">
+      <p className="mt-4 text-sm font-semibold text-[var(--tenant-text)]" role="status" aria-live="polite" aria-atomic="true">
         <AudioCueText
           text={feedbackText}
           language={(lastResult === "mismatched" ? feedbackCue?.language : instructionCue?.language) ?? targetLanguage}
