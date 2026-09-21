@@ -6,13 +6,15 @@ const sources = new Map([
   ["store", readSource("../apps/web/src/server/persistence/sqliteProgressionStore.ts")],
   ["adapter", readSource("../apps/web/src/server/persistence/progressionPersistenceAdapter.ts")],
   ["route", readSource("../apps/web/src/app/api/persistence/events/route.ts")],
+  ["resolver", readSource("../apps/web/src/server/persistence/progressEventTaxonomyResolver.ts")],
 ]);
 
 const requirements = {
   model: ["ProgressEventStreamPersistenceRecord", 'category: "progress-event-stream"', "validateProgressEventEnvelopeStream", "game_started", "game_completed", "createCanonicalCompletionIdempotencyKey", "rawLearnerAudioIncluded: false", "learnerTranscriptIncluded: false", "policy and taxonomy are server-owned"],
   store: ["progress_event_stream_records", "readEventStream", "writeEventStream", "event stream idempotency key is already bound to a different tenant-scoped identity", "different event payload"],
   adapter: ["ProgressEventStreamPersistenceAdapter", "getProgressEventStreamPersistenceAdapter", "__livingTextbookHostedProgressEventStreamRehearsal"],
-  route: ["validateProgressEventStreamPersistenceClientWrite", "sampleProgressEventTaxonomyRegistry", "hasTeacherOperationsReadAuthorization", "Cache-Control", "Durable event stream writes require the explicit deployment write gate."],
+  route: ["validateProgressEventStreamPersistenceClientWrite", "resolveProgressEventTaxonomy", "No reviewed progress-event taxonomy is bound", "hasTeacherOperationsReadAuthorization", "Cache-Control", "Durable event stream writes require the explicit deployment write gate."],
+  resolver: ["resolveProgressEventTaxonomy", "unknown tenant/package must remain blocked", "no global fallback"],
 };
 
 for (const [label, markers] of Object.entries(requirements)) {

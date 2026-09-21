@@ -4012,3 +4012,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added an authorization- and policy-gated API boundary with no-store reads;
   raw learner audio and transcripts remain excluded.
 - Added static contract verification and recorded ADR 0910 and DR-982.
+
+## Build session 0911: Tenant-bound taxonomy resolution
+
+- Moved hosted event persistence taxonomy authority behind an explicit
+  tenant/package resolver.
+- Blocked unknown tenant/package bindings instead of applying a global or
+  MiniStar fallback.
+- Recorded ADR 0911 and DR-983; the sample registry remains a review-stage
+  binding until real publisher package registration is approved.

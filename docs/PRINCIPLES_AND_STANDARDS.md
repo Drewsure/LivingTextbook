@@ -5120,3 +5120,18 @@ and `docs/adr/0909-audio-mastery-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-982,
 `docs/decision-register/DR-982-hosted-progress-event-evidence.md`,
 and `docs/adr/0910-hosted-progress-event-evidence.md`.
+
+## 326. Tenant-Bound Taxonomy Standard
+
+- Event taxonomy is resolved from the reviewed tenant/package binding before
+  persistence validation.
+- Unknown tenant/package pairs fail closed; no global MiniStar fallback is
+  permitted.
+- Taxonomy, scoring, support-language, audio, and reporting policy remain
+  package-scoped configuration in a white-label deployment.
+- Sample bindings are evidence for the platform seam, not proof that a live
+  publisher package is ready for launch.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-983,
+`docs/decision-register/DR-983-tenant-bound-taxonomy-resolution.md`,
+and `docs/adr/0911-tenant-bound-taxonomy-resolution.md`.

@@ -7058,3 +7058,23 @@ evidence, separate from the latest progression snapshot.
 - `apps/web/src/server/persistence/sqliteProgressionStore.ts`
 - `apps/web/src/app/api/persistence/events/route.ts`
 - `scripts/verify-progress-event-persistence.mjs`
+
+# DR-983: Tenant-Bound Taxonomy Resolution
+
+## Decision
+
+Bind event taxonomy authority to tenant and reviewed package identity before
+event evidence reaches hosted persistence.
+
+## Required Invariants
+
+- The browser cannot provide or override taxonomy policy.
+- Supported tenant/package pairs require explicit reviewed bindings.
+- Unknown bindings fail closed for both event writes and reads.
+- MiniStar is a sample binding, not a platform-wide taxonomy rule.
+
+## Evidence
+
+- `apps/web/src/server/persistence/progressEventTaxonomyResolver.ts`
+- `apps/web/src/app/api/persistence/events/route.ts`
+- `docs/adr/0911-tenant-bound-taxonomy-resolution.md`

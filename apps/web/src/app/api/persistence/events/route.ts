@@ -6,7 +6,6 @@ import {
   validateProgressEventStreamPersistenceRead,
   validateProgressEventStreamPersistenceWrite,
 } from "@living-textbook/content-model";
-import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import {
   getConfiguredPersistenceProvider,
   getPersistenceProviderConfiguration,
@@ -14,6 +13,7 @@ import {
 } from "@/server/persistence/progressionPersistenceAdapter";
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { resolveProgressEventTaxonomy } from "@/server/persistence/progressEventTaxonomyResolver";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -29,7 +29,10 @@ export async function POST(request: Request) {
     return json({ status: "rejected", errors: ["Progress event stream request must be valid JSON."] }, 400);
   }
 
-  const clientValidation = validateProgressEventStreamPersistenceClientWrite(rawBody, sampleProgressEventTaxonomyRegistry);
+  const identity = readClientIdentity(rawBody);
+  const registry = resolveProgressEventTaxonomy(identity.tenantId, identity.packageId);
+  if (!registry) return json({ status: "blocked", errors: ["No reviewed progress-event taxonomy is bound to this tenant and package."] }, 423);
+  const clientValidation = validateProgressEventStreamPersistenceClientWrite(rawBody, registry);
   const requestedMode = isClientWriteRequest(rawBody) ? rawBody.requestedMode : "rehearsal-only";
   if (!clientValidation.valid || !clientValidation.request) {
     return json({ status: "blocked", durability: requestedMode === "durable-managed" ? "durable-managed" : "non-durable-rehearsal", errors: clientValidation.errors }, 423);
@@ -37,7 +40,7 @@ export async function POST(request: Request) {
 
   const body = createServerOwnedProgressEventStreamWriteRequest(
     clientValidation.request,
-    sampleProgressEventTaxonomyRegistry,
+    registry,
     getServerOwnedPolicy(clientValidation.request.requestedMode),
   );
   const validation = validateProgressEventStreamPersistenceWrite(body);
@@ -89,8 +92,10 @@ export function GET(request: Request) {
   if (!providerConfiguration.valid) return json({ status: "blocked", provider: providerConfiguration.provider, errors: providerConfiguration.errors }, 423);
   try {
     const adapter = getProgressEventStreamPersistenceAdapter();
+    const registry = resolveProgressEventTaxonomy(lookup.tenantId, lookup.packageId);
+    if (!registry) return json({ status: "blocked", provider: adapter.provider, errors: ["No reviewed progress-event taxonomy is bound to this tenant and package."] }, 423);
     const record = adapter.readEventStream(lookup);
-    const validation = validateProgressEventStreamPersistenceRead(lookup, record, sampleProgressEventTaxonomyRegistry);
+    const validation = validateProgressEventStreamPersistenceRead(lookup, record, registry);
     if (!validation.valid) return json({ status: "not-found", provider: adapter.provider, durability: adapter.durability, errors: validation.errors }, 404);
     return json({ status: "available", provider: adapter.provider, durability: adapter.durability, record });
   } catch {
@@ -100,6 +105,15 @@ export function GET(request: Request) {
 
 function isClientWriteRequest(value: unknown): value is { requestedMode: "rehearsal-only" | "durable-managed" } {
   return Boolean(value && typeof value === "object" && !Array.isArray(value) && "requestedMode" in value);
+}
+
+function readClientIdentity(value: unknown): { tenantId: string; packageId: string } {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return { tenantId: "", packageId: "" };
+  const candidate = value as Record<string, unknown>;
+  return {
+    tenantId: typeof candidate.expectedTenantId === "string" ? candidate.expectedTenantId.trim() : "",
+    packageId: typeof candidate.expectedPackageId === "string" ? candidate.expectedPackageId.trim() : "",
+  };
 }
 
 function getServerOwnedPolicy(mode: "rehearsal-only" | "durable-managed") {
