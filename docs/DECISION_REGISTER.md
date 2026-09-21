@@ -7078,3 +7078,23 @@ event evidence reaches hosted persistence.
 - `apps/web/src/server/persistence/progressEventTaxonomyResolver.ts`
 - `apps/web/src/app/api/persistence/events/route.ts`
 - `docs/adr/0911-tenant-bound-taxonomy-resolution.md`
+
+# DR-984: Event Record Shape Boundary
+
+## Decision
+
+Validate progress-event record shape at both the shared model boundary and the
+SQLite storage boundary.
+
+## Required Invariants
+
+- Canonical completion identity must match the persisted record.
+- Raw learner audio and transcripts remain excluded at every layer.
+- Empty or malformed event records cannot be inserted.
+- Stored reads are revalidated against the tenant-bound taxonomy.
+
+## Evidence
+
+- `packages/content-model/src/progressEventPersistence.ts`
+- `apps/web/src/server/persistence/sqliteProgressionStore.ts`
+- `docs/adr/0912-event-record-shape-boundary.md`

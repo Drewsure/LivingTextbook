@@ -97,6 +97,8 @@ const processMemoryEventStreamAdapter: ProgressEventStreamPersistenceAdapter = {
         : (left.writtenAt > right.writtenAt ? -1 : 1))[0];
   },
   writeEventStream(record) {
+    const storageErrors = validateEventStreamAdapterRecord(record);
+    if (storageErrors.length > 0) return { status: "conflict", idempotent: false, errors: storageErrors };
     const existing = eventStreamRehearsalStore.get(record.idempotencyKey);
     if (existing) {
       const sameIdentity = existing.tenantId === record.tenantId
@@ -122,6 +124,28 @@ function stableJson(value: unknown): string {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
   if (!value || typeof value !== "object") return JSON.stringify(value);
   return `{${Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`).join(",")}}`;
+}
+
+function validateEventStreamAdapterRecord(record: ProgressEventStreamPersistenceRecord): string[] {
+  const errors: string[] = [];
+  if (record.rawLearnerAudioIncluded !== false) errors.push("The event stream adapter rejects raw learner audio fields.");
+  if (record.learnerTranscriptIncluded !== false) errors.push("The event stream adapter rejects learner transcript fields.");
+  if (!Array.isArray(record.events) || record.events.length === 0) errors.push("The event stream adapter requires events.");
+  const expectedKey = createEventStreamIdempotencyKey({
+    tenantId: record.tenantId,
+    unitKey: record.unitKey,
+    launchCode: record.launchCode,
+    studentSessionId: record.studentSessionId,
+    gameMode: record.gameMode,
+  });
+  if (record.idempotencyKey !== expectedKey) errors.push("The event stream adapter idempotency key does not match canonical completion identity.");
+  return errors;
+}
+
+function createEventStreamIdempotencyKey(args: { tenantId: string; unitKey: string; launchCode: string; studentSessionId: string; gameMode: string }): string {
+  return ["completion-v1", args.tenantId, args.unitKey, args.launchCode, args.studentSessionId, args.gameMode]
+    .map((value) => encodeURIComponent(value.trim()))
+    .join(":");
 }
 
 export function getConfiguredPersistenceProvider(): PersistenceProvider {

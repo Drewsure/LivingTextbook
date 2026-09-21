@@ -5135,3 +5135,17 @@ and `docs/adr/0910-hosted-progress-event-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-983,
 `docs/decision-register/DR-983-tenant-bound-taxonomy-resolution.md`,
 and `docs/adr/0911-tenant-bound-taxonomy-resolution.md`.
+
+## 327. Persistence Record Shape Standard
+
+- Every persistence boundary must validate record shape, identity, privacy
+  exclusions, and canonical idempotency before storage.
+- Route validation is necessary but not sufficient; lower adapters must fail
+  closed when called directly by maintenance, import, or future local-store
+  code.
+- Stored event evidence must be revalidated against the tenant/package
+  taxonomy before teacher reporting uses it.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-984,
+`docs/decision-register/DR-984-event-record-shape-boundary.md`,
+and `docs/adr/0912-event-record-shape-boundary.md`.

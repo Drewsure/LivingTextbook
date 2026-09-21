@@ -199,14 +199,52 @@ export function validateProgressEventStreamPersistenceRead(
     if (record.packageId !== request.packageId) errors.push("Progress event stream package does not match.");
     if (record.launchCode !== request.launchCode) errors.push("Progress event stream launch does not match.");
     if (record.studentSessionId !== request.studentSessionId) errors.push("Progress event stream student session does not match.");
-    errors.push(...validatePersistedEventStreamIdentity({
-      expectedLaunchCode: request.launchCode,
-      expectedStudentSessionId: request.studentSessionId,
-      events: record.events,
-      registry,
-    }));
+    errors.push(...validateProgressEventStreamPersistenceRecord(record, registry));
   }
   return { valid: errors.length === 0, errors: [...new Set(errors)] };
+}
+
+export function validateProgressEventStreamPersistenceRecord(
+  record: unknown,
+  registry: ProgressEventTaxonomyRegistry,
+): string[] {
+  const errors: string[] = [];
+  if (!record || typeof record !== "object" || Array.isArray(record)) {
+    return ["Persisted progress event stream record must be an object."];
+  }
+  const candidate = record as Partial<ProgressEventStreamPersistenceRecord>;
+  if (candidate.recordVersion !== 1) errors.push("Persisted progress event stream recordVersion must be 1.");
+  if (candidate.category !== "progress-event-stream") errors.push("Persisted progress event stream category is invalid.");
+  if (candidate.adapterMode !== "hosted-managed") errors.push("Persisted progress event stream adapterMode must be hosted-managed.");
+  if (candidate.rawLearnerAudioIncluded !== false) errors.push("Persisted progress event stream must exclude raw learner audio.");
+  if (candidate.learnerTranscriptIncluded !== false) errors.push("Persisted progress event stream must exclude learner transcripts.");
+  for (const field of ["tenantId", "packageId", "launchCode", "studentSessionId", "unitKey", "taxonomyVersion", "eventAcceptanceGateId", "writtenAt", "idempotencyKey"] as const) {
+    if (typeof candidate[field] !== "string" || candidate[field].trim().length === 0) errors.push(`Persisted progress event stream ${field} is required.`);
+  }
+  errors.push(...validatePersistedEventStreamIdentity({
+    expectedLaunchCode: typeof candidate.launchCode === "string" ? candidate.launchCode : "",
+    expectedStudentSessionId: typeof candidate.studentSessionId === "string" ? candidate.studentSessionId : "",
+    events: candidate.events,
+    registry,
+  }));
+  if (Array.isArray(candidate.events) && candidate.events[0]) {
+    const first = candidate.events[0];
+    if (first.unit_key !== candidate.unitKey) errors.push("Persisted progress event stream unitKey must match its first event.");
+    if (first.game_mode !== candidate.gameMode) errors.push("Persisted progress event stream gameMode must match its first event.");
+    if (first.taxonomy_version !== candidate.taxonomyVersion) errors.push("Persisted progress event stream taxonomyVersion must match its first event.");
+    if (first.event_acceptance_gate_id !== candidate.eventAcceptanceGateId) errors.push("Persisted progress event stream eventAcceptanceGateId must match its first event.");
+    if (typeof candidate.tenantId === "string" && typeof candidate.unitKey === "string" && typeof candidate.launchCode === "string" && typeof candidate.studentSessionId === "string" && typeof candidate.gameMode === "string") {
+      const expectedKey = createCanonicalCompletionIdempotencyKey({
+        tenantId: candidate.tenantId,
+        unitKey: candidate.unitKey,
+        launchCode: candidate.launchCode,
+        studentSessionId: candidate.studentSessionId,
+        gameMode: candidate.gameMode as GameModeId,
+      });
+      if (candidate.idempotencyKey !== expectedKey) errors.push("Persisted progress event stream idempotencyKey must match canonical completion identity.");
+    }
+  }
+  return [...new Set(errors)];
 }
 
 function validatePersistedEventStreamIdentity(args: {

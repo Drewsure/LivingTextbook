@@ -127,7 +127,13 @@ function runEventStreamAdapterChecks(adapterModule, provider, label) {
   if (changed.status !== "conflict" || !changed.errors.some((error) => error.includes("different event payload"))) failures.push(`${label}: changed event stream payload was not rejected.`);
 
   const wrongIdentity = adapter.writeEventStream({ ...record, tenantId: "other-tenant" });
-  if (wrongIdentity.status !== "conflict" || !wrongIdentity.errors.some((error) => error.includes("different tenant-scoped identity"))) failures.push(`${label}: event stream cross-tenant idempotency reuse was not rejected.`);
+  if (wrongIdentity.status !== "conflict" || !wrongIdentity.errors.some((error) => error.includes("different tenant-scoped identity") || error.includes("canonical completion identity"))) failures.push(`${label}: event stream cross-tenant idempotency reuse was not rejected.`);
+
+  const badPrivacy = adapter.writeEventStream({ ...record, idempotencyKey: `${record.idempotencyKey}-privacy`, rawLearnerAudioIncluded: true });
+  if (badPrivacy.status !== "conflict" || !badPrivacy.errors.some((error) => error.includes("raw learner audio"))) failures.push(`${label}: event stream raw audio storage was not rejected.`);
+
+  const badIdentity = adapter.writeEventStream({ ...record, idempotencyKey: `${record.idempotencyKey}-bad-key` });
+  if (badIdentity.status !== "conflict" || !badIdentity.errors.some((error) => error.includes("canonical completion identity"))) failures.push(`${label}: event stream canonical idempotency mismatch was not rejected.`);
 
   const read = adapter.readEventStream(identityOf(record));
   if (!read || read.idempotencyKey !== record.idempotencyKey) failures.push(`${label}: event stream identity read did not return the stored record.`);

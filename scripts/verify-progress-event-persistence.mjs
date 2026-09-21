@@ -10,8 +10,8 @@ const sources = new Map([
 ]);
 
 const requirements = {
-  model: ["ProgressEventStreamPersistenceRecord", 'category: "progress-event-stream"', "validateProgressEventEnvelopeStream", "game_started", "game_completed", "createCanonicalCompletionIdempotencyKey", "rawLearnerAudioIncluded: false", "learnerTranscriptIncluded: false", "policy and taxonomy are server-owned"],
-  store: ["progress_event_stream_records", "readEventStream", "writeEventStream", "event stream idempotency key is already bound to a different tenant-scoped identity", "different event payload"],
+  model: ["ProgressEventStreamPersistenceRecord", 'category: "progress-event-stream"', "validateProgressEventEnvelopeStream", "validateProgressEventStreamPersistenceRecord", "game_started", "game_completed", "createCanonicalCompletionIdempotencyKey", "rawLearnerAudioIncluded: false", "learnerTranscriptIncluded: false", "policy and taxonomy are server-owned"],
+  store: ["progress_event_stream_records", "readEventStream", "writeEventStream", "validateEventStreamStorageRecord", "event stream idempotency key is already bound to a different tenant-scoped identity", "different event payload"],
   adapter: ["ProgressEventStreamPersistenceAdapter", "getProgressEventStreamPersistenceAdapter", "__livingTextbookHostedProgressEventStreamRehearsal"],
   route: ["validateProgressEventStreamPersistenceClientWrite", "resolveProgressEventTaxonomy", "No reviewed progress-event taxonomy is bound", "hasTeacherOperationsReadAuthorization", "Cache-Control", "Durable event stream writes require the explicit deployment write gate."],
   resolver: ["resolveProgressEventTaxonomy", "unknown tenant/package must remain blocked", "no global fallback"],

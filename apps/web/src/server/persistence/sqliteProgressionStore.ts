@@ -292,6 +292,8 @@ export class SqliteProgressionStore {
   }
 
   writeEventStream(record: ProgressEventStreamPersistenceRecord): DurableProgressEventStreamWriteResult {
+    const storageErrors = validateEventStreamStorageRecord(record);
+    if (storageErrors.length > 0) return { status: "conflict", idempotent: false, errors: storageErrors };
     const existingRow = this.database.prepare(`
       SELECT tenant_id, package_id, launch_code, student_session_id, record_json, idempotency_key
       FROM progress_event_stream_records
@@ -609,4 +611,42 @@ function stableJson(value: unknown): string {
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`)
     .join(",")}}`;
+}
+
+function validateEventStreamStorageRecord(record: ProgressEventStreamPersistenceRecord): string[] {
+  const errors: string[] = [];
+  if (record.recordVersion !== 1) errors.push("The event stream record version is unsupported.");
+  if (record.category !== "progress-event-stream") errors.push("The event stream record category is invalid.");
+  if (record.adapterMode !== "hosted-managed") errors.push("The event stream record adapter mode is invalid.");
+  if (record.rawLearnerAudioIncluded !== false) errors.push("The event stream store rejects raw learner audio fields.");
+  if (record.learnerTranscriptIncluded !== false) errors.push("The event stream store rejects learner transcript fields.");
+  for (const [name, value] of Object.entries({
+    tenantId: record.tenantId,
+    packageId: record.packageId,
+    launchCode: record.launchCode,
+    studentSessionId: record.studentSessionId,
+    idempotencyKey: record.idempotencyKey,
+    writtenAt: record.writtenAt,
+  })) {
+    if (typeof value !== "string" || value.trim().length === 0) errors.push(`The event stream record ${name} is required.`);
+  }
+  if (!Array.isArray(record.events) || record.events.length === 0) errors.push("The event stream record must contain events.");
+  const firstEvent = record.events?.[0];
+  if (firstEvent && typeof firstEvent === "object") {
+    const expectedKey = createEventStreamIdempotencyKey({
+      tenantId: record.tenantId,
+      unitKey: record.unitKey,
+      launchCode: record.launchCode,
+      studentSessionId: record.studentSessionId,
+      gameMode: record.gameMode,
+    });
+    if (record.idempotencyKey !== expectedKey) errors.push("The event stream record idempotency key does not match canonical completion identity.");
+  }
+  return errors;
+}
+
+function createEventStreamIdempotencyKey(args: { tenantId: string; unitKey: string; launchCode: string; studentSessionId: string; gameMode: string }): string {
+  return ["completion-v1", args.tenantId, args.unitKey, args.launchCode, args.studentSessionId, args.gameMode]
+    .map((value) => encodeURIComponent(value.trim()))
+    .join(":");
 }

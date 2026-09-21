@@ -4021,3 +4021,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   MiniStar fallback.
 - Recorded ADR 0911 and DR-983; the sample registry remains a review-stage
   binding until real publisher package registration is approved.
+
+## Build session 0912: Event record shape boundary
+
+- Added shared record-shape validation for persisted canonical event streams,
+  including canonical completion identity and privacy flags.
+- Added a lower SQLite storage guard so malformed event records cannot be
+  inserted by a future non-route caller.
+- Recorded ADR 0912 and DR-984.
