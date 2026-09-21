@@ -5248,3 +5248,21 @@ and `docs/adr/0917-report-package-aggregation-integration.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-990,
 `docs/decision-register/DR-990-provider-neutral-report-package-snapshot.md`,
 and `docs/adr/0918-provider-neutral-report-package-snapshot.md`.
+
+## 334. Provider-Neutral Report Snapshot Recovery Standard
+
+- Hosted-managed and closed/local deployments use one sanitized recovery
+  packet shape so a white-label tenant is not trapped in a provider-specific
+  report format.
+- Recovery packets carry a deterministic snapshot fingerprint and must fail
+  closed when the fingerprint, scope, or deployment mode is inconsistent.
+- Review rehearsal may validate a backup or restore plan, but it must not
+  create backups, restore records, export archives, or write to hosted/local
+  providers.
+- Recovery packets exclude raw event records, learner audio, transcripts, and
+  real learner identifiers; `restoreAllowed`, `exportAllowed`, and
+  `writesAllowed` remain false until separate policy and release gates pass.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-991,
+`docs/decision-register/DR-991-provider-neutral-report-snapshot-recovery.md`,
+and `docs/adr/0919-provider-neutral-report-snapshot-recovery.md`.

@@ -4091,3 +4091,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
   privacy, and no-side-effect invariants.
 - Kept provider activation, writes, and exports blocked.
 - Recorded ADR 0918 and DR-990.
+
+## Build session 0919: Provider-neutral report snapshot recovery
+
+- Added a shared recovery packet for sanitized teacher report snapshots across
+  hosted-managed and local-classroom deployment modes.
+- Added deterministic fingerprint validation and fail-closed scope checks.
+- Added a review-only adapter that rehearses validation without backup,
+  restore, export, or provider writes.
+- Kept raw events, learner audio, transcripts, and real learner identifiers
+  outside the packet.
+- Recorded ADR 0919 and DR-991.

@@ -66,6 +66,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-read
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-launch-report-aggregation.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-report-package-snapshot-runtime.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 function readSource(relativePath) {
   return readFileSync(new URL(relativePath, import.meta.url), "utf8");

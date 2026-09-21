@@ -52,6 +52,7 @@ try {
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
     "packages/content-model/src/teacherLaunchReportAggregation.ts",
     "packages/content-model/src/teacherReportPackageSnapshot.ts",
+    "packages/content-model/src/teacherReportPackageSnapshotRuntime.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
@@ -164,6 +165,7 @@ try {
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
   const teacherLaunchReportAggregation = require(join(output, "teacherLaunchReportAggregation.js"));
   const teacherReportPackageSnapshot = require(join(output, "teacherReportPackageSnapshot.js"));
+  const teacherReportPackageSnapshotRuntime = require(join(output, "teacherReportPackageSnapshotRuntime.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
@@ -2387,6 +2389,32 @@ try {
   assertEqual(
     teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest(reportPersistenceRequest).length,
     0,
+  );
+  const reportRecoveryPacket = teacherReportPackageSnapshotRuntime.createTeacherReportPackageSnapshotRecoveryPacket(
+    reportPersistenceRequest.snapshot,
+    "local-classroom",
+    "2026-09-22T00:01:00.000Z",
+  );
+  assertEqual(teacherReportPackageSnapshotRuntime.validateTeacherReportPackageSnapshotRecoveryPacket(reportRecoveryPacket).length, 0);
+  const reportSnapshotAdapter = teacherReportPackageSnapshotRuntime.createReviewOnlyTeacherReportPackageSnapshotAdapter();
+  const reportSnapshotRecoveryResult = reportSnapshotAdapter.execute({
+    snapshot: reportPersistenceRequest.snapshot,
+    operation: "restore",
+    expectedDeploymentMode: "hosted-managed",
+    targetDeploymentMode: "local-classroom",
+    recoveryPacket: reportRecoveryPacket,
+  });
+  assertEqual(reportSnapshotRecoveryResult.decision.allowed, false);
+  assertEqual(reportSnapshotRecoveryResult.sideEffect, "none");
+  assertEqual(reportSnapshotRecoveryResult.snapshotValid, true);
+  assertEqual(reportSnapshotRecoveryResult.recoveryPacketValid, true);
+  assertIncludes(reportSnapshotRecoveryResult.decision.reasons, "No restore execution");
+  assertIncludes(
+    teacherReportPackageSnapshotRuntime.validateTeacherReportPackageSnapshotRecoveryPacket({
+      ...reportRecoveryPacket,
+      snapshotFingerprint: "tampered",
+    }),
+    "Teacher report snapshot recovery fingerprint does not match the snapshot.",
   );
   const reportPersistenceDecision = teacherReportPersistence
     .createReviewOnlyTeacherReportPersistenceAdapter()

@@ -1697,6 +1697,7 @@ export * from "./progressEventTaxonomy";
 export * from "./progressEventPersistence";
 export * from "./teacherLaunchReportAggregation";
 export * from "./teacherReportPackageSnapshot";
+export * from "./teacherReportPackageSnapshotRuntime";
 export * from "./publisherMaintenance";
 export * from "./pilotPolicy";
 export * from "./aiPackageAssemblyDryRun";
