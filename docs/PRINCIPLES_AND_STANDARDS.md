@@ -5231,3 +5231,20 @@ and `docs/adr/0916-teacher-launch-report-aggregation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-989,
 `docs/decision-register/DR-989-report-package-aggregation-integration.md`,
 and `docs/adr/0917-report-package-aggregation-integration.md`.
+
+## 333. Provider-Neutral Report Package Snapshot Standard
+
+- Hosted-managed and closed/local deployments must share one canonical
+  report-package snapshot shape.
+- The snapshot is tenant, package, and launch scoped and must match the
+  deterministic launch aggregation it carries.
+- Foundation snapshots always set export and writes to blocked; provider
+  selection, retention activation, and live use remain separate gates.
+- Raw event records, learner audio, transcripts, and real learner identifiers
+  are excluded from the snapshot.
+- Event acceptance and progress-event envelope summaries must travel with the
+  snapshot so reviewers can distinguish evidence from authority.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-990,
+`docs/decision-register/DR-990-provider-neutral-report-package-snapshot.md`,
+and `docs/adr/0918-provider-neutral-report-package-snapshot.md`.

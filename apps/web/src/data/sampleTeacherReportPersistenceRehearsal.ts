@@ -1,5 +1,7 @@
 import {
   createReviewOnlyTeacherReportPersistenceAdapter,
+  createTeacherLaunchReportAggregation,
+  createTeacherReportPackageSnapshot,
   type TeacherReportPersistenceRuntimeResult,
   type TeacherReportPersistenceRuntimeRequest,
   type TeacherSessionMonitorContext,
@@ -34,6 +36,21 @@ export function resolveSampleTeacherReportPersistenceRehearsal(
   context: TeacherSessionMonitorContext,
 ): TeacherReportPersistenceRuntimeResult {
   const reportPlan = context.reportExportPlan;
+  const reportScope = {
+    tenantId: context.tenant.id,
+    packageId: context.contentPackage.meta.packageId,
+    launchCode: context.launchSession.launchCode,
+  };
+  const snapshot = createTeacherReportPackageSnapshot({
+    scope: reportScope,
+    deploymentMode: "hosted-managed",
+    createdAt: context.launchSession.openedAt,
+    report: createTeacherLaunchReportAggregation([], reportScope),
+    boundary: context.reportPackageBoundary,
+    reportPlan,
+    eventAcceptance: context.eventAcceptanceGate,
+    eventEnvelope: context.eventEnvelopeGate,
+  });
   const request: TeacherReportPersistenceRuntimeRequest = {
     operation: "export",
     reportRequest: {
@@ -56,6 +73,7 @@ export function resolveSampleTeacherReportPersistenceRehearsal(
     },
     persistenceIntent: getHostedReportIntent(),
     durableRecord: getReportRecord(),
+    snapshot,
   };
 
   return createReviewOnlyTeacherReportPersistenceAdapter().execute(request);

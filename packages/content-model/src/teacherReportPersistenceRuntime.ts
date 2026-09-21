@@ -11,6 +11,10 @@ import {
   validateTeacherReportRuntimeRequest,
   type TeacherReportRuntimeRequest,
 } from "./reportRuntime";
+import {
+  validateTeacherReportPackageSnapshot,
+  type TeacherReportPackageSnapshot,
+} from "./teacherReportPackageSnapshot";
 
 export type TeacherReportPersistenceOperation = "write" | "export";
 
@@ -19,6 +23,7 @@ export interface TeacherReportPersistenceRuntimeRequest {
   reportRequest: TeacherReportRuntimeRequest;
   persistenceIntent: PersistenceWriteIntent;
   durableRecord: DurableRecordContract;
+  snapshot: TeacherReportPackageSnapshot;
 }
 
 export interface TeacherReportPersistenceRuntimeDecision {
@@ -71,6 +76,17 @@ function createPersistenceRuntimeRequest(
 function validateReportPersistenceAlignment(request: TeacherReportPersistenceRuntimeRequest): string[] {
   const errors: string[] = [];
   const { persistenceIntent, durableRecord, reportRequest } = request;
+
+  errors.push(...validateTeacherReportPackageSnapshot(request.snapshot));
+  if (request.snapshot.tenantId !== reportRequest.tenantId) {
+    errors.push("Teacher report package snapshot tenant must match the report request.");
+  }
+  if (request.snapshot.launchCode !== reportRequest.launchCode) {
+    errors.push("Teacher report package snapshot launch must match the report request.");
+  }
+  if (request.snapshot.exportAllowed || request.snapshot.writesAllowed) {
+    errors.push("Teacher report package snapshot cannot authorize export or writes.");
+  }
 
   if (persistenceIntent.category !== "teacher-report-package") {
     errors.push("Teacher report persistence intent must use the teacher-report-package category.");

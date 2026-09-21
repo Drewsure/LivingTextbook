@@ -4081,3 +4081,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Reused the existing teacher operations authorization and preserved all
   protected, blocked, unavailable, empty, and export-blocked states.
 - Added route-level verification coverage and recorded ADR 0917 and DR-989.
+
+## Build session 0918: Provider-neutral report package snapshot
+
+- Added the shared report-package snapshot contract for hosted-managed and
+  local-classroom deployment modes.
+- Required the snapshot in the review-only report persistence request.
+- Preserved tenant/package/launch identity, event acceptance, envelope-gate,
+  privacy, and no-side-effect invariants.
+- Kept provider activation, writes, and exports blocked.
+- Recorded ADR 0918 and DR-990.

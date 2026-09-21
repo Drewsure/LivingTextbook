@@ -7190,3 +7190,21 @@ Required invariants:
 
 Evidence: `docs/adr/0917-report-package-aggregation-integration.md`,
 `docs/decision-register/DR-989-report-package-aggregation-integration.md`.
+
+# DR-990: Provider-Neutral Report Package Snapshot
+
+Decision: require a canonical report-package snapshot in teacher persistence
+review and support both hosted-managed and local-classroom deployment modes
+without changing the privacy, tenant, or no-side-effect rules.
+
+Required invariants:
+
+- Snapshot tenant, package, and launch identity must match the aggregation.
+- `exportAllowed` and `writesAllowed` remain false in foundation mode.
+- Raw event records, learner audio, transcripts, and real learner identifiers
+  remain excluded.
+- Event acceptance and progress-event envelope summaries are preserved.
+- Provider activation remains a separate approved step.
+
+Evidence: `docs/adr/0918-provider-neutral-report-package-snapshot.md`,
+`docs/decision-register/DR-990-provider-neutral-report-package-snapshot.md`.

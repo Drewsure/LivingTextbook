@@ -1696,6 +1696,7 @@ export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
 export * from "./progressEventPersistence";
 export * from "./teacherLaunchReportAggregation";
+export * from "./teacherReportPackageSnapshot";
 export * from "./publisherMaintenance";
 export * from "./pilotPolicy";
 export * from "./aiPackageAssemblyDryRun";

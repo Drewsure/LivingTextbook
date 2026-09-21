@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/reportRuntime.ts");
 const persistenceRuntime = readSource("../packages/content-model/src/teacherReportPersistenceRuntime.ts");
+const snapshot = readSource("../packages/content-model/src/teacherReportPackageSnapshot.ts");
 const failures = [];
 
 for (const marker of [
@@ -37,6 +38,20 @@ for (const marker of [
 ]) {
   const source = [runtime, persistenceRuntime].join("\n");
   if (!source.includes(marker)) failures.push(`Report runtime missing marker: ${marker}`);
+}
+
+for (const marker of [
+  "TeacherReportPackageSnapshot",
+  "createTeacherReportPackageSnapshot",
+  "validateTeacherReportPackageSnapshot",
+  'storageMode: "provider-neutral"',
+  'exportAllowed: false',
+  'writesAllowed: false',
+  "must not embed raw event records",
+  "hosted-managed",
+  "local-classroom",
+]) {
+  if (!snapshot.includes(marker)) failures.push(`Report package snapshot missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

@@ -50,6 +50,8 @@ try {
     "packages/content-model/src/pilotHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
+    "packages/content-model/src/teacherLaunchReportAggregation.ts",
+    "packages/content-model/src/teacherReportPackageSnapshot.ts",
     "packages/content-model/src/aiPrototypeEvidenceAlignment.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageManifest.ts",
     "packages/content-model/src/aiPrototypeReturnedPackageAlignment.ts",
@@ -160,6 +162,8 @@ try {
   const pilotHandoff = require(join(output, "pilotHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
+  const teacherLaunchReportAggregation = require(join(output, "teacherLaunchReportAggregation.js"));
+  const teacherReportPackageSnapshot = require(join(output, "teacherReportPackageSnapshot.js"));
   const prototypeAlignment = require(join(output, "aiPrototypeEvidenceAlignment.js"));
   const returnedPackageManifest = require(join(output, "aiPrototypeReturnedPackageManifest.js"));
   const returnedPackageAlignment = require(join(output, "aiPrototypeReturnedPackageAlignment.js"));
@@ -2358,6 +2362,27 @@ try {
     reportRequest: readyReportRequest,
     persistenceIntent: reportPersistenceIntent,
     durableRecord: reportPersistenceRecord,
+    snapshot: teacherReportPackageSnapshot.createTeacherReportPackageSnapshot({
+      scope: { tenantId: "tenant-1", packageId: "package-1", launchCode: "launch-1" },
+      deploymentMode: "hosted-managed",
+      createdAt: "2026-09-22T00:00:00.000Z",
+      report: teacherLaunchReportAggregation.createTeacherLaunchReportAggregation([], { tenantId: "tenant-1", packageId: "package-1", launchCode: "launch-1" }),
+      boundary: {
+        boundaryId: "teacher-report-package:launch-1",
+        label: "Teacher report package boundary",
+        status: "export-blocked",
+        decision: "Preview only",
+        summary: "Review-only package",
+        metrics: [],
+        includedEvidence: ["learning evidence"],
+        supportOnlySignals: ["media engagement"],
+        excludedSensitiveFields: ["raw learner audio", "learner transcripts", "private identifiers"],
+        requiredBeforeExport: ["policy acceptance"],
+      },
+      reportPlan: readyReportRequest.reportPlan,
+      eventAcceptance: { gateId: "event-acceptance:launch-1", status: "demo-only", items: [] },
+      eventEnvelope: { gateId: "progress-event-envelope:launch-1", status: "demo-only", taxonomyVersion: "taxonomy-v2026.07.foundation", envelopeCount: 0, blockedCount: 0, warningCount: 0 },
+    }),
   };
   assertEqual(
     teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest(reportPersistenceRequest).length,
@@ -2371,6 +2396,13 @@ try {
   assertEqual(reportPersistenceDecision.sideEffect, "none");
   assertIncludes(reportPersistenceDecision.decision.reasons, "No teacher report package write");
   assertIncludes(reportPersistenceDecision.decision.reasons, "No teacher report export");
+  assertIncludes(
+    teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest({
+      ...reportPersistenceRequest,
+      snapshot: { ...reportPersistenceRequest.snapshot, exportAllowed: true },
+    }),
+    "Teacher report package snapshot exportAllowed must remain false.",
+  );
   assertIncludes(
     teacherReportPersistence.validateTeacherReportPersistenceRuntimeRequest({
       ...reportPersistenceRequest,
