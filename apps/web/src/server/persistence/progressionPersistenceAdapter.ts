@@ -5,6 +5,7 @@ import type {
 import {
   getDurableProgressionStore,
   type DurableProgressEventStreamIdentity,
+  type DurableProgressEventStreamLaunchScope,
   type DurableProgressEventStreamWriteResult,
   type DurableProgressionIdentity,
   type DurableProgressionWriteResult,
@@ -32,6 +33,7 @@ export interface ProgressEventStreamPersistenceAdapter {
   readonly provider: PersistenceProvider;
   readonly durability: PersistenceDurability;
   readEventStream(identity: DurableProgressEventStreamIdentity): ProgressEventStreamPersistenceRecord | undefined;
+  listEventStreams(scope: DurableProgressEventStreamLaunchScope): ProgressEventStreamPersistenceRecord[];
   writeEventStream(record: ProgressEventStreamPersistenceRecord): DurableProgressEventStreamWriteResult;
 }
 
@@ -95,6 +97,17 @@ const processMemoryEventStreamAdapter: ProgressEventStreamPersistenceAdapter = {
       .sort((left, right) => left.writtenAt === right.writtenAt
         ? (left.idempotencyKey > right.idempotencyKey ? -1 : 1)
         : (left.writtenAt > right.writtenAt ? -1 : 1))[0];
+  },
+  listEventStreams(scope) {
+    return [...eventStreamRehearsalStore.values()]
+      .filter((candidate) => candidate.tenantId === scope.tenantId
+        && candidate.packageId === scope.packageId
+        && candidate.launchCode === scope.launchCode)
+      .sort((left, right) => left.writtenAt === right.writtenAt
+        ? (left.studentSessionId === right.studentSessionId
+          ? (left.idempotencyKey > right.idempotencyKey ? -1 : 1)
+          : (left.studentSessionId < right.studentSessionId ? -1 : 1))
+        : (left.writtenAt > right.writtenAt ? -1 : 1));
   },
   writeEventStream(record) {
     const storageErrors = validateEventStreamAdapterRecord(record);
@@ -191,6 +204,7 @@ export function getProgressEventStreamPersistenceAdapter(): ProgressEventStreamP
       provider: "sqlite",
       durability: "durable-managed",
       readEventStream: (identity) => store.readEventStream(identity),
+      listEventStreams: (scope) => store.listEventStreams(scope),
       writeEventStream: (record) => store.writeEventStream(record),
     };
   }

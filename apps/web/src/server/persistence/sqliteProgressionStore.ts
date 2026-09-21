@@ -29,6 +29,12 @@ export interface DurableProgressEventStreamIdentity {
   studentSessionId: string;
 }
 
+export interface DurableProgressEventStreamLaunchScope {
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+}
+
 export interface DurableProgressEventStreamWriteResult {
   status: "accepted" | "conflict";
   idempotent: boolean;
@@ -289,6 +295,19 @@ export class SqliteProgressionStore {
       LIMIT 1
     `).get(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId) as StoredRow | undefined;
     return parseStoredEventStreamRecord(row);
+  }
+
+  listEventStreams(scope: DurableProgressEventStreamLaunchScope): ProgressEventStreamPersistenceRecord[] {
+    const rows = this.database.prepare(`
+      SELECT record_json, idempotency_key
+      FROM progress_event_stream_records
+      WHERE tenant_id = ? AND package_id = ? AND launch_code = ?
+      ORDER BY written_at DESC, student_session_id ASC, idempotency_key DESC
+    `).all(scope.tenantId, scope.packageId, scope.launchCode) as unknown as StoredRow[];
+    return rows.flatMap((row) => {
+      const record = parseStoredEventStreamRecord(row);
+      return record ? [record] : [];
+    });
   }
 
   writeEventStream(record: ProgressEventStreamPersistenceRecord): DurableProgressEventStreamWriteResult {

@@ -4029,3 +4029,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a lower SQLite storage guard so malformed event records cannot be
   inserted by a future non-route caller.
 - Recorded ADR 0912 and DR-984.
+
+## Build session 0913: Teacher launch-scoped event review
+
+- Added a provider-neutral `listEventStreams` contract for one tenant,
+  reviewed package, and classroom launch.
+- Added the teacher-only API path that lists only records which pass the
+  tenant-bound taxonomy validator; exact student continuity reads remain
+  unchanged.
+- Added process-memory and SQLite parity checks for list scope, tenant
+  isolation, ordering, and restart durability.
+- Recorded ADR 0913 and DR-985.

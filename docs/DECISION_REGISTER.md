@@ -7098,3 +7098,22 @@ SQLite storage boundary.
 - `packages/content-model/src/progressEventPersistence.ts`
 - `apps/web/src/server/persistence/sqliteProgressionStore.ts`
 - `docs/adr/0912-event-record-shape-boundary.md`
+
+# DR-985: Teacher Launch-Scoped Event Review
+
+Decision: Add a teacher-only, read-only event-stream listing scoped to one
+tenant, reviewed package, and classroom launch. Revalidate every candidate
+record before returning it, while keeping student continuity reads exact and
+session-scoped.
+
+Required invariants:
+
+- Teacher authorization and all three launch scope fields are required.
+- Unknown tenant/package bindings fail closed.
+- Invalid stored evidence is omitted rather than treated as reportable.
+- Process-memory rehearsal and SQLite durable adapters share the same contract.
+- Raw learner audio and transcripts remain excluded.
+
+Evidence: `docs/adr/0913-teacher-launch-scoped-event-review.md`,
+`apps/web/src/app/api/persistence/events/route.ts`,
+`apps/web/src/server/persistence/progressionPersistenceAdapter.ts`.

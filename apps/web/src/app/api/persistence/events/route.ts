@@ -88,6 +88,13 @@ export function GET(request: Request) {
     return json({ status: "unauthorized", errors: ["A matching signed student session or server-side persistence authorization is required for this event stream read."] }, 401);
   }
 
+  if (accessMode === "teacher-review-probe" && !lookup.studentSessionId) {
+    if (!lookup.tenantId || !lookup.packageId || !lookup.launchCode) {
+      return json({ status: "rejected", errors: ["Teacher event review requires tenant, package, and launch scope."] }, 400);
+    }
+    return readTeacherLaunchEventStreams(lookup);
+  }
+
   const providerConfiguration = getPersistenceProviderConfiguration();
   if (!providerConfiguration.valid) return json({ status: "blocked", provider: providerConfiguration.provider, errors: providerConfiguration.errors }, 423);
   try {
@@ -100,6 +107,27 @@ export function GET(request: Request) {
     return json({ status: "available", provider: adapter.provider, durability: adapter.durability, record });
   } catch {
     return json({ status: "unavailable", provider: getConfiguredPersistenceProvider(), errors: ["Progress event stream storage could not be opened or read."] }, 503);
+  }
+}
+
+function readTeacherLaunchEventStreams(scope: { tenantId: string; packageId: string; launchCode: string; studentSessionId: string }) {
+  const providerConfiguration = getPersistenceProviderConfiguration();
+  if (!providerConfiguration.valid) return json({ status: "blocked", provider: providerConfiguration.provider, errors: providerConfiguration.errors }, 423);
+  try {
+    const adapter = getProgressEventStreamPersistenceAdapter();
+    const registry = resolveProgressEventTaxonomy(scope.tenantId, scope.packageId);
+    if (!registry) return json({ status: "blocked", provider: adapter.provider, errors: ["No reviewed progress-event taxonomy is bound to this tenant and package."] }, 423);
+    const records = adapter.listEventStreams(scope)
+      .filter((record) => validateProgressEventStreamPersistenceRead({ ...scope, studentSessionId: record.studentSessionId }, record, registry).valid);
+    return json({
+      status: "available",
+      provider: adapter.provider,
+      durability: adapter.durability,
+      scope: { tenantId: scope.tenantId, packageId: scope.packageId, launchCode: scope.launchCode },
+      records,
+    });
+  } catch {
+    return json({ status: "unavailable", provider: getConfiguredPersistenceProvider(), errors: ["Progress event stream storage could not be opened or listed."] }, 503);
   }
 }
 

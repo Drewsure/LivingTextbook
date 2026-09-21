@@ -5149,3 +5149,20 @@ and `docs/adr/0911-tenant-bound-taxonomy-resolution.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-984,
 `docs/decision-register/DR-984-event-record-shape-boundary.md`,
 and `docs/adr/0912-event-record-shape-boundary.md`.
+
+## 328. Teacher Launch-Scoped Event Review Standard
+
+- Teacher review may list progress-event evidence only within one authorized
+  tenant, reviewed package, and classroom launch.
+- Student continuity remains an exact student-session read; teacher scope must
+  not become a student-data discovery mechanism.
+- Every listed record must be revalidated against the tenant/package taxonomy
+  before it can appear in a review surface.
+- Invalid records are omitted and counted only by internal verification; raw
+  learner audio and transcripts remain outside the response contract.
+- Rehearsal and durable providers must expose equivalent scope, ordering, and
+  tenant-isolation behavior.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-985,
+`docs/decision-register/DR-985-teacher-launch-scoped-event-review.md`,
+and `docs/adr/0913-teacher-launch-scoped-event-review.md`.

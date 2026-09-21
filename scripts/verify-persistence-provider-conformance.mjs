@@ -54,6 +54,8 @@ try {
     const reopenedEventStore = new sqlite.SqliteProgressionStore(eventDatabasePath);
     const reopenedEvent = reopenedEventStore.readEventStream(identityOf(durableEventRecord));
     if (!reopenedEvent || reopenedEvent.idempotencyKey !== durableEventRecord.idempotencyKey) failures.push("SQLite event stream did not survive a store restart.");
+    const listedEvents = reopenedEventStore.listEventStreams({ tenantId: durableEventRecord.tenantId, packageId: durableEventRecord.packageId, launchCode: durableEventRecord.launchCode });
+    if (listedEvents.length !== 1 || listedEvents[0]?.idempotencyKey !== durableEventRecord.idempotencyKey) failures.push("SQLite launch-scoped event stream list did not survive a store restart.");
     const otherTenant = reopenedStore.read({ ...identityOf(durableRecord), tenantId: "other-tenant" });
     if (otherTenant !== undefined) failures.push("SQLite read crossed a tenant boundary.");
     reopenedStore.close();
@@ -137,6 +139,10 @@ function runEventStreamAdapterChecks(adapterModule, provider, label) {
 
   const read = adapter.readEventStream(identityOf(record));
   if (!read || read.idempotencyKey !== record.idempotencyKey) failures.push(`${label}: event stream identity read did not return the stored record.`);
+  const listed = adapter.listEventStreams({ tenantId: record.tenantId, packageId: record.packageId, launchCode: record.launchCode });
+  if (listed.length !== 1 || listed[0]?.idempotencyKey !== record.idempotencyKey) failures.push(`${label}: launch-scoped event stream list did not return the validated record.`);
+  const otherTenantList = adapter.listEventStreams({ tenantId: "other-tenant", packageId: record.packageId, launchCode: record.launchCode });
+  if (otherTenantList.length !== 0) failures.push(`${label}: launch-scoped event stream list crossed a tenant boundary.`);
   const otherTenant = adapter.readEventStream({ ...identityOf(record), tenantId: "other-tenant" });
   if (otherTenant !== undefined) failures.push(`${label}: event stream read crossed a tenant boundary.`);
 }
