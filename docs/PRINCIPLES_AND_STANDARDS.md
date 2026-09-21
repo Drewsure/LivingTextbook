@@ -4900,3 +4900,18 @@ and `docs/adr/0893-memory-match-accessibility-state.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-966,
 `docs/decision-register/DR-966-shared-app-shell-skip-navigation.md`,
 and `docs/adr/0894-shared-app-shell-skip-navigation.md`.
+
+## 310. Shared Audio Status Accessibility Standard
+
+- Every shared learning-audio control must expose ready, playing, and
+  unavailable status to assistive technology through a polite, atomic region.
+- Reviewed media playback and speech fallback must use the same status
+  vocabulary and remain associated with the activating control.
+- Stable relationships must survive server and client rendering through
+  generated IDs rather than hard-coded page-level IDs.
+- Audio status is informational only; it must never own scoring, persistence,
+  rewards, or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-967,
+`docs/decision-register/DR-967-audio-status-accessibility.md`,
+and `docs/adr/0895-audio-status-accessibility.md`.

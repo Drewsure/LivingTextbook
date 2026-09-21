@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import type { AudioCue } from "@living-textbook/content-model";
 
 interface SpeechOptions {
@@ -101,6 +101,7 @@ function speakText({ text, language, onStatusChange }: SpeechOptions) {
 
 export function AudioCueText({ text, language, cue, label, className = "", autoPlay = false, onPlay }: AudioCueTextProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
+  const statusId = useId();
   const buttonLabel = label ?? `Listen to ${text}`;
   const playableSourceUri = getMatchingAudioSourceUri(text, cue);
 
@@ -118,22 +119,28 @@ export function AudioCueText({ text, language, cue, label, className = "", autoP
   }
 
   return (
-    <button
-      type="button"
-      onClick={handlePlay}
-      aria-label={buttonLabel}
-      data-audio-status={status}
-      data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
-      className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
-    >
-      {text}
-      <span className="sr-only"> {status === "playing" ? "Playing audio" : status === "unavailable" ? "Audio unavailable" : "Tap to hear audio"}</span>
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={handlePlay}
+        aria-label={buttonLabel}
+        aria-describedby={statusId}
+        data-audio-status={status}
+        data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
+        className={`rounded-lg px-2 py-1 text-[var(--tenant-text)] underline decoration-[var(--tenant-primary)] decoration-2 underline-offset-4 transition hover:bg-[var(--tenant-surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${className}`}
+      >
+        {text}
+      </button>
+      <span id={statusId} className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {getAudioStatusMessage(status)}
+      </span>
+    </>
   );
 }
 
 export function AudioCueButton({ text, language, cue, label, compact = false, onPlay }: AudioCueButtonProps) {
   const [status, setStatus] = useState<AudioPlaybackStatus>("ready");
+  const statusId = useId();
   const buttonLabel = label ?? `Listen to ${text}`;
   const playableSourceUri = getMatchingAudioSourceUri(text, cue);
 
@@ -143,18 +150,37 @@ export function AudioCueButton({ text, language, cue, label, compact = false, on
   }
 
   return (
-    <button
-      type="button"
-      onClick={handlePlay}
-      aria-label={buttonLabel}
-      data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
-      className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
-        compact ? "min-w-20" : "min-w-24"
-      }`}
-    >
-      {status === "playing" ? "Playing" : status === "unavailable" ? "No audio" : "Listen"}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={handlePlay}
+        aria-label={buttonLabel}
+        aria-describedby={statusId}
+        data-audio-status={status}
+        data-audio-source={playableSourceUri ? "reviewed-asset" : "speech-fallback"}
+        className={`inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 text-sm font-semibold text-[var(--tenant-text)] transition hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
+          compact ? "min-w-20" : "min-w-24"
+        }`}
+      >
+        {status === "playing" ? "Playing" : status === "unavailable" ? "No audio" : "Listen"}
+      </button>
+      <span id={statusId} className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+        {getAudioStatusMessage(status)}
+      </span>
+    </>
   );
+}
+
+function getAudioStatusMessage(status: AudioPlaybackStatus): string {
+  if (status === "playing") {
+    return "Audio playing.";
+  }
+
+  if (status === "unavailable") {
+    return "Audio unavailable. Text-to-speech is not available.";
+  }
+
+  return "Audio ready. Activate to listen.";
 }
 
 function getMatchingAudioSourceUri(text: string, cue?: Pick<AudioCue, "sourceUri" | "text">): string | undefined {
