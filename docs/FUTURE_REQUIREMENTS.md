@@ -17,7 +17,7 @@ The next task should usually advance the clean vertical slice before adding poli
 
 ## FR-001: Defer Database And Auth Until The First Interactive Slice Works
 
-Status: Active checkpoint; local-state vertical slice now includes flashcards, unlock, playable Memory Match, local completion events, and teacher-visible report preview. Persistence/auth still deferred until local verification and a clear reporting need.
+Status: Superseded checkpoint; the first interactive slice is verified and the platform has entered a gated persistence phase. Process-memory remains the default rehearsal provider. A server-only SQLite adapter exists as the current reference durable adapter, but deployment gates still block live learner writes, production accounts, and school rollout.
 
 Requirement: The platform should not introduce database persistence, full auth, live classrooms, or account management until the first student progression slice proves the core route behavior.
 
@@ -31,12 +31,23 @@ Rationale:
 - Cost impact: Positive. It avoids paying the build and maintenance cost of persistence before the product interaction is proven.
 - Architecture impact: Positive. It lets the event contract settle before Supabase, another backend, or a custom service is chosen.
 
-Revisit when:
+Completed checkpoint:
 
-- The interactive student slice works locally.
-- Standard game events are emitted by at least one mode.
-- Teacher launch and student unlock state have a clear persistence need.
-- The next feature genuinely requires saved classroom state rather than temporary local state.
+- The local progression slice is verified through flashcards, unlock, playable Memory Match, completion events, and teacher-visible report evidence.
+- Cross-route progression and a hosted/local persistence seam now exist behind explicit deployment and policy gates.
+- The persistence status surface is read-only and exposes safe readiness evidence rather than learner records or secrets.
+
+Remaining persistence boundary:
+
+- Do not activate durable writes until student session identity, teacher authorization, school policy, retention, release approval, operations, and deployment configuration are all approved together.
+- Do not interpret a passing typecheck, build, or readiness preview as a live backend approval.
+- Keep provider selection and tenant activation separate from the reference SQLite implementation so white-label deployments can choose an appropriate local or hosted operating model.
+
+Revisit for the next persistence decision when:
+
+- A named pilot tenant supplies the policy, retention, authorization, and deployment evidence required for durable writes.
+- The team chooses whether that pilot uses the reference SQLite adapter, a managed hosted provider, or a local companion deployment.
+- Real report export and recovery behavior are demonstrated against sanitized evidence before any learner data is accepted.
 
 ## FR-002: First Interactive Student Progression Slice
 
@@ -132,7 +143,7 @@ References:
 
 ## FR-004: Textbook Partner Local Companion And Multimedia Platform
 
-Status: Sample package, visible dashboard concept, active `/enter/ministar` front-door slice, and playable Memory Match implemented on `legacy-source-import`; real media playback, persistence, real teacher reports, permanent QR resolver, and local/closed packaging remain future implementation work.
+Status: Sample package, visible dashboard concept, active `/enter/ministar` front-door slice, playable Memory Match, gated persistence adapters, and a verified preview QR resolver are implemented on `legacy-source-import`. Real media playback, live learner writes, production teacher reports, QR registry mutation/redirect administration, and local/closed packaging remain future implementation work.
 
 Requirement: The platform must be able to support a white-label textbook partner who provides PDF units and needs a closed/local companion application with games, a multimedia platform, gamification, year-on-year content maintenance, teacher reporting, and long-lived QR codes printed in textbooks.
 
@@ -157,7 +168,7 @@ Required capabilities:
 - Allow unit media to be used before games, after games, or optionally as controlled background/support media during games.
 - Map textbook units to reusable game parent engines and mode configs.
 - Support deterministic progression and earned rewards for partner tenants.
-- Resolve printed QR codes through stable identifiers rather than fragile file paths.
+- Resolve printed QR codes through stable identifiers rather than fragile file paths. The preview resolver is implemented and verified; production registry mutation, redirect administration, and hosted/local deployment wiring remain gated.
 - Support a front-door QR route where students enter an entry code and, when required, a user code.
 - Support backend teacher reporting for game progress, media engagement, and language review progression.
 - Support local/closed deployment options such as installed app, installed PWA, or local classroom server.

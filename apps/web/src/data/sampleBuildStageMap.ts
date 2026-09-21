@@ -21,7 +21,8 @@ export interface BuildStageMap {
 export const sampleBuildStageMap: BuildStageMap = {
   mapId: "living-textbook-foundation-stage-2026-08",
   label: "Build stage map",
-  currentBuildPoint: "Foundation structure and playable route shell",
+  currentBuildPoint:
+    "Foundation hardening and gated persistence transition",
   summary:
     "This review map answers where the platform currently is: the white-label app shell, curated route structure, active demo game routes, upload governance, and backend-neutral contracts are being hardened before premium game design or outside prototype intake.",
   zaiIntakeRule:
@@ -48,12 +49,14 @@ export const sampleBuildStageMap: BuildStageMap = {
     },
     {
       laneId: "backend-contracts",
-      label: "Backend contract review-only",
+      label: "Backend adapter gated, not production-active",
       status: "review-only",
       summary:
-        "The storage model, migration candidates, local/hosted write intents, school policy gates, report boundaries, and upload evidence records are defined but not implemented as live writes.",
-      evidence: "Backend storage and local bundle readiness pass while object storage, local evidence folders, setting saves, report export, signed approvals, cache writes, media pre-cache, and learner data writes remain blocked.",
-      nextStep: "Select the first hosted/local persistence adapter only after policy and release-control gates stay aligned.",
+        "The process-memory rehearsal provider and server-only SQLite durable adapter are implemented behind an explicit deployment gate. The adapter seam, migration candidates, local/hosted write intents, school policy gates, report boundaries, and upload evidence records remain reviewable without activating learner writes.",
+      evidence:
+        "Persistence runtime, status, conformance, report, recovery, and pilot preflight checks pass. Durable status remains blocked unless session identity, teacher authorization, school policy, retention, release approval, operations, and deployment configuration all align.",
+      nextStep:
+        "Choose a named pilot deployment model and complete its policy, authorization, retention, release, and operations evidence before enabling durable writes.",
     },
     {
       laneId: "live-pilot",
@@ -62,7 +65,7 @@ export const sampleBuildStageMap: BuildStageMap = {
       summary:
         "The app is demo-ready for controlled review but not yet live-pilot-ready for real learner data, production accounts, report export, or school launch approval.",
       evidence: "Classroom launch gate, school policy acceptance, evidence export, attachment storage, and release-state mutation remain blocked on teacher/admin surfaces.",
-      nextStep: "Run teacher dry-run evidence, choose persistence, close media rights, and record school policy acceptance before live pilots.",
+      nextStep: "Run teacher dry-run evidence, choose the pilot persistence model, close media rights, and record school policy acceptance before live pilots.",
     },
     {
       laneId: "game-design",

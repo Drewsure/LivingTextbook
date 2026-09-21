@@ -5564,3 +5564,23 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1010,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1011,
 `docs/decision-register/DR-1011-stable-qr-resolver.md`, and
 `docs/adr/0939-stable-qr-resolver.md`.
+
+## 355. Gated Persistence Activation Standard
+
+- The first local progression slice must be verified before persistence is
+  introduced as an implementation phase.
+- Process-memory is the default rehearsal provider and must be labelled
+  non-durable; it is not a substitute for production storage.
+- A durable adapter may be implemented and tested behind a gate, but a passing
+  build, route check, or readiness preview must never activate learner writes.
+- Durable activation requires student-session identity, tenant-scoped teacher
+  authorization, school policy, retention policy, release approval,
+  operations readiness, and deployment configuration as one auditable set.
+- Persistence status and evidence views must not expose secrets, database
+  paths, learner records, raw audio, or transcripts.
+- Hosted and local companion deployments must consume the same provider-neutral
+  event, report, recovery, export, and rollback contracts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1012,
+`docs/decision-register/DR-1012-gated-persistence-phase-transition.md`, and
+`docs/adr/0940-gated-persistence-phase-transition.md`.
