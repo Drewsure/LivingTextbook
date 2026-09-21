@@ -285,6 +285,9 @@ export function validateCanonicalGameEventSequence(
     for (const event of gameplayEventsAfterCompletion) {
       errors.push(`Canonical game event sequence must not include ${event.type} after game_completed.`);
     }
+    if (events.some((event, index) => event.type === "audio_requested" && index > completionIndex)) {
+      errors.push("Canonical game event sequence must not include audio_requested after game_completed.");
+    }
   }
 
   const masteryDust = readFiniteStarDust(masteryEvent);

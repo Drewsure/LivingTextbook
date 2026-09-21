@@ -315,6 +315,11 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(audioBeforeRoundErrors, "Canonical game event sequence must include audio_requested evidence after round_shown.");
+  const audioAfterCompletionErrors = canonicalGame.validateCanonicalGameEventSequence(
+    [...canonicalEvents, { ...canonicalEvents[4], occurredAt: "2026-09-14T00:00:07.000Z" }],
+    "flashcards",
+  ).errors;
+  assertIncludes(audioAfterCompletionErrors, "Canonical game event sequence must not include audio_requested after game_completed.");
   const overCapCanonicalErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.map((event) => (
       ["mastery_updated", "game_completed"].includes(event.type)

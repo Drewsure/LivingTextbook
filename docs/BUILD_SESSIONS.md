@@ -3985,3 +3985,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Applied the same rule to the isolated Phaser candidate-package verifier and
   added negative replay coverage for audio appearing before a round.
 - Recorded ADR 0907 and DR-979; external source remains isolated.
+
+## Build session 0908: Closed audio replay boundary
+
+- Closed canonical and Phaser candidate game replays at `game_completed`.
+- Rejected late `audio_requested` evidence so teacher reports cannot attach
+  completion-review audio to a finished game attempt.
+- Added native and candidate negative replay coverage and recorded ADR 0908
+  and DR-980.

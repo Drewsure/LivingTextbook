@@ -277,6 +277,11 @@ function validateEventReplay(replay) {
     events.some((event, index) => event?.type === "audio_requested" && index > roundShownIndex),
     "event replay must include audio_requested after round_shown.",
   );
+  const completionIndex = indexes.get("game_completed");
+  requireValue(
+    !events.some((event, index) => event?.type === "audio_requested" && index > completionIndex),
+    "event replay must not include audio_requested after game_completed.",
+  );
 
   for (let index = 1; index < events.length; index += 1) {
     const previous = eventTime(events[index - 1]);

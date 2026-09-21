@@ -107,6 +107,9 @@ semantics.
 The shared event validator also rejects a replay whose `audio_requested` event
 appears before `round_shown`. Candidate-package review applies the same rule,
 so a returned external replay cannot pass on timestamps and identity alone.
+It also closes the attempt at `game_completed`: learning-audio evidence after
+completion is rejected so report consumers cannot attach late support activity
+to a finished score.
 
 Every external candidate also carries an explicit wrapper approval decision.
 Candidates are blocked by default; `approved-for-wrapper` means only that a

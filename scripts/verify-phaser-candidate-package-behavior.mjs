@@ -147,6 +147,20 @@ try {
   replayArtifact.checksum = hashFile(replayPath);
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
 
+  replay.events = [
+    ...replay.events,
+    event("audio_requested", "2026-09-14T00:00:07.000Z", { cueKind: "feedback", cueText: "Review complete.", language: "en" }),
+  ];
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "audio after completion");
+
+  replay.events = replay.events.slice(0, -1);
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const fixtureArtifact = manifest.artifacts.find((artifact) => artifact.kind === "fixture");
   const originalFixturePath = fixtureArtifact.relativePath;
   fixtureArtifact.relativePath = artifactPaths.readme;

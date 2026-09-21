@@ -5078,3 +5078,16 @@ and `docs/adr/0906-pairing-audio-event-order.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-979,
 `docs/decision-register/DR-979-audio-round-replay-boundary.md`,
 and `docs/adr/0907-audio-round-replay-boundary.md`.
+
+## 323. Closed Audio Replay Boundary Standard
+
+- A canonical game attempt closes at `game_completed`; no later
+  `audio_requested` event may be included in that replay.
+- Completion-screen audio must use a separate completion-review context rather
+  than extending the finished game attempt.
+- Native and external candidate validators must enforce the same close rule so
+  teacher reports and future persistence adapters remain deterministic.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-980,
+`docs/decision-register/DR-980-closed-audio-replay-boundary.md`,
+and `docs/adr/0908-closed-audio-replay-boundary.md`.
