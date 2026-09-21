@@ -1,5 +1,6 @@
 import {
   PACKAGE_READINESS_BLOCKED_ACTIONS,
+  validatePackageReadinessSourceAssemblyBinding,
   validatePackageReadinessReconciliations,
   type PackageReadinessLane,
   type PackageReadinessReconciliation,
@@ -100,4 +101,10 @@ export const samplePackageReadinessReconciliations: PackageReadinessReconciliati
   };
 });
 
-export const samplePackageReadinessReconciliationErrors = validatePackageReadinessReconciliations(samplePackageReadinessReconciliations);
+export const samplePackageReadinessReconciliationErrors = [
+  ...validatePackageReadinessReconciliations(samplePackageReadinessReconciliations),
+  ...samplePackageReadinessReconciliations.flatMap((reconciliation) => {
+    const assembly = sampleSourcePackageAssemblyPackets.find((packet) => packet.packetId === reconciliation.sourceAssemblyPacketId);
+    return validatePackageReadinessSourceAssemblyBinding(reconciliation, assembly);
+  }),
+];

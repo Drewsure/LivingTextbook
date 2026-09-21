@@ -1327,6 +1327,30 @@ try {
     }),
     "Package readiness reconciliation sourceAssemblyChecksum must use the sha256:<64 hexadecimal characters> format.",
   );
+  assertEqual(
+    packageReadinessReconciliation.validatePackageReadinessSourceAssemblyBinding(
+      validPackageReadinessReconciliation,
+      {
+        packetId: "assembly-1",
+        tenantId: "tenant-1",
+        targetPackageId: "package-1",
+        sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      },
+    ).length,
+    0,
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessSourceAssemblyBinding(
+      validPackageReadinessReconciliation,
+      {
+        packetId: "assembly-1",
+        tenantId: "other-tenant",
+        targetPackageId: "package-1",
+        sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      },
+    ),
+    "Package readiness source binding tenantId does not match the source assembly.",
+  );
 
   const validPackageReadinessPersistenceIntent = packageReadinessPersistence.buildPackageReadinessPersistenceIntent(
     validPackageReadinessReconciliation,

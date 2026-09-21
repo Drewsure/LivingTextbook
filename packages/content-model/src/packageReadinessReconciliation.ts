@@ -139,6 +139,29 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
   return [...new Set(errors)];
 }
 
+export function validatePackageReadinessSourceAssemblyBinding(reconciliation: unknown, sourceAssembly: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(reconciliation)) return ["Package readiness source binding requires a reconciliation object."];
+  if (!isRecord(sourceAssembly)) return ["Package readiness source binding requires a source assembly object."];
+
+  const bindings = [
+    ["tenantId", reconciliation.tenantId, sourceAssembly.tenantId],
+    ["packageId", reconciliation.packageId, sourceAssembly.targetPackageId],
+    ["sourceAssemblyPacketId", reconciliation.sourceAssemblyPacketId, sourceAssembly.packetId],
+    ["sourceAssemblyChecksum", reconciliation.sourceAssemblyChecksum, sourceAssembly.sourceChecksum],
+  ] as const;
+
+  for (const [field, readinessValue, assemblyValue] of bindings) {
+    if (!isNonEmptyString(readinessValue) || !isNonEmptyString(assemblyValue)) {
+      errors.push(`Package readiness source binding requires ${field} on both records.`);
+    } else if (readinessValue !== assemblyValue) {
+      errors.push(`Package readiness source binding ${field} does not match the source assembly.`);
+    }
+  }
+
+  return [...new Set(errors)];
+}
+
 export function validatePackageReadinessReconciliations(reconciliations: unknown[]): string[] {
   return reconciliations.flatMap((reconciliation) => validatePackageReadinessReconciliation(reconciliation));
 }

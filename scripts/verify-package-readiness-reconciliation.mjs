@@ -11,6 +11,7 @@ const failures = [];
 for (const marker of [
   "PackageReadinessReconciliation",
   "validatePackageReadinessReconciliation",
+  "validatePackageReadinessSourceAssemblyBinding",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
   "sourceAssemblyChecksum",

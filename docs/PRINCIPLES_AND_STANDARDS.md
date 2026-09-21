@@ -5433,3 +5433,17 @@ and `docs/adr/0929-source-package-assembly-lineage-integrity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1002,
 `docs/decision-register/DR-1002-package-readiness-source-lineage-binding.md`,
 and `docs/adr/0930-package-readiness-source-lineage-binding.md`.
+
+## 346. Package Readiness Source Binding Validation Standard
+
+- Package readiness must be compared directly with the source assembly packet
+  it names.
+- Tenant, target package, packet id, and source checksum must match exactly.
+- Missing or mismatched cross-record bindings fail closed before later evidence
+  can be treated as internally consistent.
+- Binding validation remains evidence-only and cannot authorize storage,
+  release, route activation, assignment, or student-facing behavior.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1003,
+`docs/decision-register/DR-1003-package-readiness-source-binding-validation.md`,
+and `docs/adr/0931-package-readiness-source-binding-validation.md`.

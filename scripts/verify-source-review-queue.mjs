@@ -119,6 +119,7 @@ requireText(sourcePackageAssemblyPanel, "Draft creation", "Source package assemb
 requireText(packageReadinessModel, "PackageReadinessReconciliation", "Package readiness must have a shared reconciliation contract.");
 requireText(packageReadinessModel, "validatePackageReadinessReconciliation", "Package readiness must have shared validation.");
 requireText(packageReadinessModel, "sourceAssemblyChecksum", "Package readiness must bind source assembly checksum evidence.");
+requireText(packageReadinessModel, "validatePackageReadinessSourceAssemblyBinding", "Package readiness must compare source assembly scope.");
 requireText(packageReadinessModel, "PACKAGE_READINESS_REQUIRED_LANE_IDS", "Package readiness must enumerate required evidence lanes.");
 requireText(packageReadinessModel, "studentFacingActivationAllowed", "Package readiness must block student-facing activation.");
 requireText(packageReadinessData, "sampleSourcePackageAssemblyPackets.map", "Package readiness must derive tenant reconciliations from source assembly packets.");
