@@ -17,6 +17,7 @@ for (const marker of [
   "audio support must keep every learner-facing cue in the target language",
   "targetLanguagePolicy",
   "content package target language must match the runtime target language",
+  "non-English target packages require an explicit target-language policy",
   "validateTargetLanguagePolicy",
   "Student-visible assist language plan",
   "No student-ready marker",

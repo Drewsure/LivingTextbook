@@ -71,6 +71,9 @@ export function validateContentPackageRuntimeRequest(request: ContentPackageRunt
   if (!request.tenantId.trim()) errors.push("tenantId is required");
   if (!request.packageId.trim()) errors.push("packageId is required");
   if (!targetLanguage) errors.push("targetLanguage is required");
+  if (targetLanguage && targetLanguage !== "en" && !contentPackage.meta.targetLanguagePolicy) {
+    errors.push("non-English target packages require an explicit target-language policy");
+  }
   if (contentPackage.meta.tenantId !== request.tenantId) errors.push("content package tenant must match runtime tenantId");
   if (contentPackage.meta.packageId !== request.packageId) errors.push("content package id must match runtime packageId");
   if (!curatedPathwayReviewed) errors.push("curated activity pathway review is required");

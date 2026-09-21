@@ -5479,3 +5479,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1004,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1005,
 `docs/decision-register/DR-1005-content-package-target-language-binding.md`,
 and `docs/adr/0933-content-package-target-language-binding.md`.
+
+## 349. Non-English Package Policy Gate Standard
+
+- A non-English runtime target must not rely on route-level inference alone.
+- The package must carry an explicit target-language policy before it can be
+  treated as runtime-valid.
+- English migration fixtures may remain compatible while multilingual packages
+  adopt the binding.
+- The policy gate is validation only and cannot authorize release, persistence,
+  assignment, or student-facing activation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1006,
+`docs/decision-register/DR-1006-non-english-package-policy-gate.md`, and
+`docs/adr/0934-non-english-package-policy-gate.md`.

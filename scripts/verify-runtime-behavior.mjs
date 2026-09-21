@@ -1690,6 +1690,7 @@ try {
     teacherReleaseApproved: false, studentFacingUseRequested: false, qrActivationRequested: false,
   });
   assertIncludes(wrongPlanLanguageErrors, `Unit ${audioUnitKey} audio support plan must match the runtime target language ja.`);
+  assertIncludes(wrongPlanLanguageErrors, "non-English target packages require an explicit target-language policy");
   const invalidPackageTimestampErrors = contentModel.validateContentPackage({
     ...audioPackage,
     meta: { ...audioPackage.meta, createdAt: "not-a-timestamp", updatedAt: "2025-01-01T00:00:00.000Z" },
