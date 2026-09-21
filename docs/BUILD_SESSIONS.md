@@ -4002,3 +4002,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   package verifier.
 - Added native and candidate negative replay coverage and recorded ADR 0909
   and DR-981.
+
+## Build session 0910: Hosted progress event evidence
+
+- Added a shared persistence contract for completed canonical event streams,
+  separate from progression continuity snapshots.
+- Added tenant/launch/student-session scoped SQLite storage and a provider
+  seam for non-durable rehearsal versus durable-managed operation.
+- Added an authorization- and policy-gated API boundary with no-store reads;
+  raw learner audio and transcripts remain excluded.
+- Added static contract verification and recorded ADR 0910 and DR-982.

@@ -30,9 +30,11 @@ try {
 
   try {
     runAdapterChecks(adapter, "process-memory", "rehearsal");
+    runEventStreamAdapterChecks(adapter, "process-memory", "rehearsal");
     process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER = "sqlite";
     process.env.LIVING_TEXTBOOK_PROGRESSION_DB_PATH = adapterDatabasePath;
     runAdapterChecks(adapter, "sqlite", "durable");
+    runEventStreamAdapterChecks(adapter, "sqlite", "durable");
 
     const firstStore = new sqlite.SqliteProgressionStore(databasePath);
     const durableRecord = createRecord("restart", "2026-09-19T01:00:00.000Z");
@@ -43,9 +45,19 @@ try {
     const reopenedStore = new sqlite.SqliteProgressionStore(databasePath);
     const reopened = reopenedStore.read(identityOf(durableRecord));
     if (!reopened || reopened.idempotencyKey !== durableRecord.idempotencyKey) failures.push("SQLite record did not survive a store restart.");
+    const eventDatabasePath = join(output, "event-restart.sqlite");
+    const firstEventStore = new sqlite.SqliteProgressionStore(eventDatabasePath);
+    const durableEventRecord = createEventStreamRecord("restart-events", "2026-09-19T03:00:00.000Z");
+    const eventWritten = firstEventStore.writeEventStream(durableEventRecord);
+    if (eventWritten.status !== "accepted" || eventWritten.idempotent) failures.push("SQLite event stream first write was not accepted as new.");
+    firstEventStore.close();
+    const reopenedEventStore = new sqlite.SqliteProgressionStore(eventDatabasePath);
+    const reopenedEvent = reopenedEventStore.readEventStream(identityOf(durableEventRecord));
+    if (!reopenedEvent || reopenedEvent.idempotencyKey !== durableEventRecord.idempotencyKey) failures.push("SQLite event stream did not survive a store restart.");
     const otherTenant = reopenedStore.read({ ...identityOf(durableRecord), tenantId: "other-tenant" });
     if (otherTenant !== undefined) failures.push("SQLite read crossed a tenant boundary.");
     reopenedStore.close();
+    reopenedEventStore.close();
   } finally {
     sqlite.closeDurableProgressionStore();
     restoreEnv("LIVING_TEXTBOOK_PERSISTENCE_PROVIDER", originalProvider);
@@ -101,6 +113,28 @@ function runAdapterChecks(adapterModule, provider, label) {
   if (otherTenant !== undefined) failures.push(`${label}: identity read crossed a tenant boundary.`);
 }
 
+function runEventStreamAdapterChecks(adapterModule, provider, label) {
+  process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER = provider;
+  const adapter = adapterModule.getProgressEventStreamPersistenceAdapter();
+  const record = createEventStreamRecord(`${label}-events`, "2026-09-19T02:00:00.000Z");
+  const first = adapter.writeEventStream(record);
+  if (first.status !== "accepted" || first.idempotent) failures.push(`${label}: event stream first write was not accepted as new.`);
+
+  const replay = adapter.writeEventStream(Object.fromEntries(Object.entries(record).reverse()));
+  if (replay.status !== "accepted" || !replay.idempotent) failures.push(`${label}: event stream exact replay was not idempotent.`);
+
+  const changed = adapter.writeEventStream({ ...record, events: [...record.events, { ...record.events[0], event_id: `${record.events[0].event_id}-changed` }] });
+  if (changed.status !== "conflict" || !changed.errors.some((error) => error.includes("different event payload"))) failures.push(`${label}: changed event stream payload was not rejected.`);
+
+  const wrongIdentity = adapter.writeEventStream({ ...record, tenantId: "other-tenant" });
+  if (wrongIdentity.status !== "conflict" || !wrongIdentity.errors.some((error) => error.includes("different tenant-scoped identity"))) failures.push(`${label}: event stream cross-tenant idempotency reuse was not rejected.`);
+
+  const read = adapter.readEventStream(identityOf(record));
+  if (!read || read.idempotencyKey !== record.idempotencyKey) failures.push(`${label}: event stream identity read did not return the stored record.`);
+  const otherTenant = adapter.readEventStream({ ...identityOf(record), tenantId: "other-tenant" });
+  if (otherTenant !== undefined) failures.push(`${label}: event stream read crossed a tenant boundary.`);
+}
+
 function createRecord(suffix, writtenAt) {
   const identity = {
     tenantId: `tenant-${suffix}`,
@@ -136,6 +170,54 @@ function identityOf(record) {
     packageId: record.packageId,
     launchCode: record.launchCode,
     studentSessionId: record.studentSessionId,
+  };
+}
+
+function createEventStreamRecord(suffix, writtenAt) {
+  const identity = {
+    tenantId: `tenant-${suffix}`,
+    packageId: "package-sample",
+    launchCode: `launch-${suffix}`,
+    studentSessionId: `student-${suffix}`,
+  };
+  const eventBase = {
+    event_effect: "report-only",
+    taxonomy_version: "taxonomy-v2026.07.foundation",
+    event_acceptance_gate_id: "gate-sample",
+    settings_context: {
+      game_mode_settings_profile_id: "safe-default",
+      teacher_game_mode_settings_snapshot_id: "snapshot-sample",
+      settings_contract_id: "settings-v1",
+      progress_trigger_policy: "target-language-only",
+      support_language_progress_allowed: false,
+      media_only_progress_allowed: false,
+      scoring_profile_override_allowed: false,
+    },
+    unit_key: "ministar-english:L1:U1",
+    game_mode: "memory-match",
+    launch_code: identity.launchCode,
+    student_session_id: identity.studentSessionId,
+    occurred_at: writtenAt,
+    metadata: { replaySeed: "replay-v1:ministar-english-l1-u1:memory-match" },
+  };
+  return {
+    recordVersion: 1,
+    category: "progress-event-stream",
+    adapterMode: "hosted-managed",
+    durability: "durable-managed",
+    ...identity,
+    unitKey: eventBase.unit_key,
+    gameMode: eventBase.game_mode,
+    taxonomyVersion: eventBase.taxonomy_version,
+    eventAcceptanceGateId: eventBase.event_acceptance_gate_id,
+    events: [
+      { ...eventBase, event_id: `event-${suffix}-start`, event_type: "game_started" },
+      { ...eventBase, event_id: `event-${suffix}-complete`, event_type: "game_completed", event_effect: "progress-affecting", occurred_at: "2026-09-19T02:00:01.000Z" },
+    ],
+    writtenAt,
+    idempotencyKey: `completion-v1:${identity.tenantId}:ministar-english%3AL1%3AU1:${identity.launchCode}:${identity.studentSessionId}:memory-match`,
+    rawLearnerAudioIncluded: false,
+    learnerTranscriptIncluded: false,
   };
 }
 

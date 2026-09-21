@@ -5104,3 +5104,19 @@ and `docs/adr/0908-closed-audio-replay-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-981,
 `docs/decision-register/DR-981-audio-mastery-boundary.md`,
 and `docs/adr/0909-audio-mastery-boundary.md`.
+
+## 325. Hosted Progress Event Evidence Standard
+
+- Progression snapshots and canonical event evidence are separate persistence
+  records with separate read purposes.
+- A persisted event stream must be taxonomy-valid, chronological, tenant- and
+  launch-bound, and contain a complete canonical attempt.
+- Completion identity is the idempotency authority; replayed writes return the
+  existing record and changed payloads are conflicts.
+- Raw learner audio and transcripts are excluded from core hosted persistence.
+- Durable writes require deployment policy, retention acceptance, release
+  approval, and matching signed identity; default behavior remains blocked.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-982,
+`docs/decision-register/DR-982-hosted-progress-event-evidence.md`,
+and `docs/adr/0910-hosted-progress-event-evidence.md`.

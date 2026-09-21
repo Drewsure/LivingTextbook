@@ -2,7 +2,10 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from "nod
 import { createHash, randomUUID } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync } from "node:sqlite";
-import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
+import type {
+  HostedProgressionPersistenceRecord,
+  ProgressEventStreamPersistenceRecord,
+} from "@living-textbook/content-model";
 import { createProgressionRecordFingerprint } from "./progressionRecordFingerprint";
 
 export interface DurableProgressionIdentity {
@@ -16,6 +19,20 @@ export interface DurableProgressionWriteResult {
   status: "accepted" | "conflict";
   idempotent: boolean;
   record?: HostedProgressionPersistenceRecord;
+  errors: string[];
+}
+
+export interface DurableProgressEventStreamIdentity {
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+  studentSessionId: string;
+}
+
+export interface DurableProgressEventStreamWriteResult {
+  status: "accepted" | "conflict";
+  idempotent: boolean;
+  record?: ProgressEventStreamPersistenceRecord;
   errors: string[];
 }
 
@@ -85,6 +102,13 @@ interface StoredIdentityRow extends StoredRow {
   student_session_id: string;
 }
 
+interface StoredEventStreamIdentityRow extends StoredRow {
+  tenant_id: string;
+  package_id: string;
+  launch_code: string;
+  student_session_id: string;
+}
+
 const defaultDatabasePath = resolve(process.cwd(), "data", "living-textbook-progress.sqlite");
 let cachedStore: SqliteProgressionStore | undefined;
 let cachedPath: string | undefined;
@@ -120,6 +144,20 @@ export class SqliteProgressionStore {
         ON hosted_progression_records (tenant_id, package_id, launch_code, student_session_id, written_at);
       CREATE INDEX IF NOT EXISTS idx_hosted_progression_idempotency
         ON hosted_progression_records (idempotency_key);
+      CREATE TABLE IF NOT EXISTS progress_event_stream_records (
+        tenant_id TEXT NOT NULL,
+        package_id TEXT NOT NULL,
+        launch_code TEXT NOT NULL,
+        student_session_id TEXT NOT NULL,
+        idempotency_key TEXT NOT NULL,
+        written_at TEXT NOT NULL,
+        record_json TEXT NOT NULL,
+        PRIMARY KEY (tenant_id, package_id, launch_code, student_session_id, idempotency_key)
+      ) STRICT;
+      CREATE INDEX IF NOT EXISTS idx_progress_event_stream_identity
+        ON progress_event_stream_records (tenant_id, package_id, launch_code, student_session_id, written_at);
+      CREATE INDEX IF NOT EXISTS idx_progress_event_stream_idempotency
+        ON progress_event_stream_records (idempotency_key);
       CREATE TABLE IF NOT EXISTS progression_operation_evidence (
         evidence_id TEXT PRIMARY KEY,
         operation TEXT NOT NULL CHECK (operation IN ('backup', 'restore', 'retention-delete')),
@@ -242,6 +280,60 @@ export class SqliteProgressionStore {
     return { status: "accepted", idempotent: false, record, errors: [] };
   }
 
+  readEventStream(identity: DurableProgressEventStreamIdentity): ProgressEventStreamPersistenceRecord | undefined {
+    const row = this.database.prepare(`
+      SELECT record_json, idempotency_key
+      FROM progress_event_stream_records
+      WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
+      ORDER BY written_at DESC, idempotency_key DESC
+      LIMIT 1
+    `).get(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId) as StoredRow | undefined;
+    return parseStoredEventStreamRecord(row);
+  }
+
+  writeEventStream(record: ProgressEventStreamPersistenceRecord): DurableProgressEventStreamWriteResult {
+    const existingRow = this.database.prepare(`
+      SELECT tenant_id, package_id, launch_code, student_session_id, record_json, idempotency_key
+      FROM progress_event_stream_records
+      WHERE idempotency_key = ?
+      LIMIT 1
+    `).get(record.idempotencyKey) as StoredEventStreamIdentityRow | undefined;
+
+    if (existingRow) {
+      const sameIdentity = existingRow.tenant_id === record.tenantId
+        && existingRow.package_id === record.packageId
+        && existingRow.launch_code === record.launchCode
+        && existingRow.student_session_id === record.studentSessionId;
+      if (!sameIdentity) {
+        return { status: "conflict", idempotent: false, errors: ["The event stream idempotency key is already bound to a different tenant-scoped identity."] };
+      }
+      const existingRecord = parseStoredEventStreamRecord(existingRow);
+      if (!existingRecord) {
+        return { status: "conflict", idempotent: false, errors: ["The event stream idempotency key is bound to an invalid stored payload."] };
+      }
+      if (stableJson(existingRecord) !== stableJson(record)) {
+        return { status: "conflict", idempotent: false, errors: ["The event stream idempotency key is already bound to a different event payload."] };
+      }
+      return { status: "accepted", idempotent: true, record: existingRecord, errors: [] };
+    }
+
+    this.database.prepare(`
+      INSERT INTO progress_event_stream_records (
+        tenant_id, package_id, launch_code, student_session_id,
+        idempotency_key, written_at, record_json
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      record.tenantId,
+      record.packageId,
+      record.launchCode,
+      record.studentSessionId,
+      record.idempotencyKey,
+      record.writtenAt,
+      JSON.stringify(record),
+    );
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  }
+
   getHealth(): DurableProgressionHealth {
     try {
       const integrity = this.database.prepare("PRAGMA integrity_check").get() as { integrity_check?: string } | undefined;
@@ -301,11 +393,15 @@ export class SqliteProgressionStore {
   }
 
   deleteForIdentity(identity: DurableProgressionIdentity): { deletedRecords: number } {
-    const result = this.database.prepare(`
+    const progressionResult = this.database.prepare(`
       DELETE FROM hosted_progression_records
       WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
     `).run(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId);
-    return { deletedRecords: Number(result.changes ?? 0) };
+    const eventResult = this.database.prepare(`
+      DELETE FROM progress_event_stream_records
+      WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
+    `).run(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId);
+    return { deletedRecords: Number(progressionResult.changes ?? 0) + Number(eventResult.changes ?? 0) };
   }
 
   recordOperationEvidence(input: {
@@ -494,4 +590,23 @@ function parseStoredRecord(row: StoredRow | undefined): HostedProgressionPersist
   } catch {
     return undefined;
   }
+}
+
+function parseStoredEventStreamRecord(row: StoredRow | undefined): ProgressEventStreamPersistenceRecord | undefined {
+  if (!row?.record_json) return undefined;
+  try {
+    const record = JSON.parse(row.record_json) as ProgressEventStreamPersistenceRecord;
+    return record && record.idempotencyKey === row.idempotency_key ? record : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (!value || typeof value !== "object") return JSON.stringify(value);
+  return `{${Object.entries(value)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`)
+    .join(",")}}`;
 }

@@ -7033,3 +7033,28 @@ Canonical and Phaser candidate replays must reject `audio_requested` after
 - `scripts/verify-phaser-candidate-package.mjs`
 - `scripts/verify-runtime-behavior.mjs`
 - `scripts/verify-phaser-candidate-package-behavior.mjs`
+
+# DR-982: Hosted Progress Event Evidence
+
+## Decision
+
+Add a policy-gated hosted persistence lane for completed canonical game event
+evidence, separate from the latest progression snapshot.
+
+## Required Invariants
+
+- Event streams are tenant, package, launch, and pseudonymous student-session
+  scoped.
+- Streams pass the shared taxonomy, chronological, and completion checks.
+- Canonical completion identity makes replay writes idempotent and changed
+  payloads conflicts.
+- Raw learner audio and transcripts remain excluded.
+- Student and teacher reads use different authorization boundaries.
+- Durable writes remain explicitly gated by deployment policy.
+
+## Evidence
+
+- `packages/content-model/src/progressEventPersistence.ts`
+- `apps/web/src/server/persistence/sqliteProgressionStore.ts`
+- `apps/web/src/app/api/persistence/events/route.ts`
+- `scripts/verify-progress-event-persistence.mjs`

@@ -1694,6 +1694,7 @@ export * from "./aiVerifierSubmissionStorageGuard";
 export * from "./aiVerifierResultEvidencePacket";
 export * from "./aiGamificationMapping";
 export * from "./progressEventTaxonomy";
+export * from "./progressEventPersistence";
 export * from "./publisherMaintenance";
 export * from "./pilotPolicy";
 export * from "./aiPackageAssemblyDryRun";

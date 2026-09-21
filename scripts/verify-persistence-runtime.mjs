@@ -49,6 +49,10 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-progress-event-persistence.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
+
 console.log("PASS persistence runtime keeps tenant, policy, privacy, release, and no-side-effect review gates explicit.");
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-configuration.mjs", import.meta.url))], {
   stdio: "inherit",
