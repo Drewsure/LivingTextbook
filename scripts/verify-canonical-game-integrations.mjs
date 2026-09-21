@@ -318,6 +318,18 @@ for (const integration of integrations) {
   }
 }
 
+const memoryMatchComponent = readText("apps/web/src/features/game-shell/pairing/PairingMemoryMatchGame.tsx");
+const memoryMatchHandlerStart = memoryMatchComponent.indexOf("function handleCardSelect");
+const memoryMatchHandlerEnd = memoryMatchComponent.indexOf("\n  const feedbackText", memoryMatchHandlerStart);
+const memoryMatchHandler = memoryMatchHandlerStart >= 0
+  ? memoryMatchComponent.slice(memoryMatchHandlerStart, memoryMatchHandlerEnd < 0 ? memoryMatchComponent.length : memoryMatchHandlerEnd)
+  : "";
+const memoryMatchRoundShownIndex = memoryMatchHandler.indexOf('emitInteractionEvent("round_shown"');
+const memoryMatchTermAudioIndex = memoryMatchHandler.indexOf('emitAudioRequested("term"');
+if (memoryMatchRoundShownIndex < 0 || memoryMatchTermAudioIndex < 0 || memoryMatchTermAudioIndex < memoryMatchRoundShownIndex) {
+  failures.push("memory-match: the first card learning-audio request must follow round_shown evidence in the handler.");
+}
+
 for (const integration of entryIntegrations) {
   const component = readText(integration.component);
   const route = readText(integration.route);

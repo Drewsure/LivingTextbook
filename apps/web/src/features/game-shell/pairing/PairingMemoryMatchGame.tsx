@@ -125,9 +125,6 @@ export function PairingMemoryMatchGame({
 
   function handleCardSelect(card: PairingCard) {
     const audioCue = findAudioCue(audioCues, card.label);
-    emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "memory-match-card");
-    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage, sourceUri: audioCue?.sourceUri });
-
     if (card.status === "matched" || engineState.completed) {
       return;
     }
@@ -151,6 +148,9 @@ export function PairingMemoryMatchGame({
         replaySeed,
       });
     }
+
+    emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "memory-match-card");
+    playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage, sourceUri: audioCue?.sourceUri });
 
     if (outcome.result === "matched" || outcome.result === "mismatched") {
       const correct = outcome.result === "matched";

@@ -5039,3 +5039,16 @@ and `docs/adr/0903-browser-evidence-runtime-harness.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-976,
 `docs/decision-register/DR-976-browser-evidence-write-boundary.md`,
 and `docs/adr/0904-browser-evidence-write-boundary.md`.
+
+## 320. Canonical Memory Match Audio Event Order Standard
+
+- Memory Match must establish `round_shown` before its first term-level
+  `audio_requested` event.
+- Learning audio is support evidence for the visible round, never a progress,
+  mastery, score, reward, or completion trigger.
+- Phaser or other external wrappers must preserve the same ordering when they
+  are reviewed against the canonical pairing engine.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-977,
+`docs/decision-register/DR-977-memory-match-audio-event-order.md`,
+and `docs/adr/0905-memory-match-audio-event-order.md`.

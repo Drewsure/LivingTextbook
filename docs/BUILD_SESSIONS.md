@@ -3961,3 +3961,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   write helper, protecting direct save callers as well as append callers.
 - Added runtime coverage proving malformed direct saves do not write evidence.
 - Recorded ADR 0904 and DR-976.
+
+## Build session 0905: Memory Match audio event order
+
+- Recorded `round_shown` before the first term-level `audio_requested` event in
+  the canonical Memory Match interaction.
+- Kept learning audio support-only and preserved platform-owned scoring,
+  progression, persistence, and reporting.
+- Added a canonical integration regression check and recorded ADR 0905 and
+  DR-977.
