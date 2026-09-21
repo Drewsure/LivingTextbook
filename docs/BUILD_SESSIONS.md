@@ -4139,3 +4139,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Removed the pilot fixture dependency cycle introduced by the first evidence
   integration and verified the full active route surface.
 - Recorded ADR 0923 and DR-995.
+
+## Build session 0924: Pilot handoff snapshot scope integrity
+
+- Added fail-closed validation for report snapshot id scope and fingerprint
+  namespace inside the shared pilot handoff contract.
+- Added negative runtime coverage for launch-scope drift and unverified
+  fingerprints.
+- Preserved hosted/local evidence-only behavior and all persistence, export,
+  recovery, privacy, and classroom-launch blocks.
+- Recorded ADR 0924 and DR-996.

@@ -114,6 +114,13 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     if (reportSnapshotEvidence.tenantId !== packet.tenantId) {
       errors.push("Pilot handoff report snapshot tenant must match the handoff tenant.");
     }
+    const expectedSnapshotId = `teacher-report-package-snapshot-v1:${reportSnapshotEvidence.tenantId}:${reportSnapshotEvidence.packageId}:${reportSnapshotEvidence.launchCode}`;
+    if (reportSnapshotEvidence.snapshotId !== expectedSnapshotId) {
+      errors.push("Pilot handoff report snapshot id must match its tenant, package, and launch scope.");
+    }
+    if (!reportSnapshotEvidence.snapshotFingerprint.startsWith("teacher-report-package-snapshot-fnv1a-v1:")) {
+      errors.push("Pilot handoff report snapshot fingerprint must use the canonical snapshot fingerprint prefix.");
+    }
     if (!Array.isArray(reportSnapshotEvidence.deploymentModes) || reportSnapshotEvidence.deploymentModes.length !== 2 || !reportSnapshotEvidence.deploymentModes.includes("hosted-managed") || !reportSnapshotEvidence.deploymentModes.includes("local-classroom")) {
       errors.push("Pilot handoff report snapshot evidence must cover hosted-managed and local-classroom modes.");
     }

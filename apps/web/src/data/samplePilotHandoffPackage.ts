@@ -21,9 +21,9 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
     "This package is the practical bridge from static demo to a controlled partner pilot. It keeps content, routes, games, media, reports, roster identity, and policy decisions visible before any live student-data storage is promised.",
   releaseControlEvidence: toReleaseControlEvidence(sampleLocalBundleMediaReleaseControlBinding),
   reportSnapshotEvidence: {
-    snapshotId: "teacher-report-package-snapshot-v1:sample-publisher:partner-demo-unit-1",
+    snapshotId: "teacher-report-package-snapshot-v1:sample-publisher:sample-publisher-l1-u1-routines-package:partner-demo-unit-1",
     tenantId: "sample-publisher",
-    packageId: "sample-publisher-routines-unit-1",
+    packageId: "sample-publisher-l1-u1-routines-package",
     launchCode: "partner-demo-unit-1",
     snapshotFingerprint: "teacher-report-package-snapshot-fnv1a-v1:sample-publisher-partner-demo-unit-1",
     deploymentModes: ["hosted-managed", "local-classroom"],

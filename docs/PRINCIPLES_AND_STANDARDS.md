@@ -5328,3 +5328,17 @@ and `docs/adr/0922-reporting-workbench-recovery-coverage.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-995,
 `docs/decision-register/DR-995-pilot-handoff-report-snapshot-evidence.md`,
 and `docs/adr/0923-pilot-handoff-report-snapshot-evidence.md`.
+
+## 339. Pilot Handoff Snapshot Scope Integrity Standard
+
+- Pilot report evidence is valid only when its snapshot id deterministically
+  matches the evidence tenant, package, and launch values.
+- Snapshot fingerprints must use the canonical provider-neutral fingerprint
+  namespace and must fail closed when copied or malformed.
+- Scope and fingerprint checks establish evidence integrity only; they never
+  authorize persistence, export, recovery, provider activation, or launch.
+- Hosted/local parity and all raw learner-data exclusions remain unchanged.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-996,
+`docs/decision-register/DR-996-pilot-handoff-snapshot-scope-integrity.md`,
+and `docs/adr/0924-pilot-handoff-snapshot-scope-integrity.md`.

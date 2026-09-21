@@ -2113,6 +2113,20 @@ try {
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({
       ...validPilotHandoffPackage,
+      reportSnapshotEvidence: { ...validPilotHandoffPackage.reportSnapshotEvidence, launchCode: "other-launch" },
+    }),
+    "Pilot handoff report snapshot id must match its tenant, package, and launch scope.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      reportSnapshotEvidence: { ...validPilotHandoffPackage.reportSnapshotEvidence, snapshotFingerprint: "unverified-fingerprint" },
+    }),
+    "Pilot handoff report snapshot fingerprint must use the canonical snapshot fingerprint prefix.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
       routes: validPilotHandoffPackage.routes.slice(1),
     }),
     "Pilot handoff package must include a route beginning with /enter/.",
