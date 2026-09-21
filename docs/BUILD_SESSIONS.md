@@ -3945,3 +3945,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved the v4 tenant/package/unit/launch/student-session boundary and
   review-only persistence semantics.
 - Recorded ADR 0902 and DR-974.
+
+## Build session 0903: Browser evidence runtime harness
+
+- Added an executable temporary-storage harness for valid reads, tenant
+  isolation, mixed-event rejection without mutation, and malformed identity
+  rejection.
+- Added the harness to foundation composition so the evidence boundary is
+  tested behaviorally on every full gate.
+- Recorded ADR 0903 and DR-975.

@@ -18,5 +18,6 @@ type correctness alone is not enough to admit local evidence.
 
 ## Verification
 
-Run `node scripts/verify-local-evidence-tenant-key.mjs`, the persistence and
-runtime checks, web typecheck, production build, and the full foundation gate.
+Run `node scripts/verify-local-evidence-tenant-key.mjs`,
+`node scripts/verify-local-evidence-runtime.mjs`, the persistence and runtime
+checks, web typecheck, production build, and the full foundation gate.

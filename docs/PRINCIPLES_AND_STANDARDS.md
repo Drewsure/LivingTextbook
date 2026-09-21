@@ -5013,3 +5013,16 @@ and `docs/adr/0901-canonical-identity-browser-evidence-contents.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-974,
 `docs/decision-register/DR-974-non-blank-browser-evidence-identity.md`,
 and `docs/adr/0902-non-blank-browser-evidence-identity.md`.
+
+## 318. Browser Evidence Runtime Verification Standard
+
+- Browser rehearsal evidence must have executable behavior coverage in addition
+  to source-marker verification.
+- The runtime harness must prove valid acceptance, tenant-isolated reads,
+  mixed-event rejection without mutation, and malformed identity rejection.
+- The harness must use temporary coded storage only and must never imply hosted
+  persistence, learner-data retention, export, assignment, or release state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-975,
+`docs/decision-register/DR-975-browser-evidence-runtime-harness.md`,
+and `docs/adr/0903-browser-evidence-runtime-harness.md`.
