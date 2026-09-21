@@ -5065,3 +5065,16 @@ and `docs/adr/0905-memory-match-audio-event-order.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-978,
 `docs/decision-register/DR-978-pairing-audio-event-order.md`,
 and `docs/adr/0906-pairing-audio-event-order.md`.
+
+## 322. Audio Round Replay Boundary Standard
+
+- Canonical and external candidate replays must place `audio_requested` after
+  `round_shown`.
+- Audio evidence must attach to a visible learning round and cannot stand in
+  for the round, an answer, mastery, score, reward, or completion.
+- Native and Phaser candidate validators must enforce the same ordering in
+  addition to timestamp, identity, tenant, and replay checks.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-979,
+`docs/decision-register/DR-979-audio-round-replay-boundary.md`,
+and `docs/adr/0907-audio-round-replay-boundary.md`.

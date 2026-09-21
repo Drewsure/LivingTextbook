@@ -51,6 +51,8 @@ terms, exactly two target sentences, and tenant-bound parent-engine metadata.
 The event replay must carry
 tenant, unit, launch, and student-session identity on every learning event,
 use a `replay-v1:` seed, and remain chronological in canonical event order.
+At least one `audio_requested` event must appear after `round_shown` so audio
+evidence remains attached to a visible learning round.
 The audio map must cover every term plus instruction, feedback, and critical
 controls in a reviewed language. The scoring replay must prove the profile's
 required scenarios: `memory-match` requires `correct`, `incorrect`, `retry`,

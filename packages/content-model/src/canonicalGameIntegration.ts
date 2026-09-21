@@ -153,9 +153,13 @@ export function validateCanonicalGameEventSequence(
   }
 
   const gameStartedIndex = events.findIndex((event) => event.type === "game_started");
+  const roundShownIndex = events.findIndex((event) => event.type === "round_shown");
   const audioEvents = events.filter((event) => event.type === "audio_requested");
   if (gameStartedIndex >= 0 && !events.some((event, index) => event.type === "audio_requested" && index > gameStartedIndex)) {
     errors.push("Canonical game event sequence must include audio_requested evidence after game_started.");
+  }
+  if (roundShownIndex >= 0 && !events.some((event, index) => event.type === "audio_requested" && index > roundShownIndex)) {
+    errors.push("Canonical game event sequence must include audio_requested evidence after round_shown.");
   }
   for (const audioEvent of audioEvents) {
     const cueText = audioEvent.metadata?.cueText;

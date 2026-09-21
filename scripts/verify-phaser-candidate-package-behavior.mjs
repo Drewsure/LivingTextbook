@@ -119,6 +119,34 @@ try {
 
   assertVerifierPasses(candidateRoot, "complete package");
 
+  const replayPath = join(candidateRoot, artifactPaths["event-replay"]);
+  const replay = JSON.parse(readFileSync(replayPath, "utf8"));
+  const roundShownIndex = replay.events.findIndex((candidate) => candidate.type === "round_shown");
+  const audioRequestedIndex = replay.events.findIndex((candidate) => candidate.type === "audio_requested");
+  [replay.events[roundShownIndex], replay.events[audioRequestedIndex]] = [
+    replay.events[audioRequestedIndex],
+    replay.events[roundShownIndex],
+  ];
+  writeFileSync(replayPath, JSON.stringify(replay));
+  const replayArtifact = manifest.artifacts.find((artifact) => artifact.kind === "event-replay");
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "audio before round");
+
+  // Restore the original event replay before the remaining negative cases.
+  replay.events = [
+    event("game_started", "2026-09-14T00:00:00.000Z"),
+    event("round_shown", "2026-09-14T00:00:01.000Z"),
+    event("audio_requested", "2026-09-14T00:00:02.000Z", { cueKind: "instruction", cueText: "Find the matching card.", language: "en" }),
+    event("answer_submitted", "2026-09-14T00:00:03.000Z"),
+    event("answer_result", "2026-09-14T00:00:04.000Z", { correct: true }),
+    event("mastery_updated", "2026-09-14T00:00:05.000Z", { completed: true, earnedStarDust: 100, scoringProfileId: "memory-match-foundation" }),
+    event("game_completed", "2026-09-14T00:00:06.000Z", { earnedStarDust: 100, scoringProfileId: "memory-match-foundation" }),
+  ];
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const fixtureArtifact = manifest.artifacts.find((artifact) => artifact.kind === "fixture");
   const originalFixturePath = fixtureArtifact.relativePath;
   fixtureArtifact.relativePath = artifactPaths.readme;
@@ -136,11 +164,8 @@ try {
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "random scoring");
 
-  const replayPath = join(candidateRoot, artifactPaths["event-replay"]);
-  const replay = JSON.parse(readFileSync(replayPath, "utf8"));
   replay.events.find((candidate) => candidate.type === "audio_requested").studentSessionId = "another-session";
   writeFileSync(replayPath, JSON.stringify(replay));
-  const replayArtifact = manifest.artifacts.find((artifact) => artifact.kind === "event-replay");
   replayArtifact.checksum = hashFile(replayPath);
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "cross-session audio");

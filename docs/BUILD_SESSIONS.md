@@ -3978,3 +3978,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Extended the integration verifier to guard both pairing handlers.
 - Recorded ADR 0906 and DR-978 without changing Phaser source or route
   ownership.
+
+## Build session 0907: Audio round replay boundary
+
+- Lifted the round-before-audio rule into the shared canonical event validator.
+- Applied the same rule to the isolated Phaser candidate-package verifier and
+  added negative replay coverage for audio appearing before a round.
+- Recorded ADR 0907 and DR-979; external source remains isolated.

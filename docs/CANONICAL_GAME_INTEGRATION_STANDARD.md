@@ -104,6 +104,10 @@ represent an answer, mastery, or completion event. The integration verifier
 guards this ordering so a future Phaser wrapper cannot silently change replay
 semantics.
 
+The shared event validator also rejects a replay whose `audio_requested` event
+appears before `round_shown`. Candidate-package review applies the same rule,
+so a returned external replay cannot pass on timestamps and identity alone.
+
 Every external candidate also carries an explicit wrapper approval decision.
 Candidates are blocked by default; `approved-for-wrapper` means only that a
 platform-owned wrapper may be reviewed. It never authorizes direct source

@@ -302,6 +302,19 @@ try {
     { unitKey: canonicalEventContext.unitKey, launchCode: canonicalEventContext.launchCode, studentSessionId: canonicalEventContext.studentSessionId },
   );
   assertEqual(canonicalReport.valid, true);
+  const audioBeforeRoundErrors = canonicalGame.validateCanonicalGameEventSequence(
+    [
+      canonicalEvents[0],
+      canonicalEvents[4],
+      canonicalEvents[1],
+      canonicalEvents[2],
+      canonicalEvents[3],
+      canonicalEvents[5],
+      canonicalEvents[6],
+    ],
+    "flashcards",
+  ).errors;
+  assertIncludes(audioBeforeRoundErrors, "Canonical game event sequence must include audio_requested evidence after round_shown.");
   const overCapCanonicalErrors = canonicalGame.validateCanonicalGameEventSequence(
     canonicalEvents.map((event) => (
       ["mastery_updated", "game_completed"].includes(event.type)

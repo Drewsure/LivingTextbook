@@ -26,6 +26,7 @@ const verifierMarkers = [
   "exactly two target_sentences",
   "replay-v1:",
   "audio_requested events must include cueText",
+  "event replay must include audio_requested after round_shown",
   "randomRewards === false",
   "source-manifest.sha256",
   "sourceCommitSha",

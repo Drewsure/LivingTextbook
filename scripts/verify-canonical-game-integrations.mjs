@@ -852,6 +852,7 @@ for (const fragment of [
   "Canonical game event sequence must be chronological by occurredAt.",
   "Canonical game event sequence must include audio_requested evidence.",
   "Canonical game event sequence must include audio_requested evidence after game_started.",
+  "Canonical game event sequence must include audio_requested evidence after round_shown.",
   "Canonical game audio_requested events must include non-blank cueText.",
   "Canonical game audio_requested events must include a language.",
   "Canonical game audio_requested events must include a supported cueKind.",
