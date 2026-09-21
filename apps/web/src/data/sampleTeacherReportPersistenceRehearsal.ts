@@ -2,6 +2,7 @@ import {
   createReviewOnlyTeacherReportPersistenceAdapter,
   createTeacherLaunchReportAggregation,
   createTeacherReportPackageSnapshot,
+  type TeacherReportPackageSnapshot,
   type TeacherReportPersistenceRuntimeResult,
   type TeacherReportPersistenceRuntimeRequest,
   type TeacherSessionMonitorContext,
@@ -36,21 +37,7 @@ export function resolveSampleTeacherReportPersistenceRehearsal(
   context: TeacherSessionMonitorContext,
 ): TeacherReportPersistenceRuntimeResult {
   const reportPlan = context.reportExportPlan;
-  const reportScope = {
-    tenantId: context.tenant.id,
-    packageId: context.contentPackage.meta.packageId,
-    launchCode: context.launchSession.launchCode,
-  };
-  const snapshot = createTeacherReportPackageSnapshot({
-    scope: reportScope,
-    deploymentMode: "hosted-managed",
-    createdAt: context.launchSession.openedAt,
-    report: createTeacherLaunchReportAggregation([], reportScope),
-    boundary: context.reportPackageBoundary,
-    reportPlan,
-    eventAcceptance: context.eventAcceptanceGate,
-    eventEnvelope: context.eventEnvelopeGate,
-  });
+  const snapshot = resolveSampleTeacherReportPackageSnapshot(context);
   const request: TeacherReportPersistenceRuntimeRequest = {
     operation: "export",
     reportRequest: {
@@ -77,4 +64,24 @@ export function resolveSampleTeacherReportPersistenceRehearsal(
   };
 
   return createReviewOnlyTeacherReportPersistenceAdapter().execute(request);
+}
+
+export function resolveSampleTeacherReportPackageSnapshot(
+  context: TeacherSessionMonitorContext,
+): TeacherReportPackageSnapshot {
+  const reportScope = {
+    tenantId: context.tenant.id,
+    packageId: context.contentPackage.meta.packageId,
+    launchCode: context.launchSession.launchCode,
+  };
+  return createTeacherReportPackageSnapshot({
+    scope: reportScope,
+    deploymentMode: "hosted-managed",
+    createdAt: context.launchSession.openedAt,
+    report: createTeacherLaunchReportAggregation([], reportScope),
+    boundary: context.reportPackageBoundary,
+    reportPlan: context.reportExportPlan,
+    eventAcceptance: context.eventAcceptanceGate,
+    eventEnvelope: context.eventEnvelopeGate,
+  });
 }

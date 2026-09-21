@@ -3,6 +3,9 @@ import { readFileSync } from "node:fs";
 const runtime = readSource("../packages/content-model/src/reportRuntime.ts");
 const persistenceRuntime = readSource("../packages/content-model/src/teacherReportPersistenceRuntime.ts");
 const snapshot = readSource("../packages/content-model/src/teacherReportPackageSnapshot.ts");
+const snapshotSurface = readSource("../apps/web/src/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel.tsx");
+const persistencePage = readSource("../apps/web/src/app/teacher/persistence/page.tsx");
+const reportPackagePage = readSource("../apps/web/src/app/teacher/sessions/[launchCode]/report-package/page.tsx");
 const failures = [];
 
 for (const marker of [
@@ -39,6 +42,17 @@ for (const marker of [
   const source = [runtime, persistenceRuntime].join("\n");
   if (!source.includes(marker)) failures.push(`Report runtime missing marker: ${marker}`);
 }
+
+for (const marker of [
+  "Report snapshot recovery rehearsal",
+  "Hosted and closed-local evidence use one shape",
+  "No provider activation",
+  "Required before live recovery",
+]) {
+  if (!snapshotSurface.includes(marker)) failures.push(`Report snapshot recovery surface missing marker: ${marker}`);
+}
+if (!persistencePage.includes("TeacherReportSnapshotRecoveryRehearsalPanel")) failures.push("Persistence workbench is missing snapshot recovery rehearsal surface.");
+if (!reportPackagePage.includes("TeacherReportSnapshotRecoveryRehearsalPanel")) failures.push("Report package preview is missing snapshot recovery rehearsal surface.");
 
 for (const marker of [
   "TeacherReportPackageSnapshot",

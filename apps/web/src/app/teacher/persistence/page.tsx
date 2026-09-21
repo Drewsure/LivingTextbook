@@ -55,6 +55,9 @@ import { sampleLocalBundleMediaEvidenceBinding, sampleLocalBundleMediaEvidenceBi
 import { LocalBundleMediaEvidenceBindingPanel } from "@/features/persistence/LocalBundleMediaEvidenceBindingPanel";
 import { sampleLocalBundleMediaManifestReconciliation } from "@/data/sampleLocalBundleMediaManifestReconciliation";
 import { LocalBundleMediaManifestReconciliationPanel } from "@/features/persistence/LocalBundleMediaManifestReconciliationPanel";
+import { resolveSampleTeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
+import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
+import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -64,6 +67,10 @@ const persistenceLinks = [
 ];
 
 export default function TeacherPersistencePage() {
+  const reportSnapshotRecovery = resolveSampleTeacherReportSnapshotRecoveryRehearsal(
+    resolveSampleTeacherSessionMonitorContext("partner-demo-unit-1"),
+  );
+
   return (
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
@@ -105,6 +112,7 @@ export default function TeacherPersistencePage() {
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
+        <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />
         <LocalBundleProviderApprovalPanel
           packet={sampleLocalBundleProviderApproval}
           errors={sampleLocalBundleProviderApprovalErrors}
