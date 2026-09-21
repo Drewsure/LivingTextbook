@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 interface AppShellNavigationItem {
@@ -13,7 +14,13 @@ interface AppShellNavigationProps {
 
 export function AppShellNavigation({ items }: AppShellNavigationProps) {
   const pathname = usePathname();
-  const activeHref = getMostSpecificActiveHref(pathname, items);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const activeHref = isMounted ? getMostSpecificActiveHref(pathname, items) : undefined;
 
   return (
     <nav className="flex flex-wrap justify-end gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">

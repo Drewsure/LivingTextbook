@@ -4943,3 +4943,17 @@ and `docs/adr/0896-app-shell-current-route.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-969,
 `docs/decision-register/DR-969-audio-label-interaction-boundary.md`,
 and `docs/adr/0897-audio-label-interaction-boundary.md`.
+
+## 313. Shared App Shell Hydration Boundary Standard
+
+- Route-dependent active navigation styling must be suppressed on the server
+  and first client render so deployment rewrites or browser-only pathname
+  differences cannot produce hydration drift.
+- After hydration, shared navigation must expose exactly one most-specific
+  route with `aria-current="page"`.
+- The hydration guard is presentation-only and must not own route
+  authorization, scoring, persistence, rewards, or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-970,
+`docs/decision-register/DR-970-app-shell-hydration-boundary.md`,
+and `docs/adr/0898-app-shell-hydration-boundary.md`.

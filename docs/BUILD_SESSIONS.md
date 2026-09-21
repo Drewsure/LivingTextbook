@@ -3899,3 +3899,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   keeping submit, scoring, persistence, reward, and progression ownership in
   the game flow.
 - Recorded ADR 0897 and DR-969.
+
+## Build session 0898: App shell hydration boundary
+
+- Suppressed route-dependent active navigation state during the server and
+  first client render.
+- Restored the most-specific `aria-current="page"` state after hydration.
+- Kept the boundary presentation-only and preserved routing, scoring,
+  persistence, reward, and progression ownership elsewhere.
+- Recorded ADR 0898 and DR-970.

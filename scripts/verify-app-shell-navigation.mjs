@@ -10,7 +10,11 @@ const buildSession = readSource("../docs/build-session-notes/2026-09-21-app-shel
 
 for (const marker of [
   '"use client"',
+  'import { useEffect, useState } from "react";',
   "usePathname",
+  "const [isMounted, setIsMounted] = useState(false);",
+  "setIsMounted(true);",
+  "const activeHref = isMounted ? getMostSpecificActiveHref(pathname, items) : undefined;",
   "getMostSpecificActiveHref",
   'aria-current={isCurrent ? "page" : undefined}',
   'data-nav-current={isCurrent ? "page" : "false"}',
