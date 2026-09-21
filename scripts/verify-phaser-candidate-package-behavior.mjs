@@ -161,6 +161,23 @@ try {
   replayArtifact.checksum = hashFile(replayPath);
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
 
+  const masteryIndex = replay.events.findIndex((candidate) => candidate.type === "mastery_updated");
+  const completionEvent = replay.events.find((candidate) => candidate.type === "game_completed");
+  replay.events = [
+    ...replay.events.slice(0, masteryIndex + 1),
+    event("audio_requested", "2026-09-14T00:00:05.500Z", { cueKind: "feedback", cueText: "Keep listening.", language: "en" }),
+    completionEvent,
+  ];
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "audio after mastery");
+
+  replay.events = replay.events.filter((candidate) => candidate.type !== "audio_requested" || candidate.metadata?.cueText !== "Keep listening.");
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const fixtureArtifact = manifest.artifacts.find((artifact) => artifact.kind === "fixture");
   const originalFixturePath = fixtureArtifact.relativePath;
   fixtureArtifact.relativePath = artifactPaths.readme;

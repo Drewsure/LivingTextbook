@@ -3993,3 +3993,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   completion-review audio to a finished game attempt.
 - Added native and candidate negative replay coverage and recorded ADR 0908
   and DR-980.
+
+## Build session 0909: Audio mastery boundary
+
+- Closed active learning-audio evidence at `mastery_updated`, before final
+  `game_completed` recording.
+- Applied the same rule to the shared validator and isolated Phaser candidate
+  package verifier.
+- Added native and candidate negative replay coverage and recorded ADR 0909
+  and DR-981.

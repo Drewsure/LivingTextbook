@@ -290,6 +290,10 @@ export function validateCanonicalGameEventSequence(
     }
   }
 
+  if (masteryIndex >= 0 && events.some((event, index) => event.type === "audio_requested" && index > masteryIndex)) {
+    errors.push("Canonical game event sequence must not include audio_requested after mastery_updated.");
+  }
+
   const masteryDust = readFiniteStarDust(masteryEvent);
   const completionDust = readFiniteStarDust(completionEvent);
 

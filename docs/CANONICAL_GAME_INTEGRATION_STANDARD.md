@@ -110,6 +110,8 @@ so a returned external replay cannot pass on timestamps and identity alone.
 It also closes the attempt at `game_completed`: learning-audio evidence after
 completion is rejected so report consumers cannot attach late support activity
 to a finished score.
+The same validator rejects learning-audio evidence after `mastery_updated`,
+keeping the active attempt closed before the final completion event.
 
 Every external candidate also carries an explicit wrapper approval decision.
 Candidates are blocked by default; `approved-for-wrapper` means only that a

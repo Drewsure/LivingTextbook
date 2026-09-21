@@ -5091,3 +5091,16 @@ and `docs/adr/0907-audio-round-replay-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-980,
 `docs/decision-register/DR-980-closed-audio-replay-boundary.md`,
 and `docs/adr/0908-closed-audio-replay-boundary.md`.
+
+## 324. Audio Mastery Boundary Standard
+
+- Learning-audio evidence must remain inside the active game attempt and must
+  occur before `mastery_updated`.
+- Mastery closes learning evidence before `game_completed`; completion-review
+  audio must use a separate review context.
+- Native and external candidate validators must enforce the same ordering so
+  report grouping and future persistence remain deterministic.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-981,
+`docs/decision-register/DR-981-audio-mastery-boundary.md`,
+and `docs/adr/0909-audio-mastery-boundary.md`.

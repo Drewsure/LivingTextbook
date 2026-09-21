@@ -28,6 +28,7 @@ const verifierMarkers = [
   "audio_requested events must include cueText",
   "event replay must include audio_requested after round_shown",
   "event replay must not include audio_requested after game_completed",
+  "event replay must not include audio_requested after mastery_updated",
   "randomRewards === false",
   "source-manifest.sha256",
   "sourceCommitSha",
