@@ -4,6 +4,7 @@ const model = readSource("../packages/content-model/src/teacherLaunchReportAggre
 const route = readSource("../apps/web/src/app/api/persistence/events/route.ts");
 const client = readSource("../apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
 const panel = readSource("../apps/web/src/features/persistence/HostedProgressEventReviewPanel.tsx");
+const reportPage = readSource("../apps/web/src/app/teacher/sessions/[launchCode]/report-package/page.tsx");
 const failures = [];
 
 for (const marker of [
@@ -30,6 +31,7 @@ for (const [label, source, markers] of [
   ["route", route, ["createTeacherLaunchReportAggregation", "report:"]],
   ["client", client, ["TeacherLaunchReportAggregation", "report?:", "body.report"]],
   ["panel", panel, ["LaunchReportSummary", "Learning evidence", "Support-only", "does not authorize export"]],
+  ["report package route", reportPage, ["HostedProgressEventReviewPanel", "context.contentPackage.meta.packageId", "context.launchSession.launchCode"]],
 ]) {
   for (const marker of markers) {
     if (!source.includes(marker)) failures.push(`${label} missing marker: ${marker}`);

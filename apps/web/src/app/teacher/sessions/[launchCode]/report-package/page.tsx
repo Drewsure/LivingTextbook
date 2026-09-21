@@ -5,6 +5,7 @@ import { TeacherReportPackagePreviewPanel } from "@/features/teacher/TeacherRepo
 import { TeacherReportPersistenceRehearsalPanel } from "@/features/teacher/TeacherReportPersistenceRehearsalPanel";
 import { TeacherSessionLaunchGateBoundaryPanel } from "@/features/teacher/TeacherSessionLaunchGateBoundaryPanel";
 import { resolveSampleTeacherReportPersistenceRehearsal } from "@/data/sampleTeacherReportPersistenceRehearsal";
+import { HostedProgressEventReviewPanel } from "@/features/persistence/HostedProgressEventReviewPanel";
 
 export default async function TeacherReportPackagePreviewPage({
   params,
@@ -26,6 +27,13 @@ export default async function TeacherReportPackagePreviewPage({
           result={resolveSampleTeacherReportPersistenceRehearsal(context)}
         />
         <TeacherReportPackagePreviewPanel context={context} />
+        <HostedProgressEventReviewPanel
+          request={{
+            tenantId: context.tenant.id,
+            packageId: context.contentPackage.meta.packageId,
+            launchCode: context.launchSession.launchCode,
+          }}
+        />
       </div>
     </AppShell>
   );

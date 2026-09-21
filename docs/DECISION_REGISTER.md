@@ -7172,3 +7172,21 @@ Required invariants:
 
 Evidence: `docs/adr/0916-teacher-launch-report-aggregation.md`,
 `docs/decision-register/DR-988-teacher-launch-report-aggregation.md`.
+
+# DR-989: Report Package Aggregation Integration
+
+Decision: place the bounded, tenant/package/launch-scoped aggregation on the
+teacher report-package preview route. Keep the static rehearsal and the live
+review evidence visibly distinct; neither path authorizes export, mutation,
+live classroom launch, roster promotion, or broad student discovery.
+
+Required invariants:
+
+- The route derives identity from the resolved server-side monitor context.
+- The existing teacher operations authorization handoff is reused.
+- Protected, blocked, unavailable, and empty states remain visible.
+- Both MiniStar and sample publisher report-package routes remain covered by
+  the active route verification gate.
+
+Evidence: `docs/adr/0917-report-package-aggregation-integration.md`,
+`docs/decision-register/DR-989-report-package-aggregation-integration.md`.

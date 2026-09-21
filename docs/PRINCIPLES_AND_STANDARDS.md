@@ -5213,3 +5213,21 @@ and `docs/adr/0915-teacher-review-authorization-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-988,
 `docs/decision-register/DR-988-teacher-launch-report-aggregation.md`,
 and `docs/adr/0916-teacher-launch-report-aggregation.md`.
+
+## 332. Report Package Preview Integration Standard
+
+- The teacher report-package preview must show both the planned sanitized
+  package shape and the current bounded launch evidence path.
+- Static rehearsal evidence and hosted review evidence must remain visibly
+  distinct; neither one is production export authority.
+- Route identity comes from the resolved tenant and content package, never from
+  a browser-supplied cross-tenant selector.
+- The existing teacher operations authorization handoff remains the only review
+  access path.
+- Preview routes preserve protected, blocked, unavailable, and empty states,
+  and keep export, mutation, live launch, roster promotion, and broad student
+  discovery blocked.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-989,
+`docs/decision-register/DR-989-report-package-aggregation-integration.md`,
+and `docs/adr/0917-report-package-aggregation-integration.md`.

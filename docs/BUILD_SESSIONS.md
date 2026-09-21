@@ -4072,3 +4072,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept export, mutation, live launch, and broad student discovery blocked.
 - Added the dedicated aggregation verification gate and recorded ADR 0916 and
   DR-988.
+
+## Build session 0917: Report package aggregation integration
+
+- Added the bounded hosted review panel to both tenant-aware report-package
+  preview routes through the resolved monitor context.
+- Kept the static report-package rehearsal visible as a separate preview layer.
+- Reused the existing teacher operations authorization and preserved all
+  protected, blocked, unavailable, empty, and export-blocked states.
+- Added route-level verification coverage and recorded ADR 0917 and DR-989.
