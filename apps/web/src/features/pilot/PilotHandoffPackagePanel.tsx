@@ -68,6 +68,30 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Persistence gate evidence</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Authoritative hosted readiness</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This safe summary is bound to the same tenant, package, and launch as the report evidence. It explains why hosted persistence is not yet pilot-ready without exposing configuration or learner data.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.persistenceGateEvidence.status === "ready" ? "Gate ready" : handoffPackage.persistenceGateEvidence.status === "rehearsal" ? "Rehearsal" : "Blocked"} tone={handoffPackage.persistenceGateEvidence.status === "ready" ? "success" : "warning"} />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Mode" value={handoffPackage.persistenceGateEvidence.mode} />
+          <HandoffFact label="Tenant" value={handoffPackage.persistenceGateEvidence.tenantId} />
+          <HandoffFact label="Launch" value={handoffPackage.persistenceGateEvidence.launchCode} />
+          <HandoffFact label="Writes" value={handoffPackage.persistenceGateEvidence.writesAllowed ? "Allowed" : "Blocked"} />
+        </dl>
+        <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          {handoffPackage.persistenceGateEvidence.blockedReasons.map((reason, index) => (
+            <li key={`pilot-persistence-gate-blocker-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{reason}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Report evidence handoff</p>
             <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Hosted/local snapshot parity</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

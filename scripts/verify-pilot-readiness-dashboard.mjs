@@ -144,6 +144,8 @@ requireText(pilotHandoffPanel, "Report evidence handoff", "Pilot handoff panel m
 requireText(pilotHandoffPanel, "Hosted/local snapshot parity", "Pilot handoff panel must render hosted/local snapshot parity.");
 requireText(pilotHandoffPanel, "recoveryPacketsValid", "Pilot handoff panel must consume recovery packet validity.");
 requireText(pilotHandoffPanel, "No packet export", "Pilot handoff panel must preserve the no-export boundary.");
+requireText(pilotHandoffPanel, "Persistence gate evidence", "Pilot handoff panel must render authoritative persistence gate evidence.");
+requireText(pilotHandoffPanel, "handoffPackage.persistenceGateEvidence", "Pilot handoff panel must consume persistence gate evidence.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

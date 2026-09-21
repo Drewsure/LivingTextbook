@@ -34,6 +34,22 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
     learnerTranscriptIncluded: false,
     realLearnerIdentifiersIncluded: false,
   },
+  persistenceGateEvidence: {
+    status: "blocked",
+    mode: "durable-managed",
+    ready: false,
+    tenantId: "sample-publisher",
+    packageId: "sample-publisher-l1-u1-routines-package",
+    launchCode: "partner-demo-unit-1",
+    checkedAt: "2026-09-22T00:00:00.000Z",
+    blockedReasons: [
+      "Durable write approval is not enabled for this deployment.",
+      "School policy acceptance is missing.",
+      "Retention policy acceptance is missing.",
+      "Release approval is missing.",
+    ],
+    writesAllowed: false,
+  },
   routes: [
     {
       routeId: "partner-demo-home",

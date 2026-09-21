@@ -2063,6 +2063,17 @@ try {
       learnerTranscriptIncluded: false,
       realLearnerIdentifiersIncluded: false,
     },
+    persistenceGateEvidence: {
+      status: "blocked",
+      mode: "durable-managed",
+      ready: false,
+      tenantId: "tenant-1",
+      packageId: "package-1",
+      launchCode: "launch-1",
+      checkedAt: "2026-09-18T00:00:00.000Z",
+      blockedReasons: ["Durable write approval is not enabled."],
+      writesAllowed: false,
+    },
     releaseControlEvidence: {
       bindingId: "release-binding-1",
       releaseGateId: "release-gate-1",
@@ -2095,6 +2106,13 @@ try {
       releaseControlEvidence: { ...validPilotHandoffPackage.releaseControlEvidence, promotionAllowed: true },
     }),
     "Pilot handoff release-control evidence must keep promotion, student-facing use, and local activation false.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      persistenceGateEvidence: { ...validPilotHandoffPackage.persistenceGateEvidence, ready: true },
+    }),
+    "Pilot handoff persistence gate ready flag must match its status.",
   );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({

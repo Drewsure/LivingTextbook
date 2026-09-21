@@ -46,6 +46,18 @@ export interface PilotHandoffReportSnapshotEvidence {
   realLearnerIdentifiersIncluded: false;
 }
 
+export interface PilotHandoffPersistenceGateEvidence {
+  status: "ready" | "blocked" | "rehearsal";
+  mode: "durable-managed" | "non-durable-rehearsal";
+  ready: boolean;
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+  checkedAt: string;
+  blockedReasons: string[];
+  writesAllowed: false;
+}
+
 export interface PilotHandoffPackage {
   packageId: string;
   tenantId: string;
@@ -56,6 +68,7 @@ export interface PilotHandoffPackage {
   summary: string;
   releaseControlEvidence: ReleaseControlEvidence;
   reportSnapshotEvidence: PilotHandoffReportSnapshotEvidence;
+  persistenceGateEvidence: PilotHandoffPersistenceGateEvidence;
   routes: PilotHandoffRoute[];
   assets: PilotHandoffAsset[];
   decisions: PilotHandoffDecision[];
@@ -129,6 +142,43 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     for (const field of ["exportAllowed", "writesAllowed", "rawLearnerAudioIncluded", "learnerTranscriptIncluded", "realLearnerIdentifiersIncluded"] as const) {
       if (reportSnapshotEvidence[field] !== false) errors.push(`Pilot handoff report snapshot ${field} must remain false.`);
+    }
+  }
+
+  const persistenceGateEvidence = packet.persistenceGateEvidence;
+  if (!persistenceGateEvidence || typeof persistenceGateEvidence !== "object" || Array.isArray(persistenceGateEvidence)) {
+    errors.push("Pilot handoff persistence gate evidence is required.");
+  } else {
+    for (const field of ["tenantId", "packageId", "launchCode", "checkedAt"] as const) {
+      requireText(persistenceGateEvidence[field], `persistence gate ${field}`, errors);
+    }
+    if (persistenceGateEvidence.tenantId !== packet.tenantId) {
+      errors.push("Pilot handoff persistence gate tenant must match the handoff tenant.");
+    }
+    if (reportSnapshotEvidence && persistenceGateEvidence.packageId !== reportSnapshotEvidence.packageId) {
+      errors.push("Pilot handoff persistence gate package must match the report snapshot package.");
+    }
+    if (reportSnapshotEvidence && persistenceGateEvidence.launchCode !== reportSnapshotEvidence.launchCode) {
+      errors.push("Pilot handoff persistence gate launch must match the report snapshot launch.");
+    }
+    if (!PILOT_HANDOFF_STATUSES.has(persistenceGateEvidence.status === "rehearsal" ? "needs-review" : persistenceGateEvidence.status)) {
+      errors.push("Pilot handoff persistence gate has an unsupported status.");
+    }
+    if (persistenceGateEvidence.ready !== (persistenceGateEvidence.status === "ready")) {
+      errors.push("Pilot handoff persistence gate ready flag must match its status.");
+    }
+    if (!isIsoTimestamp(persistenceGateEvidence.checkedAt)) {
+      errors.push("Pilot handoff persistence gate checkedAt must be an ISO timestamp.");
+    }
+    if (!Array.isArray(persistenceGateEvidence.blockedReasons)) {
+      errors.push("Pilot handoff persistence gate blockedReasons must be an array.");
+    } else if (persistenceGateEvidence.status === "ready" && persistenceGateEvidence.blockedReasons.length > 0) {
+      errors.push("Pilot handoff ready persistence gate cannot include blockers.");
+    } else if (persistenceGateEvidence.status !== "ready" && persistenceGateEvidence.blockedReasons.length === 0) {
+      errors.push("Pilot handoff blocked or rehearsal persistence gate must include a blocker or explanation.");
+    }
+    if (persistenceGateEvidence.writesAllowed !== false) {
+      errors.push("Pilot handoff persistence gate writesAllowed must remain false.");
     }
   }
 
@@ -217,4 +267,8 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   }
 
   return errors;
+}
+
+function isIsoTimestamp(value: unknown): value is string {
+  return typeof value === "string" && !Number.isNaN(Date.parse(value)) && value.includes("T");
 }

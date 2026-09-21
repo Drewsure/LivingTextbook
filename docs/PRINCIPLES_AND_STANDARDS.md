@@ -5389,3 +5389,18 @@ and `docs/adr/0926-persistence-deployment-gate-route-alignment.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-999,
 `docs/decision-register/DR-999-pilot-preflight-authoritative-persistence-gate.md`,
 and `docs/adr/0927-pilot-preflight-authoritative-persistence-gate.md`.
+
+## 343. Pilot Handoff Persistence Gate Evidence Standard
+
+- A pilot handoff must carry a safe persistence-gate summary bound to the
+  tenant, report package, and launch it describes.
+- Gate evidence is review context only; it never authorizes writes, classroom
+  launch, export, release mutation, or provider activation.
+- Blocked and rehearsal states must include an actionable explanation, while
+  ready states must contain no blockers.
+- Handoff evidence continues to exclude secrets, paths, learner records, raw
+  audio, and transcripts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1000,
+`docs/decision-register/DR-1000-pilot-handoff-persistence-gate-evidence.md`,
+and `docs/adr/0928-pilot-handoff-persistence-gate-evidence.md`.
