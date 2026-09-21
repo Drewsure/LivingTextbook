@@ -136,6 +136,7 @@ export type MediaKind = "audio" | "video";
 export type MediaRightsStatus = "owned" | "licensed" | "partner-provided" | "unknown";
 export type MediaUsageRole = "primary" | "background" | "prompt" | "review" | "celebration" | "teacher-reference";
 export type MediaPlaybackContext = "unit-home" | "game-background" | "teacher-preview" | "student-practice" | "completion-review";
+export type MediaLanguageRole = "target" | "assist" | "neutral";
 export type AudioCueKind = "term" | "sentence" | "instruction" | "feedback" | "ui-label" | "story-line";
 export type AudioCueSource = "recorded" | "text-to-speech" | "teacher-recorded" | "partner-provided" | "placeholder";
 export type AssistLanguageSource = "human-reviewed" | "teacher-provided" | "publisher-provided" | "ai-draft";
@@ -307,6 +308,7 @@ export interface MediaAsset {
   durationSeconds?: number;
   ownerName?: string;
   language?: string;
+  languageRole?: MediaLanguageRole;
   unitKey?: string;
   textbookReference?: TextbookReference;
 }
@@ -1319,6 +1321,23 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
 
     if (mediaAsset.kind === "audio" && isVideoAsset(mediaAsset.type)) {
       errors.push(`Audio media asset ${mediaAsset.mediaAssetId} must not use a video asset type.`);
+    }
+
+    if (contentPackage.meta.targetLanguagePolicy && (mediaAsset.kind === "audio" || mediaAsset.kind === "video")) {
+      const targetLanguage = contentPackage.meta.targetLanguage ?? "";
+      const assistLanguages = contentPackage.meta.assistLanguages ?? [];
+
+      if (!mediaAsset.languageRole) {
+        errors.push(`Language-bound media asset ${mediaAsset.mediaAssetId} must declare target, assist, or neutral language role.`);
+      } else if (mediaAsset.languageRole === "target") {
+        if (!mediaAsset.language?.trim() || !languageMatches(mediaAsset.language, targetLanguage)) {
+          errors.push(`Target-language media asset ${mediaAsset.mediaAssetId} must match package target language ${targetLanguage}.`);
+        }
+      } else if (mediaAsset.languageRole === "assist") {
+        if (!mediaAsset.language?.trim() || !assistLanguages.some((language) => languageMatches(mediaAsset.language ?? "", language))) {
+          errors.push(`Assist-language media asset ${mediaAsset.mediaAssetId} must match a configured assist language.`);
+        }
+      }
     }
 
     if (contentPackage.meta.reviewStatus === "approved" && mediaAsset.rightsStatus === "unknown") {

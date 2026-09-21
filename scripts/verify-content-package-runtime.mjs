@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/contentPackageRuntime.ts");
+const contentModel = readSource("../packages/content-model/src/index.ts");
 const failures = [];
 
 for (const marker of [
@@ -19,12 +20,14 @@ for (const marker of [
   "content package target language must match the runtime target language",
   "non-English target packages require an explicit target-language policy",
   "validateTargetLanguagePolicy",
+  "MediaLanguageRole",
+  "Language-bound media asset",
   "Student-visible assist language plan",
   "No student-ready marker",
   'mode: "review-only"',
   'sideEffect: "none"',
 ]) {
-  if (!runtime.includes(marker)) failures.push(`Content package runtime missing marker: ${marker}`);
+  if (!runtime.includes(marker) && !contentModel.includes(marker)) failures.push(`Content package runtime missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

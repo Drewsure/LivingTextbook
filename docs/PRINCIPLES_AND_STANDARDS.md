@@ -5506,3 +5506,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1006,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1007,
 `docs/decision-register/DR-1007-source-assembly-language-lineage.md`, and
 `docs/adr/0935-source-assembly-language-lineage.md`.
+
+## 351. Multilingual Media Language Role Standard
+
+- Policy-bound audio and video assets must declare target, assist, or neutral
+  language role.
+- Target media must match the package target language; assist media must match
+  a configured assist language.
+- Images remain language-neutral by default and retain labelled-diagram,
+  accessibility, and target-language audio review requirements.
+- Media language evidence cannot authorize release, playlist creation,
+  assignment, or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1008,
+`docs/decision-register/DR-1008-multilingual-media-language-role.md`, and
+`docs/adr/0936-multilingual-media-language-role.md`.

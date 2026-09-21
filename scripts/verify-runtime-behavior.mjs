@@ -1503,8 +1503,23 @@ try {
       ...audioPackage.meta, targetLanguage: "ja", assistLanguages: ["en"],
       targetLanguagePolicy: japaneseTargetPolicy,
     },
+    mediaAssets: [{
+      mediaAssetId: "japanese-lesson-video", tenantId: "tenant-1", title: "Greeting lesson",
+      type: "lesson-video", kind: "video", rightsStatus: "partner-provided", language: "ja",
+      languageRole: "target", unitKey: audioUnitKey,
+    }],
   };
   assertEqual(contentModel.validateContentPackage(japanesePolicyPackage).length, 0);
+  const japaneseMediaLanguageErrors = contentModel.validateContentPackage({
+    ...japanesePolicyPackage,
+    mediaAssets: japanesePolicyPackage.mediaAssets.map((asset) => ({ ...asset, language: "en" })),
+  });
+  assertIncludes(japaneseMediaLanguageErrors, "Target-language media asset japanese-lesson-video must match package target language ja.");
+  const japaneseMediaRoleErrors = contentModel.validateContentPackage({
+    ...japanesePolicyPackage,
+    mediaAssets: japanesePolicyPackage.mediaAssets.map(({ languageRole, ...asset }) => asset),
+  });
+  assertIncludes(japaneseMediaRoleErrors, "Language-bound media asset japanese-lesson-video must declare target, assist, or neutral language role.");
   const japanesePolicyProgressErrors = contentModel.validateContentPackage({
     ...japanesePolicyPackage,
     meta: {
