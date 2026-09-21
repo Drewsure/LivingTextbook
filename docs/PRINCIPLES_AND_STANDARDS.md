@@ -4885,3 +4885,18 @@ and `docs/adr/0892-phaser-provenance-verifier-identity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-965,
 `docs/decision-register/DR-965-memory-match-accessibility-state.md`,
 and `docs/adr/0893-memory-match-accessibility-state.md`.
+
+## 309. Shared App Shell Skip Navigation Standard
+
+- The shared `AppShell` must expose a keyboard-visible skip link before
+  repeated tenant navigation.
+- The skip link must focus one `main-content` target that is programmatically
+  focusable without changing route, scoring, persistence, or progression.
+- Skip-link focus styling must use tenant-configured CSS variables so the
+  white-label platform remains legible across brands.
+- Accessibility navigation belongs to the shared shell; route-specific
+  screens must not invent competing skip-navigation paths.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-966,
+`docs/decision-register/DR-966-shared-app-shell-skip-navigation.md`,
+and `docs/adr/0894-shared-app-shell-skip-navigation.md`.

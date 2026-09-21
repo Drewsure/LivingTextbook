@@ -26,6 +26,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-operatio
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-adapter-seam.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-shared-app-shell-accessibility.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

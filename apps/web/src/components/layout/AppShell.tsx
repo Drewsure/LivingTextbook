@@ -124,6 +124,12 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
       style={getTenantStyle(tenant)}
       className="min-h-screen bg-[var(--tenant-background)] text-[var(--tenant-text)] print:bg-white"
     >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--tenant-primary)] focus:px-4 focus:py-2 focus:font-bold focus:text-[var(--tenant-primary-text)]"
+      >
+        Skip to content
+      </a>
       <header className="border-b border-[var(--tenant-border)] bg-[var(--tenant-surface)] print:hidden">
         <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
           <div>
@@ -143,7 +149,13 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
           )}
         </div>
       </header>
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 print:max-w-none print:px-0 print:py-0">{children}</div>
+      <div
+        id="main-content"
+        tabIndex={-1}
+        className="mx-auto w-full max-w-6xl px-4 py-6 outline-none print:max-w-none print:px-0 print:py-0"
+      >
+        {children}
+      </div>
     </main>
   );
 }
