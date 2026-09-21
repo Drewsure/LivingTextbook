@@ -78,6 +78,7 @@ const requiredTexts = [
   "Background media toggle",
   "Captions or transcript required",
   "Optional playback required",
+  "target, assist, or neutral language role",
   "Automatic PDF-to-game publish",
   "Student-facing image upload",
   "Music as mastery trigger",

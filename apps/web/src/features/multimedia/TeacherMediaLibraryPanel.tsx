@@ -118,9 +118,18 @@ function MediaRecordCard({ record }: { record: MediaRightsRecord }) {
         </div>
         <StatusPill label={record.status} tone={rightsTone[record.status]} />
       </div>
-      <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{record.fallbackPlan}</p>
+      <div className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
+        <p><span className="font-semibold text-[var(--tenant-text)]">Language role:</span> {formatLanguageRole(record.language, record.languageRole)}</p>
+        <p><span className="font-semibold text-[var(--tenant-text)]">Fallback:</span> {record.fallbackPlan}</p>
+      </div>
     </article>
   );
+}
+
+function formatLanguageRole(language: string | undefined, languageRole: MediaRightsRecord["languageRole"]): string {
+  if (!languageRole) return "Not declared";
+  if (!language) return languageRole;
+  return `${languageRole} (${language})`;
 }
 
 function StageCard({ stage }: { stage: TeacherMediaLibraryStage }) {

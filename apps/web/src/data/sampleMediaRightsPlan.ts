@@ -1,3 +1,5 @@
+import type { MediaLanguageRole } from "@living-textbook/content-model";
+
 export type MediaRightsStatus = "cleared-for-demo" | "needs-proof" | "blocked";
 export type MediaRightsUseCase = "student-playback" | "teacher-preview" | "game-background" | "offline-bundle";
 
@@ -9,6 +11,8 @@ export interface MediaRightsRecord {
   status: MediaRightsStatus;
   ownerName: string;
   sourceReference: string;
+  language?: string;
+  languageRole?: MediaLanguageRole;
   allowedUseCases: MediaRightsUseCase[];
   missingProof: string[];
   fallbackPlan: string;
@@ -38,6 +42,8 @@ export const sampleMediaRightsPlan: MediaRightsPlan = {
       status: "cleared-for-demo",
       ownerName: "MiniStar sample tenant",
       sourceReference: "/media/demo/ministar/l1-u1/greetings-chant.mp3",
+      language: "en",
+      languageRole: "target",
       allowedUseCases: ["student-playback", "teacher-preview", "game-background"],
       missingProof: ["Production file is still placeholder/missing in the scaffold.", "Offline distribution proof is not attached."],
       fallbackPlan: "Use reviewed text-to-speech cues for learner-critical audio if the chant file is unavailable.",
@@ -50,6 +56,8 @@ export const sampleMediaRightsPlan: MediaRightsPlan = {
       status: "cleared-for-demo",
       ownerName: "MiniStar sample tenant",
       sourceReference: "/media/demo/ministar/l1-u1/hello-friends.mp4",
+      language: "en",
+      languageRole: "target",
       allowedUseCases: ["student-playback", "teacher-preview"],
       missingProof: ["Production file is still placeholder/missing in the scaffold.", "Poster and transcript files need real assets."],
       fallbackPlan: "Keep video optional; games and learner audio must remain usable without it.",
@@ -62,6 +70,8 @@ export const sampleMediaRightsPlan: MediaRightsPlan = {
       status: "needs-proof",
       ownerName: "Sample publisher owner not confirmed",
       sourceReference: "Unit 1 audio folder",
+      language: "en",
+      languageRole: "target",
       allowedUseCases: ["teacher-preview"],
       missingProof: [
         "Rights owner not confirmed.",
@@ -79,6 +89,8 @@ export const sampleMediaRightsPlan: MediaRightsPlan = {
       status: "blocked",
       ownerName: "Unknown",
       sourceReference: "Unit 1 video folder",
+      language: "en",
+      languageRole: "target",
       allowedUseCases: [],
       missingProof: [
         "No file in repository.",

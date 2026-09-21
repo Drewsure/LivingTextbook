@@ -62,6 +62,7 @@ function MediaRightsCard({ record }: { record: MediaRightsRecord }) {
 
       <div className="mt-4 grid gap-3 lg:grid-cols-3">
         <RightsFact label="Owner" value={record.ownerName} />
+        <RightsFact label="Language role" value={formatLanguageRole(record.language, record.languageRole)} />
         <RightsList title="Allowed uses" items={record.allowedUseCases} emptyLabel="No production use approved." tone="success" />
         <RightsList title="Missing proof" items={record.missingProof} emptyLabel="No missing proof listed." tone="warning" />
       </div>
@@ -71,6 +72,12 @@ function MediaRightsCard({ record }: { record: MediaRightsRecord }) {
       </p>
     </article>
   );
+}
+
+function formatLanguageRole(language: string | undefined, languageRole: MediaRightsRecord["languageRole"]): string {
+  if (!languageRole) return "Not declared";
+  if (!language) return languageRole;
+  return `${languageRole} (${language})`;
 }
 
 function RightsMetric({

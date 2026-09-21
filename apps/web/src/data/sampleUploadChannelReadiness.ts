@@ -134,7 +134,7 @@ export const sampleUploadChannelReadinessPlan: UploadChannelReadinessPlan = {
           requirementId: "learner-audio-separation",
           label: "Learning audio separation",
           status: "required",
-          detail: "Uploaded songs can enrich a unit, but learner-critical term, sentence, and instruction audio must remain separately reviewable.",
+          detail: "Uploaded songs can enrich a unit, but learner-critical term, sentence, and instruction audio must remain separately reviewable. Policy-bound audio and video must declare a target, assist, or neutral language role.",
         },
         {
           requirementId: "background-toggle",
@@ -178,7 +178,7 @@ export const sampleUploadChannelReadinessPlan: UploadChannelReadinessPlan = {
           requirementId: "optional-playback",
           label: "Optional playback required",
           status: "required",
-          detail: "Games and required learning audio must still function if the video is unavailable or blocked.",
+          detail: "Games and required learning audio must still function if the video is unavailable or blocked. Policy-bound audio and video must declare a target, assist, or neutral language role.",
         },
       ],
       blockedBy: ["Video storage required", "Rights proof required", "Caption/transcript policy required"],

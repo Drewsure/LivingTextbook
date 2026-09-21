@@ -5521,3 +5521,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1007,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1008,
 `docs/decision-register/DR-1008-multilingual-media-language-role.md`, and
 `docs/adr/0936-multilingual-media-language-role.md`.
+
+## 352. Media Language Role Review Surface Standard
+
+- Teacher media-rights and media-library previews must show the declared
+  language role alongside the asset's language.
+- Missing language-role evidence remains visibly unresolved rather than being
+  inferred from a filename, route, tenant, or playlist.
+- The review surface must preserve the distinction between target-language
+  learning audio, assist-language support, and neutral background media.
+- Showing language evidence is a review aid only; it cannot create a live
+  upload, release, playlist, assignment, or progression path.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1009,
+`docs/decision-register/DR-1009-media-language-role-review-surface.md`, and
+`docs/adr/0937-media-language-role-review-surface.md`.

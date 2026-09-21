@@ -44,6 +44,7 @@ export const sampleMediaAssetWorkspace: MediaAssetWorkspace = {
     "media_asset_id",
     "checksum capture",
     "duration and language metadata",
+    "target, assist, or neutral language role for policy-bound audio/video",
     "captions or transcript policy",
     "poster or fallback required",
     "optional_playback_required: true",
