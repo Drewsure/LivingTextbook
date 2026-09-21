@@ -3854,3 +3854,40 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added temporary-data checks for replay, conflict, tenant isolation, and
   restart durability without enabling live writes.
 - Recorded ADR 0891 and DR-963.
+
+## Build session 0892: Frozen Phaser provenance verifier identity
+
+- Moved the frozen snapshot and commit identity used by the read-only Phaser
+  evidence verifier into the shared content-model identity module.
+- Preserved isolated path hashing and the fail-closed boundary against source
+  import, wrapper approval, promotion, and student assignment.
+- Recorded ADR 0892 and DR-964.
+
+## Build session 0893: Canonical Memory Match accessibility state
+
+- Exposed Memory Match card state through semantic button state and moved
+  learner feedback into a polite live region.
+- Kept the pairing engine as the only owner of selection, scoring, persistence,
+  completion, and progression.
+- Recorded ADR 0893 and DR-965.
+
+## Build session 0894: Shared AppShell skip navigation
+
+- Added a tenant-themed keyboard skip link and a programmatically focusable
+  main-content target to the shared shell.
+- Preserved route, scoring, persistence, reward, and progression behavior.
+- Recorded ADR 0894 and DR-966.
+
+## Build session 0895: Shared audio playback status
+
+- Added stable status relationships for ready, playing, and unavailable states
+  to the reviewed-audio and speech-fallback controls.
+- Preserved tap-to-speak behavior and kept audio status informational only.
+- Recorded ADR 0895 and DR-967.
+
+## Build session 0896: AppShell current route navigation
+
+- Centralized current-route semantics in a reusable tenant navigation component.
+- Marked only the most-specific matching route with `aria-current="page"` and
+  retained tenant-configured active styling.
+- Recorded ADR 0896 and DR-968.
