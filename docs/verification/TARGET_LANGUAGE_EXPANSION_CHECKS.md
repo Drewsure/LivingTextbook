@@ -25,3 +25,11 @@ Manual review:
 - Confirm Japanese pilot blockers are visible.
 - Confirm furigana rendering and segmentation policy are not presented as complete.
 - Confirm the panel does not imply MiniStar Japanese assist is enough for Japanese target-language teaching.
+
+Policy contract verification:
+
+- Run `node scripts/verify-target-language-policy.mjs`.
+- Confirm the Japanese target fixture requires target-language audio,
+  Japanese-aware segmentation, and `supportLanguageProgressAllowed: false`.
+- Confirm invalid support-language progress and English whitespace
+  segmentation are rejected.

@@ -1,5 +1,6 @@
 import phaserCandidateProfileData from "./phaserCandidateProfiles.json";
 import type { GameEventType } from "./gameEventTypes";
+import type { TargetLanguagePolicy } from "./targetLanguagePolicy";
 
 export { GAME_EVENT_TYPES, isGameEventType } from "./gameEventTypes";
 export type { GameEventType } from "./gameEventTypes";
@@ -166,6 +167,7 @@ export interface TenantLanguageSettings {
   targetLanguage: LocaleCode;
   defaultUiLanguage: LocaleCode;
   assistLanguages: LocaleCode[];
+  targetLanguagePolicy?: TargetLanguagePolicy;
   studentAssistEnabledByDefault?: boolean;
   liveAiAssistAllowed?: boolean;
 }
@@ -559,6 +561,7 @@ function isVideoAsset(type: MediaAssetType): boolean {
 
 export * from "./economyPolicy";
 export * from "./progressionIdentity";
+export * from "./targetLanguagePolicy";
 
 export function languageMatches(value: string, targetLanguage: string): boolean {
   const language = value.trim().toLowerCase();

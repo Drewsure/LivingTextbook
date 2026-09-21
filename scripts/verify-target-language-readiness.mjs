@@ -1,4 +1,6 @@
 import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const plan = readSource("../apps/web/src/data/sampleTargetLanguageExpansionPlan.ts");
 const panel = readSource("../apps/web/src/features/language/TargetLanguageExpansionPanel.tsx");
@@ -8,6 +10,8 @@ const assistStandard = readSource("../docs/ASSIST_LANGUAGE_STANDARD.md");
 const futureRequirements = readSource("../docs/FUTURE_REQUIREMENTS.md");
 const contentModel = readSource("../packages/content-model/src/index.ts");
 const teacherMonitor = readSource("../apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx");
+const targetPolicy = readSource("../packages/content-model/src/targetLanguagePolicy.ts");
+const japaneseTenant = readSource("../apps/web/src/features/tenant/sampleJapaneseTenant.ts");
 const failures = [];
 
 const requiredLanes = [
@@ -57,6 +61,11 @@ requireText(contentModel, "tenantTargetLanguage, unitLanguage, fallback", "Targe
 requireText(contentModel, "[tenantTargetLanguage, unitLanguage, fallback]", "Target-language resolver must prefer tenant language, then unit language, then baseline.");
 requireText(teacherMonitor, "context.tenant.languageSettings?.targetLanguage", "Teacher monitor must resolve tenant target language for evidence display.");
 requireText(teacherMonitor, "event.metadata?.language ?? targetLanguage", "Teacher monitor must not hard-code English for missing event language.");
+requireText(targetPolicy, "supportLanguageProgressAllowed: false", "Target-language policy must disable support-language progress.");
+requireText(targetPolicy, "segmentationPolicy", "Target-language policy must declare language-aware segmentation.");
+requireText(targetPolicy, "targetLanguageAudioRequired", "Target-language policy must require target-language audio.");
+requireText(japaneseTenant, 'targetLanguage: "ja"', "Japanese target tenant fixture must configure Japanese as the target language.");
+requireText(japaneseTenant, 'segmentationPolicy: "japanese-aware"', "Japanese target tenant must use Japanese-aware segmentation.");
 
 if (failures.length > 0) {
   for (const failure of failures) {
@@ -64,6 +73,18 @@ if (failures.length > 0) {
   }
 
   process.exit(1);
+}
+
+const policyCheck = spawnSync(
+  process.execPath,
+  [fileURLToPath(new URL("./verify-target-language-policy.mjs", import.meta.url))],
+  { encoding: "utf8" },
+);
+
+if (policyCheck.status !== 0) {
+  process.stdout.write(policyCheck.stdout ?? "");
+  process.stderr.write(policyCheck.stderr ?? "");
+  process.exit(policyCheck.status ?? 1);
 }
 
 console.log(

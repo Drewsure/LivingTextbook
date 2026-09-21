@@ -63,7 +63,15 @@ The visible planning gate is shown on `/teacher/intake`.
 
 The sample data lives in `apps/web/src/data/sampleTargetLanguageExpansionPlan.ts`.
 
-The focused verifier is `npm run verify:target-language`, and it is included in `npm run verify:foundation`.
+The shared policy contract lives in
+`packages/content-model/src/targetLanguagePolicy.ts`, with a Japanese-target
+reference tenant in `apps/web/src/features/tenant/sampleJapaneseTenant.ts`.
+The reference tenant proves white-label configurability only; it is not a
+Japanese pilot approval.
+
+The focused verifier is `npm run verify:target-language`, and it now runs both
+the readiness-plan checks and the deterministic target-language policy checks.
+It is included in `npm run verify:foundation`.
 
 ## Acceptance Standard
 

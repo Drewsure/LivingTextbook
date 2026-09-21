@@ -5447,3 +5447,20 @@ and `docs/adr/0930-package-readiness-source-lineage-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1003,
 `docs/decision-register/DR-1003-package-readiness-source-binding-validation.md`,
 and `docs/adr/0931-package-readiness-source-binding-validation.md`.
+
+## 347. Explicit Target-Language Policy Standard
+
+- White-label tenants must represent target-language progression separately
+  from support-language configuration.
+- Target-language audio is required for learner-facing target content.
+- Support-language interaction cannot unlock mastery or progression.
+- Japanese target packages require a reviewed script policy and
+  Japanese-aware or tenant-defined segmentation; English whitespace splitting
+  is insufficient.
+- A Japanese tenant fixture proves configurability only. It does not approve a
+  Japanese pilot until the existing furigana, curriculum-review, audio, and
+  segmentation gates pass.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1004,
+`docs/decision-register/DR-1004-target-language-policy-contract.md`, and
+`docs/adr/0932-target-language-policy-contract.md`.
