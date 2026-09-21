@@ -63,6 +63,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-prov
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-readiness.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-deployment-gate-alignment.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-launch-report-aggregation.mjs", import.meta.url))], {
   stdio: "inherit",
 });

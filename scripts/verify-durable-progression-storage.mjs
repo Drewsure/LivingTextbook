@@ -86,7 +86,8 @@ requireFragments("student session route", sessionRoute, [
   'runtime = "nodejs"',
   "resolveSampleFrontDoorContext",
   "setStudentSessionCookie",
-  "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES",
+  "getPersistenceDeploymentGateSnapshot",
+  "deployment.gate.ready",
   'status: "authenticated"',
 ]);
 requireFragments("student session cookie", sessionCookie, [

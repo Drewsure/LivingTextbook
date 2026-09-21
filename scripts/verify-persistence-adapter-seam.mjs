@@ -54,7 +54,7 @@ if (progressionRoute.includes("__livingTextbookHostedProgressionRehearsal")) {
 }
 requireFragments("operations route", operationsRoute, ["getConfiguredPersistenceProvider"]);
 requireFragments("operations route", operationsRoute, ["getPersistenceProviderConfiguration", "status: \"blocked\""]);
-requireFragments("status route", statusRoute, ["getConfiguredPersistenceProvider", "getPersistenceProviderConfiguration", "derivePersistenceReadiness", "status: readiness.status"]);
+requireFragments("status route", statusRoute, ["getConfiguredPersistenceProvider", "getPersistenceDeploymentGateSnapshot", "derivePersistenceReadiness", "status: readiness.status"]);
 requireFragments("verification checklist", checklist, ["provider-neutral adapter", "Process-memory", "SQLite", "No provider credentials"]);
 
 if (failures.length > 0) {

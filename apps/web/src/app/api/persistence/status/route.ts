@@ -2,11 +2,9 @@ import { NextResponse } from "next/server";
 import { getDurableOperationsPolicySnapshot } from "@/server/persistence/sqliteProgressionOperations";
 import { getDurableProgressionStore } from "@/server/persistence/sqliteProgressionStore";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
-import {
-  getConfiguredPersistenceProvider,
-  getPersistenceProviderConfiguration,
-} from "@/server/persistence/progressionPersistenceAdapter";
-import { derivePersistenceDeploymentGate, derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
+import { getConfiguredPersistenceProvider } from "@/server/persistence/progressionPersistenceAdapter";
+import { derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
+import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,17 +19,15 @@ export function GET(request: Request) {
     }, { status: 401, headers: { "Cache-Control": "no-store" } });
   }
   const provider = getConfiguredPersistenceProvider();
-  const providerConfiguration = getPersistenceProviderConfiguration();
+  const deployment = getPersistenceDeploymentGateSnapshot();
+  const providerConfiguration = deployment.providerConfiguration;
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
   const health = durable
     ? getDurableProgressionStore().getHealth()
     : { healthy: true, schemaVersion: null, journalMode: null, synchronous: null, errors: [], operationEvidenceIntegrity: { healthy: true, checkedRecords: 0, errors: [] as string[] } };
-  const studentSessionBoundaryConfigured = Boolean(process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET?.trim());
-  const teacherOperationsSessionBoundaryConfigured = Boolean(
-    process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET?.trim()
-      && process.env.LIVING_TEXTBOOK_TEACHER_REVIEW_CODE?.trim(),
-  );
+  const studentSessionBoundaryConfigured = deployment.studentSessionBoundaryConfigured;
+  const teacherOperationsSessionBoundaryConfigured = deployment.teacherOperationsSessionBoundaryConfigured;
   const readiness = derivePersistenceReadiness({
     providerConfigurationValid: providerConfiguration.valid,
     providerConfigurationErrors: providerConfiguration.errors,
@@ -44,17 +40,7 @@ export function GET(request: Request) {
     studentSessionBoundaryConfigured,
     policyErrors: policy.errors,
   });
-  const deploymentGate = derivePersistenceDeploymentGate({
-    provider,
-    providerConfigurationValid: providerConfiguration.valid,
-    allowDurableWrites: process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES === "true",
-    studentSessionBoundaryConfigured,
-    teacherOperationsSessionBoundaryConfigured,
-    schoolPolicyAccepted: policy.schoolPolicyAccepted,
-    retentionPolicyAccepted: policy.retentionPolicyAccepted,
-    releaseApprovalAccepted: policy.releaseApprovalAccepted,
-    operationsReady: durable && policy.errors.length === 0,
-  });
+  const deploymentGate = deployment.gate;
 
   return NextResponse.json({
     status: readiness.status,

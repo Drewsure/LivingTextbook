@@ -17,6 +17,7 @@ import {
 } from "@/server/persistence/progressionPersistenceAdapter";
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,15 +50,9 @@ export async function POST(request: Request) {
   }
 
   if (body.policy.mode === "durable-managed") {
-    if (getConfiguredPersistenceProvider() !== "sqlite") {
-      return json({ status: "blocked", provider: "process-memory", durability: "durable-managed", errors: ["Durable progression storage is not enabled for this deployment."] }, 423);
-    }
-    if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
-      return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require the explicit deployment write gate."] }, 423);
-    }
-    const deploymentPolicyErrors = getDurableDeploymentPolicyErrors();
-    if (deploymentPolicyErrors.length > 0) {
-      return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: deploymentPolicyErrors }, 423);
+    const deployment = getPersistenceDeploymentGateSnapshot();
+    if (!deployment.gate.ready) {
+      return json({ status: "blocked", provider: deployment.provider, durability: "durable-managed", errors: deployment.gate.blockedReasons }, 423);
     }
     if (!hasPersistenceWriteAuthorization(request, body)) {
       return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a matching signed student session or server-side persistence authorization."] }, 401);
@@ -208,17 +203,6 @@ function hasPersistenceReadAuthorization(
     && claims.packageId === lookup.packageId
     && claims.launchCode === lookup.launchCode
     && claims.studentSessionId === lookup.studentSessionId;
-}
-
-function getDurableDeploymentPolicyErrors(): string[] {
-  const requiredGates = [
-    ["LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED", "Durable progression writes require the deployment school-policy gate."] as const,
-    ["LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED", "Durable progression writes require the deployment retention-policy gate."] as const,
-    ["LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED", "Durable progression writes require the deployment release-approval gate."] as const,
-  ];
-  return requiredGates
-    .filter(([variable]) => process.env[variable] !== "true")
-    .map(([, message]) => message);
 }
 
 function json(body: unknown, status = 200) {

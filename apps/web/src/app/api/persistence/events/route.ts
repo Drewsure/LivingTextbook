@@ -15,6 +15,7 @@ import {
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { resolveProgressEventTaxonomy } from "@/server/persistence/progressEventTaxonomyResolver";
+import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,8 +49,8 @@ export async function POST(request: Request) {
   if (!validation.valid) return json({ status: "blocked", errors: validation.errors }, 423);
 
   if (body.policy.mode === "durable-managed") {
-    if (getConfiguredPersistenceProvider() !== "sqlite") return json({ status: "blocked", provider: "process-memory", durability: "durable-managed", errors: ["Durable event stream storage is not enabled for this deployment."] }, 423);
-    if (process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") return json({ status: "blocked", provider: "sqlite", durability: "durable-managed", errors: ["Durable event stream writes require the explicit deployment write gate."] }, 423);
+    const deployment = getPersistenceDeploymentGateSnapshot();
+    if (!deployment.gate.ready) return json({ status: "blocked", provider: deployment.provider, durability: "durable-managed", errors: deployment.gate.blockedReasons }, 423);
     if (!hasPersistenceWriteAuthorization(request, body.expectedTenantId, body.expectedPackageId, body.expectedLaunchCode, body.expectedStudentSessionId)) {
       return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable event stream writes require a matching signed student session or server-side persistence authorization."] }, 401);
     }

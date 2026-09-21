@@ -8,6 +8,7 @@ import {
   setStudentSessionCookie,
   type StudentSessionClaims,
 } from "@/server/persistence/studentSessionCookie";
+import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,8 +33,12 @@ export async function POST(request: Request) {
     .filter((field) => typeof body?.[field as keyof StudentSessionStartRequest] !== "string" || !body[field as keyof StudentSessionStartRequest].trim());
   if (missing.length > 0) return json({ status: "invalid", errors: [`Student session fields are required: ${missing.join(", ")}.`] }, 400);
 
-  if (process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER !== "sqlite" || process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES !== "true") {
-    return json({ status: "rehearsal-only", provider: "process-memory", errors: [] });
+  const deployment = getPersistenceDeploymentGateSnapshot();
+  if (deployment.gate.status === "rehearsal") {
+    return json({ status: "rehearsal-only", provider: deployment.provider, durability: deployment.gate.mode, errors: deployment.gate.blockedReasons });
+  }
+  if (!deployment.gate.ready) {
+    return json({ status: "blocked", provider: deployment.provider, durability: deployment.gate.mode, errors: deployment.gate.blockedReasons }, 423);
   }
 
   const context = resolveSampleFrontDoorContext(body.tenantId);
@@ -81,10 +86,11 @@ export async function POST(request: Request) {
 export function GET(request: Request) {
   const claims = readStudentSessionClaims(request);
   if (!claims) return json({ status: "anonymous", errors: ["No valid student session is active."] }, 401);
+  const deployment = getPersistenceDeploymentGateSnapshot();
   return json({
     status: "authenticated",
-    provider: "sqlite",
-    durability: "durable-managed",
+    provider: deployment.provider,
+    durability: deployment.gate.mode,
     identity: {
       tenantId: claims.tenantId,
       packageId: claims.packageId,

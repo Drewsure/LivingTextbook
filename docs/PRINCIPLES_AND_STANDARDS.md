@@ -5358,3 +5358,19 @@ and `docs/adr/0924-pilot-handoff-snapshot-scope-integrity.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-997,
 `docs/decision-register/DR-997-hosted-persistence-opt-in-deployment-gate.md`,
 and `docs/adr/0925-hosted-persistence-opt-in-deployment-gate.md`.
+
+## 341. Persistence Deployment Gate Route Alignment Standard
+
+- Student session issuance, durable progression writes, durable event writes,
+  and persistence status must consume one shared server-side deployment-gate
+  snapshot.
+- A blocked durable deployment must fail closed before issuing a durable
+  student session or accepting a durable write.
+- Deployment readiness is not identity authorization: matching tenant-scoped
+  student session or server-only authorization remains a separate check.
+- Process-memory remains rehearsal-only, and cross-tenant reads or writes must
+  fail closed.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-998,
+`docs/decision-register/DR-998-persistence-deployment-gate-route-alignment.md`,
+and `docs/adr/0926-persistence-deployment-gate-route-alignment.md`.
