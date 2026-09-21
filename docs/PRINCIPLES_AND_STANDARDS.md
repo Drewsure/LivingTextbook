@@ -4915,3 +4915,18 @@ and `docs/adr/0894-shared-app-shell-skip-navigation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-967,
 `docs/decision-register/DR-967-audio-status-accessibility.md`,
 and `docs/adr/0895-audio-status-accessibility.md`.
+
+## 311. Shared App Shell Current Route Standard
+
+- Shared tenant navigation must expose exactly one most-specific matching
+  route with `aria-current="page"`.
+- Root matching is exact; nested paths may match a section prefix, with the
+  longest matching href selected as the sole current item.
+- Active styling must use tenant-configured variables and preserve visible
+  keyboard focus.
+- Navigation state is informational and must not own routing authorization,
+  scoring, persistence, rewards, or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-968,
+`docs/decision-register/DR-968-app-shell-current-route.md`,
+and `docs/adr/0896-app-shell-current-route.md`.

@@ -21,6 +21,7 @@ import {
   getTenantTeacherDraftReviewQueuePath,
 } from "@/features/routes/routeContracts";
 import type { TenantConfig } from "@/features/tenant/types";
+import { AppShellNavigation } from "./AppShellNavigation";
 
 interface AppShellProps {
   children: ReactNode;
@@ -139,13 +140,7 @@ export function AppShell({ children, tenant, compact = false }: AppShellProps) {
             <h1 className="text-lg font-bold">{tenant.displayName}</h1>
           </div>
           {!compact && (
-            <nav className="flex flex-wrap justify-end gap-3 text-sm font-semibold text-[var(--tenant-text)]" aria-label="Primary">
-              {navItems.map((item) => (
-                <a key={`${tenant.id}-${item.label}-${item.href}`} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+            <AppShellNavigation items={navItems} />
           )}
         </div>
       </header>
