@@ -5404,3 +5404,18 @@ and `docs/adr/0927-pilot-preflight-authoritative-persistence-gate.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1000,
 `docs/decision-register/DR-1000-pilot-handoff-persistence-gate-evidence.md`,
 and `docs/adr/0928-pilot-handoff-persistence-gate-evidence.md`.
+
+## 344. Source Package Assembly Lineage Integrity Standard
+
+- Review-only source-to-package assembly must use a deterministic
+  `sha256:<64 hexadecimal characters>` source checksum.
+- Candidate unit keys, media asset ids, required records, and blockers must be
+  non-blank and unique so evidence cannot drift through ambiguous references.
+- A draft candidate requires source-lineage review, accepted extraction review,
+  target mapping review, and a teacher review handoff.
+- Assembly remains evidence-only: it cannot create drafts, capture approval,
+  promote packages, or create student-facing payloads.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1001,
+`docs/decision-register/DR-1001-source-package-assembly-lineage-integrity.md`,
+and `docs/adr/0929-source-package-assembly-lineage-integrity.md`.

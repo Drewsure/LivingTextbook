@@ -1168,7 +1168,7 @@ try {
     label: "Candidate package assembly",
     mode: "review-only",
     status: "draft-candidate",
-    sourceChecksum: "checksum-1",
+    sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     candidateUnitKeys: ["tenant-1:curriculum:L1:U1"],
     candidateMediaAssetIds: ["audio-1"],
     approvalLedgerId: "ledger-1",
@@ -1206,6 +1206,27 @@ try {
       requiredRecords: [],
     }),
     "Source package assembly is missing required record source_extraction_review_packet.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      sourceChecksum: "checksum-1",
+    }),
+    "Source package assembly sourceChecksum must use the sha256:<64 hexadecimal characters> format.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      candidateUnitKeys: ["tenant-1:curriculum:L1:U1", "tenant-1:curriculum:L1:U1"],
+    }),
+    "Source package assembly candidateUnitKeys must contain unique identifiers.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({
+      ...validSourcePackageAssemblyPacket,
+      teacherReviewHandoffPresent: false,
+    }),
+    "Draft-candidate source package assembly requires teacherReviewHandoffPresent.",
   );
 
   const validPackageApprovalLedger = {

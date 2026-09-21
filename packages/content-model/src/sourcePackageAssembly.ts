@@ -34,6 +34,23 @@ const REQUIRED_ASSEMBLY_RECORDS = [
   "teacher_draft_review_handoff",
 ] as const;
 
+const SHA256_CHECKSUM_PATTERN = /^sha256:[0-9a-f]{64}$/i;
+
+function validateUniqueStringList(values: unknown, field: string, minimumLength = 0): string[] {
+  if (!Array.isArray(values)) return [`Source package assembly ${field} must be an array.`];
+  const errors: string[] = [];
+  if (values.length < minimumLength) {
+    errors.push(`Source package assembly must include at least one ${field.replace(/([A-Z])/g, " $1").toLowerCase()}.`);
+  }
+  if (values.some((value) => typeof value !== "string" || value.trim().length === 0)) {
+    errors.push(`Source package assembly ${field} must contain only non-blank strings.`);
+  }
+  if (new Set(values).size !== values.length) {
+    errors.push(`Source package assembly ${field} must contain unique identifiers.`);
+  }
+  return errors;
+}
+
 export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssemblyPacket): string[] {
   const errors: string[] = [];
 
@@ -78,14 +95,17 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
   if (!Array.isArray(packet.candidateUnitKeys) || packet.candidateUnitKeys.length === 0) {
     errors.push("Source package assembly must include at least one candidate unit key.");
   }
-  if (!Array.isArray(packet.candidateMediaAssetIds)) {
-    errors.push("Source package assembly candidateMediaAssetIds must be an array.");
-  }
-  if (!Array.isArray(packet.requiredRecords)) {
-    errors.push("Source package assembly requiredRecords must be an array.");
-  }
+  errors.push(...validateUniqueStringList(packet.candidateUnitKeys, "candidateUnitKeys", 1));
+  errors.push(...validateUniqueStringList(packet.candidateMediaAssetIds, "candidateMediaAssetIds"));
+  errors.push(...validateUniqueStringList(packet.requiredRecords, "requiredRecords"));
   if (!Array.isArray(packet.blockers)) {
     errors.push("Source package assembly blockers must be an array.");
+  } else {
+    errors.push(...validateUniqueStringList(packet.blockers, "blockers"));
+  }
+
+  if (typeof packet.sourceChecksum === "string" && !SHA256_CHECKSUM_PATTERN.test(packet.sourceChecksum)) {
+    errors.push("Source package assembly sourceChecksum must use the sha256:<64 hexadecimal characters> format.");
   }
 
   const requiredRecords = Array.isArray(packet.requiredRecords) ? packet.requiredRecords : [];
@@ -98,6 +118,19 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
   const blockers = Array.isArray(packet.blockers) ? packet.blockers : [];
   if (packet.status === "blocked" && blockers.length === 0) {
     errors.push("Blocked source package assembly must state at least one blocker.");
+  }
+
+  if (packet.status === "draft-candidate") {
+    for (const [field, value] of [
+      ["sourceLineageReviewed", packet.sourceLineageReviewed],
+      ["extractionReviewAccepted", packet.extractionReviewAccepted],
+      ["targetMappingReviewed", packet.targetMappingReviewed],
+      ["teacherReviewHandoffPresent", packet.teacherReviewHandoffPresent],
+    ] as const) {
+      if (value !== true) {
+        errors.push(`Draft-candidate source package assembly requires ${field}.`);
+      }
+    }
   }
 
   if (packet.draftCreationAllowed || packet.studentFacingPayloadAllowed || packet.packagePromotionAllowed || packet.approvalCaptureAllowed) {
