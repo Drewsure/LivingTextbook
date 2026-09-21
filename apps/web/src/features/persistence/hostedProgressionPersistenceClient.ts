@@ -6,7 +6,7 @@ export interface HostedProgressionReadRequest {
   accessMode?: "student-continuity" | "teacher-review-probe";
 }
 
-import type { HostedProgressionPersistenceRecord, ProgressEventStreamPersistenceRecord } from "@living-textbook/content-model";
+import type { HostedProgressionPersistenceRecord, ProgressEventStreamPersistenceRecord, TeacherLaunchReportAggregation } from "@living-textbook/content-model";
 
 export interface HostedProgressionReadResult {
   status: "available" | "not-found" | "unauthorized" | "blocked" | "unavailable" | "error";
@@ -82,6 +82,7 @@ export interface HostedProgressEventReviewResult {
   provider?: "process-memory" | "sqlite";
   durability?: "non-durable-rehearsal" | "durable-managed";
   records: ProgressEventStreamPersistenceRecord[];
+  report?: TeacherLaunchReportAggregation;
   errors: string[];
 }
 
@@ -108,7 +109,7 @@ export async function readHostedProgressEventStreams(
       return { status: "unavailable", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? ["Event review storage is temporarily unavailable."] };
     }
     if (!response.ok) return { status: "error", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? [`Event review failed with HTTP ${response.status}.`] };
-    return { status: "available", provider: body.provider, durability: body.durability, records, errors: body.errors ?? [] };
+    return { status: "available", provider: body.provider, durability: body.durability, records, report: body.report, errors: body.errors ?? [] };
   } catch {
     return { status: "error", records: [], errors: ["The hosted event review endpoint could not be reached."] };
   }
@@ -128,6 +129,7 @@ type HostedProgressEventResponse = {
   provider?: "process-memory" | "sqlite";
   durability?: "non-durable-rehearsal" | "durable-managed";
   records?: ProgressEventStreamPersistenceRecord[];
+  report?: TeacherLaunchReportAggregation;
   errors?: string[];
 };
 

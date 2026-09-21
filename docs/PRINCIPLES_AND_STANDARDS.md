@@ -5195,3 +5195,21 @@ and `docs/adr/0914-teacher-event-review-panel.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-987,
 `docs/decision-register/DR-987-teacher-review-authorization-handoff.md`,
 and `docs/adr/0915-teacher-review-authorization-handoff.md`.
+
+## 331. Teacher Launch Report Aggregation Standard
+
+- Authorized teacher review may receive a deterministic summary for exactly
+  one tenant, reviewed package, and classroom launch.
+- Aggregation is read-only evidence, not export authorization, roster search,
+  live classroom control, or proof that a deployment is production-ready.
+- Raw session identifiers are converted to deterministic pseudonymous learner
+  slots before reaching the teacher UI.
+- Progress-affecting, report-only, and support-only event counts must remain
+  distinct; support-language and media-only signals cannot unlock progress.
+- Reward totals must use an explicit delta-versus-cumulative snapshot rule and
+  remain reproducible when storage ordering changes.
+- Raw learner audio, transcripts, and real learner identifiers are excluded.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-988,
+`docs/decision-register/DR-988-teacher-launch-report-aggregation.md`,
+and `docs/adr/0916-teacher-launch-report-aggregation.md`.

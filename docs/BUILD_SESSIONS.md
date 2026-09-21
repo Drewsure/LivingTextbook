@@ -4060,3 +4060,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
   persistence.
 - Reused the existing session-change event so the review panel refreshes after
   sign-in or sign-out without creating a second authorization path.
+
+## Build session 0916: Teacher launch report aggregation
+
+- Added a shared deterministic aggregation contract over validated,
+  launch-scoped event streams.
+- Replaced raw session identifiers in the teacher review surface with stable
+  pseudonymous learner slots and summary metrics.
+- Preserved separate progress-affecting, report-only, and support-only counts;
+  raw audio and transcripts remain excluded.
+- Kept export, mutation, live launch, and broad student discovery blocked.
+- Added the dedicated aggregation verification gate and recorded ADR 0916 and
+  DR-988.

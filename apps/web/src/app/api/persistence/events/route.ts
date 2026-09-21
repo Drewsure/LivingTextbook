@@ -5,6 +5,7 @@ import {
   validateProgressEventStreamPersistenceClientWrite,
   validateProgressEventStreamPersistenceRead,
   validateProgressEventStreamPersistenceWrite,
+  createTeacherLaunchReportAggregation,
 } from "@living-textbook/content-model";
 import {
   getConfiguredPersistenceProvider,
@@ -125,6 +126,11 @@ function readTeacherLaunchEventStreams(scope: { tenantId: string; packageId: str
       durability: adapter.durability,
       scope: { tenantId: scope.tenantId, packageId: scope.packageId, launchCode: scope.launchCode },
       records,
+      report: createTeacherLaunchReportAggregation(records, {
+        tenantId: scope.tenantId,
+        packageId: scope.packageId,
+        launchCode: scope.launchCode,
+      }),
     });
   } catch {
     return json({ status: "unavailable", provider: getConfiguredPersistenceProvider(), errors: ["Progress event stream storage could not be opened or listed."] }, 503);

@@ -7152,3 +7152,23 @@ Required invariants:
 Evidence: `docs/adr/0915-teacher-review-authorization-handoff.md`,
 `apps/web/src/app/teacher/sessions/[launchCode]/page.tsx`,
 `apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx`.
+
+# DR-988: Teacher Launch Report Aggregation
+
+Decision: return a deterministic, pseudonymous, read-only summary alongside
+the authorized launch-scoped event review response. The summary counts
+learners, streams, event effects, completions, mastery updates, game modes,
+and earned Star Dust without exposing raw session identifiers, learner audio,
+or transcripts.
+
+Required invariants:
+
+- Records must match the tenant, reviewed package, and classroom launch scope.
+- Progress-affecting, report-only, and support-only events remain separate.
+- Explicit Star Dust deltas are summed; cumulative snapshots are counted once
+  per stream.
+- The aggregation cannot authorize export, mutation, live launch, or broader
+  student discovery.
+
+Evidence: `docs/adr/0916-teacher-launch-report-aggregation.md`,
+`docs/decision-register/DR-988-teacher-launch-report-aggregation.md`.
