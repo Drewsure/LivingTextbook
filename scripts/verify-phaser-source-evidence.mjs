@@ -5,12 +5,14 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const reviewPacketPath = join(root, "apps", "web", "src", "data", "samplePhaserCandidateContractReview.ts");
+const sourceIdentityPath = join(root, "packages", "content-model", "src", "phaserCandidateSourceIdentity.ts");
 const snapshotRoot = process.env.LIVING_TEXTBOOK_ZAI_REVIEW_ROOT
   ? resolve(process.env.LIVING_TEXTBOOK_ZAI_REVIEW_ROOT)
   : resolve(root, "..", "zai-review", "ministar-lab-frozen-2026-09-12");
 const packet = readFileSync(reviewPacketPath, "utf8");
-const sourceSnapshotId = packet.match(/const sourceSnapshotId = "([^"]+)"/)?.[1];
-const sourceCommitSha = packet.match(/const sourceCommitSha = "([^"]+)"/)?.[1];
+const sourceIdentity = readFileSync(sourceIdentityPath, "utf8");
+const sourceSnapshotId = sourceIdentity.match(/PHASER_CANDIDATE_SOURCE_SNAPSHOT_ID\s*=\s*"([^"]+)"/)?.[1];
+const sourceCommitSha = sourceIdentity.match(/PHASER_CANDIDATE_SOURCE_COMMIT_SHA\s*=\s*"([^"]+)"/)?.[1];
 const manifest = Array.from(
   packet.matchAll(/path:\s*"([^"]+)",\s*\n\s*sha256:\s*"([0-9a-f]{64})"/gi),
   (match) => ({ path: match[1], sha256: match[2].toLowerCase() }),

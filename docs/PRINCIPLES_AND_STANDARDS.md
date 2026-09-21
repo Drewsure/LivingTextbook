@@ -4857,3 +4857,18 @@ and `docs/adr/0890-evidence-bundle-returned-manifest-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-963,
 `docs/decision-register/DR-963-persistence-provider-conformance.md`,
 and `docs/adr/0891-persistence-provider-conformance-and-payload-idempotency.md`.
+
+## 307. Frozen Phaser Provenance Verifier Identity Standard
+
+- Read-only frozen-source verification must obtain the candidate snapshot and
+  commit from the shared content-model identity module, not from a duplicated
+  sample fixture constant.
+- The verifier must continue to hash only the declared, repository-relative
+  review files inside the isolated snapshot root.
+- A provenance match proves source evidence integrity only; it never authorizes
+  wrapper approval, source import, route replacement, package promotion, or
+  student assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-964,
+`docs/decision-register/DR-964-phaser-provenance-verifier-identity.md`,
+and `docs/adr/0892-phaser-provenance-verifier-identity.md`.

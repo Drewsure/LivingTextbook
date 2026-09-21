@@ -4,6 +4,9 @@ const sourceEvidenceVerifier = readFileSync(new URL("./verify-phaser-source-evid
 const requiredMarkers = [
   "createHash",
   "readFileSync",
+  "sourceIdentityPath",
+  "phaserCandidateSourceIdentity.ts",
+  "sourceIdentity",
   "existsSync",
   "LIVING_TEXTBOOK_ZAI_REVIEW_ROOT",
   "sourceSnapshotId",

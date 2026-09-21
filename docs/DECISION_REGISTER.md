@@ -6645,3 +6645,25 @@ through the policy text pack into the future acceptance-record preview.
 - `apps/web/src/data/sampleSchoolPolicyAcceptanceRecordPreview.ts`
 - `apps/web/src/features/pilot/SchoolPolicyAcceptanceRecordPreviewPanel.tsx`
 - `scripts/verify-release-control-readiness.mjs`
+
+# DR-964: Phaser Provenance Verifier Identity
+
+## Decision
+
+The frozen Phaser source evidence verifier reads the immutable snapshot tag and
+commit from `packages/content-model/src/phaserCandidateSourceIdentity.ts`, not
+from a duplicated sample review fixture.
+
+## Required Invariants
+
+- Verification remains read-only and hashes only declared, safe paths inside
+  the isolated review root.
+- Shared identity is the single source of truth for the frozen snapshot.
+- A provenance match never authorizes source import, wrapper approval,
+  promotion, route replacement, or student assignment.
+
+## Evidence
+
+- `scripts/verify-phaser-source-evidence.mjs`
+- `scripts/verify-phaser-source-evidence-contract.mjs`
+- `packages/content-model/src/phaserCandidateSourceIdentity.ts`
