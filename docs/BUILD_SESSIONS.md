@@ -4149,3 +4149,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved hosted/local evidence-only behavior and all persistence, export,
   recovery, privacy, and classroom-launch blocks.
 - Recorded ADR 0924 and DR-996.
+
+## Build session 0925: Hosted persistence opt-in deployment gate
+
+- Added one read-only deployment-gate result for hosted persistence.
+- Kept process-memory rehearsal distinct from SQLite durable-managed mode.
+- Required explicit write approval, session boundaries, school policy,
+  retention, release approval, and operations readiness before durable status
+  can be ready.
+- Added persistence readiness tests and teacher workbench visibility without
+  exposing secrets, learner records, raw audio, or transcripts.
+- Recorded ADR 0925 and DR-997.

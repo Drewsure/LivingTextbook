@@ -6,7 +6,7 @@ import {
   getConfiguredPersistenceProvider,
   getPersistenceProviderConfiguration,
 } from "@/server/persistence/progressionPersistenceAdapter";
-import { derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
+import { derivePersistenceDeploymentGate, derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,6 +44,17 @@ export function GET(request: Request) {
     studentSessionBoundaryConfigured,
     policyErrors: policy.errors,
   });
+  const deploymentGate = derivePersistenceDeploymentGate({
+    provider,
+    providerConfigurationValid: providerConfiguration.valid,
+    allowDurableWrites: process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES === "true",
+    studentSessionBoundaryConfigured,
+    teacherOperationsSessionBoundaryConfigured,
+    schoolPolicyAccepted: policy.schoolPolicyAccepted,
+    retentionPolicyAccepted: policy.retentionPolicyAccepted,
+    releaseApprovalAccepted: policy.releaseApprovalAccepted,
+    operationsReady: durable && policy.errors.length === 0,
+  });
 
   return NextResponse.json({
     status: readiness.status,
@@ -64,6 +75,7 @@ export function GET(request: Request) {
       retentionDays: policy.retentionDays,
       errors: policy.errors,
     },
+    deploymentGate,
     errors: readiness.errors,
     privacy: "No learner records, database paths, credentials, raw audio, or transcripts are returned by this status endpoint.",
   }, { headers: { "Cache-Control": "no-store" } });

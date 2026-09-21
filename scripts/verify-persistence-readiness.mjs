@@ -17,7 +17,7 @@ try {
   }).outputText;
   const modulePath = join(output, "persistenceReadiness.cjs");
   writeFileSync(modulePath, compiled, "utf8");
-  const { derivePersistenceReadiness } = require(modulePath);
+  const { derivePersistenceDeploymentGate, derivePersistenceReadiness } = require(modulePath);
 
   const base = {
     providerConfigurationValid: true,
@@ -41,6 +41,37 @@ try {
   const invalid = derivePersistenceReadiness({ ...base, providerConfigurationValid: false, providerConfigurationErrors: ["Unsupported provider."] });
   assertEqual(invalid.status, "blocked", "invalid provider status");
   assertEqual(invalid.healthy, false, "invalid provider health");
+
+  const rehearsalGate = derivePersistenceDeploymentGate({
+    provider: "process-memory",
+    providerConfigurationValid: true,
+    allowDurableWrites: false,
+    studentSessionBoundaryConfigured: false,
+    teacherOperationsSessionBoundaryConfigured: false,
+    schoolPolicyAccepted: false,
+    retentionPolicyAccepted: false,
+    releaseApprovalAccepted: false,
+    operationsReady: false,
+  });
+  assertEqual(rehearsalGate.status, "rehearsal", "process-memory rehearsal gate");
+  assertEqual(rehearsalGate.ready, false, "process-memory rehearsal is not durable-ready");
+
+  const durableGate = derivePersistenceDeploymentGate({
+    provider: "sqlite",
+    providerConfigurationValid: true,
+    allowDurableWrites: true,
+    studentSessionBoundaryConfigured: true,
+    teacherOperationsSessionBoundaryConfigured: true,
+    schoolPolicyAccepted: true,
+    retentionPolicyAccepted: true,
+    releaseApprovalAccepted: true,
+    operationsReady: true,
+  });
+  assertEqual(durableGate, { status: "ready", mode: "durable-managed", ready: true, blockedReasons: [] }, "durable opt-in gate");
+  const blockedDurableGate = derivePersistenceDeploymentGate({ ...durableGateInput(), allowDurableWrites: false });
+  if (!blockedDurableGate.blockedReasons.includes("Durable write approval is not enabled for this deployment.")) {
+    failures.push("durable write approval must remain an explicit deployment gate");
+  }
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
@@ -56,4 +87,18 @@ function assertEqual(actual, expected, label) {
   if (JSON.stringify(actual) !== JSON.stringify(expected)) {
     failures.push(`${label}: expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`);
   }
+}
+
+function durableGateInput() {
+  return {
+    provider: "sqlite",
+    providerConfigurationValid: true,
+    allowDurableWrites: true,
+    studentSessionBoundaryConfigured: true,
+    teacherOperationsSessionBoundaryConfigured: true,
+    schoolPolicyAccepted: true,
+    retentionPolicyAccepted: true,
+    releaseApprovalAccepted: true,
+    operationsReady: true,
+  };
 }

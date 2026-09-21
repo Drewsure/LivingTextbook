@@ -5342,3 +5342,19 @@ and `docs/adr/0923-pilot-handoff-report-snapshot-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-996,
 `docs/decision-register/DR-996-pilot-handoff-snapshot-scope-integrity.md`,
 and `docs/adr/0924-pilot-handoff-snapshot-scope-integrity.md`.
+
+## 340. Hosted Persistence Opt-In Deployment Gate Standard
+
+- Hosted persistence must distinguish rehearsal from durable-managed mode in
+  one explicit, read-only deployment-gate result.
+- Durable readiness requires the selected provider, explicit write approval,
+  signed learner sessions, tenant-scoped teacher operations, school policy,
+  retention policy, release approval, and durable operations readiness.
+- Missing gates fail closed and must never be hidden behind a healthy status.
+- Status responses may expose safe readiness facts and blocker text only; they
+  must exclude secrets, database paths, learner records, raw audio, and
+  transcripts.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-997,
+`docs/decision-register/DR-997-hosted-persistence-opt-in-deployment-gate.md`,
+and `docs/adr/0925-hosted-persistence-opt-in-deployment-gate.md`.

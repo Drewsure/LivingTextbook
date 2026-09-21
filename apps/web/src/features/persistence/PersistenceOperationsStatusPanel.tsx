@@ -42,6 +42,8 @@ export function PersistenceOperationsStatusPanel({ tenantId }: { tenantId: strin
       <dl className="mt-5 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
         <Fact label="Provider" value={result?.provider ?? "Not checked"} />
         <Fact label="Durability" value={result?.durability ?? "Not checked"} />
+        <Fact label="Durable opt-in" value={result?.deploymentGate?.status ?? "Not checked"} />
+        <Fact label="Write approval" value={result ? (result.deploymentGate?.mode === "durable-managed" && result.deploymentGate.ready ? "Ready" : "Blocked") : "Not checked"} />
         <Fact label="Session boundary" value={result ? (result.studentSessionBoundaryConfigured ? "Configured" : "Missing") : "Not checked"} />
         <Fact label="Teacher review" value={result ? (result.teacherOperationsSessionBoundaryConfigured ? "Configured" : "Missing") : "Not checked"} />
         <Fact label="Retention" value={result?.operations?.retentionDays ? `${result.operations.retentionDays} days` : "Policy required"} />
@@ -67,6 +69,7 @@ export function PersistenceOperationsStatusPanel({ tenantId }: { tenantId: strin
           {result.errors.length > 0 ? <p className="mt-1 text-[var(--tenant-muted)]">{result.errors[0]}</p> : null}
           {result.operations?.errors.length ? <p className="mt-1 text-[var(--tenant-muted)]">{result.operations.errors[0]}</p> : null}
           {result.operationEvidenceIntegrity?.errors.length ? <p className="mt-1 text-[var(--tenant-muted)]">{result.operationEvidenceIntegrity.errors[0]}</p> : null}
+          {result.deploymentGate?.blockedReasons.length ? <p className="mt-1 text-[var(--tenant-muted)]">Durable opt-in gate: {result.deploymentGate.blockedReasons[0]}</p> : null}
           <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">No learner records or sensitive media are returned by this check.</p>
         </div>
       ) : null}

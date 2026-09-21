@@ -21,6 +21,12 @@ export interface PersistenceStatusResult {
     retentionDays: number | null;
     errors: string[];
   };
+  deploymentGate?: {
+    status: "ready" | "blocked" | "rehearsal";
+    mode: "durable-managed" | "non-durable-rehearsal";
+    ready: boolean;
+    blockedReasons: string[];
+  };
   errors: string[];
   privacy?: string;
 }
@@ -43,6 +49,7 @@ export async function readPersistenceStatus(tenantId: string): Promise<Persisten
       studentSessionBoundaryConfigured: body.studentSessionBoundaryConfigured,
       teacherOperationsSessionBoundaryConfigured: body.teacherOperationsSessionBoundaryConfigured,
       operations: body.operations,
+      deploymentGate: body.deploymentGate,
       errors: body.errors ?? [],
       privacy: body.privacy,
     };
