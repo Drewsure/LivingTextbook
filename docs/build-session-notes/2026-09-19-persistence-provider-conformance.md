@@ -10,6 +10,8 @@ backend or enabling live classroom writes.
 - Added deterministic, key-sorted progression payload fingerprints.
 - Applied the same replay/conflict behavior to process-memory and SQLite.
 - Fixed SQLite existing-row replay reads to retain the stored idempotency key.
+- Aligned process-memory and SQLite newest-record selection for repeated coded
+  identities, including deterministic idempotency-key tie breaking.
 - Added temporary-data conformance coverage for first writes, exact replays,
   changed payload conflicts, cross-tenant conflicts, scoped reads, and SQLite
   restart durability.

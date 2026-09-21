@@ -71,7 +71,7 @@ function runAdapterChecks(adapterModule, provider, label) {
   const first = adapter.write(record);
   if (first.status !== "accepted" || first.idempotent) failures.push(`${label}: first write was not accepted as new.`);
 
-  const replay = adapter.write({ ...record, continuity: { ...record.continuity }, progression: { ...record.progression } });
+  const replay = adapter.write(Object.fromEntries(Object.entries(record).reverse()));
   if (replay.status !== "accepted" || !replay.idempotent) failures.push(`${label}: exact replay was not idempotent.`);
 
   const changed = adapter.write({ ...record, progression: { ...record.progression, earnedStarDust: 999 } });
@@ -84,8 +84,19 @@ function runAdapterChecks(adapterModule, provider, label) {
     failures.push(`${label}: cross-tenant idempotency reuse was not rejected.`);
   }
 
+  const newer = adapter.write({
+    ...record,
+    writtenAt: "2026-09-19T00:00:01.000Z",
+    idempotencyKey: `${record.idempotencyKey}-newer`,
+    continuity: { ...record.continuity, continuityId: `${record.continuity.continuityId}-newer` },
+    progression: { ...record.progression, earnedStarDust: 301, lastEventAt: "2026-09-19T00:00:01.000Z" },
+  });
+  if (newer.status !== "accepted" || newer.idempotent) failures.push(`${label}: newer identity event was not accepted as new.`);
+
   const read = adapter.read(identityOf(record));
-  if (!read || read.tenantId !== record.tenantId) failures.push(`${label}: identity read did not return its own record.`);
+  if (!read || read.tenantId !== record.tenantId || read.idempotencyKey !== newer.record?.idempotencyKey) {
+    failures.push(`${label}: identity read did not return the newest record.`);
+  }
   const otherTenant = adapter.read({ ...identityOf(record), tenantId: "other-tenant" });
   if (otherTenant !== undefined) failures.push(`${label}: identity read crossed a tenant boundary.`);
 }

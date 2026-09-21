@@ -36,6 +36,7 @@ requireFragments("SQLite store", store, [
   "PRIMARY KEY (tenant_id, package_id, launch_code, student_session_id, idempotency_key)",
   "CREATE INDEX IF NOT EXISTS idx_hosted_progression_identity",
   "ORDER BY written_at DESC",
+  "idempotency_key DESC",
   "The idempotency key is already bound to a different tenant-scoped identity.",
   "The idempotency key is already bound to a different progression payload.",
   "JSON.stringify(record)",

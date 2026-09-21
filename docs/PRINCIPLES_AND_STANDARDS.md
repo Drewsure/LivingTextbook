@@ -4850,7 +4850,7 @@ and `docs/adr/0890-evidence-bundle-returned-manifest-binding.md`.
   identity must return a visible conflict.
 - Process-memory rehearsal and SQLite durability must pass the same conformance
   checks for acceptance, replay, conflict, tenant isolation, and restart
-  behavior.
+  behavior, including newest-record selection for one coded identity.
 - Provider selection remains deployment-owned; conformance does not authorize
   live writes or select a cloud vendor.
 

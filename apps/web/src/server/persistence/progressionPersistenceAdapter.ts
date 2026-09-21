@@ -34,12 +34,14 @@ const processMemoryAdapter: ProgressionPersistenceAdapter = {
   provider: "process-memory",
   durability: "non-durable-rehearsal",
   read(identity) {
-    return [...rehearsalStore.values()].find((candidate) =>
-      candidate.tenantId === identity.tenantId
-        && candidate.packageId === identity.packageId
-        && candidate.launchCode === identity.launchCode
-        && candidate.studentSessionId === identity.studentSessionId,
-    );
+    return [...rehearsalStore.values()]
+      .filter((candidate) =>
+        candidate.tenantId === identity.tenantId
+          && candidate.packageId === identity.packageId
+          && candidate.launchCode === identity.launchCode
+          && candidate.studentSessionId === identity.studentSessionId,
+      )
+      .sort((left, right) => compareProgressionOrder(left, right))[0];
   },
   write(record) {
     const existing = rehearsalStore.get(record.idempotencyKey);
@@ -68,6 +70,12 @@ const processMemoryAdapter: ProgressionPersistenceAdapter = {
     return { status: "accepted", idempotent: false, record, errors: [] };
   },
 };
+
+function compareProgressionOrder(left: HostedProgressionPersistenceRecord, right: HostedProgressionPersistenceRecord): number {
+  if (left.writtenAt !== right.writtenAt) return left.writtenAt > right.writtenAt ? -1 : 1;
+  if (left.idempotencyKey === right.idempotencyKey) return 0;
+  return left.idempotencyKey > right.idempotencyKey ? -1 : 1;
+}
 
 export function getConfiguredPersistenceProvider(): PersistenceProvider {
   return getPersistenceProviderConfiguration().provider;

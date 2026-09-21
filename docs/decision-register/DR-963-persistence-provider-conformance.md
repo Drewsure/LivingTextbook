@@ -17,6 +17,8 @@ replay is accepted.
 
 - Exact retries are safe and visibly idempotent.
 - Changed payloads cannot overwrite or masquerade as prior completions.
+- Rehearsal and durable reads return the newest record consistently for a coded
+  identity.
 - SQLite restart behavior is tested without making it the universal deployment.
 - Durable writes remain blocked by school, retention, release, authorization,
   and deployment policy gates.

@@ -37,6 +37,7 @@ requireFragments("provider adapter", adapter, [
   "processMemoryAdapter",
   "getDurableProgressionStore",
   "createProgressionRecordFingerprint",
+  "compareProgressionOrder",
   "idempotency key is already bound",
 ]);
 requireFragments("progression route", progressionRoute, [

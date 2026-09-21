@@ -177,7 +177,7 @@ export class SqliteProgressionStore {
       SELECT record_json, idempotency_key
       FROM hosted_progression_records
       WHERE tenant_id = ? AND package_id = ? AND launch_code = ? AND student_session_id = ?
-      ORDER BY written_at DESC
+      ORDER BY written_at DESC, idempotency_key DESC
       LIMIT 1
     `).get(identity.tenantId, identity.packageId, identity.launchCode, identity.studentSessionId) as StoredRow | undefined;
 

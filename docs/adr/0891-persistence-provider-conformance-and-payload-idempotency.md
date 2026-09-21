@@ -20,6 +20,7 @@ the stored key when reading an existing row so exact replays could be recognized
 - A changed payload with the same key is a visible conflict.
 - Reuse of a key across tenant-scoped identities is a visible conflict.
 - Reads remain tenant, package, launch, and student-session scoped.
+- Reads select the newest record deterministically, including a stable key tie-breaker.
 - SQLite records survive closing and reopening the store.
 - The conformance check uses temporary data and cannot enable classroom writes.
 - Provider conformance does not choose a hosted vendor or bypass policy gates.
