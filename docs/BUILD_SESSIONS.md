@@ -4040,3 +4040,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added process-memory and SQLite parity checks for list scope, tenant
   isolation, ordering, and restart durability.
 - Recorded ADR 0913 and DR-985.
+
+## Build session 0914: Teacher event review panel
+
+- Connected the teacher session route to the launch-scoped event review API.
+- Added a client panel with explicit protected, blocked, unavailable, empty,
+  and available states.
+- Kept the rendered view pseudonymous and summary-only; raw event objects,
+  learner audio, and transcripts remain outside the UI boundary.
+- Rechecks after an authorized teacher operations session changes.
+- Recorded ADR 0914 and DR-986.

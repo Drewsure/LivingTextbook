@@ -6,7 +6,7 @@ export interface HostedProgressionReadRequest {
   accessMode?: "student-continuity" | "teacher-review-probe";
 }
 
-import type { HostedProgressionPersistenceRecord } from "@living-textbook/content-model";
+import type { HostedProgressionPersistenceRecord, ProgressEventStreamPersistenceRecord } from "@living-textbook/content-model";
 
 export interface HostedProgressionReadResult {
   status: "available" | "not-found" | "unauthorized" | "blocked" | "unavailable" | "error";
@@ -71,6 +71,49 @@ export async function writeHostedProgressionContinuity(request: {
   }
 }
 
+export interface HostedProgressEventReviewRequest {
+  tenantId: string;
+  packageId: string;
+  launchCode: string;
+}
+
+export interface HostedProgressEventReviewResult {
+  status: "available" | "unauthorized" | "blocked" | "unavailable" | "error";
+  provider?: "process-memory" | "sqlite";
+  durability?: "non-durable-rehearsal" | "durable-managed";
+  records: ProgressEventStreamPersistenceRecord[];
+  errors: string[];
+}
+
+export async function readHostedProgressEventStreams(
+  request: HostedProgressEventReviewRequest,
+): Promise<HostedProgressEventReviewResult> {
+  const query = new URLSearchParams({
+    tenantId: request.tenantId,
+    packageId: request.packageId,
+    launchCode: request.launchCode,
+    accessMode: "teacher-review-probe",
+  });
+  try {
+    const response = await fetch(`/api/persistence/events?${query.toString()}`, { method: "GET", credentials: "same-origin", cache: "no-store" });
+    const body = await readEventJson(response);
+    const records = Array.isArray(body.records) ? body.records : [];
+    if (response.status === 401 || body.status === "unauthorized") {
+      return { status: "unauthorized", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? ["Teacher review authorization is required."] };
+    }
+    if (response.status === 423 || body.status === "blocked") {
+      return { status: "blocked", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? ["Event review is blocked by deployment policy."] };
+    }
+    if (response.status === 503 || body.status === "unavailable") {
+      return { status: "unavailable", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? ["Event review storage is temporarily unavailable."] };
+    }
+    if (!response.ok) return { status: "error", provider: body.provider, durability: body.durability, records: [], errors: body.errors ?? [`Event review failed with HTTP ${response.status}.`] };
+    return { status: "available", provider: body.provider, durability: body.durability, records, errors: body.errors ?? [] };
+  } catch {
+    return { status: "error", records: [], errors: ["The hosted event review endpoint could not be reached."] };
+  }
+}
+
 type HostedProgressionResponse = {
   status?: string;
   provider?: "process-memory" | "sqlite";
@@ -80,10 +123,26 @@ type HostedProgressionResponse = {
   idempotent?: boolean;
 };
 
+type HostedProgressEventResponse = {
+  status?: string;
+  provider?: "process-memory" | "sqlite";
+  durability?: "non-durable-rehearsal" | "durable-managed";
+  records?: ProgressEventStreamPersistenceRecord[];
+  errors?: string[];
+};
+
 async function readJson(response: Response): Promise<HostedProgressionResponse> {
   try {
     return await response.json() as HostedProgressionResponse;
   } catch {
     return { errors: [`Hosted progression returned an invalid response (HTTP ${response.status}).`] };
+  }
+}
+
+async function readEventJson(response: Response): Promise<HostedProgressEventResponse> {
+  try {
+    return await response.json() as HostedProgressEventResponse;
+  } catch {
+    return { errors: [`Hosted event review returned an invalid response (HTTP ${response.status}).`] };
   }
 }

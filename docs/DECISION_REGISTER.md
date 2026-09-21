@@ -7117,3 +7117,21 @@ Required invariants:
 Evidence: `docs/adr/0913-teacher-launch-scoped-event-review.md`,
 `apps/web/src/app/api/persistence/events/route.ts`,
 `apps/web/src/server/persistence/progressionPersistenceAdapter.ts`.
+
+# DR-986: Teacher Event Review Panel
+
+Decision: Connect the teacher session monitor to the launch-scoped event list
+through a read-only same-origin client boundary. Render only pseudonymous
+summary fields and keep server-side taxonomy and privacy validation
+authoritative.
+
+Required invariants:
+
+- The panel uses teacher review authorization and never grants authorization.
+- Raw event payloads, learner audio, and transcripts are not rendered.
+- Empty, protected, blocked, and unavailable states remain distinct.
+- Session authorization changes trigger a fresh read.
+
+Evidence: `docs/adr/0914-teacher-event-review-panel.md`,
+`apps/web/src/features/persistence/HostedProgressEventReviewPanel.tsx`,
+`apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts`.

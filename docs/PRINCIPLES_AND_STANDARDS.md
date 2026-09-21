@@ -5166,3 +5166,17 @@ and `docs/adr/0912-event-record-shape-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-985,
 `docs/decision-register/DR-985-teacher-launch-scoped-event-review.md`,
 and `docs/adr/0913-teacher-launch-scoped-event-review.md`.
+
+## 329. Teacher Event Review Surface Standard
+
+- Teacher review surfaces consume only bounded, authorized launch scopes.
+- The UI may show pseudonymous learner slots and summary counts, but not raw
+  event payloads, learner audio, or transcripts.
+- Protected, blocked, unavailable, and empty results must remain visibly
+  distinct so a missing record is never mistaken for learner failure.
+- A teacher-session change may trigger a fresh read; it must never silently
+  grant or widen authorization.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-986,
+`docs/decision-register/DR-986-teacher-event-review-panel.md`,
+and `docs/adr/0914-teacher-event-review-panel.md`.
