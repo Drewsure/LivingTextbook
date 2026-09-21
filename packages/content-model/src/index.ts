@@ -256,7 +256,7 @@ export interface UnitPayload {
 
 export function validatePedagogicalTextFields(payload: PedagogicalPayload): string[] {
   const errors: string[] = [];
-  const normalizedTerms = payload.vocabularyTerms.map((term) => term.trim().toLocaleLowerCase());
+  const normalizedTerms = payload.vocabularyTerms.map((term) => term.trim().toLowerCase());
   const nonEmptyTerms = normalizedTerms.filter(Boolean);
 
   if (nonEmptyTerms.length !== normalizedTerms.length) {
@@ -581,7 +581,7 @@ export function resolveTargetLanguage({
 }
 
 function normalizeAudioText(value: string): string {
-  return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+  return value.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
 const learnerFacingAudioCueKinds: AudioCueKind[] = ["term", "sentence", "instruction", "feedback"];

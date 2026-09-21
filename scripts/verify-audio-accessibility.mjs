@@ -17,6 +17,7 @@ for (const marker of [
   "Audio ready. Activate to listen.",
   "Audio playing.",
   "Audio unavailable. Text-to-speech is not available.",
+  ".toLowerCase()",
 ]) {
   requireText(audioSource, marker, `Shared audio accessibility marker missing: ${marker}`);
 }

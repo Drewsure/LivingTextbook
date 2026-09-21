@@ -169,7 +169,7 @@ function mergeEventHistory(
 }
 
 function getEventFingerprint(event: GameProgressEvent): string {
-  const metadata = Object.entries(event.metadata ?? {}).sort(([left], [right]) => left.localeCompare(right));
+  const metadata = Object.entries(event.metadata ?? {}).sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0);
   return JSON.stringify([
     event.type,
     event.unitKey,

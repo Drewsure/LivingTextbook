@@ -192,5 +192,5 @@ function getMatchingAudioSourceUri(text: string, cue?: Pick<AudioCue, "sourceUri
 }
 
 function normalizeAudioText(text: string): string {
-  return text.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+  return text.trim().replace(/\s+/g, " ").toLowerCase();
 }

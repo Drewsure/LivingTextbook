@@ -3908,3 +3908,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the boundary presentation-only and preserved routing, scoring,
   persistence, reward, and progression ownership elsewhere.
 - Recorded ADR 0898 and DR-970.
+
+## Build session 0899: Locale-independent content matching
+
+- Replaced locale-sensitive content normalization with deterministic matching
+  for vocabulary and reviewed learning audio.
+- Replaced locale-sensitive metadata collation in browser evidence fingerprints
+  with ordinal key ordering.
+- Preserved display localization while keeping identity, coverage, and evidence
+  stable across white-label tenant locales.
+- Recorded ADR 0899 and DR-971.

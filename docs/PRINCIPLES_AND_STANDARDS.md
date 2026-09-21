@@ -4957,3 +4957,17 @@ and `docs/adr/0897-audio-label-interaction-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-970,
 `docs/decision-register/DR-970-app-shell-hydration-boundary.md`,
 and `docs/adr/0898-app-shell-hydration-boundary.md`.
+
+## 314. Locale-Independent Content Matching Standard
+
+- Canonical vocabulary and learning-audio matching must use
+  locale-independent normalization.
+- Browser rehearsal evidence fingerprints must order metadata keys by ordinal
+  comparison rather than user-locale collation.
+- Display localization may remain locale-aware, but locale-sensitive
+  formatting must not decide identity, duplicate detection, audio coverage,
+  scoring, persistence, rewards, or progression.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-971,
+`docs/decision-register/DR-971-locale-independent-content-matching.md`,
+and `docs/adr/0899-locale-independent-content-matching.md`.
