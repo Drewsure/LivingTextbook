@@ -5052,3 +5052,16 @@ and `docs/adr/0904-browser-evidence-write-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-977,
 `docs/decision-register/DR-977-memory-match-audio-event-order.md`,
 and `docs/adr/0905-memory-match-audio-event-order.md`.
+
+## 321. Canonical Pairing Audio Event Order Standard
+
+- Pairing modes must establish `round_shown` before term-level
+  `audio_requested` evidence for a selected card.
+- Learning audio is support evidence for the visible round, never a progress,
+  mastery, score, reward, or completion trigger.
+- Memory Match and Match Up must preserve the same ordering when external
+  Phaser wrappers are reviewed against the pairing engine.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-978,
+`docs/decision-register/DR-978-pairing-audio-event-order.md`,
+and `docs/adr/0906-pairing-audio-event-order.md`.

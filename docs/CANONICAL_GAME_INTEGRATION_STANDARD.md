@@ -97,11 +97,12 @@ runtime acceptance.
 The runtime behavior harness exercises both a valid canonical sequence and a
 rejected sequence with missing replay evidence.
 
-For Memory Match, the canonical interaction records `round_shown` before the
-first term-level `audio_requested` event. Learning audio remains supporting
-evidence for the visible round; it cannot represent an answer, mastery, or
-completion event. The integration verifier guards this ordering so a future
-Phaser wrapper cannot silently change replay semantics.
+For pairing modes such as Memory Match and Match Up, the canonical interaction
+records `round_shown` before the first term-level `audio_requested` event.
+Learning audio remains supporting evidence for the visible round; it cannot
+represent an answer, mastery, or completion event. The integration verifier
+guards this ordering so a future Phaser wrapper cannot silently change replay
+semantics.
 
 Every external candidate also carries an explicit wrapper approval decision.
 Candidates are blocked by default; `approved-for-wrapper` means only that a

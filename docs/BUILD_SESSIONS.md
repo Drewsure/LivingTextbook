@@ -3970,3 +3970,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   progression, persistence, and reporting.
 - Added a canonical integration regression check and recorded ADR 0905 and
   DR-977.
+
+## Build session 0906: Pairing audio event order
+
+- Applied the round-before-audio replay rule to both canonical pairing modes:
+  Memory Match and Match Up.
+- Extended the integration verifier to guard both pairing handlers.
+- Recorded ADR 0906 and DR-978 without changing Phaser source or route
+  ownership.

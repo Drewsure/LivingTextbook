@@ -318,16 +318,21 @@ for (const integration of integrations) {
   }
 }
 
-const memoryMatchComponent = readText("apps/web/src/features/game-shell/pairing/PairingMemoryMatchGame.tsx");
-const memoryMatchHandlerStart = memoryMatchComponent.indexOf("function handleCardSelect");
-const memoryMatchHandlerEnd = memoryMatchComponent.indexOf("\n  const feedbackText", memoryMatchHandlerStart);
-const memoryMatchHandler = memoryMatchHandlerStart >= 0
-  ? memoryMatchComponent.slice(memoryMatchHandlerStart, memoryMatchHandlerEnd < 0 ? memoryMatchComponent.length : memoryMatchHandlerEnd)
-  : "";
-const memoryMatchRoundShownIndex = memoryMatchHandler.indexOf('emitInteractionEvent("round_shown"');
-const memoryMatchTermAudioIndex = memoryMatchHandler.indexOf('emitAudioRequested("term"');
-if (memoryMatchRoundShownIndex < 0 || memoryMatchTermAudioIndex < 0 || memoryMatchTermAudioIndex < memoryMatchRoundShownIndex) {
-  failures.push("memory-match: the first card learning-audio request must follow round_shown evidence in the handler.");
+for (const [pairingId, pairingPath] of [
+  ["memory-match", "apps/web/src/features/game-shell/pairing/PairingMemoryMatchGame.tsx"],
+  ["match-up", "apps/web/src/features/game-shell/pairing/PairingMatchUpGame.tsx"],
+]) {
+  const pairingComponent = readText(pairingPath);
+  const pairingHandlerStart = pairingComponent.indexOf("function handleCardSelect");
+  const pairingHandlerEnd = pairingComponent.indexOf("\n  const feedbackText", pairingHandlerStart);
+  const pairingHandler = pairingHandlerStart >= 0
+    ? pairingComponent.slice(pairingHandlerStart, pairingHandlerEnd < 0 ? pairingComponent.length : pairingHandlerEnd)
+    : "";
+  const pairingRoundShownIndex = pairingHandler.indexOf('emitInteractionEvent("round_shown"');
+  const pairingTermAudioIndex = pairingHandler.indexOf('emitAudioRequested("term"');
+  if (pairingRoundShownIndex < 0 || pairingTermAudioIndex < 0 || pairingTermAudioIndex < pairingRoundShownIndex) {
+    failures.push(`${pairingId}: the first card learning-audio request must follow round_shown evidence in the handler.`);
+  }
 }
 
 for (const integration of entryIntegrations) {
