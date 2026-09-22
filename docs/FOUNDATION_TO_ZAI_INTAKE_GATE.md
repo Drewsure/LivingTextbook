@@ -14,7 +14,7 @@ copying, app changes, route replacement, package promotion, or student use.
 - Full foundation verification passes all runtime contract checks.
 - AI-service and content-model typechecks pass.
 - The production web build passes.
-- All 88 active route checks pass.
+- All 89 active route checks pass.
 - Prototype intake, returned-package, evidence-packet, wrapper-review, and
   Codex-decision contracts are present and review-only.
 

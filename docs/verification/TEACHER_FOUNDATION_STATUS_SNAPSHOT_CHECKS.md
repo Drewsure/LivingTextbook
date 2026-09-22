@@ -13,7 +13,7 @@ Keep the main MiniStar teacher page clear about the current build stage.
 - Foundation status snapshot
 - Build stage
 - Structure first
-- 88 active routes checked
+- 89 active routes checked
 - Tenant boundary visible
 - Controlled intake open
 - Open foundation control room

@@ -5873,7 +5873,7 @@ requireText(routeVerifier, "/teacher/generator/ministar", "Active route verifier
 requireText(routeVerifier, "/teacher/review/sample-publisher", "Active route verifier must check the sample publisher tenant review route.");
 requireText(routeVerifier, "/teacher/review/ministar", "Active route verifier must check the MiniStar tenant review route.");
 requireText(routeVerifier, "forbiddenTextByPath", "Active route verifier must block cross-tenant review queue leakage.");
-requireText(routeVerifier, "88 checked routes", "Active route verifier must expect the updated route count.");
+requireText(routeVerifier, "89 checked routes", "Active route verifier must expect the updated route count.");
 requireText(principles, "AI teaching game generator creates draft package requests", "Principles must preserve generator-as-draft rule.");
 requireText(handoff, "The AI teaching game generator creates draft package requests", "AI handoff must include generator boundary.");
 requireText(

@@ -14,7 +14,7 @@ Status: active scaffold
 - The agenda shows questions to ask, evidence to request, decisions not made here, and meeting actions still blocked.
 - The route shows a first partner pilot follow-up packet preview with requested evidence, school decisions, demo links, packet blockers, and the next evidence gate.
 - Each follow-up packet item identifies an owner, review route, and reason.
-- The active route verifier must expect 88 active routes.
+- The active route verifier must expect 89 active routes.
 
 ## Forbidden Behavior
 

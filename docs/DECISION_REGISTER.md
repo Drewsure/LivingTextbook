@@ -1299,7 +1299,7 @@ Decision: Add a compact foundation status snapshot to the MiniStar teacher page.
 Rationale:
 
 - The main teacher page should communicate the current build stage before users enter launch routes or the larger intake control room.
-- The snapshot gives a non-technical status view: structure first, 88 active routes checked, tenant boundary visible, and Z.ai intake not yet.
+- The snapshot gives a non-technical status view: structure first, 89 active routes checked, tenant boundary visible, and Z.ai intake not yet.
 - This helps the human side of the project understand when to intervene and when to keep build focus on foundation integrity.
 
 Guardrails:
@@ -8076,3 +8076,23 @@ Evidence: `docs/adr/0964-persistence-provider-selection-criterion-reconciliation
 `packages/content-model/src/persistenceProviderSelectionPreflight.ts`,
 `apps/web/src/features/persistence/PersistenceProviderSelectionPreflightPanel.tsx`,
 and `scripts/verify-persistence-provider-selection-preflight-behavior.mjs`.
+
+# DR-1037: Active Route Count Source of Truth
+
+Decision: align current route health evidence to the 89-entry active route
+matrix and include the deployment decision workbench in foundation composition.
+
+Required invariants:
+
+- Current dashboards and checklists say 89 active routes.
+- Current route, deployment, pilot, entitlement, partner-intake, and generator
+  verifiers expect the same count.
+- Historical notes remain historical and are not rewritten as current evidence.
+- Deployment workbench verification is part of the foundation composition gate.
+- Route health never authorizes student launch, storage, offline delivery,
+  installer export, or Z.ai source promotion.
+
+Evidence: `apps/web/src/data/sampleActiveRouteMatrix.ts`,
+`scripts/verify-active-routes.mjs`,
+`scripts/verify-foundation-composition.mjs`, and
+`docs/adr/0965-active-route-count-source-of-truth.md`.

@@ -5968,3 +5968,18 @@ and `docs/adr/0963-persistence-provider-selection-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1036,
 `docs/decision-register/DR-1036-persistence-provider-selection-criterion-reconciliation.md`,
 and `docs/adr/0964-persistence-provider-selection-criterion-reconciliation.md`.
+
+## 380. Active Route Count Source-of-Truth Standard
+
+- Current route health evidence must use the active route matrix as its source
+  of truth; the current matrix contains 89 routes.
+- Route verifiers, status snapshots, deployment/pilot checklists, and current
+  intake evidence must agree on that count.
+- Historical build records must not be rewritten to present old counts as
+  current evidence.
+- Route and deployment verification never authorizes student launch, storage,
+  offline delivery, installer export, or Z.ai source promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1037,
+`docs/decision-register/DR-1037-active-route-count-source-of-truth.md`, and
+`docs/adr/0965-active-route-count-source-of-truth.md`.

@@ -97,6 +97,15 @@ export const sampleActiveRouteMatrix: ActiveRouteMatrixItem[] = [
       "Focused pilot command route that separates controlled demo evidence from classroom launch blockers, school policy, persistence, reports, media evidence, and deployment decisions.",
   },
   {
+    routeId: "teacher-release-readiness",
+    group: "core",
+    label: "Teacher white-label release readiness",
+    path: "/teacher/release-readiness",
+    status: "active-scaffold",
+    note:
+      "Tenant- and package-bound release evidence route for foundation, canonical games, persistence, pilot, quality, release-control, and student-activation gates.",
+  },
+  {
     routeId: "teacher-partner-pilot-requirements-intake",
     group: "sample-publisher",
     label: "Partner pilot requirements intake",

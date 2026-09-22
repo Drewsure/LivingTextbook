@@ -703,7 +703,7 @@ expectedTextByPath.get("/teacher")?.push(
   "Foundation status snapshot",
   "Build stage",
   "Structure first",
-  "88 active routes checked",
+  "89 active routes checked",
   "Tenant boundary visible",
   "Controlled intake open",
   "Open foundation control room",
@@ -2651,7 +2651,7 @@ if (teacherIntakeExpected) {
   const routeCountIndex = teacherIntakeExpected.indexOf("49 checked routes");
 
   if (routeCountIndex >= 0) {
-    teacherIntakeExpected[routeCountIndex] = "88 checked routes";
+    teacherIntakeExpected[routeCountIndex] = "89 checked routes";
   }
 
   teacherIntakeExpected.push(

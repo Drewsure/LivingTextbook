@@ -190,7 +190,7 @@ export const sampleFoundationVerificationGate: FoundationVerificationGate = {
       protects:
         "Hosted PWA, local classroom server, packaged companion, PWA/offline, media bundle, local preflight, and package tier choices stay review-only before export, installer, or offline delivery workflows.",
       evidence:
-        "The verifier checks the deployment decision guide, route, navigation, active route matrix, active route verifier, standards, ADR, decision record, and route checklist.",
+        "The verifier checks the deployment decision guide, route, navigation, 89-entry active route matrix, active route verifier, standards, ADR, decision record, and route checklist.",
       nextStep:
         "Run this before changing hosted/local/package deployment language, offline claims, media bundle handoff, installer strategy, or white-label package delivery copy.",
     },

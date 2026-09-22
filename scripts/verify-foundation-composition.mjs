@@ -77,6 +77,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-prov
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-selection-preflight-behavior.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-deployment-decision-workbench.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate-integration-eligibility.mjs", import.meta.url))], {
   stdio: "inherit",
 });
@@ -121,6 +124,7 @@ const requiredCommands = [
   "npm run typecheck --workspace @living-textbook/web",
   "npm run build --workspace @living-textbook/web",
   "npm run verify:routes",
+  "npm run verify:deployment",
 ];
 const missing = requiredCommands.filter((command) => !foundation.includes(command));
 
@@ -133,4 +137,4 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, and route checks plus the stable QR resolver and evidence handoff scope guards.`);
+console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, route, and deployment checks plus the stable QR resolver and evidence handoff scope guards.`);

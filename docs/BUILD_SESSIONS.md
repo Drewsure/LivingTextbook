@@ -4380,3 +4380,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Displayed the criterion snapshot on the teacher persistence workbench.
 - Added negative-path checks for criterion-count and candidate-cost drift.
 - Recorded ADR 0964 and DR-1036.
+
+## Build session 0948: Active Route Count Source of Truth
+
+- Aligned current route verifiers, dashboards, checklists, and intake evidence
+  from 88 to the authoritative 89 active routes.
+- Preserved historical build notes as historical records.
+- Added the deployment decision workbench verifier to foundation composition.
+- Recorded ADR 0965 and DR-1037.

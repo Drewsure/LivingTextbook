@@ -34,7 +34,7 @@ export const sampleFoundationStatusSnapshot: FoundationStatusSnapshot = {
     {
       itemId: "route-health",
       label: "Route health",
-      value: "88 active routes checked",
+      value: "89 active routes checked",
       tone: "success",
       detail: "Teacher, student, game, media, print, report, local companion, and QR scaffold routes are verified locally.",
     },
