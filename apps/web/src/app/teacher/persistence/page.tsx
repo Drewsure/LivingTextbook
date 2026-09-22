@@ -61,6 +61,8 @@ import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persiste
 import { PersistenceActivationPreflightPanel } from "@/features/persistence/PersistenceActivationPreflightPanel";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 import { samplePilotReviewDecisionPersistenceErrors } from "@/data/samplePilotReviewDecisionPersistence";
+import { samplePilotReviewDecisionSnapshots, samplePilotReviewDecisionSnapshotErrors } from "@/data/samplePilotReviewDecisionSnapshots";
+import { PilotReviewDecisionPersistenceSnapshotPanel } from "@/features/persistence/PilotReviewDecisionPersistenceSnapshotPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -115,6 +117,10 @@ export default function TeacherPersistencePage() {
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
         <PersistenceActivationPreflightPanel preflight={samplePersistenceActivationPreflight} />
+        <PilotReviewDecisionPersistenceSnapshotPanel
+          snapshots={samplePilotReviewDecisionSnapshots}
+          errors={samplePilotReviewDecisionSnapshotErrors}
+        />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
         <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />
         <LocalBundleProviderApprovalPanel

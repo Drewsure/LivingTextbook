@@ -7759,3 +7759,20 @@ Evidence: `docs/adr/0947-pilot-review-decision-persistence-boundary.md`,
 `packages/content-model/src/persistenceRecords.ts`,
 `packages/content-model/src/persistenceAdapter.ts`, and
 `apps/web/src/data/samplePilotReviewDecisionPersistence.ts`.
+
+# DR-1020: Pilot Review Decision Snapshot
+
+Decision: use one versioned, fingerprinted, provider-neutral snapshot shape
+for hosted and closed-local review continuity.
+
+Required invariants:
+
+- Snapshot identity must match the tenant, package, and canonical decision.
+- Restore, export, writes, and activation remain blocked in the foundation
+  contract.
+- Raw learner audio, learner transcripts, and real learner identifiers remain
+  excluded from the core snapshot.
+
+Evidence: `docs/adr/0948-pilot-review-decision-snapshot.md`,
+`packages/content-model/src/pilotReviewDecisionPersistence.ts`, and
+`apps/web/src/data/samplePilotReviewDecisionSnapshots.ts`.

@@ -465,3 +465,5 @@ Persistence follow-up:
   policy, retention, and audit requirements are accepted.
 - Keep the review decision record as metadata and never allow it to become a
   hidden activation authority.
+- Define the first production snapshot retention and audit policy before
+  implementing any hosted or local snapshot write path.

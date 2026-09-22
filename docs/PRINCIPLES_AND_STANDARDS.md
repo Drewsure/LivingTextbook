@@ -5704,3 +5704,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1018,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1019,
 `docs/decision-register/DR-1019-pilot-review-decision-persistence-boundary.md`,
 and `docs/adr/0947-pilot-review-decision-persistence-boundary.md`.
+
+## 363. Pilot Review Decision Snapshot Standard
+
+- Hosted and closed-local adapters must use the same versioned snapshot shape
+  when retaining the canonical review decision for continuity or recovery
+  rehearsal.
+- Snapshots must carry a deterministic decision fingerprint and verify tenant,
+  package, and decision identity before they are considered valid.
+- Snapshot restore, export, writes, and activation remain false in the
+  foundation contract. A snapshot is evidence continuity, not permission to
+  change release state.
+- Snapshots exclude raw learner audio, learner transcripts, and real learner
+  identifiers from the core tier.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1020,
+`docs/decision-register/DR-1020-pilot-review-decision-snapshot.md`, and
+`docs/adr/0948-pilot-review-decision-snapshot.md`.

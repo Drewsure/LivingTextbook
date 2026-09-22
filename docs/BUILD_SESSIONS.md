@@ -4200,3 +4200,19 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Recorded ADR-0939 / DR-1011 and added a focused resolver verifier.
 - Wired the resolver verifier into the foundation composition gate so future
   full verification checks malformed-input and tenant-isolation behavior.
+
+## Build session 0930: Pilot review decision persistence boundary
+
+- Added the provider-neutral `pilot-review-decision` durable record category.
+- Added equivalent hosted and closed-local adapter intents with activation
+  blocked in both modes.
+- Added the persistence workbench record map and contract verifier.
+- Recorded ADR 0947 and DR-1019.
+
+## Build session 0931: Pilot review decision snapshot
+
+- Added a versioned, fingerprinted snapshot contract for hosted/local review
+  continuity.
+- Preserved tenant, package, decision, privacy, and no-side-effect checks.
+- Added workbench visibility and a focused snapshot verifier.
+- Recorded ADR 0948 and DR-1020.
