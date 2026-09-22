@@ -80,6 +80,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate-evidence-return.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate-evidence-return-behavior.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

@@ -15,6 +15,8 @@ future game integration proposal.
 - Mounted the review-only preflight on `/teacher/game-readiness`.
 - Added a foundation verifier and preserved import, route, scoring, persistence,
   promotion, QR, and assignment blocks.
+- Added deterministic positive and negative behavior coverage for valid packets,
+  unknown artifacts, missing checksums, incomplete lanes, and mutable sources.
 
 ## Human Action
 

@@ -56,5 +56,6 @@ without changing tenant routes, scoring, persistence, or learner records.
 ## Verification
 
 - `node scripts/verify-phaser-candidate-evidence-return.mjs`
+- `node scripts/verify-phaser-candidate-evidence-return-behavior.mjs`
 - `npm run verify:foundation-composition`
 - `npm run typecheck --workspace @living-textbook/web`
