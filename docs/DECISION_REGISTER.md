@@ -8399,3 +8399,20 @@ Required invariants:
 Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `packages/content-model/src/packageReadinessPersistence.ts`, and
 `docs/adr/0982-package-readiness-extraction-lineage.md`.
+
+# DR-1055: Package-Readiness Lineage Visibility
+
+Decision: expose the source assembly packet, extraction preview identity, and
+source checksum on package-readiness reconciliation and persistence-preview
+surfaces.
+
+Required invariants:
+
+- The visible lineage must match the validated tenant and package scope.
+- Hosted and local metadata previews must show the same three references.
+- Visibility is audit evidence only and cannot authorize upload, storage,
+  promotion, route creation, assignment, or student activation.
+
+Evidence: `apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx`,
+`apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`, and
+the package-readiness verifiers.

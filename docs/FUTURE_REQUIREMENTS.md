@@ -555,3 +555,26 @@ References:
 - `packages/content-model/src/packageReadinessReconciliation.ts`
 - `packages/content-model/src/packageReadinessPersistence.ts`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-014: Package-Readiness Lineage Visibility
+
+Status: Implemented as review-only operator visibility; upload, storage,
+promotion, assignment, and student activation remain gated.
+
+Requirement: Teachers and publisher operators must be able to audit the exact
+source assembly packet, extraction preview, and checksum behind a readiness
+record without inspecting implementation details.
+
+Current boundary:
+
+- Package-readiness reconciliation cards show the source assembly packet,
+  extraction preview ID, and source checksum.
+- Hosted/local metadata-preview cards show the same lineage references.
+- Visible lineage remains evidence only and cannot authorize any side effect.
+
+References:
+
+- `apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx`
+- `apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`
+- `scripts/verify-package-readiness-reconciliation.mjs`
+- `scripts/verify-package-readiness-persistence.mjs`

@@ -36,6 +36,9 @@ for (const marker of [
 for (const marker of [
   "LaneCard",
   "reconciliation.lanes.map",
+  "Source assembly packet",
+  "Extraction preview",
+  "Source checksum",
   "No student-facing activation",
   "Progress rule:",
 ]) {

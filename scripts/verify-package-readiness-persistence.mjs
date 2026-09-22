@@ -46,6 +46,9 @@ for (const marker of [
   "Provider unselected",
   "Writes blocked",
   "Evidence refs",
+  "Source assembly",
+  "Extraction preview",
+  "Source checksum",
 ]) {
   requireText(panel, marker, `Persistence panel is missing ${marker}.`);
 }

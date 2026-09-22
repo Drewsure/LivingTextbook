@@ -6235,3 +6235,18 @@ and `docs/adr/0981-source-to-package-extraction-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1054-package-readiness-extraction-lineage.md`,
 `docs/build-session-notes/2026-09-22-package-readiness-extraction-lineage.md`,
 and `docs/adr/0982-package-readiness-extraction-lineage.md`.
+
+## 399. Package-Readiness Lineage Visibility Standard
+
+- Teacher review surfaces must show the source assembly packet, extraction
+  preview identity, and source checksum that underpin package readiness.
+- Hosted and local metadata-preview cards must expose the same lineage fields;
+  an operator must not need to infer identity from an opaque evidence count.
+- Lineage visibility is audit evidence only. It must not imply upload,
+  persistence, promotion, assignment, route creation, or student activation.
+- Tenant and package scope must remain visible around the lineage so a
+  white-label operator can detect cross-tenant evidence drift before approval.
+
+This standard is recorded in `docs/decision-register/DR-1055-package-readiness-lineage-visibility.md`,
+`docs/build-session-notes/2026-09-22-package-readiness-lineage-visibility.md`,
+and `docs/adr/0983-package-readiness-lineage-visibility.md`.

@@ -58,6 +58,9 @@ export function PackageReadinessPersistencePanel({ intents, errors }: PackageRea
               <Field label="Package" value={intent.packageId} />
               <Field label="Release candidate" value={intent.releaseCandidate} />
               <Field label="Evidence refs" value={`${Object.keys(intent.evidenceLaneRefs).length} lanes`} />
+              <Field label="Source assembly" value={intent.evidenceLaneRefs.sourceAssemblyPacketId} />
+              <Field label="Extraction preview" value={intent.evidenceLaneRefs.sourceExtractionPreviewId} />
+              <Field label="Source checksum" value={intent.evidenceLaneRefs.sourceAssemblyChecksum} />
               <Field label="Provider" value="Unselected" />
               <Field label="Student activation" value="Blocked" />
             </dl>

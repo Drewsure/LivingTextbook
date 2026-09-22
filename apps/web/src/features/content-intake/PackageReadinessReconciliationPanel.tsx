@@ -69,6 +69,9 @@ function ReconciliationCard({ reconciliation }: { reconciliation: PackageReadine
       </div>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <Boundary label="Source assembly packet" value={reconciliation.sourceAssemblyPacketId} />
+        <Boundary label="Extraction preview" value={reconciliation.sourceExtractionPreviewId} />
+        <Boundary label="Source checksum" value={reconciliation.sourceAssemblyChecksum} />
         <Boundary label="No package promotion from reconciliation" value="Blocked" />
         <Boundary label="No student-facing activation from reconciliation" value="Blocked" />
       </div>

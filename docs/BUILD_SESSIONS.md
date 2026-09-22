@@ -103,6 +103,19 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `packages/content-model/src/packageReadinessPersistence.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0969: Package-readiness lineage visibility
+
+- Displayed the source assembly packet, structured extraction preview identity,
+  and source checksum beside each tenant package readiness reconciliation.
+- Displayed the same three lineage references in hosted/local metadata-preview
+  intents so future persistence review can audit one consistent evidence chain.
+- Kept the panels review-only; no upload, storage write, package promotion,
+  route creation, assignment, or student activation was enabled.
+
+Evidence: `apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx`,
+`apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`, and
+the package-readiness verifiers.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review
