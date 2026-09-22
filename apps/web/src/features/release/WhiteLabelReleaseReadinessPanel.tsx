@@ -71,7 +71,10 @@ export function WhiteLabelReleaseReadinessPanel({
           <StatusPill label={readiness.pilotEvidence.status} tone="warning" />
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Pilot tenant scope" value={readiness.pilotEvidence.tenantId} />
+          <Fact label="Pilot package scope" value={readiness.pilotEvidence.packageId} />
           <Fact label="Decision" value={readiness.pilotEvidence.decisionId} />
+          <Fact label="Handoff route" value={readiness.pilotEvidence.handoffRouteKey} />
           <Fact label="Blockers" value={String(readiness.pilotEvidence.blockingReasonCount)} />
           <Fact label="Pilot launch" value={readiness.pilotEvidence.pilotLaunchAllowed ? "Allowed" : "Blocked"} />
           <Fact label="Learner data" value={readiness.pilotEvidence.studentDataCollectionAllowed ? "Allowed" : "Blocked"} />
@@ -90,7 +93,9 @@ export function WhiteLabelReleaseReadinessPanel({
           </div>
           <StatusPill label={`${readiness.packageEvidence.unresolvedLaneCount} unresolved lanes`} tone="warning" />
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          <Fact label="Package evidence tenant" value={readiness.packageEvidence.tenantId} />
+          <Fact label="Package evidence scope" value={readiness.packageEvidence.packageId} />
           <Fact label="Reconciliation" value={readiness.packageEvidence.reconciliationId} />
           <Fact label="Lane coverage" value={`${readiness.packageEvidence.readyPreviewLaneCount}/${readiness.packageEvidence.totalLaneCount} ready-preview`} />
           <Fact label="Promotion" value={readiness.packageEvidence.promotionAllowed ? "Allowed" : "Blocked"} />
@@ -110,7 +115,9 @@ export function WhiteLabelReleaseReadinessPanel({
           </div>
           <StatusPill label={readiness.releaseControlEvidence.status} tone="warning" />
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Control evidence tenant" value={readiness.releaseControlEvidence.tenantId} />
+          <Fact label="Control evidence scope" value={readiness.releaseControlEvidence.packageId} />
           <Fact label="Release gate" value={readiness.releaseControlEvidence.releaseGateId} />
           <Fact label="Open gates" value={String(readiness.releaseControlEvidence.blockingGateCount)} />
           <Fact label="Approvals" value={`${readiness.releaseControlEvidence.requiredApprovalCount - readiness.releaseControlEvidence.openApprovalCount}/${readiness.releaseControlEvidence.requiredApprovalCount} signed`} />

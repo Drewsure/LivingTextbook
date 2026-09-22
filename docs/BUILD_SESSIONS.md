@@ -4477,3 +4477,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept source checks, production approval, persistence, promotion, and student
   launch review-only and activation-disabled.
 - Recorded ADR 0973 and DR-1045.
+
+## Build session 0959: White-label nested evidence scope display
+
+- Displayed tenant and package bindings in the package, pilot, and
+  release-control evidence cards.
+- Kept nested evidence review-only and all promotion, persistence, and student
+  launch actions activation-disabled.
+- Recorded ADR 0974 and DR-1046.

@@ -6107,3 +6107,15 @@ and `docs/adr/0972-white-label-quality-evidence-tenant-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1045-white-label-quality-evidence-scope-display.md`,
 `docs/build-session-notes/2026-09-22-white-label-quality-evidence-scope-display.md`,
 and `docs/adr/0973-white-label-quality-evidence-scope-display.md`.
+
+## 390. White-Label Nested Evidence Scope Display Standard
+
+- Package, pilot, and release-control evidence cards must display their tenant
+  and package bindings beside the evidence they summarize.
+- Headings and descriptive prose cannot substitute for visible scope facts.
+- Nested evidence remains review-only and cannot authorize promotion,
+  persistence activation, or student launch.
+
+This standard is recorded in `docs/decision-register/DR-1046-white-label-nested-evidence-scope-display.md`,
+`docs/build-session-notes/2026-09-22-white-label-nested-evidence-scope-display.md`,
+and `docs/adr/0974-white-label-nested-evidence-scope-display.md`.

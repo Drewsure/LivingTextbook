@@ -90,6 +90,11 @@ These identity and display rules remain evidence-only. They do not authorize
 production approval, persistence activation, package promotion, or student
 launch.
 
+The same visible scope rule applies to nested package, pilot, and release-
+control evidence. Each card must expose the tenant and package identity of the
+record it summarizes; headings such as "same tenant package" are not evidence
+on their own.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,
