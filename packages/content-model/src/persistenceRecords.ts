@@ -100,6 +100,7 @@ export type PersistenceRecordCategory =
   | "package-readiness-reconciliation"
   | "package-adoption-record-preview"
   | "pilot-evidence-packet"
+  | "pilot-review-decision"
   | "reviewer-identity-signature-gate"
   | "teacher-dry-run-rehearsal"
   | "classroom-launch-gate"
@@ -161,6 +162,7 @@ export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCatego
   "progression-continuity",
   "teacher-report-package",
   "package-readiness-reconciliation",
+  "pilot-review-decision",
   "local-companion-handoff",
   "local-companion-release-gate",
   ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
@@ -554,6 +556,8 @@ export interface DurableRecordContract {
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
+  preservesPilotReviewDecision?: boolean;
+  blocksPilotReviewDecisionActivation?: boolean;
   blocksSignedApprovalCapture?: boolean;
   preservesReviewerIdentitySignatureGate?: boolean;
   blocksApprovalCapture?: boolean;
@@ -706,6 +710,20 @@ function validateCompletionIdempotencyRecord(record: DurableRecordContract, erro
     if (!record.completionIdempotencyKeyFields?.includes(field)) {
       errors.push(`Progress event durable record ${record.recordId} must include ${field} in its completion idempotency key fields.`);
     }
+  }
+}
+
+function validatePilotReviewDecisionRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "pilot-review-decision") {
+    return;
+  }
+
+  if (!record.preservesPilotReviewDecision) {
+    errors.push(`Pilot review decision record ${record.recordId} must preserve the canonical review decision.`);
+  }
+
+  if (!record.blocksPilotReviewDecisionActivation) {
+    errors.push(`Pilot review decision record ${record.recordId} must block review decision activation.`);
   }
 }
 
@@ -3281,6 +3299,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     if (record.category === "pilot-evidence-packet" && !record.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet record ${record.recordId} must block signed approval capture until identity and policy exist.`);
     }
+
+    validatePilotReviewDecisionRecord(record, errors);
 
     if (record.category === "reviewer-identity-signature-gate" && !record.preservesReviewerIdentitySignatureGate) {
       errors.push(`Reviewer identity signature gate record ${record.recordId} must preserve reviewer identity, approval intent, signature policy, and audit retention gates.`);

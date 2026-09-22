@@ -5685,3 +5685,22 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1017,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1018,
 `docs/decision-register/DR-1018-canonical-teacher-review-decision.md`, and
 `docs/adr/0946-canonical-teacher-review-decision.md`.
+
+## 362. Pilot Review Decision Persistence Standard
+
+- The canonical teacher review decision may be represented by a durable,
+  provider-neutral metadata record so hosted and closed-local deployments can
+  retain review continuity without changing the decision contract.
+- The record must remain tenant-bound and preserve the decision status,
+  blockers, required next steps, and evidence bindings. It must not store raw
+  learner audio or transcripts in the core tier.
+- Hosted and local adapters must both explicitly block review-decision
+  activation. A stored review decision is not an approval authority, student
+  launch authority, report-export authority, or package-promotion authority.
+- Persistence of this record is optional for the demo and not required before
+  the first pilot. A provider, retention policy, school policy, and audit
+  boundary must be accepted before any implementation writes it in production.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1019,
+`docs/decision-register/DR-1019-pilot-review-decision-persistence-boundary.md`,
+and `docs/adr/0947-pilot-review-decision-persistence-boundary.md`.

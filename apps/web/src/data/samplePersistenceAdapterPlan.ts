@@ -4,6 +4,7 @@ import {
   getPersistenceAdapterWarnings,
   validatePersistenceAdapterPlan,
 } from "@living-textbook/content-model";
+import { samplePilotReviewDecisionWriteIntents } from "@/data/samplePilotReviewDecisionPersistence";
 
 const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
   {
@@ -46,6 +47,7 @@ const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
     costPosture: "controlled",
     deploymentChannels: ["hosted-web", "installed-pwa"],
     writeIntents: [
+      ...samplePilotReviewDecisionWriteIntents.filter((intent) => intent.intentId.startsWith("hosted-")),
       {
         intentId: "hosted-route-registry-write",
         category: "route-registry",
@@ -2878,6 +2880,7 @@ const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
     costPosture: "higher",
     deploymentChannels: ["local-classroom-server", "desktop-app", "custom-deep-link"],
     writeIntents: [
+      ...samplePilotReviewDecisionWriteIntents.filter((intent) => intent.intentId.startsWith("local-")),
       {
         intentId: "local-bundle-manifest-write",
         category: "media-manifest",

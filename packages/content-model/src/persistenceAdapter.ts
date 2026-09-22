@@ -389,6 +389,8 @@ export interface PersistenceWriteIntent {
   blocksStudentDataCopy?: boolean;
   blocksPublicCommunityPublishing?: boolean;
   preservesPilotEvidencePacket?: boolean;
+  preservesPilotReviewDecision?: boolean;
+  blocksPilotReviewDecisionActivation?: boolean;
   blocksSignedApprovalCapture?: boolean;
   preservesReviewerIdentitySignatureGate?: boolean;
   blocksApprovalCapture?: boolean;
@@ -562,6 +564,20 @@ function validateEvidenceWriteIntentScope(intent: PersistenceWriteIntent, errors
 
   for (const scopeError of validateReviewSurfaceScope(intent.scopeKind)) {
     errors.push(`${intent.category} write intent ${intent.intentId}: ${scopeError}`);
+  }
+}
+
+function validatePilotReviewDecisionWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "pilot-review-decision") {
+    return;
+  }
+
+  if (!intent.preservesPilotReviewDecision) {
+    errors.push(`Pilot review decision write intent ${intent.intentId} must preserve the canonical review decision.`);
+  }
+
+  if (!intent.blocksPilotReviewDecisionActivation) {
+    errors.push(`Pilot review decision write intent ${intent.intentId} must block review decision activation.`);
   }
 }
 
@@ -3153,6 +3169,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     if (intent.category === "pilot-evidence-packet" && !intent.blocksSignedApprovalCapture) {
       errors.push(`Pilot evidence packet write intent ${intent.intentId} must block signed approval capture until identity and policy exist.`);
     }
+
+    validatePilotReviewDecisionWriteIntent(intent, errors);
 
     if (intent.category === "reviewer-identity-signature-gate" && !intent.preservesReviewerIdentitySignatureGate) {
       errors.push(`Reviewer identity signature gate write intent ${intent.intentId} must preserve reviewer identity, approval intent, signature policy, and audit retention gates.`);

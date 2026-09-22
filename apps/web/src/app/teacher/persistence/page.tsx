@@ -60,6 +60,7 @@ import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/samp
 import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
 import { PersistenceActivationPreflightPanel } from "@/features/persistence/PersistenceActivationPreflightPanel";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
+import { samplePilotReviewDecisionPersistenceErrors } from "@/data/samplePilotReviewDecisionPersistence";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -175,7 +176,7 @@ export default function TeacherPersistencePage() {
         />
         <PersistenceAdapterReadinessPanel
           plans={samplePersistenceAdapterPlans}
-          errors={[...samplePersistenceAdapterErrors, ...samplePersistenceContractAlignmentErrors]}
+          errors={[...samplePersistenceAdapterErrors, ...samplePersistenceContractAlignmentErrors, ...samplePilotReviewDecisionPersistenceErrors]}
           warnings={samplePersistenceAdapterWarnings}
         />
       </div>

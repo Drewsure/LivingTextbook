@@ -7737,3 +7737,25 @@ Evidence: `docs/adr/0946-canonical-teacher-review-decision.md`,
 `packages/content-model/src/pilotReviewDecision.ts`,
 `apps/web/src/data/samplePilotReviewDecision.ts`, and
 `apps/web/src/features/pilot/PilotReviewDecisionPanel.tsx`.
+
+# DR-1019: Pilot Review Decision Persistence Boundary
+
+Decision: define one durable record shape for the canonical review decision,
+with equivalent hosted and closed-local adapter intents, before any provider
+selection or live activation work.
+
+Required invariants:
+
+- The record is tenant-bound and metadata-only; it preserves blockers, next
+  steps, and evidence bindings without storing raw learner audio or
+  transcripts in the core tier.
+- Hosted and local persistence both block activation, student launch, report
+  export, approval capture, and package promotion.
+- The persistence boundary is optional for the demo and not a pilot-launch
+  prerequisite; provider, retention, school-policy, and audit decisions remain
+  explicit future gates.
+
+Evidence: `docs/adr/0947-pilot-review-decision-persistence-boundary.md`,
+`packages/content-model/src/persistenceRecords.ts`,
+`packages/content-model/src/persistenceAdapter.ts`, and
+`apps/web/src/data/samplePilotReviewDecisionPersistence.ts`.

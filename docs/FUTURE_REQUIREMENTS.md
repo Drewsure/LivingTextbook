@@ -457,3 +457,11 @@ References:
 - `docs/AI_TEACHING_GAME_GENERATOR_CONTRACT.md`
 - `docs/GAME_PROTOTYPE_SURFACE_STANDARD.md`
 - `docs/agent-briefs/ZAI_GAME_PROTOTYPE_DIRECTIVES.md`
+
+Persistence follow-up:
+
+- Select and document the first provider-neutral hosted/local persistence
+  implementation only after the canonical pilot review decision, school
+  policy, retention, and audit requirements are accepted.
+- Keep the review decision record as metadata and never allow it to become a
+  hidden activation authority.

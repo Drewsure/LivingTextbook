@@ -8,6 +8,7 @@ import {
   getDurableRecordReadinessWarnings,
   validateDurableRecordContracts,
 } from "@living-textbook/content-model";
+import { samplePilotReviewDecisionRecord } from "@/data/samplePilotReviewDecisionPersistence";
 
 export type PersistenceReadinessStatus = "demo-static" | "needs-backend" | "needs-policy";
 
@@ -3035,6 +3036,7 @@ const sampleDurableRecordContractsRaw: DurableRecordContract[] = [
     note:
       "The reconciliation record is the tenant-scoped durable join for source, approval, verifier, target-language audio, media rights, publish, and assignment evidence. It must remain metadata-only until a provider, retention, and approval policy are accepted.",
   },
+  samplePilotReviewDecisionRecord,
 ];
 
 export const sampleDurableRecordContracts: DurableRecordContract[] = sampleDurableRecordContractsRaw.map((record) =>
