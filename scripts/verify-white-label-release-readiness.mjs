@@ -44,10 +44,12 @@ const markers = [
   ["panel", "Route and deployment evidence"],
   ["panel", "Active routes reconcile before deployment decisions"],
   ["panel", "Evidence workbench map"],
-  ["panel", "/teacher/game-readiness"],
-  ["panel", "/teacher/persistence"],
-  ["panel", "/teacher/pilot/requirements/sample-publisher"],
-  ["panel", "/teacher/intake"],
+  ["panel", "reviewLinks"],
+  ["page", "WhiteLabelReleaseReviewLink"],
+  ["page", "/teacher/game-readiness"],
+  ["page", "/teacher/persistence"],
+  ["page", "/teacher/pilot/requirements/"],
+  ["page", "/teacher/intake"],
   ["page", "WhiteLabelReleaseReadinessPanel"],
   ["nav", "/teacher/release-readiness"],
   ["routes", "/teacher/release-readiness"],
@@ -59,6 +61,12 @@ for (const forbidden of ["Math.random", "localStorage", "sessionStorage", "fetch
   for (const sourceName of ["model", "sample", "panel"]) {
     if (sources[sourceName].includes(forbidden)) failures.push(`${sourceName}: release readiness must remain review-only: ${forbidden}`);
   }
+}
+if (sources.panel.includes("/teacher/pilot/requirements/sample-publisher")) {
+  failures.push("panel: reusable release readiness must not hard-code the sample tenant requirements route");
+}
+if (!sources.page.includes("encodeURIComponent(samplePublisherTenant.id)")) {
+  failures.push("page: sample release readiness must derive the requirements route from the tenant id");
 }
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

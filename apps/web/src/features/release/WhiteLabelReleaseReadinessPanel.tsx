@@ -1,12 +1,20 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { WhiteLabelReleaseQualityCheckId, WhiteLabelReleaseReadiness } from "@living-textbook/content-model";
 
+export type WhiteLabelReleaseReviewLink = {
+  href: string;
+  label: string;
+  detail: string;
+};
+
 export function WhiteLabelReleaseReadinessPanel({
   readiness,
   errors,
+  reviewLinks,
 }: {
   readiness: WhiteLabelReleaseReadiness;
   errors: string[];
+  reviewLinks: WhiteLabelReleaseReviewLink[];
 }) {
   const qualityChecks = Object.entries(readiness.qualityChecks) as Array<[WhiteLabelReleaseQualityCheckId, boolean]>;
   const qualityEvidence = new Map(readiness.qualityEvidence.map((evidence) => [evidence.checkId, evidence]));
@@ -46,10 +54,7 @@ export function WhiteLabelReleaseReadinessPanel({
           </p>
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <ReviewLink href="/teacher/game-readiness" label="Game readiness" detail="Canonical engines and isolated Z.ai evidence" />
-          <ReviewLink href="/teacher/persistence" label="Persistence" detail="Provider, policy, and durable-write gates" />
-          <ReviewLink href="/teacher/pilot/requirements/sample-publisher" label="Partner requirements" detail="Publisher evidence and school decisions" />
-          <ReviewLink href="/teacher/intake" label="Content intake" detail="Sources, media, routes, and release records" />
+          {reviewLinks.map((link) => <ReviewLink key={link.href} {...link} />)}
         </div>
       </Card>
 

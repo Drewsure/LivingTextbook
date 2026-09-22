@@ -4409,3 +4409,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   student launch blocked.
 - Recorded the next human handoff for the isolated Memory Match evidence
   package.
+
+## Build session 0951: Tenant-supplied release review links
+
+- Removed the sample publisher requirements route from the reusable release
+  readiness panel.
+- Added a page-supplied review-link contract so each tenant can own its scoped
+  requirements route.
+- Preserved review-only navigation and all storage, promotion, import, QR,
+  and student-launch blockers.
+- Recorded ADR 0967 and DR-1039.
