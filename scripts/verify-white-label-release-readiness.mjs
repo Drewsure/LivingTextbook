@@ -54,6 +54,8 @@ const markers = [
   ["panel", "Publish gates and approvals are joined before promotion"],
   ["panel", "Route and deployment evidence"],
   ["panel", "Active routes reconcile before deployment decisions"],
+  ["panel", "Tenant scope"],
+  ["panel", "Package scope"],
   ["panel", "Evidence workbench map"],
   ["panel", "reviewLinks"],
   ["page", "WhiteLabelReleaseReviewLink"],

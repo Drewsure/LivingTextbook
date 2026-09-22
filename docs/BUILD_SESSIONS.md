@@ -4452,3 +4452,9 @@ evidence adapter later records. See ADR 0805 and DR-881.
   pilot-ready, blocker-free pilot evidence.
 - Added a negative-path test for contradictory nested pilot status.
 - Recorded ADR 0971 and DR-1043.
+
+## Build session 0956: Route evidence scope display
+
+- Displayed the route-evidence tenant and package bindings beside active and
+  expected route counts in the release-readiness workbench.
+- Kept the route/deployment card review-only and activation-disabled.

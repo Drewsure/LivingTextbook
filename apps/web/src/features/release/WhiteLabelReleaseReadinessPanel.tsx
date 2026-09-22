@@ -130,7 +130,9 @@ export function WhiteLabelReleaseReadinessPanel({
           </div>
           <StatusPill label={readiness.routeEvidence.deploymentStatus} tone="warning" />
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          <Fact label="Tenant scope" value={readiness.routeEvidence.tenantId} />
+          <Fact label="Package scope" value={readiness.routeEvidence.packageId} />
           <Fact label="Active routes" value={String(readiness.routeEvidence.activeRouteCount)} />
           <Fact label="Expected routes" value={String(readiness.routeEvidence.expectedActiveRouteCount)} />
           <Fact label="Route matrix" value={readiness.routeEvidence.routeMatrixSource} />
