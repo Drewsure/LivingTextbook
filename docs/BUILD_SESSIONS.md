@@ -4345,3 +4345,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Displayed evidence sources beside quality signals on the dashboard.
 - Added negative-path tests for missing and contradictory evidence.
 - Recorded ADR 0961 and DR-1033.
+
+## Build session 0945: White-label release-control evidence binding
+
+- Added typed release-control evidence joining the package publish gate and
+  approval ledger to the release-readiness record.
+- Derived blocking-gate and open-approval counts from authoritative sample
+  records instead of duplicating them by hand.
+- Displayed the control source records and kept promotion and student-facing
+  activation blocked.
+- Added negative-path verification for package mismatch and false-ready
+  release-control evidence.
+- Recorded ADR 0962 and DR-1034.

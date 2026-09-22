@@ -98,3 +98,13 @@ DR-1032 and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.
 
 Quality evidence records are recorded in `docs/DECISION_REGISTER.md` DR-1033
 and `docs/adr/0961-white-label-quality-evidence-records.md`.
+
+Release-control evidence is recorded as a typed join of the package publish
+gate, approval ledger, release candidate, open gate count, and open approval
+count. It must bind to the same package as the readiness record and expose at
+least two source records. Promotion and student-facing activation remain
+false; a `pilot-ready` control record is invalid while any gate or approval is
+open.
+
+This release-control evidence binding is recorded in `docs/DECISION_REGISTER.md`
+DR-1034 and `docs/adr/0962-white-label-release-control-evidence.md`.

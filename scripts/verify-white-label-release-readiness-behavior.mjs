@@ -43,6 +43,14 @@ try {
   qualityMissing.qualityEvidence.pop();
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMissing), "exactly seven quality evidence records", "quality evidence count rejection");
 
+  const controlPackageMismatch = structuredClone(valid);
+  controlPackageMismatch.releaseControlEvidence.packageId = "other-package";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(controlPackageMismatch), "control evidence must match the readiness package", "release-control package mismatch rejection");
+
+  const controlFalseReady = structuredClone(valid);
+  controlFalseReady.releaseControlEvidence.status = "pilot-ready";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(controlFalseReady), "cannot contain open gates or approvals", "release-control false-ready rejection");
+
   const badChecksum = structuredClone(valid);
   badChecksum.packageEvidence.sourceAssemblyChecksum = "sha256:not-a-checksum";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(badChecksum), "checksum must use", "checksum rejection");
@@ -151,6 +159,19 @@ function buildValidReadiness(model) {
       pilotLaunchAllowed: false,
       studentDataCollectionAllowed: false,
       reportExportAllowed: false,
+    },
+    releaseControlEvidence: {
+      releaseGateId: "sample-publish-gate",
+      approvalLedgerId: "sample-approval-ledger",
+      releaseCandidate: "2026.1 pilot candidate",
+      packageId: "sample-publisher-package",
+      status: "blocked",
+      blockingGateCount: 2,
+      requiredApprovalCount: 3,
+      openApprovalCount: 2,
+      sourceRecords: ["package-publish-gate:sample-publish-gate", "approval-ledger:sample-approval-ledger"],
+      promotionAllowed: false,
+      studentFacingActivationAllowed: false,
     },
     productionApprovalAllowed: false,
     studentProductionLaunchAllowed: false,

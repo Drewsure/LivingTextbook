@@ -5924,3 +5924,17 @@ and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1033,
 `docs/decision-register/DR-1033-white-label-quality-evidence-records.md`,
 and `docs/adr/0961-white-label-quality-evidence-records.md`.
+
+## 377. White-Label Release-Control Evidence Binding Standard
+
+- Release readiness must bind the package publish gate and approval ledger to
+  the same tenant package and release candidate.
+- Open blocking gates and open required approvals must be counted from their
+  authoritative records; summary counts may not be hand-entered as a release
+  decision.
+- The binding remains evidence-only. Promotion and student-facing activation
+  stay false until later governed approval work explicitly closes the gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1034,
+`docs/decision-register/DR-1034-white-label-release-control-evidence.md`,
+and `docs/adr/0962-white-label-release-control-evidence.md`.

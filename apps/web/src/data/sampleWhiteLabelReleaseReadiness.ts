@@ -3,6 +3,8 @@ import {
   type WhiteLabelReleaseReadiness,
 } from "@living-textbook/content-model";
 import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
+import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
 
 const samplePackageReconciliation = samplePackageReadinessReconciliations.find(
@@ -10,6 +12,9 @@ const samplePackageReconciliation = samplePackageReadinessReconciliations.find(
 );
 if (!samplePackageReconciliation) throw new Error("Sample publisher package readiness reconciliation is required.");
 const unresolvedPackageLanes = samplePackageReconciliation.lanes.filter((lane) => lane.status !== "ready-preview");
+const blockingReleaseGates = samplePackagePublishGate.items.filter((item) => item.blocksRelease && item.status !== "ready");
+const requiredApprovals = samplePackageApprovalLedger.signoffs.filter((signoff) => signoff.requiredBeforePilot);
+const openApprovals = requiredApprovals.filter((signoff) => signoff.status !== "signed");
 
 export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   readinessId: "sample-publisher-white-label-release-readiness-v1",
@@ -133,6 +138,23 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     pilotLaunchAllowed: false,
     studentDataCollectionAllowed: false,
     reportExportAllowed: false,
+  },
+  releaseControlEvidence: {
+    releaseGateId: samplePackagePublishGate.gateId,
+    approvalLedgerId: samplePackageApprovalLedger.ledgerId,
+    releaseCandidate: samplePackagePublishGate.releaseCandidate,
+    packageId: samplePackagePublishGate.packageId,
+    status: blockingReleaseGates.length > 0 ? "blocked" : openApprovals.length > 0 ? "review-only" : "pilot-ready",
+    blockingGateCount: blockingReleaseGates.length,
+    requiredApprovalCount: requiredApprovals.length,
+    openApprovalCount: openApprovals.length,
+    sourceRecords: [
+      `package-publish-gate:${samplePackagePublishGate.gateId}`,
+      `approval-ledger:${samplePackageApprovalLedger.ledgerId}`,
+      `pilot-review:${samplePilotReviewDecision.decisionId}`,
+    ],
+    promotionAllowed: false,
+    studentFacingActivationAllowed: false,
   },
   productionApprovalAllowed: false,
   studentProductionLaunchAllowed: false,

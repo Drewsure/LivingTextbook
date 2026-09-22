@@ -69,6 +69,20 @@ export interface WhiteLabelReleasePilotEvidence {
   reportExportAllowed: false;
 }
 
+export interface WhiteLabelReleaseControlEvidence {
+  releaseGateId: string;
+  approvalLedgerId: string;
+  releaseCandidate: string;
+  packageId: string;
+  status: "blocked" | "review-only" | "pilot-ready";
+  blockingGateCount: number;
+  requiredApprovalCount: number;
+  openApprovalCount: number;
+  sourceRecords: string[];
+  promotionAllowed: false;
+  studentFacingActivationAllowed: false;
+}
+
 export interface WhiteLabelReleaseReadiness {
   readinessId: string;
   tenantId: string;
@@ -80,6 +94,7 @@ export interface WhiteLabelReleaseReadiness {
   qualityEvidence: WhiteLabelReleaseQualityEvidence[];
   packageEvidence: WhiteLabelReleasePackageEvidence;
   pilotEvidence: WhiteLabelReleasePilotEvidence;
+  releaseControlEvidence: WhiteLabelReleaseControlEvidence;
   productionApprovalAllowed: false;
   studentProductionLaunchAllowed: false;
   blockedActions: string[];
@@ -214,6 +229,37 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed"] as const) {
       if (pilotEvidence[field] !== false) errors.push(`White-label release pilot evidence ${field} must remain false.`);
     }
+  }
+
+  const releaseControlEvidence = readiness.releaseControlEvidence;
+  if (!isRecord(releaseControlEvidence)) {
+    errors.push("White-label release readiness releaseControlEvidence must be an object.");
+  } else {
+    for (const field of ["releaseGateId", "approvalLedgerId", "releaseCandidate", "packageId"] as const) {
+      if (!isNonEmptyString(releaseControlEvidence[field])) errors.push(`White-label release control evidence ${field} must be non-empty.`);
+    }
+    if (releaseControlEvidence.packageId !== readiness.packageId) errors.push("White-label release control evidence must match the readiness package.");
+    if (!["blocked", "review-only", "pilot-ready"].includes(readString(releaseControlEvidence, "status"))) {
+      errors.push("White-label release control evidence status is unsupported.");
+    }
+    for (const field of ["blockingGateCount", "requiredApprovalCount", "openApprovalCount"] as const) {
+      if (!Number.isInteger(releaseControlEvidence[field]) || Number(releaseControlEvidence[field]) < 0) {
+        errors.push(`White-label release control evidence ${field} must be a non-negative integer.`);
+      }
+    }
+    if (Number(releaseControlEvidence.openApprovalCount) > Number(releaseControlEvidence.requiredApprovalCount)) {
+      errors.push("White-label release control evidence open approvals cannot exceed required approvals.");
+    }
+    if (readStringArray(releaseControlEvidence, "sourceRecords").length < 2) {
+      errors.push("White-label release control evidence must include at least two source records.");
+    }
+    if (releaseControlEvidence.promotionAllowed !== false) errors.push("White-label release control evidence promotion must remain false.");
+    if (releaseControlEvidence.studentFacingActivationAllowed !== false) errors.push("White-label release control evidence student activation must remain false.");
+    const controlStatus = readString(releaseControlEvidence, "status");
+    const hasOpenControls = Number(releaseControlEvidence.blockingGateCount) > 0 || Number(releaseControlEvidence.openApprovalCount) > 0;
+    if (controlStatus === "pilot-ready" && hasOpenControls) errors.push("Pilot-ready release control evidence cannot contain open gates or approvals.");
+    if (controlStatus !== "pilot-ready" && !hasOpenControls) errors.push("Non-pilot-ready release control evidence must expose an open gate or approval.");
+    if (status === "pilot-ready" && controlStatus !== "pilot-ready") errors.push("Pilot-ready readiness requires pilot-ready release control evidence.");
   }
 
   if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");
