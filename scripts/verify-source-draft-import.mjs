@@ -19,6 +19,10 @@ const requiredMarkers = [
   ["apps/web/src/data/sampleTeacherDraftAcceptanceReadiness.ts", ["sampleTeacherDraftAcceptanceReadiness", "exportRetentionDryRunId"]],
   ["apps/web/src/features/content-intake/TeacherDraftAcceptanceReadinessPanel.tsx", ["Draft release readiness remains blocked", "No activation"]],
   ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftAcceptanceReadinessPanel"]],
+  ["packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts", ["TeacherDraftPersistenceImplementationReadiness", "testExecutionAllowed", "No provider selection"]],
+  ["apps/web/src/data/sampleTeacherDraftPersistenceImplementationReadiness.ts", ["sampleTeacherDraftPersistenceImplementationReadiness", "assignment-promotion-guard"]],
+  ["apps/web/src/features/persistence/TeacherDraftPersistenceImplementationReadinessPanel.tsx", ["Future adapter work order", "Acceptance tests, review-only"]],
+  ["apps/web/src/app/teacher/persistence/page.tsx", ["TeacherDraftPersistenceImplementationReadinessPanel", "sampleTeacherDraftPersistenceImplementationReadiness"]],
 ];
 
 for (const [relativePath, markers] of requiredMarkers) {

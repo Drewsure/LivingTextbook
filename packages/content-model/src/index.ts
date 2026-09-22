@@ -1670,6 +1670,7 @@ export * from "./sourceDraftImport";
 export * from "./teacherDraftPersistencePreflight";
 export * from "./teacherDraftOwnerPolicyBinding";
 export * from "./teacherDraftAcceptanceReadiness";
+export * from "./teacherDraftPersistenceImplementationReadiness";
 export * from "./packageApprovalLedger";
 export * from "./packageReadinessReconciliation";
 export * from "./packageReadinessPersistence";

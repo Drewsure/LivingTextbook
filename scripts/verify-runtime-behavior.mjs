@@ -39,6 +39,7 @@ try {
     "packages/content-model/src/teacherDraftPersistencePreflight.ts",
     "packages/content-model/src/teacherDraftOwnerPolicyBinding.ts",
     "packages/content-model/src/teacherDraftAcceptanceReadiness.ts",
+    "packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/packageReadinessPersistence.ts",
@@ -156,6 +157,7 @@ try {
   const teacherDraftPersistence = require(join(output, "teacherDraftPersistencePreflight.js"));
   const teacherDraftOwnerPolicy = require(join(output, "teacherDraftOwnerPolicyBinding.js"));
   const teacherDraftAcceptance = require(join(output, "teacherDraftAcceptanceReadiness.js"));
+  const teacherDraftImplementation = require(join(output, "teacherDraftPersistenceImplementationReadiness.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
@@ -1405,6 +1407,59 @@ try {
       previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "other-package", releaseCandidate: "release-1", statusLabel: "Acceptance record blocked",
     }, { policyId: "retention-policy-1", tenantId: "tenant-1", packageId: "package-1", retentionPolicyAccepted: false, auditPolicyAccepted: false, schoolPolicyAccepted: false, snapshotWriteAllowed: false, restoreAllowed: false, exportAllowed: false, activationAllowed: false }, { packetId: "activation-1", tenantId: "tenant-1", packageId: "package-1", canActivate: false }, { dryRunId: "export-dry-run-1", tenantId: "tenant-1", packageId: "package-1", exportExecutionAllowed: false, retentionDeletionAllowed: false, learnerDataExportAllowed: false, packageWriteAllowed: false, routeMutationAllowed: false }, { recoveryPacketId: "recovery-1", tenantId: "tenant-1", packageId: "package-1", executionAllowed: false }),
     "Readiness package must match acceptance preview.",
+  );
+  const validTeacherDraftPersistenceImplementationReadiness = {
+    readinessId: "implementation-readiness-1",
+    tenantId: "tenant-1",
+    draftId: "draft-1",
+    sourcePackageId: "package-1",
+    acceptanceReadinessId: "acceptance-readiness-1",
+    providerSelectionPreflightId: "provider-preflight-1",
+    adapterPlanId: "hosted-pilot-adapter",
+    reviewDecisionReadinessId: "review-readiness-1",
+    mode: "review-only",
+    status: "blocked",
+    providerSelected: false,
+    implementationAllowed: false,
+    migrationAllowed: false,
+    writesAllowed: false,
+    uploadsAllowed: false,
+    assignmentAllowed: false,
+    routeMutationAllowed: false,
+    testExecutionAllowed: false,
+    providerNeutral: true,
+    requiredWorkOrderRecords: ["Boundary", "Lineage", "Recovery"],
+    acceptanceTests: [
+      { testId: "tenant-isolation", label: "Tenant isolation", purpose: "Reject cross-tenant access.", passCriteria: ["Mismatch rejected."], status: "not-run", evidenceRequired: "Negative matrix." },
+      { testId: "draft-lineage-identity", label: "Draft lineage", purpose: "Preserve identity.", passCriteria: ["Lineage preserved."], status: "not-run", evidenceRequired: "Replay." },
+      { testId: "owner-policy-binding", label: "Owner policy", purpose: "Bind review authority.", passCriteria: ["Both gates required."], status: "not-run", evidenceRequired: "Policy replay." },
+      { testId: "idempotent-save", label: "Idempotent save", purpose: "Define deterministic save.", passCriteria: ["Same key is deterministic."], status: "review-only", evidenceRequired: "Contract test." },
+      { testId: "raw-audio-transcript-exclusion", label: "Media exclusion", purpose: "Reject raw learner media.", passCriteria: ["Payload rejected."], status: "not-run", evidenceRequired: "Rejection fixture." },
+      { testId: "retention-export-deletion", label: "Lifecycle", purpose: "Control retention and export.", passCriteria: ["Scope is bounded."], status: "not-run", evidenceRequired: "Lifecycle matrix." },
+      { testId: "hosted-local-parity", label: "Parity", purpose: "Keep channels aligned.", passCriteria: ["Same contract."], status: "not-run", evidenceRequired: "Comparison." },
+      { testId: "rollback-recovery", label: "Recovery", purpose: "Protect rollback.", passCriteria: ["Identity preserved."], status: "not-run", evidenceRequired: "Rehearsal." },
+      { testId: "assignment-promotion-guard", label: "Promotion guard", purpose: "Block early assignment.", passCriteria: ["Assignment rejected."], status: "not-run", evidenceRequired: "Transition matrix." },
+    ],
+    requiredEvidence: ["Policy", "Isolation", "Recovery"],
+    blockedActions: ["No provider selection", "No implementation work", "No migration", "No persistence writes", "No media uploads", "No test execution against live infrastructure", "No route mutation", "No student assignment or package promotion"],
+    blockers: ["Human policy acceptance is pending."],
+    nextSteps: ["Approve the packet."],
+  };
+  assertEqual(teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadiness(validTeacherDraftPersistenceImplementationReadiness).length, 0);
+  assertEqual(teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadinessSources(validTeacherDraftPersistenceImplementationReadiness, validTeacherDraftAcceptanceReadiness, {
+    preflightId: "provider-preflight-1", tenantId: "tenant-1", packageId: "package-1", providerSelected: false, writesAllowed: false, activationAllowed: false,
+  }, { planId: "hosted-pilot-adapter", mode: "hosted-managed" }, {
+    readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false,
+  }).length, 0);
+  assertIncludes(
+    teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadiness({ ...validTeacherDraftPersistenceImplementationReadiness, uploadsAllowed: true }),
+    "Teacher draft persistence implementation readiness uploadsAllowed must remain false.",
+  );
+  assertIncludes(
+    teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadinessSources(validTeacherDraftPersistenceImplementationReadiness, validTeacherDraftAcceptanceReadiness, {
+      preflightId: "provider-preflight-1", tenantId: "other-tenant", packageId: "package-1", providerSelected: false, writesAllowed: false, activationAllowed: false,
+    }, { planId: "hosted-pilot-adapter", mode: "hosted-managed" }, { readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false }),
+    "Implementation readiness tenant must match provider selection preflight.",
   );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(

@@ -1042,3 +1042,19 @@ References:
 - `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`
 - `apps/web/src/features/content-intake/TeacherDraftAcceptanceReadinessPanel.tsx`
 - `docs/verification/TEACHER_DRAFT_ACCEPTANCE_READINESS_CHECKS.md`
+
+## FR-035: Teacher Draft Persistence Implementation Readiness
+
+Status: Implemented as review-only work-order evidence; no provider implementation or live test execution is enabled.
+
+Requirement: Before a future teacher draft writer is built, the platform must bind the exact tenant, draft, package, acceptance readiness, provider-selection preflight, adapter candidate, and review-decision readiness. The packet must define acceptance tests for isolation, lineage, policy binding, idempotency, media exclusion, lifecycle, parity, recovery, and assignment guards.
+
+Current boundary:
+
+- The persistence workbench displays the candidate adapter and the ordered acceptance tests.
+- Provider selection, implementation, migration, writes, uploads, live test execution, route mutation, assignment, and promotion remain blocked.
+
+References:
+
+- `packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts`
+- `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_READINESS_CHECKS.md`

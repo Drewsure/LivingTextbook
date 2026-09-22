@@ -8754,3 +8754,8 @@ Evidence: `packages/content-model/src/teacherDraftOwnerPolicyBinding.ts`,
 Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 `apps/web/src/data/sampleTeacherDraftAcceptanceReadiness.ts`, and
 `docs/verification/TEACHER_DRAFT_ACCEPTANCE_READINESS_CHECKS.md`.
+## DR-1077: Teacher Draft Persistence Implementation Readiness
+
+- A provider-neutral implementation-readiness packet defines the future adapter work order and acceptance tests.
+- Provider selection, implementation, migration, writes, uploads, live test execution, route mutation, assignment, and promotion remain blocked.
+- The hosted pilot adapter is a candidate plan only, not a provider decision.

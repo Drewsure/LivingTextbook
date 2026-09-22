@@ -4849,3 +4849,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved raw learner audio and transcript exclusion in the acceptance-readiness boundary.
 - Added runtime identity/flag checks, teacher-only evidence UI, and verification documentation.
 - Recorded ADR 1076 and DR-1076.
+
+## Build session 0991: Teacher draft persistence implementation readiness
+
+- Added a provider-neutral work-order packet for the future teacher draft persistence adapter.
+- Defined acceptance tests for tenant isolation, source lineage, owner/policy binding, idempotency, media exclusion, lifecycle controls, hosted/local parity, recovery, and assignment guards.
+- Kept provider selection, implementation, migration, writes, uploads, live test execution, route mutation, assignment, and promotion blocked.
+- Added a persistence workbench panel, runtime assertions, and standing verification documentation.
+- Recorded ADR 1077 and DR-1077.
