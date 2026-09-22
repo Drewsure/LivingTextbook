@@ -4445,3 +4445,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a negative-path test for false pilot readiness with a failed browser
   signal.
 - Recorded ADR 0970 and DR-1042.
+
+## Build session 0955: White-label nested readiness consistency
+
+- Required `pilot-ready` records to carry review-only package evidence and
+  pilot-ready, blocker-free pilot evidence.
+- Added a negative-path test for contradictory nested pilot status.
+- Recorded ADR 0971 and DR-1043.

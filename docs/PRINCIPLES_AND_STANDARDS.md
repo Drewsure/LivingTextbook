@@ -6065,3 +6065,18 @@ and `docs/adr/0969-white-label-route-evidence-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1042-white-label-pilot-ready-quality-gate.md`,
 `docs/build-session-notes/2026-09-22-white-label-pilot-ready-quality-gate.md`,
 and `docs/adr/0970-white-label-pilot-ready-quality-gate.md`.
+
+## 387. White-Label Nested Readiness Consistency Standard
+
+- A `pilot-ready` parent record requires review-only package evidence with no
+  unresolved lanes.
+- A `pilot-ready` parent record requires pilot-ready pilot evidence with no
+  blocking reasons.
+- Contradictory nested evidence rejects the parent status even when phase and
+  quality signals are green.
+- This consistency rule does not authorize production approval, persistence,
+  package promotion, or student launch.
+
+This standard is recorded in `docs/decision-register/DR-1043-white-label-nested-readiness-consistency.md`,
+`docs/build-session-notes/2026-09-22-white-label-nested-readiness-consistency.md`,
+and `docs/adr/0971-white-label-nested-readiness-consistency.md`.

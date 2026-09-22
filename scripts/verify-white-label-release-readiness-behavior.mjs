@@ -114,6 +114,13 @@ try {
   qualityFalseReady.qualityChecks.browser = false;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityFalseReady), "requires every quality check", "pilot-ready quality rejection");
 
+  const nestedFalseReady = structuredClone(valid);
+  nestedFalseReady.status = "pilot-ready";
+  nestedFalseReady.phases = nestedFalseReady.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));
+  nestedFalseReady.qualityEvidence = nestedFalseReady.qualityEvidence.map((evidence) => ({ ...evidence, verified: true }));
+  nestedFalseReady.pilotEvidence.status = "demo-ready-pilot-blocked";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(nestedFalseReady), "requires pilot-ready pilot evidence", "nested pilot false-ready rejection");
+
   const unresolvedReady = structuredClone(valid);
   unresolvedReady.status = "pilot-ready";
   unresolvedReady.phases = unresolvedReady.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));

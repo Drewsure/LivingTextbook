@@ -232,6 +232,7 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     if (Number(packageEvidence.totalLaneCount) !== Number(packageEvidence.readyPreviewLaneCount) + Number(packageEvidence.unresolvedLaneCount)) errors.push("White-label release package evidence lane counts must reconcile to the total.");
     if (readString(packageEvidence, "status") === "blocked" && Number(packageEvidence.unresolvedLaneCount) === 0) errors.push("Blocked white-label release package evidence must list unresolved lanes.");
     if (status === "pilot-ready" && Number(packageEvidence.unresolvedLaneCount) > 0) errors.push("White-label release readiness cannot be pilot-ready while package evidence has unresolved lanes.");
+    if (status === "pilot-ready" && readString(packageEvidence, "status") !== "review-only") errors.push("Pilot-ready white-label release readiness requires review-only package evidence.");
     if (packageEvidence.promotionAllowed !== false) errors.push("White-label release package evidence promotion must remain false.");
     if (packageEvidence.studentFacingActivationAllowed !== false) errors.push("White-label release package evidence student activation must remain false.");
     if (!/^sha256:[0-9a-f]{64}$/i.test(readString(packageEvidence, "sourceAssemblyChecksum"))) errors.push("White-label release package evidence checksum must use sha256:<64 hexadecimal characters> format.");
@@ -250,6 +251,8 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     const blockingReasons = readStringArray(pilotEvidence, "blockingReasons");
     if (Number(pilotEvidence.blockingReasonCount) !== blockingReasons.length) errors.push("White-label release pilot evidence blocker count must match its reasons.");
     if (readString(pilotEvidence, "status") === "demo-ready-pilot-blocked" && blockingReasons.length === 0) errors.push("Blocked white-label release pilot evidence must list blockers.");
+    if (status === "pilot-ready" && readString(pilotEvidence, "status") !== "pilot-ready") errors.push("Pilot-ready white-label release readiness requires pilot-ready pilot evidence.");
+    if (status === "pilot-ready" && blockingReasons.length > 0) errors.push("Pilot-ready white-label release readiness cannot contain pilot blockers.");
     if (readStringArray(pilotEvidence, "evidenceBindings").length === 0) errors.push("White-label release pilot evidence must include evidence bindings.");
     for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed"] as const) {
       if (pilotEvidence[field] !== false) errors.push(`White-label release pilot evidence ${field} must remain false.`);
