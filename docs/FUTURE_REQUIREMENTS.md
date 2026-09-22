@@ -467,3 +467,27 @@ Persistence follow-up:
   hidden activation authority.
 - Define the first production snapshot retention and audit policy before
   implementing any hosted or local snapshot write path.
+
+## FR-010: Structured Source Extraction Preview
+
+Status: Implemented as a review-only shared contract; real upload, parser,
+OCR, storage, and promotion remain gated.
+
+Requirement: Preserve extracted PDF/text lineage before any publisher source
+can become a teacher draft or student-facing package.
+
+Current boundary:
+
+- `SourceExtractionPreview` accepts already-extracted segments with tenant,
+  source, package, checksum, page, sequence, unit, and segment-kind identity.
+- It derives deterministic normalized text and unit page summaries in memory.
+- It rejects malformed checksums, duplicate ordering, undeclared unit mappings,
+  and blank extracted text.
+- It keeps parser/OCR promotion, storage, draft creation, package assembly,
+  route creation, assignment, and student payload use blocked.
+
+References:
+
+- `packages/content-model/src/sourceExtractionPreview.ts`
+- `scripts/verify-source-extraction-preview.mjs`
+- `docs/adr/0979-structured-source-extraction-preview.md`

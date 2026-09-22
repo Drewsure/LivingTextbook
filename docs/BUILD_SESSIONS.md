@@ -42,6 +42,23 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
 Evidence: `npm run verify:foundation`, `node scripts/verify-phaser-source-evidence.mjs`,
 and `docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`.
 
+## Build session 0965: Structured source extraction preview boundary
+
+- Added a shared `SourceExtractionPreview` contract for already-extracted PDF,
+  DOCX, spreadsheet, manual, and AI-assisted text segments.
+- Preserved tenant, source, target-package, checksum, page, sequence, unit, and
+  segment-kind lineage while deriving deterministic normalized text and unit
+  page summaries.
+- Rejected unsupported source methods, missing or malformed checksums, duplicate
+  segment identities or page/order pairs, undeclared unit mappings, blank text,
+  and unsafe promotion requests.
+- Kept parser/OCR promotion, draft creation, package assembly, route creation,
+  storage writes, and student-facing payload use blocked.
+- Added focused runtime verification and included it in the foundation suite.
+
+Evidence: `packages/content-model/src/sourceExtractionPreview.ts` and
+`scripts/verify-source-extraction-preview.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

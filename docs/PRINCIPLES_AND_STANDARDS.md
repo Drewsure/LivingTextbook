@@ -6170,3 +6170,21 @@ and `docs/adr/0977-pilot-decision-list-integrity.md`.
 This standard is recorded in `docs/decision-register/DR-1050-pilot-handoff-blocker-list-integrity.md`,
 `docs/build-session-notes/2026-09-22-pilot-handoff-blocker-list-integrity.md`,
 and `docs/adr/0978-pilot-handoff-blocker-list-integrity.md`.
+
+## 395. Structured Source Extraction Preview Standard
+
+- PDF, DOCX, spreadsheet, manual, and AI-assisted source extraction must pass
+  through a tenant-bound review-only preview before draft or package workflows
+  can consume it.
+- The preview must preserve source checksum, page, sequence, unit, segment kind,
+  and target-package lineage and derive deterministic unit/page summaries.
+- Missing or malformed checksum, page/order, segment identity, unit mapping, or
+  text evidence must fail closed.
+- Preview normalization must not replace the original extracted text.
+- Parser/OCR promotion, storage writes, draft creation, package assembly,
+  route creation, and student-facing payload use remain blocked until later
+  governed source and release gates pass.
+
+This standard is recorded in `docs/decision-register/DR-1051-structured-source-extraction-preview.md`,
+`docs/build-session-notes/2026-09-22-structured-source-extraction-preview.md`,
+and `docs/adr/0979-structured-source-extraction-preview.md`.

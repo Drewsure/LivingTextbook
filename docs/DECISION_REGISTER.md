@@ -8325,3 +8325,24 @@ Required invariants:
 Evidence: `packages/content-model/src/pilotHandoff.ts`,
 `scripts/verify-runtime-behavior.mjs`, and
 `docs/WHITE_LABEL_RELEASE_READINESS_STANDARD.md`.
+
+# DR-1051: Structured Source Extraction Preview Boundary
+
+Decision: add a provider-neutral, review-only preview contract for extracting
+structured text from PDF, DOCX, spreadsheet, manual, or AI-assisted source
+material before any draft, package, route, storage, or student payload exists.
+
+Required invariants:
+
+- Tenant, source, target package, checksum, page, sequence, and unit lineage are
+  explicit and validated.
+- Every declared candidate unit must have at least one extracted segment.
+- Segment ordering and normalized text are deterministic while original text is
+  preserved.
+- AI-assisted extraction is a reviewer suggestion only.
+- The preview cannot write source files, promote parsers/OCR, create drafts,
+  assemble packages, create routes, or produce student-facing payloads.
+
+Evidence: `packages/content-model/src/sourceExtractionPreview.ts`,
+`scripts/verify-source-extraction-preview.mjs`, and
+`docs/adr/0979-structured-source-extraction-preview.md`.

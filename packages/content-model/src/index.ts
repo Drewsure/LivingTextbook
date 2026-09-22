@@ -1677,6 +1677,7 @@ export * from "./contentPackageRuntime";
 export * from "./launchRuntime";
 export * from "./assignmentRuntime";
 export * from "./sourceRuntime";
+export * from "./sourceExtractionPreview";
 export * from "./releaseRuntime";
 export * from "./recoveryRuntime";
 export * from "./progressionRuntime";
