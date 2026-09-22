@@ -5999,3 +5999,43 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1037,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1038,
 `docs/decision-register/DR-1038-white-label-route-deployment-evidence.md`, and
 `docs/adr/0966-white-label-route-deployment-evidence.md`.
+
+## 382. White-Label Release Evidence Workbench Map Standard
+
+- Release readiness may link adults to game, persistence, partner-requirements,
+  and content-intake workbenches so the next evidence owner is discoverable.
+- These links are review navigation only; they must not activate storage,
+  external game import, package publication, QR mutation, or student launch.
+- The Memory Match evidence handoff remains the controlled next external-agent
+  action until a complete candidate package is returned and verified.
+
+This standard is recorded in `docs/decision-register/DR-1038-white-label-route-deployment-evidence.md`,
+`docs/build-session-notes/2026-09-22-release-evidence-workbench-map.md`, and
+`docs/adr/0966-white-label-route-deployment-evidence.md`.
+
+## 383. Tenant-Supplied Release Review Link Standard
+
+- The reusable release-readiness panel must not hard-code a sample tenant's
+  requirements route.
+- The tenant-scoped page or release record supplies the review links consumed
+  by the shared panel.
+- Review-link presence never authorizes persistence, promotion, external game
+  import, QR redirect mutation, or student launch.
+
+This standard is recorded in `docs/decision-register/DR-1039-tenant-supplied-release-review-links.md`,
+`docs/build-session-notes/2026-09-22-tenant-supplied-release-review-links.md`,
+and `docs/adr/0967-tenant-supplied-release-review-links.md`.
+
+## 384. White-Label Evidence Tenant Binding Standard
+
+- Package reconciliation evidence and release-control evidence must each carry
+  an explicit tenant identity.
+- Each evidence tenant identity must match the release-readiness tenant before
+  the record is considered valid.
+- Package or gate identifier equality does not replace tenant equality.
+- Cross-tenant evidence is rejected before it can appear as valid readiness;
+  all evidence remains review-only.
+
+This standard is recorded in `docs/decision-register/DR-1040-white-label-evidence-tenant-binding.md`,
+`docs/build-session-notes/2026-09-22-white-label-evidence-tenant-binding.md`,
+and `docs/adr/0968-white-label-evidence-tenant-binding.md`.
