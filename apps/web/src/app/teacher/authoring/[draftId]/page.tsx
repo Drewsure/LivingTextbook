@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { findSampleTeacherDraftPackage } from "@/data/sampleTeacherDraftPackage";
 import { TeacherDraftPackagePreviewPanel } from "@/features/content-intake/TeacherDraftPackagePreviewPanel";
+import { TeacherDraftPersistenceAdmissionPanel } from "@/features/content-intake/TeacherDraftPersistenceAdmissionPanel";
+import { sampleTeacherDraftPersistencePreflight, sampleTeacherDraftPersistencePreflightErrors } from "@/data/sampleTeacherDraftPersistencePreflight";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 export default async function TeacherDraftPackagePage({
@@ -18,7 +20,10 @@ export default async function TeacherDraftPackagePage({
 
   return (
     <AppShell tenant={samplePublisherTenant}>
-      <TeacherDraftPackagePreviewPanel draft={draft} />
+      <div className="grid gap-5">
+        <TeacherDraftPersistenceAdmissionPanel preflight={sampleTeacherDraftPersistencePreflight} errors={sampleTeacherDraftPersistencePreflightErrors} />
+        <TeacherDraftPackagePreviewPanel draft={draft} />
+      </div>
     </AppShell>
   );
 }

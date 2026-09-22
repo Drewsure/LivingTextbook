@@ -36,6 +36,7 @@ try {
     "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/sourceDraftImport.ts",
+    "packages/content-model/src/teacherDraftPersistencePreflight.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/packageReadinessPersistence.ts",
@@ -150,6 +151,7 @@ try {
   const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const sourceDraftImport = require(join(output, "sourceDraftImport.js"));
+  const teacherDraftPersistence = require(join(output, "teacherDraftPersistencePreflight.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
@@ -1271,6 +1273,49 @@ try {
       storageWriteAllowed: true,
     }),
     "Source draft import preview storageWriteAllowed must remain false.",
+  );
+  const validTeacherDraftPersistencePreflight = {
+    preflightId: "draft-persistence-1",
+    tenantId: "tenant-1",
+    draftId: "draft-1",
+    sourcePackageId: "package-1",
+    unitKey: "tenant-1:curriculum:L1:U1",
+    sourceDraftImportPreviewId: "source-draft-import-1",
+    mode: "review-only",
+    status: "blocked",
+    visibility: "private-tenant",
+    ownerIdentityRequired: true,
+    ownerIdentityBound: false,
+    sourceLineageBound: true,
+    providerNeutral: true,
+    writeAllowed: false,
+    assignmentAllowed: false,
+    promotionAllowed: false,
+    rawSourceBinaryStorageAllowed: false,
+    rawAudioStorageAllowed: false,
+    learnerAudioStorageAllowed: false,
+    transcriptStorageAllowed: false,
+    requiredRecords: ["teacher-draft-package", "teacher-draft-review-handoff", "source-extraction-review-packet", "upload-review"],
+    requiredEvidence: ["Owner", "Lineage", "Rights", "Policy"],
+    blockers: ["Owner binding remains open."],
+    blockedActions: ["No teacher draft persistence write", "No direct student assignment", "No package promotion", "No raw source binary storage in the draft record", "No learner audio or transcript storage"],
+    nextSteps: ["Bind owner identity."],
+  };
+  assertEqual(teacherDraftPersistence.validateTeacherDraftPersistenceAdmissionPreflight(validTeacherDraftPersistencePreflight).length, 0);
+  assertEqual(teacherDraftPersistence.validateTeacherDraftPersistenceAdmissionBinding(validTeacherDraftPersistencePreflight, {
+    draftId: "draft-1", tenantId: "tenant-1", sourcePackageId: "package-1", unitKey: "tenant-1:curriculum:L1:U1", status: "teacher-only-draft", canAssignToStudents: false,
+  }, validSourceDraftImportPreview).length, 0);
+  assertIncludes(
+    teacherDraftPersistence.validateTeacherDraftPersistenceAdmissionBinding(
+      { ...validTeacherDraftPersistencePreflight, draftId: "draft-2" },
+      { draftId: "draft-1", tenantId: "tenant-1", sourcePackageId: "package-1", unitKey: "tenant-1:curriculum:L1:U1", status: "teacher-only-draft", canAssignToStudents: false },
+      validSourceDraftImportPreview,
+    ),
+    "Preflight draft must match the teacher draft.",
+  );
+  assertIncludes(
+    teacherDraftPersistence.validateTeacherDraftPersistenceAdmissionPreflight({ ...validTeacherDraftPersistencePreflight, writeAllowed: true }),
+    "Teacher draft persistence preflight writeAllowed must remain false.",
   );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(

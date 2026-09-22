@@ -988,3 +988,21 @@ source extraction review, rights, audio, target mapping, ownership, and storage
 provider gates are implemented. The review-only preview must remain the
 canonical contract for identity reconciliation and must not be treated as a
 permission to enable writes.
+
+## FR-032: Teacher Draft Persistence Admission
+
+Status: Implemented as a provider-neutral review-only preflight; no draft writer is enabled.
+
+Requirement: Any future tenant-owned teacher draft record must bind private visibility, teacher owner identity, exact source lineage, rights/audio evidence, retention/export/rollback policy, and the selected provider's contract. A route preview or source-draft identity match is not permission to persist, assign, promote, or store raw source or learner audio data.
+
+Current boundary:
+
+- The sample admission preflight is visible on the teacher-only draft route.
+- Provider selection, authorization, policy acceptance, and all storage side effects remain blocked.
+- The existing persistence adapter and runtime remain the only future integration seams.
+
+References:
+
+- `packages/content-model/src/teacherDraftPersistencePreflight.ts`
+- `apps/web/src/features/content-intake/TeacherDraftPersistenceAdmissionPanel.tsx`
+- `docs/verification/TEACHER_DRAFT_PERSISTENCE_PREFLIGHT_CHECKS.md`

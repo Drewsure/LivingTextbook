@@ -7,6 +7,10 @@ const requiredMarkers = [
   ["apps/web/src/data/sampleSourceDraftImport.ts", ["sampleSourceDraftImportPreviews", "sampleSourceDraftImportErrors"]],
   ["apps/web/src/features/content-intake/SourceDraftImportPreviewPanel.tsx", ["Teacher draft import preview", "Storage write", "Assignment"]],
   ["apps/web/src/app/teacher/intake/page.tsx", ["SourceDraftImportPreviewPanel"]],
+  ["packages/content-model/src/teacherDraftPersistencePreflight.ts", ["TeacherDraftPersistenceAdmissionPreflight", "writeAllowed", "provider-neutral"]],
+  ["apps/web/src/data/sampleTeacherDraftPersistencePreflight.ts", ["sampleTeacherDraftPersistencePreflight", "ownerIdentityBound"]],
+  ["apps/web/src/features/content-intake/TeacherDraftPersistenceAdmissionPanel.tsx", ["Tenant-owned storage preflight", "Blocked actions"]],
+  ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftPersistenceAdmissionPanel"]],
 ];
 
 for (const [relativePath, markers] of requiredMarkers) {
@@ -16,4 +20,4 @@ for (const [relativePath, markers] of requiredMarkers) {
   }
 }
 
-console.log("PASS source extraction to teacher draft import remains identity-bound, review-only, and promotion-blocked.");
+console.log("PASS source extraction to teacher draft import and persistence admission remain identity-bound, review-only, and promotion-blocked.");

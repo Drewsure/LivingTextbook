@@ -8713,3 +8713,17 @@ Evidence: `packages/content-model/src/pilotHandoff.ts`,
 Evidence: `packages/content-model/src/sourceDraftImport.ts`,
 `apps/web/src/data/sampleSourceDraftImport.ts`, and
 `docs/verification/SOURCE_DRAFT_IMPORT_CHECKS.md`.
+
+## DR-1074: Teacher Draft Persistence Admission
+
+- Tenant-owned teacher draft persistence is admitted only through a
+  provider-neutral, review-only preflight.
+- Private tenant visibility, teacher owner identity, exact source lineage,
+  rights/audio evidence, and retention/export/rollback policy are explicit
+  requirements.
+- Draft writes, assignment, promotion, raw source binary storage, learner
+  audio, and transcript storage remain false.
+
+Evidence: `packages/content-model/src/teacherDraftPersistencePreflight.ts`,
+`apps/web/src/data/sampleTeacherDraftPersistencePreflight.ts`, and
+`docs/verification/TEACHER_DRAFT_PERSISTENCE_PREFLIGHT_CHECKS.md`.

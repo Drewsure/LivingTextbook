@@ -4824,3 +4824,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   promotion explicitly blocked.
 - Added runtime binding tests, static verification, intake-route visibility,
   and the standing source-draft verification note.
+
+## Build session 0988: Teacher draft persistence admission preflight
+
+- Added a provider-neutral admission contract for future tenant-owned teacher draft persistence.
+- Bound the preflight to the exact teacher draft and source-to-draft import preview identities.
+- Made owner identity, private tenant visibility, source lineage, rights/audio, policy, retention, export, and rollback evidence explicit.
+- Kept all writes, uploads, assignment, promotion, raw source binary, learner audio, and transcript storage blocked.
+- Added teacher-only evidence UI, runtime checks, and static verification.
+- Recorded ADR 1074 and DR-1074.
