@@ -2367,6 +2367,48 @@ try {
     handoffNotes: ["Do not promise classroom launch."],
   };
   assertEqual(pilotHandoff.validatePilotHandoffPackage(validPilotHandoffPackage).length, 0);
+  const validPilotLineageSources = {
+    deploymentDecision: {
+      decisionId: "deployment-decision-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      policyAcceptancePreflightId: "school-policy-preflight-1",
+      acceptanceRecordPreviewId: "school-policy-acceptance-preview-1",
+      selectionStatus: "unselected",
+      policyAcceptanceStatus: "not-accepted",
+      status: "review-only",
+      policyAccepted: false,
+      persistenceActivationAllowed: false,
+      classroomLaunchAllowed: false,
+    },
+    policyAcceptancePreflight: {
+      preflightId: "school-policy-preflight-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      acceptanceStatus: "Acceptance blocked",
+    },
+    acceptanceRecordPreview: {
+      previewId: "school-policy-acceptance-preview-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      statusLabel: "Acceptance record blocked",
+    },
+  };
+  assertEqual(pilotHandoff.validatePilotHandoffLineageBinding(validPilotHandoffPackage, validPilotLineageSources).length, 0);
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffLineageBinding(
+      { ...validPilotHandoffPackage, activationPreflightEvidence: { ...validPilotHandoffPackage.activationPreflightEvidence, acceptanceRecordPreviewId: "other-preview" } },
+      validPilotLineageSources,
+    ),
+    "Pilot handoff lineage acceptance preview id must match both source records.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffLineageBinding(
+      validPilotHandoffPackage,
+      { ...validPilotLineageSources, policyAcceptancePreflight: { ...validPilotLineageSources.policyAcceptancePreflight, tenantId: "other-tenant" } },
+    ),
+    "Pilot handoff lineage policy preflight tenant must match the handoff tenant.",
+  );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({
       ...validPilotHandoffPackage,

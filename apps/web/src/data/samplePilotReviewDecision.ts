@@ -8,6 +8,7 @@ import {
   type EvidencePacketHandoffPackage,
 } from "@/data/sampleEvidencePacketHandoffPackage";
 import { samplePilotHandoffPackage, type PilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { samplePilotLineageValidationErrors } from "@/data/samplePilotLineageValidation";
 import { validatePilotHandoffPackage } from "@living-textbook/content-model";
 
 export type { PilotReviewDecision } from "@living-textbook/content-model";
@@ -17,6 +18,7 @@ export const samplePilotReviewDecision = createPilotReviewDecision(
   samplePublisherEvidencePacketHandoffPackage,
   [
     ...validatePilotHandoffPackage(samplePilotHandoffPackage),
+    ...samplePilotLineageValidationErrors,
     ...samplePublisherEvidencePacketHandoffPackageErrors,
   ],
 );

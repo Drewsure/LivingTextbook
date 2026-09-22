@@ -6485,3 +6485,18 @@ This standard is recorded in
 `docs/decision-register/DR-1071-persistence-activation-lineage.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0999-persistence-activation-lineage.md`.
+
+## 416. Pilot Lineage Reconciliation Standard
+
+- Lineage IDs in a pilot handoff must resolve to the exact deployment
+  decision, school-policy preflight, and acceptance-record preview records.
+- The resolved records must agree on tenant, package, deployment selection,
+  and non-accepted review status; plausible but unrelated IDs are invalid.
+- Reconciliation is evidence validation only. It must not select a provider,
+  accept policy, enable durable writes, launch a classroom, or promote a
+  package.
+
+This standard is recorded in
+`docs/decision-register/DR-1072-pilot-lineage-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1000-pilot-lineage-reconciliation.md`.

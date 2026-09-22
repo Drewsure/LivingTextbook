@@ -955,3 +955,28 @@ References:
 - `apps/web/src/data/samplePilotHandoffPackage.ts`
 - `apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx`
 - `scripts/verify-persistence-activation-preflight.mjs`
+
+## FR-030: Pilot Lineage Reconciliation
+
+Status: Implemented as review-only validation; provider selection, policy
+acceptance, durable writes, classroom launch, and package promotion remain
+blocked.
+
+Requirement: Pilot handoff activation evidence must be reconciled against the
+actual deployment decision, school-policy acceptance preflight, and future
+acceptance-record preview, not merely checked for non-empty identifiers.
+
+Current boundary:
+
+- The shared content model rejects cross-tenant, cross-package, mismatched,
+  or accepted-looking lineage sources.
+- The sample pilot and intake routes surface the reconciled validation result.
+- Runtime behavior tests cover valid lineage, altered preview identity, and
+  altered policy-preflight tenant cases.
+
+References:
+
+- `packages/content-model/src/pilotHandoff.ts`
+- `apps/web/src/data/samplePilotLineageValidation.ts`
+- `scripts/verify-pilot-lineage-binding.mjs`
+- `docs/verification/PILOT_LINEAGE_BINDING_CHECKS.md`

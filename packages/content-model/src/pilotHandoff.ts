@@ -110,6 +110,34 @@ export interface PilotHandoffPackage {
   handoffNotes: string[];
 }
 
+export interface PilotHandoffLineageSources {
+  deploymentDecision: {
+    decisionId: string;
+    tenantId: string;
+    packageId: string;
+    policyAcceptancePreflightId: string;
+    acceptanceRecordPreviewId: string;
+    selectionStatus: "unselected" | "selected-review-only";
+    policyAcceptanceStatus: "not-accepted";
+    status: "review-only";
+    policyAccepted: false;
+    persistenceActivationAllowed: false;
+    classroomLaunchAllowed: false;
+  };
+  policyAcceptancePreflight: {
+    preflightId: string;
+    tenantId: string;
+    packageId: string;
+    acceptanceStatus: string;
+  };
+  acceptanceRecordPreview: {
+    previewId: string;
+    tenantId: string;
+    packageId: string;
+    statusLabel: string;
+  };
+}
+
 const PILOT_HANDOFF_STATUSES = new Set<PilotHandoffStatus>(["ready", "needs-review", "blocked"]);
 const PILOT_HANDOFF_OWNERS = new Set<PilotHandoffOwner>(["codex", "tenant", "school", "shared"]);
 const PILOT_HANDOFF_COSTS = new Set<PilotHandoffCostImpact>(["low", "controlled", "higher"]);
@@ -426,6 +454,57 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   }
 
   return errors;
+}
+
+export function validatePilotHandoffLineageBinding(
+  packet: PilotHandoffPackage,
+  sources: PilotHandoffLineageSources,
+): string[] {
+  const errors: string[] = [];
+  const evidence = packet.activationPreflightEvidence;
+  const decision = sources.deploymentDecision;
+  const policyPreflight = sources.policyAcceptancePreflight;
+  const acceptancePreview = sources.acceptanceRecordPreview;
+
+  requireText(decision.decisionId, "lineage deployment decision id", errors);
+  requireText(policyPreflight.preflightId, "lineage policy preflight id", errors);
+  requireText(acceptancePreview.previewId, "lineage acceptance preview id", errors);
+
+  if (packet.tenantId !== decision.tenantId || packet.packageId !== decision.packageId) {
+    errors.push("Pilot handoff lineage deployment decision must match the handoff tenant and package.");
+  }
+  if (evidence.deploymentDecisionId !== decision.decisionId) {
+    errors.push("Pilot handoff lineage deployment decision id must match its source record.");
+  }
+  if (evidence.policyAcceptancePreflightId !== decision.policyAcceptancePreflightId || evidence.policyAcceptancePreflightId !== policyPreflight.preflightId) {
+    errors.push("Pilot handoff lineage policy preflight id must match both source records.");
+  }
+  if (evidence.acceptanceRecordPreviewId !== decision.acceptanceRecordPreviewId || evidence.acceptanceRecordPreviewId !== acceptancePreview.previewId) {
+    errors.push("Pilot handoff lineage acceptance preview id must match both source records.");
+  }
+  if (decision.selectionStatus !== evidence.deploymentSelectionStatus) {
+    errors.push("Pilot handoff lineage deployment selection status must match the deployment decision.");
+  }
+  if (decision.policyAcceptanceStatus !== evidence.policyAcceptanceStatus) {
+    errors.push("Pilot handoff lineage policy acceptance status must match the deployment decision.");
+  }
+  if (decision.status !== "review-only" || decision.policyAccepted !== false || decision.persistenceActivationAllowed !== false || decision.classroomLaunchAllowed !== false) {
+    errors.push("Pilot handoff lineage deployment decision must remain review-only and activation-blocked.");
+  }
+
+  for (const [source, label] of [
+    [policyPreflight, "policy preflight"],
+    [acceptancePreview, "acceptance preview"],
+  ] as const) {
+    if (source.tenantId !== packet.tenantId) errors.push(`Pilot handoff lineage ${label} tenant must match the handoff tenant.`);
+    if (source.packageId !== packet.packageId) errors.push(`Pilot handoff lineage ${label} package must match the handoff package.`);
+  }
+
+  if (/\baccepted\b/i.test(policyPreflight.acceptanceStatus) || /\baccepted\b/i.test(acceptancePreview.statusLabel)) {
+    errors.push("Pilot handoff lineage source records must remain non-accepted review evidence.");
+  }
+
+  return [...new Set(errors)];
 }
 
 function isIsoTimestamp(value: unknown): value is string {

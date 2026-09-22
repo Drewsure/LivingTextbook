@@ -4804,3 +4804,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
   false` in the sample handoff.
 - Added contract verification for missing or altered policy lineage.
 - Recorded ADR 0999 and DR-1071.
+
+## Build session 0986: Pilot lineage reconciliation
+
+- Added a shared content-model validator that resolves activation evidence
+  against the exact deployment decision, policy preflight, and acceptance
+  preview sources.
+- Rejected mismatched tenant/package scope, altered ids, status drift, and
+  accepted-looking source records while preserving review-only behavior.
+- Mounted the sample result on the pilot and foundation intake routes and
+  added runtime plus focused contract verification.
+- Recorded ADR 1000 and DR-1072.

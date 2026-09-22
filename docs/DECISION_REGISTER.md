@@ -8679,3 +8679,24 @@ Evidence: `packages/content-model/src/pilotHandoff.ts`,
 `apps/web/src/data/samplePilotHandoffPackage.ts`,
 `apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx`, and
 `scripts/verify-persistence-activation-preflight.mjs`.
+
+# DR-1072: Pilot Lineage Reconciliation
+
+Decision: resolve the identities carried by pilot activation evidence against
+the source deployment decision, school-policy preflight, and future acceptance
+record preview before the handoff can be treated as internally consistent.
+
+Required invariants:
+
+- Decision, policy preflight, and acceptance preview ids must match their
+  source records exactly.
+- Every source record must match the handoff tenant and package.
+- Selection and policy status must agree, and the source decision must remain
+  review-only and activation-blocked.
+- A successful reconciliation is still review evidence; it cannot activate
+  persistence, accept policy, launch a classroom, or promote a package.
+
+Evidence: `packages/content-model/src/pilotHandoff.ts`,
+`apps/web/src/data/samplePilotLineageValidation.ts`,
+`scripts/verify-pilot-lineage-binding.mjs`, and
+`scripts/verify-runtime-behavior.mjs`.

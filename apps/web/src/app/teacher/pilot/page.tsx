@@ -7,6 +7,7 @@ import {
 } from "@/data/samplePersistenceAdapterPlan";
 import { samplePilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { samplePilotLineageValidationErrors } from "@/data/samplePilotLineageValidation";
 import { samplePilotLaunchChecklist } from "@/data/samplePilotLaunchChecklist";
 import {
   samplePilotPolicyPlans,
@@ -56,7 +57,10 @@ const pilotLinks = [
 
 export default function TeacherPilotPage() {
   const partnerPilotRequirements = getPartnerPilotRequirementsIntake(samplePublisherTenant.id);
-  const pilotHandoffValidationErrors = validatePilotHandoffPackage(samplePilotHandoffPackage);
+  const pilotHandoffValidationErrors = [
+    ...validatePilotHandoffPackage(samplePilotHandoffPackage),
+    ...samplePilotLineageValidationErrors,
+  ];
 
   return (
     <AppShell tenant={samplePublisherTenant}>
