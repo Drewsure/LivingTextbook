@@ -7952,7 +7952,8 @@ Required invariants:
 Evidence: `docs/adr/0958-white-label-release-readiness.md`,
 `packages/content-model/src/whiteLabelReleaseReadiness.ts`,
 `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`, and
-`scripts/verify-white-label-release-readiness.mjs`.
+`scripts/verify-white-label-release-readiness.mjs` plus
+`scripts/verify-white-label-release-readiness-behavior.mjs`.
 
 # DR-1031: White-Label Package Evidence Reconciliation
 

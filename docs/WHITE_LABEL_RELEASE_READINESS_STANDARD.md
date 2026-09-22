@@ -68,9 +68,10 @@ quality signals are green.
 
 ## Verification
 
-Run `node scripts/verify-white-label-release-readiness.mjs`, the standards
-integrity check, web typecheck, production build, foundation composition, and
-active-route verification. The route is:
+Run `node scripts/verify-white-label-release-readiness.mjs`,
+`node scripts/verify-white-label-release-readiness-behavior.mjs`, the
+standards integrity check, web typecheck, production build, foundation
+composition, and active-route verification. The route is:
 `http://127.0.0.1:3000/teacher/release-readiness`.
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030 and

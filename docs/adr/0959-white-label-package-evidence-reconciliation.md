@@ -27,6 +27,7 @@ student-facing activation permanently false in this foundation slice.
 ## Verification
 
 - `node scripts/verify-white-label-release-readiness.mjs`
+- `node scripts/verify-white-label-release-readiness-behavior.mjs`
 - `npm run typecheck --workspace @living-textbook/web`
 - `npm run build --workspace @living-textbook/web -- --webpack`
 - `npm run verify:routes`

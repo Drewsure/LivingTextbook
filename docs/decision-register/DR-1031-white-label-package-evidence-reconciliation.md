@@ -16,4 +16,5 @@ Required invariants:
 Evidence: `docs/adr/0959-white-label-package-evidence-reconciliation.md`,
 `packages/content-model/src/whiteLabelReleaseReadiness.ts`,
 `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`, and
-`scripts/verify-white-label-release-readiness.mjs`.
+`scripts/verify-white-label-release-readiness.mjs` plus
+`scripts/verify-white-label-release-readiness-behavior.mjs`.

@@ -18,6 +18,7 @@ const markers = [
   ["model", "studentProductionLaunchAllowed: false"],
   ["model", "WhiteLabelReleasePackageEvidence"],
   ["model", "unresolvedLaneCount"],
+  ["model", "White-label release package evidence must match the readiness package"],
   ["sample", "sample-publisher-white-label-release-readiness-v1"],
   ["sample", 'status: "blocked"'],
   ["sample", "No QR redirect mutation"],
