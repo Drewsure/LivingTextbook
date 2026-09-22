@@ -853,3 +853,25 @@ References:
 - `apps/web/src/data/sampleBackendMigrationCandidates.ts`
 - `apps/web/src/data/sampleBackendMigrationSpecs.ts`
 - `scripts/verify-qr-alias-backend-alignment.mjs`
+
+## FR-026: QR Preview Runtime Consumption
+
+Status: Implemented for the review route; production redirect execution and
+durable alias writes remain blocked.
+
+Requirement: The QR preview must consume the same review-only alias/rollback
+adapter that governs future hosted, local, and hybrid route activation.
+
+Current boundary:
+
+- The preview displays the review-only decision and current/previous release
+  evidence for the reviewed sample alias.
+- It cannot write redirects, activate routes, swap packages, or execute
+  rollback.
+- The preview remains a route-resolution demonstration, not a production QR
+  commitment.
+
+References:
+
+- `apps/web/src/app/q/[...segments]/page.tsx`
+- `scripts/verify-qr-alias-preview-integration.mjs`

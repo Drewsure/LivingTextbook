@@ -6412,3 +6412,17 @@ This standard is recorded in
 `docs/decision-register/DR-1066-qr-alias-backend-contract-alignment.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0994-qr-alias-backend-contract-alignment.md`.
+
+## 411. QR Preview Runtime Consumption Standard
+
+- The QR preview must consume the same shared review-only alias and rollback
+  adapter that governs future route activation.
+- Preview output must show the current/previous release evidence and an
+  explicit no-live-mutation state.
+- A preview route must never write redirects, activate routes, swap packages
+  or media, activate local bundles, or execute rollback.
+
+This standard is recorded in
+`docs/decision-register/DR-1067-qr-preview-runtime-consumption.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0995-qr-preview-runtime-consumption.md`.

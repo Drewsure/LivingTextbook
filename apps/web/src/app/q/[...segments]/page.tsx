@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import { createReviewOnlyQrAliasRuntimeAdapter } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleEditionQrAliasPlan } from "@/data/sampleEditionQrAliasPlan";
+import { sampleQrAliasRollbackEvidence } from "@/data/sampleQrAliasRollbackEvidence";
 import { findEditionQrAlias, parseEditionQrPath } from "@/data/editionQrAliasResolver";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -19,6 +21,9 @@ export default async function EditionQrPreviewPage({
   }
 
   const blocked = alias.status === "blocked" || alias.targetPath.startsWith("file:") || alias.targetPath.includes("localhost") || alias.targetPath.includes("127.0.0.1");
+  const rollbackPreview = alias.aliasId === sampleQrAliasRollbackEvidence.aliasId
+    ? createReviewOnlyQrAliasRuntimeAdapter().execute(sampleQrAliasRollbackEvidence)
+    : undefined;
 
   return (
     <AppShell tenant={samplePublisherTenant} compact>
@@ -63,6 +68,26 @@ export default async function EditionQrPreviewPage({
             </a>
           )}
         </section>
+
+        {rollbackPreview && (
+          <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Rollback and mutation gate</p>
+                <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Review-only QR alias evidence</h3>
+              </div>
+              <StatusPill label="No live mutation" tone="warning" />
+            </div>
+            <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+              The shared runtime has evaluated the tenant, release, fallback, and rollback evidence. This preview cannot write a redirect, activate a route, swap a package, or execute rollback.
+            </p>
+            <div className="mt-3 grid gap-3 text-sm sm:grid-cols-3">
+              <ResolveFact label="Decision" value={rollbackPreview.decision.reasonCode} />
+              <ResolveFact label="Current release" value={rollbackPreview.request.rollback.currentReleaseId} />
+              <ResolveFact label="Previous release" value={rollbackPreview.request.rollback.previousReleaseId} />
+            </div>
+          </section>
+        )}
 
         <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
           <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Guardrails</p>

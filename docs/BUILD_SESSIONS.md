@@ -4748,3 +4748,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   activation, and rollback execution disabled.
 - Recorded DR-1066 and the next backend implementation remains gated by
   provider and release decisions.
+
+## Build session 0981: QR preview runtime consumption
+
+- Connected the reviewed QR preview route to the shared review-only alias
+  runtime adapter.
+- Displayed current/previous release evidence and the explicit no-mutation
+  decision beside the preview target.
+- Added a route integration guard that rejects redirect mutation behavior.
+- Kept production QR redirects, route writes, package swaps, and rollback
+  execution blocked.
