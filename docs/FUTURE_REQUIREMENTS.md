@@ -1024,3 +1024,21 @@ References:
 - `packages/content-model/src/teacherDraftOwnerPolicyBinding.ts`
 - `apps/web/src/features/content-intake/TeacherDraftOwnerPolicyBindingPanel.tsx`
 - `docs/verification/TEACHER_DRAFT_OWNER_POLICY_BINDING_CHECKS.md`
+
+## FR-034: Teacher Draft Acceptance Readiness
+
+Status: Implemented as review-only evidence reconciliation; no acceptance or persistence activation workflow is enabled.
+
+Requirement: A future teacher draft writer must consume the exact acceptance-record preview, retention policy, persistence activation preflight, export/retention dry run, and recovery evidence for the same tenant, package, release candidate, and draft. It must not store accepted terms or enable export, deletion, rollback, signatures, activation, or assignment by inference.
+
+Current boundary:
+
+- The draft route displays the reconciled readiness packet and blockers.
+- School policy, retention, provider activation, export, recovery, rollback, signature, and assignment remain blocked.
+- Raw learner audio and transcripts remain excluded from core retention and export.
+
+References:
+
+- `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`
+- `apps/web/src/features/content-intake/TeacherDraftAcceptanceReadinessPanel.tsx`
+- `docs/verification/TEACHER_DRAFT_ACCEPTANCE_READINESS_CHECKS.md`

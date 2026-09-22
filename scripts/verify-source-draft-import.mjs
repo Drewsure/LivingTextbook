@@ -15,6 +15,10 @@ const requiredMarkers = [
   ["apps/web/src/data/sampleTeacherDraftOwnerPolicyBinding.ts", ["sampleTeacherDraftOwnerPolicyBinding", "No owner authorization inferred from policy evidence"]],
   ["apps/web/src/features/content-intake/TeacherDraftOwnerPolicyBindingPanel.tsx", ["Authorization is not acceptance", "Policy not accepted"]],
   ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftOwnerPolicyBindingPanel"]],
+  ["packages/content-model/src/teacherDraftAcceptanceReadiness.ts", ["TeacherDraftAcceptanceReadiness", "retentionAccepted", "No accepted terms stored"]],
+  ["apps/web/src/data/sampleTeacherDraftAcceptanceReadiness.ts", ["sampleTeacherDraftAcceptanceReadiness", "exportRetentionDryRunId"]],
+  ["apps/web/src/features/content-intake/TeacherDraftAcceptanceReadinessPanel.tsx", ["Draft release readiness remains blocked", "No activation"]],
+  ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftAcceptanceReadinessPanel"]],
 ];
 
 for (const [relativePath, markers] of requiredMarkers) {

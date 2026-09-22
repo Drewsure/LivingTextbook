@@ -8740,3 +8740,17 @@ Evidence: `packages/content-model/src/teacherDraftPersistencePreflight.ts`,
 Evidence: `packages/content-model/src/teacherDraftOwnerPolicyBinding.ts`,
 `apps/web/src/data/sampleTeacherDraftOwnerPolicyBinding.ts`, and
 `docs/verification/TEACHER_DRAFT_OWNER_POLICY_BINDING_CHECKS.md`.
+
+## DR-1076: Teacher Draft Acceptance Readiness
+
+- Future acceptance, draft ownership, retention, export, recovery, rollback,
+  and persistence activation evidence must reconcile before provider-specific
+  draft persistence work.
+- Policy, retention, export, deletion, backup, restore, rollback, signature,
+  activation, and assignment remain blocked.
+- Raw learner audio and transcripts remain excluded from core retention and
+  export.
+
+Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
+`apps/web/src/data/sampleTeacherDraftAcceptanceReadiness.ts`, and
+`docs/verification/TEACHER_DRAFT_ACCEPTANCE_READINESS_CHECKS.md`.

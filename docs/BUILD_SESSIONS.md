@@ -4841,3 +4841,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved `not-accepted`, review-only, persistence-blocked, assignment-blocked, and signature-blocked states.
 - Added runtime identity/flag checks, teacher-only UI, and verification documentation.
 - Recorded ADR 1075 and DR-1075.
+
+## Build session 0990: Teacher draft acceptance readiness
+
+- Reconciled the future acceptance-record preview with draft ownership, retention, export, recovery, rollback, and activation evidence.
+- Kept policy acceptance, retention acceptance, exports, deletion, recovery execution, rollback, signatures, persistence activation, and assignment blocked.
+- Preserved raw learner audio and transcript exclusion in the acceptance-readiness boundary.
+- Added runtime identity/flag checks, teacher-only evidence UI, and verification documentation.
+- Recorded ADR 1076 and DR-1076.

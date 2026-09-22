@@ -38,6 +38,7 @@ try {
     "packages/content-model/src/sourceDraftImport.ts",
     "packages/content-model/src/teacherDraftPersistencePreflight.ts",
     "packages/content-model/src/teacherDraftOwnerPolicyBinding.ts",
+    "packages/content-model/src/teacherDraftAcceptanceReadiness.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/packageReadinessPersistence.ts",
@@ -154,6 +155,7 @@ try {
   const sourceDraftImport = require(join(output, "sourceDraftImport.js"));
   const teacherDraftPersistence = require(join(output, "teacherDraftPersistencePreflight.js"));
   const teacherDraftOwnerPolicy = require(join(output, "teacherDraftOwnerPolicyBinding.js"));
+  const teacherDraftAcceptance = require(join(output, "teacherDraftAcceptanceReadiness.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
@@ -1357,6 +1359,52 @@ try {
       preflightId: "policy-preflight-1", tenantId: "other-tenant", packageId: "package-1", acceptanceStatus: "Acceptance blocked",
     }, { previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "package-1", statusLabel: "Acceptance record blocked" }),
     "Binding tenant must match school policy preflight.",
+  );
+  const validTeacherDraftAcceptanceReadiness = {
+    readinessId: "acceptance-readiness-1",
+    tenantId: "tenant-1",
+    draftId: "draft-1",
+    sourcePackageId: "package-1",
+    releaseCandidate: "release-1",
+    ownerPolicyBindingId: "owner-policy-1",
+    acceptanceRecordPreviewId: "acceptance-preview-1",
+    retentionPolicyId: "retention-policy-1",
+    persistenceActivationPreflightId: "activation-1",
+    exportRetentionDryRunId: "export-dry-run-1",
+    recoveryPacketId: "recovery-1",
+    mode: "review-only",
+    status: "blocked",
+    policyAcceptanceStatus: "not-accepted",
+    providerNeutral: true,
+    retentionAccepted: false,
+    exportAllowed: false,
+    rollbackAllowed: false,
+    persistenceActivationAllowed: false,
+    assignmentAllowed: false,
+    signatureCaptureAllowed: false,
+    requiredEvidence: ["Policy", "Retention"],
+    blockers: ["Policy is not accepted."],
+    blockedActions: ["No accepted terms stored", "No storage activation", "No learner data export", "No retention deletion execution", "No rollback execution", "No signature capture", "No direct student assignment"],
+    nextSteps: ["Complete review."],
+  };
+  assertEqual(teacherDraftAcceptance.validateTeacherDraftAcceptanceReadiness(validTeacherDraftAcceptanceReadiness).length, 0);
+  assertEqual(teacherDraftAcceptance.validateTeacherDraftAcceptanceReadinessSources(validTeacherDraftAcceptanceReadiness, validTeacherDraftOwnerPolicyBinding, {
+    previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "package-1", releaseCandidate: "release-1", statusLabel: "Acceptance record blocked",
+  }, {
+    policyId: "retention-policy-1", tenantId: "tenant-1", packageId: "package-1", retentionPolicyAccepted: false, auditPolicyAccepted: false, schoolPolicyAccepted: false,
+    snapshotWriteAllowed: false, restoreAllowed: false, exportAllowed: false, activationAllowed: false,
+  }, { packetId: "activation-1", tenantId: "tenant-1", packageId: "package-1", canActivate: false }, {
+    dryRunId: "export-dry-run-1", tenantId: "tenant-1", packageId: "package-1", exportExecutionAllowed: false, retentionDeletionAllowed: false, learnerDataExportAllowed: false, packageWriteAllowed: false, routeMutationAllowed: false,
+  }, { recoveryPacketId: "recovery-1", tenantId: "tenant-1", packageId: "package-1", executionAllowed: false }).length, 0);
+  assertIncludes(
+    teacherDraftAcceptance.validateTeacherDraftAcceptanceReadiness({ ...validTeacherDraftAcceptanceReadiness, exportAllowed: true }),
+    "Teacher draft acceptance readiness exportAllowed must remain false.",
+  );
+  assertIncludes(
+    teacherDraftAcceptance.validateTeacherDraftAcceptanceReadinessSources(validTeacherDraftAcceptanceReadiness, validTeacherDraftOwnerPolicyBinding, {
+      previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "other-package", releaseCandidate: "release-1", statusLabel: "Acceptance record blocked",
+    }, { policyId: "retention-policy-1", tenantId: "tenant-1", packageId: "package-1", retentionPolicyAccepted: false, auditPolicyAccepted: false, schoolPolicyAccepted: false, snapshotWriteAllowed: false, restoreAllowed: false, exportAllowed: false, activationAllowed: false }, { packetId: "activation-1", tenantId: "tenant-1", packageId: "package-1", canActivate: false }, { dryRunId: "export-dry-run-1", tenantId: "tenant-1", packageId: "package-1", exportExecutionAllowed: false, retentionDeletionAllowed: false, learnerDataExportAllowed: false, packageWriteAllowed: false, routeMutationAllowed: false }, { recoveryPacketId: "recovery-1", tenantId: "tenant-1", packageId: "package-1", executionAllowed: false }),
+    "Readiness package must match acceptance preview.",
   );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(

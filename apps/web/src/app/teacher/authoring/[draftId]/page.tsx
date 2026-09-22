@@ -6,6 +6,8 @@ import { TeacherDraftPersistenceAdmissionPanel } from "@/features/content-intake
 import { sampleTeacherDraftPersistencePreflight, sampleTeacherDraftPersistencePreflightErrors } from "@/data/sampleTeacherDraftPersistencePreflight";
 import { sampleTeacherDraftOwnerPolicyBinding, sampleTeacherDraftOwnerPolicyBindingErrors } from "@/data/sampleTeacherDraftOwnerPolicyBinding";
 import { TeacherDraftOwnerPolicyBindingPanel } from "@/features/content-intake/TeacherDraftOwnerPolicyBindingPanel";
+import { sampleTeacherDraftAcceptanceReadiness, sampleTeacherDraftAcceptanceReadinessErrors } from "@/data/sampleTeacherDraftAcceptanceReadiness";
+import { TeacherDraftAcceptanceReadinessPanel } from "@/features/content-intake/TeacherDraftAcceptanceReadinessPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 export default async function TeacherDraftPackagePage({
@@ -25,6 +27,7 @@ export default async function TeacherDraftPackagePage({
       <div className="grid gap-5">
         <TeacherDraftPersistenceAdmissionPanel preflight={sampleTeacherDraftPersistencePreflight} errors={sampleTeacherDraftPersistencePreflightErrors} />
         <TeacherDraftOwnerPolicyBindingPanel binding={sampleTeacherDraftOwnerPolicyBinding} errors={sampleTeacherDraftOwnerPolicyBindingErrors} />
+        <TeacherDraftAcceptanceReadinessPanel readiness={sampleTeacherDraftAcceptanceReadiness} errors={sampleTeacherDraftAcceptanceReadinessErrors} />
         <TeacherDraftPackagePreviewPanel draft={draft} />
       </div>
     </AppShell>
