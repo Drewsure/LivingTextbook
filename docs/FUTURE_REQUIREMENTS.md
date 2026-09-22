@@ -772,3 +772,30 @@ References:
 
 - `apps/web/src/data/sampleLaunchResolver.ts`
 - `docs/adr/0991-fail-closed-sample-launch-resolution.md`
+
+## FR-023: Tenant-Scoped Front-Door Registry Integrity
+
+Status: Implemented for the reviewed sample registry; durable route mutation,
+QR alias persistence, rollback, authorization, and local fallback remain
+future deployment work.
+
+Requirement: A front-door route may be served only when its registry entry
+binds one tenant to its own path, content package, access policy, launch
+session, progression state, and permanent QR path.
+
+Current boundary:
+
+- Duplicate route IDs, paths, and active tenant IDs fail closed.
+- Cross-tenant content packages, access policies, launch sessions, and QR
+  paths fail closed.
+- The launch unit must be present in the route's content package, and the
+  progression factory must remain bound to the same launch identity.
+- The registry is still static review data; it cannot write routes, aliases,
+  redirects, assignments, or student-ready state.
+
+References:
+
+- `apps/web/src/data/sampleTenantRouteRegistry.ts`
+- `apps/web/src/data/sampleFrontDoorResolver.ts`
+- `scripts/verify-front-door-route-boundary.mjs`
+- `docs/adr/0992-tenant-scoped-front-door-registry-integrity.md`

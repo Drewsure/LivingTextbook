@@ -6362,3 +6362,21 @@ and `docs/adr/0990-external-candidate-handoff-diagnostics.md`.
 This standard is recorded in `docs/decision-register/DR-1063-fail-closed-sample-launch-resolution.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0991-fail-closed-sample-launch-resolution.md`.
+
+## 408. Tenant-Scoped Front-Door Registry Integrity Standard
+
+- A front-door registry entry must bind exactly one tenant to its route path,
+  package, access policy, launch session, progression state, and permanent QR
+  identity.
+- Duplicate route IDs, paths, or active tenant IDs must fail closed rather
+  than allowing ambiguous tenant selection.
+- A launch unit must exist inside the bound content package, and progression
+  must use the same launch code and unit identity.
+- Static registry validation is evidence only. It must not create routes,
+  mutate QR aliases, activate redirects, publish packages, assign students,
+  or mark a package student-ready.
+
+This standard is recorded in
+`docs/decision-register/DR-1064-tenant-scoped-front-door-registry-integrity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0992-tenant-scoped-front-door-registry-integrity.md`.

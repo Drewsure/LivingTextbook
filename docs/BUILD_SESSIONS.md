@@ -4715,3 +4715,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Recorded the route-boundary decision in ADR 0991 and DR-1063.
 - Added a dedicated `verify:sample-launch-boundary` check and made unknown
   paths return not-found rather than a server error.
+
+## Build session 0978: Tenant-scoped front-door registry integrity
+
+- Added a fail-closed registry validator for reviewed front-door routes.
+- Rejected duplicate route IDs, paths, and active tenants.
+- Bound each route's tenant to its content package, access policy, launch
+  session, progression state, and permanent QR path.
+- Kept the registry static and review-only; no route or QR mutation was added.
+- Added `verify:front-door-route-boundary` and passed the web typecheck.
+- Recorded ADR 0992 and DR-1064.

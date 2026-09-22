@@ -6,6 +6,7 @@ import type {
   TeacherSessionSettings,
   UnitPayload,
 } from "@living-textbook/content-model";
+import { getUnitKey } from "@living-textbook/content-model";
 import type { ClassRosterPlan } from "@living-textbook/content-model";
 import {
   getSampleFrontDoorLaunchSession,
@@ -99,7 +100,65 @@ export const sampleFrontDoorRouteRegistry: SampleFrontDoorRouteRegistryEntry[] =
 export function getSampleFrontDoorRouteByTenantId(
   tenantId: string,
 ): SampleFrontDoorRouteRegistryEntry | undefined {
+  if (validateSampleFrontDoorRouteRegistry(sampleFrontDoorRouteRegistry).length > 0) {
+    return undefined;
+  }
+
   return sampleFrontDoorRouteRegistry.find((route) => route.tenant.id === tenantId && route.status === "active-demo");
+}
+
+export function validateSampleFrontDoorRouteRegistry(
+  registry: readonly SampleFrontDoorRouteRegistryEntry[],
+): string[] {
+  const errors: string[] = [];
+  const routeIds = new Set<string>();
+  const paths = new Set<string>();
+  const tenantIds = new Set<string>();
+
+  for (const route of registry) {
+    if (routeIds.has(route.routeId)) errors.push(`Duplicate front-door route id: ${route.routeId}.`);
+    routeIds.add(route.routeId);
+
+    if (paths.has(route.path)) errors.push(`Duplicate front-door route path: ${route.path}.`);
+    paths.add(route.path);
+
+    if (tenantIds.has(route.tenant.id)) errors.push(`Duplicate active front-door tenant: ${route.tenant.id}.`);
+    tenantIds.add(route.tenant.id);
+
+    if (route.path !== `/enter/${route.tenant.id}`) {
+      errors.push(`Front-door route ${route.routeId} must use its tenant-scoped path.`);
+    }
+    if (route.contentPackage.meta.tenantId !== route.tenant.id) {
+      errors.push(`Front-door route ${route.routeId} has a cross-tenant content package.`);
+    }
+    if (route.accessPolicy.tenantId !== route.tenant.id) {
+      errors.push(`Front-door route ${route.routeId} has a cross-tenant access policy.`);
+    }
+    if (!route.expectedEntryCode.trim() || !route.expectedUserCode.trim()) {
+      errors.push(`Front-door route ${route.routeId} requires non-blank access codes.`);
+    }
+    if (!route.permanentQrPath.startsWith(`/q/tenant/${encodeURIComponent(route.tenant.id)}/`)) {
+      errors.push(`Front-door route ${route.routeId} has a cross-tenant permanent QR path.`);
+    }
+
+    const launchSession = route.createLaunchSession();
+    if (launchSession.tenantId !== route.tenant.id) {
+      errors.push(`Front-door route ${route.routeId} has a cross-tenant launch session.`);
+    }
+    if (launchSession.accessMode !== "front-door-code") {
+      errors.push(`Front-door route ${route.routeId} must create a front-door launch session.`);
+    }
+    if (!route.contentPackage.units.some((unit) => getUnitKey(unit.unitMeta) === launchSession.unitKey)) {
+      errors.push(`Front-door route ${route.routeId} launch unit is not in its content package.`);
+    }
+
+    const progression = route.createProgression(launchSession.launchCode, route.expectedUserCode.toLowerCase());
+    if (progression.launchCode !== launchSession.launchCode || progression.unitKey !== launchSession.unitKey) {
+      errors.push(`Front-door route ${route.routeId} progression is not bound to its launch session.`);
+    }
+  }
+
+  return errors;
 }
 
 export function createSampleFrontDoorContext(
