@@ -1006,3 +1006,21 @@ References:
 - `packages/content-model/src/teacherDraftPersistencePreflight.ts`
 - `apps/web/src/features/content-intake/TeacherDraftPersistenceAdmissionPanel.tsx`
 - `docs/verification/TEACHER_DRAFT_PERSISTENCE_PREFLIGHT_CHECKS.md`
+
+## FR-033: Separate Owner Authorization from School Acceptance
+
+Status: Implemented as review-only reconciliation; no acceptance or activation workflow is enabled.
+
+Requirement: Teacher review authorization, teacher draft ownership, and school policy acceptance must remain separate, explicitly identity-bound gates. A valid teacher session must not accept policy, and a policy packet must not authorize a draft owner.
+
+Current boundary:
+
+- The draft authoring route displays the reconciled identities and blockers.
+- School policy remains `not-accepted`; owner identity remains unbound in the foundation sample.
+- Persistence activation, assignment, signature capture, and launch readiness remain blocked.
+
+References:
+
+- `packages/content-model/src/teacherDraftOwnerPolicyBinding.ts`
+- `apps/web/src/features/content-intake/TeacherDraftOwnerPolicyBindingPanel.tsx`
+- `docs/verification/TEACHER_DRAFT_OWNER_POLICY_BINDING_CHECKS.md`

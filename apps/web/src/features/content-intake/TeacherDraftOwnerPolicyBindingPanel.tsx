@@ -1,0 +1,15 @@
+import { Card, StatusPill } from "@living-textbook/ui";
+import type { TeacherDraftOwnerPolicyBinding } from "@living-textbook/content-model";
+
+export function TeacherDraftOwnerPolicyBindingPanel({ binding, errors = [] }: { binding: TeacherDraftOwnerPolicyBinding; errors?: string[] }) {
+  return <Card>
+    <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-sm font-semibold text-[var(--tenant-muted)]">Owner and policy reconciliation</p><h2 className="mt-1 text-lg font-bold">Authorization is not acceptance</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">Teacher review access, draft ownership, and school policy acceptance are separate gates. This packet shows their exact identities without creating a signature, activation, or assignment workflow.</p></div><div className="flex flex-wrap gap-2"><StatusPill label={binding.status} tone="warning" /><StatusPill label="Review-only" tone="warning" /><StatusPill label="Policy not accepted" tone="warning" /></div></div>
+    <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><Metric label="Tenant" value={binding.tenantId} /><Metric label="Draft" value={binding.draftId} /><Metric label="Auth scope" value={binding.authorizationScope} /><Metric label="Owner identity" value={binding.ownerIdentityBound ? "Bound" : "Required"} /></dl>
+    {errors.length > 0 ? <ul className="mt-5 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">{errors.map((error, index) => <li key={`owner-policy-error-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">{error}</li>)}</ul> : null}
+    <div className="mt-5 grid gap-4 lg:grid-cols-3"><List title="Bound evidence" items={binding.requiredEvidence} /><List title="Blocked actions" items={binding.blockedActions} /><List title="Next review steps" items={binding.nextSteps} /></div>
+    <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4"><p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Current blockers</p><ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-text)]">{binding.blockers.map((blocker, index) => <li key={`owner-policy-blocker-${index}`}>{blocker}</li>)}</ul></div>
+  </Card>;
+}
+
+function Metric({ label, value }: { label: string; value: string }) { return <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3"><dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt><dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd></div>; }
+function List({ title, items }: { title: string; items: string[] }) { return <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4"><h3 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h3><ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">{items.map((item, index) => <li key={`${title}-${index}`}>{item}</li>)}</ul></section>; }

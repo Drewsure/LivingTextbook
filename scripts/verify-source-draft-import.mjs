@@ -11,6 +11,10 @@ const requiredMarkers = [
   ["apps/web/src/data/sampleTeacherDraftPersistencePreflight.ts", ["sampleTeacherDraftPersistencePreflight", "ownerIdentityBound"]],
   ["apps/web/src/features/content-intake/TeacherDraftPersistenceAdmissionPanel.tsx", ["Tenant-owned storage preflight", "Blocked actions"]],
   ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftPersistenceAdmissionPanel"]],
+  ["packages/content-model/src/teacherDraftOwnerPolicyBinding.ts", ["TeacherDraftOwnerPolicyBinding", "authorizationScope", "schoolPolicyAccepted"]],
+  ["apps/web/src/data/sampleTeacherDraftOwnerPolicyBinding.ts", ["sampleTeacherDraftOwnerPolicyBinding", "No owner authorization inferred from policy evidence"]],
+  ["apps/web/src/features/content-intake/TeacherDraftOwnerPolicyBindingPanel.tsx", ["Authorization is not acceptance", "Policy not accepted"]],
+  ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftOwnerPolicyBindingPanel"]],
 ];
 
 for (const [relativePath, markers] of requiredMarkers) {

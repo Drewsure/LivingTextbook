@@ -37,6 +37,7 @@ try {
     "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/sourceDraftImport.ts",
     "packages/content-model/src/teacherDraftPersistencePreflight.ts",
+    "packages/content-model/src/teacherDraftOwnerPolicyBinding.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/packageReadinessPersistence.ts",
@@ -152,6 +153,7 @@ try {
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const sourceDraftImport = require(join(output, "sourceDraftImport.js"));
   const teacherDraftPersistence = require(join(output, "teacherDraftPersistencePreflight.js"));
+  const teacherDraftOwnerPolicy = require(join(output, "teacherDraftOwnerPolicyBinding.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
@@ -1316,6 +1318,45 @@ try {
   assertIncludes(
     teacherDraftPersistence.validateTeacherDraftPersistenceAdmissionPreflight({ ...validTeacherDraftPersistencePreflight, writeAllowed: true }),
     "Teacher draft persistence preflight writeAllowed must remain false.",
+  );
+  const validTeacherDraftOwnerPolicyBinding = {
+    bindingId: "owner-policy-1",
+    tenantId: "tenant-1",
+    draftId: "draft-1",
+    sourcePackageId: "package-1",
+    draftPersistencePreflightId: "draft-persistence-1",
+    policyAcceptancePreflightId: "policy-preflight-1",
+    acceptanceRecordPreviewId: "acceptance-preview-1",
+    mode: "review-only",
+    status: "blocked",
+    authorizationScope: "tenant-scoped-review-only",
+    ownerIdentityRequired: true,
+    ownerIdentityBound: false,
+    policyAcceptanceStatus: "not-accepted",
+    schoolPolicyAccepted: false,
+    providerNeutral: true,
+    persistenceActivationAllowed: false,
+    assignmentAllowed: false,
+    blockedActions: ["No owner authorization inferred from policy evidence", "No policy acceptance inferred from teacher authorization", "No persistence activation", "No direct student assignment", "No acceptance or signature capture"],
+    requiredEvidence: ["Owner", "Policy"],
+    blockers: ["Owner is not bound."],
+    nextSteps: ["Define owner role."],
+  };
+  assertEqual(teacherDraftOwnerPolicy.validateTeacherDraftOwnerPolicyBinding(validTeacherDraftOwnerPolicyBinding).length, 0);
+  assertEqual(teacherDraftOwnerPolicy.validateTeacherDraftOwnerPolicyBindingSources(validTeacherDraftOwnerPolicyBinding, validTeacherDraftPersistencePreflight, {
+    preflightId: "policy-preflight-1", tenantId: "tenant-1", packageId: "package-1", acceptanceStatus: "Acceptance blocked",
+  }, {
+    previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "package-1", statusLabel: "Acceptance record blocked",
+  }).length, 0);
+  assertIncludes(
+    teacherDraftOwnerPolicy.validateTeacherDraftOwnerPolicyBinding({ ...validTeacherDraftOwnerPolicyBinding, schoolPolicyAccepted: true }),
+    "Teacher draft owner-policy binding schoolPolicyAccepted must remain false.",
+  );
+  assertIncludes(
+    teacherDraftOwnerPolicy.validateTeacherDraftOwnerPolicyBindingSources(validTeacherDraftOwnerPolicyBinding, validTeacherDraftPersistencePreflight, {
+      preflightId: "policy-preflight-1", tenantId: "other-tenant", packageId: "package-1", acceptanceStatus: "Acceptance blocked",
+    }, { previewId: "acceptance-preview-1", tenantId: "tenant-1", packageId: "package-1", statusLabel: "Acceptance record blocked" }),
+    "Binding tenant must match school policy preflight.",
   );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(

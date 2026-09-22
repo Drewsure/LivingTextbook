@@ -8727,3 +8727,16 @@ Evidence: `packages/content-model/src/sourceDraftImport.ts`,
 Evidence: `packages/content-model/src/teacherDraftPersistencePreflight.ts`,
 `apps/web/src/data/sampleTeacherDraftPersistencePreflight.ts`, and
 `docs/verification/TEACHER_DRAFT_PERSISTENCE_PREFLIGHT_CHECKS.md`.
+
+## DR-1075: Teacher Draft Owner and Policy Binding
+
+- Tenant-scoped teacher review authorization, teacher draft ownership, and
+  school policy acceptance remain separate gates.
+- Their exact tenant, package, draft, preflight, and acceptance-preview ids
+  must reconcile before any future provider-specific work order.
+- Review access cannot activate persistence, assignment, signature capture, or
+  launch readiness.
+
+Evidence: `packages/content-model/src/teacherDraftOwnerPolicyBinding.ts`,
+`apps/web/src/data/sampleTeacherDraftOwnerPolicyBinding.ts`, and
+`docs/verification/TEACHER_DRAFT_OWNER_POLICY_BINDING_CHECKS.md`.

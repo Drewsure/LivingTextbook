@@ -4833,3 +4833,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept all writes, uploads, assignment, promotion, raw source binary, learner audio, and transcript storage blocked.
 - Added teacher-only evidence UI, runtime checks, and static verification.
 - Recorded ADR 1074 and DR-1074.
+
+## Build session 0989: Teacher owner and school-policy binding
+
+- Reconciled the draft persistence preflight with existing teacher review authorization and school-policy acceptance previews.
+- Kept teacher authorization and school acceptance separate; neither can satisfy the other.
+- Preserved `not-accepted`, review-only, persistence-blocked, assignment-blocked, and signature-blocked states.
+- Added runtime identity/flag checks, teacher-only UI, and verification documentation.
+- Recorded ADR 1075 and DR-1075.
