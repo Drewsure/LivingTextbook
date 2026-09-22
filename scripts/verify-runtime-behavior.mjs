@@ -2159,6 +2159,7 @@ try {
   );
   const validPilotHandoffPackage = {
     packageId: "pilot-package-1",
+    routeKey: "pilot-handoff-1",
     tenantId: "tenant-1",
     label: "Pilot handoff",
     mode: "review-only",
@@ -2166,9 +2167,9 @@ try {
     recommendedDeployment: "Hosted PWA first",
     summary: "Review-only pilot handoff.",
     reportSnapshotEvidence: {
-      snapshotId: "teacher-report-package-snapshot-v1:tenant-1:package-1:launch-1",
+      snapshotId: "teacher-report-package-snapshot-v1:tenant-1:pilot-package-1:launch-1",
       tenantId: "tenant-1",
-      packageId: "package-1",
+      packageId: "pilot-package-1",
       launchCode: "launch-1",
       snapshotFingerprint: "teacher-report-package-snapshot-fnv1a-v1:12345678",
       deploymentModes: ["hosted-managed", "local-classroom"],
@@ -2184,7 +2185,7 @@ try {
       mode: "durable-managed",
       ready: false,
       tenantId: "tenant-1",
-      packageId: "package-1",
+      packageId: "pilot-package-1",
       launchCode: "launch-1",
       checkedAt: "2026-09-18T00:00:00.000Z",
       blockedReasons: ["Durable write approval is not enabled."],
@@ -2262,6 +2263,27 @@ try {
       reportSnapshotEvidence: { ...validPilotHandoffPackage.reportSnapshotEvidence, launchCode: "other-launch" },
     }),
     "Pilot handoff report snapshot id must match its tenant, package, and launch scope.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      reportSnapshotEvidence: { ...validPilotHandoffPackage.reportSnapshotEvidence, packageId: "other-package" },
+    }),
+    "Pilot handoff report snapshot package must match the handoff package.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      persistenceGateEvidence: { ...validPilotHandoffPackage.persistenceGateEvidence, packageId: "other-package" },
+    }),
+    "Pilot handoff persistence gate package must match the handoff package.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      releaseControlEvidence: { ...validPilotHandoffPackage.releaseControlEvidence, packageId: "other-package" },
+    }),
+    "Pilot handoff release-control package must match the handoff package.",
   );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({

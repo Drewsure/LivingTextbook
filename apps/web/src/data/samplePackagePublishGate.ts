@@ -27,6 +27,7 @@ export interface PackagePublishGate {
   gateId: string;
   tenantId: string;
   packageId: string;
+  routeKey: string;
   label: string;
   releaseCandidate: string;
   targetPilotRoute: string;
@@ -40,7 +41,8 @@ export interface PackagePublishGate {
 export const samplePackagePublishGate: PackagePublishGate = {
   gateId: "sample-publisher-package-publish-gate",
   tenantId: "sample-publisher",
-  packageId: "starter-english-level-1-unit-1",
+  packageId: "sample-publisher-l1-u1-routines-package",
+  routeKey: "starter-english-level-1-unit-1",
   label: "Sample publisher Unit 1 pilot publish gate",
   releaseCandidate: "2026.1 pilot candidate",
   targetPilotRoute: "/launch/partner-demo-unit-1",

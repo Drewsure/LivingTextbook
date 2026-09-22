@@ -161,12 +161,12 @@ export function createClassroomLaunchGate({
   ];
 
   return {
-    gateId: `${gate.packageId}-${gate.releaseCandidate.toLowerCase().replaceAll(" ", "-")}-classroom-launch-gate`,
+    gateId: `${gate.routeKey}-${gate.releaseCandidate.toLowerCase().replaceAll(" ", "-")}-classroom-launch-gate`,
     label: "Classroom launch gate preview",
     tenantId: gate.tenantId,
     packageId: gate.packageId,
     releaseCandidate: gate.releaseCandidate,
-    workspacePath: `/teacher/launch-gate/${gate.packageId}-${gate.releaseCandidate.toLowerCase().replaceAll(" ", "-")}-classroom-launch-gate`,
+    workspacePath: `/teacher/launch-gate/${gate.routeKey}-${gate.releaseCandidate.toLowerCase().replaceAll(" ", "-")}-classroom-launch-gate`,
     launchStatus: "Launch blocked",
     sourceOfTruth:
       "Source of truth: package publish gate, approval ledger, pilot evidence packet, and teacher dry-run rehearsal",

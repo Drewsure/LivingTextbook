@@ -73,6 +73,7 @@ export interface PilotHandoffActivationPreflightEvidence {
 
 export interface PilotHandoffPackage {
   packageId: string;
+  routeKey: string;
   tenantId: string;
   label: string;
   mode: "review-only";
@@ -124,6 +125,7 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   const errors: string[] = [];
 
   requireText(packet.packageId, "packageId", errors);
+  requireText(packet.routeKey, "routeKey", errors);
   requireText(packet.tenantId, "tenantId", errors);
   requireText(packet.label, "label", errors);
   requireText(packet.recommendedPilotWindow, "recommendedPilotWindow", errors);
@@ -140,6 +142,9 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (reportSnapshotEvidence.tenantId !== packet.tenantId) {
       errors.push("Pilot handoff report snapshot tenant must match the handoff tenant.");
+    }
+    if (reportSnapshotEvidence.packageId !== packet.packageId) {
+      errors.push("Pilot handoff report snapshot package must match the handoff package.");
     }
     const expectedSnapshotId = `teacher-report-package-snapshot-v1:${reportSnapshotEvidence.tenantId}:${reportSnapshotEvidence.packageId}:${reportSnapshotEvidence.launchCode}`;
     if (reportSnapshotEvidence.snapshotId !== expectedSnapshotId) {
@@ -168,6 +173,9 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (persistenceGateEvidence.tenantId !== packet.tenantId) {
       errors.push("Pilot handoff persistence gate tenant must match the handoff tenant.");
+    }
+    if (persistenceGateEvidence.packageId !== packet.packageId) {
+      errors.push("Pilot handoff persistence gate package must match the handoff package.");
     }
     if (reportSnapshotEvidence && persistenceGateEvidence.packageId !== reportSnapshotEvidence.packageId) {
       errors.push("Pilot handoff persistence gate package must match the report snapshot package.");
@@ -231,6 +239,14 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     if (activationPreflightEvidence.canActivate !== false) {
       errors.push("Pilot handoff activation preflight canActivate must remain false.");
     }
+  }
+
+  const releaseControlEvidence = packet.releaseControlEvidence;
+  if (releaseControlEvidence.tenantId !== packet.tenantId) {
+    errors.push("Pilot handoff release-control tenant must match the handoff tenant.");
+  }
+  if (releaseControlEvidence.packageId !== packet.packageId) {
+    errors.push("Pilot handoff release-control package must match the handoff package.");
   }
 
   if (packet.mode !== "review-only") {

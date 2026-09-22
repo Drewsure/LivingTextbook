@@ -7659,3 +7659,24 @@ Required invariants:
 Evidence: `docs/adr/0942-pilot-handoff-activation-evidence.md`,
 `packages/content-model/src/pilotHandoff.ts`, and
 `apps/web/src/data/samplePilotHandoffPackage.ts`.
+
+# DR-1015: Canonical Pilot Package Scope
+
+Decision: use one canonical tenant/package identity across the partner pilot's
+content, release, approval, report, persistence, and activation evidence.
+
+Required invariants:
+
+- The sample partner package id is `sample-publisher-l1-u1-routines-package`
+  in every scoped evidence source.
+- Handoff, report, persistence, release-control, and activation validators
+  reject package drift.
+- Route keys remain separate from package scope so identity corrections do not
+  break stable QR or teacher review paths.
+- Release candidate labels and route slugs remain human-facing identifiers and
+  do not replace the canonical package id.
+
+Evidence: `docs/adr/0943-canonical-pilot-package-scope.md`,
+`packages/content-model/src/pilotHandoff.ts`,
+`scripts/verify-pilot-handoff-scope.mjs`, and the sample pilot package,
+publish-gate, approval-ledger, and activation-preflight fixtures.

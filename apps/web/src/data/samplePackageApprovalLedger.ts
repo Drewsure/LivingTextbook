@@ -11,7 +11,7 @@ export type {
 export const samplePackageApprovalLedger: PackageApprovalLedger = {
   ledgerId: "sample-publisher-approval-ledger",
   tenantId: "sample-publisher",
-  packageId: "starter-english-level-1-unit-1",
+  packageId: "sample-publisher-l1-u1-routines-package",
   releaseCandidate: "2026.1 pilot candidate",
   label: "Sample publisher pilot approval ledger",
   summary:

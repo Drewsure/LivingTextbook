@@ -11,10 +11,11 @@ import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceAc
 export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
 export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
 
-const samplePilotHandoffPackageId = "sample-publisher-first-handoff";
+const samplePilotHandoffPackageId = "sample-publisher-l1-u1-routines-package";
 
 export const samplePilotHandoffPackage: PilotHandoffPackage = {
   packageId: samplePilotHandoffPackageId,
+  routeKey: "sample-publisher-first-handoff",
   tenantId: "sample-publisher",
   label: "Sample publisher first pilot handoff",
   mode: "review-only",

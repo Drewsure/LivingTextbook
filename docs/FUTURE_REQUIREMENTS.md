@@ -159,6 +159,8 @@ Implemented sample boundary:
 - Memory Match is playable from both `/launch/demo-unit-1` and `/enter/ministar`.
 - The durable-write activation preflight is bound into the pilot handoff package,
   preserving tenant/package identity and the no-activation boundary.
+- Pilot, release-control, approval, persistence, and activation evidence use one
+  canonical tenant/package scope; handoff validation rejects scope drift.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:

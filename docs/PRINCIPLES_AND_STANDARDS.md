@@ -5616,3 +5616,22 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1013,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1014,
 `docs/decision-register/DR-1014-pilot-handoff-activation-evidence.md`, and
 `docs/adr/0942-pilot-handoff-activation-evidence.md`.
+
+## 358. Canonical Pilot Package Scope Standard
+
+- A white-label pilot must use one canonical tenant/package identity across
+  content, package publish, approval, report snapshot, persistence, release,
+  and activation evidence.
+- Handoff identifiers, release-candidate labels, and route slugs may be
+  separate display fields, but they must not be substituted for the canonical
+  package id in scoped evidence.
+- Stable route keys must be stored separately from package ids so package
+  corrections do not silently break printed QR or teacher review URLs.
+- Shared validators must reject report, persistence, release-control, or
+  activation evidence that names a different package from the handoff.
+- A scope mismatch is a release blocker, not a warning that can be overridden
+  by a teacher, tenant, outside builder, or AI service.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1015,
+`docs/decision-register/DR-1015-canonical-pilot-package-scope.md`, and
+`docs/adr/0943-canonical-pilot-package-scope.md`.

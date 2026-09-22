@@ -56,12 +56,12 @@ export function createTeacherDryRunRehearsal({
     .filter((item) => item.status !== "attached").length;
 
   return {
-    rehearsalId: `${handoffPackage.packageId}-teacher-dry-run`,
+    rehearsalId: `${handoffPackage.routeKey}-teacher-dry-run`,
     label: "Teacher dry-run rehearsal preview",
     tenantId: handoffPackage.tenantId,
     packageId: handoffPackage.packageId,
     releaseCandidate: checklist.releaseCandidate,
-    workspacePath: `/teacher/dry-run/${handoffPackage.packageId}-teacher-dry-run`,
+    workspacePath: `/teacher/dry-run/${handoffPackage.routeKey}-teacher-dry-run`,
     sourceOfTruth: "Source of truth: pilot launch checklist and pilot handoff package",
     studentLaunchStatus: "No student launch action",
     evidenceStatus: "Dry-run evidence only",
