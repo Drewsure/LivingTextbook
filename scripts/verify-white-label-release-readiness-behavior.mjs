@@ -108,6 +108,12 @@ try {
   falseReady.status = "pilot-ready";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(falseReady), "status must match phases", "status derivation rejection");
 
+  const qualityFalseReady = structuredClone(valid);
+  qualityFalseReady.status = "pilot-ready";
+  qualityFalseReady.phases = qualityFalseReady.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));
+  qualityFalseReady.qualityChecks.browser = false;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityFalseReady), "requires every quality check", "pilot-ready quality rejection");
+
   const unresolvedReady = structuredClone(valid);
   unresolvedReady.status = "pilot-ready";
   unresolvedReady.phases = unresolvedReady.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));

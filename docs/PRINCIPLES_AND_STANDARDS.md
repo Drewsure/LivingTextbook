@@ -6051,3 +6051,17 @@ and `docs/adr/0968-white-label-evidence-tenant-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1041-white-label-route-evidence-binding.md`,
 `docs/build-session-notes/2026-09-22-white-label-route-evidence-binding.md`,
 and `docs/adr/0969-white-label-route-evidence-binding.md`.
+
+## 386. White-Label Pilot-Ready Quality Gate Standard
+
+- A readiness record may claim `pilot-ready` only when typecheck, production
+  build, active routes, runtime, browser, privacy, and tenant isolation are
+  all verified.
+- Every quality evidence record must be verified for that status; ready phase
+  labels cannot hide a failed quality lane.
+- This gate remains separate from production approval, persistence activation,
+  package promotion, and student launch.
+
+This standard is recorded in `docs/decision-register/DR-1042-white-label-pilot-ready-quality-gate.md`,
+`docs/build-session-notes/2026-09-22-white-label-pilot-ready-quality-gate.md`,
+and `docs/adr/0970-white-label-pilot-ready-quality-gate.md`.

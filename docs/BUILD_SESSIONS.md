@@ -4436,3 +4436,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   route counts reconcile.
 - Added negative-path behavior coverage for route tenant and package drift.
 - Recorded ADR 0969 and DR-1041.
+
+## Build session 0954: White-label pilot-ready quality gate
+
+- Required every quality signal to be true before a readiness record can claim
+  `pilot-ready`.
+- Required every quality evidence record to be verified for that status.
+- Added a negative-path test for false pilot readiness with a failed browser
+  signal.
+- Recorded ADR 0970 and DR-1042.

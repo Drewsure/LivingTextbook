@@ -27,6 +27,8 @@ const markers = [
   ["model", "control evidence must match the readiness tenant"],
   ["model", "route evidence must match the readiness tenant"],
   ["model", "route evidence must match the readiness package"],
+  ["model", "Pilot-ready white-label release readiness requires every quality check"],
+  ["model", "Pilot-ready white-label release readiness requires every quality evidence record"],
   ["model", "route evidence counts must reconcile"],
   ["model", "White-label release package evidence must match the readiness package"],
   ["sample", "sample-publisher-white-label-release-readiness-v1"],

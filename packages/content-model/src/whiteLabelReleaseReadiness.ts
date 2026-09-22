@@ -178,6 +178,12 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     }
   }
 
+  if (status === "pilot-ready" && isRecord(qualityChecks)) {
+    const missingQualityChecks = ["typecheck", "productionBuild", "activeRoutes", "runtime", "browser", "privacy", "tenantIsolation"]
+      .filter((field) => qualityChecks[field] !== true);
+    if (missingQualityChecks.length > 0) errors.push(`Pilot-ready white-label release readiness requires every quality check: ${missingQualityChecks.join(", ")}.`);
+  }
+
   const qualityEvidence = readiness.qualityEvidence;
   const qualityCheckIds = ["typecheck", "productionBuild", "activeRoutes", "runtime", "browser", "privacy", "tenantIsolation"] as const;
   if (!Array.isArray(qualityEvidence) || qualityEvidence.length !== qualityCheckIds.length) {
@@ -203,6 +209,9 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
       }
     }
     for (const checkId of qualityCheckIds) if (!seenQualityChecks.has(checkId)) errors.push(`White-label release quality evidence is missing ${checkId}.`);
+    if (status === "pilot-ready" && qualityEvidence.some((evidence) => isRecord(evidence) && evidence.verified !== true)) {
+      errors.push("Pilot-ready white-label release readiness requires every quality evidence record to be verified.");
+    }
   }
 
   const packageEvidence = readiness.packageEvidence;
@@ -307,7 +316,7 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     }
   }
 
-  if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");
+    if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");
   if (readiness.studentProductionLaunchAllowed !== false) errors.push("White-label release readiness student production launch must remain false.");
   const blockedActions = readStringArray(readiness, "blockedActions");
   for (const action of WHITE_LABEL_RELEASE_BLOCKED_ACTIONS) {
