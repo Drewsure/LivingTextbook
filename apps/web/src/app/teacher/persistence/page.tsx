@@ -58,6 +58,8 @@ import { LocalBundleMediaManifestReconciliationPanel } from "@/features/persiste
 import { resolveSampleTeacherSessionMonitorContext } from "@/data/sampleTeacherSessionMonitor";
 import { resolveSampleTeacherReportSnapshotRecoveryRehearsal } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
 import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
+import { PersistenceActivationPreflightPanel } from "@/features/persistence/PersistenceActivationPreflightPanel";
+import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -111,6 +113,7 @@ export default function TeacherPersistencePage() {
 
         <BackendDecisionMatrixPanel matrix={sampleBackendDecisionMatrix} />
         <PilotBackendSelectionGatePanel gate={samplePilotBackendSelectionGate} />
+        <PersistenceActivationPreflightPanel preflight={samplePersistenceActivationPreflight} />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
         <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />
         <LocalBundleProviderApprovalPanel

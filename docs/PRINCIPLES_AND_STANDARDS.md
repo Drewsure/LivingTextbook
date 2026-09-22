@@ -5584,3 +5584,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1011,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1012,
 `docs/decision-register/DR-1012-gated-persistence-phase-transition.md`, and
 `docs/adr/0940-gated-persistence-phase-transition.md`.
+
+## 356. Durable-Write Activation Preflight Standard
+
+- Every proposed durable pilot must have one named tenant, package, requested
+  mode, and review-only activation preflight.
+- The preflight must show session identity, teacher authorization, school
+  policy, retention, release, operations, deployment, data minimization, and
+  hosted/local parity as separate criteria.
+- Passed criteria do not override open or blocked criteria; the summary must
+  preserve the unresolved reasons.
+- A preflight must never activate a provider, write learner data, approve a
+  school, or create a live assignment.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1013,
+`docs/decision-register/DR-1013-durable-write-activation-preflight.md`, and
+`docs/adr/0941-durable-write-activation-preflight.md`.

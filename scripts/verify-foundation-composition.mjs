@@ -47,6 +47,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-app-shell-naviga
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-edition-qr-alias-resolver.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-activation-preflight.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

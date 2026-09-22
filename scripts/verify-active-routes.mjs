@@ -2719,6 +2719,10 @@ expectedTextByPath
   ?.push(...safeFallbackRestorationPreviewExpected);
 
 expectedTextByPath.get("/teacher/persistence")?.push(
+  "Durable-write activation preflight",
+  "Activation blocked",
+  "No activation control",
+  "Hosted/local contract parity",
   "Package evidence persistence",
   "Tenant-scoped reconciliation record shape",
   "Metadata preview",
