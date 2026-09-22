@@ -22,6 +22,26 @@ The background media capability slice now rejects multimedia plans that name a s
 
 The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
 
+## Build session 0964: Full foundation verification baseline and controlled Z.ai handoff
+
+- Re-ran the complete `npm run verify:foundation` suite on `legacy-source-import`.
+- Confirmed the shared content-model boundary, canonical game engines, deterministic
+  replays, target-language/audio rules, local/offline bundle gates, source/upload
+  review boundaries, persistence/runtime contracts, release-control evidence,
+  white-label tenant isolation, AI-service boundaries, and reward/entitlement
+  safeguards all pass together.
+- Confirmed the production webpack build and typechecks pass, and the active route
+  verifier passes all 89 routes, including the teacher prototype workbench and both
+  tenant pathways.
+- Confirmed the frozen Phaser source identity remains read-only and hash-verified;
+  no returned Z.ai candidate package exists yet.
+- The next external action is human-triggered: send the isolated Memory Match
+  evidence request to `Drewsure/ministar-lab`. A returned packet must remain outside
+  `LivingTextbook` until the candidate package verifier and Codex adjudication pass.
+
+Evidence: `npm run verify:foundation`, `node scripts/verify-phaser-source-evidence.mjs`,
+and `docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review
