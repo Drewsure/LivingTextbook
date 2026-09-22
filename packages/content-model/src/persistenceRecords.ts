@@ -10,6 +10,7 @@ export type PersistenceRecordCategory =
   | "teacher-draft-review-evidence"
   | "teacher-draft-review-audit"
   | "teacher-draft-verifier-submission"
+  | "teacher-draft-persistence-implementation-readiness"
   | "ai-generation-request-packet"
   | "ai-generated-game-build-brief"
   | "ai-external-prototype-task-packet"
@@ -165,6 +166,7 @@ export const TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES: PersistenceRecordCatego
   "pilot-review-decision",
   "local-companion-handoff",
   "local-companion-release-gate",
+  "teacher-draft-persistence-implementation-readiness",
   ...TENANT_BOUND_PROTOTYPE_RECORD_CATEGORIES,
 ];
 
@@ -201,6 +203,15 @@ export interface DurableRecordContract {
   rejectsRandomRewardPressure?: boolean;
   preservesDraftReviewGate?: boolean;
   blocksDirectStudentAssignment?: boolean;
+  preservesPersistenceImplementationReadiness?: boolean;
+  requiresPersistenceAcceptanceTestPlan?: boolean;
+  blocksPersistenceProviderSelection?: boolean;
+  blocksPersistenceImplementation?: boolean;
+  blocksPersistenceMigration?: boolean;
+  blocksPersistenceWrites?: boolean;
+  blocksPersistenceUploads?: boolean;
+  blocksPersistenceRouteMutation?: boolean;
+  blocksPersistenceAssignmentPromotion?: boolean;
   preservesReviewPacketSections?: boolean;
   blocksLiveReviewSubmission?: boolean;
   preservesReviewerEvidenceRequirements?: boolean;
@@ -727,6 +738,34 @@ function validatePilotReviewDecisionRecord(record: DurableRecordContract, errors
   }
 }
 
+function validatePersistenceImplementationReadinessRecord(record: DurableRecordContract, errors: string[]): void {
+  if (record.category !== "teacher-draft-persistence-implementation-readiness") {
+    return;
+  }
+
+  if (!record.preservesPersistenceImplementationReadiness) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId} must preserve implementation readiness.`);
+  }
+
+  if (!record.requiresPersistenceAcceptanceTestPlan) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId} must require an acceptance test plan.`);
+  }
+
+  const actionBlocks = [
+    record.blocksPersistenceProviderSelection,
+    record.blocksPersistenceImplementation,
+    record.blocksPersistenceMigration,
+    record.blocksPersistenceWrites,
+    record.blocksPersistenceUploads,
+    record.blocksPersistenceRouteMutation,
+    record.blocksPersistenceAssignmentPromotion,
+  ];
+
+  if (actionBlocks.some((blocked) => !blocked)) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId} must block provider, implementation, migration, write, upload, route, and assignment actions.`);
+  }
+}
+
 export function validateDurableRecordContracts(records: DurableRecordContract[]): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
@@ -877,6 +916,8 @@ export function validateDurableRecordContracts(records: DurableRecordContract[])
     if (record.category === "teacher-draft-verifier-submission" && !record.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission record ${record.recordId} must block automatic verifier submission.`);
     }
+
+    validatePersistenceImplementationReadinessRecord(record, errors);
 
     validateAiGenerationRequestPacketRecord(record, errors);
 

@@ -1058,3 +1058,24 @@ References:
 
 - `packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts`
 - `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_READINESS_CHECKS.md`
+
+## FR-036: Teacher Draft Persistence Implementation Storage Contract
+
+Status: Implemented as policy-required schema and migration evidence; no provider-specific persistence implementation is enabled.
+
+Requirement: The provider-neutral implementation-readiness packet must have a dedicated tenant-bound durable record, hosted/local adapter intents, backend schema entity, migration candidate, and migration specification. Those records must preserve the nine acceptance tests and remain unable to authorize provider selection, implementation, migration, writes, uploads, route mutation, live test execution, or assignment promotion.
+
+Current boundary:
+
+- The readiness packet is retained as governed evidence only.
+- Provider credentials, raw learner audio, learner transcripts, and automatic migration commands remain forbidden.
+- A later backend decision must pass the storage checks before any real persistence adapter is built.
+
+References:
+
+- `packages/content-model/src/persistenceRecords.ts`
+- `packages/content-model/src/persistenceAdapter.ts`
+- `apps/web/src/data/sampleBackendSchemaDraft.ts`
+- `apps/web/src/data/sampleBackendMigrationCandidates.ts`
+- `apps/web/src/data/sampleBackendMigrationSpecs.ts`
+- `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_STORAGE_CHECKS.md`

@@ -4857,3 +4857,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept provider selection, implementation, migration, writes, uploads, live test execution, route mutation, assignment, and promotion blocked.
 - Added a persistence workbench panel, runtime assertions, and standing verification documentation.
 - Recorded ADR 1077 and DR-1077.
+
+## Build session 0992: Teacher draft persistence implementation storage contract
+
+- Added a dedicated tenant-bound persistence record for the provider-neutral implementation-readiness packet.
+- Mirrored the same policy-required boundary in hosted and local adapter write plans.
+- Added backend schema, migration candidate, and migration specification entries for the nine acceptance tests.
+- Kept provider selection, implementation, migration, live writes, uploads, route mutation, live test execution, assignment promotion, provider credentials, raw learner audio, and learner transcripts blocked.
+- Recorded ADR 1078 and DR-1078.

@@ -25,6 +25,7 @@ const requiredSchemaEntities = [
   "teacher_draft_package",
   "teacher_draft_review_handoff",
   "teacher_draft_verifier_submission",
+  "teacher_draft_persistence_implementation_readiness",
   "ai_generation_request_packet",
   "ai_generated_game_build_brief",
   "ai_external_prototype_task_packet",
@@ -139,6 +140,7 @@ const requiredMigrationCandidates = [
   "m014-teacher-draft-package-records",
   "m016-teacher-draft-review-handoff-records",
   "m020-teacher-draft-verifier-submission-records",
+  "m021-teacher-draft-persistence-implementation-readiness-records",
   "m100-ai-generation-request-packet-storage",
   "m060-ai-generated-game-build-brief-records",
   "m074-ai-external-prototype-task-packet-records",
@@ -253,6 +255,7 @@ const requiredMigrationSpecs = [
   "spec-teacher-draft-package",
   "spec-teacher-draft-review-handoff",
   "spec-teacher-draft-verifier-submission",
+  "spec-teacher-draft-persistence-implementation-readiness",
   "spec-ai-generation-request-packet",
   "spec-ai-generated-game-build-brief",
   "spec-ai-external-prototype-task-packet",
@@ -512,6 +515,11 @@ requireText(schemaDraft, "schema_validation_packet", "Backend schema must preser
 requireText(schemaDraft, "audio_coverage_packet", "Backend schema must preserve review handoff audio packets.");
 requireText(schemaDraft, "live_review_submission_allowed", "Backend schema must preserve review handoff submission blocks.");
 requireText(schemaDraft, "teacher_draft_verifier_submission", "Backend schema must include teacher draft verifier submission preflights.");
+requireText(
+  schemaDraft,
+  "teacher_draft_persistence_implementation_readiness",
+  "Backend schema must include teacher draft persistence implementation readiness packets.",
+);
 requireText(schemaDraft, "schema_preflight", "Backend schema must preserve verifier schema preflight checks.");
 requireText(schemaDraft, "automatic_submit_allowed", "Backend schema must preserve automatic verifier submission blocks.");
 requireText(schemaDraft, "ai_generation_request_packet", "Backend schema must include AI generation request packets.");
@@ -1385,6 +1393,11 @@ requireText(migrationSpecs, "spec-teacher-draft-review-handoff", "Migration spec
 requireText(migrationSpecs, "route_activity_packet", "Migration specs must preserve review handoff route/activity packets.");
 requireText(migrationSpecs, "live_review_submission_allowed", "Migration specs must preserve review handoff submission blocks.");
 requireText(migrationSpecs, "spec-teacher-draft-verifier-submission", "Migration specs must include teacher draft verifier submission preflights.");
+requireText(
+  migrationSpecs,
+  "spec-teacher-draft-persistence-implementation-readiness",
+  "Migration specs must include teacher draft persistence implementation readiness packets.",
+);
 requireText(migrationSpecs, "language_preflight", "Migration specs must preserve verifier support-language boundary checks.");
 requireText(migrationSpecs, "automatic_submit_allowed", "Migration specs must preserve automatic verifier submission blocks.");
 requireText(migrationCandidates, "m100-ai-generation-request-packet-storage", "Migration candidates must include AI generation request packet storage.");
@@ -2625,6 +2638,31 @@ requireText(persistenceAdapter, "hosted-teacher-draft-verifier-submission-write"
 requireText(persistenceAdapter, "local-teacher-draft-verifier-submission-write", "Persistence adapter must include local teacher draft verifier submission writes.");
 requireText(persistenceAdapter, "preservesVerifierPreflightChecks: true", "Persistence adapter must preserve verifier preflight checks.");
 requireText(persistenceAdapter, "blocksAutomaticVerifierSubmit: true", "Persistence adapter must block automatic verifier submission.");
+requireText(
+  persistenceAdapter,
+  "hosted-teacher-draft-persistence-implementation-readiness-write",
+  "Persistence adapter must include hosted teacher draft persistence implementation readiness writes.",
+);
+requireText(
+  persistenceAdapter,
+  "local-teacher-draft-persistence-implementation-readiness-write",
+  "Persistence adapter must include local teacher draft persistence implementation readiness writes.",
+);
+requireText(
+  persistenceAdapter,
+  "preservesPersistenceImplementationReadiness: true",
+  "Persistence adapter must preserve persistence implementation readiness.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksPersistenceProviderSelection: true",
+  "Persistence adapter must block persistence provider selection.",
+);
+requireText(
+  persistenceAdapter,
+  "blocksPersistenceAssignmentPromotion: true",
+  "Persistence adapter must block persistence assignment promotion.",
+);
 requireText(persistenceAdapter, "hosted-ai-generation-request-packet-write", "Persistence adapter must include hosted AI generation request packet writes.");
 requireText(persistenceAdapter, "local-ai-generation-request-packet-write", "Persistence adapter must include local AI generation request packet writes.");
 requireText(persistenceAdapter, "preservesAiGenerationRequestPacket: true", "Persistence adapter must preserve AI generation request packets.");
@@ -4053,6 +4091,26 @@ requireText(durableRecords, "blocksLiveReviewSubmission: true", "Durable record 
 requireText(durableRecords, "teacher-draft-verifier-submission-record", "Durable record plan must include teacher draft verifier submission preflights.");
 requireText(durableRecords, "preservesVerifierPreflightChecks: true", "Durable record plan must preserve verifier preflight checks.");
 requireText(durableRecords, "blocksAutomaticVerifierSubmit: true", "Durable record plan must block automatic verifier submission.");
+requireText(
+  durableRecords,
+  "teacher-draft-persistence-implementation-readiness-record",
+  "Durable record plan must include teacher draft persistence implementation readiness packets.",
+);
+requireText(
+  durableRecords,
+  "preservesPersistenceImplementationReadiness: true",
+  "Durable record plan must preserve persistence implementation readiness.",
+);
+requireText(
+  durableRecords,
+  "blocksPersistenceProviderSelection: true",
+  "Durable record plan must block persistence provider selection.",
+);
+requireText(
+  durableRecords,
+  "blocksPersistenceAssignmentPromotion: true",
+  "Durable record plan must block persistence assignment promotion.",
+);
 requireText(durableRecords, "ai-generation-request-packet-record", "Durable record plan must include AI generation request packet records.");
 requireText(durableRecords, "ai-generation-request-packet-boundary", "Durable record plan must include AI generation request packet boundaries.");
 requireText(durableRecords, "AI generation request packet record", "Durable record plan must expose AI generation request packet labels.");

@@ -8759,3 +8759,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - A provider-neutral implementation-readiness packet defines the future adapter work order and acceptance tests.
 - Provider selection, implementation, migration, writes, uploads, live test execution, route mutation, assignment, and promotion remain blocked.
 - The hosted pilot adapter is a candidate plan only, not a provider decision.
+
+## DR-1078: Teacher Draft Persistence Implementation Storage Contract
+
+- The implementation-readiness packet is represented as a dedicated tenant-bound durable record and mirrored in hosted/local adapter plans.
+- Backend schema, migration candidate, and migration specification preserve the nine acceptance tests without selecting a provider.
+- Provider selection, implementation, migration, live writes, uploads, route mutation, live test execution, assignment promotion, provider credentials, raw learner audio, and learner transcripts remain blocked.

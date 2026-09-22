@@ -125,6 +125,25 @@ export const sampleBackendMigrationPlan: BackendMigrationPlan = {
       notAllowedYet: ["Automatic verifier submit", "Direct draft assignment", "Direct AI publish", "Preflight checks only in UI state"],
     },
     {
+      migrationId: "m021-teacher-draft-persistence-implementation-readiness-records",
+      label: "Teacher draft persistence implementation readiness records",
+      track: "shared",
+      status: "needs-policy",
+      risk: "high",
+      targetEntities: ["teacher_draft_persistence_implementation_readiness"],
+      purpose:
+        "Persist provider-neutral readiness packets and their nine acceptance tests without selecting a backend or enabling live teacher draft persistence.",
+      prerequisites: ["Persistence implementation-readiness contract accepted", "Tenant boundary policy accepted", "Provider-neutral acceptance tests accepted"],
+      implementationNotes: [
+        "Keep readiness packets tenant-scoped and draft-scoped.",
+        "Store acceptance-test results and policy revision as review evidence, not as write authorization.",
+        "Keep provider credentials, raw learner audio, learner transcripts, and automatic migration commands out of the record.",
+        "Require hosted/local parity and rollback evidence before a later implementation decision.",
+      ],
+      rollbackOrExportNeeds: ["Export readiness packet JSON", "Retain policy revision and acceptance-test history", "Support local backup and restore without activating writes"],
+      notAllowedYet: ["Provider selection", "Persistence implementation", "Data migration", "Live writes", "Uploads", "Route mutation", "Assignment promotion"],
+    },
+    {
       migrationId: "m100-ai-generation-request-packet-storage",
       label: "AI generation request packet storage",
       track: "shared",

@@ -46,6 +46,15 @@ export interface PersistenceWriteIntent {
   rejectsRandomRewardPressure?: boolean;
   preservesDraftReviewGate?: boolean;
   blocksDirectStudentAssignment?: boolean;
+  preservesPersistenceImplementationReadiness?: boolean;
+  requiresPersistenceAcceptanceTestPlan?: boolean;
+  blocksPersistenceProviderSelection?: boolean;
+  blocksPersistenceImplementation?: boolean;
+  blocksPersistenceMigration?: boolean;
+  blocksPersistenceWrites?: boolean;
+  blocksPersistenceUploads?: boolean;
+  blocksPersistenceRouteMutation?: boolean;
+  blocksPersistenceAssignmentPromotion?: boolean;
   preservesReviewPacketSections?: boolean;
   blocksLiveReviewSubmission?: boolean;
   preservesReviewerEvidenceRequirements?: boolean;
@@ -581,6 +590,34 @@ function validatePilotReviewDecisionWriteIntent(intent: PersistenceWriteIntent, 
   }
 }
 
+function validatePersistenceImplementationReadinessWriteIntent(intent: PersistenceWriteIntent, errors: string[]): void {
+  if (intent.category !== "teacher-draft-persistence-implementation-readiness") {
+    return;
+  }
+
+  if (!intent.preservesPersistenceImplementationReadiness) {
+    errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} must preserve implementation readiness.`);
+  }
+
+  if (!intent.requiresPersistenceAcceptanceTestPlan) {
+    errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} must require an acceptance test plan.`);
+  }
+
+  const actionBlocks = [
+    intent.blocksPersistenceProviderSelection,
+    intent.blocksPersistenceImplementation,
+    intent.blocksPersistenceMigration,
+    intent.blocksPersistenceWrites,
+    intent.blocksPersistenceUploads,
+    intent.blocksPersistenceRouteMutation,
+    intent.blocksPersistenceAssignmentPromotion,
+  ];
+
+  if (actionBlocks.some((blocked) => !blocked)) {
+    errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} must block provider, implementation, migration, write, upload, route, and assignment actions.`);
+  }
+}
+
 export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): string[] {
   const errors: string[] = [];
   const intentIds = new Set<string>();
@@ -747,6 +784,8 @@ export function validatePersistenceAdapterPlan(plan: PersistenceAdapterPlan): st
     if (intent.category === "teacher-draft-verifier-submission" && !intent.blocksAutomaticVerifierSubmit) {
       errors.push(`Teacher draft verifier submission write intent ${intent.intentId} must block automatic verifier submission.`);
     }
+
+    validatePersistenceImplementationReadinessWriteIntent(intent, errors);
 
     validateAiGenerationRequestPacketWriteIntent(intent, errors);
 
