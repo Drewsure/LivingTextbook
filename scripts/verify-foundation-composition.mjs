@@ -50,6 +50,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-edition-qr-alias
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-qr-alias-rollback-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-qr-alias-backend-alignment.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-activation-preflight.mjs", import.meta.url))], {
   stdio: "inherit",
 });

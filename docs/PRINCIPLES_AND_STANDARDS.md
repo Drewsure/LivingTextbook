@@ -6398,3 +6398,17 @@ This standard is recorded in
 `docs/decision-register/DR-1065-durable-qr-alias-and-rollback-runtime-contract.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0993-durable-qr-alias-and-rollback-runtime-contract.md`.
+
+## 410. QR Alias Backend Contract Alignment Standard
+
+- The route-alias schema draft, migration candidate, and migration spec must
+  preserve the same printed identity, release lineage, target/fallback,
+  rollback evidence, tenant scope, and mutation-block fields.
+- Route-alias planning must exclude raw learner audio and transcripts.
+- Alignment evidence is not provider selection, migration execution, route
+  mutation, package swapping, local activation, or rollback authorization.
+
+This standard is recorded in
+`docs/decision-register/DR-1066-qr-alias-backend-contract-alignment.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0994-qr-alias-backend-contract-alignment.md`.

@@ -4736,3 +4736,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept hosted redirects, route writes, local activation, learner-data changes,
   and rollback execution blocked.
 - Recorded ADR 0993 and DR-1065.
+
+## Build session 0980: QR alias backend contract alignment
+
+- Extended the route-alias schema draft with printed identity, release
+  lineage, safe target/fallback, rollback evidence, and mutation-block fields.
+- Updated the route-alias migration candidate and migration spec to carry the
+  same contract and prerequisites.
+- Added a schema/candidate/spec alignment verifier to the foundation gate.
+- Kept database migration, route writes, QR redirects, package swaps, local
+  activation, and rollback execution disabled.
+- Recorded DR-1066 and the next backend implementation remains gated by
+  provider and release decisions.

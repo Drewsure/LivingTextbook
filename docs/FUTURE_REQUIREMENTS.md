@@ -827,3 +827,29 @@ References:
 - `apps/web/src/data/sampleQrAliasRollbackEvidence.ts`
 - `scripts/verify-qr-alias-rollback-boundary.mjs`
 - `docs/adr/0993-durable-qr-alias-and-rollback-runtime-contract.md`
+
+## FR-025: QR Alias Backend Contract Alignment
+
+Status: Implemented in the schema draft, migration candidate, and migration
+spec; backend selection and real migration execution remain future work.
+
+Requirement: Durable QR alias storage must preserve the shared runtime's
+printed identity, release lineage, safe target/fallback, rollback evidence,
+tenant scope, and learner-data exclusion fields.
+
+Current boundary:
+
+- The route-alias schema draft, migration candidate, and migration spec carry
+  the same release and rollback fields.
+- Migration prerequisites explicitly include the QR rollback contract and
+  release-lineage acceptance.
+- The alignment verifier rejects drift before backend implementation begins.
+- No database migration, route write, QR redirect mutation, package swap,
+  local activation, or rollback execution is enabled.
+
+References:
+
+- `apps/web/src/data/sampleBackendSchemaDraft.ts`
+- `apps/web/src/data/sampleBackendMigrationCandidates.ts`
+- `apps/web/src/data/sampleBackendMigrationSpecs.ts`
+- `scripts/verify-qr-alias-backend-alignment.mjs`
