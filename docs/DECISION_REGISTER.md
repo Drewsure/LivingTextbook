@@ -7806,3 +7806,20 @@ authorize production writes.
 
 Evidence: `docs/adr/0950-pilot-review-decision-runtime.md` and
 `scripts/verify-pilot-review-decision-snapshot-runtime.mjs`.
+
+# DR-1023: Pilot Review Decision Retention Policy
+
+Decision: require a tenant/package-bound retention and audit policy before
+implementing production snapshot writes.
+
+Required invariants:
+
+- Snapshot and audit retention periods, deletion ownership, audit access, and
+  school-policy acceptance must be explicit.
+- Core policy rejects raw audio and transcript retention.
+- Review-only samples keep snapshot write, restore, export, and activation
+  blocked, even when the policy shape itself validates.
+
+Evidence: `docs/adr/0951-pilot-review-decision-retention-policy.md`,
+`packages/content-model/src/pilotReviewDecisionRetentionPolicy.ts`, and
+`apps/web/src/data/samplePilotReviewDecisionRetentionPolicy.ts`.

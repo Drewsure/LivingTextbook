@@ -5749,3 +5749,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1021,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1022,
 `docs/decision-register/DR-1022-pilot-review-decision-runtime.md`, and
 `docs/adr/0950-pilot-review-decision-runtime.md`.
+
+## 366. Pilot Review Decision Retention Policy Standard
+
+- Review decision snapshots require explicit retention, deletion, audit, and
+  school-policy requirements before any production write path is implemented.
+- The policy must be tenant- and package-bound, name snapshot and audit
+  retention periods, require deletion support, and reject raw audio and
+  transcript retention in the core tier.
+- The foundation sample remains review-only: snapshot writes, restore, export,
+  and activation are all blocked until the named policies are accepted.
+- Policy acceptance is evidence for a future provider implementation, not an
+  automatic permission to collect learner data or launch a classroom.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1023,
+`docs/decision-register/DR-1023-pilot-review-decision-retention-policy.md`, and
+`docs/adr/0951-pilot-review-decision-retention-policy.md`.

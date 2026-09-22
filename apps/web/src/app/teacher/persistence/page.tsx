@@ -63,6 +63,8 @@ import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceAc
 import { samplePilotReviewDecisionPersistenceErrors } from "@/data/samplePilotReviewDecisionPersistence";
 import { samplePilotReviewDecisionSnapshots, samplePilotReviewDecisionSnapshotAdapterResults, samplePilotReviewDecisionSnapshotErrors } from "@/data/samplePilotReviewDecisionSnapshots";
 import { PilotReviewDecisionPersistenceSnapshotPanel } from "@/features/persistence/PilotReviewDecisionPersistenceSnapshotPanel";
+import { samplePilotReviewDecisionRetentionPolicy, samplePilotReviewDecisionRetentionPolicyErrors, samplePilotReviewDecisionRetentionPolicyWarnings } from "@/data/samplePilotReviewDecisionRetentionPolicy";
+import { PilotReviewDecisionRetentionPolicyPanel } from "@/features/persistence/PilotReviewDecisionRetentionPolicyPanel";
 
 const persistenceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -121,6 +123,11 @@ export default function TeacherPersistencePage() {
           snapshots={samplePilotReviewDecisionSnapshots}
           adapterResults={samplePilotReviewDecisionSnapshotAdapterResults}
           errors={samplePilotReviewDecisionSnapshotErrors}
+        />
+        <PilotReviewDecisionRetentionPolicyPanel
+          policy={samplePilotReviewDecisionRetentionPolicy}
+          errors={samplePilotReviewDecisionRetentionPolicyErrors}
+          warnings={samplePilotReviewDecisionRetentionPolicyWarnings}
         />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />
         <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />

@@ -4232,3 +4232,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Covered valid review-only behavior, wrong-tenant access, fingerprint
   tampering, activation blocking, and no-side-effect results.
 - Recorded ADR 0950 and DR-1022.
+
+## Build session 0934: Pilot review decision retention policy
+
+- Added tenant/package-bound retention, deletion, audit, and school-policy
+  requirements for future snapshot persistence.
+- Kept the sample policy review-only with snapshot writes, restore, export, and
+  activation blocked.
+- Added policy visibility to the persistence workbench and a foundation
+  verifier.
+- Recorded ADR 0951 and DR-1023.
