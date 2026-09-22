@@ -4225,3 +4225,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
   results.
 - Added hosted/local adapter rehearsal results to the persistence workbench.
 - Recorded ADR 0949 and DR-1021.
+
+## Build session 0933: Pilot review decision runtime verification
+
+- Added executable TypeScript-compiled rehearsal for the snapshot adapter.
+- Covered valid review-only behavior, wrong-tenant access, fingerprint
+  tampering, activation blocking, and no-side-effect results.
+- Recorded ADR 0950 and DR-1022.

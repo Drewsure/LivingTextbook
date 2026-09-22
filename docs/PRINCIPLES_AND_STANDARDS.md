@@ -5736,3 +5736,16 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1020,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1021,
 `docs/decision-register/DR-1021-pilot-review-decision-adapter.md`, and
 `docs/adr/0949-pilot-review-decision-adapter.md`.
+
+## 365. Pilot Review Decision Runtime Verification Standard
+
+- Snapshot adapters require executable rehearsal in addition to static source
+  checks and typecheck.
+- Rehearsal must cover valid review-only operation, wrong-tenant rejection,
+  fingerprint tampering, blocked activation, and `sideEffect: none`.
+- A passing runtime rehearsal does not authorize provider activation; it proves
+  only that the foundation boundary fails closed under representative input.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1022,
+`docs/decision-register/DR-1022-pilot-review-decision-runtime.md`, and
+`docs/adr/0950-pilot-review-decision-runtime.md`.

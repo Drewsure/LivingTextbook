@@ -7794,3 +7794,15 @@ Required invariants:
 Evidence: `docs/adr/0949-pilot-review-decision-adapter.md`,
 `packages/content-model/src/pilotReviewDecisionPersistence.ts`, and
 `apps/web/src/data/samplePilotReviewDecisionSnapshots.ts`.
+
+# DR-1022: Pilot Review Decision Runtime Verification
+
+Decision: require executable snapshot-adapter rehearsal before any provider
+implementation is considered compatible.
+
+The rehearsal proves valid review-only behavior, no side effects, wrong-tenant
+rejection, fingerprint-tamper rejection, and activation blocking. It does not
+authorize production writes.
+
+Evidence: `docs/adr/0950-pilot-review-decision-runtime.md` and
+`scripts/verify-pilot-review-decision-snapshot-runtime.mjs`.
