@@ -4242,3 +4242,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added policy visibility to the persistence workbench and a foundation
   verifier.
 - Recorded ADR 0951 and DR-1023.
+
+## Build session 0935: Provider-neutral implementation readiness
+
+- Added a tenant/package-bound handoff reconciling snapshot, adapter,
+  retention, audit, and school-policy evidence.
+- Kept provider selection, implementation, writes, restore, export, and
+  activation blocked in the foundation sample.
+- Added persistence workbench visibility and a foundation verifier.
+- Recorded ADR 0952 and DR-1024.

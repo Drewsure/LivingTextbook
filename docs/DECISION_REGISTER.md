@@ -7823,3 +7823,21 @@ Required invariants:
 Evidence: `docs/adr/0951-pilot-review-decision-retention-policy.md`,
 `packages/content-model/src/pilotReviewDecisionRetentionPolicy.ts`, and
 `apps/web/src/data/samplePilotReviewDecisionRetentionPolicy.ts`.
+
+# DR-1024: Provider-Neutral Implementation Readiness
+
+Decision: reconcile all review-decision persistence evidence through one
+tenant/package-bound implementation handoff before selecting or implementing a
+provider.
+
+Required invariants:
+
+- Snapshot, adapter, retention, audit, and school-policy evidence must be
+  visible in the handoff.
+- The current blocked sample cannot select a provider or implement writes.
+- Writes, restore, export, and activation remain false even when the handoff
+  shape validates.
+
+Evidence: `docs/adr/0952-provider-neutral-implementation-readiness.md`,
+`packages/content-model/src/pilotReviewDecisionImplementationReadiness.ts`,
+and `apps/web/src/data/samplePilotReviewDecisionImplementationReadiness.ts`.

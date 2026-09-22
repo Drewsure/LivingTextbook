@@ -5765,3 +5765,18 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1022,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1023,
 `docs/decision-register/DR-1023-pilot-review-decision-retention-policy.md`, and
 `docs/adr/0951-pilot-review-decision-retention-policy.md`.
+
+## 367. Provider-Neutral Implementation Readiness Standard
+
+- Before selecting a hosted or local provider, one handoff must reconcile
+  snapshot validity, adapter rehearsal, retention policy, audit policy, school
+  policy, tenant identity, and package identity.
+- The handoff may say that implementation can be planned, but it must not
+  silently authorize provider selection, provider implementation, writes,
+  restore, export, or review-decision activation.
+- A provider implementation becomes eligible only after the named policies and
+  required evidence are accepted by the school or tenant owner.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1024,
+`docs/decision-register/DR-1024-provider-neutral-implementation-readiness.md`,
+and `docs/adr/0952-provider-neutral-implementation-readiness.md`.
