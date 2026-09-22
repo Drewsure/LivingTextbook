@@ -18,6 +18,7 @@ export function WhiteLabelReleaseReadinessPanel({
 }) {
   const qualityChecks = Object.entries(readiness.qualityChecks) as Array<[WhiteLabelReleaseQualityCheckId, boolean]>;
   const qualityEvidence = new Map(readiness.qualityEvidence.map((evidence) => [evidence.checkId, evidence]));
+  const qualityEvidenceScope = readiness.qualityEvidence[0];
   return (
     <div className="grid gap-5">
       <Card>
@@ -150,6 +151,8 @@ export function WhiteLabelReleaseReadinessPanel({
           <StatusPill label={`${qualityChecks.filter(([, value]) => value).length}/${qualityChecks.length} verified`} tone="success" />
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Evidence tenant" value={qualityEvidenceScope?.tenantId ?? "Missing"} />
+          <Fact label="Evidence package" value={qualityEvidenceScope?.packageId ?? "Missing"} />
           {qualityChecks.map(([label, value]) => (
             <div key={label} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>

@@ -48,6 +48,8 @@ const markers = [
   ["sample", "expectedActiveRouteCount: 89"],
   ["panel", "White-label release control"],
   ["panel", "Evidence checks are separate from approval"],
+  ["panel", "Evidence tenant"],
+  ["panel", "Evidence package"],
   ["panel", "No release button exists in this foundation surface"],
   ["panel", "Package evidence reconciliation"],
   ["panel", "Controlled pilot decision"],

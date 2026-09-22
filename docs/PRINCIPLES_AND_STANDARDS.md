@@ -6094,3 +6094,16 @@ and `docs/adr/0971-white-label-nested-readiness-consistency.md`.
 This standard is recorded in `docs/decision-register/DR-1044-white-label-quality-evidence-tenant-binding.md`,
 `docs/build-session-notes/2026-09-22-white-label-quality-evidence-tenant-binding.md`,
 and `docs/adr/0972-white-label-quality-evidence-tenant-binding.md`.
+
+## 389. White-Label Quality Evidence Scope Display Standard
+
+- The release-readiness workbench must display the tenant and package scope of
+  quality evidence beside the quality checks it supports.
+- A source record or green status without visible scope is insufficient for
+  adult review of a saleable tenant release.
+- Scope display remains evidence-only and cannot authorize production approval,
+  persistence activation, package promotion, or student launch.
+
+This standard is recorded in `docs/decision-register/DR-1045-white-label-quality-evidence-scope-display.md`,
+`docs/build-session-notes/2026-09-22-white-label-quality-evidence-scope-display.md`,
+and `docs/adr/0973-white-label-quality-evidence-scope-display.md`.

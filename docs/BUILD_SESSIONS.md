@@ -4467,3 +4467,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added negative-path behavior coverage for both quality identity mismatches.
 - Kept the readiness contract review-only and activation-disabled.
 - Recorded ADR 0972 and DR-1044.
+
+## Build session 0958: White-label quality evidence scope display
+
+- Displayed the quality evidence tenant and package bindings in the release
+  readiness workbench.
+- Kept source checks, production approval, persistence, promotion, and student
+  launch review-only and activation-disabled.
+- Recorded ADR 0973 and DR-1045.
