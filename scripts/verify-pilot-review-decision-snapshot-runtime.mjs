@@ -35,6 +35,7 @@ try {
   }
 
   const persistence = require(join(output, "packages", "content-model", "src", "pilotReviewDecisionPersistence.js"));
+  const decisionModel = require(join(output, "packages", "content-model", "src", "pilotReviewDecision.js"));
   const decision = {
     decisionId: "sample-review-decision",
     tenantId: "sample-publisher",
@@ -55,6 +56,18 @@ try {
 
   const snapshot = persistence.createPilotReviewDecisionPersistenceSnapshot(decision, "hosted-managed", "2026-09-22T12:00:00.000Z");
   assert(persistence.validatePilotReviewDecisionPersistenceSnapshot(snapshot).length === 0, "valid snapshot should pass validation");
+
+  const duplicateBindings = decisionModel.validatePilotReviewDecision({
+    ...decision,
+    evidenceBindings: ["handoff:sample-handoff", "handoff:sample-handoff"],
+  });
+  assert(duplicateBindings.includes("Pilot review decision evidence bindings must be unique."), "duplicate decision bindings must fail validation");
+
+  const blankBinding = decisionModel.validatePilotReviewDecision({
+    ...decision,
+    evidenceBindings: ["handoff:sample-handoff", ""],
+  });
+  assert(blankBinding.includes("Pilot review decision evidence bindings must contain only non-empty strings."), "blank decision bindings must fail validation");
 
   const adapter = persistence.createReviewOnlyPilotReviewDecisionPersistenceAdapter();
   const restore = adapter.execute({

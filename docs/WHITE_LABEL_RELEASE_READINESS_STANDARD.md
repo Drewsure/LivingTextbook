@@ -99,6 +99,10 @@ Pilot evidence bindings must be non-empty, string-valued, and unique. The
 validator must reject duplicate or malformed identifiers rather than silently
 discarding them.
 
+The canonical pilot review decision validator and its provider-neutral snapshot
+boundary must enforce the same rule before a decision is accepted for review
+storage or rehearsal.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

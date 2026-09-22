@@ -6131,3 +6131,16 @@ and `docs/adr/0974-white-label-nested-evidence-scope-display.md`.
 This standard is recorded in `docs/decision-register/DR-1047-white-label-pilot-evidence-binding-integrity.md`,
 `docs/build-session-notes/2026-09-22-white-label-pilot-evidence-binding-integrity.md`,
 and `docs/adr/0975-white-label-pilot-evidence-binding-integrity.md`.
+
+## 392. Pilot Decision Snapshot Binding Integrity Standard
+
+- The canonical pilot review decision validator and release-readiness
+  validator must enforce the same non-empty, unique evidence-binding rule.
+- A provider-neutral pilot decision snapshot must fail validation when its
+  source decision contains malformed or duplicate bindings.
+- Snapshot validation remains review-only and cannot authorize persistence,
+  pilot launch, reporting, promotion, or student access.
+
+This standard is recorded in `docs/decision-register/DR-1048-pilot-decision-snapshot-binding-integrity.md`,
+`docs/build-session-notes/2026-09-22-pilot-decision-snapshot-binding-integrity.md`,
+and `docs/adr/0976-pilot-decision-snapshot-binding-integrity.md`.

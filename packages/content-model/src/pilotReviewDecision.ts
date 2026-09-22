@@ -39,6 +39,15 @@ export function validatePilotReviewDecision(decision: PilotReviewDecision): stri
   }
   if (!Array.isArray(decision.evidenceBindings) || decision.evidenceBindings.length === 0) {
     errors.push("Pilot review decision must include evidence bindings.");
+  } else {
+    const evidenceBindings = decision.evidenceBindings;
+    if (evidenceBindings.some((binding) => typeof binding !== "string" || binding.trim().length === 0)) {
+      errors.push("Pilot review decision evidence bindings must contain only non-empty strings.");
+    }
+    const normalizedBindings = evidenceBindings.filter((binding): binding is string => typeof binding === "string").map((binding) => binding.trim());
+    if (new Set(normalizedBindings).size !== normalizedBindings.length) {
+      errors.push("Pilot review decision evidence bindings must be unique.");
+    }
   }
 
   const blockerCount = Array.isArray(decision.blockingReasons) ? decision.blockingReasons.length : 0;

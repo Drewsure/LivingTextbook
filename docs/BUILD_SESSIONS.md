@@ -4493,3 +4493,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   filtering them into a green-looking packet.
 - Added behavior coverage for both malformed binding paths.
 - Recorded ADR 0975 and DR-1047.
+
+## Build session 0961: Pilot decision snapshot binding integrity
+
+- Aligned the canonical pilot review decision validator with the release
+  readiness validator for duplicate and malformed evidence bindings.
+- Added snapshot-runtime coverage before a review decision can be persisted as
+  a provider-neutral rehearsal record.
+- Recorded ADR 0976 and DR-1048.
