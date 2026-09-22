@@ -1214,6 +1214,13 @@ try {
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(
     sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(
+      { ...validSourcePackageAssemblyPacket, candidateUnitKeys: ["tenant-1:curriculum:L1:U2"] },
+      sourcePreviewResult.preview,
+    ),
+    "Source package assembly extraction preview binding candidate unit tenant-1:curriculum:L1:U2 is not declared by the preview.",
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(
       validSourcePackageAssemblyPacket,
       { ...sourcePreviewResult.preview, tenantId: "other-tenant" },
     ),

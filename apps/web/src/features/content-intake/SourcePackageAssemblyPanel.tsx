@@ -3,6 +3,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 
 interface SourcePackageAssemblyPanelProps {
   packets: SourcePackageAssemblyPacket[];
+  evidenceFindings?: string[];
 }
 
 const statusTone: Record<SourcePackageAssemblyStatus, "neutral" | "success" | "warning"> = {
@@ -11,8 +12,11 @@ const statusTone: Record<SourcePackageAssemblyStatus, "neutral" | "success" | "w
   blocked: "warning",
 };
 
-export function SourcePackageAssemblyPanel({ packets }: SourcePackageAssemblyPanelProps) {
-  const findings = packets.flatMap((packet) => validateSourcePackageAssemblyPacket(packet).map((error) => `${packet.packetId}: ${error}`));
+export function SourcePackageAssemblyPanel({ packets, evidenceFindings = [] }: SourcePackageAssemblyPanelProps) {
+  const findings = [
+    ...evidenceFindings,
+    ...packets.flatMap((packet) => validateSourcePackageAssemblyPacket(packet).map((error) => `${packet.packetId}: ${error}`)),
+  ];
 
   return (
     <Card>

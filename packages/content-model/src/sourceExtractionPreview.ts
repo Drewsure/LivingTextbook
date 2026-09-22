@@ -46,6 +46,7 @@ export interface SourceExtractionPreview {
   sourceType: SourceDocumentType;
   sourceChecksum: string;
   extractionMethod: SourceExtractionPreviewRequest["extractionMethod"];
+  candidateUnitKeys: string[];
   mode: SourceExtractionPreviewMode;
   segments: Array<SourceExtractionPreviewSegment & { normalizedText: string }>;
   unitSummaries: SourceExtractionUnitSummary[];
@@ -189,6 +190,7 @@ export function createReviewOnlySourceExtractionPreview(value: unknown): SourceE
       sourceType: request.sourceType,
       sourceChecksum: request.sourceChecksum,
       extractionMethod: request.extractionMethod,
+      candidateUnitKeys: [...request.candidateUnitKeys],
       mode,
       segments,
       unitSummaries,

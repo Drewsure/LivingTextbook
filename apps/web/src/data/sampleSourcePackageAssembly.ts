@@ -1,5 +1,9 @@
-import { validateSourcePackageAssemblyPacket } from "@living-textbook/content-model";
+import {
+  validateSourcePackageAssemblyExtractionPreviewBinding,
+  validateSourcePackageAssemblyPacket,
+} from "@living-textbook/content-model";
 import type { SourcePackageAssemblyPacket } from "@living-textbook/content-model";
+import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
 
 export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] = [
   {
@@ -77,5 +81,11 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
 ];
 
 export const sampleSourcePackageAssemblyErrors = sampleSourcePackageAssemblyPackets.flatMap((packet) =>
-  validateSourcePackageAssemblyPacket(packet).map((error) => `${packet.packetId}: ${error}`),
+  [
+    ...validateSourcePackageAssemblyPacket(packet),
+    ...validateSourcePackageAssemblyExtractionPreviewBinding(
+      packet,
+      sampleSourceExtractionPreviews.find((preview) => preview.previewId === packet.extractionPreviewId),
+    ),
+  ].map((error) => `${packet.packetId}: ${error}`),
 );

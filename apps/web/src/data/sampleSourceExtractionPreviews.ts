@@ -9,6 +9,7 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     sourceType: "docx",
     sourceChecksum: `sha256:${"a".repeat(64)}`,
     extractionMethod: "manual-structure",
+    candidateUnitKeys: ["ministar:ministar-english:L1:U1"],
     mode: "review-only",
     segments: [
       {
@@ -64,6 +65,7 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     sourceType: "pdf",
     sourceChecksum: `sha256:${"2".repeat(64)}`,
     extractionMethod: "ocr",
+    candidateUnitKeys: ["sample-publisher:partner-textbook-companion:L1:U1"],
     mode: "review-only",
     segments: [
       {

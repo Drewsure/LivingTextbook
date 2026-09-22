@@ -109,6 +109,7 @@ requireText(sourcePackageAssemblyModel, "SourcePackageAssemblyPacket", "Source p
 requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyPacket", "Source package assembly must have shared validation.");
 requireText(sourcePackageAssemblyModel, "extractionPreviewId", "Source package assembly must bind a structured extraction preview.");
 requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyExtractionPreviewBinding", "Source package assembly must validate extraction preview binding.");
+requireText(sourcePackageAssemblyModel, "candidateUnitKeys", "Source package assembly must bind candidate units to extraction preview evidence.");
 requireText(sourcePackageAssemblyModel, 'mode !== "review-only"', "Source package assembly must enforce review-only mode.");
 requireText(sourcePackageAssemblyModel, "packagePromotionAllowed", "Source package assembly must expose a promotion guard.");
 requireText(sourcePackageAssemblyModel, "approvalLedgerId", "Source package assembly must link an approval ledger.");
@@ -124,7 +125,10 @@ requireText(packageApprovalLedgerModel, 'mode !== "review-only"', "Approval ledg
 requireText(packageApprovalLedgerModel, "packagePromotionAllowed", "Approval ledger must expose a promotion guard.");
 requireText(sourcePackageAssemblyData, "assembly-ministar-l1-u1-greetings-v1", "Source package assembly must include the MiniStar candidate.");
 requireText(sourcePackageAssemblyData, "assembly-sample-publisher-l1-u1-routines-v1", "Source package assembly must include the partner candidate.");
+requireText(sourcePackageAssemblyData, "sampleSourceExtractionPreviews", "Source package assembly must reconcile against extraction previews.");
+requireText(sourcePackageAssemblyData, "sampleSourcePackageAssemblyErrors", "Source package assembly findings must be surfaced to the review path.");
 requireText(sourcePackageAssemblyPanel, "Canonical package draft bridge", "Source package assembly panel must expose the draft bridge.");
+requireText(sourcePackageAssemblyPanel, "evidenceFindings", "Source package assembly panel must expose binding findings.");
 requireText(sourcePackageAssemblyPanel, "Promotion", "Source package assembly panel must show promotion state.");
 requireText(sourcePackageAssemblyPanel, "Draft creation", "Source package assembly panel must show draft creation state.");
 requireText(packageReadinessModel, "PackageReadinessReconciliation", "Package readiness must have a shared reconciliation contract.");

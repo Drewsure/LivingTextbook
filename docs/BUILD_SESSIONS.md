@@ -129,6 +129,19 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0971: Extraction preview candidate-unit binding
+
+- Required every source assembly candidate unit to be declared by its bound
+  structured extraction preview.
+- Reconciled both sample source assemblies against their preview fixtures and
+  surfaced binding findings in the source-to-package review panel.
+- Added a negative runtime case for an undeclared candidate unit while keeping
+  draft creation, promotion, storage, assignment, and student access blocked.
+
+Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
+`apps/web/src/data/sampleSourcePackageAssembly.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

@@ -6265,3 +6265,18 @@ and `docs/adr/0983-package-readiness-lineage-visibility.md`.
 This standard is recorded in `docs/decision-register/DR-1056-end-to-end-extraction-readiness-binding.md`,
 `docs/build-session-notes/2026-09-22-end-to-end-extraction-readiness-binding.md`,
 and `docs/adr/0984-end-to-end-extraction-readiness-binding.md`.
+
+## 401. Extraction Preview Candidate-Unit Binding Standard
+
+- A source package assembly may only name candidate units declared by its
+  tenant- and package-bound extraction preview.
+- An undeclared candidate unit must fail closed before draft, route, package,
+  assignment, or student payload workflows can consume the assembly.
+- Sample tenant assemblies must be reconciled against their preview fixtures,
+  and binding findings must be visible to the teacher or publisher reviewer.
+- This is lineage validation only; it does not accept extracted content or
+  authorize a production write.
+
+This standard is recorded in `docs/decision-register/DR-1057-extraction-preview-candidate-unit-binding.md`,
+`docs/build-session-notes/2026-09-22-extraction-preview-candidate-unit-binding.md`,
+and `docs/adr/0985-extraction-preview-candidate-unit-binding.md`.

@@ -33,6 +33,7 @@ try {
   };
   const result = createReviewOnlySourceExtractionPreview(fixture);
   assert(result.valid, "valid extracted source preview must pass");
+  assert(result.preview?.candidateUnitKeys?.includes(fixture.candidateUnitKeys[0]), "preview must preserve candidate unit keys");
   assert(result.sideEffect === "none", "source extraction preview must have no side effect");
   assert(result.preview?.segments[0]?.segmentId === "p1-s1", "preview segments must sort deterministically");
   assert(result.preview?.segments[1]?.normalizedText === "Wake up early.", "preview must normalize whitespace without losing text");

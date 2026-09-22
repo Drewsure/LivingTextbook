@@ -579,6 +579,29 @@ References:
 - `scripts/verify-package-readiness-reconciliation.mjs`
 - `scripts/verify-package-readiness-persistence.mjs`
 
+## FR-016: Extraction Preview Candidate-Unit Binding
+
+Status: Implemented as review-only lineage validation; draft creation, package
+promotion, route creation, storage, assignments, and student activation remain
+gated.
+
+Requirement: Candidate units in a source package assembly must be declared by
+the structured extraction preview bound to that assembly.
+
+Current boundary:
+
+- The shared assembly validator checks every candidate unit against the
+  preview's declared unit list.
+- MiniStar and sample-publisher fixtures are reconciled before review panels
+  render their evidence.
+- Undeclared candidate units produce visible findings and fail runtime checks.
+
+References:
+
+- `packages/content-model/src/sourcePackageAssembly.ts`
+- `apps/web/src/data/sampleSourcePackageAssembly.ts`
+- `apps/web/src/features/content-intake/SourcePackageAssemblyPanel.tsx`
+
 ## FR-015: End-to-End Extraction-to-Readiness Binding
 
 Status: Implemented as review-only validation; extraction acceptance, draft

@@ -204,6 +204,18 @@ export function validateSourcePackageAssemblyExtractionPreviewBinding(packet: un
   if (preview.mode !== "review-only") errors.push("Source package assembly extraction preview must remain review-only.");
   if (preview.storageWriteAllowed !== false) errors.push("Source package assembly extraction preview storage writes must remain blocked.");
   if (preview.studentFacingPayloadAllowed !== false) errors.push("Source package assembly extraction preview student payloads must remain blocked.");
+
+  const packetUnitKeys = readStringList(packet.candidateUnitKeys);
+  const previewUnitKeys = readStringList(preview.candidateUnitKeys);
+  if (!packetUnitKeys) errors.push("Source package assembly extraction preview binding requires candidateUnitKeys on the assembly packet.");
+  if (!previewUnitKeys) errors.push("Source package assembly extraction preview binding requires candidateUnitKeys on the preview.");
+  if (packetUnitKeys && previewUnitKeys) {
+    for (const unitKey of packetUnitKeys) {
+      if (!previewUnitKeys.includes(unitKey)) {
+        errors.push(`Source package assembly extraction preview binding candidate unit ${unitKey} is not declared by the preview.`);
+      }
+    }
+  }
   return [...new Set(errors)];
 }
 
@@ -213,4 +225,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isNonBlankString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function readStringList(value: unknown): string[] | undefined {
+  if (!Array.isArray(value) || value.some((item) => !isNonBlankString(item))) return undefined;
+  return [...value];
 }

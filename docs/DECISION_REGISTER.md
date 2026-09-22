@@ -8433,3 +8433,21 @@ Required invariants:
 Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `docs/adr/0984-end-to-end-extraction-readiness-binding.md`.
+
+# DR-1057: Extraction Preview Candidate-Unit Binding
+
+Decision: require source package assembly candidate units to be declared by
+the bound structured extraction preview.
+
+Required invariants:
+
+- Tenant and package binding must already match before candidate units are
+  compared.
+- Every assembly candidate unit must appear in the preview candidate-unit
+  list; undeclared units fail closed.
+- The validation remains review-only and cannot authorize draft creation,
+  storage, promotion, routes, assignments, or student access.
+
+Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
+`apps/web/src/data/sampleSourcePackageAssembly.ts`, and
+`docs/adr/0985-extraction-preview-candidate-unit-binding.md`.

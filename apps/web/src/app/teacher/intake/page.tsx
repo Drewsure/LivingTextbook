@@ -83,7 +83,10 @@ import { sampleTenantLibraryPlan } from "@/data/sampleTenantLibraryPlan";
 import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleRouteGraduationGate } from "@/data/sampleRouteGraduationGate";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
-import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
+import {
+  sampleSourcePackageAssemblyErrors,
+  sampleSourcePackageAssemblyPackets,
+} from "@/data/sampleSourcePackageAssembly";
 import {
   samplePackageReadinessReconciliationErrors,
   samplePackageReadinessReconciliations,
@@ -294,7 +297,10 @@ export default function TeacherIntakePage() {
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
-        <SourcePackageAssemblyPanel packets={sampleSourcePackageAssemblyPackets} />
+        <SourcePackageAssemblyPanel
+          packets={sampleSourcePackageAssemblyPackets}
+          evidenceFindings={sampleSourcePackageAssemblyErrors}
+        />
         <PackageReadinessReconciliationPanel
           reconciliations={samplePackageReadinessReconciliations}
           evidenceFindings={samplePackageReadinessReconciliationErrors}
