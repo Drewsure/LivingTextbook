@@ -92,6 +92,22 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     privacy: true,
     tenantIsolation: true,
   },
+  qualityEvidence: [
+    ["typecheck", "Web typecheck", "typecheck:web"],
+    ["productionBuild", "Production build", "web-production-build"],
+    ["activeRoutes", "Active route sweep", "active-route-verification"],
+    ["runtime", "Runtime composition", "verify:foundation-composition"],
+    ["browser", "Browser rehearsal", "browser-rehearsal-evidence"],
+    ["privacy", "Privacy boundary", "privacy-boundary-verification"],
+    ["tenantIsolation", "Tenant isolation", "tenant-isolation-verification"],
+  ].map(([checkId, label, sourceRecord]) => ({
+    checkId: checkId as keyof WhiteLabelReleaseReadiness["qualityChecks"],
+    label,
+    verified: true,
+    sourceRecord,
+    observedAt: "2026-09-22T00:00:00.000Z",
+    notes: "Evidence observed in the review-only foundation gate; this does not authorize release.",
+  })),
   packageEvidence: {
     reconciliationId: samplePackageReconciliation.reconciliationId,
     packageId: samplePackageReconciliation.packageId,

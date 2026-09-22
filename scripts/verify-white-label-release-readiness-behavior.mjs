@@ -35,6 +35,14 @@ try {
   wrongPackage.packageEvidence.packageId = "other-tenant-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackage), "must match the readiness package", "package mismatch rejection");
 
+  const qualityMismatch = structuredClone(valid);
+  qualityMismatch.qualityEvidence[0].verified = false;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMismatch), "must match its quality check", "quality evidence mismatch rejection");
+
+  const qualityMissing = structuredClone(valid);
+  qualityMissing.qualityEvidence.pop();
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMissing), "exactly seven quality evidence records", "quality evidence count rejection");
+
   const badChecksum = structuredClone(valid);
   badChecksum.packageEvidence.sourceAssemblyChecksum = "sha256:not-a-checksum";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(badChecksum), "checksum must use", "checksum rejection");
@@ -102,6 +110,22 @@ function buildValidReadiness(model) {
       privacy: true,
       tenantIsolation: true,
     },
+    qualityEvidence: [
+      ["typecheck", "Web typecheck", "typecheck:web"],
+      ["productionBuild", "Production build", "web-production-build"],
+      ["activeRoutes", "Active route sweep", "active-route-verification"],
+      ["runtime", "Runtime composition", "verify:foundation-composition"],
+      ["browser", "Browser rehearsal", "browser-rehearsal-evidence"],
+      ["privacy", "Privacy boundary", "privacy-boundary-verification"],
+      ["tenantIsolation", "Tenant isolation", "tenant-isolation-verification"],
+    ].map(([checkId, label, sourceRecord]) => ({
+      checkId,
+      label,
+      verified: true,
+      sourceRecord,
+      observedAt: "2026-09-22T00:00:00.000Z",
+      notes: "Evidence observed in the review-only foundation gate.",
+    })),
     packageEvidence: {
       reconciliationId: "package-readiness-behavior",
       packageId: "sample-publisher-package",

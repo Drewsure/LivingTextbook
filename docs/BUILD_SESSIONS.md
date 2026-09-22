@@ -4336,3 +4336,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
   disabled.
 - Added tenant and blocker-count negative-path verification.
 - Recorded ADR 0960 and DR-1032.
+
+## Build session 0944: White-label quality evidence records
+
+- Added seven typed quality evidence records to the shared release contract.
+- Bound each record to its quality boolean, source record, timestamp, and
+  review notes.
+- Displayed evidence sources beside quality signals on the dashboard.
+- Added negative-path tests for missing and contradictory evidence.
+- Recorded ADR 0961 and DR-1033.

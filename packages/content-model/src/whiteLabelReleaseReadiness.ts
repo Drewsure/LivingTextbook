@@ -30,6 +30,17 @@ export interface WhiteLabelReleaseQualityChecks {
   tenantIsolation: boolean;
 }
 
+export type WhiteLabelReleaseQualityCheckId = keyof WhiteLabelReleaseQualityChecks;
+
+export interface WhiteLabelReleaseQualityEvidence {
+  checkId: WhiteLabelReleaseQualityCheckId;
+  label: string;
+  verified: boolean;
+  sourceRecord: string;
+  observedAt: string;
+  notes: string;
+}
+
 export interface WhiteLabelReleasePackageEvidence {
   reconciliationId: string;
   packageId: string;
@@ -66,6 +77,7 @@ export interface WhiteLabelReleaseReadiness {
   status: WhiteLabelReleaseReadinessStatus;
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
+  qualityEvidence: WhiteLabelReleaseQualityEvidence[];
   packageEvidence: WhiteLabelReleasePackageEvidence;
   pilotEvidence: WhiteLabelReleasePilotEvidence;
   productionApprovalAllowed: false;
@@ -134,6 +146,33 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     for (const field of ["typecheck", "productionBuild", "activeRoutes", "runtime", "browser", "privacy", "tenantIsolation"] as const) {
       if (typeof qualityChecks[field] !== "boolean") errors.push(`White-label release readiness quality check ${field} must be boolean.`);
     }
+  }
+
+  const qualityEvidence = readiness.qualityEvidence;
+  const qualityCheckIds = ["typecheck", "productionBuild", "activeRoutes", "runtime", "browser", "privacy", "tenantIsolation"] as const;
+  if (!Array.isArray(qualityEvidence) || qualityEvidence.length !== qualityCheckIds.length) {
+    errors.push("White-label release readiness must include exactly seven quality evidence records.");
+  } else {
+    const seenQualityChecks = new Set<string>();
+    for (const evidence of qualityEvidence) {
+      if (!isRecord(evidence)) {
+        errors.push("White-label release quality evidence entries must be objects.");
+        continue;
+      }
+      const checkId = readString(evidence, "checkId");
+      if (!qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number])) errors.push(`White-label release quality evidence check id is unsupported: ${checkId || "(empty)"}.`);
+      if (seenQualityChecks.has(checkId)) errors.push(`White-label release quality evidence check id is duplicated: ${checkId}.`);
+      seenQualityChecks.add(checkId);
+      for (const field of ["label", "sourceRecord", "observedAt", "notes"] as const) {
+        if (!isNonEmptyString(evidence[field])) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} ${field} must be non-empty.`);
+      }
+      if (typeof evidence.verified !== "boolean") errors.push(`White-label release quality evidence ${checkId || "(unknown)"} verified must be boolean.`);
+      if (!isIsoTimestamp(evidence.observedAt)) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} observedAt must be an ISO timestamp.`);
+      if (isRecord(qualityChecks) && qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number]) && qualityChecks[checkId as WhiteLabelReleaseQualityCheckId] !== evidence.verified) {
+        errors.push(`White-label release quality evidence ${checkId} must match its quality check.`);
+      }
+    }
+    for (const checkId of qualityCheckIds) if (!seenQualityChecks.has(checkId)) errors.push(`White-label release quality evidence is missing ${checkId}.`);
   }
 
   const packageEvidence = readiness.packageEvidence;
@@ -231,4 +270,8 @@ function readStringArray(record: Record<string, unknown>, key: string): string[]
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function isIsoTimestamp(value: unknown): value is string {
+  return typeof value === "string" && value.includes("T") && !Number.isNaN(Date.parse(value));
 }

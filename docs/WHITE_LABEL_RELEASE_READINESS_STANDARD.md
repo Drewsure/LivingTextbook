@@ -74,6 +74,11 @@ The controlled-pilot phase must also bind to the tenant/package pilot review
 decision, including its handoff routes, evidence bindings, blocker count, and
 launch/data/report permissions. A demo-ready package is not a live pilot.
 
+Each quality signal must have one unique source-backed evidence record with an
+ISO observation timestamp and notes. The evidence value must agree with the
+signal value; a boolean without provenance is not sufficient for release
+readiness.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,
@@ -90,3 +95,6 @@ DR-1031 and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.
 
 The controlled-pilot binding is recorded in `docs/DECISION_REGISTER.md`
 DR-1032 and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.
+
+Quality evidence records are recorded in `docs/DECISION_REGISTER.md` DR-1033
+and `docs/adr/0961-white-label-quality-evidence-records.md`.

@@ -5911,3 +5911,16 @@ and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1032,
 `docs/decision-register/DR-1032-white-label-controlled-pilot-decision-binding.md`,
 and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.
+
+## 376. White-Label Quality Evidence Records Standard
+
+- Every release-readiness quality signal requires one unique source-backed
+  record with an ISO observation timestamp and notes.
+- The recorded verified value must agree with the quality signal for
+  typecheck, build, routes, runtime, browser, privacy, and tenant isolation.
+- Quality evidence remains distinct from production approval and cannot
+  authorize student launch, learner-data collection, or provider activation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1033,
+`docs/decision-register/DR-1033-white-label-quality-evidence-records.md`,
+and `docs/adr/0961-white-label-quality-evidence-records.md`.

@@ -1,5 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { WhiteLabelReleaseReadiness } from "@living-textbook/content-model";
+import type { WhiteLabelReleaseQualityCheckId, WhiteLabelReleaseReadiness } from "@living-textbook/content-model";
 
 export function WhiteLabelReleaseReadinessPanel({
   readiness,
@@ -8,7 +8,8 @@ export function WhiteLabelReleaseReadinessPanel({
   readiness: WhiteLabelReleaseReadiness;
   errors: string[];
 }) {
-  const qualityChecks = Object.entries(readiness.qualityChecks);
+  const qualityChecks = Object.entries(readiness.qualityChecks) as Array<[WhiteLabelReleaseQualityCheckId, boolean]>;
+  const qualityEvidence = new Map(readiness.qualityEvidence.map((evidence) => [evidence.checkId, evidence]));
   return (
     <div className="grid gap-5">
       <Card>
@@ -89,6 +90,7 @@ export function WhiteLabelReleaseReadinessPanel({
             <div key={label} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
               <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value ? "Verified" : "Missing"}</p>
+              <p className="mt-2 break-words text-xs text-[var(--tenant-muted)]">Evidence: {qualityEvidence.get(label)?.sourceRecord ?? "No source record"}</p>
             </div>
           ))}
         </div>
