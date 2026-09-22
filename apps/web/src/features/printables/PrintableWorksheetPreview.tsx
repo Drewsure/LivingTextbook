@@ -1,8 +1,9 @@
 "use client";
 
 import { Card, StatusPill } from "@living-textbook/ui";
-import { resolveTargetLanguage } from "@living-textbook/content-model";
+import { createReviewOnlyQrAliasRuntimeAdapter, resolveTargetLanguage } from "@living-textbook/content-model";
 import type { ContentPackage, UnitAssistLanguagePlan, UnitPayload } from "@living-textbook/content-model";
+import { createPrintableQrAliasPreview } from "@/data/samplePrintableQrAliasPreview";
 import { formatLanguageName } from "@/features/language/languageLabels";
 import { getMediaPlaylistPath, getSentenceBuilderPath, getStudentLaunchPath } from "@/features/routes/routeContracts";
 
@@ -31,6 +32,13 @@ export function PrintableWorksheetPreview({
   });
   const supportLanguage = assistLanguagePlan?.assistLanguage;
   const textbookReference = unit.unitMeta.textbookReference ?? contentPackage.meta.textbookReference;
+  const printableQr = createPrintableQrAliasPreview({
+    contentPackageId: contentPackage.meta.packageId,
+    tenantId: unit.unitMeta.tenantId,
+    unit,
+    fallbackPath: launchPath,
+  });
+  const printableQrRuntime = createReviewOnlyQrAliasRuntimeAdapter().execute(printableQr.request);
 
   return (
     <main className="mx-auto grid max-w-5xl gap-5 p-4 print:max-w-none print:gap-3 print:p-0">
@@ -70,6 +78,30 @@ export function PrintableWorksheetPreview({
         </div>
         <p className="mt-4 text-sm leading-6 text-[var(--tenant-muted)]">
           Audio bridge: students should use the digital route or teacher playback to hear each term and sentence. Paper work does not award Star Dust, mastery, or completion by itself.
+        </p>
+      </Card>
+
+      <Card className="print:break-inside-avoid print:shadow-none">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Printed QR binding preview</p>
+            <h2 className="mt-1 text-lg font-bold">Stable textbook entry, reviewed first</h2>
+          </div>
+          <StatusPill label="QR release blocked" tone="warning" />
+        </div>
+        <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+          This preview records the route a future printed QR could resolve to. It does not generate, publish, mutate, or activate a production redirect.
+        </p>
+        <dl className="mt-4 grid gap-3 text-sm md:grid-cols-2">
+          <PrintableDetail label="QR identity" value={printableQr.request.printedQrId} />
+          <PrintableDetail label="Textbook identity" value={printableQr.hasPermanentTextbookIdentity ? "Present for review" : "Missing; front-door fallback only"} />
+          <PrintableDetail label="Reviewed target" value={printableQr.targetPath} />
+          <PrintableDetail label="Safe fallback" value={printableQr.fallbackPath} />
+          <PrintableDetail label="Runtime decision" value={printableQrRuntime.decision.reasonCode} />
+          <PrintableDetail label="Side effect" value={printableQrRuntime.sideEffect} />
+        </dl>
+        <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">
+          Required before long-lived textbook printing: durable alias persistence, release approval, rights evidence, local fallback readiness, and rollback approval.
         </p>
       </Card>
 

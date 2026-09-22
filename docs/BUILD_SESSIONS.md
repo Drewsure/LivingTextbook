@@ -4758,3 +4758,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added a route integration guard that rejects redirect mutation behavior.
 - Kept production QR redirects, route writes, package swaps, and rollback
   execution blocked.
+
+## Build session 0982: Printed QR binding preview
+
+- Connected the printable worksheet preview to the shared review-only QR alias
+  runtime adapter.
+- Added complete textbook identity detection with a safe front-door fallback
+  when the identity is incomplete.
+- Displayed QR identity, target, fallback, release decision, and no-side-effect
+  evidence before long-lived textbook printing.
+- Kept QR image generation, alias writes, redirect mutation, package swaps,
+  local activation, and rollback execution blocked.
+- Recorded ADR 0996 and DR-1068.

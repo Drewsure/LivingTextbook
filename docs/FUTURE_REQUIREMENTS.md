@@ -875,3 +875,28 @@ References:
 
 - `apps/web/src/app/q/[...segments]/page.tsx`
 - `scripts/verify-qr-alias-preview-integration.mjs`
+
+## FR-027: Printed QR Binding Preview
+
+Status: Implemented as a review-only worksheet binding preview; QR image
+generation, durable alias writes, and long-lived print release remain future
+work.
+
+Requirement: Printed worksheets must show the stable textbook identity,
+reviewed target, safe fallback, release lineage, and rollback state through the
+same shared QR alias contract used by web previews.
+
+Current boundary:
+
+- Complete textbook identity resolves through the safe permanent QR path.
+- Incomplete identity visibly uses a front-door fallback and remains blocked
+  from long-lived textbook printing.
+- The preview does not generate a QR image, mutate redirects, write aliases,
+  swap packages, activate local bundles, execute rollback, or collect learner
+  data.
+
+References:
+
+- `apps/web/src/data/samplePrintableQrAliasPreview.ts`
+- `apps/web/src/features/printables/PrintableWorksheetPreview.tsx`
+- `scripts/verify-qr-print-preview-integration.mjs`

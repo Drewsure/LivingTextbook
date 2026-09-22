@@ -6426,3 +6426,19 @@ This standard is recorded in
 `docs/decision-register/DR-1067-qr-preview-runtime-consumption.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0995-qr-preview-runtime-consumption.md`.
+
+## 412. Printed QR Binding Preview Standard
+
+- Printable worksheet previews must consume the shared review-only QR alias
+  runtime rather than inventing a separate print route contract.
+- Complete textbook identity may be shown as a reviewed permanent target;
+  incomplete identity must visibly fall back to a safe front-door route.
+- Browser printing is not production QR release. QR image generation, alias
+  writes, redirect mutation, package swaps, local activation, and rollback
+  remain blocked until release, rights, persistence, fallback, and approval
+  evidence are accepted.
+
+This standard is recorded in
+`docs/decision-register/DR-1068-printed-qr-binding-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0996-printed-qr-binding-preview.md`.
