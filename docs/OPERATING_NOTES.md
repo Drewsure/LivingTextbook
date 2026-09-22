@@ -1400,6 +1400,15 @@ the default port reports stale 500 responses. A fresh webpack server on an
 available port and `ACTIVE_ROUTE_BASE_URL` proved all 88 active routes on
 2026-09-17. See
 `docs/operating-notes/2026-09-17-memory-match-gate-and-fresh-route-verification.md`.
+
+## External Phaser candidate verification
+
+`npm run verify:phaser-candidate-package` must receive the isolated returned
+evidence folder, not the frozen source snapshot. If the configured path
+contains `frozen` and lacks `evidence/return-package.json`, the verifier now
+reports that the snapshot is source context rather than a return package.
+Keep the candidate outside the LivingTextbook repository and do not create a
+synthetic manifest to silence this message.
 ## Windows route-verification recovery
 
 When a large teacher review route briefly returns `500` with Next reporting

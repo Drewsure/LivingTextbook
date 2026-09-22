@@ -678,6 +678,12 @@ panel. The decision is recorded in
 `docs/adr/0989-composite-media-package-readiness.md` and
 `docs/decision-register/DR-1061-composite-media-package-readiness.md`.
 
+The external candidate handoff diagnostic slice now explains when a configured
+folder is a frozen source snapshot rather than a returned evidence package.
+The decision is recorded in
+`docs/adr/0990-external-candidate-handoff-diagnostics.md` and
+`docs/decision-register/DR-1062-external-candidate-handoff-diagnostics.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.

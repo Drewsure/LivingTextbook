@@ -22,7 +22,10 @@ if (isWithin(repositoryRoot, candidateRoot)) {
 
 const returnPackagePath = join(candidateRoot, "evidence", "return-package.json");
 if (!isRegularFile(returnPackagePath)) {
-  fail(`Candidate package must contain evidence/return-package.json under ${candidateRoot}.`);
+  const frozenSnapshotHint = candidateRoot.toLowerCase().includes("frozen")
+    ? " This path looks like a frozen source snapshot; frozen snapshots are source context, not returned evidence packages."
+    : " Ask the external agent to return the evidence package before running this check.";
+  fail(`Candidate package must contain evidence/return-package.json under ${candidateRoot}.${frozenSnapshotHint}`);
 }
 const returnPackageRealPath = realpathSync(returnPackagePath);
 if (!isWithin(candidateRoot, returnPackageRealPath)) {

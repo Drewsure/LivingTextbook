@@ -536,6 +536,28 @@ References:
 - `packages/content-model/src/sourceExtractionPreview.ts`
 - `scripts/verify-runtime-behavior.mjs`
 
+## FR-021: External Candidate Handoff Diagnostics
+
+Status: Implemented as a review-only operator safeguard; no candidate source
+is imported or promoted.
+
+Requirement: The external Phaser verifier must clearly distinguish a frozen
+source snapshot from a returned evidence package so a human does not fabricate
+missing evidence files or mistake a not-ready handoff for a product failure.
+
+Current boundary:
+
+- A missing return manifest under a frozen-looking path produces an explicit
+  source-context diagnostic.
+- The verifier still requires the real `evidence/return-package.json` and all
+  hash-verified artifacts in an isolated folder outside the repository.
+
+References:
+
+- `scripts/verify-phaser-candidate-package.mjs`
+- `scripts/verify-phaser-candidate-package-behavior.mjs`
+- `docs/OPERATING_NOTES.md`
+
 ## FR-013: Package-Readiness Extraction Lineage
 
 Status: Implemented as review-only reconciliation metadata; package promotion,

@@ -129,6 +129,18 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0976: Frozen snapshot versus returned candidate guidance
+
+- Made the Phaser candidate verifier distinguish a frozen source snapshot from
+  an external returned evidence package when the return manifest is absent.
+- Added behavior coverage for the missing-manifest handoff so the human-facing
+  failure explains the correct next action.
+- Preserved the isolation boundary and did not create or import a candidate.
+
+Evidence: `scripts/verify-phaser-candidate-package.mjs`,
+`scripts/verify-phaser-candidate-package-behavior.mjs`, and
+`docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`.
+
 ## Build session 0973: Extraction-preview output invariant validation
 
 - Added a shared validator for the preview object consumed after extraction,

@@ -8521,3 +8521,22 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `packages/content-model/src/sourcePackageAssembly.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `docs/adr/0989-composite-media-package-readiness.md`.
+
+# DR-1062: External Candidate Handoff Diagnostics
+
+Decision: make the external Phaser verifier explicitly identify a frozen source
+snapshot when its returned evidence manifest is absent.
+
+Required invariants:
+
+- A frozen snapshot remains source context and is never accepted as a return
+  package.
+- Operators must not fabricate `evidence/return-package.json` or move source
+  files into the candidate evidence lane.
+- The real external evidence package remains outside the product repository
+  and must pass the existing hash, replay, audio, scoring, accessibility, and
+  wrapper gates.
+
+Evidence: `scripts/verify-phaser-candidate-package.mjs`,
+`scripts/verify-phaser-candidate-package-behavior.mjs`, and
+`docs/adr/0990-external-candidate-handoff-diagnostics.md`.

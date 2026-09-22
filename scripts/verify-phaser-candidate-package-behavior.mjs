@@ -202,6 +202,12 @@ try {
   assertVerifierRejects(candidateRoot, "cross-session audio");
 
   assertVerifierRejects(resolve(process.cwd()), "candidate root inside product repository");
+  const frozenSnapshotRoot = mkdtempSync(join(tmpdir(), "living-textbook-frozen-source-snapshot-"));
+  try {
+    assertVerifierRejects(frozenSnapshotRoot, "frozen source snapshot", "frozen source snapshot");
+  } finally {
+    rmSync(frozenSnapshotRoot, { recursive: true, force: true });
+  }
 
   verifyBalloonProfile();
 
@@ -373,9 +379,12 @@ function assertVerifierPasses(candidateRoot, label) {
   }
 }
 
-function assertVerifierRejects(candidateRoot, label) {
+function assertVerifierRejects(candidateRoot, label, expectedMessage) {
   const result = runVerifier(candidateRoot);
   if (result.status === 0) {
     throw new Error(`Expected ${label} to be rejected, but the verifier passed.`);
+  }
+  if (expectedMessage && !`${result.stdout}\n${result.stderr}`.toLowerCase().includes(expectedMessage.toLowerCase())) {
+    throw new Error(`Expected ${label} rejection to mention ${expectedMessage}, got: ${result.stdout}\n${result.stderr}`);
   }
 }

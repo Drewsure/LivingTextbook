@@ -6334,3 +6334,16 @@ and `docs/adr/0988-source-assembly-media-package-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1061-composite-media-package-readiness.md`,
 `docs/build-session-notes/2026-09-23-composite-media-package-readiness.md`,
 and `docs/adr/0989-composite-media-package-readiness.md`.
+
+## 406. External Candidate Handoff Diagnostic Standard
+
+- Frozen Phaser source snapshots are source context, not returned evidence
+  packages.
+- The candidate verifier must explain this distinction when a frozen-looking
+  path lacks `evidence/return-package.json`.
+- Operators must never fabricate a return manifest or move source snapshots
+  into the candidate evidence lane to make a check pass.
+
+This standard is recorded in `docs/decision-register/DR-1062-external-candidate-handoff-diagnostics.md`,
+`docs/build-session-notes/2026-09-23-external-candidate-handoff-diagnostics.md`,
+and `docs/adr/0990-external-candidate-handoff-diagnostics.md`.
