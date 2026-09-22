@@ -74,6 +74,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-review-dec
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-selection-preflight.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate-integration-eligibility.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

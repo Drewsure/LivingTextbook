@@ -7860,3 +7860,21 @@ Required invariants:
 Evidence: `docs/adr/0953-persistence-provider-selection-preflight.md`,
 `packages/content-model/src/persistenceProviderSelectionPreflight.ts`,
 and `apps/web/src/data/samplePersistenceProviderSelectionPreflight.ts`.
+
+# DR-1026: Frozen Phaser Integration Eligibility
+
+Decision: use one eligibility record per frozen Phaser/Z.ai candidate before
+any wrapper or integration work is authorized.
+
+Required invariants:
+
+- Candidate provenance is bound to a source snapshot and 40-character commit
+  SHA, with a canonical route, parent engine, and scoring profile.
+- Payload, events, audio, scoring, persistence, replay, and accessibility
+  evidence remain visible as separate lanes.
+- Direct import, wrapper approval, route replacement, scene-owned scoring,
+  browser persistence, promotion, and student assignment remain false.
+
+Evidence: `docs/adr/0954-frozen-phaser-integration-eligibility.md`,
+`packages/content-model/src/phaserCandidateIntegrationEligibility.ts`, and
+`scripts/verify-phaser-candidate-integration-eligibility.mjs`.

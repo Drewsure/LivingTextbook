@@ -5798,3 +5798,21 @@ and `docs/adr/0952-provider-neutral-implementation-readiness.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1025,
 `docs/decision-register/DR-1025-persistence-provider-selection-preflight.md`,
 and `docs/adr/0953-persistence-provider-selection-preflight.md`.
+
+## 369. Frozen Phaser Integration Eligibility Standard
+
+- Every outside Phaser or Z.ai candidate must have one eligibility record that
+  binds its frozen source snapshot and commit to the canonical route, parent
+  engine, and platform scoring profile.
+- Eligibility evidence must cover payload, event replay, audio, scoring,
+  persistence, deterministic replay, and accessibility before a wrapper can be
+  considered.
+- Frozen source remains isolated: no direct import, route replacement,
+  scene-owned scoring, browser persistence, package promotion, or student
+  assignment is permitted from a review record.
+- A candidate recommendation is not an approval. Only a later Codex-reviewed
+  wrapper decision may open an implementation work order.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1026,
+`docs/decision-register/DR-1026-frozen-phaser-integration-eligibility.md`,
+and `docs/adr/0954-frozen-phaser-integration-eligibility.md`.

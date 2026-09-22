@@ -38,6 +38,8 @@ import { sampleCanonicalMemoryMatchIntegrationGate } from "@/data/sampleCanonica
 import { CanonicalMemoryMatchIntegrationGatePanel } from "@/features/game-offers/CanonicalMemoryMatchIntegrationGatePanel";
 import { sampleMemoryMatchEvidenceHandoffPacket } from "@/data/sampleMemoryMatchEvidenceHandoffPacket";
 import { MemoryMatchEvidenceHandoffPacketPanel } from "@/features/game-offers/MemoryMatchEvidenceHandoffPacketPanel";
+import { samplePhaserCandidateIntegrationEligibility, samplePhaserCandidateIntegrationEligibilityErrors } from "@/data/samplePhaserCandidateIntegrationEligibility";
+import { PhaserCandidateIntegrationEligibilityPanel } from "@/features/game-offers/PhaserCandidateIntegrationEligibilityPanel";
 
 const sourceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -98,6 +100,10 @@ export default function TeacherGameReadinessPage() {
 
         <CanonicalMemoryMatchIntegrationGatePanel gate={sampleCanonicalMemoryMatchIntegrationGate} />
         <MemoryMatchEvidenceHandoffPacketPanel packet={sampleMemoryMatchEvidenceHandoffPacket} />
+        <PhaserCandidateIntegrationEligibilityPanel
+          records={samplePhaserCandidateIntegrationEligibility}
+          errors={samplePhaserCandidateIntegrationEligibilityErrors}
+        />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />
         <ActiveGameRouteCatalogPanel

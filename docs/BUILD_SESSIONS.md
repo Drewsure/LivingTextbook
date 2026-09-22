@@ -4261,3 +4261,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added hosted, closed-local, and hybrid candidate evidence with cost posture,
   white-label fit, and unresolved risks.
 - Recorded ADR 0953 and DR-1025.
+
+## Build session 0937: Frozen Phaser integration eligibility
+
+- Added one eligibility handoff for the frozen Memory Match and Balloon Pop
+  candidates.
+- Bound provenance to canonical route, parent engine, scoring profile, and
+  payload/event/audio/scoring/persistence/replay/accessibility evidence.
+- Kept import, wrapper approval, route replacement, scene scoring, persistence,
+  promotion, and assignment blocked.
+- Recorded ADR 0954 and DR-1026.
