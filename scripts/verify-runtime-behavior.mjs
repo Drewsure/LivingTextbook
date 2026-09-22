@@ -1243,7 +1243,7 @@ try {
       validSourceDraftImportPreview,
       validSourcePackageAssemblyPacket,
       sourcePreviewResult.preview,
-      { draftId: "draft-1", canAssignToStudents: false },
+      { draftId: "draft-1", tenantId: "tenant-1", sourcePackageId: "package-1", unitKey: "tenant-1:curriculum:L1:U1", canAssignToStudents: false },
     ).length,
     0,
   );
@@ -1252,9 +1252,18 @@ try {
       { ...validSourceDraftImportPreview, draftId: "draft-2" },
       validSourcePackageAssemblyPacket,
       sourcePreviewResult.preview,
-      { draftId: "draft-1", canAssignToStudents: false },
+      { draftId: "draft-1", tenantId: "tenant-1", sourcePackageId: "package-1", unitKey: "tenant-1:curriculum:L1:U1", canAssignToStudents: false },
     ),
     "Source draft import preview draft id must match the teacher draft preview.",
+  );
+  assertIncludes(
+    sourceDraftImport.validateSourceDraftImportPreviewBinding(
+      validSourceDraftImportPreview,
+      validSourcePackageAssemblyPacket,
+      sourcePreviewResult.preview,
+      { draftId: "draft-1", tenantId: "other-tenant", sourcePackageId: "package-1", unitKey: "tenant-1:curriculum:L1:U1", canAssignToStudents: false },
+    ),
+    "Source draft import preview draft tenant must match the source tenant.",
   );
   assertIncludes(
     sourceDraftImport.validateSourceDraftImportPreview({

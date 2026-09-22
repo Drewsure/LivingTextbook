@@ -130,6 +130,15 @@ export function validateSourceDraftImportPreviewBinding(
   if (draft.canAssignToStudents !== false) {
     errors.push("Source draft import preview requires the teacher draft assignment flag to remain false.");
   }
+  if (draft.tenantId !== preview.tenantId) {
+    errors.push("Source draft import preview draft tenant must match the source tenant.");
+  }
+  if (draft.sourcePackageId !== preview.targetPackageId) {
+    errors.push("Source draft import preview draft source package must match the target package.");
+  }
+  if (draft.unitKey !== preview.candidateUnitKey) {
+    errors.push("Source draft import preview draft unit must match the candidate unit.");
+  }
 
   return [...new Set(errors)];
 }
