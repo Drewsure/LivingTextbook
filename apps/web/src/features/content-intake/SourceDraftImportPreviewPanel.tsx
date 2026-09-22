@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { SourceDraftImportPreview, SourceDraftImportPreviewStatus } from "@living-textbook/content-model";
 
@@ -65,6 +66,13 @@ export function SourceDraftImportPreviewPanel({ previews, errors = [] }: SourceD
               <Flag label="Student payload" value="Blocked" />
               <Flag label="Assignment" value="Blocked" />
             </div>
+
+            <Link
+              href={`/teacher/authoring/${encodeURIComponent(preview.draftId)}`}
+              className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-4 py-2 text-sm font-bold text-[var(--tenant-text)] transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--tenant-accent)]"
+            >
+              Open teacher-only draft preview
+            </Link>
 
             <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Required next records</p>
