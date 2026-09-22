@@ -5850,3 +5850,18 @@ and `docs/adr/0955-human-external-evidence-handoff.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1028,
 `docs/decision-register/DR-1028-phaser-candidate-evidence-return-packet.md`,
 and `docs/adr/0956-phaser-candidate-evidence-return-packet.md`.
+
+## 372. Phaser Candidate Evidence Adjudication Standard
+
+- Evidence receipt status and integration approval are separate states.
+- The adjudication state must identify the next owner: external builder,
+  Codex, or platform owner resolving a blocker.
+- A complete returned packet may enter Codex review, but it must never become
+  a wrapper work order, route write, package promotion, or student assignment
+  automatically.
+- Awaiting, returned-review, and blocked states all keep source import,
+  scoring, persistence, QR activation, and assignment disabled.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1029,
+`docs/decision-register/DR-1029-phaser-candidate-evidence-adjudication.md`,
+and `docs/adr/0957-phaser-candidate-evidence-adjudication.md`.

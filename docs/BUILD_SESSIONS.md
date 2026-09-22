@@ -4293,3 +4293,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept source import, route replacement, scoring, persistence, promotion, QR
   activation, and student assignment blocked.
 - Recorded ADR 0956 and DR-1028.
+
+## Build session 0940: Phaser candidate evidence adjudication
+
+- Added an owner-bound state machine after evidence return: awaiting external
+  return, returned awaiting Codex review, and blocked.
+- Mounted the state on the teacher game-readiness workbench.
+- Kept wrapper execution, integration approval, route writes, source import,
+  scoring, persistence, promotion, QR activation, and assignment blocked.
+- Recorded ADR 0957 and DR-1029.

@@ -7915,3 +7915,21 @@ Required invariants:
 Evidence: `docs/adr/0956-phaser-candidate-evidence-return-packet.md`,
 `packages/content-model/src/phaserCandidateEvidenceReturnPacket.ts`, and
 `scripts/verify-phaser-candidate-evidence-return-behavior.mjs`.
+
+# DR-1029: Phaser Candidate Evidence Adjudication
+
+Decision: keep evidence receipt status, next-owner state, wrapper proposal,
+and integration approval as separate records and transitions.
+
+Required invariants:
+
+- Awaiting external return is owned by the external builder.
+- A complete returned packet is owned by Codex for manual review, not by an
+  integration executor.
+- Validation failures are owned by the platform owner for resolution.
+- Every state blocks source import, route writes, scoring, persistence,
+  promotion, QR activation, and student assignment.
+
+Evidence: `docs/adr/0957-phaser-candidate-evidence-adjudication.md`,
+`packages/content-model/src/phaserCandidateEvidenceAdjudication.ts`, and
+`scripts/verify-phaser-candidate-evidence-adjudication.mjs`.
