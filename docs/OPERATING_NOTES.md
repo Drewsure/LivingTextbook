@@ -1409,6 +1409,14 @@ contains `frozen` and lacks `evidence/return-package.json`, the verifier now
 reports that the snapshot is source context rather than a return package.
 Keep the candidate outside the LivingTextbook repository and do not create a
 synthetic manifest to silence this message.
+
+## Sample launch-code boundary
+
+The canonical sample resolver is fail-closed. It accepts only the exact
+reviewed demo codes `demo-unit-1` and `partner-demo-unit-1`; an unknown code or
+guessed `partner-*` prefix must not inherit another tenant's package. Do not
+work around this by adding a prefix rule. Production QR resolution belongs in
+the tenant-scoped route registry with release and rollback evidence.
 ## Windows route-verification recovery
 
 When a large teacher review route briefly returns `500` with Next reporting

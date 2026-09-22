@@ -8,6 +8,7 @@ import type {
   UnitPayload,
 } from "@living-textbook/content-model";
 import type { TeacherAssignmentPlan, ClassRosterPlan } from "@living-textbook/content-model";
+import { notFound } from "next/navigation";
 import { getSampleLaunchSession, getSampleStudentProgression } from "./sampleLaunchSession";
 import {
   getSamplePartnerLaunchSession,
@@ -25,6 +26,8 @@ import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@living-textbook/content-model";
 import type { UnitGameOfferMap } from "@living-textbook/content-model";
 
+const reviewedLaunchCodes = new Set([samplePartnerLaunchCode, "demo-unit-1"]);
+
 export interface SampleLaunchContext {
   tenant: TenantConfig;
   contentPackage: ContentPackage;
@@ -40,7 +43,11 @@ export interface SampleLaunchContext {
 }
 
 export function resolveSampleLaunchContext(code: string): SampleLaunchContext {
-  if (code === samplePartnerLaunchCode || code.startsWith("partner-")) {
+  if (!reviewedLaunchCodes.has(code)) {
+    notFound();
+  }
+
+  if (code === samplePartnerLaunchCode) {
     const launchSession = getSamplePartnerLaunchSession(code);
 
     return withPackagePlans({

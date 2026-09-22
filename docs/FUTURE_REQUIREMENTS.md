@@ -742,3 +742,33 @@ References:
 - `packages/content-model/src/sourcePackageAssembly.ts`
 - `apps/web/src/data/samplePackageReadinessReconciliation.ts`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-022: Fail-Closed Sample Launch Resolution
+
+Status: Implemented as a tenant-boundary hardening slice for the canonical
+demo resolver; production route registries and durable QR resolution remain
+future deployment work.
+
+Requirement: A launch code that is not explicitly registered for a reviewed
+tenant/package must not fall back to MiniStar or any other tenant's sample
+content.
+
+Current boundary:
+
+- The sample resolver accepts only the exact reviewed MiniStar and sample
+  publisher launch codes.
+- Unknown codes fail closed instead of inheriting a tenant, package, audio
+  manifest, progression state, or report context.
+- Prefix matching is intentionally prohibited because a printed or hosted QR
+  path must be resolved by a tenant-scoped route registry, not a naming guess.
+
+Remaining production work:
+
+- Replace the sample set with a durable, tenant-scoped route registry.
+- Add QR alias, rollback, local-fallback, authorization, and release-state
+  checks before real route mutation is enabled.
+
+References:
+
+- `apps/web/src/data/sampleLaunchResolver.ts`
+- `docs/adr/0991-fail-closed-sample-launch-resolution.md`

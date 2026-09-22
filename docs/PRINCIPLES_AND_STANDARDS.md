@@ -6347,3 +6347,18 @@ and `docs/adr/0989-composite-media-package-readiness.md`.
 This standard is recorded in `docs/decision-register/DR-1062-external-candidate-handoff-diagnostics.md`,
 `docs/build-session-notes/2026-09-23-external-candidate-handoff-diagnostics.md`,
 and `docs/adr/0990-external-candidate-handoff-diagnostics.md`.
+
+## 407. Fail-Closed Sample Launch Resolution Standard
+
+- Sample launch resolution must accept only exact launch codes explicitly
+  bound to a reviewed tenant and content package.
+- Unknown codes must return not-found rather than inheriting MiniStar,
+  sample-publisher, audio, progression, reward, or report state.
+- Prefix matching is not an authorization mechanism for printed QR routes.
+- Production QR resolution must graduate to a tenant-scoped route registry
+  with release state, alias, rollback, local fallback, and authorization
+  evidence before route mutation is enabled.
+
+This standard is recorded in `docs/decision-register/DR-1063-fail-closed-sample-launch-resolution.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0991-fail-closed-sample-launch-resolution.md`.

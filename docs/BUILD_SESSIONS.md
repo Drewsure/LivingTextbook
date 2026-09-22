@@ -4705,3 +4705,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Rejected duplicate handoff notes so the review packet cannot repeat one
   explanation as multiple evidence items.
 - Added runtime behavior coverage and recorded ADR 0978 and DR-1050.
+
+## Build session 0977: Fail-closed sample launch resolution
+
+- Removed tenant fallback behavior from the sample launch resolver.
+- Only exact reviewed MiniStar and sample-publisher launch codes are accepted.
+- Unknown or guessed `partner-*` codes now fail closed rather than inheriting
+  another tenant's content, audio, progression, or report context.
+- Recorded the route-boundary decision in ADR 0991 and DR-1063.
+- Added a dedicated `verify:sample-launch-boundary` check and made unknown
+  paths return not-found rather than a server error.
