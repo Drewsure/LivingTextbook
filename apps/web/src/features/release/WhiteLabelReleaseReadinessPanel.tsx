@@ -37,6 +37,26 @@ export function WhiteLabelReleaseReadinessPanel({
       </Card>
 
       <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package evidence reconciliation</p>
+            <h2 className="mt-1 text-lg font-bold">Lane-level evidence controls this release view</h2>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The selected tenant package is bound to its source checksum and package-readiness reconciliation. Summary phases cannot override unresolved lanes.
+            </p>
+          </div>
+          <StatusPill label={`${readiness.packageEvidence.unresolvedLaneCount} unresolved lanes`} tone="warning" />
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Reconciliation" value={readiness.packageEvidence.reconciliationId} />
+          <Fact label="Lane coverage" value={`${readiness.packageEvidence.readyPreviewLaneCount}/${readiness.packageEvidence.totalLaneCount} ready-preview`} />
+          <Fact label="Promotion" value={readiness.packageEvidence.promotionAllowed ? "Allowed" : "Blocked"} />
+          <Fact label="Student activation" value={readiness.packageEvidence.studentFacingActivationAllowed ? "Allowed" : "Blocked"} />
+        </div>
+        <List title="Unresolved package lanes" values={readiness.packageEvidence.unresolvedLaneIds} />
+      </Card>
+
+      <Card>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Required quality signals</p>

@@ -2,6 +2,13 @@ import {
   validateWhiteLabelReleaseReadiness,
   type WhiteLabelReleaseReadiness,
 } from "@living-textbook/content-model";
+import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+
+const samplePackageReconciliation = samplePackageReadinessReconciliations.find(
+  (reconciliation) => reconciliation.packageId === "sample-publisher-l1-u1-routines-package",
+);
+if (!samplePackageReconciliation) throw new Error("Sample publisher package readiness reconciliation is required.");
+const unresolvedPackageLanes = samplePackageReconciliation.lanes.filter((lane) => lane.status !== "ready-preview");
 
 export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   readinessId: "sample-publisher-white-label-release-readiness-v1",
@@ -83,6 +90,18 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     browser: true,
     privacy: true,
     tenantIsolation: true,
+  },
+  packageEvidence: {
+    reconciliationId: samplePackageReconciliation.reconciliationId,
+    packageId: samplePackageReconciliation.packageId,
+    sourceAssemblyChecksum: samplePackageReconciliation.sourceAssemblyChecksum,
+    status: samplePackageReconciliation.status === "blocked" ? "blocked" : "review-only",
+    totalLaneCount: samplePackageReconciliation.lanes.length,
+    readyPreviewLaneCount: samplePackageReconciliation.lanes.filter((lane) => lane.status === "ready-preview").length,
+    unresolvedLaneCount: unresolvedPackageLanes.length,
+    unresolvedLaneIds: unresolvedPackageLanes.map((lane) => lane.laneId),
+    promotionAllowed: false,
+    studentFacingActivationAllowed: false,
   },
   productionApprovalAllowed: false,
   studentProductionLaunchAllowed: false,

@@ -56,6 +56,16 @@ the foundation must keep these actions disabled:
 The dashboard must not create a write path, upload path, provider selection,
 assignment, route mutation, or student-facing entitlement as a side effect.
 
+## Package evidence binding
+
+The readiness record must bind to the selected package-readiness reconciliation
+through tenant, package, reconciliation, and source-checksum identity. It must
+show total lanes, ready-preview lanes, unresolved lane count, and unresolved
+lane IDs. Summary phase labels cannot override an unresolved package lane.
+
+Promotion and student-facing activation remain false even when all current
+quality signals are green.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`, the standards
@@ -65,3 +75,6 @@ active-route verification. The route is:
 
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030 and
 `docs/adr/0958-white-label-release-readiness.md`.
+
+The package evidence binding is recorded in `docs/DECISION_REGISTER.md`
+DR-1031 and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.

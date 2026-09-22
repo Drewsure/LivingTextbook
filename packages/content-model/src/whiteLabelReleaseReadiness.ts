@@ -30,6 +30,19 @@ export interface WhiteLabelReleaseQualityChecks {
   tenantIsolation: boolean;
 }
 
+export interface WhiteLabelReleasePackageEvidence {
+  reconciliationId: string;
+  packageId: string;
+  sourceAssemblyChecksum: string;
+  status: "blocked" | "review-only";
+  totalLaneCount: number;
+  readyPreviewLaneCount: number;
+  unresolvedLaneCount: number;
+  unresolvedLaneIds: string[];
+  promotionAllowed: false;
+  studentFacingActivationAllowed: false;
+}
+
 export interface WhiteLabelReleaseReadiness {
   readinessId: string;
   tenantId: string;
@@ -38,6 +51,7 @@ export interface WhiteLabelReleaseReadiness {
   status: WhiteLabelReleaseReadinessStatus;
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
+  packageEvidence: WhiteLabelReleasePackageEvidence;
   productionApprovalAllowed: false;
   studentProductionLaunchAllowed: false;
   blockedActions: string[];
@@ -106,6 +120,26 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     }
   }
 
+  const packageEvidence = readiness.packageEvidence;
+  if (!isRecord(packageEvidence)) {
+    errors.push("White-label release readiness packageEvidence must be an object.");
+  } else {
+    for (const field of ["reconciliationId", "packageId", "sourceAssemblyChecksum"] as const) {
+      if (!isNonEmptyString(packageEvidence[field])) errors.push(`White-label release package evidence ${field} must be non-empty.`);
+    }
+    if (packageEvidence.packageId !== readiness.packageId) errors.push("White-label release package evidence must match the readiness package.");
+    if (!["blocked", "review-only"].includes(readString(packageEvidence, "status"))) errors.push("White-label release package evidence status is unsupported.");
+    for (const field of ["totalLaneCount", "readyPreviewLaneCount", "unresolvedLaneCount"] as const) {
+      if (!Number.isInteger(packageEvidence[field]) || Number(packageEvidence[field]) < 0) errors.push(`White-label release package evidence ${field} must be a non-negative integer.`);
+    }
+    const unresolvedLaneIds = readStringArray(packageEvidence, "unresolvedLaneIds");
+    if (Number(packageEvidence.unresolvedLaneCount) !== unresolvedLaneIds.length) errors.push("White-label release package evidence unresolved lane count must match its ids.");
+    if (Number(packageEvidence.totalLaneCount) < Number(packageEvidence.readyPreviewLaneCount) + Number(packageEvidence.unresolvedLaneCount)) errors.push("White-label release package evidence lane counts cannot exceed the total.");
+    if (packageEvidence.promotionAllowed !== false) errors.push("White-label release package evidence promotion must remain false.");
+    if (packageEvidence.studentFacingActivationAllowed !== false) errors.push("White-label release package evidence student activation must remain false.");
+    if (!/^sha256:[0-9a-f]{64}$/i.test(readString(packageEvidence, "sourceAssemblyChecksum"))) errors.push("White-label release package evidence checksum must use sha256:<64 hexadecimal characters> format.");
+  }
+
   if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");
   if (readiness.studentProductionLaunchAllowed !== false) errors.push("White-label release readiness student production launch must remain false.");
   const blockedActions = readStringArray(readiness, "blockedActions");
@@ -156,4 +190,8 @@ function readString(record: Record<string, unknown>, key: string): string {
 
 function readStringArray(record: Record<string, unknown>, key: string): string[] {
   return Array.isArray(record[key]) ? record[key].filter((value): value is string => typeof value === "string" && value.trim().length > 0) : [];
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
 }

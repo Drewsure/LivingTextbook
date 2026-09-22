@@ -5882,3 +5882,18 @@ and `docs/adr/0957-phaser-candidate-evidence-adjudication.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030,
 `docs/decision-register/DR-1030-white-label-release-readiness.md`, and
 `docs/adr/0958-white-label-release-readiness.md`.
+
+## 374. White-Label Package Evidence Reconciliation Standard
+
+- A white-label release-readiness record must bind to the selected package's
+  package-readiness reconciliation, tenant identity, package identity, and
+  source checksum.
+- The record must show lane coverage and unresolved lane IDs; phase summaries
+  cannot hide unresolved source, verifier, audio, rights, publish, or
+  assignment evidence.
+- Package promotion and student-facing activation remain false even when
+  quality signals are green.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1031,
+`docs/decision-register/DR-1031-white-label-package-evidence-reconciliation.md`,
+and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.

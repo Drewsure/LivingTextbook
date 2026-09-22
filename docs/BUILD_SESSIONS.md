@@ -4312,3 +4312,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   package promotion, and public publishing disabled.
 - Added route verification and a focused composition verifier.
 - Recorded ADR 0958 and DR-1030.
+
+## Build session 0942: White-label package evidence reconciliation
+
+- Bound Sample Publisher release readiness to the existing package-readiness
+  reconciliation.
+- Added checksum, lane coverage, unresolved lane, promotion, and student
+  activation fields to the shared contract.
+- Added dashboard visibility for reconciliation identity and unresolved lanes.
+- Preserved the no-promotion and no-student-activation boundary.
+- Recorded ADR 0959 and DR-1031.
