@@ -1715,6 +1715,7 @@ export * from "./phaserCandidateIntegrationEligibility";
 export * from "./phaserCandidateEvidenceReturnPacket";
 export * from "./phaserCandidateEvidenceAdjudication";
 export * from "./phaserCandidateSourceIdentity";
+export * from "./whiteLabelReleaseReadiness";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

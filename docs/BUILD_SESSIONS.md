@@ -4302,3 +4302,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept wrapper execution, integration approval, route writes, source import,
   scoring, persistence, promotion, QR activation, and assignment blocked.
 - Recorded ADR 0957 and DR-1029.
+
+## Build session 0941: White-label release readiness
+
+- Added a tenant- and package-bound readiness contract with eight required
+  phases and seven quality signals.
+- Added a blocked Sample Publisher readiness sample and teacher dashboard.
+- Kept production approval, student launch, provider activation, QR mutation,
+  package promotion, and public publishing disabled.
+- Added route verification and a focused composition verifier.
+- Recorded ADR 0958 and DR-1030.

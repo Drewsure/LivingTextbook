@@ -70,6 +70,7 @@ function getAppShellNavItems(tenant: TenantConfig): AppShellNavItem[] {
     { label: "Deployment", href: "/teacher/deployment" },
     { label: "Pilot", href: getTeacherPilotReadinessDashboardPath() },
     { label: "Game Readiness", href: "/teacher/game-readiness" },
+    { label: "Release Readiness", href: "/teacher/release-readiness" },
   ];
 
   const tenantReviewLinks: AppShellNavItem[] = [

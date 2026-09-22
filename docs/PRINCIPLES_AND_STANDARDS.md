@@ -5865,3 +5865,20 @@ and `docs/adr/0956-phaser-candidate-evidence-return-packet.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1029,
 `docs/decision-register/DR-1029-phaser-candidate-evidence-adjudication.md`,
 and `docs/adr/0957-phaser-candidate-evidence-adjudication.md`.
+
+## 373. White-Label Release Readiness Standard
+
+- Every publisher tenant requires one readiness record reconciling foundation,
+  canonical game integration, pilot, content, persistence, accessibility,
+  optional AI, and release phases.
+- Typecheck, build, route, runtime, browser, privacy, and tenant-isolation
+  evidence are signals, not production approval.
+- The readiness record is tenant- and package-bound. MiniStar is a flagship
+  tenant and reference implementation, not a universal platform dependency.
+- Production approval, student launch, learner data collection, provider
+  activation, package promotion, QR mutation, and public community publishing
+  remain blocked until policy and evidence are explicitly accepted.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030,
+`docs/decision-register/DR-1030-white-label-release-readiness.md`, and
+`docs/adr/0958-white-label-release-readiness.md`.
