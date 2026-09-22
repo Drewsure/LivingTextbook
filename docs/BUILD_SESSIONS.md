@@ -4216,3 +4216,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved tenant, package, decision, privacy, and no-side-effect checks.
 - Added workbench visibility and a focused snapshot verifier.
 - Recorded ADR 0948 and DR-1020.
+
+## Build session 0932: Pilot review decision adapter rehearsal
+
+- Added one review-only adapter for validate, write, restore, and export
+  requests.
+- Preserved tenant/package/mode identity checks and explicit no-side-effect
+  results.
+- Added hosted/local adapter rehearsal results to the persistence workbench.
+- Recorded ADR 0949 and DR-1021.

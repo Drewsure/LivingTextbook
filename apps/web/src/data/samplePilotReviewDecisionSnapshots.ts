@@ -1,5 +1,6 @@
 import {
   createPilotReviewDecisionPersistenceSnapshot,
+  createReviewOnlyPilotReviewDecisionPersistenceAdapter,
   validatePilotReviewDecisionPersistenceSnapshot,
   type PilotReviewDecisionPersistenceMode,
   type PilotReviewDecisionPersistenceSnapshot,
@@ -18,4 +19,16 @@ export const samplePilotReviewDecisionSnapshots: PilotReviewDecisionPersistenceS
 
 export const samplePilotReviewDecisionSnapshotErrors = samplePilotReviewDecisionSnapshots.flatMap(
   validatePilotReviewDecisionPersistenceSnapshot,
+);
+
+const samplePilotReviewDecisionSnapshotAdapter = createReviewOnlyPilotReviewDecisionPersistenceAdapter();
+
+export const samplePilotReviewDecisionSnapshotAdapterResults = samplePilotReviewDecisionSnapshots.map((snapshot) =>
+  samplePilotReviewDecisionSnapshotAdapter.execute({
+    snapshot,
+    operation: "restore",
+    expectedTenantId: snapshot.tenantId,
+    expectedPackageId: snapshot.packageId,
+    expectedPersistenceMode: snapshot.persistenceMode,
+  }),
 );

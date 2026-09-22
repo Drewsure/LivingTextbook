@@ -5721,3 +5721,18 @@ and `docs/adr/0947-pilot-review-decision-persistence-boundary.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1020,
 `docs/decision-register/DR-1020-pilot-review-decision-snapshot.md`, and
 `docs/adr/0948-pilot-review-decision-snapshot.md`.
+
+## 364. Pilot Review Decision Adapter Standard
+
+- Every snapshot adapter must expose validate, write, restore, and export
+  decisions through one review-only interface before a provider implementation
+  exists.
+- Adapter results must prove `sideEffect: none`, preserve tenant and package
+  matching, and list explicit blockers for hosted writes, local writes,
+  restore, export, and review-decision activation.
+- A valid snapshot is evidence that can be inspected and replayed; it is never
+  permission to mutate release state or collect learner data.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1021,
+`docs/decision-register/DR-1021-pilot-review-decision-adapter.md`, and
+`docs/adr/0949-pilot-review-decision-adapter.md`.

@@ -1,13 +1,18 @@
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { PilotReviewDecisionPersistenceSnapshot } from "@living-textbook/content-model";
+import type {
+  PilotReviewDecisionPersistenceAdapterResult,
+  PilotReviewDecisionPersistenceSnapshot,
+} from "@living-textbook/content-model";
 
 interface PilotReviewDecisionPersistenceSnapshotPanelProps {
   snapshots: PilotReviewDecisionPersistenceSnapshot[];
+  adapterResults: PilotReviewDecisionPersistenceAdapterResult[];
   errors: string[];
 }
 
 export function PilotReviewDecisionPersistenceSnapshotPanel({
   snapshots,
+  adapterResults,
   errors,
 }: PilotReviewDecisionPersistenceSnapshotPanelProps) {
   return (
@@ -30,7 +35,7 @@ export function PilotReviewDecisionPersistenceSnapshotPanel({
       )}
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
-        {snapshots.map((snapshot) => (
+        {snapshots.map((snapshot, index) => (
           <article key={snapshot.snapshotId} className="rounded-lg border border-[var(--tenant-border)] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -39,11 +44,12 @@ export function PilotReviewDecisionPersistenceSnapshotPanel({
               </div>
               <StatusPill label="Review-only" tone="warning" />
             </div>
-            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
               <div><dt className="font-semibold">Decision</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.decisionId}</dd></div>
               <div><dt className="font-semibold">Fingerprint</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.decisionFingerprint}</dd></div>
               <div><dt className="font-semibold">Restore / export</dt><dd className="mt-1 text-[var(--tenant-muted)]">Blocked / blocked</dd></div>
               <div><dt className="font-semibold">Activation</dt><dd className="mt-1 text-[var(--tenant-muted)]">Blocked by contract</dd></div>
+              <div><dt className="font-semibold">Adapter rehearsal</dt><dd className="mt-1 text-[var(--tenant-muted)]">{adapterResults[index]?.sideEffect === "none" ? "No side effect" : "Review"}; {adapterResults[index]?.decision.allowed === false ? "blocked" : "review"}</dd></div>
             </dl>
           </article>
         ))}

@@ -7776,3 +7776,21 @@ Required invariants:
 Evidence: `docs/adr/0948-pilot-review-decision-snapshot.md`,
 `packages/content-model/src/pilotReviewDecisionPersistence.ts`, and
 `apps/web/src/data/samplePilotReviewDecisionSnapshots.ts`.
+
+# DR-1021: Pilot Review Decision Adapter
+
+Decision: expose all review decision snapshot operations through one
+review-only adapter before any hosted or local provider implementation.
+
+Required invariants:
+
+- Validate, write, restore, and export requests must return explicit blocked
+  decisions in the foundation phase.
+- Adapter results must prove no side effect and preserve expected tenant,
+  package, and persistence mode identity.
+- No adapter result may activate the review decision, launch students, export
+  reports, or collect learner data.
+
+Evidence: `docs/adr/0949-pilot-review-decision-adapter.md`,
+`packages/content-model/src/pilotReviewDecisionPersistence.ts`, and
+`apps/web/src/data/samplePilotReviewDecisionSnapshots.ts`.

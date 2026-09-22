@@ -61,7 +61,7 @@ import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persiste
 import { PersistenceActivationPreflightPanel } from "@/features/persistence/PersistenceActivationPreflightPanel";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 import { samplePilotReviewDecisionPersistenceErrors } from "@/data/samplePilotReviewDecisionPersistence";
-import { samplePilotReviewDecisionSnapshots, samplePilotReviewDecisionSnapshotErrors } from "@/data/samplePilotReviewDecisionSnapshots";
+import { samplePilotReviewDecisionSnapshots, samplePilotReviewDecisionSnapshotAdapterResults, samplePilotReviewDecisionSnapshotErrors } from "@/data/samplePilotReviewDecisionSnapshots";
 import { PilotReviewDecisionPersistenceSnapshotPanel } from "@/features/persistence/PilotReviewDecisionPersistenceSnapshotPanel";
 
 const persistenceLinks = [
@@ -119,6 +119,7 @@ export default function TeacherPersistencePage() {
         <PersistenceActivationPreflightPanel preflight={samplePersistenceActivationPreflight} />
         <PilotReviewDecisionPersistenceSnapshotPanel
           snapshots={samplePilotReviewDecisionSnapshots}
+          adapterResults={samplePilotReviewDecisionSnapshotAdapterResults}
           errors={samplePilotReviewDecisionSnapshotErrors}
         />
         <PersistenceHandoffPacketPanel packet={samplePersistenceHandoffPacket} errors={samplePersistenceHandoffPacketErrors} />

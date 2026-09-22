@@ -2,6 +2,7 @@ import type { PilotReviewDecision } from "./pilotReviewDecision";
 import { validatePilotReviewDecision } from "./pilotReviewDecision";
 
 export type PilotReviewDecisionPersistenceMode = "hosted-managed" | "local-classroom";
+export type PilotReviewDecisionPersistenceOperation = "validate" | "write" | "restore" | "export";
 
 export interface PilotReviewDecisionPersistenceSnapshot {
   recordVersion: 1;
@@ -23,6 +24,42 @@ export interface PilotReviewDecisionPersistenceSnapshot {
   learnerTranscriptIncluded: false;
   realLearnerIdentifiersIncluded: false;
 }
+
+export interface PilotReviewDecisionPersistenceAdapterRequest {
+  snapshot: unknown;
+  operation: PilotReviewDecisionPersistenceOperation;
+  expectedTenantId?: string;
+  expectedPackageId?: string;
+  expectedPersistenceMode?: PilotReviewDecisionPersistenceMode;
+}
+
+export interface PilotReviewDecisionPersistenceAdapterDecision {
+  allowed: false;
+  reasonCode: string;
+  reasons: string[];
+  operation: PilotReviewDecisionPersistenceOperation;
+}
+
+export interface PilotReviewDecisionPersistenceAdapterResult {
+  request: PilotReviewDecisionPersistenceAdapterRequest;
+  decision: PilotReviewDecisionPersistenceAdapterDecision;
+  sideEffect: "none";
+  snapshotValid: boolean;
+}
+
+export interface PilotReviewDecisionPersistenceAdapter {
+  readonly mode: "review-only";
+  evaluate(request: PilotReviewDecisionPersistenceAdapterRequest): PilotReviewDecisionPersistenceAdapterDecision;
+  execute(request: PilotReviewDecisionPersistenceAdapterRequest): PilotReviewDecisionPersistenceAdapterResult;
+}
+
+const REVIEW_ONLY_BLOCKED_ACTIONS = [
+  "No hosted database write",
+  "No local classroom write",
+  "No snapshot restore",
+  "No snapshot export",
+  "No review decision activation",
+] as const;
 
 export function createPilotReviewDecisionPersistenceSnapshot(
   decision: PilotReviewDecision,
@@ -113,9 +150,43 @@ export function fingerprintPilotReviewDecision(decision: PilotReviewDecision): s
   return `pilot-review-decision-fnv1a-v1:${fnv1a(canonicalize(decision))}`;
 }
 
+export function createReviewOnlyPilotReviewDecisionPersistenceAdapter(): PilotReviewDecisionPersistenceAdapter {
+  return {
+    mode: "review-only",
+    evaluate(request) {
+      const snapshotErrors = validatePilotReviewDecisionPersistenceSnapshot(request.snapshot);
+      const snapshot = isPilotReviewDecisionPersistenceSnapshot(request.snapshot) ? request.snapshot : undefined;
+      const reasons = [...snapshotErrors];
+      if (request.expectedTenantId && snapshot?.tenantId !== request.expectedTenantId) reasons.push("Snapshot tenant does not match the expected tenant.");
+      if (request.expectedPackageId && snapshot?.packageId !== request.expectedPackageId) reasons.push("Snapshot package does not match the expected package.");
+      if (request.expectedPersistenceMode && snapshot?.persistenceMode !== request.expectedPersistenceMode) reasons.push("Snapshot persistence mode does not match the expected mode.");
+      reasons.push(...REVIEW_ONLY_BLOCKED_ACTIONS);
+      return {
+        allowed: false,
+        reasonCode: snapshotErrors.length > 0 ? "invalid-pilot-review-decision-snapshot" : "review-only-pilot-review-decision-adapter",
+        reasons: [...new Set(reasons)],
+        operation: request.operation,
+      };
+    },
+    execute(request) {
+      const decision = this.evaluate(request);
+      return {
+        request,
+        decision,
+        sideEffect: "none",
+        snapshotValid: validatePilotReviewDecisionPersistenceSnapshot(request.snapshot).length === 0,
+      };
+    },
+  };
+}
+
 function isPilotReviewDecision(value: unknown): value is PilotReviewDecision {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   return validatePilotReviewDecision(value as PilotReviewDecision).length === 0;
+}
+
+function isPilotReviewDecisionPersistenceSnapshot(value: unknown): value is PilotReviewDecisionPersistenceSnapshot {
+  return validatePilotReviewDecisionPersistenceSnapshot(value).length === 0;
 }
 
 function isPersistenceMode(value: unknown): value is PilotReviewDecisionPersistenceMode {

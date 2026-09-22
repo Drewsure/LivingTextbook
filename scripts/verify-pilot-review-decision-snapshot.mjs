@@ -18,10 +18,14 @@ requireText(model, "activationAllowed: false", "Snapshot model must block activa
 requireText(model, "rawLearnerAudioIncluded", "Snapshot model must exclude raw learner audio.");
 requireText(model, "learnerTranscriptIncluded", "Snapshot model must exclude learner transcripts.");
 requireText(model, "fingerprintPilotReviewDecision", "Snapshot model must validate fingerprints.");
+requireText(model, "createReviewOnlyPilotReviewDecisionPersistenceAdapter", "Snapshot model must expose a review-only adapter.");
+requireText(model, 'sideEffect: "none"', "Snapshot adapter must prove no side effects.");
+requireText(model, "No review decision activation", "Snapshot adapter must block activation.");
 requireText(index, 'export * from "./pilotReviewDecisionPersistence";', "Snapshot model must be exposed through the public content-model root.");
 requireText(fixture, "hosted-managed", "Snapshot fixture must cover hosted-managed persistence.");
 requireText(fixture, "local-classroom", "Snapshot fixture must cover local-classroom persistence.");
 requireText(fixture, "samplePilotReviewDecisionSnapshotErrors", "Snapshot fixture must expose validation results.");
+requireText(fixture, "samplePilotReviewDecisionSnapshotAdapterResults", "Snapshot fixture must expose adapter rehearsal results.");
 requireText(panel, "Provider-neutral recovery without activation authority", "Persistence workbench must explain the snapshot boundary.");
 requireText(panel, "Restore / export", "Persistence workbench must show blocked recovery actions.");
 requireText(page, "PilotReviewDecisionPersistenceSnapshotPanel", "Persistence workbench must mount the snapshot panel.");
