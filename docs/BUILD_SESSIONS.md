@@ -4326,3 +4326,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Closed the false-ready loophole so unresolved package lanes prevent
   `pilot-ready` status at the shared model boundary.
 - Recorded ADR 0959 and DR-1031.
+
+## Build session 0943: White-label controlled pilot decision binding
+
+- Added pilot decision identity, handoff routes, evidence bindings, blocker
+  count, and launch/data/report permissions to the shared release contract.
+- Bound the Sample Publisher dashboard to the existing pilot review decision.
+- Added visible pilot blockers while keeping live launch and learner data
+  disabled.
+- Added tenant and blocker-count negative-path verification.
+- Recorded ADR 0960 and DR-1032.

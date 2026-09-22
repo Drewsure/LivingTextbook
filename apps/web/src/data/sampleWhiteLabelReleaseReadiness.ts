@@ -3,6 +3,7 @@ import {
   type WhiteLabelReleaseReadiness,
 } from "@living-textbook/content-model";
 import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
 
 const samplePackageReconciliation = samplePackageReadinessReconciliations.find(
   (reconciliation) => reconciliation.packageId === "sample-publisher-l1-u1-routines-package",
@@ -102,6 +103,20 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     unresolvedLaneIds: unresolvedPackageLanes.map((lane) => lane.laneId),
     promotionAllowed: false,
     studentFacingActivationAllowed: false,
+  },
+  pilotEvidence: {
+    decisionId: samplePilotReviewDecision.decisionId,
+    tenantId: samplePilotReviewDecision.tenantId,
+    packageId: samplePilotReviewDecision.packageId,
+    handoffRouteKey: samplePilotReviewDecision.handoffRouteKey,
+    evidenceHandoffRouteKey: samplePilotReviewDecision.evidenceHandoffRouteKey,
+    status: samplePilotReviewDecision.status,
+    blockingReasons: samplePilotReviewDecision.blockingReasons,
+    blockingReasonCount: samplePilotReviewDecision.blockingReasons.length,
+    evidenceBindings: samplePilotReviewDecision.evidenceBindings,
+    pilotLaunchAllowed: false,
+    studentDataCollectionAllowed: false,
+    reportExportAllowed: false,
   },
   productionApprovalAllowed: false,
   studentProductionLaunchAllowed: false,

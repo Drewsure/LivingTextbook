@@ -5897,3 +5897,17 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1031,
 `docs/decision-register/DR-1031-white-label-package-evidence-reconciliation.md`,
 and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.
+
+## 375. White-Label Controlled Pilot Decision Binding Standard
+
+- The white-label release-readiness record must bind its controlled-pilot
+  phase to the authoritative tenant/package pilot review decision.
+- Decision identity, handoff routes, evidence bindings, blocker count, and
+  launch/data/report permissions must remain aligned.
+- Demo-ready evidence must remain visibly distinct from a live classroom
+  pilot; pilot launch, learner data collection, and report export remain false
+  until later governed approval work closes the gates.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1032,
+`docs/decision-register/DR-1032-white-label-controlled-pilot-decision-binding.md`,
+and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.

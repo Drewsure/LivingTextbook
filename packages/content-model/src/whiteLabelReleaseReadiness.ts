@@ -43,6 +43,21 @@ export interface WhiteLabelReleasePackageEvidence {
   studentFacingActivationAllowed: false;
 }
 
+export interface WhiteLabelReleasePilotEvidence {
+  decisionId: string;
+  tenantId: string;
+  packageId: string;
+  handoffRouteKey: string;
+  evidenceHandoffRouteKey: string;
+  status: "demo-ready-pilot-blocked" | "pilot-ready";
+  blockingReasons: string[];
+  blockingReasonCount: number;
+  evidenceBindings: string[];
+  pilotLaunchAllowed: false;
+  studentDataCollectionAllowed: false;
+  reportExportAllowed: false;
+}
+
 export interface WhiteLabelReleaseReadiness {
   readinessId: string;
   tenantId: string;
@@ -52,6 +67,7 @@ export interface WhiteLabelReleaseReadiness {
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
   packageEvidence: WhiteLabelReleasePackageEvidence;
+  pilotEvidence: WhiteLabelReleasePilotEvidence;
   productionApprovalAllowed: false;
   studentProductionLaunchAllowed: false;
   blockedActions: string[];
@@ -140,6 +156,25 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     if (packageEvidence.promotionAllowed !== false) errors.push("White-label release package evidence promotion must remain false.");
     if (packageEvidence.studentFacingActivationAllowed !== false) errors.push("White-label release package evidence student activation must remain false.");
     if (!/^sha256:[0-9a-f]{64}$/i.test(readString(packageEvidence, "sourceAssemblyChecksum"))) errors.push("White-label release package evidence checksum must use sha256:<64 hexadecimal characters> format.");
+  }
+
+  const pilotEvidence = readiness.pilotEvidence;
+  if (!isRecord(pilotEvidence)) {
+    errors.push("White-label release readiness pilotEvidence must be an object.");
+  } else {
+    for (const field of ["decisionId", "tenantId", "packageId", "handoffRouteKey", "evidenceHandoffRouteKey"] as const) {
+      if (!isNonEmptyString(pilotEvidence[field])) errors.push(`White-label release pilot evidence ${field} must be non-empty.`);
+    }
+    if (pilotEvidence.tenantId !== readiness.tenantId) errors.push("White-label release pilot evidence must match the readiness tenant.");
+    if (pilotEvidence.packageId !== readiness.packageId) errors.push("White-label release pilot evidence must match the readiness package.");
+    if (!["demo-ready-pilot-blocked", "pilot-ready"].includes(readString(pilotEvidence, "status"))) errors.push("White-label release pilot evidence status is unsupported.");
+    const blockingReasons = readStringArray(pilotEvidence, "blockingReasons");
+    if (Number(pilotEvidence.blockingReasonCount) !== blockingReasons.length) errors.push("White-label release pilot evidence blocker count must match its reasons.");
+    if (readString(pilotEvidence, "status") === "demo-ready-pilot-blocked" && blockingReasons.length === 0) errors.push("Blocked white-label release pilot evidence must list blockers.");
+    if (readStringArray(pilotEvidence, "evidenceBindings").length === 0) errors.push("White-label release pilot evidence must include evidence bindings.");
+    for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed"] as const) {
+      if (pilotEvidence[field] !== false) errors.push(`White-label release pilot evidence ${field} must remain false.`);
+    }
   }
 
   if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");

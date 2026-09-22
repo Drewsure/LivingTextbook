@@ -52,6 +52,14 @@ try {
   activation.packageEvidence.studentFacingActivationAllowed = true;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(activation), "student activation must remain false", "student activation rejection");
 
+  const pilotTenant = structuredClone(valid);
+  pilotTenant.pilotEvidence.tenantId = "other-tenant";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(pilotTenant), "pilot evidence must match the readiness tenant", "pilot tenant rejection");
+
+  const pilotCount = structuredClone(valid);
+  pilotCount.pilotEvidence.blockingReasonCount = 0;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(pilotCount), "pilot evidence blocker count must match", "pilot blocker count rejection");
+
   const promotion = structuredClone(valid);
   promotion.packageEvidence.promotionAllowed = true;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(promotion), "promotion must remain false", "promotion rejection");
@@ -105,6 +113,20 @@ function buildValidReadiness(model) {
       unresolvedLaneIds: ["verifier-evidence", "publish-gate"],
       promotionAllowed: false,
       studentFacingActivationAllowed: false,
+    },
+    pilotEvidence: {
+      decisionId: "sample-publisher-review-decision",
+      tenantId: "sample-publisher",
+      packageId: "sample-publisher-package",
+      handoffRouteKey: "sample-publisher-first-handoff",
+      evidenceHandoffRouteKey: "sample-publisher-evidence-handoff",
+      status: "demo-ready-pilot-blocked",
+      blockingReasons: ["School policy is not accepted."],
+      blockingReasonCount: 1,
+      evidenceBindings: ["pilot-handoff:sample-publisher-first-handoff"],
+      pilotLaunchAllowed: false,
+      studentDataCollectionAllowed: false,
+      reportExportAllowed: false,
     },
     productionApprovalAllowed: false,
     studentProductionLaunchAllowed: false,

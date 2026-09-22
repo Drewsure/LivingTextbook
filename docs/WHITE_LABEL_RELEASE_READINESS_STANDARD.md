@@ -70,6 +70,10 @@ The overall readiness status may not become `pilot-ready` while the bound
 package evidence contains unresolved lanes. Lane totals must reconcile exactly;
 an under-counted or over-counted summary is invalid.
 
+The controlled-pilot phase must also bind to the tenant/package pilot review
+decision, including its handoff routes, evidence bindings, blocker count, and
+launch/data/report permissions. A demo-ready package is not a live pilot.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,
@@ -83,3 +87,6 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1030 and
 
 The package evidence binding is recorded in `docs/DECISION_REGISTER.md`
 DR-1031 and `docs/adr/0959-white-label-package-evidence-reconciliation.md`.
+
+The controlled-pilot binding is recorded in `docs/DECISION_REGISTER.md`
+DR-1032 and `docs/adr/0960-white-label-controlled-pilot-decision-binding.md`.

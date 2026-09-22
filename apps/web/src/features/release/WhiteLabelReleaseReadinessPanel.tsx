@@ -39,6 +39,26 @@ export function WhiteLabelReleaseReadinessPanel({
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Controlled pilot decision</p>
+            <h2 className="mt-1 text-lg font-bold">Pilot evidence is bound to the same tenant package</h2>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The pilot decision, handoff routes, blocker count, and permissions are read from the governed review contract. This view cannot turn a demo into a live pilot.
+            </p>
+          </div>
+          <StatusPill label={readiness.pilotEvidence.status} tone="warning" />
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Decision" value={readiness.pilotEvidence.decisionId} />
+          <Fact label="Blockers" value={String(readiness.pilotEvidence.blockingReasonCount)} />
+          <Fact label="Pilot launch" value={readiness.pilotEvidence.pilotLaunchAllowed ? "Allowed" : "Blocked"} />
+          <Fact label="Learner data" value={readiness.pilotEvidence.studentDataCollectionAllowed ? "Allowed" : "Blocked"} />
+        </div>
+        <List title="Pilot blockers" values={readiness.pilotEvidence.blockingReasons} />
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Package evidence reconciliation</p>
             <h2 className="mt-1 text-lg font-bold">Lane-level evidence controls this release view</h2>
             <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
