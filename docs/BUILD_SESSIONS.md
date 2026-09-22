@@ -4400,3 +4400,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added negative-path checks for route-count drift and non-review deployment
   status.
 - Recorded ADR 0966 and DR-1038.
+
+## Build session 0950: Release evidence workbench map
+
+- Added a review-only handoff map from release readiness to game, persistence,
+  partner-requirements, and content-intake evidence routes.
+- Kept storage activation, external game import, package publication, and
+  student launch blocked.
+- Recorded the next human handoff for the isolated Memory Match evidence
+  package.

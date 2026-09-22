@@ -38,6 +38,22 @@ export function WhiteLabelReleaseReadinessPanel({
       </Card>
 
       <Card>
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Evidence workbench map</p>
+          <h2 className="mt-1 text-lg font-bold">Follow the next governed review surface</h2>
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+            These links move the adult operator to the evidence owner for the next decision. They are review routes only and do not activate storage, import external games, publish packages, or launch students.
+          </p>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <ReviewLink href="/teacher/game-readiness" label="Game readiness" detail="Canonical engines and isolated Z.ai evidence" />
+          <ReviewLink href="/teacher/persistence" label="Persistence" detail="Provider, policy, and durable-write gates" />
+          <ReviewLink href="/teacher/pilot/requirements/sample-publisher" label="Partner requirements" detail="Publisher evidence and school decisions" />
+          <ReviewLink href="/teacher/intake" label="Content intake" detail="Sources, media, routes, and release records" />
+        </div>
+      </Card>
+
+      <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Controlled pilot decision</p>
@@ -180,6 +196,16 @@ export function WhiteLabelReleaseReadinessPanel({
 
 function Fact({ label, value }: { label: string; value: string }) {
   return <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3"><p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p><p className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</p></div>;
+}
+
+function ReviewLink({ href, label, detail }: { href: string; label: string; detail: string }) {
+  return (
+    <a href={href} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4 transition-colors hover:border-[var(--tenant-primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]">
+      <span className="block text-sm font-bold text-[var(--tenant-text)]">{label}</span>
+      <span className="mt-2 block text-xs leading-5 text-[var(--tenant-muted)]">{detail}</span>
+      <span className="mt-3 block text-xs font-semibold text-[var(--tenant-primary)]">Open review surface</span>
+    </a>
+  );
 }
 
 function List({ title, values }: { title: string; values: string[] }) {
