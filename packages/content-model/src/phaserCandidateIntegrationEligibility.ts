@@ -9,6 +9,20 @@ export interface PhaserCandidateIntegrationEvidenceLane {
   requirement: string;
 }
 
+export const PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS = [
+  "source-provenance",
+  "wrapper-approval",
+  "payload",
+  "events",
+  "audio",
+  "scoring",
+  "privacy",
+  "persistence",
+  "replay",
+  "accessibility",
+  "integration-decision",
+] as const;
+
 export interface PhaserCandidateIntegrationEligibility {
   eligibilityId: string;
   tenantId: string;
@@ -49,6 +63,8 @@ export function validatePhaserCandidateIntegrationEligibility(
   eligibility: PhaserCandidateIntegrationEligibility,
 ): string[] {
   const errors: string[] = [];
+  const evidenceLanes = Array.isArray(eligibility?.evidenceLanes) ? eligibility.evidenceLanes : [];
+  const blockedActions = Array.isArray(eligibility?.blockedActions) ? eligibility.blockedActions : [];
   for (const field of [
     "eligibilityId",
     "tenantId",
@@ -81,11 +97,11 @@ export function validatePhaserCandidateIntegrationEligibility(
   ] as const) {
     if (eligibility[field] !== false) errors.push(`Phaser candidate integration eligibility ${field} must remain false.`);
   }
-  if (!Array.isArray(eligibility.evidenceLanes) || eligibility.evidenceLanes.length < 5) {
-    errors.push("Phaser candidate integration eligibility requires at least five evidence lanes.");
+  if (!Array.isArray(eligibility?.evidenceLanes) || evidenceLanes.length < PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS.length) {
+    errors.push("Phaser candidate integration eligibility requires all canonical evidence lanes.");
   }
   const laneIds = new Set<string>();
-  for (const lane of eligibility.evidenceLanes) {
+  for (const lane of evidenceLanes) {
     if (!lane || typeof lane !== "object") {
       errors.push("Phaser candidate integration eligibility requires valid evidence lanes.");
       continue;
@@ -97,11 +113,14 @@ export function validatePhaserCandidateIntegrationEligibility(
     }
     if (!["reviewed", "pending-review", "blocked"].includes(lane.status)) errors.push(`Phaser candidate integration evidence ${lane.laneId} has an invalid status.`);
   }
-  if (!Array.isArray(eligibility.blockedActions)) errors.push("Phaser candidate integration eligibility blockedActions must be an array.");
+  for (const requiredLaneId of PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS) {
+    if (!laneIds.has(requiredLaneId)) errors.push(`Phaser candidate integration eligibility must include evidence lane ${requiredLaneId}.`);
+  }
+  if (!Array.isArray(eligibility?.blockedActions)) errors.push("Phaser candidate integration eligibility blockedActions must be an array.");
   for (const action of REQUIRED_BLOCKED_ACTIONS) {
-    if (!eligibility.blockedActions.includes(action)) errors.push(`Phaser candidate integration eligibility must block: ${action}.`);
+    if (!blockedActions.includes(action)) errors.push(`Phaser candidate integration eligibility must block: ${action}.`);
   }
   if (!Array.isArray(eligibility.nextRequiredEvidence) || eligibility.nextRequiredEvidence.length === 0) errors.push("Phaser candidate integration eligibility must list next required evidence.");
-  if (eligibility.status === "blocked" && !eligibility.evidenceLanes.some((lane) => lane.status === "blocked")) errors.push("Blocked Phaser candidate integration eligibility must expose a blocked evidence lane.");
+  if (eligibility.status === "blocked" && !evidenceLanes.some((lane) => lane.status === "blocked")) errors.push("Blocked Phaser candidate integration eligibility must expose a blocked evidence lane.");
   return [...new Set(errors)];
 }

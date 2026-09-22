@@ -1,6 +1,7 @@
 import {
   validatePhaserCandidateIntegrationEligibility,
   type PhaserCandidateIntegrationEligibility,
+  type PhaserCandidateIntegrationEvidenceStatus,
   type PhaserCandidateContractReview,
 } from "@living-textbook/content-model";
 import { samplePhaserCandidateContractReviews } from "@/data/samplePhaserCandidateContractReview";
@@ -29,13 +30,43 @@ function buildEligibility(
     scoringProfile,
     status: "blocked",
     sourceIsolationRequired: true,
-    evidenceLanes: review.findings.map((finding) => ({
-      laneId: finding.findingId,
-      label: `${finding.area} contract evidence`,
-      status: finding.status === "observed" ? "reviewed" : finding.status === "blocked" ? "blocked" : "pending-review",
-      sourceRecord: finding.evidenceReference,
-      requirement: finding.platformRequirement,
-    })),
+    evidenceLanes: [
+      {
+        laneId: "source-provenance",
+        label: "Frozen source provenance",
+        status: "reviewed",
+        sourceRecord: "phaser_source_evidence_manifest",
+        requirement: "Source repository, snapshot, commit, and hashed files must remain identifiable.",
+      },
+      {
+        laneId: "wrapper-approval",
+        label: "Wrapper approval",
+        status: "blocked",
+        sourceRecord: review.approval.decisionId,
+        requirement: "A Codex-reviewed wrapper decision must be explicit before any integration work order.",
+      },
+      ...review.findings.map((finding) => ({
+        laneId: finding.area === "persistence" ? "persistence" : finding.area,
+        label: `${finding.area} contract evidence`,
+        status: toEvidenceStatus(finding.status),
+        sourceRecord: finding.evidenceReference,
+        requirement: finding.platformRequirement,
+      })),
+      {
+        laneId: "privacy",
+        label: "Privacy and tenant isolation",
+        status: "blocked",
+        sourceRecord: "phaser_privacy_tenant_isolation_review",
+        requirement: "The candidate must not own learner identity, persistence, report data, or cross-tenant state.",
+      },
+      {
+        laneId: "integration-decision",
+        label: "Codex integration decision",
+        status: "blocked",
+        sourceRecord: "codex_integration_review_decision",
+        requirement: "A final Codex decision must compare the candidate against the canonical game route before wrapper work.",
+      },
+    ],
     wrapperAllowed: false,
     directImportAllowed: false,
     routeReplacementAllowed: false,
@@ -52,9 +83,17 @@ function buildEligibility(
       "No package promotion",
       "No student assignment",
     ],
-    nextRequiredEvidence: review.missingEvidence,
+    nextRequiredEvidence: [
+      ...review.missingEvidence,
+      "Privacy and tenant-isolation evidence",
+      "Explicit Codex wrapper decision",
+    ],
     note: "This eligibility record is derived from the frozen candidate contract review. It is not permission to import or activate the source game.",
   };
+}
+
+function toEvidenceStatus(status: "observed" | "gap" | "blocked"): PhaserCandidateIntegrationEvidenceStatus {
+  return status === "observed" ? "reviewed" : status === "blocked" ? "blocked" : "pending-review";
 }
 
 export const samplePhaserCandidateIntegrationEligibility: PhaserCandidateIntegrationEligibility[] = [
