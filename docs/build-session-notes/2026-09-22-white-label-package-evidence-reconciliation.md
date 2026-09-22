@@ -15,4 +15,6 @@ level rather than relying on phase summaries alone.
 - Preserved the no-promotion and no-student-activation boundary.
 - Added executable rejection coverage for package mismatch, checksum
   tampering, lane-count drift, false-ready status, activation, and promotion.
+- Closed the false-ready loophole so unresolved package lanes prevent
+  `pilot-ready` status at the shared model boundary.
 - Recorded ADR 0959 and DR-1031.

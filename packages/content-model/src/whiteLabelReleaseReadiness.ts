@@ -134,7 +134,9 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     }
     const unresolvedLaneIds = readStringArray(packageEvidence, "unresolvedLaneIds");
     if (Number(packageEvidence.unresolvedLaneCount) !== unresolvedLaneIds.length) errors.push("White-label release package evidence unresolved lane count must match its ids.");
-    if (Number(packageEvidence.totalLaneCount) < Number(packageEvidence.readyPreviewLaneCount) + Number(packageEvidence.unresolvedLaneCount)) errors.push("White-label release package evidence lane counts cannot exceed the total.");
+    if (Number(packageEvidence.totalLaneCount) !== Number(packageEvidence.readyPreviewLaneCount) + Number(packageEvidence.unresolvedLaneCount)) errors.push("White-label release package evidence lane counts must reconcile to the total.");
+    if (readString(packageEvidence, "status") === "blocked" && Number(packageEvidence.unresolvedLaneCount) === 0) errors.push("Blocked white-label release package evidence must list unresolved lanes.");
+    if (status === "pilot-ready" && Number(packageEvidence.unresolvedLaneCount) > 0) errors.push("White-label release readiness cannot be pilot-ready while package evidence has unresolved lanes.");
     if (packageEvidence.promotionAllowed !== false) errors.push("White-label release package evidence promotion must remain false.");
     if (packageEvidence.studentFacingActivationAllowed !== false) errors.push("White-label release package evidence student activation must remain false.");
     if (!/^sha256:[0-9a-f]{64}$/i.test(readString(packageEvidence, "sourceAssemblyChecksum"))) errors.push("White-label release package evidence checksum must use sha256:<64 hexadecimal characters> format.");

@@ -66,6 +66,10 @@ lane IDs. Summary phase labels cannot override an unresolved package lane.
 Promotion and student-facing activation remain false even when all current
 quality signals are green.
 
+The overall readiness status may not become `pilot-ready` while the bound
+package evidence contains unresolved lanes. Lane totals must reconcile exactly;
+an under-counted or over-counted summary is invalid.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

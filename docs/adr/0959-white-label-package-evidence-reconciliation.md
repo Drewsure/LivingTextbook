@@ -23,6 +23,8 @@ student-facing activation permanently false in this foundation slice.
 - The same evidence shape can support MiniStar and future publisher tenants.
 - Lane reconciliation still does not authorize storage writes, approval, or
   student launch.
+- A `pilot-ready` summary is invalid while the package evidence has unresolved
+  lanes, and lane totals must reconcile exactly.
 
 ## Verification
 

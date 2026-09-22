@@ -7969,6 +7969,8 @@ Required invariants:
 - Package promotion and student-facing activation remain false.
 - A green quality signal or phase label cannot override unresolved package
   evidence.
+- `pilot-ready` is rejected while unresolved package lanes remain, and lane
+  counts must reconcile exactly.
 
 Evidence: `docs/adr/0959-white-label-package-evidence-reconciliation.md`,
 `packages/content-model/src/whiteLabelReleaseReadiness.ts`,

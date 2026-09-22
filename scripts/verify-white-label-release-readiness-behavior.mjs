@@ -44,6 +44,10 @@ try {
   badCounts.packageEvidence.unresolvedLaneIds = [];
   assertIncludes(model.validateWhiteLabelReleaseReadiness(badCounts), "unresolved lane count must match", "lane count rejection");
 
+  const laneDrift = structuredClone(valid);
+  laneDrift.packageEvidence.readyPreviewLaneCount = 0;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(laneDrift), "lane counts must reconcile", "lane total drift rejection");
+
   const activation = structuredClone(valid);
   activation.packageEvidence.studentFacingActivationAllowed = true;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(activation), "student activation must remain false", "student activation rejection");
@@ -55,6 +59,11 @@ try {
   const falseReady = structuredClone(valid);
   falseReady.status = "pilot-ready";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(falseReady), "status must match phases", "status derivation rejection");
+
+  const unresolvedReady = structuredClone(valid);
+  unresolvedReady.status = "pilot-ready";
+  unresolvedReady.phases = unresolvedReady.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(unresolvedReady), "cannot be pilot-ready while package evidence has unresolved lanes", "unresolved package false-ready rejection");
 
   console.log("PASS white-label release readiness behavior accepts valid package evidence and rejects package mismatch, checksum tampering, lane-count drift, activation, promotion, and false-ready states.");
 } finally {
