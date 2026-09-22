@@ -4388,3 +4388,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved historical build notes as historical records.
 - Added the deployment decision workbench verifier to foundation composition.
 - Recorded ADR 0965 and DR-1037.
+
+## Build session 0949: White-label route and deployment evidence
+
+- Bound active route evidence to the white-label release-readiness contract.
+- Reconciled active and expected route counts against the current 89-entry
+  route matrix.
+- Named the active-route verifier and deployment decision guide in the packet.
+- Added a teacher-facing route/deployment evidence card while preserving the
+  review-only boundary.
+- Added negative-path checks for route-count drift and non-review deployment
+  status.
+- Recorded ADR 0966 and DR-1038.

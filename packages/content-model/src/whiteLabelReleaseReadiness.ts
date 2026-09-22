@@ -83,6 +83,16 @@ export interface WhiteLabelReleaseControlEvidence {
   studentFacingActivationAllowed: false;
 }
 
+export interface WhiteLabelReleaseRouteEvidence {
+  activeRouteCount: number;
+  expectedActiveRouteCount: number;
+  routeMatrixSource: string;
+  activeRouteVerifierSource: string;
+  deploymentGuideId: string;
+  deploymentStatus: "review-only";
+  sourceRecords: string[];
+}
+
 export interface WhiteLabelReleaseReadiness {
   readinessId: string;
   tenantId: string;
@@ -95,6 +105,7 @@ export interface WhiteLabelReleaseReadiness {
   packageEvidence: WhiteLabelReleasePackageEvidence;
   pilotEvidence: WhiteLabelReleasePilotEvidence;
   releaseControlEvidence: WhiteLabelReleaseControlEvidence;
+  routeEvidence: WhiteLabelReleaseRouteEvidence;
   productionApprovalAllowed: false;
   studentProductionLaunchAllowed: false;
   blockedActions: string[];
@@ -260,6 +271,29 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     if (controlStatus === "pilot-ready" && hasOpenControls) errors.push("Pilot-ready release control evidence cannot contain open gates or approvals.");
     if (controlStatus !== "pilot-ready" && !hasOpenControls) errors.push("Non-pilot-ready release control evidence must expose an open gate or approval.");
     if (status === "pilot-ready" && controlStatus !== "pilot-ready") errors.push("Pilot-ready readiness requires pilot-ready release control evidence.");
+  }
+
+  const routeEvidence = readiness.routeEvidence;
+  if (!isRecord(routeEvidence)) {
+    errors.push("White-label release readiness routeEvidence must be an object.");
+  } else {
+    for (const field of ["routeMatrixSource", "activeRouteVerifierSource", "deploymentGuideId"] as const) {
+      if (!isNonEmptyString(routeEvidence[field])) errors.push(`White-label release route evidence ${field} must be non-empty.`);
+    }
+    for (const field of ["activeRouteCount", "expectedActiveRouteCount"] as const) {
+      if (!Number.isInteger(routeEvidence[field]) || Number(routeEvidence[field]) < 1) {
+        errors.push(`White-label release route evidence ${field} must be a positive integer.`);
+      }
+    }
+    if (Number(routeEvidence.activeRouteCount) !== Number(routeEvidence.expectedActiveRouteCount)) {
+      errors.push("White-label release route evidence counts must reconcile.");
+    }
+    if (readString(routeEvidence, "deploymentStatus") !== "review-only") {
+      errors.push("White-label release route evidence deployment status must remain review-only.");
+    }
+    if (readStringArray(routeEvidence, "sourceRecords").length < 2) {
+      errors.push("White-label release route evidence must include at least two source records.");
+    }
   }
 
   if (readiness.productionApprovalAllowed !== false) errors.push("White-label release readiness production approval must remain false.");

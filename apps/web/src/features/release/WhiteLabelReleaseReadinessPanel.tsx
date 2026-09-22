@@ -99,6 +99,26 @@ export function WhiteLabelReleaseReadinessPanel({
       </Card>
 
       <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Route and deployment evidence</p>
+            <h2 className="mt-1 text-lg font-bold">Active routes reconcile before deployment decisions</h2>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Route health is joined to the authoritative matrix, active-route verifier, and deployment guide. It remains review evidence and never grants launch, storage, offline, or package-promotion permission.
+            </p>
+          </div>
+          <StatusPill label={readiness.routeEvidence.deploymentStatus} tone="warning" />
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Active routes" value={String(readiness.routeEvidence.activeRouteCount)} />
+          <Fact label="Expected routes" value={String(readiness.routeEvidence.expectedActiveRouteCount)} />
+          <Fact label="Route matrix" value={readiness.routeEvidence.routeMatrixSource} />
+          <Fact label="Deployment guide" value={readiness.routeEvidence.deploymentGuideId} />
+        </div>
+        <List title="Route and deployment sources" values={readiness.routeEvidence.sourceRecords} />
+      </Card>
+
+      <Card>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Required quality signals</p>

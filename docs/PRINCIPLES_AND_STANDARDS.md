@@ -5983,3 +5983,19 @@ and `docs/adr/0964-persistence-provider-selection-criterion-reconciliation.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1037,
 `docs/decision-register/DR-1037-active-route-count-source-of-truth.md`, and
 `docs/adr/0965-active-route-count-source-of-truth.md`.
+
+## 381. White-label Route and Deployment Evidence Standard
+
+- White-label release readiness must carry route evidence for the same
+  tenant/package record, including active and expected route counts, the route
+  matrix source, the active-route verifier, and the deployment guide.
+- Active and expected route counts must reconcile exactly against the current
+  route matrix; historical counts remain historical.
+- Deployment status in this evidence packet is review-only.
+- Route health never authorizes student launch, durable persistence, QR
+  redirect mutation, offline delivery, installer export, package promotion, or
+  Z.ai source promotion.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1038,
+`docs/decision-register/DR-1038-white-label-route-deployment-evidence.md`, and
+`docs/adr/0966-white-label-route-deployment-evidence.md`.

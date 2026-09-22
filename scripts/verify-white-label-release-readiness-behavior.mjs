@@ -60,6 +60,14 @@ try {
   badCounts.packageEvidence.unresolvedLaneIds = [];
   assertIncludes(model.validateWhiteLabelReleaseReadiness(badCounts), "unresolved lane count must match", "lane count rejection");
 
+  const routeDrift = structuredClone(valid);
+  routeDrift.routeEvidence.activeRouteCount = 88;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(routeDrift), "route evidence counts must reconcile", "route count rejection");
+
+  const routeActivation = structuredClone(valid);
+  routeActivation.routeEvidence.deploymentStatus = "ready";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(routeActivation), "deployment status must remain review-only", "route deployment status rejection");
+
   const laneDrift = structuredClone(valid);
   laneDrift.packageEvidence.readyPreviewLaneCount = 0;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(laneDrift), "lane counts must reconcile", "lane total drift rejection");
@@ -172,6 +180,19 @@ function buildValidReadiness(model) {
       sourceRecords: ["package-publish-gate:sample-publish-gate", "approval-ledger:sample-approval-ledger"],
       promotionAllowed: false,
       studentFacingActivationAllowed: false,
+    },
+    routeEvidence: {
+      activeRouteCount: 89,
+      expectedActiveRouteCount: 89,
+      routeMatrixSource: "sample-active-route-matrix",
+      activeRouteVerifierSource: "scripts/verify-active-routes.mjs",
+      deploymentGuideId: "deployment-decision-guide-v2026-09-03",
+      deploymentStatus: "review-only",
+      sourceRecords: [
+        "active-route-matrix:sample-active-route-matrix",
+        "active-route-verifier:scripts/verify-active-routes.mjs",
+        "deployment-decision-guide:deployment-decision-guide-v2026-09-03",
+      ],
     },
     productionApprovalAllowed: false,
     studentProductionLaunchAllowed: false,

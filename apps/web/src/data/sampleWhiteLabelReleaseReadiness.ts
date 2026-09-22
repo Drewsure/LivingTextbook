@@ -6,6 +6,8 @@ import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadi
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import { samplePackagePublishGate } from "@/data/samplePackagePublishGate";
 import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
+import { sampleActiveRouteMatrix } from "@/data/sampleActiveRouteMatrix";
+import { sampleDeploymentDecisionGuide } from "@/data/sampleDeploymentDecisionGuide";
 
 const samplePackageReconciliation = samplePackageReadinessReconciliations.find(
   (reconciliation) => reconciliation.packageId === "sample-publisher-l1-u1-routines-package",
@@ -155,6 +157,19 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     ],
     promotionAllowed: false,
     studentFacingActivationAllowed: false,
+  },
+  routeEvidence: {
+    activeRouteCount: sampleActiveRouteMatrix.length,
+    expectedActiveRouteCount: 89,
+    routeMatrixSource: "sample-active-route-matrix",
+    activeRouteVerifierSource: "scripts/verify-active-routes.mjs",
+    deploymentGuideId: sampleDeploymentDecisionGuide.guideId,
+    deploymentStatus: "review-only",
+    sourceRecords: [
+      "active-route-matrix:sample-active-route-matrix",
+      "active-route-verifier:scripts/verify-active-routes.mjs",
+      `deployment-decision-guide:${sampleDeploymentDecisionGuide.guideId}`,
+    ],
   },
   productionApprovalAllowed: false,
   studentProductionLaunchAllowed: false,
