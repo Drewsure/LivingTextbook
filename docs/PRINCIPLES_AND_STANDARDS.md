@@ -5780,3 +5780,21 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1023,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1024,
 `docs/decision-register/DR-1024-provider-neutral-implementation-readiness.md`,
 and `docs/adr/0952-provider-neutral-implementation-readiness.md`.
+
+## 368. Persistence Provider Selection Preflight Standard
+
+- Backend, evidence-storage, and implementation-readiness comparisons must be
+  reconciled through one tenant- and package-bound preflight before a provider
+  is selected.
+- The preflight may compare hosted, closed-local, and hybrid cost and
+  capability evidence, but it must not create a bucket, folder, migration,
+  signed URL, write path, or activation path.
+- A recommendation is not a selection. Provider selection requires accepted
+  policy evidence, matching scope, and a separately reviewed provider-specific
+  work order.
+- Candidate risks and required evidence must remain visible so cost efficiency
+  does not erase privacy, offline, backup, deletion, or white-label obligations.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1025,
+`docs/decision-register/DR-1025-persistence-provider-selection-preflight.md`,
+and `docs/adr/0953-persistence-provider-selection-preflight.md`.

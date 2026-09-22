@@ -4251,3 +4251,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   activation blocked in the foundation sample.
 - Added persistence workbench visibility and a foundation verifier.
 - Recorded ADR 0952 and DR-1024.
+
+## Build session 0936: Persistence provider selection preflight
+
+- Joined the backend decision matrix, evidence-storage adapter gate, and
+  provider-neutral implementation handoff into one comparison preflight.
+- Kept provider selection, provider-specific implementation, migration, writes,
+  and activation blocked.
+- Added hosted, closed-local, and hybrid candidate evidence with cost posture,
+  white-label fit, and unresolved risks.
+- Recorded ADR 0953 and DR-1025.

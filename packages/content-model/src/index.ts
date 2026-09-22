@@ -1744,6 +1744,7 @@ export * from "./pilotPolicy";
 export * from "./pilotReviewDecisionPersistence";
 export * from "./pilotReviewDecisionRetentionPolicy";
 export * from "./pilotReviewDecisionImplementationReadiness";
+export * from "./persistenceProviderSelectionPreflight";
 export * from "./aiPackageAssemblyDryRun";
 export * from "./aiPackageWriterPreflight";
 export * from "./aiPackageWriterRollbackDrill";

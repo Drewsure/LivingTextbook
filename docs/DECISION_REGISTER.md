@@ -7841,3 +7841,22 @@ Required invariants:
 Evidence: `docs/adr/0952-provider-neutral-implementation-readiness.md`,
 `packages/content-model/src/pilotReviewDecisionImplementationReadiness.ts`,
 and `apps/web/src/data/samplePilotReviewDecisionImplementationReadiness.ts`.
+
+# DR-1025: Persistence Provider Selection Preflight
+
+Decision: reconcile backend, evidence-storage, and implementation-readiness
+evidence through one provider-neutral comparison preflight before any provider
+is selected or implemented.
+
+Required invariants:
+
+- The preflight is tenant- and package-bound and keeps provider selection,
+  migration, writes, and activation false.
+- Hosted, closed-local, and hybrid candidates expose cost posture, white-label
+  fit, required evidence, and unresolved risks.
+- A recommended candidate is not a provider decision and cannot authorize a
+  bucket, folder, migration, signed URL, or student-facing workflow.
+
+Evidence: `docs/adr/0953-persistence-provider-selection-preflight.md`,
+`packages/content-model/src/persistenceProviderSelectionPreflight.ts`,
+and `apps/web/src/data/samplePersistenceProviderSelectionPreflight.ts`.
