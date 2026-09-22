@@ -69,6 +69,18 @@ try {
   });
   assert(blankBinding.includes("Pilot review decision evidence bindings must contain only non-empty strings."), "blank decision bindings must fail validation");
 
+  const duplicateBlockers = decisionModel.validatePilotReviewDecision({
+    ...decision,
+    blockingReasons: ["School policy is not accepted.", "School policy is not accepted."],
+  });
+  assert(duplicateBlockers.includes("Pilot review decision blockingReasons must be unique."), "duplicate blockers must fail validation");
+
+  const blankNextStep = decisionModel.validatePilotReviewDecision({
+    ...decision,
+    requiredNextSteps: ["Complete school policy review.", ""],
+  });
+  assert(blankNextStep.includes("Pilot review decision requiredNextSteps must contain only non-empty strings."), "blank next steps must fail validation");
+
   const adapter = persistence.createReviewOnlyPilotReviewDecisionPersistenceAdapter();
   const restore = adapter.execute({
     snapshot,

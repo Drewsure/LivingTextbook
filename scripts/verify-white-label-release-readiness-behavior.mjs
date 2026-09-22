@@ -108,6 +108,16 @@ try {
   pilotCount.pilotEvidence.blockingReasonCount = 0;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(pilotCount), "pilot evidence blocker count must match", "pilot blocker count rejection");
 
+  const blankPilotBlocker = structuredClone(valid);
+  blankPilotBlocker.pilotEvidence.blockingReasons = ["School policy is not accepted.", ""];
+  blankPilotBlocker.pilotEvidence.blockingReasonCount = 2;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(blankPilotBlocker), "pilot evidence blockers must contain only non-empty strings", "blank pilot blocker rejection");
+
+  const duplicatePilotBlocker = structuredClone(valid);
+  duplicatePilotBlocker.pilotEvidence.blockingReasons = ["School policy is not accepted.", "School policy is not accepted."];
+  duplicatePilotBlocker.pilotEvidence.blockingReasonCount = 2;
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(duplicatePilotBlocker), "pilot evidence blockers must be unique", "duplicate pilot blocker rejection");
+
   const duplicatePilotBinding = structuredClone(valid);
   duplicatePilotBinding.pilotEvidence.evidenceBindings = ["pilot-handoff:sample-publisher-first-handoff", "pilot-handoff:sample-publisher-first-handoff"];
   assertIncludes(model.validateWhiteLabelReleaseReadiness(duplicatePilotBinding), "pilot evidence bindings must be unique", "duplicate pilot binding rejection");

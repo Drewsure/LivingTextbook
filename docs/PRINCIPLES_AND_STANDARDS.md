@@ -6144,3 +6144,16 @@ and `docs/adr/0975-white-label-pilot-evidence-binding-integrity.md`.
 This standard is recorded in `docs/decision-register/DR-1048-pilot-decision-snapshot-binding-integrity.md`,
 `docs/build-session-notes/2026-09-22-pilot-decision-snapshot-binding-integrity.md`,
 and `docs/adr/0976-pilot-decision-snapshot-binding-integrity.md`.
+
+## 393. Pilot Decision List Integrity Standard
+
+- Pilot blocker lists must contain only non-empty, unique strings.
+- Pilot required-next-step lists must contain only non-empty, unique strings.
+- The canonical decision and white-label readiness validators must reject
+  malformed lists before pilot status or snapshot evidence is accepted.
+- List validation remains review-only and cannot authorize persistence,
+  reporting, promotion, or student access.
+
+This standard is recorded in `docs/decision-register/DR-1049-pilot-decision-list-integrity.md`,
+`docs/build-session-notes/2026-09-22-pilot-decision-list-integrity.md`,
+and `docs/adr/0977-pilot-decision-list-integrity.md`.

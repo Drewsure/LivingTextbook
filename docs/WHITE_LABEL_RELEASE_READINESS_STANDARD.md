@@ -103,6 +103,10 @@ The canonical pilot review decision validator and its provider-neutral snapshot
 boundary must enforce the same rule before a decision is accepted for review
 storage or rehearsal.
 
+Pilot blocker and required-next-step lists must also contain only non-empty,
+unique strings. The readiness wrapper must reject malformed blocker lists rather
+than silently filtering them into a misleading status or count.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

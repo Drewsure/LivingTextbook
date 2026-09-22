@@ -33,9 +33,23 @@ export function validatePilotReviewDecision(decision: PilotReviewDecision): stri
     if (decision[field] !== false) errors.push(`Pilot review decision ${field} must remain false.`);
   }
 
-  if (!Array.isArray(decision.blockingReasons)) errors.push("Pilot review decision blockingReasons must be an array.");
+  if (!Array.isArray(decision.blockingReasons)) {
+    errors.push("Pilot review decision blockingReasons must be an array.");
+  } else {
+    if (decision.blockingReasons.some((reason) => typeof reason !== "string" || reason.trim().length === 0)) {
+      errors.push("Pilot review decision blockingReasons must contain only non-empty strings.");
+    }
+    const normalizedReasons = decision.blockingReasons.filter((reason): reason is string => typeof reason === "string").map((reason) => reason.trim());
+    if (new Set(normalizedReasons).size !== normalizedReasons.length) errors.push("Pilot review decision blockingReasons must be unique.");
+  }
   if (!Array.isArray(decision.requiredNextSteps) || decision.requiredNextSteps.length === 0) {
     errors.push("Pilot review decision must include required next steps.");
+  } else {
+    if (decision.requiredNextSteps.some((step) => typeof step !== "string" || step.trim().length === 0)) {
+      errors.push("Pilot review decision requiredNextSteps must contain only non-empty strings.");
+    }
+    const normalizedSteps = decision.requiredNextSteps.filter((step): step is string => typeof step === "string").map((step) => step.trim());
+    if (new Set(normalizedSteps).size !== normalizedSteps.length) errors.push("Pilot review decision requiredNextSteps must be unique.");
   }
   if (!Array.isArray(decision.evidenceBindings) || decision.evidenceBindings.length === 0) {
     errors.push("Pilot review decision must include evidence bindings.");

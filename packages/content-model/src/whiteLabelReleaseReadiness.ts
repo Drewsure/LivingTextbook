@@ -252,7 +252,12 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     if (pilotEvidence.tenantId !== readiness.tenantId) errors.push("White-label release pilot evidence must match the readiness tenant.");
     if (pilotEvidence.packageId !== readiness.packageId) errors.push("White-label release pilot evidence must match the readiness package.");
     if (!["demo-ready-pilot-blocked", "pilot-ready"].includes(readString(pilotEvidence, "status"))) errors.push("White-label release pilot evidence status is unsupported.");
+    const rawBlockingReasons = pilotEvidence.blockingReasons;
     const blockingReasons = readStringArray(pilotEvidence, "blockingReasons");
+    if (!Array.isArray(rawBlockingReasons) || rawBlockingReasons.some((reason) => typeof reason !== "string" || reason.trim().length === 0)) {
+      errors.push("White-label release pilot evidence blockers must contain only non-empty strings.");
+    }
+    if (new Set(blockingReasons).size !== blockingReasons.length) errors.push("White-label release pilot evidence blockers must be unique.");
     if (Number(pilotEvidence.blockingReasonCount) !== blockingReasons.length) errors.push("White-label release pilot evidence blocker count must match its reasons.");
     if (readString(pilotEvidence, "status") === "demo-ready-pilot-blocked" && blockingReasons.length === 0) errors.push("Blocked white-label release pilot evidence must list blockers.");
     if (status === "pilot-ready" && readString(pilotEvidence, "status") !== "pilot-ready") errors.push("Pilot-ready white-label release readiness requires pilot-ready pilot evidence.");

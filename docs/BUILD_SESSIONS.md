@@ -4501,3 +4501,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added snapshot-runtime coverage before a review decision can be persisted as
   a provider-neutral rehearsal record.
 - Recorded ADR 0976 and DR-1048.
+
+## Build session 0962: Pilot decision list integrity
+
+- Rejected blank or duplicate blocker entries in canonical pilot decisions and
+  white-label readiness evidence.
+- Rejected blank or duplicate required-next-step entries in canonical pilot
+  decisions.
+- Added snapshot and readiness behavior coverage for the malformed lists.
+- Recorded ADR 0977 and DR-1049.
