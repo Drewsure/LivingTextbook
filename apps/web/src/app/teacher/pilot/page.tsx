@@ -37,6 +37,8 @@ import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { validatePilotHandoffPackage } from "@living-textbook/content-model";
 import { samplePilotReviewDecision, samplePilotReviewDecisionErrors } from "@/data/samplePilotReviewDecision";
 import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPanel";
+import { samplePilotDeploymentDecision, samplePilotDeploymentDecisionErrors } from "@/data/samplePilotDeploymentDecision";
+import { PilotDeploymentDecisionPanel } from "@/features/pilot/PilotDeploymentDecisionPanel";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
@@ -105,6 +107,11 @@ export default function TeacherPilotPage() {
         />
         <PilotReviewDecisionPanel decision={samplePilotReviewDecision} validationErrors={samplePilotReviewDecisionErrors} />
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
+        <PilotDeploymentDecisionPanel
+          decision={samplePilotDeploymentDecision}
+          guide={sampleDeploymentDecisionGuide}
+          validationErrors={samplePilotDeploymentDecisionErrors}
+        />
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />

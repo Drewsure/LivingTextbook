@@ -900,3 +900,28 @@ References:
 - `apps/web/src/data/samplePrintableQrAliasPreview.ts`
 - `apps/web/src/features/printables/PrintableWorksheetPreview.tsx`
 - `scripts/verify-qr-print-preview-integration.mjs`
+
+## FR-028: Explicit Pilot Deployment Decision Record
+
+Status: Implemented as a review-only decision record; provider selection,
+persistence activation, and classroom launch remain future work.
+
+Requirement: A controlled pilot must carry an explicit tenant- and
+package-bound deployment decision rather than relying on a general options
+guide or an implied recommendation.
+
+Current boundary:
+
+- Hosted PWA is the cost-efficient recommendation for the first pilot.
+- Hosted, local classroom server, and packaged companion options remain visible.
+- The selected option is unset until a human school or publisher owner
+  reviews it.
+- No deployment decision can activate persistence, launch classrooms, promote
+  packages, mutate QR routes, export reports, or migrate providers.
+
+References:
+
+- `packages/content-model/src/pilotDeploymentDecision.ts`
+- `apps/web/src/data/samplePilotDeploymentDecision.ts`
+- `apps/web/src/features/pilot/PilotDeploymentDecisionPanel.tsx`
+- `scripts/verify-pilot-deployment-decision.mjs`

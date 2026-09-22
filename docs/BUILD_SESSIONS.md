@@ -4770,3 +4770,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept QR image generation, alias writes, redirect mutation, package swaps,
   local activation, and rollback execution blocked.
 - Recorded ADR 0996 and DR-1068.
+
+## Build session 0983: Explicit pilot deployment decision record
+
+- Added a tenant- and package-bound pilot deployment decision contract.
+- Kept the hosted PWA as a cost-efficient recommendation while leaving the
+  actual deployment selection unset for human school or publisher review.
+- Displayed hosted, local, and packaged options beside blockers and evidence
+  bindings on the pilot route.
+- Kept persistence activation, classroom launch, provider migration, package
+  promotion, QR mutation, and report export blocked.
+- Recorded ADR 0997 and DR-1069.

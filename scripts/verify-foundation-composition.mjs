@@ -59,6 +59,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-qr-alias-preview
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-qr-print-preview-integration.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-deployment-decision.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-activation-preflight.mjs", import.meta.url))], {
   stdio: "inherit",
 });

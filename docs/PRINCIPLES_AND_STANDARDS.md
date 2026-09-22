@@ -6442,3 +6442,17 @@ This standard is recorded in
 `docs/decision-register/DR-1068-printed-qr-binding-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0996-printed-qr-binding-preview.md`.
+
+## 413. Explicit Pilot Deployment Decision Standard
+
+- Pilot deployment options must be represented by a tenant- and package-bound
+  decision record, not only a general comparison guide.
+- The hosted PWA may be recommended for cost efficiency, but no deployment
+  option is selected without human school or publisher review.
+- A deployment decision must not activate persistence, classroom launch,
+  provider migration, package promotion, QR mutation, or report export.
+
+This standard is recorded in
+`docs/decision-register/DR-1069-pilot-deployment-decision-record.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0997-pilot-deployment-decision-record.md`.
