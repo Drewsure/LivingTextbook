@@ -6157,3 +6157,16 @@ and `docs/adr/0976-pilot-decision-snapshot-binding-integrity.md`.
 This standard is recorded in `docs/decision-register/DR-1049-pilot-decision-list-integrity.md`,
 `docs/build-session-notes/2026-09-22-pilot-decision-list-integrity.md`,
 and `docs/adr/0977-pilot-decision-list-integrity.md`.
+
+## 394. Pilot Handoff Blocker-List Integrity Standard
+
+- Persistence-gate blockers and activation-preflight blockers must be
+  non-empty, string-valued, and unique.
+- Handoff notes must be non-empty and unique so repeated prose cannot appear
+  as separate evidence.
+- Malformed handoff lists keep the packet invalid and cannot authorize pilot
+  launch, persistence, reporting, promotion, or student access.
+
+This standard is recorded in `docs/decision-register/DR-1050-pilot-handoff-blocker-list-integrity.md`,
+`docs/build-session-notes/2026-09-22-pilot-handoff-blocker-list-integrity.md`,
+and `docs/adr/0978-pilot-handoff-blocker-list-integrity.md`.

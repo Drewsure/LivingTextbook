@@ -249,10 +249,17 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (!Array.isArray(persistenceGateEvidence.blockedReasons)) {
       errors.push("Pilot handoff persistence gate blockedReasons must be an array.");
-    } else if (persistenceGateEvidence.status === "ready" && persistenceGateEvidence.blockedReasons.length > 0) {
-      errors.push("Pilot handoff ready persistence gate cannot include blockers.");
-    } else if (persistenceGateEvidence.status !== "ready" && persistenceGateEvidence.blockedReasons.length === 0) {
-      errors.push("Pilot handoff blocked or rehearsal persistence gate must include a blocker or explanation.");
+    } else {
+      if (persistenceGateEvidence.blockedReasons.some((reason) => typeof reason !== "string" || reason.trim().length === 0)) {
+        errors.push("Pilot handoff persistence gate blockedReasons must contain only non-empty strings.");
+      }
+      const normalizedReasons = persistenceGateEvidence.blockedReasons.filter((reason): reason is string => typeof reason === "string").map((reason) => reason.trim());
+      if (new Set(normalizedReasons).size !== normalizedReasons.length) errors.push("Pilot handoff persistence gate blockedReasons must be unique.");
+      if (persistenceGateEvidence.status === "ready" && persistenceGateEvidence.blockedReasons.length > 0) {
+        errors.push("Pilot handoff ready persistence gate cannot include blockers.");
+      } else if (persistenceGateEvidence.status !== "ready" && persistenceGateEvidence.blockedReasons.length === 0) {
+        errors.push("Pilot handoff blocked or rehearsal persistence gate must include a blocker or explanation.");
+      }
     }
     if (persistenceGateEvidence.writesAllowed !== false) {
       errors.push("Pilot handoff persistence gate writesAllowed must remain false.");
@@ -288,8 +295,15 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (!Array.isArray(activationPreflightEvidence.blockedReasons)) {
       errors.push("Pilot handoff activation preflight blockedReasons must be an array.");
-    } else if (activationPreflightEvidence.status === "blocked" && activationPreflightEvidence.blockedReasons.length === 0) {
-      errors.push("Pilot handoff blocked activation preflight must include blocker reasons.");
+    } else {
+      if (activationPreflightEvidence.blockedReasons.some((reason) => typeof reason !== "string" || reason.trim().length === 0)) {
+        errors.push("Pilot handoff activation preflight blockedReasons must contain only non-empty strings.");
+      }
+      const normalizedReasons = activationPreflightEvidence.blockedReasons.filter((reason): reason is string => typeof reason === "string").map((reason) => reason.trim());
+      if (new Set(normalizedReasons).size !== normalizedReasons.length) errors.push("Pilot handoff activation preflight blockedReasons must be unique.");
+      if (activationPreflightEvidence.status === "blocked" && activationPreflightEvidence.blockedReasons.length === 0) {
+        errors.push("Pilot handoff blocked activation preflight must include blocker reasons.");
+      }
     }
     if (activationPreflightEvidence.canActivate !== false) {
       errors.push("Pilot handoff activation preflight canActivate must remain false.");
@@ -370,8 +384,13 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
   }
 
-  for (const note of Array.isArray(packet.handoffNotes) ? packet.handoffNotes : []) {
+  const handoffNotes = Array.isArray(packet.handoffNotes) ? packet.handoffNotes : [];
+  for (const note of handoffNotes) {
     requireText(note, "handoff note", errors);
+  }
+  const normalizedNotes = handoffNotes.filter((note): note is string => typeof note === "string").map((note) => note.trim());
+  if (new Set(normalizedNotes).size !== normalizedNotes.length) {
+    errors.push("Pilot handoff notes must be unique.");
   }
 
   const requiredRoutePrefixes = ["/enter/", "/launch/", "/teacher/sessions/"];

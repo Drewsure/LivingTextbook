@@ -107,6 +107,10 @@ Pilot blocker and required-next-step lists must also contain only non-empty,
 unique strings. The readiness wrapper must reject malformed blocker lists rather
 than silently filtering them into a misleading status or count.
 
+The underlying pilot handoff must apply the same strictness to persistence-gate
+blockers, activation-preflight blockers, and handoff notes before the packet is
+used to form a review decision.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

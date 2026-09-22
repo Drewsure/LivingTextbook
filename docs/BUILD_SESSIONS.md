@@ -4510,3 +4510,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   decisions.
 - Added snapshot and readiness behavior coverage for the malformed lists.
 - Recorded ADR 0977 and DR-1049.
+
+## Build session 0963: Pilot handoff blocker-list integrity
+
+- Rejected blank or duplicate persistence-gate blockers.
+- Rejected blank or duplicate activation-preflight blockers.
+- Rejected duplicate handoff notes so the review packet cannot repeat one
+  explanation as multiple evidence items.
+- Added runtime behavior coverage and recorded ADR 0978 and DR-1050.

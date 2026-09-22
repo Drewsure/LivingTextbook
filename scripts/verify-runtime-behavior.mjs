@@ -2273,6 +2273,27 @@ try {
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({
       ...validPilotHandoffPackage,
+      persistenceGateEvidence: { ...validPilotHandoffPackage.persistenceGateEvidence, blockedReasons: ["School policy is missing.", ""] },
+    }),
+    "Pilot handoff persistence gate blockedReasons must contain only non-empty strings.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      activationPreflightEvidence: { ...validPilotHandoffPackage.activationPreflightEvidence, blockedReasons: ["School policy is missing.", "School policy is missing."] },
+    }),
+    "Pilot handoff activation preflight blockedReasons must be unique.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      handoffNotes: ["Do not promise classroom launch.", "Do not promise classroom launch."],
+    }),
+    "Pilot handoff notes must be unique.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
       mode: "live",
     }),
     "Pilot handoff package must remain review-only.",
