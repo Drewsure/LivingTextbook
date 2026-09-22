@@ -6080,3 +6080,17 @@ and `docs/adr/0970-white-label-pilot-ready-quality-gate.md`.
 This standard is recorded in `docs/decision-register/DR-1043-white-label-nested-readiness-consistency.md`,
 `docs/build-session-notes/2026-09-22-white-label-nested-readiness-consistency.md`,
 and `docs/adr/0971-white-label-nested-readiness-consistency.md`.
+
+## 388. White-Label Quality Evidence Identity Standard
+
+- Every typecheck, production-build, route, runtime, browser, privacy, and
+  tenant-isolation evidence record must carry the readiness tenant and package
+  identities.
+- A green result from another tenant or package is invalid and must be rejected
+  before readiness can be displayed as valid.
+- Quality evidence remains review-only; it cannot authorize production approval,
+  persistence activation, package promotion, or student launch.
+
+This standard is recorded in `docs/decision-register/DR-1044-white-label-quality-evidence-tenant-binding.md`,
+`docs/build-session-notes/2026-09-22-white-label-quality-evidence-tenant-binding.md`,
+and `docs/adr/0972-white-label-quality-evidence-tenant-binding.md`.

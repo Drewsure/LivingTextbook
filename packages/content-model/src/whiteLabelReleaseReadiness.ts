@@ -34,6 +34,8 @@ export type WhiteLabelReleaseQualityCheckId = keyof WhiteLabelReleaseQualityChec
 
 export interface WhiteLabelReleaseQualityEvidence {
   checkId: WhiteLabelReleaseQualityCheckId;
+  tenantId: string;
+  packageId: string;
   label: string;
   verified: boolean;
   sourceRecord: string;
@@ -199,9 +201,11 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
       if (!qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number])) errors.push(`White-label release quality evidence check id is unsupported: ${checkId || "(empty)"}.`);
       if (seenQualityChecks.has(checkId)) errors.push(`White-label release quality evidence check id is duplicated: ${checkId}.`);
       seenQualityChecks.add(checkId);
-      for (const field of ["label", "sourceRecord", "observedAt", "notes"] as const) {
+      for (const field of ["tenantId", "packageId", "label", "sourceRecord", "observedAt", "notes"] as const) {
         if (!isNonEmptyString(evidence[field])) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} ${field} must be non-empty.`);
       }
+      if (evidence.tenantId !== readiness.tenantId) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} must match the readiness tenant.`);
+      if (evidence.packageId !== readiness.packageId) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} must match the readiness package.`);
       if (typeof evidence.verified !== "boolean") errors.push(`White-label release quality evidence ${checkId || "(unknown)"} verified must be boolean.`);
       if (!isIsoTimestamp(evidence.observedAt)) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} observedAt must be an ISO timestamp.`);
       if (isRecord(qualityChecks) && qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number]) && qualityChecks[checkId as WhiteLabelReleaseQualityCheckId] !== evidence.verified) {

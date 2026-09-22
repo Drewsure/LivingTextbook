@@ -109,6 +109,8 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     ["tenantIsolation", "Tenant isolation", "tenant-isolation-verification"],
   ].map(([checkId, label, sourceRecord]) => ({
     checkId: checkId as keyof WhiteLabelReleaseReadiness["qualityChecks"],
+    tenantId: samplePackageReconciliation.tenantId,
+    packageId: samplePackageReconciliation.packageId,
     label,
     verified: true,
     sourceRecord,

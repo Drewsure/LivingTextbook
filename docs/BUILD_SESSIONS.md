@@ -4458,3 +4458,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Displayed the route-evidence tenant and package bindings beside active and
   expected route counts in the release-readiness workbench.
 - Kept the route/deployment card review-only and activation-disabled.
+
+## Build session 0957: White-label quality evidence binding
+
+- Added tenant and package identities to every quality evidence record.
+- Rejected typecheck, build, route, runtime, browser, privacy, or tenant-isolation
+  evidence from another tenant or package even when the boolean result is green.
+- Added negative-path behavior coverage for both quality identity mismatches.
+- Kept the readiness contract review-only and activation-disabled.
+- Recorded ADR 0972 and DR-1044.

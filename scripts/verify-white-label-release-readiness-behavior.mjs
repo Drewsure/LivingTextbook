@@ -43,6 +43,14 @@ try {
   qualityMismatch.qualityEvidence[0].verified = false;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMismatch), "must match its quality check", "quality evidence mismatch rejection");
 
+  const qualityTenantMismatch = structuredClone(valid);
+  qualityTenantMismatch.qualityEvidence[0].tenantId = "other-tenant";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityTenantMismatch), "must match the readiness tenant", "quality tenant mismatch rejection");
+
+  const qualityPackageMismatch = structuredClone(valid);
+  qualityPackageMismatch.qualityEvidence[0].packageId = "other-package";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityPackageMismatch), "must match the readiness package", "quality package mismatch rejection");
+
   const qualityMissing = structuredClone(valid);
   qualityMissing.qualityEvidence.pop();
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMissing), "exactly seven quality evidence records", "quality evidence count rejection");
@@ -165,6 +173,8 @@ function buildValidReadiness(model) {
       ["tenantIsolation", "Tenant isolation", "tenant-isolation-verification"],
     ].map(([checkId, label, sourceRecord]) => ({
       checkId,
+      tenantId: "sample-publisher",
+      packageId: "sample-publisher-package",
       label,
       verified: true,
       sourceRecord,
