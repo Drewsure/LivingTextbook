@@ -6456,3 +6456,18 @@ This standard is recorded in
 `docs/decision-register/DR-1069-pilot-deployment-decision-record.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0997-pilot-deployment-decision-record.md`.
+
+## 414. Pilot Policy Lineage Standard
+
+- A pilot deployment decision must carry explicit identities for the tenant's
+  school-policy acceptance preflight and future acceptance-record preview.
+- Policy evidence is not policy acceptance. The deployment decision must remain
+  `not-accepted` until a future authenticated, versioned, revocable workflow is
+  designed and approved.
+- The policy lineage must not authorize persistence, classroom launch, report
+  export, QR mutation, package promotion, or provider migration.
+
+This standard is recorded in
+`docs/decision-register/DR-1070-pilot-policy-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0998-pilot-policy-lineage.md`.

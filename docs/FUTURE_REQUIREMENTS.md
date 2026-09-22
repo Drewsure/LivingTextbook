@@ -919,6 +919,13 @@ Current boundary:
 - No deployment decision can activate persistence, launch classrooms, promote
   packages, mutate QR routes, export reports, or migrate providers.
 
+Policy lineage requirement:
+
+- The deployment decision must explicitly reference the tenant school-policy
+  acceptance preflight and future acceptance-record preview.
+- A policy evidence reference must never be interpreted as accepted policy or
+  as authorization for durable learner writes.
+
 References:
 
 - `packages/content-model/src/pilotDeploymentDecision.ts`

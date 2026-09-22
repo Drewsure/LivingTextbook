@@ -4781,3 +4781,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept persistence activation, classroom launch, provider migration, package
   promotion, QR mutation, and report export blocked.
 - Recorded ADR 0997 and DR-1069.
+
+## Build session 0984: Pilot policy lineage binding
+
+- Bound the pilot deployment decision to the existing tenant school-policy
+  acceptance preflight and future acceptance-record preview identities.
+- Displayed the policy lineage beside deployment options so a deployment
+  recommendation cannot be mistaken for policy acceptance.
+- Kept the policy status `not-accepted` and preserved the no-persistence,
+  no-classroom-launch, no-report-export, no-QR-mutation, and no-promotion
+  boundary.
+- Added negative-path validation for altered policy status or missing lineage.
+- Recorded ADR 0998 and DR-1070.

@@ -9,6 +9,9 @@ export interface PilotDeploymentDecision {
   recommendedOptionId: PilotDeploymentOptionId;
   selectedOptionId: PilotDeploymentOptionId | null;
   selectionStatus: PilotDeploymentSelectionStatus;
+  policyAcceptancePreflightId: string;
+  acceptanceRecordPreviewId: string;
+  policyAcceptanceStatus: "not-accepted";
   status: "review-only";
   policyAccepted: false;
   persistenceActivationAllowed: false;
@@ -27,7 +30,15 @@ const validOptions: PilotDeploymentOptionId[] = [
 export function validatePilotDeploymentDecision(decision: PilotDeploymentDecision): string[] {
   const errors: string[] = [];
 
-  for (const field of ["decisionId", "tenantId", "packageId", "guideId", "recommendedOptionId"] as const) {
+  for (const field of [
+    "decisionId",
+    "tenantId",
+    "packageId",
+    "guideId",
+    "recommendedOptionId",
+    "policyAcceptancePreflightId",
+    "acceptanceRecordPreviewId",
+  ] as const) {
     if (typeof decision[field] !== "string" || decision[field].trim().length === 0) {
       errors.push(`Pilot deployment decision ${field} must be a non-empty string.`);
     }
@@ -49,6 +60,9 @@ export function validatePilotDeploymentDecision(decision: PilotDeploymentDecisio
     errors.push("A selected review-only deployment decision must name its option.");
   }
   if (decision.status !== "review-only") errors.push("Pilot deployment decision must remain review-only.");
+  if (decision.policyAcceptanceStatus !== "not-accepted") {
+    errors.push("Pilot deployment policy acceptance status must remain not-accepted.");
+  }
   if (decision.policyAccepted !== false) errors.push("Pilot deployment policy acceptance must remain false.");
   if (decision.persistenceActivationAllowed !== false) errors.push("Pilot deployment persistence activation must remain false.");
   if (decision.classroomLaunchAllowed !== false) errors.push("Pilot deployment classroom launch must remain false.");

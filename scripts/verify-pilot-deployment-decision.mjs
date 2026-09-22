@@ -9,6 +9,9 @@ for (const [source, checks] of [
   [model, [
     "PilotDeploymentDecision",
     "selectedOptionId: PilotDeploymentOptionId | null",
+    "policyAcceptancePreflightId: string",
+    "acceptanceRecordPreviewId: string",
+    'policyAcceptanceStatus: "not-accepted"',
     "policyAccepted: false",
     "persistenceActivationAllowed: false",
     "classroomLaunchAllowed: false",
@@ -20,6 +23,9 @@ for (const [source, checks] of [
     "selectedOptionId: null",
     "selectionStatus: \"unselected\"",
     "recommendedOptionId: \"hosted-pwa\"",
+    "sampleSchoolPolicyAcceptancePreflight",
+    "sampleSchoolPolicyAcceptanceRecordPreview",
+    "policyAcceptanceStatus: \"not-accepted\"",
     "samplePilotDeploymentDecisionErrors",
   ]],
   [panel, [
@@ -27,6 +33,11 @@ for (const [source, checks] of [
     "Selection required",
     "No activation",
     "choosing a deployment model later will not authorize persistence",
+    "Policy lineage",
+    "Deployment choice cannot imply policy acceptance",
+    "Policy preflight",
+    "Acceptance preview",
+    "Not accepted",
   ]],
   [route, ["PilotDeploymentDecisionPanel", "samplePilotDeploymentDecision"]],
 ]) {

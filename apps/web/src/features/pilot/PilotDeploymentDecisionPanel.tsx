@@ -52,6 +52,25 @@ export function PilotDeploymentDecisionPanel({ decision, guide, validationErrors
         <DecisionList title="Bound evidence" items={decision.evidenceBindings} tone="neutral" />
       </div>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Policy lineage</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Deployment choice cannot imply policy acceptance</h3>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The decision is explicitly linked to the tenant policy preflight and the future acceptance-record preview.
+              Those records describe what a future authenticated workflow would need; neither record is accepted here.
+            </p>
+          </div>
+          <StatusPill label="Not accepted" tone="warning" />
+        </div>
+        <dl className="mt-4 grid gap-3 md:grid-cols-3">
+          <DecisionFact label="Policy preflight" value={decision.policyAcceptancePreflightId} />
+          <DecisionFact label="Acceptance preview" value={decision.acceptanceRecordPreviewId} />
+          <DecisionFact label="Policy status" value={decision.policyAcceptanceStatus} />
+        </dl>
+      </section>
+
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 text-sm leading-6 text-[var(--tenant-muted)]">
         <p><strong className="text-[var(--tenant-text)]">Guard:</strong> choosing a deployment model later will not authorize persistence, package promotion, QR mutation, report export, or classroom launch.</p>
         <p className="mt-2"><strong className="text-[var(--tenant-text)]">Current effects:</strong> policy accepted: no; persistence activation: no; classroom launch: no; side effect: none.</p>
