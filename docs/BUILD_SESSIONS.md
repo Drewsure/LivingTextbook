@@ -75,6 +75,20 @@ Evidence: `apps/web/src/data/sampleSourceExtractionPreviews.ts`,
 `apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx`,
 and `scripts/verify-source-review-queue.mjs`.
 
+## Build session 0967: Source-to-package extraction preview binding
+
+- Added a required extraction preview identity to source package assembly
+  packets.
+- Added provider-neutral binding validation for tenant, source, target package,
+  source checksum, preview identity, review-only mode, storage blocking, and
+  student-payload blocking.
+- Updated MiniStar and sample-publisher package fixtures and runtime behavior
+  coverage so a package cannot silently consume a different extraction result.
+
+Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
+`packages/content-model/src/sourceExtractionPreview.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

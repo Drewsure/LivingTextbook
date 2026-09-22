@@ -33,6 +33,7 @@ try {
     "packages/content-model/src/entitlementRuntime.ts",
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
+    "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
@@ -145,6 +146,7 @@ try {
   const entitlement = require(join(output, "entitlementRuntime.js"));
   const asset = require(join(output, "assetRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
+  const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
@@ -1167,6 +1169,7 @@ try {
     targetLanguage: "en",
     assistLanguages: ["ja"],
     extractionPacketId: "extraction-1",
+    extractionPreviewId: "preview-1",
     label: "Candidate package assembly",
     mode: "review-only",
     status: "draft-candidate",
@@ -1188,6 +1191,34 @@ try {
     approvalCaptureAllowed: false,
   };
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
+  const sourcePreviewResult = sourceExtractionPreview.createReviewOnlySourceExtractionPreview({
+    previewId: "preview-1",
+    tenantId: "tenant-1",
+    sourceId: "source-1",
+    targetPackageId: "package-1",
+    sourceType: "pdf",
+    sourceChecksum: validSourcePackageAssemblyPacket.sourceChecksum,
+    extractionMethod: "pdf-text",
+    candidateUnitKeys: validSourcePackageAssemblyPacket.candidateUnitKeys,
+    segments: [{
+      segmentId: "preview-1-segment-1",
+      pageNumber: 1,
+      sequence: 1,
+      kind: "body",
+      unitKey: "tenant-1:curriculum:L1:U1",
+      text: "Hello world.",
+    }],
+    mode: "review-only",
+  });
+  assertEqual(sourcePreviewResult.valid, true);
+  assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(
+      validSourcePackageAssemblyPacket,
+      { ...sourcePreviewResult.preview, tenantId: "other-tenant" },
+    ),
+    "Source package assembly extraction preview binding tenantId does not match the preview.",
+  );
   const missingSourceLanguagePolicyErrors = sourcePackageAssembly.validateSourcePackageAssemblyPacket({
     ...validSourcePackageAssemblyPacket,
     targetLanguage: "ja",

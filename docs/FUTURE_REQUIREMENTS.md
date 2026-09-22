@@ -514,3 +514,24 @@ References:
 - `apps/web/src/data/sampleSourceExtractionPreviews.ts`
 - `apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx`
 - `scripts/verify-source-review-queue.mjs`
+
+## FR-012: Source-to-Package Extraction Binding
+
+Status: Implemented as review-only evidence binding; extraction acceptance,
+draft creation, package promotion, assignment, and launch remain gated.
+
+Requirement: A package-readiness record must be able to prove which structured
+extraction preview supplied its source evidence.
+
+Current boundary:
+
+- Source package assembly requires an `extractionPreviewId`.
+- Binding checks tenant, source, target package, source checksum, and preview
+  identity, plus review-only and no-side-effect flags.
+- Mismatched previews fail closed before package evidence can be reconciled.
+
+References:
+
+- `packages/content-model/src/sourcePackageAssembly.ts`
+- `packages/content-model/src/sourceExtractionPreview.ts`
+- `scripts/verify-runtime-behavior.mjs`

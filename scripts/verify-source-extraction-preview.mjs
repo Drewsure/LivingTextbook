@@ -17,6 +17,7 @@ try {
   }).outputText, "utf8");
   const { createReviewOnlySourceExtractionPreview, validateSourceExtractionPreviewRequest } = require(join(output, "sourceExtractionPreview.js"));
   const fixture = {
+    previewId: "preview-sample-publisher-l1-u1-routines-v1",
     tenantId: "sample-publisher",
     sourceId: "source-unit-1-pdf",
     targetPackageId: "sample-publisher-l1-u1-routines-package",

@@ -6205,3 +6205,18 @@ and `docs/adr/0979-structured-source-extraction-preview.md`.
 This standard is recorded in `docs/decision-register/DR-1052-structured-extraction-review-visibility.md`,
 `docs/build-session-notes/2026-09-22-structured-extraction-review-visibility.md`,
 and `docs/adr/0980-structured-extraction-review-visibility.md`.
+
+## 397. Source-to-Package Extraction Binding Standard
+
+- Every source package assembly packet must identify the structured extraction
+  preview that supplied its source evidence.
+- Binding must match tenant, source, target package, source checksum, and
+  preview identity before package-readiness evidence can rely on the packet.
+- A bound extraction preview must remain review-only, storage-write blocked,
+  and student-payload blocked.
+- Binding validation is evidence reconciliation, not extraction acceptance,
+  draft creation, package promotion, assignment, or classroom launch.
+
+This standard is recorded in `docs/decision-register/DR-1053-source-to-package-extraction-binding.md`,
+`docs/build-session-notes/2026-09-22-source-to-package-extraction-binding.md`,
+and `docs/adr/0981-source-to-package-extraction-binding.md`.

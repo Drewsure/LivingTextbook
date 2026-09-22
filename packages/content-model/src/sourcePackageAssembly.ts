@@ -13,6 +13,7 @@ export interface SourcePackageAssemblyPacket {
   assistLanguages: string[];
   targetLanguagePolicy?: TargetLanguagePolicy;
   extractionPacketId: string;
+  extractionPreviewId: string;
   label: string;
   mode: SourcePackageAssemblyMode;
   status: SourcePackageAssemblyStatus;
@@ -67,6 +68,7 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
     ["targetPackageId", packet.targetPackageId],
     ["targetLanguage", packet.targetLanguage],
     ["extractionPacketId", packet.extractionPacketId],
+    ["extractionPreviewId", packet.extractionPreviewId],
     ["label", packet.label],
     ["sourceChecksum", packet.sourceChecksum],
     ["approvalLedgerId", packet.approvalLedgerId],
@@ -176,4 +178,39 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
   }
 
   return [...new Set(errors)];
+}
+
+export function validateSourcePackageAssemblyExtractionPreviewBinding(packet: unknown, preview: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(packet)) return ["Source package assembly extraction preview binding requires an assembly packet."];
+  if (!isRecord(preview)) return ["Source package assembly extraction preview binding requires a preview."];
+
+  const bindings = [
+    ["tenantId", packet.tenantId, preview.tenantId],
+    ["sourceId", packet.sourceId, preview.sourceId],
+    ["targetPackageId", packet.targetPackageId, preview.targetPackageId],
+    ["sourceChecksum", packet.sourceChecksum, preview.sourceChecksum],
+    ["extractionPreviewId", packet.extractionPreviewId, preview.previewId],
+  ] as const;
+
+  for (const [field, packetValue, previewValue] of bindings) {
+    if (!isNonBlankString(packetValue) || !isNonBlankString(previewValue)) {
+      errors.push(`Source package assembly extraction preview binding requires ${field} on both records.`);
+    } else if (packetValue !== previewValue) {
+      errors.push(`Source package assembly extraction preview binding ${field} does not match the preview.`);
+    }
+  }
+
+  if (preview.mode !== "review-only") errors.push("Source package assembly extraction preview must remain review-only.");
+  if (preview.storageWriteAllowed !== false) errors.push("Source package assembly extraction preview storage writes must remain blocked.");
+  if (preview.studentFacingPayloadAllowed !== false) errors.push("Source package assembly extraction preview student payloads must remain blocked.");
+  return [...new Set(errors)];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function isNonBlankString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
 }

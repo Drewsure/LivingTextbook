@@ -2,6 +2,7 @@ import type { SourceExtractionPreview } from "@living-textbook/content-model";
 
 export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
   {
+    previewId: "preview-ministar-l1-u1-greetings-v1",
     tenantId: "ministar",
     sourceId: "src-ministar-master-docx",
     targetPackageId: "ministar-l1-u1-greetings-package",
@@ -56,6 +57,7 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     storageWriteAllowed: false,
   },
   {
+    previewId: "preview-sample-publisher-l1-u1-routines-v1",
     tenantId: "sample-publisher",
     sourceId: "src-sample-publisher-unit-pdf",
     targetPackageId: "sample-publisher-l1-u1-routines-package",

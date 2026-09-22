@@ -19,6 +19,7 @@ export interface SourceExtractionPreviewSegment {
 }
 
 export interface SourceExtractionPreviewRequest {
+  previewId: string;
   tenantId: string;
   sourceId: string;
   targetPackageId: string;
@@ -38,6 +39,7 @@ export interface SourceExtractionUnitSummary {
 }
 
 export interface SourceExtractionPreview {
+  previewId: string;
   tenantId: string;
   sourceId: string;
   targetPackageId: string;
@@ -93,7 +95,7 @@ export function validateSourceExtractionPreviewRequest(value: unknown): string[]
   const errors: string[] = [];
   if (!isRecord(value)) return ["Source extraction preview request must be an object."];
 
-  for (const field of ["tenantId", "sourceId", "targetPackageId", "sourceChecksum"] as const) {
+  for (const field of ["previewId", "tenantId", "sourceId", "targetPackageId", "sourceChecksum"] as const) {
     if (!isNonBlankString(value[field])) errors.push(`Source extraction preview ${field} is required.`);
   }
   if (!sourceTypes.has(value.sourceType as SourceDocumentType)) errors.push("Source extraction preview sourceType is unsupported.");
@@ -180,6 +182,7 @@ export function createReviewOnlySourceExtractionPreview(value: unknown): SourceE
     errors: [],
     warnings,
     preview: {
+      previewId: request.previewId,
       tenantId: request.tenantId,
       sourceId: request.sourceId,
       targetPackageId: request.targetPackageId,

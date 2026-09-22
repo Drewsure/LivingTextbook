@@ -107,6 +107,8 @@ requireText(extractionPacketPanel, "Draft creation", "Extraction packet panel mu
 requireText(extractionPacketPanel, "Student payload", "Extraction packet panel must show student payload status.");
 requireText(sourcePackageAssemblyModel, "SourcePackageAssemblyPacket", "Source package assembly must have a shared packet contract.");
 requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyPacket", "Source package assembly must have shared validation.");
+requireText(sourcePackageAssemblyModel, "extractionPreviewId", "Source package assembly must bind a structured extraction preview.");
+requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyExtractionPreviewBinding", "Source package assembly must validate extraction preview binding.");
 requireText(sourcePackageAssemblyModel, 'mode !== "review-only"', "Source package assembly must enforce review-only mode.");
 requireText(sourcePackageAssemblyModel, "packagePromotionAllowed", "Source package assembly must expose a promotion guard.");
 requireText(sourcePackageAssemblyModel, "approvalLedgerId", "Source package assembly must link an approval ledger.");
