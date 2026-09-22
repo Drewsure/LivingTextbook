@@ -16,6 +16,8 @@ for (const [source, checks] of [
     "QrAliasRuntimeRequest",
     "getPermanentQrPath",
     "hasPermanentTextbookIdentity",
+    "textbookReference",
+    "deploymentTarget",
     "status: \"draft\"",
     "routeMutationAllowed: false",
     "rollbackExecutionAllowed: false",

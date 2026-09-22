@@ -13,13 +13,15 @@ export function createPrintableQrAliasPreview({
   tenantId,
   unit,
   fallbackPath,
+  textbookReference,
 }: {
   contentPackageId: string;
   tenantId: string;
   unit: UnitPayload;
   fallbackPath: string;
+  textbookReference?: TextbookReference;
 }): PrintableQrAliasPreview {
-  const reference = unit.unitMeta.textbookReference;
+  const reference = textbookReference ?? unit.unitMeta.textbookReference;
   const hasPermanentTextbookIdentity = hasPermanentIdentity(reference);
   const targetPath = hasPermanentTextbookIdentity
     ? getPermanentQrPath({

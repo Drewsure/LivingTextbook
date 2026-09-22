@@ -37,6 +37,7 @@ export function PrintableWorksheetPreview({
     tenantId: unit.unitMeta.tenantId,
     unit,
     fallbackPath: launchPath,
+    textbookReference,
   });
   const printableQrRuntime = createReviewOnlyQrAliasRuntimeAdapter().execute(printableQr.request);
 
@@ -97,6 +98,8 @@ export function PrintableWorksheetPreview({
           <PrintableDetail label="Textbook identity" value={printableQr.hasPermanentTextbookIdentity ? "Present for review" : "Missing; front-door fallback only"} />
           <PrintableDetail label="Reviewed target" value={printableQr.targetPath} />
           <PrintableDetail label="Safe fallback" value={printableQr.fallbackPath} />
+          <PrintableDetail label="Deployment posture" value={printableQr.request.deploymentTarget} />
+          <PrintableDetail label="Release version" value={printableQr.request.currentVersion} />
           <PrintableDetail label="Runtime decision" value={printableQrRuntime.decision.reasonCode} />
           <PrintableDetail label="Side effect" value={printableQrRuntime.sideEffect} />
         </dl>
