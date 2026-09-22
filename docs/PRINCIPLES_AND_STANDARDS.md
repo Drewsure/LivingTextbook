@@ -6307,3 +6307,16 @@ and `docs/adr/0986-composite-package-readiness-lineage.md`.
 This standard is recorded in `docs/decision-register/DR-1059-extraction-preview-output-invariants.md`,
 `docs/build-session-notes/2026-09-22-extraction-preview-output-invariants.md`,
 and `docs/adr/0987-extraction-preview-output-invariants.md`.
+
+## 404. Source Assembly Media-Package Binding Standard
+
+- Candidate media assets are evidence references, not permission to upload,
+  copy, publish, or activate a file.
+- Each candidate media ID must resolve within the same tenant and target
+  package as the source assembly.
+- Unit-bound media must remain inside the assembly's declared candidate-unit
+  scope, with rights, accessibility, and release checks still required.
+
+This standard is recorded in `docs/decision-register/DR-1060-source-assembly-media-package-binding.md`,
+`docs/build-session-notes/2026-09-22-source-assembly-media-package-binding.md`,
+and `docs/adr/0988-source-assembly-media-package-binding.md`.

@@ -649,6 +649,28 @@ References:
 - `scripts/verify-source-extraction-preview.mjs`
 - `scripts/verify-source-review-queue.mjs`
 
+## FR-019: Source Assembly Media-Package Binding
+
+Status: Implemented as review-only media lineage validation; upload,
+transcoding, rights approval, playlist promotion, storage writes, assignment,
+and student activation remain gated.
+
+Requirement: Candidate audio, video, and image asset IDs in a source assembly
+must resolve to the same tenant and target package before package evidence can
+use them.
+
+Current boundary:
+
+- Every candidate media ID must exist in the bound content package.
+- Media tenant identity must match the source assembly tenant.
+- Unit-bound media must remain inside the assembly's candidate-unit scope.
+
+References:
+
+- `packages/content-model/src/sourcePackageAssembly.ts`
+- `apps/web/src/data/sampleSourcePackageAssembly.ts`
+- `scripts/verify-runtime-behavior.mjs`
+
 ## FR-017: Composite Package-Readiness Lineage Binding
 
 Status: Implemented as review-only validation; extraction acceptance, draft

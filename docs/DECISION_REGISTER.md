@@ -8486,3 +8486,20 @@ Required invariants:
 Evidence: `packages/content-model/src/sourceExtractionPreview.ts`,
 `scripts/verify-source-extraction-preview.mjs`, and
 `docs/adr/0987-extraction-preview-output-invariants.md`.
+
+# DR-1060: Source Assembly Media-Package Binding
+
+Decision: require candidate media asset references in a source assembly to
+resolve to the same tenant- and package-scoped content package.
+
+Required invariants:
+
+- Every candidate media ID must exist in the bound content package.
+- Media tenant identity must match the assembly tenant.
+- Unit-bound media must be declared within the candidate-unit scope.
+- The binding remains review-only and cannot authorize upload, rights approval,
+  storage, playlist activation, promotion, assignment, or student access.
+
+Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
+`apps/web/src/data/sampleSourcePackageAssembly.ts`, and
+`docs/adr/0988-source-assembly-media-package-binding.md`.

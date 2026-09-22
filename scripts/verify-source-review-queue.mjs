@@ -111,6 +111,7 @@ requireText(sourcePackageAssemblyModel, "SourcePackageAssemblyPacket", "Source p
 requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyPacket", "Source package assembly must have shared validation.");
 requireText(sourcePackageAssemblyModel, "extractionPreviewId", "Source package assembly must bind a structured extraction preview.");
 requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyExtractionPreviewBinding", "Source package assembly must validate extraction preview binding.");
+requireText(sourcePackageAssemblyModel, "validateSourcePackageAssemblyContentPackageBinding", "Source package assembly must validate content package binding.");
 requireText(sourcePackageAssemblyModel, "candidateUnitKeys", "Source package assembly must bind candidate units to extraction preview evidence.");
 requireText(sourcePackageAssemblyModel, 'mode !== "review-only"', "Source package assembly must enforce review-only mode.");
 requireText(sourcePackageAssemblyModel, "packagePromotionAllowed", "Source package assembly must expose a promotion guard.");

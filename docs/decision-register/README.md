@@ -665,6 +665,12 @@ flags before later evidence layers consume the preview. The decision is
 recorded in `docs/adr/0987-extraction-preview-output-invariants.md` and
 `docs/decision-register/DR-1059-extraction-preview-output-invariants.md`.
 
+The source assembly media-package binding slice now requires candidate audio,
+video, and image references to resolve to the same tenant/package content
+package and declared unit scope. The decision is recorded in
+`docs/adr/0988-source-assembly-media-package-binding.md` and
+`docs/decision-register/DR-1060-source-assembly-media-package-binding.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.

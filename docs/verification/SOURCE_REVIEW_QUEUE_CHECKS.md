@@ -36,3 +36,5 @@ Confirm:
 - Source package candidate units are declared by their bound extraction preview.
 - Generated extraction previews preserve normalized text, candidate-unit
   summaries, page ranges, and all review-only blocked actions.
+- Source assembly candidate media IDs resolve to the same tenant/package
+  content package and remain inside declared candidate-unit scope.

@@ -219,6 +219,64 @@ export function validateSourcePackageAssemblyExtractionPreviewBinding(packet: un
   return [...new Set(errors)];
 }
 
+export function validateSourcePackageAssemblyContentPackageBinding(packet: unknown, contentPackage: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(packet)) return ["Source package assembly content package binding requires an assembly packet."];
+  if (!isRecord(contentPackage)) return ["Source package assembly content package binding requires a content package."];
+  const meta = isRecord(contentPackage.meta) ? contentPackage.meta : undefined;
+  if (!meta) return ["Source package assembly content package binding requires package metadata."];
+
+  for (const [field, packetValue, packageValue] of [
+    ["tenantId", packet.tenantId, meta.tenantId],
+    ["targetPackageId", packet.targetPackageId, meta.packageId],
+  ] as const) {
+    if (!isNonBlankString(packetValue) || !isNonBlankString(packageValue)) {
+      errors.push(`Source package assembly content package binding requires ${field} on both records.`);
+    } else if (packetValue !== packageValue) {
+      errors.push(`Source package assembly content package binding ${field} does not match the content package.`);
+    }
+  }
+
+  const candidateUnitKeys = readStringList(packet.candidateUnitKeys) ?? [];
+  const packageUnits = Array.isArray(contentPackage.units) ? contentPackage.units : [];
+  const packageUnitKeys = new Set<string>();
+  for (const unit of packageUnits) {
+    if (!isRecord(unit) || !isRecord(unit.unitMeta)) continue;
+    const unitMeta = unit.unitMeta;
+    if (
+      isNonBlankString(unitMeta.tenantId)
+      && isNonBlankString(unitMeta.curriculumId)
+      && Number.isInteger(unitMeta.level)
+      && Number.isInteger(unitMeta.unit)
+    ) {
+      packageUnitKeys.add(`${unitMeta.tenantId}:${unitMeta.curriculumId}:L${unitMeta.level}:U${unitMeta.unit}`);
+    }
+  }
+  for (const unitKey of candidateUnitKeys) {
+    if (!packageUnitKeys.has(unitKey)) {
+      errors.push(`Source package assembly content package binding candidate unit ${unitKey} is not declared by the content package.`);
+    }
+  }
+
+  const candidateMediaAssetIds = readStringList(packet.candidateMediaAssetIds) ?? [];
+  const mediaAssets = Array.isArray(contentPackage.mediaAssets) ? contentPackage.mediaAssets : [];
+  for (const mediaAssetId of candidateMediaAssetIds) {
+    const mediaAsset = mediaAssets.find((asset) => isRecord(asset) && asset.mediaAssetId === mediaAssetId);
+    if (!mediaAsset || !isRecord(mediaAsset)) {
+      errors.push(`Source package assembly content package binding media asset ${mediaAssetId} is not declared by the content package.`);
+      continue;
+    }
+    if (mediaAsset.tenantId !== packet.tenantId) {
+      errors.push(`Source package assembly content package binding media asset ${mediaAssetId} has a different tenant.`);
+    }
+    if (isNonBlankString(mediaAsset.unitKey) && !candidateUnitKeys.includes(mediaAsset.unitKey)) {
+      errors.push(`Source package assembly content package binding media asset ${mediaAssetId} is outside the candidate unit scope.`);
+    }
+  }
+
+  return [...new Set(errors)];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }

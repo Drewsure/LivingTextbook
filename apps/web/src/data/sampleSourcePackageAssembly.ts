@@ -1,9 +1,12 @@
 import {
+  validateSourcePackageAssemblyContentPackageBinding,
   validateSourcePackageAssemblyExtractionPreviewBinding,
   validateSourcePackageAssemblyPacket,
 } from "@living-textbook/content-model";
 import type { SourcePackageAssemblyPacket } from "@living-textbook/content-model";
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
+import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
 
 export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] = [
   {
@@ -86,6 +89,10 @@ export const sampleSourcePackageAssemblyErrors = sampleSourcePackageAssemblyPack
     ...validateSourcePackageAssemblyExtractionPreviewBinding(
       packet,
       sampleSourceExtractionPreviews.find((preview) => preview.previewId === packet.extractionPreviewId),
+    ),
+    ...validateSourcePackageAssemblyContentPackageBinding(
+      packet,
+      packet.tenantId === "ministar" ? sampleMultimediaContentPackage : samplePartnerContentPackage,
     ),
   ].map((error) => `${packet.packetId}: ${error}`),
 );

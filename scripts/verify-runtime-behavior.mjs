@@ -1226,6 +1226,22 @@ try {
     ),
     "Source package assembly extraction preview binding tenantId does not match the preview.",
   );
+  const validSourceContentPackage = {
+    meta: { packageId: "package-1", tenantId: "tenant-1" },
+    units: [{ unitMeta: { tenantId: "tenant-1", curriculumId: "curriculum", level: 1, unit: 1 } }],
+    mediaAssets: [{ mediaAssetId: "audio-1", tenantId: "tenant-1", unitKey: "tenant-1:curriculum:L1:U1" }],
+  };
+  assertEqual(
+    sourcePackageAssembly.validateSourcePackageAssemblyContentPackageBinding(validSourcePackageAssemblyPacket, validSourceContentPackage).length,
+    0,
+  );
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyContentPackageBinding(
+      validSourcePackageAssemblyPacket,
+      { ...validSourceContentPackage, mediaAssets: [] },
+    ),
+    "Source package assembly content package binding media asset audio-1 is not declared by the content package.",
+  );
   const missingSourceLanguagePolicyErrors = sourcePackageAssembly.validateSourcePackageAssemblyPacket({
     ...validSourcePackageAssemblyPacket,
     targetLanguage: "ja",

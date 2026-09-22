@@ -144,6 +144,19 @@ Evidence: `packages/content-model/src/sourceExtractionPreview.ts`,
 `scripts/verify-source-extraction-preview.mjs`, and
 `scripts/verify-source-review-queue.mjs`.
 
+## Build session 0974: Source assembly media-package binding
+
+- Required every candidate media asset named by a source assembly to exist in
+  the matching tenant- and package-scoped content package.
+- Rejected media assets from another tenant or outside the assembly's declared
+  candidate-unit scope.
+- Added runtime coverage while keeping upload, rights approval, promotion,
+  storage, playlist activation, and student access blocked.
+
+Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
+`apps/web/src/data/sampleSourcePackageAssembly.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0971: Extraction preview candidate-unit binding
 
 - Required every source assembly candidate unit to be declared by its bound
