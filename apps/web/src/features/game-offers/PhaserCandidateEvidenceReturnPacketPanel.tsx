@@ -36,6 +36,7 @@ export function PhaserCandidateEvidenceReturnPacketPanel({
         {packets.map((packet) => {
           const missing = packet.receipts.filter((receipt) => receipt.status === "missing").length;
           const reviewed = packet.receipts.filter((receipt) => receipt.status === "reviewed").length;
+          const citedArtifacts = new Set(packet.receipts.flatMap((receipt) => receipt.artifactIds)).size;
           return (
             <article key={packet.packetId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -53,6 +54,7 @@ export function PhaserCandidateEvidenceReturnPacketPanel({
                 <p>Evidence lanes: {packet.receipts.length}</p>
                 <p>Missing: {missing}</p>
                 <p>Reviewed: {reviewed}</p>
+                <p>Cited artifacts: {citedArtifacts}</p>
               </div>
 
               <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">

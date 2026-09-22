@@ -31,9 +31,10 @@ were received, reviewed, or tested.
 ## Received Review-Only State
 
 A `received-review-only` packet requires every canonical lane to be marked
-`reviewed` and to cite at least one returned artifact. It must remain tied to
-the exact manifest and eligibility record. Missing, duplicated, or unexpected
-lanes fail closed.
+`reviewed` and to cite at least one returned artifact. Every cited artifact
+must exist in the returned manifest and carry a checksum. It must remain tied
+to the exact manifest and eligibility record. Missing, duplicated, unknown, or
+unverified lanes fail closed.
 
 ## Permanent Boundaries
 
@@ -57,4 +58,3 @@ without changing tenant routes, scoring, persistence, or learner records.
 - `node scripts/verify-phaser-candidate-evidence-return.mjs`
 - `npm run verify:foundation-composition`
 - `npm run typecheck --workspace @living-textbook/web`
-

@@ -82,6 +82,9 @@ export function validatePhaserCandidateEvidenceReturnPacket(
   if (!Array.isArray(packet.requiredArtifactNames) || packet.requiredArtifactNames.length !== PHASER_CANDIDATE_REQUIRED_RETURN_ARTIFACT_NAMES.length) {
     errors.push("Phaser candidate evidence return packet must list the nine required return artifacts.");
   } else {
+    if (new Set(packet.requiredArtifactNames).size !== packet.requiredArtifactNames.length) {
+      errors.push("Phaser candidate evidence return packet must not repeat required artifact names.");
+    }
     for (const artifactName of PHASER_CANDIDATE_REQUIRED_RETURN_ARTIFACT_NAMES) {
       if (!packet.requiredArtifactNames.includes(artifactName)) {
         errors.push(`Phaser candidate evidence return packet must require ${artifactName}.`);
@@ -124,6 +127,8 @@ export function validatePhaserCandidateEvidenceReturnPacket(
     errors.push("Phaser candidate evidence return packet mode and parent engine do not match eligibility.");
   }
 
+  const artifactsById = new Map(manifest.artifacts.map((artifact) => [artifact.artifactId, artifact]));
+
   if (!Array.isArray(packet.receipts) || packet.receipts.length !== PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS.length) {
     errors.push("Phaser candidate evidence return packet must contain one receipt for every canonical evidence lane.");
   }
@@ -140,6 +145,17 @@ export function validatePhaserCandidateEvidenceReturnPacket(
     }
     if (!Array.isArray(receipt.artifactIds)) errors.push(`Phaser candidate evidence receipt ${receipt.laneId} must list artifact ids.`);
     if (!["missing", "received", "reviewed"].includes(receipt.status)) errors.push(`Phaser candidate evidence receipt ${receipt.laneId} has an unsupported status.`);
+    if (Array.isArray(receipt.artifactIds) && new Set(receipt.artifactIds).size !== receipt.artifactIds.length) {
+      errors.push(`Phaser candidate evidence receipt ${receipt.laneId} must not repeat artifact ids.`);
+    }
+    for (const artifactId of Array.isArray(receipt.artifactIds) ? receipt.artifactIds : []) {
+      const artifact = artifactsById.get(artifactId);
+      if (!artifact) {
+        errors.push(`Phaser candidate evidence receipt ${receipt.laneId} cites unknown artifact ${artifactId}.`);
+      } else if (artifact.status === "missing" || !artifact.checksum) {
+        errors.push(`Phaser candidate evidence receipt ${receipt.laneId} cites unverified artifact ${artifactId}.`);
+      }
+    }
     if (packet.status === "awaiting-return" && receipt.status !== "missing") {
       errors.push(`Awaiting-return evidence receipt ${receipt.laneId} must remain missing.`);
     }
