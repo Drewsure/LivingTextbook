@@ -6,6 +6,7 @@ const files = {
   panel: "apps/web/src/features/game-offers/MemoryMatchEvidenceHandoffPacketPanel.tsx",
   page: "apps/web/src/app/teacher/game-readiness/page.tsx",
   gate: "apps/web/src/data/sampleCanonicalMemoryMatchIntegrationGate.ts",
+  eligibility: "apps/web/src/data/samplePhaserCandidateIntegrationEligibility.ts",
 };
 const sources = Object.fromEntries(
   Object.entries(files).map(([key, file]) => [key, readFileSync(new URL(file, root), "utf8")]),
@@ -29,6 +30,13 @@ const requiredMarkers = [
   ["packet", "No direct source import into apps/web or apps/ai-service"],
   ["packet", "No package promotion, release, QR activation, or student assignment"],
   ["packet", "sampleCanonicalMemoryMatchIntegrationGate"],
+  ["packet", "samplePhaserCandidateIntegrationEligibility"],
+  ["packet", "PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS"],
+  ["packet", "eligibilityId"],
+  ["packet", "requiredEvidenceLaneIds"],
+  ["panel", "Eligibility:"],
+  ["eligibility", "source-provenance"],
+  ["eligibility", "integration-decision"],
   ["panel", "External evidence handoff packet"],
   ["panel", "Ready for human handoff"],
   ["panel", "Integration blocked"],

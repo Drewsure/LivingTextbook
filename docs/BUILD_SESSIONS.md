@@ -4271,3 +4271,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept import, wrapper approval, route replacement, scene scoring, persistence,
   promotion, and assignment blocked.
 - Recorded ADR 0954 and DR-1026.
+
+## Build session 0938: Human external evidence handoff
+
+- Verified the five recorded frozen Phaser source hashes against the tagged
+  snapshot.
+- Bound the Memory Match evidence-only request to its complete candidate
+  eligibility record and all 11 evidence lanes.
+- Kept integration, wrapper approval, route replacement, scoring, persistence,
+  promotion, and assignment blocked.
+- Recorded ADR 0955 and DR-1027.

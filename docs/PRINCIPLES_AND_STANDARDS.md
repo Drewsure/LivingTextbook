@@ -5816,3 +5816,19 @@ and `docs/adr/0953-persistence-provider-selection-preflight.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1026,
 `docs/decision-register/DR-1026-frozen-phaser-integration-eligibility.md`,
 and `docs/adr/0954-frozen-phaser-integration-eligibility.md`.
+
+## 370. Human External Evidence Handoff Standard
+
+- A candidate may become ready for a human evidence-only request only after
+  the physical frozen source evidence and the canonical eligibility record are
+  bound to the same candidate.
+- The handoff must carry the complete evidence-lane list and remain explicit
+  that integration, route replacement, scoring, persistence, promotion, and
+  assignment are blocked.
+- A human may send the checklist to an outside builder, but a returned packet
+  still requires Codex review and must never be copied directly into active
+  application routes.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1027,
+`docs/decision-register/DR-1027-human-external-evidence-handoff.md`,
+and `docs/adr/0955-human-external-evidence-handoff.md`.

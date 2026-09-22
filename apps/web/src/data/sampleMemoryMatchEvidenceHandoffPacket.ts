@@ -1,9 +1,11 @@
 import {
+  PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS,
   validatePhaserCandidateSourceIdentity,
 } from "@living-textbook/content-model";
 import { sampleAiPrototypeIntegrationPlans } from "@/data/sampleAiPrototypeIntegrationPlan";
 import { samplePhaserCandidateContractReviews } from "@/data/samplePhaserCandidateContractReview";
 import { sampleCanonicalMemoryMatchIntegrationGate } from "@/data/sampleCanonicalMemoryMatchIntegrationGate";
+import { samplePhaserCandidateIntegrationEligibility } from "@/data/samplePhaserCandidateIntegrationEligibility";
 
 export type MemoryMatchEvidenceHandoffState = "ready-for-human-handoff" | "blocked";
 
@@ -17,6 +19,8 @@ export interface MemoryMatchEvidenceHandoffPacket {
   sourceRepository: string;
   sourceSnapshotId: string;
   sourceCommitSha: string;
+  eligibilityId: string;
+  requiredEvidenceLaneIds: string[];
   targetMode: "memory-match";
   parentEngine: "pairing";
   canonicalReference: {
@@ -33,9 +37,10 @@ export interface MemoryMatchEvidenceHandoffPacket {
 
 const candidate = samplePhaserCandidateContractReviews.find((review) => review.gameMode === "memory-match");
 const integrationPlan = sampleAiPrototypeIntegrationPlans.find((plan) => plan.tenantId === "ministar");
+const eligibility = samplePhaserCandidateIntegrationEligibility.find((record) => record.gameMode === "memory-match");
 
-if (!candidate || !integrationPlan) {
-  throw new Error("Memory Match evidence handoff packet requires the mapped candidate and integration plan.");
+if (!candidate || !integrationPlan || !eligibility) {
+  throw new Error("Memory Match evidence handoff packet requires the mapped candidate, integration plan, and eligibility record.");
 }
 
 export const sampleMemoryMatchEvidenceHandoffPacket: MemoryMatchEvidenceHandoffPacket = {
@@ -48,6 +53,8 @@ export const sampleMemoryMatchEvidenceHandoffPacket: MemoryMatchEvidenceHandoffP
   sourceRepository: candidate.sourceRepository,
   sourceSnapshotId: candidate.sourceSnapshotId,
   sourceCommitSha: candidate.sourceCommitSha,
+  eligibilityId: eligibility.eligibilityId,
+  requiredEvidenceLaneIds: [...PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS],
   targetMode: "memory-match",
   parentEngine: "pairing",
   canonicalReference: {
@@ -106,6 +113,12 @@ export function validateMemoryMatchEvidenceHandoffPacket(
   }
   if (packet.handoffState !== "ready-for-human-handoff" || packet.integrationState !== "blocked") {
     errors.push("Memory Match evidence handoff must be human-handoff ready while integration remains blocked.");
+  }
+  if (!packet.eligibilityId || packet.requiredEvidenceLaneIds.length !== PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS.length) {
+    errors.push("Memory Match evidence handoff must bind the complete frozen-candidate eligibility record.");
+  }
+  for (const laneId of PHASER_CANDIDATE_REQUIRED_EVIDENCE_LANE_IDS) {
+    if (!packet.requiredEvidenceLaneIds.includes(laneId)) errors.push(`Memory Match evidence handoff must preserve eligibility lane ${laneId}.`);
   }
   errors.push(
     ...validatePhaserCandidateSourceIdentity({

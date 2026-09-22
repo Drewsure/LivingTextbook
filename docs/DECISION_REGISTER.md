@@ -7878,3 +7878,21 @@ Required invariants:
 Evidence: `docs/adr/0954-frozen-phaser-integration-eligibility.md`,
 `packages/content-model/src/phaserCandidateIntegrationEligibility.ts`, and
 `scripts/verify-phaser-candidate-integration-eligibility.mjs`.
+
+# DR-1027: Human External Evidence Handoff
+
+Decision: bind the human Z.ai evidence-only request to the frozen candidate
+eligibility record and complete source-hash evidence before showing it as
+ready for handoff.
+
+Required invariants:
+
+- The handoff must match the frozen repository, snapshot, commit, candidate,
+  and canonical game mode.
+- All required evidence lanes must be named in the returned-package contract.
+- Human handoff does not authorize source import, wrapper approval, route
+  replacement, scoring, persistence, promotion, or student assignment.
+
+Evidence: `docs/adr/0955-human-external-evidence-handoff.md`,
+`apps/web/src/data/sampleMemoryMatchEvidenceHandoffPacket.ts`, and
+`scripts/verify-memory-match-evidence-handoff.mjs`.

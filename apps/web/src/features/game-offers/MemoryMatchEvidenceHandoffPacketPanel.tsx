@@ -36,6 +36,8 @@ export function MemoryMatchEvidenceHandoffPacketPanel({
         <p className="mt-2 text-sm font-bold text-[var(--tenant-text)]">{packet.sourceRepository}</p>
         <p className="mt-1 break-words text-xs leading-5 text-[var(--tenant-muted)]">Snapshot: {packet.sourceSnapshotId}</p>
         <p className="mt-1 break-all text-xs leading-5 text-[var(--tenant-muted)]">Commit: {packet.sourceCommitSha}</p>
+        <p className="mt-1 break-words text-xs leading-5 text-[var(--tenant-muted)]">Eligibility: {packet.eligibilityId}</p>
+        <p className="mt-1 text-xs leading-5 text-[var(--tenant-muted)]">Required evidence lanes: {packet.requiredEvidenceLaneIds.length}</p>
         <p className="mt-3 text-sm leading-6 text-[var(--tenant-text)]">{packet.humanAction}</p>
       </div>
 
