@@ -624,3 +624,27 @@ References:
 - `packages/content-model/src/packageReadinessReconciliation.ts`
 - `apps/web/src/data/samplePackageReadinessReconciliation.ts`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-017: Composite Package-Readiness Lineage Binding
+
+Status: Implemented as review-only validation; extraction acceptance, draft
+creation, storage writes, package promotion, assignment, and student
+activation remain gated.
+
+Requirement: A readiness record must be verified against the exact source
+assembly and extraction preview as one tenant-scoped evidence chain.
+
+Current boundary:
+
+- A composite validator reconciles readiness, assembly, and preview identity
+  in one call.
+- Candidate-unit scope is checked through the same chain, not only through a
+  separately rendered source panel.
+- Unit-scope drift fails closed before readiness evidence can be considered
+  coherent.
+
+References:
+
+- `packages/content-model/src/packageReadinessReconciliation.ts`
+- `apps/web/src/data/samplePackageReadinessReconciliation.ts`
+- `scripts/verify-runtime-behavior.mjs`

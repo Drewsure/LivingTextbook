@@ -653,6 +653,12 @@ preparation. The decision is recorded in
 `docs/adr/0617-ai-service-game-mode-engine-boundary.md` and
 `docs/decision-register/DR-689-ai-service-game-mode-engine-boundary.md`.
 
+The composite package-readiness lineage slice now validates readiness, source
+assembly, extraction preview, and candidate-unit scope as one tenant- and
+package-bound evidence chain. The decision is recorded in
+`docs/adr/0986-composite-package-readiness-lineage.md` and
+`docs/decision-register/DR-1058-composite-package-readiness-lineage.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.

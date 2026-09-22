@@ -1,3 +1,5 @@
+import { validateSourcePackageAssemblyExtractionPreviewBinding } from "./sourcePackageAssembly";
+
 export type PackageReadinessLaneStatus = "ready-preview" | "needs-review" | "blocked";
 
 export interface PackageReadinessLane {
@@ -188,6 +190,21 @@ export function validatePackageReadinessExtractionPreviewBinding(reconciliation:
   if (preview.mode !== "review-only") errors.push("Package readiness extraction preview must remain review-only.");
   if (preview.storageWriteAllowed !== false) errors.push("Package readiness extraction preview storage writes must remain blocked.");
   if (preview.studentFacingPayloadAllowed !== false) errors.push("Package readiness extraction preview student payloads must remain blocked.");
+  return [...new Set(errors)];
+}
+
+export function validatePackageReadinessLineageBinding(
+  reconciliation: unknown,
+  sourceAssembly: unknown,
+  preview: unknown,
+): string[] {
+  const errors = [
+    ...validatePackageReadinessSourceAssemblyBinding(reconciliation, sourceAssembly),
+    ...validatePackageReadinessExtractionPreviewBinding(reconciliation, preview),
+    ...validateSourcePackageAssemblyExtractionPreviewBinding(sourceAssembly, preview)
+      .map((error) => `Package readiness lineage ${error}`),
+  ];
+
   return [...new Set(errors)];
 }
 

@@ -13,6 +13,7 @@ for (const marker of [
   "validatePackageReadinessReconciliation",
   "validatePackageReadinessExtractionPreviewBinding",
   "validatePackageReadinessSourceAssemblyBinding",
+  "validatePackageReadinessLineageBinding",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
   "sourceExtractionPreviewId",

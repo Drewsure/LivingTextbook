@@ -1405,6 +1405,22 @@ try {
     ).length,
     0,
   );
+  assertEqual(
+    packageReadinessReconciliation.validatePackageReadinessLineageBinding(
+      validPackageReadinessReconciliation,
+      validSourcePackageAssemblyPacket,
+      sourcePreviewResult.preview,
+    ).length,
+    0,
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessLineageBinding(
+      validPackageReadinessReconciliation,
+      { ...validSourcePackageAssemblyPacket, candidateUnitKeys: ["tenant-1:curriculum:L1:U2"] },
+      sourcePreviewResult.preview,
+    ),
+    "Package readiness lineage Source package assembly extraction preview binding candidate unit tenant-1:curriculum:L1:U2 is not declared by the preview.",
+  );
   assertIncludes(
     packageReadinessReconciliation.validatePackageReadinessExtractionPreviewBinding(
       validPackageReadinessReconciliation,

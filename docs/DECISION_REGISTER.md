@@ -8451,3 +8451,21 @@ Required invariants:
 Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
 `apps/web/src/data/sampleSourcePackageAssembly.ts`, and
 `docs/adr/0985-extraction-preview-candidate-unit-binding.md`.
+
+# DR-1058: Composite Package-Readiness Lineage
+
+Decision: validate readiness, source assembly, and structured extraction
+preview as one tenant- and package-scoped evidence chain.
+
+Required invariants:
+
+- Readiness identity, source assembly identity, and preview identity must agree
+  before the combined lineage can pass.
+- Candidate units named by the assembly must remain declared by the preview
+  inside the same composite check.
+- Composite lineage remains review-only and cannot authorize extraction,
+  storage, promotion, routes, assignments, or student access.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`docs/adr/0986-composite-package-readiness-lineage.md`.

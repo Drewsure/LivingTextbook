@@ -1,7 +1,6 @@
 import {
   PACKAGE_READINESS_BLOCKED_ACTIONS,
-  validatePackageReadinessExtractionPreviewBinding,
-  validatePackageReadinessSourceAssemblyBinding,
+  validatePackageReadinessLineageBinding,
   validatePackageReadinessReconciliations,
   type PackageReadinessLane,
   type PackageReadinessReconciliation,
@@ -109,9 +108,6 @@ export const samplePackageReadinessReconciliationErrors = [
   ...samplePackageReadinessReconciliations.flatMap((reconciliation) => {
     const assembly = sampleSourcePackageAssemblyPackets.find((packet) => packet.packetId === reconciliation.sourceAssemblyPacketId);
     const preview = sampleSourceExtractionPreviews.find((candidate) => candidate.previewId === reconciliation.sourceExtractionPreviewId);
-    return [
-      ...validatePackageReadinessSourceAssemblyBinding(reconciliation, assembly),
-      ...validatePackageReadinessExtractionPreviewBinding(reconciliation, preview),
-    ];
+    return validatePackageReadinessLineageBinding(reconciliation, assembly, preview);
   }),
 ];

@@ -9,6 +9,8 @@ The package readiness chain is accepted only when:
   publish, and assignment evidence each have a tenant-scoped reference;
 - source assembly and structured extraction preview tenant, package, preview
   ID, and checksum identity agree;
+- composite readiness lineage rejects candidate-unit scope drift across the
+  readiness, assembly, and extraction preview records;
 - every reconciliation remains review-only and blocked from promotion;
 - target-language activity is the only progression authority;
 - support language cannot unlock progress;

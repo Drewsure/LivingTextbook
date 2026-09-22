@@ -142,6 +142,20 @@ Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
 `apps/web/src/data/sampleSourcePackageAssembly.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0972: Direct package-readiness lineage binding
+
+- Added one composite review-only validator for readiness, source assembly,
+  and extraction preview identity.
+- Reused the candidate-unit subset rule inside that composite chain so a
+  readiness packet cannot pass with a valid-looking but differently scoped
+  assembly or preview.
+- Added a negative runtime case for readiness lineage unit drift while keeping
+  promotion, storage, assignment, and student activation blocked.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

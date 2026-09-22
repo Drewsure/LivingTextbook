@@ -6280,3 +6280,17 @@ and `docs/adr/0984-end-to-end-extraction-readiness-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1057-extraction-preview-candidate-unit-binding.md`,
 `docs/build-session-notes/2026-09-22-extraction-preview-candidate-unit-binding.md`,
 and `docs/adr/0985-extraction-preview-candidate-unit-binding.md`.
+
+## 402. Composite Package-Readiness Lineage Standard
+
+- Readiness, source assembly, and extraction preview evidence must be checked
+  as one tenant- and package-scoped chain.
+- A valid record in each layer is insufficient when the combined candidate-unit
+  scope differs; the composite binding must fail closed.
+- Composite lineage remains evidence only and cannot accept extraction, create
+  drafts, write storage, promote packages, create routes, assign learners, or
+  activate student access.
+
+This standard is recorded in `docs/decision-register/DR-1058-composite-package-readiness-lineage.md`,
+`docs/build-session-notes/2026-09-22-composite-package-readiness-lineage.md`,
+and `docs/adr/0986-composite-package-readiness-lineage.md`.
