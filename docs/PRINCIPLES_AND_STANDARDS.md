@@ -5953,3 +5953,18 @@ and `docs/adr/0962-white-label-release-control-evidence.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1035,
 `docs/decision-register/DR-1035-persistence-provider-selection-evidence.md`,
 and `docs/adr/0963-persistence-provider-selection-evidence.md`.
+
+## 379. Persistence Provider Selection Criterion Standard
+
+- Provider selection evidence must preserve each criterion's unique ID, status,
+  and owner; an aggregate count is not sufficient evidence.
+- The recorded open-criteria count must be derived from non-passed criterion
+  statuses and must reconcile exactly.
+- The recommended candidate's deployment fit and cost posture must match the
+  candidate record under review.
+- Criterion evidence remains review-only and cannot authorize a provider,
+  migration, persistence write, or activation.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1036,
+`docs/decision-register/DR-1036-persistence-provider-selection-criterion-reconciliation.md`,
+and `docs/adr/0964-persistence-provider-selection-criterion-reconciliation.md`.

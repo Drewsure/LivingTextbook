@@ -55,6 +55,16 @@ export function PersistenceProviderSelectionPreflightPanel({ preflight, errors }
           <p><strong>Source records:</strong> {preflight.selectionEvidence.sourceRecords.length}</p>
         </div>
         <List title="Selection evidence sources" values={preflight.selectionEvidence.sourceRecords} />
+        <div className="mt-4 grid gap-2">
+          <p className="text-sm font-bold">Criterion snapshot</p>
+          {preflight.selectionEvidence.criteria.map((criterion) => (
+            <div key={criterion.criterionId} className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-[var(--tenant-border)] px-3 py-2 text-sm">
+              <span className="font-semibold">{criterion.criterionId}</span>
+              <span className="text-[var(--tenant-muted)]">{criterion.owner}</span>
+              <StatusPill label={criterion.status} tone={criterion.status === "passed" ? "success" : "warning"} />
+            </div>
+          ))}
+        </div>
       </section>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-3">

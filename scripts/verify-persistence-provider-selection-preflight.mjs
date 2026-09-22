@@ -17,6 +17,8 @@ for (const marker of [
   "selectionEvidence",
   "selectionGateId",
   "openCriterionCount",
+  "criteria",
+  "criterionId",
   "sourceRecords",
   "No provider selected",
   "No provider-specific implementation",
@@ -33,6 +35,7 @@ requireText(fixture, "selectionAllowed: false", "Sample provider selection prefl
 requireText(fixture, "migrationAllowed: false", "Sample provider selection preflight must block migration.");
 requireText(panel, "Compare the deployment paths before selecting one", "Persistence workbench must show provider comparison preflight.");
 requireText(panel, "Cross-source provider recommendation reconciliation", "Provider comparison must show cross-source selection evidence.");
+requireText(panel, "Criterion snapshot", "Provider comparison must show criterion-level selection evidence.");
 requireText(panel, "No provider selected", "Provider comparison preflight must show provider selection remains blocked.");
 requireText(page, "PersistenceProviderSelectionPreflightPanel", "Persistence workbench must mount provider selection preflight.");
 

@@ -23,7 +23,14 @@ export interface PersistenceProviderSelectionEvidence {
   deploymentFit: PersistenceProviderDeploymentFit;
   costPosture: PersistenceProviderCostPosture;
   openCriterionCount: number;
+  criteria: PersistenceProviderSelectionCriterionEvidence[];
   sourceRecords: string[];
+}
+
+export interface PersistenceProviderSelectionCriterionEvidence {
+  criterionId: string;
+  status: "passed" | "open" | "blocked";
+  owner: "platform" | "tenant" | "joint";
 }
 
 export interface PersistenceProviderSelectionPreflight {
@@ -107,6 +114,42 @@ export function validatePersistenceProviderSelectionPreflight(
     if (selectionEvidence.packageId !== preflight.packageId) errors.push("Persistence provider selection evidence must match the preflight package.");
     if (selectionEvidence.recommendedCandidateId !== preflight.recommendedCandidateId) errors.push("Persistence provider selection evidence must match the recommended candidate.");
     if (!Number.isInteger(selectionEvidence.openCriterionCount) || selectionEvidence.openCriterionCount < 0) errors.push("Persistence provider selection evidence openCriterionCount must be a non-negative integer.");
+    const criterionEvidence = selectionEvidence.criteria;
+    if (!Array.isArray(criterionEvidence) || criterionEvidence.length === 0) {
+      errors.push("Persistence provider selection evidence must include criterion evidence.");
+    } else {
+      const criterionIds = new Set<string>();
+      let derivedOpenCriterionCount = 0;
+      for (const criterion of criterionEvidence) {
+        if (!criterion || typeof criterion !== "object") {
+          errors.push("Persistence provider selection criterion evidence must be an object.");
+          continue;
+        }
+        if (typeof criterion.criterionId !== "string" || criterion.criterionId.trim().length === 0) {
+          errors.push("Persistence provider selection criterion evidence criterionId must be non-empty.");
+        } else if (criterionIds.has(criterion.criterionId)) {
+          errors.push(`Persistence provider selection criterion evidence is duplicated: ${criterion.criterionId}.`);
+        } else {
+          criterionIds.add(criterion.criterionId);
+        }
+        if (!(criterion.status === "passed" || criterion.status === "open" || criterion.status === "blocked")) {
+          errors.push(`Persistence provider selection criterion ${criterion.criterionId || "unknown"} has an unsupported status.`);
+        } else if (criterion.status !== "passed") {
+          derivedOpenCriterionCount += 1;
+        }
+        if (!(criterion.owner === "platform" || criterion.owner === "tenant" || criterion.owner === "joint")) {
+          errors.push(`Persistence provider selection criterion ${criterion.criterionId || "unknown"} has an unsupported owner.`);
+        }
+      }
+      if (selectionEvidence.openCriterionCount !== derivedOpenCriterionCount) {
+        errors.push("Persistence provider selection evidence openCriterionCount must match criterion evidence.");
+      }
+    }
+    const recommendedCandidate = preflight.candidates?.find((candidate) => candidate.candidateId === preflight.recommendedCandidateId);
+    if (recommendedCandidate) {
+      if (selectionEvidence.deploymentFit !== recommendedCandidate.deploymentFit) errors.push("Persistence provider selection evidence must match the recommended deployment fit.");
+      if (selectionEvidence.costPosture !== recommendedCandidate.costPosture) errors.push("Persistence provider selection evidence must match the recommended cost posture.");
+    }
     if (!Array.isArray(selectionEvidence.sourceRecords) || selectionEvidence.sourceRecords.filter((value) => typeof value === "string" && value.trim()).length < 3) {
       errors.push("Persistence provider selection evidence must include at least three source records.");
     }

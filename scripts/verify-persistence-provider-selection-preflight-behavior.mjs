@@ -43,6 +43,14 @@ try {
   falseReady.selectionEvidence.openCriterionCount = 0;
   assertIncludes(model.validatePersistenceProviderSelectionPreflight(falseReady), "must expose an open selection criterion", "false-ready selection rejection");
 
+  const countDrift = structuredClone(valid);
+  countDrift.selectionEvidence.openCriterionCount = 1;
+  assertIncludes(model.validatePersistenceProviderSelectionPreflight(countDrift), "must match criterion evidence", "criterion count drift rejection");
+
+  const fitDrift = structuredClone(valid);
+  fitDrift.selectionEvidence.costPosture = "lowest";
+  assertIncludes(model.validatePersistenceProviderSelectionPreflight(fitDrift), "must match the recommended cost posture", "candidate cost drift rejection");
+
   const missingSources = structuredClone(valid);
   missingSources.selectionEvidence.sourceRecords = ["only-one-source"];
   assertIncludes(model.validatePersistenceProviderSelectionPreflight(missingSources), "at least three source records", "selection evidence source rejection");
@@ -84,6 +92,11 @@ function buildValidPreflight() {
       deploymentFit: "hosted",
       costPosture: "controlled",
       openCriterionCount: 2,
+      criteria: [
+        { criterionId: "privacy-policy", status: "open", owner: "joint" },
+        { criterionId: "schema-contract", status: "passed", owner: "platform" },
+        { criterionId: "release-control", status: "open", owner: "platform" },
+      ],
       sourceRecords: ["backend-matrix:backend-matrix", "pilot-selection-gate:selection-gate", "implementation-readiness:implementation-readiness"],
     },
     providerSelected: false,

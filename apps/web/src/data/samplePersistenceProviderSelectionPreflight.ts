@@ -7,6 +7,11 @@ import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelect
 import { samplePilotReviewDecisionImplementationReadiness } from "@/data/samplePilotReviewDecisionImplementationReadiness";
 
 const openSelectionCriteria = samplePilotBackendSelectionGate.criteria.filter((criterion) => criterion.status !== "passed");
+const selectionCriteria = samplePilotBackendSelectionGate.criteria.map((criterion) => ({
+  criterionId: criterion.criterionId,
+  status: criterion.status,
+  owner: criterion.owner,
+}));
 
 export const samplePersistenceProviderSelectionPreflight: PersistenceProviderSelectionPreflight = {
   preflightId: "sample-publisher-persistence-provider-selection-preflight",
@@ -59,6 +64,7 @@ export const samplePersistenceProviderSelectionPreflight: PersistenceProviderSel
     deploymentFit: "hosted",
     costPosture: "controlled",
     openCriterionCount: openSelectionCriteria.length,
+    criteria: selectionCriteria,
     sourceRecords: [
       `backend-matrix:${sampleBackendDecisionMatrix.matrixId}`,
       `pilot-selection-gate:${samplePilotBackendSelectionGate.gateId}`,

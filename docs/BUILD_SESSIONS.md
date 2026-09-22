@@ -4370,3 +4370,13 @@ evidence adapter later records. See ADR 0805 and DR-881.
   evidence, and insufficient source records.
 - Promoted the behavior verifier into foundation composition.
 - Recorded ADR 0963 and DR-1035.
+
+## Build session 0947: Persistence Provider Selection Criterion Reconciliation
+
+- Added unique criterion, status, and owner evidence to the shared provider
+  selection preflight.
+- Derived and validated the open-criteria count from the criterion snapshot.
+- Required deployment fit and cost posture to match the recommended candidate.
+- Displayed the criterion snapshot on the teacher persistence workbench.
+- Added negative-path checks for criterion-count and candidate-cost drift.
+- Recorded ADR 0964 and DR-1036.
