@@ -2,6 +2,11 @@ import {
   validatePersistenceProviderSelectionPreflight,
   type PersistenceProviderSelectionPreflight,
 } from "@living-textbook/content-model";
+import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix";
+import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelectionGate";
+import { samplePilotReviewDecisionImplementationReadiness } from "@/data/samplePilotReviewDecisionImplementationReadiness";
+
+const openSelectionCriteria = samplePilotBackendSelectionGate.criteria.filter((criterion) => criterion.status !== "passed");
 
 export const samplePersistenceProviderSelectionPreflight: PersistenceProviderSelectionPreflight = {
   preflightId: "sample-publisher-persistence-provider-selection-preflight",
@@ -44,6 +49,22 @@ export const samplePersistenceProviderSelectionPreflight: PersistenceProviderSel
     },
   ],
   recommendedCandidateId: "hosted-managed-first-pilot",
+  selectionEvidence: {
+    backendMatrixId: sampleBackendDecisionMatrix.matrixId,
+    selectionGateId: samplePilotBackendSelectionGate.gateId,
+    implementationReadinessId: samplePilotReviewDecisionImplementationReadiness.readinessId,
+    tenantId: "sample-publisher",
+    packageId: "sample-publisher-l1-u1-routines-package",
+    recommendedCandidateId: "hosted-managed-first-pilot",
+    deploymentFit: "hosted",
+    costPosture: "controlled",
+    openCriterionCount: openSelectionCriteria.length,
+    sourceRecords: [
+      `backend-matrix:${sampleBackendDecisionMatrix.matrixId}`,
+      `pilot-selection-gate:${samplePilotBackendSelectionGate.gateId}`,
+      `implementation-readiness:${samplePilotReviewDecisionImplementationReadiness.readinessId}`,
+    ],
+  },
   providerSelected: false,
   selectionAllowed: false,
   migrationAllowed: false,

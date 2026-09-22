@@ -74,6 +74,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-review-dec
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-selection-preflight.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-selection-preflight-behavior.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-phaser-candidate-integration-eligibility.mjs", import.meta.url))], {
   stdio: "inherit",
 });

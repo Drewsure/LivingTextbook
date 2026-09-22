@@ -41,6 +41,22 @@ export function PersistenceProviderSelectionPreflightPanel({ preflight, errors }
         </div>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Selection evidence</p>
+            <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Cross-source provider recommendation reconciliation</p>
+          </div>
+          <StatusPill label={`${preflight.selectionEvidence.openCriterionCount} open criteria`} tone="warning" />
+        </div>
+        <div className="mt-3 grid gap-2 text-sm text-[var(--tenant-muted)] sm:grid-cols-3">
+          <p><strong>Selection gate:</strong> {preflight.selectionEvidence.selectionGateId}</p>
+          <p><strong>Fit:</strong> {preflight.selectionEvidence.deploymentFit} / {preflight.selectionEvidence.costPosture}</p>
+          <p><strong>Source records:</strong> {preflight.selectionEvidence.sourceRecords.length}</p>
+        </div>
+        <List title="Selection evidence sources" values={preflight.selectionEvidence.sourceRecords} />
+      </section>
+
       <div className="mt-5 grid gap-4 xl:grid-cols-3">
         {preflight.candidates.map((candidate) => (
           <article key={candidate.candidateId} className="rounded-lg border border-[var(--tenant-border)] p-4">

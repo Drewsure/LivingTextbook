@@ -13,6 +13,19 @@ export interface PersistenceProviderSelectionCandidate {
   unresolvedRisks: string[];
 }
 
+export interface PersistenceProviderSelectionEvidence {
+  backendMatrixId: string;
+  selectionGateId: string;
+  implementationReadinessId: string;
+  tenantId: string;
+  packageId: string;
+  recommendedCandidateId: string;
+  deploymentFit: PersistenceProviderDeploymentFit;
+  costPosture: PersistenceProviderCostPosture;
+  openCriterionCount: number;
+  sourceRecords: string[];
+}
+
 export interface PersistenceProviderSelectionPreflight {
   preflightId: string;
   tenantId: string;
@@ -26,6 +39,7 @@ export interface PersistenceProviderSelectionPreflight {
   canonicalScopeValid: boolean;
   candidates: PersistenceProviderSelectionCandidate[];
   recommendedCandidateId: string;
+  selectionEvidence: PersistenceProviderSelectionEvidence;
   providerSelected: false;
   selectionAllowed: false;
   migrationAllowed: false;
@@ -77,6 +91,27 @@ export function validatePersistenceProviderSelectionPreflight(
     if (!preflight.blockedActions.includes(action)) errors.push(`Persistence provider selection preflight must block: ${action}.`);
   }
   if (!Array.isArray(preflight.nextSteps) || preflight.nextSteps.length === 0) errors.push("Persistence provider selection preflight must list next steps.");
+
+  const selectionEvidence = preflight.selectionEvidence;
+  if (!selectionEvidence || typeof selectionEvidence !== "object" || Array.isArray(selectionEvidence)) {
+    errors.push("Persistence provider selection preflight selectionEvidence must be an object.");
+  } else {
+    for (const field of ["backendMatrixId", "selectionGateId", "implementationReadinessId", "tenantId", "packageId", "recommendedCandidateId"] as const) {
+      if (typeof selectionEvidence[field] !== "string" || selectionEvidence[field].trim().length === 0) {
+        errors.push(`Persistence provider selection evidence ${field} must be non-empty.`);
+      }
+    }
+    if (selectionEvidence.backendMatrixId !== preflight.backendMatrixId) errors.push("Persistence provider selection evidence must match the backend matrix.");
+    if (selectionEvidence.implementationReadinessId !== preflight.implementationReadinessId) errors.push("Persistence provider selection evidence must match implementation readiness.");
+    if (selectionEvidence.tenantId !== preflight.tenantId) errors.push("Persistence provider selection evidence must match the preflight tenant.");
+    if (selectionEvidence.packageId !== preflight.packageId) errors.push("Persistence provider selection evidence must match the preflight package.");
+    if (selectionEvidence.recommendedCandidateId !== preflight.recommendedCandidateId) errors.push("Persistence provider selection evidence must match the recommended candidate.");
+    if (!Number.isInteger(selectionEvidence.openCriterionCount) || selectionEvidence.openCriterionCount < 0) errors.push("Persistence provider selection evidence openCriterionCount must be a non-negative integer.");
+    if (!Array.isArray(selectionEvidence.sourceRecords) || selectionEvidence.sourceRecords.filter((value) => typeof value === "string" && value.trim()).length < 3) {
+      errors.push("Persistence provider selection evidence must include at least three source records.");
+    }
+    if (preflight.status === "blocked" && selectionEvidence.openCriterionCount === 0) errors.push("Blocked provider selection preflight must expose an open selection criterion.");
+  }
 
   const candidateIds = new Set<string>();
   for (const candidate of preflight.candidates) {

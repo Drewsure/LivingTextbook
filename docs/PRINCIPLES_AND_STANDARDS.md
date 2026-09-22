@@ -5938,3 +5938,18 @@ and `docs/adr/0961-white-label-quality-evidence-records.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1034,
 `docs/decision-register/DR-1034-white-label-release-control-evidence.md`,
 and `docs/adr/0962-white-label-release-control-evidence.md`.
+
+## 378. Persistence Provider Selection Evidence Standard
+
+- Provider comparison must remain provider-neutral until human policy,
+  capability, cost, and implementation evidence are accepted.
+- The comparison must reconcile the backend matrix, selection gate, and
+  implementation-readiness handoff for the same tenant and package.
+- Deployment fit, cost posture, open criteria, and source records must be
+  visible; a blocked comparison may not claim that all criteria are closed.
+- Provider selection, migration, writes, and activation remain disabled until
+  a later governed decision explicitly authorizes them.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1035,
+`docs/decision-register/DR-1035-persistence-provider-selection-evidence.md`,
+and `docs/adr/0963-persistence-provider-selection-evidence.md`.

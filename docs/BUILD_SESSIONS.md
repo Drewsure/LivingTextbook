@@ -4357,3 +4357,16 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added negative-path verification for package mismatch and false-ready
   release-control evidence.
 - Recorded ADR 0962 and DR-1034.
+
+## Build session 0946: Persistence Provider Selection Evidence
+
+- Added typed cross-source selection evidence to the provider-neutral
+  persistence preflight.
+- Bound the sample to the backend matrix, pilot selection gate, and
+  implementation-readiness handoff.
+- Displayed deployment fit, cost posture, open criteria, and source records on
+  the teacher persistence route.
+- Added negative-path verification for package drift, matrix drift, false-ready
+  evidence, and insufficient source records.
+- Promoted the behavior verifier into foundation composition.
+- Recorded ADR 0963 and DR-1035.
