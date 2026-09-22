@@ -4419,3 +4419,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved review-only navigation and all storage, promotion, import, QR,
   and student-launch blockers.
 - Recorded ADR 0967 and DR-1039.
+
+## Build session 0952: White-label evidence tenant binding
+
+- Added explicit tenant identities to package and release-control evidence
+  records in the shared readiness contract.
+- Rejected cross-tenant package and approval evidence even when package ids or
+  control ids are otherwise shaped correctly.
+- Added behavior coverage for both tenant-mismatch paths.
+- Recorded ADR 0968 and DR-1040.

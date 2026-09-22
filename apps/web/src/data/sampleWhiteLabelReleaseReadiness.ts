@@ -117,6 +117,7 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   })),
   packageEvidence: {
     reconciliationId: samplePackageReconciliation.reconciliationId,
+    tenantId: samplePackageReconciliation.tenantId,
     packageId: samplePackageReconciliation.packageId,
     sourceAssemblyChecksum: samplePackageReconciliation.sourceAssemblyChecksum,
     status: samplePackageReconciliation.status === "blocked" ? "blocked" : "review-only",
@@ -144,6 +145,7 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   releaseControlEvidence: {
     releaseGateId: samplePackagePublishGate.gateId,
     approvalLedgerId: samplePackageApprovalLedger.ledgerId,
+    tenantId: samplePackagePublishGate.tenantId,
     releaseCandidate: samplePackagePublishGate.releaseCandidate,
     packageId: samplePackagePublishGate.packageId,
     status: blockingReleaseGates.length > 0 ? "blocked" : openApprovals.length > 0 ? "review-only" : "pilot-ready",

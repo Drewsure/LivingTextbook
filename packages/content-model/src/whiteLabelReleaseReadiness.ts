@@ -43,6 +43,7 @@ export interface WhiteLabelReleaseQualityEvidence {
 
 export interface WhiteLabelReleasePackageEvidence {
   reconciliationId: string;
+  tenantId: string;
   packageId: string;
   sourceAssemblyChecksum: string;
   status: "blocked" | "review-only";
@@ -72,6 +73,7 @@ export interface WhiteLabelReleasePilotEvidence {
 export interface WhiteLabelReleaseControlEvidence {
   releaseGateId: string;
   approvalLedgerId: string;
+  tenantId: string;
   releaseCandidate: string;
   packageId: string;
   status: "blocked" | "review-only" | "pilot-ready";
@@ -205,9 +207,10 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   if (!isRecord(packageEvidence)) {
     errors.push("White-label release readiness packageEvidence must be an object.");
   } else {
-    for (const field of ["reconciliationId", "packageId", "sourceAssemblyChecksum"] as const) {
+    for (const field of ["reconciliationId", "tenantId", "packageId", "sourceAssemblyChecksum"] as const) {
       if (!isNonEmptyString(packageEvidence[field])) errors.push(`White-label release package evidence ${field} must be non-empty.`);
     }
+    if (packageEvidence.tenantId !== readiness.tenantId) errors.push("White-label release package evidence must match the readiness tenant.");
     if (packageEvidence.packageId !== readiness.packageId) errors.push("White-label release package evidence must match the readiness package.");
     if (!["blocked", "review-only"].includes(readString(packageEvidence, "status"))) errors.push("White-label release package evidence status is unsupported.");
     for (const field of ["totalLaneCount", "readyPreviewLaneCount", "unresolvedLaneCount"] as const) {
@@ -246,9 +249,10 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   if (!isRecord(releaseControlEvidence)) {
     errors.push("White-label release readiness releaseControlEvidence must be an object.");
   } else {
-    for (const field of ["releaseGateId", "approvalLedgerId", "releaseCandidate", "packageId"] as const) {
+    for (const field of ["releaseGateId", "approvalLedgerId", "tenantId", "releaseCandidate", "packageId"] as const) {
       if (!isNonEmptyString(releaseControlEvidence[field])) errors.push(`White-label release control evidence ${field} must be non-empty.`);
     }
+    if (releaseControlEvidence.tenantId !== readiness.tenantId) errors.push("White-label release control evidence must match the readiness tenant.");
     if (releaseControlEvidence.packageId !== readiness.packageId) errors.push("White-label release control evidence must match the readiness package.");
     if (!["blocked", "review-only", "pilot-ready"].includes(readString(releaseControlEvidence, "status"))) {
       errors.push("White-label release control evidence status is unsupported.");

@@ -35,6 +35,10 @@ try {
   wrongPackage.packageEvidence.packageId = "other-tenant-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackage), "must match the readiness package", "package mismatch rejection");
 
+  const wrongPackageTenant = structuredClone(valid);
+  wrongPackageTenant.packageEvidence.tenantId = "other-tenant";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackageTenant), "package evidence must match the readiness tenant", "package tenant mismatch rejection");
+
   const qualityMismatch = structuredClone(valid);
   qualityMismatch.qualityEvidence[0].verified = false;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMismatch), "must match its quality check", "quality evidence mismatch rejection");
@@ -46,6 +50,10 @@ try {
   const controlPackageMismatch = structuredClone(valid);
   controlPackageMismatch.releaseControlEvidence.packageId = "other-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(controlPackageMismatch), "control evidence must match the readiness package", "release-control package mismatch rejection");
+
+  const controlTenantMismatch = structuredClone(valid);
+  controlTenantMismatch.releaseControlEvidence.tenantId = "other-tenant";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(controlTenantMismatch), "control evidence must match the readiness tenant", "release-control tenant mismatch rejection");
 
   const controlFalseReady = structuredClone(valid);
   controlFalseReady.releaseControlEvidence.status = "pilot-ready";
@@ -144,6 +152,7 @@ function buildValidReadiness(model) {
     })),
     packageEvidence: {
       reconciliationId: "package-readiness-behavior",
+      tenantId: "sample-publisher",
       packageId: "sample-publisher-package",
       sourceAssemblyChecksum: "sha256:" + "1".repeat(64),
       status: "blocked",
@@ -171,6 +180,7 @@ function buildValidReadiness(model) {
     releaseControlEvidence: {
       releaseGateId: "sample-publish-gate",
       approvalLedgerId: "sample-approval-ledger",
+      tenantId: "sample-publisher",
       releaseCandidate: "2026.1 pilot candidate",
       packageId: "sample-publisher-package",
       status: "blocked",
