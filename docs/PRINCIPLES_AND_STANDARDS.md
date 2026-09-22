@@ -5832,3 +5832,21 @@ and `docs/adr/0954-frozen-phaser-integration-eligibility.md`.
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1027,
 `docs/decision-register/DR-1027-human-external-evidence-handoff.md`,
 and `docs/adr/0955-human-external-evidence-handoff.md`.
+
+## 371. Phaser Candidate Evidence Return Standard
+
+- A returned external game package must pass an evidence-return preflight
+  before any wrapper or integration proposal is considered.
+- The preflight must contain one receipt for every canonical lane: provenance,
+  wrapper, payload, events, audio, scoring, privacy, persistence, replay,
+  accessibility, and integration decision.
+- A receipt may cite only an artifact declared by the returned manifest, and a
+  cited artifact must have a checksum before it can satisfy a reviewed lane.
+- An awaiting-return preview must show missing receipts honestly. It must not
+  imply that Z.ai files were received, reviewed, imported, or activated.
+- Import, route replacement, scoring, persistence, promotion, QR activation,
+  and student assignment remain blocked in every evidence-return state.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1028,
+`docs/decision-register/DR-1028-phaser-candidate-evidence-return-packet.md`,
+and `docs/adr/0956-phaser-candidate-evidence-return-packet.md`.

@@ -4281,3 +4281,15 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept integration, wrapper approval, route replacement, scoring, persistence,
   promotion, and assignment blocked.
 - Recorded ADR 0955 and DR-1027.
+
+## Build session 0939: Phaser candidate evidence return preflight
+
+- Added a provider-neutral return packet between the human Z.ai request and
+  any future Codex integration proposal.
+- Required all eleven evidence lanes and the nine named return artifacts.
+- Added checksummed artifact references, positive review-only coverage, and
+  negative behavior coverage for unknown artifacts, missing checksums,
+  incomplete lanes, and mutable source identity.
+- Kept source import, route replacement, scoring, persistence, promotion, QR
+  activation, and student assignment blocked.
+- Recorded ADR 0956 and DR-1028.

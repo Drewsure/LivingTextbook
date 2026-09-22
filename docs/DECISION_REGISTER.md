@@ -7896,3 +7896,22 @@ Required invariants:
 Evidence: `docs/adr/0955-human-external-evidence-handoff.md`,
 `apps/web/src/data/sampleMemoryMatchEvidenceHandoffPacket.ts`, and
 `scripts/verify-memory-match-evidence-handoff.mjs`.
+
+# DR-1028: Phaser Candidate Evidence Return Packet
+
+Decision: place a lane-complete, artifact-checksummed evidence-return packet
+between a human Z.ai request and any future Codex integration proposal.
+
+Required invariants:
+
+- The sample Memory Match packet remains `awaiting-return` with every receipt
+  marked missing until an external package actually arrives.
+- A received review-only packet must cite known manifest artifacts with
+  checksums for every canonical evidence lane.
+- Unknown artifacts, missing checksums, incomplete lanes, mutable source
+  identity, import, route replacement, scoring, persistence, promotion, QR
+  activation, and student assignment remain blocked.
+
+Evidence: `docs/adr/0956-phaser-candidate-evidence-return-packet.md`,
+`packages/content-model/src/phaserCandidateEvidenceReturnPacket.ts`, and
+`scripts/verify-phaser-candidate-evidence-return-behavior.mjs`.
