@@ -535,3 +535,23 @@ References:
 - `packages/content-model/src/sourcePackageAssembly.ts`
 - `packages/content-model/src/sourceExtractionPreview.ts`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-013: Package-Readiness Extraction Lineage
+
+Status: Implemented as review-only reconciliation metadata; package promotion,
+storage writes, assignment, and student activation remain gated.
+
+Requirement: Package-readiness records must preserve the exact extraction
+preview identity behind their source assembly evidence.
+
+Current boundary:
+
+- Reconciliation records carry `sourceExtractionPreviewId`.
+- Hosted/local metadata-preview references preserve the same identity.
+- Tenant, package, preview-ID, and checksum drift fail closed.
+
+References:
+
+- `packages/content-model/src/packageReadinessReconciliation.ts`
+- `packages/content-model/src/packageReadinessPersistence.ts`
+- `scripts/verify-runtime-behavior.mjs`

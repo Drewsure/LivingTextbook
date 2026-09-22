@@ -20,6 +20,7 @@ export interface PackageReadinessReconciliation {
   mode: "review-only";
   status: "blocked" | "review-only";
   sourceAssemblyPacketId: string;
+  sourceExtractionPreviewId: string;
   sourceAssemblyChecksum: string;
   approvalLedgerId: string;
   verifierEvidencePacketId: string;
@@ -66,6 +67,7 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
     "label",
     "summary",
     "sourceAssemblyPacketId",
+    "sourceExtractionPreviewId",
     "sourceAssemblyChecksum",
     "approvalLedgerId",
     "verifierEvidencePacketId",
@@ -148,6 +150,7 @@ export function validatePackageReadinessSourceAssemblyBinding(reconciliation: un
     ["tenantId", reconciliation.tenantId, sourceAssembly.tenantId],
     ["packageId", reconciliation.packageId, sourceAssembly.targetPackageId],
     ["sourceAssemblyPacketId", reconciliation.sourceAssemblyPacketId, sourceAssembly.packetId],
+    ["sourceExtractionPreviewId", reconciliation.sourceExtractionPreviewId, sourceAssembly.extractionPreviewId],
     ["sourceAssemblyChecksum", reconciliation.sourceAssemblyChecksum, sourceAssembly.sourceChecksum],
   ] as const;
 

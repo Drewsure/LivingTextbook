@@ -1332,6 +1332,7 @@ try {
     mode: "review-only",
     status: "blocked",
     sourceAssemblyPacketId: "assembly-1",
+    sourceExtractionPreviewId: "preview-1",
     sourceAssemblyChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     approvalLedgerId: "ledger-1",
     verifierEvidencePacketId: "verifier-1",
@@ -1383,6 +1384,7 @@ try {
       {
         packetId: "assembly-1",
         tenantId: "tenant-1",
+        extractionPreviewId: "preview-1",
         targetPackageId: "package-1",
         sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       },
@@ -1395,11 +1397,25 @@ try {
       {
         packetId: "assembly-1",
         tenantId: "other-tenant",
+        extractionPreviewId: "preview-1",
         targetPackageId: "package-1",
         sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       },
     ),
     "Package readiness source binding tenantId does not match the source assembly.",
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessSourceAssemblyBinding(
+      { ...validPackageReadinessReconciliation, sourceExtractionPreviewId: "preview-2" },
+      {
+        packetId: "assembly-1",
+        tenantId: "tenant-1",
+        extractionPreviewId: "preview-1",
+        targetPackageId: "package-1",
+        sourceChecksum: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      },
+    ),
+    "Package readiness source binding sourceExtractionPreviewId does not match the source assembly.",
   );
 
   const validPackageReadinessPersistenceIntent = packageReadinessPersistence.buildPackageReadinessPersistenceIntent(

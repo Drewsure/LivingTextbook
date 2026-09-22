@@ -6220,3 +6220,18 @@ and `docs/adr/0980-structured-extraction-review-visibility.md`.
 This standard is recorded in `docs/decision-register/DR-1053-source-to-package-extraction-binding.md`,
 `docs/build-session-notes/2026-09-22-source-to-package-extraction-binding.md`,
 and `docs/adr/0981-source-to-package-extraction-binding.md`.
+
+## 398. Package-Readiness Extraction Lineage Standard
+
+- Package-readiness reconciliation must carry the exact structured extraction
+  preview identity used by source assembly.
+- Hosted and local metadata-preview references must preserve that identity
+  alongside source assembly and checksum evidence.
+- Package-readiness binding must fail closed on preview-ID drift, tenant drift,
+  package drift, or checksum drift.
+- A valid reconciliation remains review-only and cannot promote packages,
+  write routes or playlists, assign learners, or activate student access.
+
+This standard is recorded in `docs/decision-register/DR-1054-package-readiness-extraction-lineage.md`,
+`docs/build-session-notes/2026-09-22-package-readiness-extraction-lineage.md`,
+and `docs/adr/0982-package-readiness-extraction-lineage.md`.

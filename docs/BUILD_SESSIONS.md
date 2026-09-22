@@ -89,6 +89,20 @@ Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
 `packages/content-model/src/sourceExtractionPreview.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0968: Package-readiness extraction lineage
+
+- Added the structured extraction preview identity to package-readiness
+  reconciliations and provider-neutral persistence metadata references.
+- Package-readiness source binding now compares tenant, package assembly,
+  extraction preview identity, and source checksum before evidence can be
+  reconciled.
+- Added preview-ID drift coverage to runtime behavior verification while all
+  promotion, storage, assignment, and student activation flags remain blocked.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`packages/content-model/src/packageReadinessPersistence.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

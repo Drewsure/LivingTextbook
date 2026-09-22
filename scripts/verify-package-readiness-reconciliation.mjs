@@ -14,6 +14,7 @@ for (const marker of [
   "validatePackageReadinessSourceAssemblyBinding",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
+  "sourceExtractionPreviewId",
   "sourceAssemblyChecksum",
   "approvalLedgerId",
   "targetLanguageAudioApprovalId",

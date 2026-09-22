@@ -86,6 +86,7 @@ export const samplePackageReadinessReconciliations: PackageReadinessReconciliati
     mode: "review-only",
     status: "blocked",
     sourceAssemblyPacketId: packet.packetId,
+    sourceExtractionPreviewId: packet.extractionPreviewId,
     sourceAssemblyChecksum: packet.sourceChecksum,
     approvalLedgerId: packet.approvalLedgerId,
     verifierEvidencePacketId: `verifier-${packet.tenantId}-l1-u1-review`,

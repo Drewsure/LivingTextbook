@@ -14,6 +14,7 @@ for (const marker of [
   "PackageReadinessPersistenceIntent",
   "buildPackageReadinessPersistenceIntent",
   "evidenceLaneRefs",
+  "sourceExtractionPreviewId",
   "writeAllowed: false",
   "promotionAllowed: false",
   "studentFacingActivationAllowed: false",
