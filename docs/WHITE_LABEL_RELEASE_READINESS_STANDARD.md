@@ -79,6 +79,17 @@ ISO observation timestamp and notes. The evidence value must agree with the
 signal value; a boolean without provenance is not sufficient for release
 readiness.
 
+Each quality evidence record must also carry the same tenant and package
+identities as the parent readiness record. A green check from another tenant or
+package is invalid, even when its source record and timestamp are otherwise
+well-formed. The release-readiness workbench must display those evidence
+identities beside the quality checks so an adult reviewer can inspect scope
+without relying on hidden validation.
+
+These identity and display rules remain evidence-only. They do not authorize
+production approval, persistence activation, package promotion, or student
+launch.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

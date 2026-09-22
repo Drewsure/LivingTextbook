@@ -4472,6 +4472,8 @@ evidence adapter later records. See ADR 0805 and DR-881.
 
 - Displayed the quality evidence tenant and package bindings in the release
   readiness workbench.
+- Synchronized the dedicated white-label release-readiness standard with the
+  same identity and visible-scope requirements.
 - Kept source checks, production approval, persistence, promotion, and student
   launch review-only and activation-disabled.
 - Recorded ADR 0973 and DR-1045.
