@@ -55,7 +55,7 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
       status: "review-only",
       evidenceRecords: ["source-review-queue", "upload-channel-readiness", "content-package-runtime"],
       blockers: ["PDF, text, image, audio, video, and font intake remains promotion-gated."],
-      nextAction: "Review one complete tenant package through source, media, and release gates.",
+      nextAction: "Review one complete tenant package through source extraction, draft-import preview, media, and release gates.",
     },
     {
       phaseId: "production-persistence-deployment",

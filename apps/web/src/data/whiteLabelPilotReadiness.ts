@@ -70,8 +70,8 @@ export const whiteLabelPilotReadiness: WhiteLabelPilotReadiness = {
       label: "PDF/textbook unit intake",
       status: "blocked",
       timeframe: "4-8 weeks",
-      proof: "Requirements are documented, but no reviewed import workflow is built yet.",
-      nextStep: "Create a draft-import pipeline with human review before student assignment.",
+      proof: "A review-only source extraction to teacher-draft preview bridge now reconciles source, package, unit, checksum, and draft identity.",
+      nextStep: "Implement durable tenant-owned draft import only after extraction, rights, audio, ownership, and persistence gates are accepted.",
     },
     {
       id: "closed-local",
