@@ -1,38 +1,23 @@
-export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
+import { validateEvidencePacketHandoffPackage } from "@living-textbook/content-model";
+import type {
+  EvidencePacketHandoffPackage,
+  EvidencePacketHandoffRecipient,
+  EvidencePacketHandoffSection,
+  EvidencePacketHandoffStatus,
+} from "@living-textbook/content-model";
+import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 
-export interface EvidencePacketHandoffSection {
-  sectionId: string;
-  label: string;
-  status: EvidencePacketHandoffStatus;
-  sourceRoute: string;
-  includedRecords: string[];
-  missingBeforeExport: string[];
-}
-
-export interface EvidencePacketHandoffRecipient {
-  recipientId: string;
-  label: string;
-  responsibility: string;
-  blockedUntil: string[];
-}
-
-export interface EvidencePacketHandoffPackage {
-  packageId: string;
-  tenantId: string;
-  label: string;
-  summary: string;
-  reviewStatus: "handoff-preview-only";
-  sourceIndexRoute: string;
-  storageRecord: string;
-  sections: EvidencePacketHandoffSection[];
-  recipients: EvidencePacketHandoffRecipient[];
-  exportBlockedActions: string[];
-  nextGate: string[];
-}
+export type {
+  EvidencePacketHandoffPackage,
+  EvidencePacketHandoffRecipient,
+  EvidencePacketHandoffSection,
+  EvidencePacketHandoffStatus,
+} from "@living-textbook/content-model";
 
 export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffPackage = {
-  packageId: "sample-publisher-evidence-packet-handoff-preview",
-  tenantId: "sample-publisher",
+  packageId: samplePilotHandoffPackage.packageId,
+  routeKey: "sample-publisher-evidence-packet-handoff",
+  tenantId: samplePilotHandoffPackage.tenantId,
   label: "Evidence packet handoff preview",
   summary:
     "Read-only preview of the packet a reviewer would eventually hand to a publisher, school, or platform operator. This page bundles source, rights, scan, target mapping, game asset, media, and release-control evidence without exporting files or collecting signatures.",
@@ -155,3 +140,7 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
     "Verify hosted and local handoff compatibility",
   ],
 };
+
+export const samplePublisherEvidencePacketHandoffPackageErrors = validateEvidencePacketHandoffPackage(
+  samplePublisherEvidencePacketHandoffPackage,
+);

@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
-import { samplePublisherEvidencePacketHandoffPackage } from "@/data/sampleEvidencePacketHandoffPackage";
+import {
+  samplePublisherEvidencePacketHandoffPackage,
+  samplePublisherEvidencePacketHandoffPackageErrors,
+} from "@/data/sampleEvidencePacketHandoffPackage";
 import { EvidencePacketHandoffPanel } from "@/features/evidence/EvidencePacketHandoffPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
@@ -17,7 +20,10 @@ export default async function TeacherEvidencePacketHandoffPage({
 
   return (
     <AppShell tenant={samplePublisherTenant}>
-      <EvidencePacketHandoffPanel handoffPackage={samplePublisherEvidencePacketHandoffPackage} />
+      <EvidencePacketHandoffPanel
+        handoffPackage={samplePublisherEvidencePacketHandoffPackage}
+        validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}
+      />
     </AppShell>
   );
 }

@@ -7698,3 +7698,22 @@ Evidence: `docs/adr/0944-pilot-handoff-approval-evidence.md`,
 `packages/content-model/src/pilotHandoff.ts`,
 `apps/web/src/data/samplePilotHandoffPackage.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
+
+# DR-1017: Evidence Handoff Canonical Scope
+
+Decision: bind the teacher evidence-packet handoff to the same canonical
+tenant/package scope as the pilot handoff, while preserving a separate stable
+route key and review-only action boundary.
+
+Required invariants:
+
+- Evidence handoff package scope matches the canonical pilot package.
+- Internal source routes, section ids, recipient ids, and missing-evidence
+  statements are validated before the handoff is shown as contract-valid.
+- Evidence packet export, signed approval capture, package publish, route
+  creation, playlist creation, and student assignment remain blocked.
+
+Evidence: `docs/adr/0945-evidence-handoff-canonical-scope.md`,
+`packages/content-model/src/evidencePacketHandoff.ts`,
+`apps/web/src/data/sampleEvidencePacketHandoffPackage.ts`, and
+`scripts/verify-evidence-handoff-scope.mjs`.

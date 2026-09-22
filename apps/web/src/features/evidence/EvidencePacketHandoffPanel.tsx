@@ -8,6 +8,7 @@ import type {
 
 interface EvidencePacketHandoffPanelProps {
   handoffPackage: EvidencePacketHandoffPackage;
+  validationErrors: string[];
 }
 
 const statusTone: Record<EvidencePacketHandoffStatus, "success" | "warning"> = {
@@ -15,7 +16,7 @@ const statusTone: Record<EvidencePacketHandoffStatus, "success" | "warning"> = {
   blocked: "warning",
 };
 
-export function EvidencePacketHandoffPanel({ handoffPackage }: EvidencePacketHandoffPanelProps) {
+export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }: EvidencePacketHandoffPanelProps) {
   const blockedSections = handoffPackage.sections.filter((section) => section.status === "blocked").length;
   const recordCount = new Set(handoffPackage.sections.flatMap((section) => section.includedRecords)).size;
 
@@ -37,6 +38,32 @@ export function EvidencePacketHandoffPanel({ handoffPackage }: EvidencePacketHan
           <Metric label="Blocked sections" value={String(blockedSections)} tone="warning" />
           <Metric label="Storage record" value={handoffPackage.storageRecord} tone="warning" />
         </div>
+
+        <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Canonical package binding</p>
+              <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Evidence handoff identity is scoped to the pilot package</h3>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+                This handoff uses the same package identity as the pilot release evidence. It remains a review packet and cannot export, sign, publish, or promote content.
+              </p>
+            </div>
+            <StatusPill label={validationErrors.length === 0 ? "Contract valid" : `${validationErrors.length} finding(s)`} tone={validationErrors.length === 0 ? "success" : "warning"} />
+          </div>
+          <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Fact label="Package" value={handoffPackage.packageId} />
+            <Fact label="Route key" value={handoffPackage.routeKey} />
+            <Fact label="Tenant" value={handoffPackage.tenantId} />
+            <Fact label="Export" value="Blocked" />
+          </dl>
+          {validationErrors.length > 0 ? (
+            <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              {validationErrors.map((error, index) => (
+                <li key={`evidence-handoff-validation-${index}-${error}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{error}</li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
 
         <a
           href={handoffPackage.sourceIndexRoute}
@@ -167,5 +194,14 @@ function Metric({
       </div>
       <p className="mt-2 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</p>
     </section>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-[var(--tenant-border)] p-3">
+      <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
+      <dd className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
+    </div>
   );
 }

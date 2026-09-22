@@ -5651,3 +5651,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1015,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1016,
 `docs/decision-register/DR-1016-pilot-handoff-approval-evidence.md`, and
 `docs/adr/0944-pilot-handoff-approval-evidence.md`.
+
+## 360. Evidence Handoff Canonical Scope Standard
+
+- The teacher evidence-packet handoff must use the same canonical tenant and
+  package identity as the pilot release handoff; a second preview-only package
+  id is not acceptable evidence.
+- Evidence handoffs must carry a stable route key separately from package scope
+  so printed or reviewed paths remain stable when package metadata changes.
+- The shared contract must validate internal source routes, unique sections and
+  recipients, required missing-evidence statements, and explicit export,
+  approval-capture, and publish blockers.
+- A handoff packet is evidence for human review only. It cannot export, sign,
+  publish, promote, create routes, create playlists, or assign students.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1017,
+`docs/decision-register/DR-1017-evidence-handoff-canonical-scope.md`, and
+`docs/adr/0945-evidence-handoff-canonical-scope.md`.

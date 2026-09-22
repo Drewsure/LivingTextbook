@@ -53,6 +53,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-acti
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-handoff-scope.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-evidence-handoff-scope.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};
@@ -91,4 +94,4 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, and route checks plus the stable QR resolver guard.`);
+console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, and route checks plus the stable QR resolver and evidence handoff scope guards.`);

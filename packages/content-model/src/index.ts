@@ -1662,6 +1662,7 @@ export * from "./persistenceRecords";
 export * from "./persistenceConsistency";
 export * from "./persistenceHandoff";
 export * from "./pilotHandoff";
+export * from "./evidencePacketHandoff";
 export * from "./sourcePackageAssembly";
 export * from "./packageApprovalLedger";
 export * from "./packageReadinessReconciliation";
