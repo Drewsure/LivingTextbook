@@ -1666,6 +1666,7 @@ export * from "./evidencePacketHandoff";
 export * from "./pilotReviewDecision";
 export * from "./pilotDeploymentDecision";
 export * from "./sourcePackageAssembly";
+export * from "./sourceDraftImport";
 export * from "./packageApprovalLedger";
 export * from "./packageReadinessReconciliation";
 export * from "./packageReadinessPersistence";

@@ -35,6 +35,7 @@ try {
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
+    "packages/content-model/src/sourceDraftImport.ts",
     "packages/content-model/src/packageApprovalLedger.ts",
     "packages/content-model/src/packageReadinessReconciliation.ts",
     "packages/content-model/src/packageReadinessPersistence.ts",
@@ -148,6 +149,7 @@ try {
   const source = require(join(output, "sourceRuntime.js"));
   const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
+  const sourceDraftImport = require(join(output, "sourceDraftImport.js"));
   const packageApprovalLedger = require(join(output, "packageApprovalLedger.js"));
   const packageReadinessReconciliation = require(join(output, "packageReadinessReconciliation.js"));
   const packageReadinessPersistence = require(join(output, "packageReadinessPersistence.js"));
@@ -1191,6 +1193,31 @@ try {
     approvalCaptureAllowed: false,
   };
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
+  const validSourceDraftImportPreview = {
+    importPreviewId: "source-draft-import-1",
+    tenantId: "tenant-1",
+    sourceId: "source-1",
+    targetPackageId: "package-1",
+    assemblyPacketId: "assembly-1",
+    extractionPreviewId: "preview-1",
+    draftId: "draft-1",
+    candidateUnitKey: "tenant-1:curriculum:L1:U1",
+    sourceChecksum: validSourcePackageAssemblyPacket.sourceChecksum,
+    mode: "review-only",
+    status: "blocked",
+    requiredRecords: [
+      "source_package_assembly_packet",
+      "source_extraction_review_packet",
+      "teacher_draft_package_preview",
+      "teacher_draft_review_handoff",
+    ],
+    blockers: ["Extraction review remains blocked."],
+    draftCreationAllowed: false,
+    storageWriteAllowed: false,
+    studentFacingPayloadAllowed: false,
+    assignmentAllowed: false,
+  };
+  assertEqual(sourceDraftImport.validateSourceDraftImportPreview(validSourceDraftImportPreview).length, 0);
   const sourcePreviewResult = sourceExtractionPreview.createReviewOnlySourceExtractionPreview({
     previewId: "preview-1",
     tenantId: "tenant-1",
@@ -1211,6 +1238,31 @@ try {
     mode: "review-only",
   });
   assertEqual(sourcePreviewResult.valid, true);
+  assertEqual(
+    sourceDraftImport.validateSourceDraftImportPreviewBinding(
+      validSourceDraftImportPreview,
+      validSourcePackageAssemblyPacket,
+      sourcePreviewResult.preview,
+      { draftId: "draft-1", canAssignToStudents: false },
+    ).length,
+    0,
+  );
+  assertIncludes(
+    sourceDraftImport.validateSourceDraftImportPreviewBinding(
+      { ...validSourceDraftImportPreview, draftId: "draft-2" },
+      validSourcePackageAssemblyPacket,
+      sourcePreviewResult.preview,
+      { draftId: "draft-1", canAssignToStudents: false },
+    ),
+    "Source draft import preview draft id must match the teacher draft preview.",
+  );
+  assertIncludes(
+    sourceDraftImport.validateSourceDraftImportPreview({
+      ...validSourceDraftImportPreview,
+      storageWriteAllowed: true,
+    }),
+    "Source draft import preview storageWriteAllowed must remain false.",
+  );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);
   assertIncludes(
     sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(

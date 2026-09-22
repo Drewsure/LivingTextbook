@@ -6500,3 +6500,13 @@ This standard is recorded in
 `docs/decision-register/DR-1072-pilot-lineage-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1000-pilot-lineage-reconciliation.md`.
+
+## 417. Source-to-Draft Import Preview Standard
+
+- Extraction previews, source package assemblies, and teacher draft previews
+  must be joined by exact tenant, source, package, unit, checksum, and record
+  identifiers before any future import workflow is considered.
+- The current bridge is evidence-only. It cannot create a durable draft, write
+  storage, create a student payload, assign students, or promote a package.
+- A draft preview is not proof that a source has passed extraction review,
+  rights review, audio review, or teacher approval.

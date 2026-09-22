@@ -4815,3 +4815,12 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Mounted the sample result on the pilot and foundation intake routes and
   added runtime plus focused contract verification.
 - Recorded ADR 1000 and DR-1072.
+
+## Build session 0987: Source-to-draft import preview
+
+- Added an identity-bound, review-only bridge from source package assembly and
+  extraction evidence to a teacher draft preview.
+- Kept draft creation, storage write, student payload, assignment, and package
+  promotion explicitly blocked.
+- Added runtime binding tests, static verification, intake-route visibility,
+  and the standing source-draft verification note.

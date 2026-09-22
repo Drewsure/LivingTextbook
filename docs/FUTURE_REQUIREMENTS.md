@@ -980,3 +980,11 @@ References:
 - `apps/web/src/data/samplePilotLineageValidation.ts`
 - `scripts/verify-pilot-lineage-binding.mjs`
 - `docs/verification/PILOT_LINEAGE_BINDING_CHECKS.md`
+
+## FR-031: Source-to-Draft Import Boundary
+
+Create a durable, tenant-scoped source-to-draft import workflow only after
+source extraction review, rights, audio, target mapping, ownership, and storage
+provider gates are implemented. The review-only preview must remain the
+canonical contract for identity reconciliation and must not be treated as a
+permission to enable writes.

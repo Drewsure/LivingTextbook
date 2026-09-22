@@ -88,6 +88,7 @@ import {
   sampleSourcePackageAssemblyErrors,
   sampleSourcePackageAssemblyPackets,
 } from "@/data/sampleSourcePackageAssembly";
+import { sampleSourceDraftImportErrors, sampleSourceDraftImportPreviews } from "@/data/sampleSourceDraftImport";
 import {
   samplePackageReadinessReconciliationErrors,
   samplePackageReadinessReconciliations,
@@ -123,6 +124,7 @@ import { PilotSourceStrategyPanel } from "@/features/content-intake/PilotSourceS
 import { PrintableOutputReadinessPanel } from "@/features/content-intake/PrintableOutputReadinessPanel";
 import { SourceReviewQueuePanel } from "@/features/content-intake/SourceReviewQueuePanel";
 import { SourcePackageAssemblyPanel } from "@/features/content-intake/SourcePackageAssemblyPanel";
+import { SourceDraftImportPreviewPanel } from "@/features/content-intake/SourceDraftImportPreviewPanel";
 import { PackageReadinessReconciliationPanel } from "@/features/content-intake/PackageReadinessReconciliationPanel";
 import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/TeacherAuthoringReadinessPanel";
 import { TemplateRenderingFontProfilePanel } from "@/features/content-intake/TemplateRenderingFontProfilePanel";
@@ -304,6 +306,10 @@ export default function TeacherIntakePage() {
         <SourcePackageAssemblyPanel
           packets={sampleSourcePackageAssemblyPackets}
           evidenceFindings={sampleSourcePackageAssemblyErrors}
+        />
+        <SourceDraftImportPreviewPanel
+          previews={sampleSourceDraftImportPreviews}
+          errors={sampleSourceDraftImportErrors}
         />
         <PackageReadinessReconciliationPanel
           reconciliations={samplePackageReadinessReconciliations}

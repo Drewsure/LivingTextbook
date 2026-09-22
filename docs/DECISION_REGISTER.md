@@ -8700,3 +8700,16 @@ Evidence: `packages/content-model/src/pilotHandoff.ts`,
 `apps/web/src/data/samplePilotLineageValidation.ts`,
 `scripts/verify-pilot-lineage-binding.mjs`, and
 `scripts/verify-runtime-behavior.mjs`.
+
+## DR-1073: Source-to-Draft Import Preview
+
+- The first source-to-draft bridge is a review-only identity reconciliation,
+  not an import writer.
+- It must match source assembly, extraction preview, and teacher draft preview
+  records exactly before a future durable workflow can be designed.
+- Storage writes, student payloads, assignment, and package promotion remain
+  false until later persistence and approval gates exist.
+
+Evidence: `packages/content-model/src/sourceDraftImport.ts`,
+`apps/web/src/data/sampleSourceDraftImport.ts`, and
+`docs/verification/SOURCE_DRAFT_IMPORT_CHECKS.md`.
