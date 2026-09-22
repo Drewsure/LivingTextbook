@@ -6471,3 +6471,17 @@ This standard is recorded in
 `docs/decision-register/DR-1070-pilot-policy-lineage.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0998-pilot-policy-lineage.md`.
+
+## 415. Persistence Activation Lineage Standard
+
+- Durable-write activation evidence must carry the exact pilot deployment
+  decision, school-policy preflight, and future acceptance-record preview ids.
+- A persistence handoff must preserve deployment selection status and the
+  `not-accepted` policy status; generic boolean flags are not sufficient.
+- The handoff remains activation-blocked until the identity, retention, release,
+  authorization, operations, and deployment gates close together.
+
+This standard is recorded in
+`docs/decision-register/DR-1071-persistence-activation-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0999-persistence-activation-lineage.md`.

@@ -4793,3 +4793,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
   boundary.
 - Added negative-path validation for altered policy status or missing lineage.
 - Recorded ADR 0998 and DR-1070.
+
+## Build session 0985: Persistence activation lineage binding
+
+- Bound pilot handoff activation evidence to the explicit deployment decision,
+  school-policy acceptance preflight, and future acceptance-record preview.
+- Displayed those identities in the teacher handoff packet so durable-write
+  review cannot rely on generic policy or provider booleans alone.
+- Preserved `not-accepted`, unselected deployment posture, and `canActivate:
+  false` in the sample handoff.
+- Added contract verification for missing or altered policy lineage.
+- Recorded ADR 0999 and DR-1071.

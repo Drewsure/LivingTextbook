@@ -8,6 +8,11 @@ import { toReleaseControlEvidence } from "@living-textbook/content-model";
 import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
+import {
+  samplePilotDeploymentDecisionId,
+  sampleSchoolPolicyAcceptancePreflightId,
+  sampleSchoolPolicyAcceptanceRecordPreviewId,
+} from "@/data/samplePilotLineageIds";
 
 export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
 export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
@@ -76,6 +81,11 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
     packetId: samplePersistenceActivationPreflight.packetId,
     tenantId: samplePersistenceActivationPreflight.tenantId,
     packageId: samplePilotHandoffPackageId,
+    deploymentDecisionId: samplePilotDeploymentDecisionId,
+    policyAcceptancePreflightId: sampleSchoolPolicyAcceptancePreflightId,
+    acceptanceRecordPreviewId: sampleSchoolPolicyAcceptanceRecordPreviewId,
+    deploymentSelectionStatus: "unselected",
+    policyAcceptanceStatus: "not-accepted",
     requestedMode: samplePersistenceActivationPreflight.requestedMode,
     status: samplePersistenceActivationPreflight.status,
     passedChecks: samplePersistenceActivationPreflight.checks.filter((check) => check.status === "passed").length,

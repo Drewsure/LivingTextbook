@@ -8660,3 +8660,22 @@ Evidence: `packages/content-model/src/pilotDeploymentDecision.ts`,
 `apps/web/src/data/samplePilotDeploymentDecision.ts`,
 `apps/web/src/features/pilot/PilotDeploymentDecisionPanel.tsx`, and
 `scripts/verify-pilot-deployment-decision.mjs`.
+
+# DR-1071: Persistence Activation Lineage
+
+Decision: require pilot handoff activation evidence to carry the exact
+deployment decision and school-policy lineage used by the persistence gate.
+
+Required invariants:
+
+- Activation evidence names the deployment decision, policy preflight, and
+  future acceptance-record preview.
+- Deployment selection remains review-only and policy status remains
+  `not-accepted` in the foundation sample.
+- `canActivate` and learner writes remain false until all deployment, identity,
+  authorization, retention, release, operations, and policy gates close.
+
+Evidence: `packages/content-model/src/pilotHandoff.ts`,
+`apps/web/src/data/samplePilotHandoffPackage.ts`,
+`apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx`, and
+`scripts/verify-persistence-activation-preflight.mjs`.

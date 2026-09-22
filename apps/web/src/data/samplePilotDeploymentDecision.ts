@@ -3,19 +3,22 @@ import {
   type PilotDeploymentDecision,
 } from "@living-textbook/content-model";
 import { sampleDeploymentDecisionGuide } from "@/data/sampleDeploymentDecisionGuide";
-import { sampleSchoolPolicyAcceptancePreflight } from "@/data/sampleSchoolPolicyAcceptancePreflight";
-import { sampleSchoolPolicyAcceptanceRecordPreview } from "@/data/sampleSchoolPolicyAcceptanceRecordPreview";
+import {
+  samplePilotDeploymentDecisionId,
+  sampleSchoolPolicyAcceptancePreflightId,
+  sampleSchoolPolicyAcceptanceRecordPreviewId,
+} from "@/data/samplePilotLineageIds";
 
 export const samplePilotDeploymentDecision: PilotDeploymentDecision = {
-  decisionId: "sample-publisher-first-pilot-deployment-decision",
+  decisionId: samplePilotDeploymentDecisionId,
   tenantId: "sample-publisher",
   packageId: "sample-publisher-l1-u1-routines-package",
   guideId: sampleDeploymentDecisionGuide.guideId,
   recommendedOptionId: "hosted-pwa",
   selectedOptionId: null,
   selectionStatus: "unselected",
-  policyAcceptancePreflightId: sampleSchoolPolicyAcceptancePreflight.preflightId,
-  acceptanceRecordPreviewId: sampleSchoolPolicyAcceptanceRecordPreview.previewId,
+  policyAcceptancePreflightId: sampleSchoolPolicyAcceptancePreflightId,
+  acceptanceRecordPreviewId: sampleSchoolPolicyAcceptanceRecordPreviewId,
   policyAcceptanceStatus: "not-accepted",
   status: "review-only",
   policyAccepted: false,
@@ -31,8 +34,8 @@ export const samplePilotDeploymentDecision: PilotDeploymentDecision = {
     `deployment-guide:${sampleDeploymentDecisionGuide.guideId}`,
     "persistence-activation-preflight:sample-publisher-durable-write-activation-preflight",
     "pilot-handoff:sample-publisher-l1-u1-routines-package",
-    `school-policy-acceptance-preflight:${sampleSchoolPolicyAcceptancePreflight.preflightId}`,
-    `school-policy-acceptance-record-preview:${sampleSchoolPolicyAcceptanceRecordPreview.previewId}`,
+    `school-policy-acceptance-preflight:${sampleSchoolPolicyAcceptancePreflightId}`,
+    `school-policy-acceptance-record-preview:${sampleSchoolPolicyAcceptanceRecordPreviewId}`,
   ],
 };
 

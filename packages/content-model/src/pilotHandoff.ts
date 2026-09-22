@@ -62,6 +62,11 @@ export interface PilotHandoffActivationPreflightEvidence {
   packetId: string;
   tenantId: string;
   packageId: string;
+  deploymentDecisionId: string;
+  policyAcceptancePreflightId: string;
+  acceptanceRecordPreviewId: string;
+  deploymentSelectionStatus: "unselected" | "selected-review-only";
+  policyAcceptanceStatus: "not-accepted";
   requestedMode: "durable-managed";
   status: "ready" | "blocked";
   passedChecks: number;
@@ -270,7 +275,14 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   if (!activationPreflightEvidence || typeof activationPreflightEvidence !== "object" || Array.isArray(activationPreflightEvidence)) {
     errors.push("Pilot handoff activation preflight evidence is required.");
   } else {
-    for (const field of ["packetId", "tenantId", "packageId"] as const) {
+    for (const field of [
+      "packetId",
+      "tenantId",
+      "packageId",
+      "deploymentDecisionId",
+      "policyAcceptancePreflightId",
+      "acceptanceRecordPreviewId",
+    ] as const) {
       requireText(activationPreflightEvidence[field], `activation preflight ${field}`, errors);
     }
     if (activationPreflightEvidence.tenantId !== packet.tenantId) {
@@ -278,6 +290,12 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (activationPreflightEvidence.packageId !== packet.packageId) {
       errors.push("Pilot handoff activation preflight package must match the handoff package.");
+    }
+    if (activationPreflightEvidence.deploymentSelectionStatus !== "unselected" && activationPreflightEvidence.deploymentSelectionStatus !== "selected-review-only") {
+      errors.push("Pilot handoff activation preflight deployment selection status is unsupported.");
+    }
+    if (activationPreflightEvidence.policyAcceptanceStatus !== "not-accepted") {
+      errors.push("Pilot handoff activation preflight policy acceptance status must remain not-accepted.");
     }
     if (activationPreflightEvidence.requestedMode !== "durable-managed") {
       errors.push("Pilot handoff activation preflight requested mode must be durable-managed.");

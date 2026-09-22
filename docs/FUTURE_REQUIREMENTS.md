@@ -932,3 +932,26 @@ References:
 - `apps/web/src/data/samplePilotDeploymentDecision.ts`
 - `apps/web/src/features/pilot/PilotDeploymentDecisionPanel.tsx`
 - `scripts/verify-pilot-deployment-decision.mjs`
+
+## FR-029: Persistence Activation Policy-Lineage Binding
+
+Status: Implemented as review-only handoff evidence; durable writes, provider
+activation, and school acceptance remain blocked.
+
+Requirement: Any future hosted or local persistence activation must carry the
+exact tenant/package deployment decision, school-policy acceptance preflight,
+and future acceptance-record preview identities. A generic accepted-policy or
+provider boolean is insufficient evidence.
+
+Current boundary:
+
+- Pilot handoff activation evidence displays all three lineage identities.
+- The sample deployment remains unselected and policy remains `not-accepted`.
+- `canActivate` remains false and no learner-data mutation is introduced.
+
+References:
+
+- `packages/content-model/src/pilotHandoff.ts`
+- `apps/web/src/data/samplePilotHandoffPackage.ts`
+- `apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx`
+- `scripts/verify-persistence-activation-preflight.mjs`

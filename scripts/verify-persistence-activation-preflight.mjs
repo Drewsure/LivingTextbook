@@ -50,16 +50,28 @@ requireFragments("pilot handoff contract", handoffModel, [
   "Pilot handoff activation preflight tenant must match the handoff tenant.",
   "Pilot handoff activation preflight requested mode must be durable-managed.",
   "Pilot handoff activation preflight canActivate must remain false.",
+  "deploymentDecisionId: string",
+  "policyAcceptancePreflightId: string",
+  "acceptanceRecordPreviewId: string",
+  'policyAcceptanceStatus: "not-accepted"',
 ]);
 requireFragments("pilot handoff fixture", handoffFixture, [
   "samplePersistenceActivationPreflight",
   "activationPreflightEvidence",
   "canActivate: false",
+  "samplePilotDeploymentDecisionId",
+  "sampleSchoolPolicyAcceptancePreflightId",
+  "sampleSchoolPolicyAcceptanceRecordPreviewId",
+  'policyAcceptanceStatus: "not-accepted"',
 ]);
 requireFragments("pilot handoff panel", handoffPanel, [
   "Activation preflight binding",
   "handoffPackage.activationPreflightEvidence",
   "Can activate",
+  "Deployment decision",
+  "Policy preflight",
+  "Acceptance preview",
+  "Policy status",
 ]);
 
 if (failures.length > 0) {

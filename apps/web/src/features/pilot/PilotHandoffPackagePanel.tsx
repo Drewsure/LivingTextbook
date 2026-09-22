@@ -101,6 +101,12 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
           <HandoffFact label="Checks" value={`${handoffPackage.activationPreflightEvidence.passedChecks} passed / ${handoffPackage.activationPreflightEvidence.openChecks} open / ${handoffPackage.activationPreflightEvidence.blockedChecks} blocked`} />
           <HandoffFact label="Can activate" value={handoffPackage.activationPreflightEvidence.canActivate ? "Yes" : "No"} />
         </dl>
+        <dl className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Deployment decision" value={handoffPackage.activationPreflightEvidence.deploymentDecisionId} />
+          <HandoffFact label="Policy preflight" value={handoffPackage.activationPreflightEvidence.policyAcceptancePreflightId} />
+          <HandoffFact label="Acceptance preview" value={handoffPackage.activationPreflightEvidence.acceptanceRecordPreviewId} />
+          <HandoffFact label="Policy status" value={handoffPackage.activationPreflightEvidence.policyAcceptanceStatus} />
+        </dl>
         <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
           {handoffPackage.activationPreflightEvidence.blockedReasons.map((reason, index) => (
             <li key={`pilot-activation-preflight-blocker-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{reason}</li>
