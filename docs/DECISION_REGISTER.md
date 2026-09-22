@@ -8416,3 +8416,20 @@ Required invariants:
 Evidence: `apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx`,
 `apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`, and
 the package-readiness verifiers.
+
+# DR-1056: End-to-End Extraction-to-Readiness Binding
+
+Decision: require package-readiness reconciliation to validate directly
+against its named structured extraction preview.
+
+Required invariants:
+
+- Tenant, target package, extraction preview ID, and source checksum must agree
+  across preview, assembly, and readiness evidence.
+- Unknown or mismatched preview evidence fails closed before readiness can pass.
+- The binding remains review-only and cannot authorize draft creation, storage,
+  promotion, assignment, routes, or student access.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`docs/adr/0984-end-to-end-extraction-readiness-binding.md`.

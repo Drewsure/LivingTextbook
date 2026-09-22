@@ -84,7 +84,10 @@ import { sampleQrPrintReadinessRecords } from "@/data/sampleQrPrintReadiness";
 import { sampleRouteGraduationGate } from "@/data/sampleRouteGraduationGate";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
-import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+import {
+  samplePackageReadinessReconciliationErrors,
+  samplePackageReadinessReconciliations,
+} from "@/data/samplePackageReadinessReconciliation";
 import { sampleFrontDoorRouteRegistry } from "@/data/sampleTenantRouteRegistry";
 import {
   sampleTeacherAssignmentErrors,
@@ -292,7 +295,10 @@ export default function TeacherIntakePage() {
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />
         <SourcePackageAssemblyPanel packets={sampleSourcePackageAssemblyPackets} />
-        <PackageReadinessReconciliationPanel reconciliations={samplePackageReadinessReconciliations} />
+        <PackageReadinessReconciliationPanel
+          reconciliations={samplePackageReadinessReconciliations}
+          evidenceFindings={samplePackageReadinessReconciliationErrors}
+        />
         <AiGameGeneratorPlanPanel plan={sampleAiGameGeneratorPlan} />
         <TeacherAuthoringReadinessPanel plan={sampleTeacherAuthoringReadinessPlan} />
         <AuthoringVerifierPlanPanel plan={sampleAuthoringVerifierPlan} />

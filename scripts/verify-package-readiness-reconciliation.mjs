@@ -11,6 +11,7 @@ const failures = [];
 for (const marker of [
   "PackageReadinessReconciliation",
   "validatePackageReadinessReconciliation",
+  "validatePackageReadinessExtractionPreviewBinding",
   "validatePackageReadinessSourceAssemblyBinding",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
@@ -26,6 +27,8 @@ for (const marker of [
 
 for (const marker of [
   "sampleSourcePackageAssemblyPackets.map",
+  "sampleSourceExtractionPreviews",
+  "samplePackageReadinessReconciliationErrors",
   "package-readiness-${packet.packetId}",
   "verifier-evidence",
   "target-language-audio",
@@ -40,6 +43,7 @@ for (const marker of [
   "Extraction preview",
   "Source checksum",
   "No student-facing activation",
+  "evidenceFindings",
   "Progress rule:",
 ]) {
   requireText(panel, marker, `Package readiness panel is missing ${marker}.`);
@@ -48,6 +52,7 @@ for (const marker of [
 for (const marker of [
   "PackageReadinessReconciliationPanel",
   "samplePackageReadinessReconciliations",
+  "samplePackageReadinessReconciliationErrors",
   "reconciliations={samplePackageReadinessReconciliations}",
 ]) {
   requireText(intake, marker, `Teacher intake must render package readiness reconciliation: ${marker}.`);

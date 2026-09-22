@@ -578,3 +578,26 @@ References:
 - `apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`
 - `scripts/verify-package-readiness-reconciliation.mjs`
 - `scripts/verify-package-readiness-persistence.mjs`
+
+## FR-015: End-to-End Extraction-to-Readiness Binding
+
+Status: Implemented as review-only validation; extraction acceptance, draft
+creation, storage writes, package promotion, assignment, and student activation
+remain gated.
+
+Requirement: A readiness record must prove that its source assembly and
+structured extraction preview refer to the same tenant-scoped package evidence.
+
+Current boundary:
+
+- The shared readiness contract validates tenant, target package, preview ID,
+  and source checksum directly against the preview.
+- MiniStar and sample-publisher fixtures use matching preview and assembly
+  checksums.
+- Runtime behavior rejects checksum drift before readiness evidence can pass.
+
+References:
+
+- `packages/content-model/src/packageReadinessReconciliation.ts`
+- `apps/web/src/data/samplePackageReadinessReconciliation.ts`
+- `scripts/verify-runtime-behavior.mjs`

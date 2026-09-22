@@ -116,6 +116,19 @@ Evidence: `apps/web/src/features/content-intake/PackageReadinessReconciliationPa
 `apps/web/src/features/persistence/PackageReadinessPersistencePanel.tsx`, and
 the package-readiness verifiers.
 
+## Build session 0970: End-to-end extraction-to-readiness binding
+
+- Added a direct package-readiness validator for tenant, target package,
+  extraction preview identity, and source checksum alignment.
+- Corrected both sample package chains so source assembly and extraction preview
+  checksums agree before readiness evidence is reconciled.
+- Added runtime mismatch coverage and kept preview storage, promotion,
+  assignment, and student activation blocked.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

@@ -6250,3 +6250,18 @@ and `docs/adr/0982-package-readiness-extraction-lineage.md`.
 This standard is recorded in `docs/decision-register/DR-1055-package-readiness-lineage-visibility.md`,
 `docs/build-session-notes/2026-09-22-package-readiness-lineage-visibility.md`,
 and `docs/adr/0983-package-readiness-lineage-visibility.md`.
+
+## 400. End-to-End Extraction-to-Readiness Binding Standard
+
+- A package-readiness record must validate directly against the structured
+  extraction preview it names, not only against an intermediate assembly ID.
+- Tenant, target package, preview ID, and source checksum must agree across
+  preview, assembly, and readiness evidence.
+- Missing, unknown, or mismatched preview evidence fails closed before a
+  package can be considered for promotion.
+- The binding remains review-only and cannot create drafts, write storage,
+  publish routes, assign learners, or activate student access.
+
+This standard is recorded in `docs/decision-register/DR-1056-end-to-end-extraction-readiness-binding.md`,
+`docs/build-session-notes/2026-09-22-end-to-end-extraction-readiness-binding.md`,
+and `docs/adr/0984-end-to-end-extraction-readiness-binding.md`.

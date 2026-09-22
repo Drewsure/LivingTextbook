@@ -7,7 +7,7 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     sourceId: "src-ministar-master-docx",
     targetPackageId: "ministar-l1-u1-greetings-package",
     sourceType: "docx",
-    sourceChecksum: `sha256:${"b".repeat(64)}`,
+    sourceChecksum: `sha256:${"a".repeat(64)}`,
     extractionMethod: "manual-structure",
     mode: "review-only",
     segments: [
@@ -62,7 +62,7 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     sourceId: "src-sample-publisher-unit-pdf",
     targetPackageId: "sample-publisher-l1-u1-routines-package",
     sourceType: "pdf",
-    sourceChecksum: `sha256:${"c".repeat(64)}`,
+    sourceChecksum: `sha256:${"2".repeat(64)}`,
     extractionMethod: "ocr",
     mode: "review-only",
     segments: [

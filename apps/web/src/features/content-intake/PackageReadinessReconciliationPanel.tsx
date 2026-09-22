@@ -8,6 +8,7 @@ import {
 
 interface PackageReadinessReconciliationPanelProps {
   reconciliations: PackageReadinessReconciliation[];
+  evidenceFindings?: string[];
 }
 
 const statusTone: Record<PackageReadinessLaneStatus, "neutral" | "success" | "warning"> = {
@@ -16,8 +17,11 @@ const statusTone: Record<PackageReadinessLaneStatus, "neutral" | "success" | "wa
   blocked: "warning",
 };
 
-export function PackageReadinessReconciliationPanel({ reconciliations }: PackageReadinessReconciliationPanelProps) {
-  const findings = reconciliations.flatMap((reconciliation) => validatePackageReadinessReconciliation(reconciliation).map((error) => `${reconciliation.reconciliationId}: ${error}`));
+export function PackageReadinessReconciliationPanel({ reconciliations, evidenceFindings = [] }: PackageReadinessReconciliationPanelProps) {
+  const findings = [
+    ...evidenceFindings,
+    ...reconciliations.flatMap((reconciliation) => validatePackageReadinessReconciliation(reconciliation).map((error) => `${reconciliation.reconciliationId}: ${error}`)),
+  ];
   const blockedCount = reconciliations.filter((reconciliation) => reconciliation.status === "blocked").length;
 
   return (

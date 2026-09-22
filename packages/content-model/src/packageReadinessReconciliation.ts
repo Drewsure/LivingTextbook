@@ -165,6 +165,32 @@ export function validatePackageReadinessSourceAssemblyBinding(reconciliation: un
   return [...new Set(errors)];
 }
 
+export function validatePackageReadinessExtractionPreviewBinding(reconciliation: unknown, preview: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(reconciliation)) return ["Package readiness extraction preview binding requires a reconciliation object."];
+  if (!isRecord(preview)) return ["Package readiness extraction preview binding requires a preview object."];
+
+  const bindings = [
+    ["tenantId", reconciliation.tenantId, preview.tenantId],
+    ["packageId", reconciliation.packageId, preview.targetPackageId],
+    ["sourceExtractionPreviewId", reconciliation.sourceExtractionPreviewId, preview.previewId],
+    ["sourceAssemblyChecksum", reconciliation.sourceAssemblyChecksum, preview.sourceChecksum],
+  ] as const;
+
+  for (const [field, readinessValue, previewValue] of bindings) {
+    if (!isNonEmptyString(readinessValue) || !isNonEmptyString(previewValue)) {
+      errors.push(`Package readiness extraction preview binding requires ${field} on both records.`);
+    } else if (readinessValue !== previewValue) {
+      errors.push(`Package readiness extraction preview binding ${field} does not match the preview.`);
+    }
+  }
+
+  if (preview.mode !== "review-only") errors.push("Package readiness extraction preview must remain review-only.");
+  if (preview.storageWriteAllowed !== false) errors.push("Package readiness extraction preview storage writes must remain blocked.");
+  if (preview.studentFacingPayloadAllowed !== false) errors.push("Package readiness extraction preview student payloads must remain blocked.");
+  return [...new Set(errors)];
+}
+
 export function validatePackageReadinessReconciliations(reconciliations: unknown[]): string[] {
   return reconciliations.flatMap((reconciliation) => validatePackageReadinessReconciliation(reconciliation));
 }

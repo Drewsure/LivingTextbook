@@ -1391,6 +1391,20 @@ try {
     ).length,
     0,
   );
+  assertEqual(
+    packageReadinessReconciliation.validatePackageReadinessExtractionPreviewBinding(
+      validPackageReadinessReconciliation,
+      sourcePreviewResult.preview,
+    ).length,
+    0,
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessExtractionPreviewBinding(
+      validPackageReadinessReconciliation,
+      { ...sourcePreviewResult.preview, sourceChecksum: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+    ),
+    "Package readiness extraction preview binding sourceAssemblyChecksum does not match the preview.",
+  );
   assertIncludes(
     packageReadinessReconciliation.validatePackageReadinessSourceAssemblyBinding(
       validPackageReadinessReconciliation,

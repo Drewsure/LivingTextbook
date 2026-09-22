@@ -1,11 +1,13 @@
 import {
   PACKAGE_READINESS_BLOCKED_ACTIONS,
+  validatePackageReadinessExtractionPreviewBinding,
   validatePackageReadinessSourceAssemblyBinding,
   validatePackageReadinessReconciliations,
   type PackageReadinessLane,
   type PackageReadinessReconciliation,
 } from "@living-textbook/content-model";
 import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
+import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
 
 export const samplePackageReadinessReconciliations: PackageReadinessReconciliation[] = sampleSourcePackageAssemblyPackets.map((packet) => {
   const miniStar = packet.tenantId === "ministar";
@@ -106,6 +108,10 @@ export const samplePackageReadinessReconciliationErrors = [
   ...validatePackageReadinessReconciliations(samplePackageReadinessReconciliations),
   ...samplePackageReadinessReconciliations.flatMap((reconciliation) => {
     const assembly = sampleSourcePackageAssemblyPackets.find((packet) => packet.packetId === reconciliation.sourceAssemblyPacketId);
-    return validatePackageReadinessSourceAssemblyBinding(reconciliation, assembly);
+    const preview = sampleSourceExtractionPreviews.find((candidate) => candidate.previewId === reconciliation.sourceExtractionPreviewId);
+    return [
+      ...validatePackageReadinessSourceAssemblyBinding(reconciliation, assembly),
+      ...validatePackageReadinessExtractionPreviewBinding(reconciliation, preview),
+    ];
   }),
 ];
