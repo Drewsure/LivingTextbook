@@ -1,4 +1,7 @@
-import { validateSourcePackageAssemblyExtractionPreviewBinding } from "./sourcePackageAssembly";
+import {
+  validateSourcePackageAssemblyContentPackageBinding,
+  validateSourcePackageAssemblyExtractionPreviewBinding,
+} from "./sourcePackageAssembly";
 import { validateSourceExtractionPreview } from "./sourceExtractionPreview";
 
 export type PackageReadinessLaneStatus = "ready-preview" | "needs-review" | "blocked";
@@ -198,6 +201,7 @@ export function validatePackageReadinessLineageBinding(
   reconciliation: unknown,
   sourceAssembly: unknown,
   preview: unknown,
+  contentPackage: unknown,
 ): string[] {
   const errors = [
     ...validatePackageReadinessSourceAssemblyBinding(reconciliation, sourceAssembly),
@@ -205,6 +209,8 @@ export function validatePackageReadinessLineageBinding(
     ...validateSourceExtractionPreview(preview)
       .map((error) => `Package readiness lineage ${error}`),
     ...validateSourcePackageAssemblyExtractionPreviewBinding(sourceAssembly, preview)
+      .map((error) => `Package readiness lineage ${error}`),
+    ...validateSourcePackageAssemblyContentPackageBinding(sourceAssembly, contentPackage)
       .map((error) => `Package readiness lineage ${error}`),
   ];
 

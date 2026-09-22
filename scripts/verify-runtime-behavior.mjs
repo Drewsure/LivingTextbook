@@ -1426,6 +1426,7 @@ try {
       validPackageReadinessReconciliation,
       validSourcePackageAssemblyPacket,
       sourcePreviewResult.preview,
+      validSourceContentPackage,
     ).length,
     0,
   );
@@ -1434,6 +1435,7 @@ try {
       validPackageReadinessReconciliation,
       { ...validSourcePackageAssemblyPacket, candidateUnitKeys: ["tenant-1:curriculum:L1:U2"] },
       sourcePreviewResult.preview,
+      validSourceContentPackage,
     ),
     "Package readiness lineage Source package assembly extraction preview binding candidate unit tenant-1:curriculum:L1:U2 is not declared by the preview.",
   );
@@ -1442,8 +1444,18 @@ try {
       validPackageReadinessReconciliation,
       validSourcePackageAssemblyPacket,
       { ...sourcePreviewResult.preview, segments: [{ ...sourcePreviewResult.preview.segments[0], normalizedText: "drifted" }] },
+      validSourceContentPackage,
     ),
     "Package readiness lineage Source extraction preview segment preview-1-segment-1 normalizedText must match normalized text.",
+  );
+  assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessLineageBinding(
+      validPackageReadinessReconciliation,
+      validSourcePackageAssemblyPacket,
+      sourcePreviewResult.preview,
+      { ...validSourceContentPackage, mediaAssets: [] },
+    ),
+    "Package readiness lineage Source package assembly content package binding media asset audio-1 is not declared by the content package.",
   );
   assertIncludes(
     packageReadinessReconciliation.validatePackageReadinessExtractionPreviewBinding(

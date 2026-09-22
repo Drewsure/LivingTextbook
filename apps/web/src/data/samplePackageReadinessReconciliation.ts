@@ -7,6 +7,8 @@ import {
 } from "@living-textbook/content-model";
 import { sampleSourcePackageAssemblyPackets } from "@/data/sampleSourcePackageAssembly";
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
+import { sampleMultimediaContentPackage } from "@/data/sampleMultimediaPackage";
+import { samplePartnerContentPackage } from "@/data/samplePartnerPackage";
 
 export const samplePackageReadinessReconciliations: PackageReadinessReconciliation[] = sampleSourcePackageAssemblyPackets.map((packet) => {
   const miniStar = packet.tenantId === "ministar";
@@ -108,6 +110,7 @@ export const samplePackageReadinessReconciliationErrors = [
   ...samplePackageReadinessReconciliations.flatMap((reconciliation) => {
     const assembly = sampleSourcePackageAssemblyPackets.find((packet) => packet.packetId === reconciliation.sourceAssemblyPacketId);
     const preview = sampleSourceExtractionPreviews.find((candidate) => candidate.previewId === reconciliation.sourceExtractionPreviewId);
-    return validatePackageReadinessLineageBinding(reconciliation, assembly, preview);
+    const contentPackage = reconciliation.tenantId === "ministar" ? sampleMultimediaContentPackage : samplePartnerContentPackage;
+    return validatePackageReadinessLineageBinding(reconciliation, assembly, preview, contentPackage);
   }),
 ];

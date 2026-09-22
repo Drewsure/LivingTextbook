@@ -694,3 +694,29 @@ References:
 - `packages/content-model/src/packageReadinessReconciliation.ts`
 - `apps/web/src/data/samplePackageReadinessReconciliation.ts`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-020: Composite Media-Package Readiness Binding
+
+Status: Implemented as review-only composite validation; upload, transcoding,
+rights approval, playlist promotion, storage writes, assignment, and student
+activation remain gated.
+
+Requirement: Package readiness must consume the same tenant-scoped content
+package used by the source assembly instead of trusting a separately rendered
+media finding.
+
+Current boundary:
+
+- The composite readiness validator requires the content package as a lineage
+  input.
+- Missing, cross-tenant, missing-package, and out-of-candidate-unit media
+  references fail closed before readiness evidence can pass.
+- The content package binding remains evidence-only and cannot authorize any
+  upload or release side effect.
+
+References:
+
+- `packages/content-model/src/packageReadinessReconciliation.ts`
+- `packages/content-model/src/sourcePackageAssembly.ts`
+- `apps/web/src/data/samplePackageReadinessReconciliation.ts`
+- `scripts/verify-runtime-behavior.mjs`

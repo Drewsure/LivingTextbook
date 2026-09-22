@@ -671,6 +671,13 @@ package and declared unit scope. The decision is recorded in
 `docs/adr/0988-source-assembly-media-package-binding.md` and
 `docs/decision-register/DR-1060-source-assembly-media-package-binding.md`.
 
+The composite media-package readiness slice now passes the bound content
+package into the readiness lineage validator, so missing, cross-tenant, and
+out-of-scope media references cannot hide behind a separately rendered source
+panel. The decision is recorded in
+`docs/adr/0989-composite-media-package-readiness.md` and
+`docs/decision-register/DR-1061-composite-media-package-readiness.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.

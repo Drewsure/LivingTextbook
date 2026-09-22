@@ -6320,3 +6320,17 @@ and `docs/adr/0987-extraction-preview-output-invariants.md`.
 This standard is recorded in `docs/decision-register/DR-1060-source-assembly-media-package-binding.md`,
 `docs/build-session-notes/2026-09-22-source-assembly-media-package-binding.md`,
 and `docs/adr/0988-source-assembly-media-package-binding.md`.
+
+## 405. Composite Media-Package Readiness Standard
+
+- Package readiness must consume the tenant-scoped content package used by
+  the source assembly; a separate media panel is not sufficient evidence.
+- Missing, cross-tenant, missing-package, and out-of-candidate-unit media
+  references must fail closed in the composite validator.
+- Composite media binding remains review-only and cannot authorize upload,
+  storage, rights approval, playlist activation, promotion, assignment, or
+  student access.
+
+This standard is recorded in `docs/decision-register/DR-1061-composite-media-package-readiness.md`,
+`docs/build-session-notes/2026-09-23-composite-media-package-readiness.md`,
+and `docs/adr/0989-composite-media-package-readiness.md`.

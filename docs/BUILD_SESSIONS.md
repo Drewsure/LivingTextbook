@@ -157,6 +157,19 @@ Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
 `apps/web/src/data/sampleSourcePackageAssembly.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0975: Composite media-package readiness binding
+
+- Passed the tenant-scoped content package into composite package-readiness
+  lineage validation.
+- Rejected missing, cross-tenant, missing-package, and out-of-candidate-unit
+  media references before readiness evidence can pass.
+- Added a runtime regression while keeping upload, rights approval, storage,
+  playlist activation, promotion, assignment, and student access blocked.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
+
 ## Build session 0971: Extraction preview candidate-unit binding
 
 - Required every source assembly candidate unit to be declared by its bound

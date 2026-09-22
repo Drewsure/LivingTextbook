@@ -15,6 +15,7 @@ for (const marker of [
   "validatePackageReadinessSourceAssemblyBinding",
   "validatePackageReadinessLineageBinding",
   "validateSourceExtractionPreview",
+  "validateSourcePackageAssemblyContentPackageBinding",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
   "sourceExtractionPreviewId",
@@ -30,6 +31,8 @@ for (const marker of [
 for (const marker of [
   "sampleSourcePackageAssemblyPackets.map",
   "sampleSourceExtractionPreviews",
+  "sampleMultimediaContentPackage",
+  "samplePartnerContentPackage",
   "samplePackageReadinessReconciliationErrors",
   "package-readiness-${packet.packetId}",
   "verifier-evidence",

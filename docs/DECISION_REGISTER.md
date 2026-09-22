@@ -8503,3 +8503,21 @@ Required invariants:
 Evidence: `packages/content-model/src/sourcePackageAssembly.ts`,
 `apps/web/src/data/sampleSourcePackageAssembly.ts`, and
 `docs/adr/0988-source-assembly-media-package-binding.md`.
+
+# DR-1061: Composite Media-Package Readiness
+
+Decision: require the package-readiness lineage validator to consume the
+tenant-scoped content package bound to the source assembly.
+
+Required invariants:
+
+- Missing, cross-tenant, missing-package, and out-of-candidate-unit media
+  references fail closed before readiness evidence can pass.
+- Media binding remains review-only and cannot authorize upload, rights
+  approval, storage, playlist activation, promotion, assignment, or student
+  access.
+
+Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
+`packages/content-model/src/sourcePackageAssembly.ts`,
+`apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
+`docs/adr/0989-composite-media-package-readiness.md`.

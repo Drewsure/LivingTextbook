@@ -13,6 +13,8 @@ The package readiness chain is accepted only when:
   readiness, assembly, and extraction preview records;
 - composite readiness lineage rejects malformed normalized text and summary
   output before later package evidence can pass;
+- composite readiness lineage rejects missing, cross-tenant, and out-of-scope
+  media references in the bound content package;
 - every reconciliation remains review-only and blocked from promotion;
 - target-language activity is the only progression authority;
 - support language cannot unlock progress;
