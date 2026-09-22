@@ -34,3 +34,5 @@ Confirm:
 - Extraction review packets remain review evidence and cannot create routes, games, playlists, package releases, or assignments by themselves.
 - Extraction review packet previews block teacher draft creation, student-facing payloads, playlist creation, and package release without verifier handoff.
 - Source package candidate units are declared by their bound extraction preview.
+- Generated extraction previews preserve normalized text, candidate-unit
+  summaries, page ranges, and all review-only blocked actions.

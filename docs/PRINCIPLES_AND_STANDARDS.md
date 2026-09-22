@@ -6294,3 +6294,16 @@ and `docs/adr/0985-extraction-preview-candidate-unit-binding.md`.
 This standard is recorded in `docs/decision-register/DR-1058-composite-package-readiness-lineage.md`,
 `docs/build-session-notes/2026-09-22-composite-package-readiness-lineage.md`,
 and `docs/adr/0986-composite-package-readiness-lineage.md`.
+
+## 403. Extraction-Preview Output Invariant Standard
+
+- A valid extraction request does not by itself prove that a later preview
+  object remains structurally faithful.
+- Preview output must revalidate normalized text, segment identity,
+  candidate-unit coverage, summary counts, page ranges, and blocked actions.
+- Output validation remains review-only and cannot authorize extraction,
+  storage, promotion, routes, assignments, or student access.
+
+This standard is recorded in `docs/decision-register/DR-1059-extraction-preview-output-invariants.md`,
+`docs/build-session-notes/2026-09-22-extraction-preview-output-invariants.md`,
+and `docs/adr/0987-extraction-preview-output-invariants.md`.

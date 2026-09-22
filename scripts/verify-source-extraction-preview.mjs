@@ -15,7 +15,7 @@ try {
   writeFileSync(join(output, "sourceExtractionPreview.js"), ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
-  const { createReviewOnlySourceExtractionPreview, validateSourceExtractionPreviewRequest } = require(join(output, "sourceExtractionPreview.js"));
+  const { createReviewOnlySourceExtractionPreview, validateSourceExtractionPreview, validateSourceExtractionPreviewRequest } = require(join(output, "sourceExtractionPreview.js"));
   const fixture = {
     previewId: "preview-sample-publisher-l1-u1-routines-v1",
     tenantId: "sample-publisher",
@@ -40,6 +40,17 @@ try {
   assert(result.preview?.studentFacingPayloadAllowed === false, "preview must block student payloads");
   assert(result.preview?.storageWriteAllowed === false, "preview must block storage writes");
   assert(result.preview?.unitSummaries[0]?.pageStart === 1 && result.preview?.unitSummaries[0]?.pageEnd === 1, "unit page summary must be derived");
+  assert(validateSourceExtractionPreview(result.preview).length === 0, "generated preview output must preserve its own invariants");
+  assert(
+    validateSourceExtractionPreview({ ...result.preview, unitSummaries: [{ ...result.preview.unitSummaries[0], segmentCount: 1 }] })
+      .some((error) => error.includes("segmentCount does not match segments")),
+    "preview output validator must reject summary drift",
+  );
+  assert(
+    validateSourceExtractionPreview({ ...result.preview, segments: [{ ...result.preview.segments[0], normalizedText: "wrong" }, result.preview.segments[1]] })
+      .some((error) => error.includes("normalizedText must match normalized text")),
+    "preview output validator must reject normalized text drift",
+  );
 
   const aiResult = createReviewOnlySourceExtractionPreview({ ...fixture, extractionMethod: "ai-assisted" });
   assert(aiResult.valid && aiResult.warnings.some((warning) => warning.includes("reviewer suggestion")), "AI extraction must remain visibly review-only");

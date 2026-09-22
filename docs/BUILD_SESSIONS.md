@@ -129,6 +129,19 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `scripts/verify-runtime-behavior.mjs`.
 
+## Build session 0973: Extraction-preview output invariant validation
+
+- Added a shared validator for the preview object consumed after extraction,
+  not only for the original extraction request.
+- Reconciled normalized text, segment identity, candidate-unit summaries,
+  page ranges, and review-only blocked actions.
+- Added negative checks for normalized-text and summary drift while preserving
+  the no-storage and no-student-payload boundary.
+
+Evidence: `packages/content-model/src/sourceExtractionPreview.ts`,
+`scripts/verify-source-extraction-preview.mjs`, and
+`scripts/verify-source-review-queue.mjs`.
+
 ## Build session 0971: Extraction preview candidate-unit binding
 
 - Required every source assembly candidate unit to be declared by its bound

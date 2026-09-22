@@ -8469,3 +8469,20 @@ Required invariants:
 Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
 `apps/web/src/data/samplePackageReadinessReconciliation.ts`, and
 `docs/adr/0986-composite-package-readiness-lineage.md`.
+
+# DR-1059: Extraction-Preview Output Invariants
+
+Decision: revalidate the structured preview object after it is created so
+later evidence layers cannot consume drifted extraction output.
+
+Required invariants:
+
+- Normalized text must match deterministic whitespace normalization of the
+  preserved original text.
+- Candidate-unit summaries must match segment counts and page ranges.
+- Segment identity, review-only blocked actions, storage blocking, and
+  student-payload blocking must remain intact.
+
+Evidence: `packages/content-model/src/sourceExtractionPreview.ts`,
+`scripts/verify-source-extraction-preview.mjs`, and
+`docs/adr/0987-extraction-preview-output-invariants.md`.

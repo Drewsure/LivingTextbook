@@ -625,6 +625,28 @@ References:
 - `apps/web/src/data/samplePackageReadinessReconciliation.ts`
 - `scripts/verify-runtime-behavior.mjs`
 
+## FR-018: Extraction-Preview Output Invariants
+
+Status: Implemented as review-only output validation; extraction acceptance,
+draft creation, storage writes, package promotion, assignment, and student
+activation remain gated.
+
+Requirement: The structured preview object consumed by later evidence layers
+must preserve the invariants established by its extraction request.
+
+Current boundary:
+
+- Normalized text must equal the deterministic normalization of original text.
+- Unit summaries must match candidate-unit segment counts and page ranges.
+- Segment identity, candidate-unit coverage, blocked actions, and no-side-effect
+  flags are revalidated on the output object.
+
+References:
+
+- `packages/content-model/src/sourceExtractionPreview.ts`
+- `scripts/verify-source-extraction-preview.mjs`
+- `scripts/verify-source-review-queue.mjs`
+
 ## FR-017: Composite Package-Readiness Lineage Binding
 
 Status: Implemented as review-only validation; extraction acceptance, draft

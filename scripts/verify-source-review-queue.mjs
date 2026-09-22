@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 const queueData = readSource("../apps/web/src/data/sampleSourceReviewQueue.ts");
 const extractionPacketData = readSource("../apps/web/src/data/sampleSourceExtractionReviewPackets.ts");
 const extractionPreviewData = readSource("../apps/web/src/data/sampleSourceExtractionPreviews.ts");
+const sourceExtractionPreviewModel = readSource("../packages/content-model/src/sourceExtractionPreview.ts");
 const sourcePackageAssemblyModel = readSource("../packages/content-model/src/sourcePackageAssembly.ts");
 const packageApprovalLedgerModel = readSource("../packages/content-model/src/packageApprovalLedger.ts");
 const sourcePackageAssemblyData = readSource("../apps/web/src/data/sampleSourcePackageAssembly.ts");
@@ -97,6 +98,7 @@ requireText(extractionPacketData, "No package release without verifier handoff."
 requireText(extractionPacketData, "No playlist creation from uploaded media.", "Extraction packets must block playlist creation from uploaded media.");
 requireText(extractionPreviewData, "sampleSourceExtractionPreviews", "Source review must include structured extraction preview fixtures.");
 requireText(extractionPreviewData, "storageWriteAllowed: false", "Extraction preview fixtures must block storage writes.");
+requireText(sourceExtractionPreviewModel, "validateSourceExtractionPreview", "Source extraction previews must validate generated output invariants.");
 requireText(extractionPacketPanel, "Structured source extraction preview", "Extraction packet panel must expose structured extraction previews.");
 requireText(extractionPacketPanel, "Page and unit lineage", "Extraction packet panel must expose page and unit lineage.");
 requireText(extractionPacketPanel, "Original text preserved for review", "Extraction packet panel must preserve original extracted text evidence.");

@@ -659,6 +659,12 @@ package-bound evidence chain. The decision is recorded in
 `docs/adr/0986-composite-package-readiness-lineage.md` and
 `docs/decision-register/DR-1058-composite-package-readiness-lineage.md`.
 
+The extraction-preview output invariant slice now revalidates normalized text,
+segment identity, candidate-unit summaries, page ranges, and no-side-effect
+flags before later evidence layers consume the preview. The decision is
+recorded in `docs/adr/0987-extraction-preview-output-invariants.md` and
+`docs/decision-register/DR-1059-extraction-preview-output-invariants.md`.
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.
