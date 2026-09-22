@@ -108,6 +108,14 @@ try {
   pilotCount.pilotEvidence.blockingReasonCount = 0;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(pilotCount), "pilot evidence blocker count must match", "pilot blocker count rejection");
 
+  const duplicatePilotBinding = structuredClone(valid);
+  duplicatePilotBinding.pilotEvidence.evidenceBindings = ["pilot-handoff:sample-publisher-first-handoff", "pilot-handoff:sample-publisher-first-handoff"];
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(duplicatePilotBinding), "pilot evidence bindings must be unique", "duplicate pilot binding rejection");
+
+  const blankPilotBinding = structuredClone(valid);
+  blankPilotBinding.pilotEvidence.evidenceBindings = ["pilot-handoff:sample-publisher-first-handoff", ""];
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(blankPilotBinding), "bindings must contain only non-empty strings", "blank pilot binding rejection");
+
   const promotion = structuredClone(valid);
   promotion.packageEvidence.promotionAllowed = true;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(promotion), "promotion must remain false", "promotion rejection");

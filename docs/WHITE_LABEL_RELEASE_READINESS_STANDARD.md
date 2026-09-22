@@ -95,6 +95,10 @@ control evidence. Each card must expose the tenant and package identity of the
 record it summarizes; headings such as "same tenant package" are not evidence
 on their own.
 
+Pilot evidence bindings must be non-empty, string-valued, and unique. The
+validator must reject duplicate or malformed identifiers rather than silently
+discarding them.
+
 ## Verification
 
 Run `node scripts/verify-white-label-release-readiness.mjs`,

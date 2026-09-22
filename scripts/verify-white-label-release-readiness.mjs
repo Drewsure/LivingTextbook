@@ -33,6 +33,8 @@ const markers = [
   ["model", "Pilot-ready white-label release readiness requires pilot-ready pilot evidence"],
   ["model", "must match the readiness tenant"],
   ["model", "must match the readiness package"],
+  ["model", "pilot evidence bindings must be unique"],
+  ["model", "bindings must contain only non-empty strings"],
   ["model", "route evidence counts must reconcile"],
   ["model", "White-label release package evidence must match the readiness package"],
   ["sample", "sample-publisher-white-label-release-readiness-v1"],

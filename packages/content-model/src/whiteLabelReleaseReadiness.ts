@@ -257,7 +257,16 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     if (readString(pilotEvidence, "status") === "demo-ready-pilot-blocked" && blockingReasons.length === 0) errors.push("Blocked white-label release pilot evidence must list blockers.");
     if (status === "pilot-ready" && readString(pilotEvidence, "status") !== "pilot-ready") errors.push("Pilot-ready white-label release readiness requires pilot-ready pilot evidence.");
     if (status === "pilot-ready" && blockingReasons.length > 0) errors.push("Pilot-ready white-label release readiness cannot contain pilot blockers.");
-    if (readStringArray(pilotEvidence, "evidenceBindings").length === 0) errors.push("White-label release pilot evidence must include evidence bindings.");
+    const evidenceBindings = readStringArray(pilotEvidence, "evidenceBindings");
+    if (evidenceBindings.length === 0) {
+      errors.push("White-label release pilot evidence must include evidence bindings.");
+    } else {
+      const rawEvidenceBindings = pilotEvidence.evidenceBindings;
+      if (!Array.isArray(rawEvidenceBindings) || rawEvidenceBindings.some((binding) => typeof binding !== "string" || binding.trim().length === 0)) {
+        errors.push("White-label release pilot evidence bindings must contain only non-empty strings.");
+      }
+      if (new Set(evidenceBindings).size !== evidenceBindings.length) errors.push("White-label release pilot evidence bindings must be unique.");
+    }
     for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed"] as const) {
       if (pilotEvidence[field] !== false) errors.push(`White-label release pilot evidence ${field} must remain false.`);
     }

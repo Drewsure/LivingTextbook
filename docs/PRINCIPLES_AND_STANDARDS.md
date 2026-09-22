@@ -6119,3 +6119,15 @@ and `docs/adr/0973-white-label-quality-evidence-scope-display.md`.
 This standard is recorded in `docs/decision-register/DR-1046-white-label-nested-evidence-scope-display.md`,
 `docs/build-session-notes/2026-09-22-white-label-nested-evidence-scope-display.md`,
 and `docs/adr/0974-white-label-nested-evidence-scope-display.md`.
+
+## 391. White-Label Pilot Evidence Binding Integrity Standard
+
+- Pilot evidence bindings must be non-empty strings.
+- Pilot evidence bindings must be unique; repeated identifiers cannot satisfy
+  multiple evidence requirements.
+- Malformed or duplicate bindings keep the readiness record invalid and do not
+  authorize pilot launch, reporting, persistence, promotion, or student access.
+
+This standard is recorded in `docs/decision-register/DR-1047-white-label-pilot-evidence-binding-integrity.md`,
+`docs/build-session-notes/2026-09-22-white-label-pilot-evidence-binding-integrity.md`,
+and `docs/adr/0975-white-label-pilot-evidence-binding-integrity.md`.

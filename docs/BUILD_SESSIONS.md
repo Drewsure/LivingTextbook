@@ -4485,3 +4485,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept nested evidence review-only and all promotion, persistence, and student
   launch actions activation-disabled.
 - Recorded ADR 0974 and DR-1046.
+
+## Build session 0960: White-label pilot evidence binding integrity
+
+- Rejected duplicate pilot evidence bindings.
+- Rejected blank or non-string pilot evidence bindings instead of silently
+  filtering them into a green-looking packet.
+- Added behavior coverage for both malformed binding paths.
+- Recorded ADR 0975 and DR-1047.
