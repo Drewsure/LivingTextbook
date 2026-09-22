@@ -157,6 +157,8 @@ Implemented sample boundary:
 - `/enter/ministar` opens the sample unit package through entry-code/user-code local state.
 - The front-door slice emits launch, flashcard, game, media, and background-media events into one teacher-visible report preview.
 - Memory Match is playable from both `/launch/demo-unit-1` and `/enter/ministar`.
+- The durable-write activation preflight is bound into the pilot handoff package,
+  preserving tenant/package identity and the no-activation boundary.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:

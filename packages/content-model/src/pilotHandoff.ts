@@ -58,6 +58,19 @@ export interface PilotHandoffPersistenceGateEvidence {
   writesAllowed: false;
 }
 
+export interface PilotHandoffActivationPreflightEvidence {
+  packetId: string;
+  tenantId: string;
+  packageId: string;
+  requestedMode: "durable-managed";
+  status: "ready" | "blocked";
+  passedChecks: number;
+  openChecks: number;
+  blockedChecks: number;
+  blockedReasons: string[];
+  canActivate: false;
+}
+
 export interface PilotHandoffPackage {
   packageId: string;
   tenantId: string;
@@ -69,6 +82,7 @@ export interface PilotHandoffPackage {
   releaseControlEvidence: ReleaseControlEvidence;
   reportSnapshotEvidence: PilotHandoffReportSnapshotEvidence;
   persistenceGateEvidence: PilotHandoffPersistenceGateEvidence;
+  activationPreflightEvidence: PilotHandoffActivationPreflightEvidence;
   routes: PilotHandoffRoute[];
   assets: PilotHandoffAsset[];
   decisions: PilotHandoffDecision[];
@@ -179,6 +193,43 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     }
     if (persistenceGateEvidence.writesAllowed !== false) {
       errors.push("Pilot handoff persistence gate writesAllowed must remain false.");
+    }
+  }
+
+  const activationPreflightEvidence = packet.activationPreflightEvidence;
+  if (!activationPreflightEvidence || typeof activationPreflightEvidence !== "object" || Array.isArray(activationPreflightEvidence)) {
+    errors.push("Pilot handoff activation preflight evidence is required.");
+  } else {
+    for (const field of ["packetId", "tenantId", "packageId"] as const) {
+      requireText(activationPreflightEvidence[field], `activation preflight ${field}`, errors);
+    }
+    if (activationPreflightEvidence.tenantId !== packet.tenantId) {
+      errors.push("Pilot handoff activation preflight tenant must match the handoff tenant.");
+    }
+    if (activationPreflightEvidence.packageId !== packet.packageId) {
+      errors.push("Pilot handoff activation preflight package must match the handoff package.");
+    }
+    if (activationPreflightEvidence.requestedMode !== "durable-managed") {
+      errors.push("Pilot handoff activation preflight requested mode must be durable-managed.");
+    }
+    if (activationPreflightEvidence.status !== "ready" && activationPreflightEvidence.status !== "blocked") {
+      errors.push("Pilot handoff activation preflight has an unsupported status.");
+    }
+    for (const field of ["passedChecks", "openChecks", "blockedChecks"] as const) {
+      if (!Number.isSafeInteger(activationPreflightEvidence[field]) || activationPreflightEvidence[field] < 0) {
+        errors.push(`Pilot handoff activation preflight ${field} must be a non-negative safe integer.`);
+      }
+    }
+    if (activationPreflightEvidence.status === "blocked" && activationPreflightEvidence.blockedChecks < 1) {
+      errors.push("Pilot handoff blocked activation preflight must include a blocked check.");
+    }
+    if (!Array.isArray(activationPreflightEvidence.blockedReasons)) {
+      errors.push("Pilot handoff activation preflight blockedReasons must be an array.");
+    } else if (activationPreflightEvidence.status === "blocked" && activationPreflightEvidence.blockedReasons.length === 0) {
+      errors.push("Pilot handoff blocked activation preflight must include blocker reasons.");
+    }
+    if (activationPreflightEvidence.canActivate !== false) {
+      errors.push("Pilot handoff activation preflight canActivate must remain false.");
     }
   }
 

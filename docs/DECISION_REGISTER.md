@@ -7609,3 +7609,53 @@ Required invariants:
 Evidence: `docs/adr/0939-stable-qr-resolver.md`,
 `apps/web/src/data/editionQrAliasResolver.ts`, and
 `scripts/verify-edition-qr-alias-resolver.mjs`.
+
+# DR-1012: Gated Persistence Phase Transition
+
+Decision: treat the first interactive progression slice as complete and move
+into a persistence-hardening phase without activating production learner
+writes.
+
+Required invariants:
+
+- Process-memory remains the default non-durable rehearsal provider.
+- The server-only SQLite adapter is the reference durable-managed provider,
+  not an automatic production backend selection.
+- Durable writes remain blocked until session identity, teacher authorization,
+  school policy, retention, release, operations, and deployment gates all pass.
+
+Evidence: `docs/adr/0940-gated-persistence-phase-transition.md` and
+`docs/decision-register/DR-1012-gated-persistence-phase-transition.md`.
+
+# DR-1013: Durable-Write Activation Preflight
+
+Decision: expose one review-only preflight that aggregates all durable-write
+activation criteria for a named tenant and package.
+
+Required invariants:
+
+- Passed, open, and blocked criteria remain visible independently.
+- The preflight has no provider activation, learner-data write, school
+  approval, or live-assignment action.
+- Data minimization and hosted/local contract parity remain explicit checks.
+
+Evidence: `docs/adr/0941-durable-write-activation-preflight.md` and
+`docs/decision-register/DR-1013-durable-write-activation-preflight.md`.
+
+# DR-1014: Pilot Handoff Activation Evidence
+
+Decision: bind the durable-write activation preflight into the canonical pilot
+handoff package so report, persistence, deployment, and policy evidence cannot
+drift apart.
+
+Required invariants:
+
+- Tenant and package identity must match the handoff package.
+- Requested mode is explicit, counts and blocker reasons are preserved, and
+  `canActivate` remains false.
+- Handoff remains review-only and cannot activate storage, approve a school,
+  create an assignment, or accept learner data.
+
+Evidence: `docs/adr/0942-pilot-handoff-activation-evidence.md`,
+`packages/content-model/src/pilotHandoff.ts`, and
+`apps/web/src/data/samplePilotHandoffPackage.ts`.

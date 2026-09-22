@@ -146,6 +146,9 @@ requireText(pilotHandoffPanel, "recoveryPacketsValid", "Pilot handoff panel must
 requireText(pilotHandoffPanel, "No packet export", "Pilot handoff panel must preserve the no-export boundary.");
 requireText(pilotHandoffPanel, "Persistence gate evidence", "Pilot handoff panel must render authoritative persistence gate evidence.");
 requireText(pilotHandoffPanel, "handoffPackage.persistenceGateEvidence", "Pilot handoff panel must consume persistence gate evidence.");
+requireText(pilotHandoffPanel, "Activation preflight binding", "Pilot handoff panel must render activation preflight binding.");
+requireText(pilotHandoffPanel, "handoffPackage.activationPreflightEvidence", "Pilot handoff panel must consume activation preflight evidence.");
+requireText(pilotHandoffPanel, "Can activate", "Pilot handoff panel must show the activation boundary.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

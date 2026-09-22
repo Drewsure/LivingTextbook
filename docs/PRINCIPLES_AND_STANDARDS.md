@@ -5600,3 +5600,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1012,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1013,
 `docs/decision-register/DR-1013-durable-write-activation-preflight.md`, and
 `docs/adr/0941-durable-write-activation-preflight.md`.
+
+## 357. Pilot Handoff Activation Evidence Standard
+
+- The pilot handoff package must carry the same tenant- and package-scoped
+  durable-write activation evidence shown in the persistence workbench.
+- Handoff evidence must preserve the requested durable mode, passed/open/
+  blocked counts, blocker reasons, and an explicit `canActivate: false`
+  boundary until a separate approved activation workflow exists.
+- The handoff validator must reject tenant or package drift between report,
+  persistence, and activation-preflight evidence.
+- A handoff package may organize a pilot decision but must not activate storage,
+  approve a school, create an assignment, or accept learner data.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1014,
+`docs/decision-register/DR-1014-pilot-handoff-activation-evidence.md`, and
+`docs/adr/0942-pilot-handoff-activation-evidence.md`.

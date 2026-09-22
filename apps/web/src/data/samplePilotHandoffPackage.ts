@@ -6,12 +6,15 @@ import type {
 } from "@living-textbook/content-model";
 import { toReleaseControlEvidence } from "@living-textbook/content-model";
 import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
+import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 
 export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
 export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
 
+const samplePilotHandoffPackageId = "sample-publisher-first-handoff";
+
 export const samplePilotHandoffPackage: PilotHandoffPackage = {
-  packageId: "sample-publisher-first-handoff",
+  packageId: samplePilotHandoffPackageId,
   tenantId: "sample-publisher",
   label: "Sample publisher first pilot handoff",
   mode: "review-only",
@@ -49,6 +52,18 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
       "Release approval is missing.",
     ],
     writesAllowed: false,
+  },
+  activationPreflightEvidence: {
+    packetId: samplePersistenceActivationPreflight.packetId,
+    tenantId: samplePersistenceActivationPreflight.tenantId,
+    packageId: samplePilotHandoffPackageId,
+    requestedMode: samplePersistenceActivationPreflight.requestedMode,
+    status: samplePersistenceActivationPreflight.status,
+    passedChecks: samplePersistenceActivationPreflight.checks.filter((check) => check.status === "passed").length,
+    openChecks: samplePersistenceActivationPreflight.checks.filter((check) => check.status === "open").length,
+    blockedChecks: samplePersistenceActivationPreflight.checks.filter((check) => check.status === "blocked").length,
+    blockedReasons: samplePersistenceActivationPreflight.blockedReasons,
+    canActivate: false,
   },
   routes: [
     {

@@ -2190,6 +2190,18 @@ try {
       blockedReasons: ["Durable write approval is not enabled."],
       writesAllowed: false,
     },
+    activationPreflightEvidence: {
+      packetId: "activation-preflight-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      requestedMode: "durable-managed",
+      status: "blocked",
+      passedChecks: 3,
+      openChecks: 1,
+      blockedChecks: 1,
+      blockedReasons: ["School policy is missing."],
+      canActivate: false,
+    },
     releaseControlEvidence: {
       bindingId: "release-binding-1",
       releaseGateId: "release-gate-1",

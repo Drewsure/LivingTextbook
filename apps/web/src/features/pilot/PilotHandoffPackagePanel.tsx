@@ -68,6 +68,30 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Activation preflight binding</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Durable-write decision carried into pilot handoff</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The handoff package carries the same tenant and package-scoped activation evidence as the persistence workbench. It cannot activate storage or approve a classroom pilot.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.activationPreflightEvidence.status === "ready" ? "Evidence complete" : "Activation blocked"} tone={handoffPackage.activationPreflightEvidence.status === "ready" ? "success" : "warning"} />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Tenant" value={handoffPackage.activationPreflightEvidence.tenantId} />
+          <HandoffFact label="Package" value={handoffPackage.activationPreflightEvidence.packageId} />
+          <HandoffFact label="Checks" value={`${handoffPackage.activationPreflightEvidence.passedChecks} passed / ${handoffPackage.activationPreflightEvidence.openChecks} open / ${handoffPackage.activationPreflightEvidence.blockedChecks} blocked`} />
+          <HandoffFact label="Can activate" value={handoffPackage.activationPreflightEvidence.canActivate ? "Yes" : "No"} />
+        </dl>
+        <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          {handoffPackage.activationPreflightEvidence.blockedReasons.map((reason, index) => (
+            <li key={`pilot-activation-preflight-blocker-${index}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">{reason}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Persistence gate evidence</p>
             <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Authoritative hosted readiness</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

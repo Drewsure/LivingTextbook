@@ -20,6 +20,9 @@ function requireFragments(label, source, fragments) {
 const data = read("apps/web/src/data/samplePersistenceActivationPreflight.ts");
 const panel = read("apps/web/src/features/persistence/PersistenceActivationPreflightPanel.tsx");
 const page = read("apps/web/src/app/teacher/persistence/page.tsx");
+const handoffModel = read("packages/content-model/src/pilotHandoff.ts");
+const handoffFixture = read("apps/web/src/data/samplePilotHandoffPackage.ts");
+const handoffPanel = read("apps/web/src/features/pilot/PilotHandoffPackagePanel.tsx");
 
 requireFragments("activation preflight data", data, [
   'requestedMode: "durable-managed"',
@@ -40,6 +43,23 @@ requireFragments("activation preflight panel", panel, [
 requireFragments("persistence workbench", page, [
   "PersistenceActivationPreflightPanel",
   "samplePersistenceActivationPreflight",
+]);
+requireFragments("pilot handoff contract", handoffModel, [
+  "PilotHandoffActivationPreflightEvidence",
+  "activationPreflightEvidence",
+  "Pilot handoff activation preflight tenant must match the handoff tenant.",
+  "Pilot handoff activation preflight requested mode must be durable-managed.",
+  "Pilot handoff activation preflight canActivate must remain false.",
+]);
+requireFragments("pilot handoff fixture", handoffFixture, [
+  "samplePersistenceActivationPreflight",
+  "activationPreflightEvidence",
+  "canActivate: false",
+]);
+requireFragments("pilot handoff panel", handoffPanel, [
+  "Activation preflight binding",
+  "handoffPackage.activationPreflightEvidence",
+  "Can activate",
 ]);
 
 if (failures.length > 0) {
