@@ -68,6 +68,25 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Approval ledger binding</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Human approvals carried into pilot handoff</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The handoff carries a scoped approval summary without capturing signatures or promoting the package. Open and blocked sign-offs remain release blockers.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.approvalEvidence.status === "ready" ? "Approvals complete" : handoffPackage.approvalEvidence.status === "blocked" ? "Approval blocked" : "Approval review"} tone={handoffPackage.approvalEvidence.status === "ready" ? "success" : "warning"} />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Ledger" value={handoffPackage.approvalEvidence.ledgerId} />
+          <HandoffFact label="Package" value={handoffPackage.approvalEvidence.packageId} />
+          <HandoffFact label="Signed" value={`${handoffPackage.approvalEvidence.signedRequiredSignoffs}/${handoffPackage.approvalEvidence.totalRequiredSignoffs}`} />
+          <HandoffFact label="Promotion" value={handoffPackage.approvalEvidence.packagePromotionAllowed ? "Allowed" : "Blocked"} />
+        </dl>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Activation preflight binding</p>
             <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Durable-write decision carried into pilot handoff</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

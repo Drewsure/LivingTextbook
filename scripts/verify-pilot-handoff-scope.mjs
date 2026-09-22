@@ -24,6 +24,8 @@ requireText(sources.dryRun, "handoffPackage.routeKey", "Teacher dry-run routes m
 requireText(sources.validator, "Pilot handoff report snapshot package must match the handoff package.", "Handoff validator must reject report package drift.");
 requireText(sources.validator, "Pilot handoff persistence gate package must match the handoff package.", "Handoff validator must reject persistence package drift.");
 requireText(sources.validator, "Pilot handoff release-control package must match the handoff package.", "Handoff validator must reject release-control package drift.");
+requireText(sources.validator, "Pilot handoff approval package must match the handoff package.", "Handoff validator must reject approval package drift.");
+requireText(sources.handoff, "approvalEvidence", "Pilot handoff fixture must carry approval evidence.");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

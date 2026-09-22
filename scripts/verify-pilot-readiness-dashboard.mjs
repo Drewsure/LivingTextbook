@@ -149,6 +149,9 @@ requireText(pilotHandoffPanel, "handoffPackage.persistenceGateEvidence", "Pilot 
 requireText(pilotHandoffPanel, "Activation preflight binding", "Pilot handoff panel must render activation preflight binding.");
 requireText(pilotHandoffPanel, "handoffPackage.activationPreflightEvidence", "Pilot handoff panel must consume activation preflight evidence.");
 requireText(pilotHandoffPanel, "Can activate", "Pilot handoff panel must show the activation boundary.");
+requireText(pilotHandoffPanel, "Approval ledger binding", "Pilot handoff panel must render approval ledger binding.");
+requireText(pilotHandoffPanel, "handoffPackage.approvalEvidence", "Pilot handoff panel must consume approval evidence.");
+requireText(pilotHandoffPanel, "Human approvals carried into pilot handoff", "Pilot handoff panel must show human approval scope.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

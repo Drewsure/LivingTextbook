@@ -161,6 +161,8 @@ Implemented sample boundary:
   preserving tenant/package identity and the no-activation boundary.
 - Pilot, release-control, approval, persistence, and activation evidence use one
   canonical tenant/package scope; handoff validation rejects scope drift.
+- The pilot handoff carries approval-ledger counts and status without enabling
+  signature capture or package promotion.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:

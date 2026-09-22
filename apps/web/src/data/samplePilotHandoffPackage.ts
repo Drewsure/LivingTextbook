@@ -7,6 +7,7 @@ import type {
 import { toReleaseControlEvidence } from "@living-textbook/content-model";
 import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
+import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 
 export type { PilotHandoffAsset, PilotHandoffDecision, PilotHandoffPackage, PilotHandoffRoute } from "@living-textbook/content-model";
 export type { PilotHandoffOwner, PilotHandoffStatus } from "@living-textbook/content-model";
@@ -24,6 +25,23 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
   summary:
     "This package is the practical bridge from static demo to a controlled partner pilot. It keeps content, routes, games, media, reports, roster identity, and policy decisions visible before any live student-data storage is promised.",
   releaseControlEvidence: toReleaseControlEvidence(sampleLocalBundleMediaReleaseControlBinding),
+  approvalEvidence: {
+    ledgerId: samplePackageApprovalLedger.ledgerId,
+    tenantId: samplePackageApprovalLedger.tenantId,
+    packageId: samplePilotHandoffPackageId,
+    status: samplePackageApprovalLedger.signoffs.some((signoff) => signoff.requiredBeforePilot && signoff.status === "blocked")
+      ? "blocked"
+      : samplePackageApprovalLedger.signoffs.some((signoff) => signoff.requiredBeforePilot && signoff.status !== "signed")
+        ? "needs-review"
+        : "ready",
+    totalRequiredSignoffs: samplePackageApprovalLedger.signoffs.filter((signoff) => signoff.requiredBeforePilot).length,
+    signedRequiredSignoffs: samplePackageApprovalLedger.signoffs.filter((signoff) => signoff.requiredBeforePilot && signoff.status === "signed").length,
+    openRequiredSignoffs: samplePackageApprovalLedger.signoffs.filter((signoff) => signoff.requiredBeforePilot && signoff.status !== "signed").length,
+    blockedRequiredSignoffs: samplePackageApprovalLedger.signoffs.filter((signoff) => signoff.requiredBeforePilot && signoff.status === "blocked").length,
+    approvalCaptureAllowed: false,
+    packagePromotionAllowed: false,
+    mode: "review-only",
+  },
   reportSnapshotEvidence: {
     snapshotId: "teacher-report-package-snapshot-v1:sample-publisher:sample-publisher-l1-u1-routines-package:partner-demo-unit-1",
     tenantId: "sample-publisher",

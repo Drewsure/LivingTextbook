@@ -2219,6 +2219,19 @@ try {
       mode: "review-only",
       sideEffect: "none",
     },
+    approvalEvidence: {
+      ledgerId: "approval-ledger-1",
+      tenantId: "tenant-1",
+      packageId: "pilot-package-1",
+      status: "blocked",
+      totalRequiredSignoffs: 2,
+      signedRequiredSignoffs: 1,
+      openRequiredSignoffs: 1,
+      blockedRequiredSignoffs: 1,
+      approvalCaptureAllowed: false,
+      packagePromotionAllowed: false,
+      mode: "review-only",
+    },
     routes: [
       { routeId: "front-door", label: "Front door", path: "/enter/tenant-1", status: "ready", purpose: "Entry." },
       { routeId: "launch", label: "Launch", path: "/launch/unit-1", status: "ready", purpose: "Launch." },
@@ -2235,6 +2248,20 @@ try {
       releaseControlEvidence: { ...validPilotHandoffPackage.releaseControlEvidence, promotionAllowed: true },
     }),
     "Pilot handoff release-control evidence must keep promotion, student-facing use, and local activation false.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      approvalEvidence: { ...validPilotHandoffPackage.approvalEvidence, packageId: "other-package" },
+    }),
+    "Pilot handoff approval package must match the handoff package.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      approvalEvidence: { ...validPilotHandoffPackage.approvalEvidence, openRequiredSignoffs: 0 },
+    }),
+    "Pilot handoff approval sign-off counts must reconcile.",
   );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({

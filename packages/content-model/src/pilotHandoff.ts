@@ -71,6 +71,20 @@ export interface PilotHandoffActivationPreflightEvidence {
   canActivate: false;
 }
 
+export interface PilotHandoffApprovalEvidence {
+  ledgerId: string;
+  tenantId: string;
+  packageId: string;
+  status: "ready" | "needs-review" | "blocked";
+  totalRequiredSignoffs: number;
+  signedRequiredSignoffs: number;
+  openRequiredSignoffs: number;
+  blockedRequiredSignoffs: number;
+  approvalCaptureAllowed: false;
+  packagePromotionAllowed: false;
+  mode: "review-only";
+}
+
 export interface PilotHandoffPackage {
   packageId: string;
   routeKey: string;
@@ -81,6 +95,7 @@ export interface PilotHandoffPackage {
   recommendedDeployment: string;
   summary: string;
   releaseControlEvidence: ReleaseControlEvidence;
+  approvalEvidence: PilotHandoffApprovalEvidence;
   reportSnapshotEvidence: PilotHandoffReportSnapshotEvidence;
   persistenceGateEvidence: PilotHandoffPersistenceGateEvidence;
   activationPreflightEvidence: PilotHandoffActivationPreflightEvidence;
@@ -132,6 +147,46 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
   requireText(packet.recommendedDeployment, "recommendedDeployment", errors);
   requireText(packet.summary, "summary", errors);
   errors.push(...validateReleaseControlEvidence(packet.releaseControlEvidence).map((error) => `Pilot handoff ${error.charAt(0).toLowerCase()}${error.slice(1)}`));
+
+  const approvalEvidence = packet.approvalEvidence;
+  if (!approvalEvidence || typeof approvalEvidence !== "object" || Array.isArray(approvalEvidence)) {
+    errors.push("Pilot handoff approval evidence is required.");
+  } else {
+    for (const field of ["ledgerId", "tenantId", "packageId"] as const) {
+      requireText(approvalEvidence[field], `approval ${field}`, errors);
+    }
+    if (approvalEvidence.tenantId !== packet.tenantId) {
+      errors.push("Pilot handoff approval tenant must match the handoff tenant.");
+    }
+    if (approvalEvidence.packageId !== packet.packageId) {
+      errors.push("Pilot handoff approval package must match the handoff package.");
+    }
+    for (const field of ["totalRequiredSignoffs", "signedRequiredSignoffs", "openRequiredSignoffs", "blockedRequiredSignoffs"] as const) {
+      if (!Number.isSafeInteger(approvalEvidence[field]) || approvalEvidence[field] < 0) {
+        errors.push(`Pilot handoff approval ${field} must be a non-negative safe integer.`);
+      }
+    }
+    if (approvalEvidence.signedRequiredSignoffs + approvalEvidence.openRequiredSignoffs !== approvalEvidence.totalRequiredSignoffs) {
+      errors.push("Pilot handoff approval sign-off counts must reconcile.");
+    }
+    const expectedApprovalStatus = approvalEvidence.blockedRequiredSignoffs > 0
+      ? "blocked"
+      : approvalEvidence.openRequiredSignoffs > 0
+        ? "needs-review"
+        : "ready";
+    if (approvalEvidence.status !== expectedApprovalStatus) {
+      errors.push("Pilot handoff approval status must match its sign-off counts.");
+    }
+    if (approvalEvidence.approvalCaptureAllowed !== false) {
+      errors.push("Pilot handoff approval capture must remain false.");
+    }
+    if (approvalEvidence.packagePromotionAllowed !== false) {
+      errors.push("Pilot handoff package promotion must remain false.");
+    }
+    if (approvalEvidence.mode !== "review-only") {
+      errors.push("Pilot handoff approval evidence must remain review-only.");
+    }
+  }
 
   const reportSnapshotEvidence = packet.reportSnapshotEvidence;
   if (!reportSnapshotEvidence || typeof reportSnapshotEvidence !== "object" || Array.isArray(reportSnapshotEvidence)) {

@@ -5635,3 +5635,19 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1014,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1015,
 `docs/decision-register/DR-1015-canonical-pilot-package-scope.md`, and
 `docs/adr/0943-canonical-pilot-package-scope.md`.
+
+## 359. Pilot Handoff Approval Evidence Standard
+
+- The canonical pilot handoff must carry a scoped summary of the package
+  approval ledger alongside release, persistence, report, and activation
+  evidence.
+- Required sign-off counts must reconcile; blocked and open approvals remain
+  visible rather than being collapsed into a green status.
+- Approval evidence must keep signature capture and package promotion false;
+  the handoff is a review packet, not an approval workflow.
+- Approval tenant and package identity must match the handoff scope, and any
+  mismatch is a release blocker.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1016,
+`docs/decision-register/DR-1016-pilot-handoff-approval-evidence.md`, and
+`docs/adr/0944-pilot-handoff-approval-evidence.md`.

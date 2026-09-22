@@ -7680,3 +7680,21 @@ Evidence: `docs/adr/0943-canonical-pilot-package-scope.md`,
 `packages/content-model/src/pilotHandoff.ts`,
 `scripts/verify-pilot-handoff-scope.mjs`, and the sample pilot package,
 publish-gate, approval-ledger, and activation-preflight fixtures.
+
+# DR-1016: Pilot Handoff Approval Evidence
+
+Decision: carry the package approval-ledger summary into the canonical pilot
+handoff while keeping signature capture and package promotion blocked.
+
+Required invariants:
+
+- Approval tenant and package identity match the handoff scope.
+- Total, signed, open, and blocked required sign-off counts reconcile.
+- Approval status is derived from the counts, not manually asserted.
+- The handoff remains review-only and cannot capture signatures or promote a
+  package.
+
+Evidence: `docs/adr/0944-pilot-handoff-approval-evidence.md`,
+`packages/content-model/src/pilotHandoff.ts`,
+`apps/web/src/data/samplePilotHandoffPackage.ts`, and
+`scripts/verify-runtime-behavior.mjs`.
