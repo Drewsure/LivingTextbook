@@ -72,6 +72,14 @@ try {
   routeDrift.routeEvidence.activeRouteCount = 88;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(routeDrift), "route evidence counts must reconcile", "route count rejection");
 
+  const routeTenantMismatch = structuredClone(valid);
+  routeTenantMismatch.routeEvidence.tenantId = "other-tenant";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(routeTenantMismatch), "route evidence must match the readiness tenant", "route tenant mismatch rejection");
+
+  const routePackageMismatch = structuredClone(valid);
+  routePackageMismatch.routeEvidence.packageId = "other-package";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(routePackageMismatch), "route evidence must match the readiness package", "route package mismatch rejection");
+
   const routeActivation = structuredClone(valid);
   routeActivation.routeEvidence.deploymentStatus = "ready";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(routeActivation), "deployment status must remain review-only", "route deployment status rejection");
@@ -192,6 +200,8 @@ function buildValidReadiness(model) {
       studentFacingActivationAllowed: false,
     },
     routeEvidence: {
+      tenantId: "sample-publisher",
+      packageId: "sample-publisher-package",
       activeRouteCount: 89,
       expectedActiveRouteCount: 89,
       routeMatrixSource: "sample-active-route-matrix",

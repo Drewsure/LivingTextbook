@@ -161,6 +161,8 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
     studentFacingActivationAllowed: false,
   },
   routeEvidence: {
+    tenantId: samplePackageReconciliation.tenantId,
+    packageId: samplePackageReconciliation.packageId,
     activeRouteCount: sampleActiveRouteMatrix.length,
     expectedActiveRouteCount: 89,
     routeMatrixSource: "sample-active-route-matrix",

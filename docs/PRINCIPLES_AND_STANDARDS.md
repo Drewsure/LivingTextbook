@@ -6039,3 +6039,15 @@ and `docs/adr/0967-tenant-supplied-release-review-links.md`.
 This standard is recorded in `docs/decision-register/DR-1040-white-label-evidence-tenant-binding.md`,
 `docs/build-session-notes/2026-09-22-white-label-evidence-tenant-binding.md`,
 and `docs/adr/0968-white-label-evidence-tenant-binding.md`.
+
+## 385. White-Label Route Evidence Binding Standard
+
+- Route and deployment evidence must carry the same tenant and package
+  identities as the white-label release-readiness record.
+- Reconciled global route counts are insufficient without those identities.
+- Route deployment status remains review-only and cannot authorize launch,
+  persistence, QR mutation, offline delivery, installer export, or promotion.
+
+This standard is recorded in `docs/decision-register/DR-1041-white-label-route-evidence-binding.md`,
+`docs/build-session-notes/2026-09-22-white-label-route-evidence-binding.md`,
+and `docs/adr/0969-white-label-route-evidence-binding.md`.

@@ -86,6 +86,8 @@ export interface WhiteLabelReleaseControlEvidence {
 }
 
 export interface WhiteLabelReleaseRouteEvidence {
+  tenantId: string;
+  packageId: string;
   activeRouteCount: number;
   expectedActiveRouteCount: number;
   routeMatrixSource: string;
@@ -281,6 +283,11 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   if (!isRecord(routeEvidence)) {
     errors.push("White-label release readiness routeEvidence must be an object.");
   } else {
+    for (const field of ["tenantId", "packageId"] as const) {
+      if (!isNonEmptyString(routeEvidence[field])) errors.push(`White-label release route evidence ${field} must be non-empty.`);
+    }
+    if (routeEvidence.tenantId !== readiness.tenantId) errors.push("White-label release route evidence must match the readiness tenant.");
+    if (routeEvidence.packageId !== readiness.packageId) errors.push("White-label release route evidence must match the readiness package.");
     for (const field of ["routeMatrixSource", "activeRouteVerifierSource", "deploymentGuideId"] as const) {
       if (!isNonEmptyString(routeEvidence[field])) errors.push(`White-label release route evidence ${field} must be non-empty.`);
     }

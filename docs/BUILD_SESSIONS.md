@@ -4428,3 +4428,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
   control ids are otherwise shaped correctly.
 - Added behavior coverage for both tenant-mismatch paths.
 - Recorded ADR 0968 and DR-1040.
+
+## Build session 0953: White-label route evidence binding
+
+- Added explicit tenant and package identities to route/deployment evidence.
+- Rejected route evidence from another tenant or package even when the active
+  route counts reconcile.
+- Added negative-path behavior coverage for route tenant and package drift.
+- Recorded ADR 0969 and DR-1041.
