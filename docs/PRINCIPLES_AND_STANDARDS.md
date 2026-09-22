@@ -5668,3 +5668,20 @@ This standard is recorded in `docs/DECISION_REGISTER.md` DR-1016,
 This standard is recorded in `docs/DECISION_REGISTER.md` DR-1017,
 `docs/decision-register/DR-1017-evidence-handoff-canonical-scope.md`, and
 `docs/adr/0945-evidence-handoff-canonical-scope.md`.
+
+## 361. Canonical Teacher Review Decision Standard
+
+- Teacher and partner reviewers must receive one decision summary that
+  reconciles pilot handoff, evidence handoff, release-control, approvals,
+  persistence, report, and activation evidence.
+- The summary may authorize a controlled demonstration, but it must not imply
+  permission to launch a classroom, collect real learner data, export reports,
+  capture signatures, or promote a package.
+- Blocking reasons and required next steps must be derived from the scoped
+  evidence records and remain visible; a headline cannot override a blocker.
+- The summary must be tenant- and package-bound, with evidence bindings that
+  can later become durable without changing the review decision shape.
+
+This standard is recorded in `docs/DECISION_REGISTER.md` DR-1018,
+`docs/decision-register/DR-1018-canonical-teacher-review-decision.md`, and
+`docs/adr/0946-canonical-teacher-review-decision.md`.

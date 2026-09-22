@@ -7717,3 +7717,23 @@ Evidence: `docs/adr/0945-evidence-handoff-canonical-scope.md`,
 `packages/content-model/src/evidencePacketHandoff.ts`,
 `apps/web/src/data/sampleEvidencePacketHandoffPackage.ts`, and
 `scripts/verify-evidence-handoff-scope.mjs`.
+
+# DR-1018: Canonical Teacher Review Decision
+
+Decision: present one tenant/package-scoped, review-only decision summary that
+reconciles the canonical pilot handoff and evidence handoff with release,
+approval, persistence, report, and activation boundaries.
+
+Required invariants:
+
+- Controlled demo permission is distinct from pilot launch permission.
+- Blocking reasons and required next steps are derived from the evidence
+  packet and remain visible to reviewers.
+- Student-data collection, report export, package promotion, and live launch
+  remain false in the foundation review decision.
+- Evidence bindings preserve the package identity and stable review route keys.
+
+Evidence: `docs/adr/0946-canonical-teacher-review-decision.md`,
+`packages/content-model/src/pilotReviewDecision.ts`,
+`apps/web/src/data/samplePilotReviewDecision.ts`, and
+`apps/web/src/features/pilot/PilotReviewDecisionPanel.tsx`.

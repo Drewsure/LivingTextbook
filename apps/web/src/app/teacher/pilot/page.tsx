@@ -35,6 +35,8 @@ import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { getTeacherPilotRequirementsIntakePath } from "@/features/routes/routeContracts";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { validatePilotHandoffPackage } from "@living-textbook/content-model";
+import { samplePilotReviewDecision, samplePilotReviewDecisionErrors } from "@/data/samplePilotReviewDecision";
+import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPanel";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
@@ -101,6 +103,7 @@ export default function TeacherPilotPage() {
           policyPlans={samplePilotPolicyPlans}
           persistencePlans={samplePersistenceAdapterPlans}
         />
+        <PilotReviewDecisionPanel decision={samplePilotReviewDecision} validationErrors={samplePilotReviewDecisionErrors} />
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
         <PilotReadinessSummaryPanel summary={samplePilotReadinessSummary} />
         <PilotLaunchChecklistPanel checklist={samplePilotLaunchChecklist} />

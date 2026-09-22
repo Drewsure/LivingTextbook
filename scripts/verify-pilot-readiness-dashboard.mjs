@@ -69,6 +69,7 @@ const requiredPageMarkers = [
   "SchoolLaunchPolicyGatePanel",
   "PilotEvidencePacketPanel",
   "PilotHandoffPackagePanel",
+  "PilotReviewDecisionPanel",
   "PackagePublishGatePanel",
   "Warnings that must stay visible before pilot launch",
   "Policy warnings",
@@ -152,6 +153,11 @@ requireText(pilotHandoffPanel, "Can activate", "Pilot handoff panel must show th
 requireText(pilotHandoffPanel, "Approval ledger binding", "Pilot handoff panel must render approval ledger binding.");
 requireText(pilotHandoffPanel, "handoffPackage.approvalEvidence", "Pilot handoff panel must consume approval evidence.");
 requireText(pilotHandoffPanel, "Human approvals carried into pilot handoff", "Pilot handoff panel must show human approval scope.");
+const pilotReviewDecisionPanel = readSource("../apps/web/src/features/pilot/PilotReviewDecisionPanel.tsx");
+requireText(pilotReviewDecisionPanel, "Demo allowed, pilot launch blocked", "Pilot review decision panel must show the canonical review decision.");
+requireText(pilotReviewDecisionPanel, "decision.blockingReasons", "Pilot review decision panel must show blocking reasons.");
+requireText(pilotReviewDecisionPanel, "decision.requiredNextSteps", "Pilot review decision panel must show required next steps.");
+requireText(pilotReviewDecisionPanel, "No live action", "Pilot review decision panel must preserve the no-live-action boundary.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

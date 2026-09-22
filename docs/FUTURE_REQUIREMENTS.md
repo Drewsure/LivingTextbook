@@ -165,6 +165,8 @@ Implemented sample boundary:
   signature capture or package promotion.
 - The evidence-packet handoff uses the canonical pilot package identity and a
   separate stable route key; it must remain export- and promotion-blocked.
+- The pilot command view exposes one canonical teacher review decision derived
+  from all scoped evidence and keeps live actions blocked.
 - Documentation exists in `docs/SAMPLE_MULTIMEDIA_PACKAGE.md`.
 
 Required capabilities:
