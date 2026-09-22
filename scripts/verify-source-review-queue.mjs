@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const queueData = readSource("../apps/web/src/data/sampleSourceReviewQueue.ts");
 const extractionPacketData = readSource("../apps/web/src/data/sampleSourceExtractionReviewPackets.ts");
+const extractionPreviewData = readSource("../apps/web/src/data/sampleSourceExtractionPreviews.ts");
 const sourcePackageAssemblyModel = readSource("../packages/content-model/src/sourcePackageAssembly.ts");
 const packageApprovalLedgerModel = readSource("../packages/content-model/src/packageApprovalLedger.ts");
 const sourcePackageAssemblyData = readSource("../apps/web/src/data/sampleSourcePackageAssembly.ts");
@@ -94,6 +95,12 @@ requireText(extractionPacketData, "No teacher draft creation from this packet.",
 requireText(extractionPacketData, "No student-facing payload from this packet.", "Extraction packets must block student-facing payloads.");
 requireText(extractionPacketData, "No package release without verifier handoff.", "Extraction packets must block release without verifier handoff.");
 requireText(extractionPacketData, "No playlist creation from uploaded media.", "Extraction packets must block playlist creation from uploaded media.");
+requireText(extractionPreviewData, "sampleSourceExtractionPreviews", "Source review must include structured extraction preview fixtures.");
+requireText(extractionPreviewData, "storageWriteAllowed: false", "Extraction preview fixtures must block storage writes.");
+requireText(extractionPacketPanel, "Structured source extraction preview", "Extraction packet panel must expose structured extraction previews.");
+requireText(extractionPacketPanel, "Page and unit lineage", "Extraction packet panel must expose page and unit lineage.");
+requireText(extractionPacketPanel, "Original text preserved for review", "Extraction packet panel must preserve original extracted text evidence.");
+requireText(extractionPacketPanel, "not promoted", "Extraction packet panel must show preview promotion blocking.");
 requireText(extractionPacketPanel, "Source extraction review packets", "Extraction packet panel must expose its heading.");
 requireText(extractionPacketPanel, "Extraction evidence preview", "Extraction packet panel must expose evidence preview copy.");
 requireText(extractionPacketPanel, "Draft creation", "Extraction packet panel must show draft creation status.");
@@ -145,6 +152,7 @@ requireText(sourceWorkspacePanel, "SourceExtractionReviewPacketPanel", "Source r
 requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source review route must render the workspace panel.");
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionReviewPackets", "Source review route must pass extraction review packets.");
+requireText(sourceWorkspaceRoute, "sampleSourceExtractionPreviews", "Source review route must pass structured extraction previews.");
 requireText(sourceWorkspaceRoute, "samplePublisherTenant", "Source review route must support the sample publisher tenant.");
 requireText(sourceWorkspaceRoute, "ministarTenant", "Source review route must support the MiniStar tenant.");
 requireText(teacherIntakePage, "SourceReviewQueuePanel", "Teacher intake page must render the source review queue panel.");

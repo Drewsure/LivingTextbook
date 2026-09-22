@@ -491,3 +491,26 @@ References:
 - `packages/content-model/src/sourceExtractionPreview.ts`
 - `scripts/verify-source-extraction-preview.mjs`
 - `docs/adr/0979-structured-source-extraction-preview.md`
+
+## FR-011: Structured Extraction Review Workbench
+
+Status: Implemented as a read-only UI bridge; real upload, extraction,
+promotion, and persistence remain gated.
+
+Requirement: Teachers must be able to inspect extracted page and unit evidence
+before deciding whether a future governed source workflow can continue.
+
+Current boundary:
+
+- The source workspace shows tenant-filtered previews for the MiniStar and
+  sample-publisher pathways.
+- Page, sequence, segment kind, unit identity, normalized text, and original
+  text evidence are visible.
+- Preview records are visibly marked as not promoted and cannot create drafts,
+  packages, routes, storage records, assignments, or student payloads.
+
+References:
+
+- `apps/web/src/data/sampleSourceExtractionPreviews.ts`
+- `apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx`
+- `scripts/verify-source-review-queue.mjs`

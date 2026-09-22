@@ -6188,3 +6188,20 @@ and `docs/adr/0978-pilot-handoff-blocker-list-integrity.md`.
 This standard is recorded in `docs/decision-register/DR-1051-structured-source-extraction-preview.md`,
 `docs/build-session-notes/2026-09-22-structured-source-extraction-preview.md`,
 and `docs/adr/0979-structured-source-extraction-preview.md`.
+
+## 396. Structured Extraction Review Visibility Standard
+
+- The teacher source workspace must show structured extraction evidence, not
+  only a status packet: page, sequence, segment kind, unit identity, normalized
+  text, and preserved original text must remain inspectable.
+- Preview records must be tenant-filtered and package-bound before they are
+  rendered in a review workspace.
+- Every preview must remain visibly marked review-only and not promoted; a UI
+  representation must never imply that extraction created a draft, package,
+  route, storage record, assignment, or student payload.
+- Sample tenant fixtures must exercise both the flagship and partner pathways
+  so white-label boundaries are checked together.
+
+This standard is recorded in `docs/decision-register/DR-1052-structured-extraction-review-visibility.md`,
+`docs/build-session-notes/2026-09-22-structured-extraction-review-visibility.md`,
+and `docs/adr/0980-structured-extraction-review-visibility.md`.

@@ -1,4 +1,5 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import type { SourceExtractionPreview } from "@living-textbook/content-model";
 import type { SourceExtractionReviewPacket } from "@/data/sampleSourceExtractionReviewPackets";
 import type { SourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { SourceExtractionReviewPacketPanel } from "./SourceExtractionReviewPacketPanel";
@@ -9,6 +10,7 @@ interface TeacherSourceReviewWorkspacePanelProps {
   tenantName: string;
   queue: SourceReviewQueue;
   extractionPackets: SourceExtractionReviewPacket[];
+  extractionPreviews: SourceExtractionPreview[];
 }
 
 const guardrails = [
@@ -25,9 +27,11 @@ export function TeacherSourceReviewWorkspacePanel({
   tenantName,
   queue,
   extractionPackets,
+  extractionPreviews,
 }: TeacherSourceReviewWorkspacePanelProps) {
   const tenantItems = queue.items.filter((item) => item.tenantId === tenantId);
   const tenantPackets = extractionPackets.filter((packet) => packet.tenantId === tenantId);
+  const tenantPreviews = extractionPreviews.filter((preview) => preview.tenantId === tenantId);
   const blockedCount = tenantItems.reduce((total, item) => total + item.blockedBy.length, 0);
   const sourceKinds = new Set(tenantItems.map((item) => item.kind));
   const tenantQueue: SourceReviewQueue = {
@@ -85,7 +89,7 @@ export function TeacherSourceReviewWorkspacePanel({
       </Card>
 
       <SourceReviewQueuePanel queue={tenantQueue} />
-      <SourceExtractionReviewPacketPanel packets={tenantPackets} />
+      <SourceExtractionReviewPacketPanel packets={tenantPackets} previews={tenantPreviews} />
     </div>
   );
 }

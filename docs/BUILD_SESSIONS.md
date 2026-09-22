@@ -59,6 +59,22 @@ and `docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`.
 Evidence: `packages/content-model/src/sourceExtractionPreview.ts` and
 `scripts/verify-source-extraction-preview.mjs`.
 
+## Build session 0966: Source extraction preview workbench bridge
+
+- Added tenant-filtered structured extraction preview fixtures for MiniStar and
+  the sample publisher pathway.
+- Exposed page, sequence, segment kind, unit identity, normalized text, and
+  original-text evidence in the teacher source review workspace.
+- Kept the UI read-only and visibly marked every preview as not promoted;
+  storage writes, draft creation, package assembly, and student payload use
+  remain blocked.
+- Extended source-review verification so the route and panel cannot regress to
+  packet-only evidence without showing structured lineage.
+
+Evidence: `apps/web/src/data/sampleSourceExtractionPreviews.ts`,
+`apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx`,
+and `scripts/verify-source-review-queue.mjs`.
+
 ## Build session 0878: Persistence review-probe provider parity
 
 - Corrected the durable progression read path so a tenant-scoped teacher review

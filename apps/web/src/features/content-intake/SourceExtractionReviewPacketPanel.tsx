@@ -1,8 +1,10 @@
 import { Card, StatusPill } from "@living-textbook/ui";
+import type { SourceExtractionPreview } from "@living-textbook/content-model";
 import type { SourceExtractionPacketStatus, SourceExtractionReviewPacket } from "@/data/sampleSourceExtractionReviewPackets";
 
 interface SourceExtractionReviewPacketPanelProps {
   packets: SourceExtractionReviewPacket[];
+  previews: SourceExtractionPreview[];
 }
 
 const statusTone: Record<SourceExtractionPacketStatus, "neutral" | "warning"> = {
@@ -11,7 +13,7 @@ const statusTone: Record<SourceExtractionPacketStatus, "neutral" | "warning"> = 
   blocked: "warning",
 };
 
-export function SourceExtractionReviewPacketPanel({ packets }: SourceExtractionReviewPacketPanelProps) {
+export function SourceExtractionReviewPacketPanel({ packets, previews }: SourceExtractionReviewPacketPanelProps) {
   const blockedCount = packets.reduce((total, packet) => total + packet.blockedActions.length, 0);
 
   return (
@@ -60,7 +62,69 @@ export function SourceExtractionReviewPacketPanel({ packets }: SourceExtractionR
           </article>
         ))}
       </div>
+
+      <div className="mt-5 grid gap-4">
+        {previews.map((preview) => (
+          <article key={`${preview.tenantId}:${preview.sourceId}`} className="rounded-lg border border-[var(--tenant-border)] p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Structured source extraction preview</p>
+                <h4 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Page and unit lineage</h4>
+                <p className="mt-2 break-words font-mono text-xs text-[var(--tenant-muted)]">
+                  {preview.sourceId} / {preview.targetPackageId} / {preview.sourceChecksum}
+                </p>
+              </div>
+              <StatusPill label="review-only" tone="warning" />
+            </div>
+
+            <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-4">
+              <PreviewMetric label="Segments" value={String(preview.segments.length)} />
+              <PreviewMetric label="Units" value={String(preview.unitSummaries.length)} />
+              <PreviewMetric label="Pages" value={formatPageRange(preview)} />
+              <PreviewMetric label="Storage write" value={preview.storageWriteAllowed ? "allowed" : "blocked"} />
+            </dl>
+
+            <div className="mt-4 grid gap-3">
+              {preview.segments.map((segment) => (
+                <section key={segment.segmentId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">
+                      p.{segment.pageNumber} / {segment.kind} / {segment.unitKey}
+                    </p>
+                    <StatusPill label="not promoted" tone="warning" />
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-[var(--tenant-text)]">{segment.normalizedText}</p>
+                  {segment.text !== segment.normalizedText ? (
+                    <p className="mt-1 text-xs leading-5 text-[var(--tenant-muted)]">Original text preserved for review: {segment.text}</p>
+                  ) : null}
+                </section>
+              ))}
+            </div>
+
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              <PacketList title="Unit summaries" items={preview.unitSummaries.map((summary) => `${summary.unitKey}: ${summary.segmentCount} segment(s), pages ${summary.pageStart}-${summary.pageEnd}`)} tone="neutral" />
+              <PacketList title="Blocked actions" items={preview.blockedActions.slice()} tone="warning" />
+            </div>
+          </article>
+        ))}
+      </div>
     </Card>
+  );
+}
+
+function formatPageRange(preview: SourceExtractionPreview) {
+  const pages = preview.segments.map((segment) => segment.pageNumber);
+  const first = Math.min(...pages);
+  const last = Math.max(...pages);
+  return first === last ? String(first) : `${first}-${last}`;
+}
+
+function PreviewMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+      <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
+      <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value}</p>
+    </section>
   );
 }
 
