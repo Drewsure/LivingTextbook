@@ -40,6 +40,8 @@ import { sampleMemoryMatchEvidenceHandoffPacket } from "@/data/sampleMemoryMatch
 import { MemoryMatchEvidenceHandoffPacketPanel } from "@/features/game-offers/MemoryMatchEvidenceHandoffPacketPanel";
 import { samplePhaserCandidateIntegrationEligibility, samplePhaserCandidateIntegrationEligibilityErrors } from "@/data/samplePhaserCandidateIntegrationEligibility";
 import { PhaserCandidateIntegrationEligibilityPanel } from "@/features/game-offers/PhaserCandidateIntegrationEligibilityPanel";
+import { samplePhaserCandidateEvidenceReturnPacketErrors, samplePhaserCandidateEvidenceReturnPackets } from "@/data/samplePhaserCandidateEvidenceReturnPacket";
+import { PhaserCandidateEvidenceReturnPacketPanel } from "@/features/game-offers/PhaserCandidateEvidenceReturnPacketPanel";
 
 const sourceLinks = [
   { href: "/teacher/intake", label: "Foundation intake" },
@@ -103,6 +105,10 @@ export default function TeacherGameReadinessPage() {
         <PhaserCandidateIntegrationEligibilityPanel
           records={samplePhaserCandidateIntegrationEligibility}
           errors={samplePhaserCandidateIntegrationEligibilityErrors}
+        />
+        <PhaserCandidateEvidenceReturnPacketPanel
+          packets={samplePhaserCandidateEvidenceReturnPackets}
+          errors={samplePhaserCandidateEvidenceReturnPacketErrors}
         />
 
         <ParentEngineReadinessPanel plan={sampleParentEngineReadinessPlan} />

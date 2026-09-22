@@ -1712,6 +1712,7 @@ export * from "./aiPrototypePatchImplementationWorkOrder";
 export * from "./aiPrototypePatchChangeSetPreview";
 export * from "./phaserCandidateContractReview";
 export * from "./phaserCandidateIntegrationEligibility";
+export * from "./phaserCandidateEvidenceReturnPacket";
 export * from "./phaserCandidateSourceIdentity";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
