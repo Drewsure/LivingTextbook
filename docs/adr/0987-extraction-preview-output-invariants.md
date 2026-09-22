@@ -10,6 +10,8 @@ later source, package, or readiness evidence consumes it.
 - Original text remains preserved for review; normalization is deterministic
   and derived only.
 - Summary counts and page ranges must match the preview's segments.
+- Composite package-readiness lineage must invoke this validator before it
+  accepts the preview as evidence.
 - The validator authorizes no extraction acceptance, storage, promotion, route,
   assignment, or student access.
 

@@ -11,6 +11,8 @@ The package readiness chain is accepted only when:
   ID, and checksum identity agree;
 - composite readiness lineage rejects candidate-unit scope drift across the
   readiness, assembly, and extraction preview records;
+- composite readiness lineage rejects malformed normalized text and summary
+  output before later package evidence can pass;
 - every reconciliation remains review-only and blocked from promotion;
 - target-language activity is the only progression authority;
 - support language cannot unlock progress;

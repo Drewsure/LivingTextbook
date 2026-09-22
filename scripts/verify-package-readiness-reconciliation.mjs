@@ -14,6 +14,7 @@ for (const marker of [
   "validatePackageReadinessExtractionPreviewBinding",
   "validatePackageReadinessSourceAssemblyBinding",
   "validatePackageReadinessLineageBinding",
+  "validateSourceExtractionPreview",
   "PACKAGE_READINESS_REQUIRED_LANE_IDS",
   "sourceAssemblyPacketId",
   "sourceExtractionPreviewId",

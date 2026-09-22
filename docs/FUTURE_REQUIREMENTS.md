@@ -640,6 +640,8 @@ Current boundary:
 - Unit summaries must match candidate-unit segment counts and page ranges.
 - Segment identity, candidate-unit coverage, blocked actions, and no-side-effect
   flags are revalidated on the output object.
+- Composite package-readiness lineage invokes this output validation before
+  readiness evidence can pass.
 
 References:
 

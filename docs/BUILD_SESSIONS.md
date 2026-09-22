@@ -135,6 +135,8 @@ Evidence: `packages/content-model/src/packageReadinessReconciliation.ts`,
   not only for the original extraction request.
 - Reconciled normalized text, segment identity, candidate-unit summaries,
   page ranges, and review-only blocked actions.
+- Wired those output checks into composite package-readiness lineage so later
+  evidence cannot consume an invalid preview object.
 - Added negative checks for normalized-text and summary drift while preserving
   the no-storage and no-student-payload boundary.
 

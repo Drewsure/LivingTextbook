@@ -1422,6 +1422,14 @@ try {
     "Package readiness lineage Source package assembly extraction preview binding candidate unit tenant-1:curriculum:L1:U2 is not declared by the preview.",
   );
   assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessLineageBinding(
+      validPackageReadinessReconciliation,
+      validSourcePackageAssemblyPacket,
+      { ...sourcePreviewResult.preview, segments: [{ ...sourcePreviewResult.preview.segments[0], normalizedText: "drifted" }] },
+    ),
+    "Package readiness lineage Source extraction preview segment preview-1-segment-1 normalizedText must match normalized text.",
+  );
+  assertIncludes(
     packageReadinessReconciliation.validatePackageReadinessExtractionPreviewBinding(
       validPackageReadinessReconciliation,
       { ...sourcePreviewResult.preview, sourceChecksum: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
