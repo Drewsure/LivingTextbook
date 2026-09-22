@@ -4725,3 +4725,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the registry static and review-only; no route or QR mutation was added.
 - Added `verify:front-door-route-boundary` and passed the web typecheck.
 - Recorded ADR 0992 and DR-1064.
+
+## Build session 0979: Durable QR alias and rollback runtime contract
+
+- Added a shared provider-neutral QR alias runtime contract.
+- Added tenant, package, release, fallback, previous-release, and rollback
+  evidence fields with safe internal-path validation.
+- Added a review-only QR alias adapter with explicit no-mutation behavior.
+- Added sample rollback evidence and a dedicated foundation verification gate.
+- Kept hosted redirects, route writes, local activation, learner-data changes,
+  and rollback execution blocked.
+- Recorded ADR 0993 and DR-1065.

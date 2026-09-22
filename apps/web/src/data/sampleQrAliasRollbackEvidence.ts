@@ -1,0 +1,32 @@
+import type { QrAliasRuntimeRequest } from "@living-textbook/content-model";
+
+export const sampleQrAliasRollbackEvidence: QrAliasRuntimeRequest = {
+  aliasId: "sample-publisher-hello-friends-2026-current",
+  printedQrId: "qr-sample-publisher-starter-l1-u1-hello",
+  tenantId: "sample-publisher",
+  packageId: "sample-publisher-l1-u1-package",
+  releaseId: "sample-publisher-l1-u1-release-2026-1",
+  currentVersion: "1.0.0",
+  status: "draft",
+  deploymentTarget: "hybrid",
+  targetPath: "/enter/sample-publisher",
+  fallbackPath: "/enter/sample-publisher",
+  releaseApproved: false,
+  persistenceReady: false,
+  localFallbackReady: false,
+  qrMutationRequested: false,
+  studentFacingActivationRequested: false,
+  rollback: {
+    rollbackId: "sample-publisher-hello-friends-2026-rollback-preview",
+    tenantId: "sample-publisher",
+    aliasId: "sample-publisher-hello-friends-2026-current",
+    currentReleaseId: "sample-publisher-l1-u1-release-2026-1",
+    previousReleaseId: "sample-publisher-l1-u1-release-2025-9",
+    fallbackTarget: "/enter/sample-publisher",
+    reason: "Review-only rollback target for a future package, rights, or route safety issue.",
+    approvalState: "review-only",
+    routeMutationAllowed: false,
+    rollbackExecutionAllowed: false,
+    learnerDataMutationAllowed: false,
+  },
+};

@@ -799,3 +799,31 @@ References:
 - `apps/web/src/data/sampleFrontDoorResolver.ts`
 - `scripts/verify-front-door-route-boundary.mjs`
 - `docs/adr/0992-tenant-scoped-front-door-registry-integrity.md`
+
+## FR-024: Durable QR Alias And Rollback Runtime Contract
+
+Status: Implemented as a provider-neutral review-only contract; durable alias
+records, redirect mutation, release activation, and rollback execution remain
+future deployment work.
+
+Requirement: Hosted, local, and hybrid deployments must use one tenant-scoped
+QR alias shape with explicit release identity, safe target and fallback paths,
+rollback evidence, and learner-data protection.
+
+Current boundary:
+
+- Alias and rollback records must bind tenant, alias, package, release, and
+  previous-release identities.
+- Direct file paths, localhost targets, unsafe traversal, and raw media paths
+  are rejected by the shared runtime contract.
+- Active-alias readiness requires release approval, persistence readiness,
+  local-fallback readiness, and rollback approval evidence.
+- The review-only adapter cannot mutate routes, redirects, packages, local
+  bundles, learner data, or rollback state.
+
+References:
+
+- `packages/content-model/src/qrAliasRuntime.ts`
+- `apps/web/src/data/sampleQrAliasRollbackEvidence.ts`
+- `scripts/verify-qr-alias-rollback-boundary.mjs`
+- `docs/adr/0993-durable-qr-alias-and-rollback-runtime-contract.md`

@@ -1784,3 +1784,4 @@ export * from "./localBundleMediaManifestReconciliation";
 export * from "./localBundleMediaReleaseControlBinding";
 export * from "./releaseControlEvidence";
 export * from "./localBundleRuntime";
+export * from "./qrAliasRuntime";

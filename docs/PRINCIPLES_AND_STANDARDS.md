@@ -6380,3 +6380,21 @@ This standard is recorded in
 `docs/decision-register/DR-1064-tenant-scoped-front-door-registry-integrity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/0992-tenant-scoped-front-door-registry-integrity.md`.
+
+## 409. Durable QR Alias And Rollback Runtime Standard
+
+- Every hosted, local, or hybrid QR alias must carry tenant, package, release,
+  fallback, and previous-release identity.
+- QR targets must be safe internal routes; raw files, localhost, traversal,
+  unversioned folders, and direct media paths are prohibited.
+- Active-alias readiness requires release, persistence, local-fallback, and
+  rollback approval evidence.
+- QR alias validation and rollback previews remain review-only until durable
+  persistence, release control, authorization, and human approval exist.
+- No adapter may mutate redirects, routes, packages, local bundles, learner
+  data, or rollback state while the foundation gate is open.
+
+This standard is recorded in
+`docs/decision-register/DR-1065-durable-qr-alias-and-rollback-runtime-contract.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/0993-durable-qr-alias-and-rollback-runtime-contract.md`.
