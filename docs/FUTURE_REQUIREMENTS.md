@@ -1570,6 +1570,23 @@ References:
 - `scripts/verify-browser-rehearsal-observation.mjs`
 - `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
 
+## FR-075: Teacher Observation Capture
+
+Status: Implemented for the local review-only rehearsal lane.
+
+Requirement: A teacher must be able to explicitly record a human-observed
+receipt from the bound session evidence panel. The receipt must remain local,
+tenant/package/session scoped, and review-only until a later governed evidence
+handoff authorizes a stronger release review. It must never silently become a
+hosted persistence write, export, assignment, QR mutation, or student launch.
+
+References:
+
+- `apps/web/src/features/persistence/browserRehearsalObservationStore.ts`
+- `apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx`
+- `scripts/verify-browser-rehearsal-observation-runtime.mjs`
+- `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.

@@ -5256,3 +5256,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   paths, check ids, reviewer role, and observation time.
 - Rejected role drift, tenant drift, duplicate routes, and any promotion or
   student-launch flag. Recorded ADR 1117 and DR-1117.
+
+## Build session 1032: Teacher observation capture
+
+- Added an explicit teacher action to record a human-observed browser receipt
+  from the bound local rehearsal evidence panel.
+- Stored the receipt in a separate browser-local key with tenant, package,
+  launch, unit, and student-session isolation; malformed or promotion-enabled
+  receipts are hidden on read.
+- Kept the action review-only: it performs no hosted write, export, assignment,
+  QR mutation, release promotion, or student production launch.
+- Added runtime coverage for valid local storage, cross-tenant lookup
+  isolation, and promotion drift. Recorded ADR 1118 and DR-1118.

@@ -706,6 +706,7 @@ Current focused decision records also include:
 - `DR-1115-white-label-evidence-freshness.md`
 - `DR-1116-white-label-browser-evidence-integrity.md`
 - `DR-1117-browser-rehearsal-observation-receipt.md`
+- `DR-1118-teacher-observation-capture.md`
 
 ## Maintenance Rule
 

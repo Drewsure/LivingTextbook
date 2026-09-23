@@ -7093,3 +7093,21 @@ This standard is recorded in
 `docs/decision-register/DR-1117-browser-rehearsal-observation-receipt.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1117-browser-rehearsal-observation-receipt.md`.
+
+## 455. Teacher Observation Capture Standard
+
+- Human-observed evidence must require an explicit teacher action; loading a
+  route or rendering a panel must never attest that a browser was observed.
+- The first capture lane is browser-local and bound to tenant, package, launch,
+  unit, and student-session identity. Cross-tenant or malformed records must
+  be hidden rather than displayed under a nearby session.
+- Capture may record observed routes and check identifiers, but it must not
+  write hosted persistence, export learner data, mutate QR routes, assign work,
+  promote a release, or launch students.
+- A local receipt is evidence for later review, not a production approval or a
+  substitute for the full browser, privacy, and tenant-isolation gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1118-teacher-observation-capture.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1118-teacher-observation-capture.md`.

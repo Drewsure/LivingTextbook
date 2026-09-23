@@ -6,6 +6,8 @@ Run the focused checks after changing the release-readiness model or sample:
 node scripts/verify-white-label-release-readiness.mjs
 node scripts/verify-white-label-release-readiness-behavior.mjs
 npm run verify:runtime-behavior
+npm run verify:browser-rehearsal-observation
+npm run verify:browser-rehearsal-observation-runtime
 ```
 
 Confirm:
@@ -31,6 +33,8 @@ Confirm:
 - Stronger browser evidence uses a structured observation receipt with tenant,
   package, session, route, check, reviewer, timestamp, and blocked-side-effect
   fields.
+- Teacher capture requires an explicit action and stores only a local receipt;
+  the runtime check rejects cross-tenant lookup and promotion drift.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

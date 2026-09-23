@@ -2,9 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { Button } from "@living-textbook/ui";
 import type { GameModeId } from "@living-textbook/content-model";
 import { readLocalSessionEvidence, subscribeToLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import type { LocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
+import {
+  createHumanObservedBrowserRehearsalObservation,
+  readBrowserRehearsalObservation,
+  saveBrowserRehearsalObservation,
+  subscribeToBrowserRehearsalObservation,
+} from "@/features/persistence/browserRehearsalObservationStore";
+import type { BrowserRehearsalObservation } from "@living-textbook/content-model";
 import { formatMode } from "@/lib/formatLabels";
 import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
@@ -30,6 +38,9 @@ export function TeacherSessionLocalEvidencePanel({
   const [evidence, setEvidence] = useState<LocalSessionEvidence>();
   const [bindingErrors, setBindingErrors] = useState<string[]>([]);
   const [persistenceReadiness, setPersistenceReadiness] = useState<PersistenceStatusResult>();
+  const [observation, setObservation] = useState<BrowserRehearsalObservation>();
+  const [observationError, setObservationError] = useState<string>();
+  const [isRecordingObservation, setIsRecordingObservation] = useState(false);
 
   useEffect(() => {
     function readBoundEvidence() {
@@ -67,6 +78,12 @@ export function TeacherSessionLocalEvidencePanel({
   }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, expectedUnitKey, launchCode]);
 
   useEffect(() => {
+    const lookup = { tenantId: expectedTenantId, packageId: expectedPackageId, launchCode, unitKey: expectedUnitKey, studentSessionId: expectedStudentSessionId };
+    setObservation(readBrowserRehearsalObservation(lookup));
+    return subscribeToBrowserRehearsalObservation(lookup, setObservation);
+  }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, expectedUnitKey, launchCode]);
+
+  useEffect(() => {
     let active = true;
     setPersistenceReadiness(undefined);
     const refreshPersistenceReadiness = () => {
@@ -87,6 +104,40 @@ export function TeacherSessionLocalEvidencePanel({
   const activityModes = evidence ? getObservedActivityModes(evidence) : [];
   const evidenceEnvelope = evidence ? createPilotSessionEvidenceEnvelope({ evidence, targetLanguage }) : undefined;
   const pilotPreflight = evidenceEnvelope ? evaluatePilotSessionPreflight(evidenceEnvelope, persistenceReadiness) : undefined;
+
+  function recordTeacherObservation() {
+    if (!evidence || !evidenceEnvelope || typeof window === "undefined") return;
+
+    setIsRecordingObservation(true);
+    setObservationError(undefined);
+    const observedStages = evidenceEnvelope.stages.filter((stage) => stage.status !== "pending");
+    const routePaths = [
+      window.location.pathname,
+      ...observedStages.map((stage) => stage.routePath),
+    ];
+    const checkIds = [
+      "tenant-package-session-binding",
+      "cross-route-event-continuity",
+      "review-only-privacy-boundary",
+      "teacher-session-summary",
+      ...observedStages.map((stage) => `stage:${stage.stageId}`),
+    ];
+    const result = saveBrowserRehearsalObservation(createHumanObservedBrowserRehearsalObservation({
+      tenantId: evidence.tenantId,
+      packageId: evidence.packageId,
+      launchCode: evidence.launchCode,
+      unitKey: evidence.unitKey,
+      studentSessionId: evidence.studentSessionId,
+      routePaths,
+      checkIds,
+    }));
+    setIsRecordingObservation(false);
+    if (result.errors.length > 0) {
+      setObservationError(result.errors.join(" "));
+      return;
+    }
+    setObservation(result.observation);
+  }
 
   return (
     <Card>
@@ -170,6 +221,31 @@ export function TeacherSessionLocalEvidencePanel({
               ) : null}
             </section>
           ) : null}
+          <section className="mt-4 rounded-lg border border-[var(--tenant-border)] p-4" data-browser-observation="review-only">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Teacher observation receipt</p>
+                <h3 className="mt-1 text-base font-bold">Record this browser review</h3>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+                  This explicit teacher action records the observed route and checks locally. It is review evidence only; it cannot promote a release, launch students, export data, or write hosted persistence.
+                </p>
+              </div>
+              <StatusPill label={observation ? "Recorded locally" : "Not recorded"} tone={observation ? "success" : "neutral"} />
+            </div>
+            {observation ? (
+              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+                <EvidenceMetric label="Observed at" value={new Date(observation.observedAt).toLocaleString()} />
+                <EvidenceMetric label="Routes" value={String(observation.routePaths.length)} />
+                <EvidenceMetric label="Checks" value={String(observation.checkIds.length)} />
+              </dl>
+            ) : null}
+            {observationError ? (
+              <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950" role="alert">{observationError}</p>
+            ) : null}
+            <Button type="button" variant={observation ? "secondary" : "primary"} className="mt-4" onClick={recordTeacherObservation} disabled={isRecordingObservation}>
+              {isRecordingObservation ? "Recording observation..." : observation ? "Record updated observation" : "Record teacher observation"}
+            </Button>
+          </section>
           <section className="mt-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
