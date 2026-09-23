@@ -1571,6 +1571,22 @@ References:
 - `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
 - `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
 
+## FR-072: White-Label Evidence Freshness
+
+Status: Implemented for the review-only release-readiness packet.
+
+Requirement: Release quality evidence must be evaluated against an explicit
+reference time and bounded freshness period. Future-dated or stale observations
+must fail review. The evaluator must remain deterministic and side-effect-free;
+freshness cannot authorize release, persistence, export, installation, provider
+services, QR mutation, or student launch.
+
+References:
+
+- `packages/content-model/src/whiteLabelReleaseReadiness.ts`
+- `scripts/verify-white-label-release-readiness-behavior.mjs`
+- `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
+
 ## FR-066: Cross-Deployment Persistence Recovery Rehearsal
 
 Status: Implemented for the provider-neutral review rehearsal.

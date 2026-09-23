@@ -150,6 +150,8 @@ export const WHITE_LABEL_RELEASE_BLOCKED_ACTIONS = [
   "No public community publishing",
 ] as const;
 
+export const WHITE_LABEL_RELEASE_EVIDENCE_FRESHNESS_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+
 export function deriveWhiteLabelReleaseReadinessStatus(
   phases: Array<{ status: WhiteLabelReleasePhaseStatus }>,
 ): WhiteLabelReleaseReadinessStatus {
@@ -374,6 +376,32 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   const blockedActions = readStringArray(readiness, "blockedActions");
   for (const action of WHITE_LABEL_RELEASE_BLOCKED_ACTIONS) {
     if (!blockedActions.includes(action)) errors.push(`White-label release readiness must block: ${action}.`);
+  }
+  return [...new Set(errors)];
+}
+
+export function validateWhiteLabelReleaseReadinessFreshness(
+  readiness: unknown,
+  now: string,
+  maxAgeMs = WHITE_LABEL_RELEASE_EVIDENCE_FRESHNESS_WINDOW_MS,
+): string[] {
+  const errors: string[] = [];
+  if (!isIsoTimestamp(now)) return ["White-label release readiness freshness now must be an ISO timestamp."];
+  if (!Number.isFinite(maxAgeMs) || maxAgeMs < 0) return ["White-label release readiness freshness window must be a non-negative finite number."];
+  if (!isRecord(readiness) || !Array.isArray(readiness.qualityEvidence)) return ["White-label release readiness freshness requires quality evidence records."];
+
+  const nowMs = Date.parse(now);
+  for (const evidence of readiness.qualityEvidence) {
+    if (!isRecord(evidence)) continue;
+    const checkId = readString(evidence, "checkId") || "(unknown)";
+    const observedAt = evidence.observedAt;
+    if (!isIsoTimestamp(observedAt)) continue;
+    const observedAtMs = Date.parse(observedAt);
+    if (observedAtMs > nowMs) {
+      errors.push(`White-label release quality evidence ${checkId} observedAt cannot be in the future.`);
+    } else if (nowMs - observedAtMs > maxAgeMs) {
+      errors.push(`White-label release quality evidence ${checkId} is stale for the configured freshness period.`);
+    }
   }
   return [...new Set(errors)];
 }

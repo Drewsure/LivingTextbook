@@ -7036,3 +7036,21 @@ This standard is recorded in
 `docs/decision-register/DR-1114-white-label-verification-run-lineage.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1114-white-label-verification-run-lineage.md`.
+
+## 452. White-Label Evidence Freshness Standard
+
+- Release quality evidence is review evidence with a bounded freshness period;
+  the current foundation default is seven days.
+- A future-dated observation or an observation outside the configured period
+  must fail the freshness check and cannot satisfy release review.
+- Freshness evaluation receives an explicit reference time so verification is
+  deterministic and testable; it must not silently read browser time or turn
+  a review panel into an activation workflow.
+- Re-running freshness is still read-only. It cannot approve production,
+  enable persistence, export or install a package, mutate QR routes, or launch
+  students.
+
+This standard is recorded in
+`docs/decision-register/DR-1115-white-label-evidence-freshness.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1115-white-label-evidence-freshness.md`.

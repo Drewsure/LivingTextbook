@@ -30,6 +30,26 @@ try {
   const model = require(join(output, "whiteLabelReleaseReadiness.js"));
   const valid = buildValidReadiness(model);
   assertEmpty(model.validateWhiteLabelReleaseReadiness(valid), "valid readiness");
+  assertEmpty(
+    model.validateWhiteLabelReleaseReadinessFreshness(valid, "2026-09-23T00:00:00.000Z"),
+    "fresh quality evidence",
+  );
+
+  const staleEvidence = structuredClone(valid);
+  staleEvidence.qualityEvidence[0].observedAt = "2026-09-01T00:00:00.000Z";
+  assertIncludes(
+    model.validateWhiteLabelReleaseReadinessFreshness(staleEvidence, "2026-09-23T00:00:00.000Z"),
+    "is stale",
+    "stale quality evidence rejection",
+  );
+
+  const futureEvidence = structuredClone(valid);
+  futureEvidence.qualityEvidence[0].observedAt = "2026-09-24T00:00:00.000Z";
+  assertIncludes(
+    model.validateWhiteLabelReleaseReadinessFreshness(futureEvidence, "2026-09-23T00:00:00.000Z"),
+    "cannot be in the future",
+    "future quality evidence rejection",
+  );
 
   const missingVerificationRun = structuredClone(valid);
   missingVerificationRun.verificationRunId = "";

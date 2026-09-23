@@ -703,6 +703,7 @@ Current focused decision records also include:
 - `DR-1112-deployment-handoff-identity-reconciliation.md`
 - `DR-1113-white-label-quality-evidence-basis.md`
 - `DR-1114-white-label-verification-run-lineage.md`
+- `DR-1115-white-label-evidence-freshness.md`
 
 ## Maintenance Rule
 

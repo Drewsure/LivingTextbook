@@ -24,6 +24,8 @@ Confirm:
 - Evidence scopes are non-empty and unique within each record.
 - Wrong evidence kinds and missing scopes are rejected.
 - Missing verification run or revision lineage is rejected.
+- Fresh observations pass against an explicit reference time; future-dated and
+  observations older than seven days are rejected.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.
