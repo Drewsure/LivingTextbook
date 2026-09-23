@@ -6608,3 +6608,16 @@ This standard is recorded in
 `docs/decision-register/DR-1086-signed-session-cookie-shape-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1086-signed-session-cookie-shape-hardening.md`.
+
+## 425. Signed Session Creation Symmetry Standard
+
+- Session creators must apply the same identity, timestamp-order, structural,
+  and size rules as session readers before signing.
+- Route validation is not a substitute for defense in the shared creator.
+- A malformed creator input must return no cookie value and must not activate
+  persistence or authority.
+
+This standard is recorded in
+`docs/decision-register/DR-1087-signed-session-creation-symmetry.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1087-signed-session-creation-symmetry.md`.

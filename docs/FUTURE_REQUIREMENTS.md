@@ -1186,6 +1186,20 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
 
+## FR-045: Signed Session Creation Symmetry
+
+Status: Implemented for current student and teacher session creators.
+
+Requirement: Future signed-session creators must enforce the same structural,
+identity, time-ordering, and raw-size rules as their readers before emitting a
+cookie value. Creator paths require explicit verifier coverage.
+
+References:
+
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

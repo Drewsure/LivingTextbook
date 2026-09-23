@@ -16,11 +16,13 @@ export interface TeacherSessionClaims {
 }
 
 export function createTeacherSessionCookieValue(claims: TeacherSessionClaims): string | undefined {
+  if (!isValidTeacherSessionShape(claims)) return undefined;
   const secret = getTeacherSessionSecret();
   if (!secret) return undefined;
 
   const payload = toBase64Url(JSON.stringify(claims));
-  return `${payload}.${sign(payload, secret)}`;
+  const value = `${payload}.${sign(payload, secret)}`;
+  return Buffer.byteLength(value, "utf8") <= TEACHER_SESSION_COOKIE_MAX_BYTES ? value : undefined;
 }
 
 export function readTeacherSessionClaims(request: Request): TeacherSessionClaims | undefined {
@@ -43,9 +45,7 @@ export function readTeacherSessionClaims(request: Request): TeacherSessionClaims
 
   try {
     const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as Partial<TeacherSessionClaims>;
-    if (claims.version !== TEACHER_SESSION_VERSION || claims.role !== "teacher" || claims.scope !== TEACHER_PERSISTENCE_READ_SCOPE) return undefined;
-    if (!hasBoundedString(claims.tenantId, 160)) return undefined;
-    if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
+    if (!isValidTeacherSessionShape(claims)) return undefined;
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
     const now = Date.now();
@@ -124,4 +124,14 @@ function isIsoTimestamp(value: unknown): value is string {
 
 function hasBoundedString(value: unknown, maxLength: number): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+}
+
+function isValidTeacherSessionShape(claims: Partial<TeacherSessionClaims>): claims is TeacherSessionClaims {
+  return claims.version === TEACHER_SESSION_VERSION
+    && claims.role === "teacher"
+    && claims.scope === TEACHER_PERSISTENCE_READ_SCOPE
+    && hasBoundedString(claims.tenantId, 160)
+    && isIsoTimestamp(claims.issuedAt)
+    && isIsoTimestamp(claims.expiresAt)
+    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt);
 }

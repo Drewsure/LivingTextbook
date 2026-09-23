@@ -1476,3 +1476,7 @@ Session-cookie procedure: bound the raw signed cookie before decoding, require
 exactly two segments, and validate every identity claim as a bounded string.
 Run `npm run verify:persistence-runtime` and the teacher authorization verifier
 after changing cookie parsing or claim fields.
+
+Session creation procedure: keep creator and reader rules symmetric. Creator
+functions must reject inverted time windows, invalid claim shapes, and values
+over the cookie bound before signing. Do not rely on route validation alone.

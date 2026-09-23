@@ -8813,3 +8813,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Student and teacher session cookie values are bounded before base64 or JSON parsing.
 - Cookie values must contain exactly one payload and one signature segment.
 - Signed claims must use bounded string fields before temporal and tenant authorization checks continue.
+
+## DR-1087: Signed Session Creation Symmetry
+
+- Session cookie creation must enforce the same claim shape and size rules as session cookie reading.
+- Creation rejects inverted timestamps, invalid identity fields, and values that exceed the approved cookie bound.
+- This protects future internal callers that do not pass through the current session routes.

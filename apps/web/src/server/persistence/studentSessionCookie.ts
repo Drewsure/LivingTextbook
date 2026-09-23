@@ -18,11 +18,13 @@ export interface StudentSessionClaims {
 export function createStudentSessionCookieValue(
   claims: StudentSessionClaims,
 ): string | undefined {
+  if (!isValidStudentSessionShape(claims)) return undefined;
   const secret = getSessionSecret();
   if (!secret) return undefined;
 
   const payload = toBase64Url(JSON.stringify(claims));
-  return `${payload}.${sign(payload, secret)}`;
+  const value = `${payload}.${sign(payload, secret)}`;
+  return Buffer.byteLength(value, "utf8") <= STUDENT_SESSION_COOKIE_MAX_BYTES ? value : undefined;
 }
 
 export function readStudentSessionClaims(request: Request): StudentSessionClaims | undefined {
@@ -45,9 +47,7 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
 
   try {
     const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as Partial<StudentSessionClaims>;
-    if (claims.version !== STUDENT_SESSION_VERSION) return undefined;
-    if (!hasBoundedString(claims.tenantId, 160) || !hasBoundedString(claims.packageId, 160) || !hasBoundedString(claims.launchCode, 160) || !hasBoundedString(claims.studentSessionId, 512)) return undefined;
-    if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
+    if (!isValidStudentSessionShape(claims)) return undefined;
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
     const now = Date.now();
@@ -102,4 +102,15 @@ function isIsoTimestamp(value: unknown): value is string {
 
 function hasBoundedString(value: unknown, maxLength: number): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
+}
+
+function isValidStudentSessionShape(claims: Partial<StudentSessionClaims>): claims is StudentSessionClaims {
+  return claims.version === STUDENT_SESSION_VERSION
+    && hasBoundedString(claims.tenantId, 160)
+    && hasBoundedString(claims.packageId, 160)
+    && hasBoundedString(claims.launchCode, 160)
+    && hasBoundedString(claims.studentSessionId, 512)
+    && isIsoTimestamp(claims.issuedAt)
+    && isIsoTimestamp(claims.expiresAt)
+    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt);
 }

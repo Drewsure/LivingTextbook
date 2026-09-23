@@ -38,6 +38,7 @@ requireFragments("signed teacher session", session, [
   "COOKIE_MAX_BYTES",
   "segments.length !== 2",
   "hasBoundedString",
+  "isValidTeacherSessionShape",
   "issuedAt > now + 30_000",
   "expiresAt <= now",
   "expiresAt <= issuedAt",

@@ -4922,3 +4922,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Rejected extra signature segments and structurally invalid claim types or lengths.
 - Preserved temporal, tenant, authorization, and deployment checks.
 - Recorded ADR 1086 and DR-1086.
+
+## Build session 1001: Signed session creation symmetry
+
+- Applied the same bounded shape, time-window ordering, and cookie-size checks when creating student and teacher signed sessions.
+- Prevented internal callers from minting malformed claims even when route validation is bypassed.
+- Added verifier coverage without changing tenant, policy, or persistence activation behavior.
+- Recorded ADR 1087 and DR-1087.
