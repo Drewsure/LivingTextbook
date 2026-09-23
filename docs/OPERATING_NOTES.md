@@ -1480,3 +1480,7 @@ after changing cookie parsing or claim fields.
 Session creation procedure: keep creator and reader rules symmetric. Creator
 functions must reject inverted time windows, invalid claim shapes, and values
 over the cookie bound before signing. Do not rely on route validation alone.
+
+Session lifetime procedure: keep TTL configuration below the declared session
+maximum. The current limits are 24 hours for student sessions and 12 hours for
+teacher review sessions; shorter values are valid and preferred for pilots.

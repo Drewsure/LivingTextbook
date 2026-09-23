@@ -8819,3 +8819,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Session cookie creation must enforce the same claim shape and size rules as session cookie reading.
 - Creation rejects inverted timestamps, invalid identity fields, and values that exceed the approved cookie bound.
 - This protects future internal callers that do not pass through the current session routes.
+
+## DR-1088: Session Lifetime Bounds
+
+- Student sessions have a maximum lifetime of 24 hours; teacher review sessions have a maximum lifetime of 12 hours.
+- Configured TTLs are clamped to those maxima, and signed claims outside the limits are rejected on read and creation.
+- Shorter deployment-specific TTLs remain supported.

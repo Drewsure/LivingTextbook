@@ -3,6 +3,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 export const STUDENT_SESSION_COOKIE = "living-textbook-student-session";
 export const STUDENT_SESSION_VERSION = 1 as const;
 export const STUDENT_SESSION_COOKIE_MAX_BYTES = 8 * 1024;
+export const STUDENT_SESSION_MAX_TTL_SECONDS = 24 * 60 * 60;
 const DEFAULT_TTL_SECONDS = 8 * 60 * 60;
 
 export interface StudentSessionClaims {
@@ -51,7 +52,7 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
     const now = Date.now();
-    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt) return undefined;
+    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt || expiresAt - issuedAt > STUDENT_SESSION_MAX_TTL_SECONDS * 1000) return undefined;
     return claims as StudentSessionClaims;
   } catch {
     return undefined;
@@ -60,7 +61,9 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
 
 export function getStudentSessionExpiry(now = Date.now()): string {
   const configured = Number(process.env.LIVING_TEXTBOOK_STUDENT_SESSION_TTL_SECONDS);
-  const ttlSeconds = Number.isSafeInteger(configured) && configured > 0 ? configured : DEFAULT_TTL_SECONDS;
+  const ttlSeconds = Number.isSafeInteger(configured) && configured > 0
+    ? Math.min(configured, STUDENT_SESSION_MAX_TTL_SECONDS)
+    : DEFAULT_TTL_SECONDS;
   return new Date(now + ttlSeconds * 1000).toISOString();
 }
 
@@ -112,5 +115,6 @@ function isValidStudentSessionShape(claims: Partial<StudentSessionClaims>): clai
     && hasBoundedString(claims.studentSessionId, 512)
     && isIsoTimestamp(claims.issuedAt)
     && isIsoTimestamp(claims.expiresAt)
-    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt);
+    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt)
+    && Date.parse(claims.expiresAt) - Date.parse(claims.issuedAt) <= STUDENT_SESSION_MAX_TTL_SECONDS * 1000;
 }

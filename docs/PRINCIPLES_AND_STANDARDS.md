@@ -6621,3 +6621,15 @@ This standard is recorded in
 `docs/decision-register/DR-1087-signed-session-creation-symmetry.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1087-signed-session-creation-symmetry.md`.
+
+## 426. Session Lifetime Standard
+
+- Every signed session type must declare a maximum lifetime.
+- Student sessions may not exceed 24 hours; teacher review sessions may not
+  exceed 12 hours.
+- Deployment configuration may choose shorter windows, never longer ones.
+
+This standard is recorded in
+`docs/decision-register/DR-1088-session-lifetime-bounds.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1088-session-lifetime-bounds.md`.

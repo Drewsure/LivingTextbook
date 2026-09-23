@@ -4,6 +4,7 @@ export const TEACHER_SESSION_COOKIE = "living-textbook-teacher-session";
 export const TEACHER_SESSION_VERSION = 1 as const;
 export const TEACHER_PERSISTENCE_READ_SCOPE = "persistence:read" as const;
 export const TEACHER_SESSION_COOKIE_MAX_BYTES = 8 * 1024;
+export const TEACHER_SESSION_MAX_TTL_SECONDS = 12 * 60 * 60;
 const DEFAULT_TTL_SECONDS = 2 * 60 * 60;
 
 export interface TeacherSessionClaims {
@@ -49,7 +50,7 @@ export function readTeacherSessionClaims(request: Request): TeacherSessionClaims
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
     const now = Date.now();
-    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt) return undefined;
+    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt || expiresAt - issuedAt > TEACHER_SESSION_MAX_TTL_SECONDS * 1000) return undefined;
     return claims as TeacherSessionClaims;
   } catch {
     return undefined;
@@ -58,7 +59,9 @@ export function readTeacherSessionClaims(request: Request): TeacherSessionClaims
 
 export function getTeacherSessionExpiry(now = Date.now()): string {
   const configured = Number(process.env.LIVING_TEXTBOOK_TEACHER_SESSION_TTL_SECONDS);
-  const ttlSeconds = Number.isSafeInteger(configured) && configured > 0 ? configured : DEFAULT_TTL_SECONDS;
+  const ttlSeconds = Number.isSafeInteger(configured) && configured > 0
+    ? Math.min(configured, TEACHER_SESSION_MAX_TTL_SECONDS)
+    : DEFAULT_TTL_SECONDS;
   return new Date(now + ttlSeconds * 1000).toISOString();
 }
 
@@ -133,5 +136,6 @@ function isValidTeacherSessionShape(claims: Partial<TeacherSessionClaims>): clai
     && hasBoundedString(claims.tenantId, 160)
     && isIsoTimestamp(claims.issuedAt)
     && isIsoTimestamp(claims.expiresAt)
-    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt);
+    && Date.parse(claims.expiresAt) > Date.parse(claims.issuedAt)
+    && Date.parse(claims.expiresAt) - Date.parse(claims.issuedAt) <= TEACHER_SESSION_MAX_TTL_SECONDS * 1000;
 }

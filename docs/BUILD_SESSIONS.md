@@ -4929,3 +4929,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Prevented internal callers from minting malformed claims even when route validation is bypassed.
 - Added verifier coverage without changing tenant, policy, or persistence activation behavior.
 - Recorded ADR 1087 and DR-1087.
+
+## Build session 1002: Session lifetime bounds
+
+- Capped student signed sessions at 24 hours and teacher review sessions at 12 hours.
+- Applied the cap to configured TTLs, creator validation, and reader validation.
+- Preserved shorter tenant/operator-configured windows and all existing authorization gates.
+- Recorded ADR 1088 and DR-1088.

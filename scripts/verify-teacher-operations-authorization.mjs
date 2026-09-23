@@ -36,6 +36,7 @@ requireFragments("signed teacher session", session, [
   "HttpOnly",
   "SameSite=Lax",
   "COOKIE_MAX_BYTES",
+  "TEACHER_SESSION_MAX_TTL_SECONDS",
   "segments.length !== 2",
   "hasBoundedString",
   "isValidTeacherSessionShape",

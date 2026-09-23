@@ -1200,6 +1200,20 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
 
+## FR-046: Session Lifetime Policy
+
+Status: Implemented for current student and teacher sessions.
+
+Requirement: Future session types must define an explicit maximum lifetime,
+clamp operator configuration to that maximum, and reject signed claims that
+exceed it. Shorter tenant-approved windows remain allowed.
+
+References:
+
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

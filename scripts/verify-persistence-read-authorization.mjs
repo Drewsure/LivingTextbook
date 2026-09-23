@@ -156,7 +156,7 @@ requireFragments("student session input bounds", studentSessionRoute, [
   "Student session fields exceed their limits",
 ]);
 for (const [label, source] of [["student session time bounds", studentSession], ["teacher session time bounds", teacherSession]]) {
-  requireFragments(label, source, ["COOKIE_MAX_BYTES", "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
+  requireFragments(label, source, ["COOKIE_MAX_BYTES", "MAX_TTL_SECONDS", "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
 }
 for (const [label, source] of [["student session sign-out origin gate", studentSessionRoute], ["teacher session sign-out origin gate", teacherSessionRoute]]) {
   requireFragments(label, source, ["export function DELETE(request: Request)", "validateSameOriginMutation(request)", "status: \"signed-out\""]);
