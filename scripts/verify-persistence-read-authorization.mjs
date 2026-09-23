@@ -37,6 +37,7 @@ const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAutho
 const readiness = read("apps/web/src/server/persistence/persistenceReadiness.ts");
 const studentSession = read("apps/web/src/server/persistence/studentSessionCookie.ts");
 const teacherSession = read("apps/web/src/server/persistence/teacherSessionCookie.ts");
+const persistenceRuntime = read("scripts/verify-persistence-runtime.mjs");
 const studentSessionRoute = read("apps/web/src/app/api/student/session/route.ts");
 const teacherSessionRoute = read("apps/web/src/app/api/teacher/session/route.ts");
 
@@ -92,6 +93,9 @@ requireFragments("persistence readiness helper", readiness, [
   "const effectivePolicyErrors = input.durable ? input.policyErrors : [];",
   'status: "healthy" | "blocked" | "rehearsal"',
   "Signed student session boundary is not configured.",
+]);
+requireFragments("persistence runtime emission regression", persistenceRuntime, [
+  "verify-session-cookie-emission-runtime.mjs",
 ]);
 requireFragments("persistence status client", statusClient, [
   "readPersistenceStatus(tenantId: string)",

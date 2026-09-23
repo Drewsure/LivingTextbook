@@ -1489,3 +1489,7 @@ Cookie emission procedure: keep `Max-Age` finite, non-negative, and bounded by
 the session lifetime cap. Invalid expiration input must emit `Max-Age=0` so an
 internal caller cannot create a persistent or malformed browser session. Run
 `npm run verify:persistence-runtime` after changing cookie emission.
+
+The persistence runtime gate executes `scripts/verify-session-cookie-emission-
+runtime.mjs`; keep that executable check aligned with any cookie attribute or
+expiration policy change.

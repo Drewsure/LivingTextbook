@@ -6645,3 +6645,15 @@ This standard is recorded in
 `docs/decision-register/DR-1089-session-cookie-emission-bounds.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1089-session-cookie-emission-bounds.md`.
+
+## 428. Session Cookie Emission Runtime Standard
+
+- Cookie boundary policies must be verified against actual `Set-Cookie` output,
+  not only source fragments.
+- Runtime coverage must assert secure attributes, finite capped `Max-Age`, and
+  fail-closed invalid expiration behavior.
+
+This standard is recorded in
+`docs/decision-register/DR-1090-session-cookie-emission-runtime-regression.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1090-session-cookie-emission-runtime-regression.md`.

@@ -1201,6 +1201,19 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `scripts/verify-persistence-read-authorization.mjs`
 
+## FR-048: Session Cookie Emission Runtime Coverage
+
+Status: Implemented for current student and teacher session cookie emitters.
+
+Requirement: Cookie emission policies must have executable regression coverage
+that observes the actual `Set-Cookie` output, including secure attributes,
+finite capped `Max-Age`, and fail-closed invalid expiration behavior.
+
+References:
+
+- `scripts/verify-session-cookie-emission-runtime.mjs`
+- `scripts/verify-persistence-runtime.mjs`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

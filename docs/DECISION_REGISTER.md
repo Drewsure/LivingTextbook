@@ -8831,3 +8831,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Cookie emitters clamp `Max-Age` to the declared student or teacher session lifetime cap.
 - Invalid expiration timestamps fail closed with `Max-Age=0`.
 - The change protects internal callers that bypass route-level session construction and preserves existing cookie attributes.
+
+## DR-1090: Session Cookie Emission Runtime Regression
+
+- The persistence runtime gate executes the actual student and teacher cookie emitters.
+- The regression proves secure attributes, capped numeric `Max-Age`, and zero `Max-Age` for invalid expiration input.
+- This prevents static source coverage from standing in for browser-boundary behavior.

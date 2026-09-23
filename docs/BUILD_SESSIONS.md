@@ -4943,3 +4943,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Invalid expiration timestamps now fail closed by emitting `Max-Age=0` rather than `NaN` or an unbounded value.
 - Preserved HttpOnly, SameSite, Path, Secure, tenant, and deployment gates.
 - Recorded ADR 1089 and DR-1089.
+
+## Build session 1004: Session cookie emission runtime regression
+
+- Added executable coverage for actual student and teacher `Set-Cookie` output.
+- Verified secure attributes, numeric bounded `Max-Age`, and invalid-expiry fail-closed behavior.
+- Wired the regression into the persistence runtime gate and preserved the full foundation gate.
+- Recorded ADR 1090 and DR-1090.
