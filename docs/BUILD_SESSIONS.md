@@ -5009,3 +5009,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Wired the runtime regression into `npm run verify:ai-service` and preserved
   the no-model, no-billing, no-package-write, no-route, no-assignment boundary.
 - Recorded ADR 1096 and DR-1096.
+
+## Build session 1011: Persistence provider conformance gate
+
+- Promoted process-memory/SQLite provider conformance into the mandatory
+  persistence runtime gate.
+- Added standalone script names for provider conformance and progress-event
+  persistence so failures remain diagnosable without running the full suite.
+- Verified idempotency, conflicts, tenant isolation, event-stream privacy, and
+  SQLite restart durability with temporary synthetic data only.
+- Preserved the no-anonymous-write, no-hosted-credential, and no-production-
+  rollout boundaries.
+- Recorded ADR 1097 and DR-1097.

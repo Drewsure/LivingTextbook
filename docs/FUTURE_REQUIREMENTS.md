@@ -1303,6 +1303,29 @@ References:
 - `apps/ai-service/src/index.ts`
 - `docs/adr/1096-ai-service-runtime-regression.md`
 
+## FR-055: Persistence Provider Conformance Gate
+
+Status: Implemented for the current process-memory rehearsal and SQLite
+reference adapters; hosted cloud provider activation remains future work.
+
+Requirement: Every supported persistence provider must preserve the same
+tenant-scoped identity, idempotency, conflict, event-stream privacy, and
+restart-durability semantics before a tenant can select it for a pilot.
+
+Current boundary:
+
+- The mandatory persistence runtime gate runs provider conformance and the
+  progress-event persistence regression.
+- Tests use temporary SQLite databases and synthetic identities only.
+- Anonymous browser writes, hosted cloud credentials, production accounts,
+  and school rollout remain separately gated.
+
+References:
+
+- `scripts/verify-persistence-provider-conformance.mjs`
+- `scripts/verify-progress-event-persistence.mjs`
+- `docs/adr/1097-persistence-provider-conformance-gate.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

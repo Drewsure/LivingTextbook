@@ -6,6 +6,8 @@ records. Use a temporary SQLite path and a throwaway coded identity.
 ## Required evidence
 
 - `npm run verify:durable-persistence` passes.
+- `npm run verify:persistence-provider-conformance` passes.
+- `npm run verify:progress-event-persistence` passes.
 - SQLite mode starts only with `LIVING_TEXTBOOK_PERSISTENCE_PROVIDER=sqlite`.
 - A durable write requires the explicit write gate, school/tenant policy,
   retention-policy acceptance, release approval, and a server-only bearer token.
@@ -28,3 +30,6 @@ records. Use a temporary SQLite path and a throwaway coded identity.
 
 This checklist proves the durable adapter boundary; it does not authorize
 anonymous browser writes or claim that the hosted cloud pilot is ready.
+
+The mandatory `npm run verify:persistence-runtime` gate executes the provider
+conformance and event-stream checks as well as the request-boundary checks.

@@ -6738,3 +6738,19 @@ This standard is recorded in
 `docs/decision-register/DR-1096-ai-service-runtime-regression.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1096-ai-service-runtime-regression.md`.
+
+## 435. Persistence Provider Conformance Standard
+
+- A local or hosted persistence adapter is acceptable only when it preserves
+  the shared tenant identity, idempotency, conflict, event-stream privacy, and
+  restart behavior.
+- Provider conformance must run in the mandatory foundation gate, using
+  temporary synthetic records rather than learner data.
+- Process-memory remains rehearsal-only, and SQLite remains server-only until
+  the separate school-policy, retention, authorization, release, and
+  deployment gates close.
+
+This standard is recorded in
+`docs/decision-register/DR-1097-persistence-provider-conformance-gate.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1097-persistence-provider-conformance-gate.md`.
