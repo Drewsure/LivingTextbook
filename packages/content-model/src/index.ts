@@ -1733,6 +1733,7 @@ export * from "./browserRehearsalObservationPilotBinding";
 export * from "./browserPrivacyTenantEvidencePacket";
 export * from "./browserPrivacyTenantEvidenceAdjudication";
 export * from "./browserPrivacyTenantEvidencePilotBinding";
+export * from "./browserPrivacyTenantEvidenceReleaseBinding";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

@@ -1,8 +1,10 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleWhiteLabelReleaseReadiness, sampleWhiteLabelReleaseReadinessErrors } from "@/data/sampleWhiteLabelReleaseReadiness";
+import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
 import { WhiteLabelReleaseReadinessPanel, type WhiteLabelReleaseReviewLink } from "@/features/release/WhiteLabelReleaseReadinessPanel";
 import { BrowserEvidenceAdjudicationPanel } from "@/features/release/BrowserEvidenceAdjudicationPanel";
+import { BrowserPrivacyTenantEvidenceReleaseBindingPanel } from "@/features/release/BrowserPrivacyTenantEvidenceReleaseBindingPanel";
 import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 
 const reviewLinks: WhiteLabelReleaseReviewLink[] = [
@@ -29,6 +31,15 @@ export default function TeacherReleaseReadinessPage() {
           unitKey={partnerLaunch.launchSession.unitKey}
           studentSessionId={partnerLaunch.progression.studentSessionId}
           teacherSessionPath={`/teacher/sessions/${encodeURIComponent(partnerLaunch.launchSession.launchCode)}`}
+        />
+        <BrowserPrivacyTenantEvidenceReleaseBindingPanel
+          readiness={sampleWhiteLabelReleaseReadiness}
+          pilotDecision={samplePilotReviewDecision}
+          tenantId={partnerLaunch.tenant.id}
+          packageId={partnerLaunch.contentPackage.meta.packageId}
+          launchCode={partnerLaunch.launchSession.launchCode}
+          unitKey={partnerLaunch.launchSession.unitKey}
+          studentSessionId={partnerLaunch.progression.studentSessionId}
         />
       </div>
     </AppShell>

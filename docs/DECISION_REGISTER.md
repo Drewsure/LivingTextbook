@@ -8953,3 +8953,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   accepted evidence is not pilot approval.
 - Pilot launch, collection, export, package promotion, QR mutation, and
   hosted persistence remain blocked in every binding state.
+
+## DR-1128: Composite Evidence Release Binding
+
+- Composite packet and adjudication lineage now appears on the white-label
+  release-readiness surface through a tenant/package-bound release binding.
+- Awaiting, blocked, and accepted-for-release-review states remain distinct;
+  accepted review is not production approval.
+- Production approval, student launch, package promotion, hosted persistence,
+  and QR mutation remain blocked.

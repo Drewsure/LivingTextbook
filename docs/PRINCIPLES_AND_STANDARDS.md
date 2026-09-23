@@ -7260,3 +7260,18 @@ This standard is recorded in
 `docs/decision-register/DR-1127-composite-evidence-pilot-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1127-composite-evidence-pilot-binding.md`.
+
+## 465. Composite Evidence Release Binding Standard
+
+- White-label release readiness must preserve composite packet and adjudication
+  lineage through the pilot binding into the release review surface.
+- Awaiting, blocked, and accepted-for-release-review states must remain
+  distinct; accepted evidence is not production approval.
+- Production approval, student launch, package promotion, hosted persistence,
+  and QR mutation must remain disabled until their separate release gates
+  clear.
+
+This standard is recorded in
+`docs/decision-register/DR-1128-composite-evidence-release-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1128-composite-evidence-release-binding.md`.

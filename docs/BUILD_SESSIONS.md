@@ -5358,3 +5358,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept pilot launch, student-data collection, report export, package
   promotion, QR mutation, and hosted persistence blocked. Recorded ADR 1127
   and DR-1127.
+
+## Build session 1042: Composite evidence release binding
+
+- Added the composite evidence-to-release binding and connected it to the
+  white-label release-readiness route.
+- Preserved awaiting, blocked, and accepted-for-release-review states without
+  turning evidence into production approval.
+- Kept production approval, student launch, package promotion, hosted
+  persistence, and QR mutation blocked. Recorded ADR 1128 and DR-1128.
