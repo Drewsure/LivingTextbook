@@ -3,6 +3,9 @@ import { readFileSync } from "node:fs";
 const admission = readSource("../packages/content-model/src/uploadQuarantineAdmission.ts");
 const intake = readSource("../packages/content-model/src/uploadQuarantineIntake.ts");
 const review = readSource("../packages/content-model/src/uploadQuarantineReview.ts");
+const panel = readSource("../apps/web/src/features/content-intake/QuarantineAdmissionPreviewPanel.tsx");
+const workspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
+const sample = readSource("../apps/web/src/data/sampleUploadQuarantineAdmission.ts");
 const failures = [];
 
 for (const marker of [
@@ -36,6 +39,12 @@ for (const marker of [
 ]) requireText(intake, marker, `Quarantine intake contract missing admission prerequisite: ${marker}.`);
 
 requireText(review, "awaiting-scan-rights-source-review", "Quarantine review must expose the pending review state before admission.");
+for (const [source, marker, message] of [
+  [panel, "Evidence admission preview", "The upload workspace must expose admission evidence."],
+  [panel, "Evidence completeness is not publication", "The admission panel must preserve the publication boundary."],
+  [workspace, "quarantineAdmissionPreviews", "The upload workspace must receive admission previews."],
+  [sample, "completeEvidenceForReview", "The sample must cover complete evidence for human review."],
+]) requireText(source, marker, message);
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

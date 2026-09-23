@@ -5440,3 +5440,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept promotion, student-facing use, storage activation, package, playlist,
   game, assignment, QR, and local-bundle writes blocked. Recorded ADR 1135 and
   DR-1135.
+
+## Build session 1050: Upload workspace admission evidence preview
+
+- Connected the provider-neutral quarantine admission preview to the tenant
+  upload workspace with representative incomplete and
+  evidence-complete-for-review states.
+- Made the distinction visible to teachers: evidence completeness can prepare
+  a human review handoff, but it cannot authorize promotion, storage
+  activation, package release, assignment, QR mutation, or student use.
+- Kept the preview side-effect-free and provider-neutral, with no file picker,
+  approval action, file URL, or quarantine mutation. Recorded ADR 1136 and
+  DR-1136.

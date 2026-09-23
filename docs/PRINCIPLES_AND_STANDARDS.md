@@ -7397,3 +7397,21 @@ This standard is recorded in
 `docs/decision-register/DR-1135-quarantine-evidence-admission-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1135-quarantine-evidence-admission-preview.md`.
+
+## 473. Upload Workspace Admission Preview Standard
+
+- The tenant upload workspace must expose representative admission states so
+  teachers can distinguish missing evidence from evidence complete for human
+  review.
+- A visible `evidence-ready` state remains review-only. It must not create a
+  file URL, mutate quarantine metadata, select a storage adapter, release a
+  package, create a playlist or route, assign a student, or activate a local
+  bundle.
+- The workspace must preserve the same admission vocabulary for hosted,
+  closed-local, and hybrid deployments so a tenant does not receive a weaker
+  safety boundary merely by changing delivery mode.
+
+This standard is recorded in
+`docs/decision-register/DR-1136-upload-workspace-admission-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1136-upload-workspace-admission-preview.md`.

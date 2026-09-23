@@ -7,6 +7,7 @@ import type { UploadPromotionReadinessPlan } from "@/data/sampleUploadPromotionR
 import type { UploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import type { UploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
 import type { EvidencePacketFlow } from "@/data/sampleEvidencePacketFlows";
+import type { UploadQuarantineAdmissionPreview } from "@living-textbook/content-model";
 import { EvidencePacketFlowPanel } from "@/features/evidence/EvidencePacketFlowPanel";
 import { LabelledDiagramAssetReadinessPanel } from "./LabelledDiagramAssetReadinessPanel";
 import { MultimediaAssetReadinessPanel } from "./MultimediaAssetReadinessPanel";
@@ -17,6 +18,7 @@ import { UploadPromotionReadinessPanel } from "./UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "./UploadReviewQueuePanel";
 import { UploadTargetMappingPanel } from "./UploadTargetMappingPanel";
 import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
+import { QuarantineAdmissionPreviewPanel } from "./QuarantineAdmissionPreviewPanel";
 
 interface TeacherUploadWorkspacePanelProps {
   tenantId: string;
@@ -28,6 +30,7 @@ interface TeacherUploadWorkspacePanelProps {
   labelledDiagramPlan: LabelledDiagramAssetReadinessPlan;
   multimediaPlan: MultimediaAssetReadinessPlan;
   evidenceFlow: EvidencePacketFlow;
+  quarantineAdmissionPreviews: UploadQuarantineAdmissionPreview[];
 }
 
 const guardrails = [
@@ -49,6 +52,7 @@ export function TeacherUploadWorkspacePanel({
   labelledDiagramPlan,
   multimediaPlan,
   evidenceFlow,
+  quarantineAdmissionPreviews,
 }: TeacherUploadWorkspacePanelProps) {
   const blockedReviewItems = reviewQueue.items.filter((item) => item.status !== "ready-preview").length;
   const blockedPromotionLanes = promotionPlan.lanes.filter((lane) => lane.status === "blocked-preview").length;
@@ -102,6 +106,7 @@ export function TeacherUploadWorkspacePanel({
 
       <EvidencePacketFlowPanel flow={evidenceFlow} />
       <QuarantineMetadataReviewPanel tenantId={tenantId} />
+      <QuarantineAdmissionPreviewPanel previews={quarantineAdmissionPreviews} />
       <UploadIntakeControlPreviewPanel channelPlan={channelPlan} filePolicyPlan={filePolicyPlan} />
       <UploadChannelReadinessPanel plan={channelPlan} />
       <UploadFilePolicyPanel plan={filePolicyPlan} />
