@@ -1463,6 +1463,21 @@ References:
 - `scripts/verify-phaser-candidate-package-behavior.mjs`
 - `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`
 
+## FR-061: Source Intake File Boundary
+
+Status: Implemented for the review-only source runtime.
+
+Requirement: Future PDF, DOCX, spreadsheet, manual-text, and AI-draft intake
+must bind MIME type and byte length to the declared source type before scan,
+extraction, teacher-draft, package, or student-facing decisions. The shared
+review ceiling is 50 MiB until tenant-specific policy profiles are approved.
+
+References:
+
+- `packages/content-model/src/sourceRuntime.ts`
+- `scripts/verify-runtime-behavior.mjs`
+- `scripts/verify-source-runtime.mjs`
+
 ## FR-060: External Candidate Read Budget
 
 Status: Implemented for the current Phaser candidate verifier.

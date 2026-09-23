@@ -32,6 +32,9 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - The teacher/admin page does not claim automated PDF extraction is production-ready.
 - The teacher/admin page shows `source_extraction_review_packet` and `Source extraction review packet record` before OCR/parser/AI extraction workflows are enabled.
 - The student front-door routes still require target-language practice after entry.
+- Source-runtime review records carry a MIME type compatible with the declared
+  source type and a positive byte length at or below 50 MiB before extraction
+  or draft decisions.
 
 ## Failure Signals
 
@@ -42,3 +45,5 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Missing media files are hidden instead of represented as pending rights/file handoff.
 - Route data is hard-coded only inside route components.
 - The intake route introduces production auth claims or database persistence that do not exist yet.
+- A source can enter extraction review using only a checksum while its MIME or
+  byte length is missing, incompatible, or over the shared review ceiling.

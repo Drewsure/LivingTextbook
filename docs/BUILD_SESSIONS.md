@@ -5079,3 +5079,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved quarantine: external artifacts remain evidence only and cannot be
   copied, executed, promoted, assigned, or used to mutate the platform.
 - Recorded ADR 1102 and DR-1102.
+
+## Build session 1017: Source intake file boundary
+
+- Bound source-runtime intake to an explicit MIME type and positive byte
+  length before extraction or draft decisions.
+- Added source-type MIME compatibility and a shared 50 MiB review ceiling,
+  with runtime regressions for incompatible MIME and oversized sources.
+- Preserved review-only behavior: no file storage, extraction execution, draft
+  creation, package promotion, assignment, or raw-source student payload.
+- Recorded ADR 1103 and DR-1103.

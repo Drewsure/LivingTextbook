@@ -6829,3 +6829,18 @@ This standard is recorded in
 `docs/decision-register/DR-1102-external-candidate-read-budget.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1102-external-candidate-read-budget.md`.
+
+## 441. Source Intake File-Boundary Standard
+
+- Source review requests must carry the uploaded source MIME type and byte
+  length alongside tenant, lineage, checksum, and scan evidence.
+- MIME type must be compatible with the declared PDF, DOCX, spreadsheet,
+  manual, or AI-draft source type, and source size must stay within the shared
+  50 MiB review ceiling.
+- File-boundary validation does not create storage, run extraction, create a
+  teacher draft, publish a package, or make the raw source student-facing.
+
+This standard is recorded in
+`docs/decision-register/DR-1103-source-intake-file-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1103-source-intake-file-boundary.md`.

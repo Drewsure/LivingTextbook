@@ -9,6 +9,8 @@ export interface SourceRuntimeRequest {
   sourceId: string;
   targetPackageId: string;
   sourceType: SourceDocumentType;
+  sourceMimeType: string;
+  sourceByteLength: number;
   sourceChecksum: string;
   extractionMethod: SourceExtractionMethod;
   contentReviewStatus: ContentReviewStatus;
@@ -58,6 +60,14 @@ const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 const maxSourceIdentifierLength = 160;
 const maxTargetPackageIdentifierLength = 200;
 const maxSourceChecksumLength = 256;
+export const SOURCE_RUNTIME_MAX_BYTES = 50 * 1024 * 1024;
+const sourceMimeTypes = new Map<SourceDocumentType, ReadonlySet<string>>([
+  ["pdf", new Set(["application/pdf"])],
+  ["docx", new Set(["application/vnd.openxmlformats-officedocument.wordprocessingml.document"])],
+  ["spreadsheet", new Set(["text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"])],
+  ["manual", new Set(["text/plain", "text/markdown"])],
+  ["ai-draft", new Set(["application/json", "text/plain"])],
+]);
 
 export const reviewOnlySourceBlockedActions = [
   "No source file write or replacement",
@@ -112,6 +122,7 @@ export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): str
   const sourceId = readText(request.sourceId);
   const targetPackageId = readText(request.targetPackageId);
   const sourceChecksum = readText(request.sourceChecksum);
+  const sourceMimeType = readText(request.sourceMimeType);
   const sourceType = readText(request.sourceType);
   const extractionMethod = readText(request.extractionMethod);
   const contentReviewStatus = readText(request.contentReviewStatus);
@@ -125,6 +136,10 @@ export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): str
   else if (targetPackageId.length > maxTargetPackageIdentifierLength || !safeIdentifierPattern.test(targetPackageId)) errors.push("targetPackageId must be a bounded safe identifier");
   if (!sourceChecksum) errors.push("source checksum is required");
   else if (sourceChecksum.length > maxSourceChecksumLength) errors.push("source checksum is too long");
+  if (!sourceMimeType) errors.push("source MIME type is required");
+  else if (!sourceMimeTypes.get(sourceType as SourceDocumentType)?.has(sourceMimeType)) errors.push("source MIME type is incompatible with source document type");
+  if (!Number.isInteger(request.sourceByteLength) || request.sourceByteLength <= 0) errors.push("source byte length must be a positive integer");
+  else if (request.sourceByteLength > SOURCE_RUNTIME_MAX_BYTES) errors.push(`source byte length cannot exceed ${SOURCE_RUNTIME_MAX_BYTES} bytes`);
   if (!sourceDocumentTypes.has(sourceType as SourceDocumentType)) errors.push("source document type is unsupported");
   if (!sourceExtractionMethods.has(extractionMethod as SourceExtractionMethod)) errors.push("source extraction method is unsupported");
   if (!contentReviewStatuses.has(contentReviewStatus as ContentReviewStatus)) errors.push("source content review status is unsupported");

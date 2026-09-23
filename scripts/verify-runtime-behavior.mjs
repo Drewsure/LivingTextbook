@@ -1173,6 +1173,7 @@ try {
 
   const sourceRequest = {
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
+    sourceMimeType: "application/pdf", sourceByteLength: 1024,
     sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",
     filePolicyAccepted: true, scanPassed: true, sourceLineageReviewed: true, rightsReviewAccepted: true,
     extractionReviewStatus: "accepted", ocrUsed: false, ocrConfidenceReviewed: true,
@@ -1216,8 +1217,11 @@ try {
   assertIncludes(malformedSourceShapeErrors, "source extraction method is unsupported");
   assertIncludes(malformedSourceShapeErrors, "source content review status is unsupported");
   assertIncludes(malformedSourceShapeErrors, "source extraction review status is unsupported");
+  assertIncludes(source.validateSourceRuntimeRequest({ ...sourceRequest, sourceMimeType: "image/png" }), "source MIME type is incompatible with source document type");
+  assertIncludes(source.validateSourceRuntimeRequest({ ...sourceRequest, sourceByteLength: 50 * 1024 * 1024 + 1 }), "source byte length cannot exceed 52428800 bytes");
   assertEqual(source.createReviewOnlySourceRuntimeAdapter().execute({
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
+    sourceMimeType: "application/pdf", sourceByteLength: 1024,
     sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",
     filePolicyAccepted: false, scanPassed: false, sourceLineageReviewed: false, rightsReviewAccepted: false,
     extractionReviewStatus: "not-started", ocrUsed: false, ocrConfidenceReviewed: false,
