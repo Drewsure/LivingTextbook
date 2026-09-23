@@ -8807,3 +8807,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Persistence read routes use shared bounded query helpers for tenant-scoped identity and operation-history limits.
 - Oversized identity parameters and invalid operation limits return `400` before authorization, storage access, or report aggregation.
 - The limits apply equally to student continuity, teacher review, local handoff, status, event, progression, and operation-evidence reads.
+
+## DR-1086: Signed Session Cookie Shape Hardening
+
+- Student and teacher session cookie values are bounded before base64 or JSON parsing.
+- Cookie values must contain exactly one payload and one signature segment.
+- Signed claims must use bounded string fields before temporal and tenant authorization checks continue.

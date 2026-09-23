@@ -6596,3 +6596,15 @@ This standard is recorded in
 `docs/decision-register/DR-1085-persistence-read-scope-query-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1085-persistence-read-scope-query-hardening.md`.
+
+## 424. Signed Session Cookie Shape Standard
+
+- Signed session cookies must be bounded before decoding or parsing.
+- A valid cookie has exactly one payload and one signature segment.
+- Every identity claim must have the expected type and an explicit maximum
+  length before temporal or tenant authorization use.
+
+This standard is recorded in
+`docs/decision-register/DR-1086-signed-session-cookie-shape-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1086-signed-session-cookie-shape-hardening.md`.

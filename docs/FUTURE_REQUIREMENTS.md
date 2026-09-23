@@ -1172,6 +1172,20 @@ References:
 - `apps/web/src/server/persistence/requestBoundary.ts`
 - `scripts/verify-persistence-read-authorization.mjs`
 
+## FR-044: Signed Session Cookie Shape Bounds
+
+Status: Implemented for current student and teacher session cookies.
+
+Requirement: Every future signed session parser must bound the raw cookie
+value, reject non-canonical payload/signature segmentation, and validate claim
+field types and lengths before temporal or tenant authorization use.
+
+References:
+
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

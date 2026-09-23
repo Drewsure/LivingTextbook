@@ -4915,3 +4915,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Applied fail-closed query limits to progression, event, status, local-handoff, and operation-evidence reads.
 - Kept teacher/student authorization and review-only persistence gates unchanged.
 - Recorded ADR 1085 and DR-1085.
+
+## Build session 1000: Signed session cookie shape hardening
+
+- Bounded student and teacher signed-cookie values before payload parsing.
+- Rejected extra signature segments and structurally invalid claim types or lengths.
+- Preserved temporal, tenant, authorization, and deployment checks.
+- Recorded ADR 1086 and DR-1086.

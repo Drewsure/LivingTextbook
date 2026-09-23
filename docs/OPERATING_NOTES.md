@@ -1471,3 +1471,8 @@ Persistence read-query procedure: use `readBoundedQueryParam` for every
 tenant-scoped identity query and `readBoundedQueryLimit` for bounded lists.
 Reject an undefined helper result before authorization or storage access. Run
 `npm run verify:persistence-runtime` after changing any persistence GET route.
+
+Session-cookie procedure: bound the raw signed cookie before decoding, require
+exactly two segments, and validate every identity claim as a bounded string.
+Run `npm run verify:persistence-runtime` and the teacher authorization verifier
+after changing cookie parsing or claim fields.

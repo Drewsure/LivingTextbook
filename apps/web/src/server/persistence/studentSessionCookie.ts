@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 export const STUDENT_SESSION_COOKIE = "living-textbook-student-session";
 export const STUDENT_SESSION_VERSION = 1 as const;
+export const STUDENT_SESSION_COOKIE_MAX_BYTES = 8 * 1024;
 const DEFAULT_TTL_SECONDS = 8 * 60 * 60;
 
 export interface StudentSessionClaims {
@@ -35,20 +36,23 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
     .find((part) => part.startsWith(`${STUDENT_SESSION_COOKIE}=`))
     ?.slice(STUDENT_SESSION_COOKIE.length + 1);
   if (!cookieValue) return undefined;
+  if (Buffer.byteLength(cookieValue, "utf8") > STUDENT_SESSION_COOKIE_MAX_BYTES) return undefined;
 
-  const [payload, signature] = cookieValue.split(".");
+  const segments = cookieValue.split(".");
+  if (segments.length !== 2) return undefined;
+  const [payload, signature] = segments;
   if (!payload || !signature || !isValidSignature(payload, signature, secret)) return undefined;
 
   try {
-    const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as StudentSessionClaims;
+    const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as Partial<StudentSessionClaims>;
     if (claims.version !== STUDENT_SESSION_VERSION) return undefined;
-    if (!claims.tenantId || !claims.packageId || !claims.launchCode || !claims.studentSessionId) return undefined;
+    if (!hasBoundedString(claims.tenantId, 160) || !hasBoundedString(claims.packageId, 160) || !hasBoundedString(claims.launchCode, 160) || !hasBoundedString(claims.studentSessionId, 512)) return undefined;
     if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
     const now = Date.now();
     if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt) return undefined;
-    return claims;
+    return claims as StudentSessionClaims;
   } catch {
     return undefined;
   }
@@ -94,4 +98,8 @@ function toBase64Url(value: string): string {
 
 function isIsoTimestamp(value: unknown): value is string {
   return typeof value === "string" && !Number.isNaN(Date.parse(value)) && value.includes("T");
+}
+
+function hasBoundedString(value: unknown, maxLength: number): value is string {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
 }

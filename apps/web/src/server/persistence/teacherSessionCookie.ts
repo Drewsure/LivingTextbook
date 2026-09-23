@@ -3,6 +3,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 export const TEACHER_SESSION_COOKIE = "living-textbook-teacher-session";
 export const TEACHER_SESSION_VERSION = 1 as const;
 export const TEACHER_PERSISTENCE_READ_SCOPE = "persistence:read" as const;
+export const TEACHER_SESSION_COOKIE_MAX_BYTES = 8 * 1024;
 const DEFAULT_TTL_SECONDS = 2 * 60 * 60;
 
 export interface TeacherSessionClaims {
@@ -33,14 +34,17 @@ export function readTeacherSessionClaims(request: Request): TeacherSessionClaims
     .find((part) => part.startsWith(`${TEACHER_SESSION_COOKIE}=`))
     ?.slice(TEACHER_SESSION_COOKIE.length + 1);
   if (!cookieValue) return undefined;
+  if (Buffer.byteLength(cookieValue, "utf8") > TEACHER_SESSION_COOKIE_MAX_BYTES) return undefined;
 
-  const [payload, signature] = cookieValue.split(".");
+  const segments = cookieValue.split(".");
+  if (segments.length !== 2) return undefined;
+  const [payload, signature] = segments;
   if (!payload || !signature || !isValidSignature(payload, signature, secret)) return undefined;
 
   try {
     const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as Partial<TeacherSessionClaims>;
     if (claims.version !== TEACHER_SESSION_VERSION || claims.role !== "teacher" || claims.scope !== TEACHER_PERSISTENCE_READ_SCOPE) return undefined;
-    if (typeof claims.tenantId !== "string" || !claims.tenantId.trim()) return undefined;
+    if (!hasBoundedString(claims.tenantId, 160)) return undefined;
     if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
     const issuedAt = Date.parse(claims.issuedAt);
     const expiresAt = Date.parse(claims.expiresAt);
@@ -116,4 +120,8 @@ function createHashDigest(value: string): Buffer {
 
 function isIsoTimestamp(value: unknown): value is string {
   return typeof value === "string" && !Number.isNaN(Date.parse(value)) && value.includes("T");
+}
+
+function hasBoundedString(value: unknown, maxLength: number): value is string {
+  return typeof value === "string" && value.trim().length > 0 && value.length <= maxLength;
 }
