@@ -5142,3 +5142,17 @@ compatible with the workspace's no-emit typecheck and production bundling.
   or student-facing use.
 - Added runtime coverage for blocked release decisions and mutation rejection.
 - Recorded ADR 1107 and DR-1107.
+
+## Build session 1022: Cross-deployment persistence recovery rehearsal
+
+- Added a provider-neutral continuity contract joining provider-selection
+  preflight, persistence implementation handoff, and local recovery evidence.
+- Compared hosted-managed, closed-local, and hybrid paths using the same
+  tenant/package scope and required backup, restore, export, retention,
+  rollback, tenant-isolation, and raw learner-data exclusion checks.
+- Connected the rehearsal to the teacher persistence workbench so open evidence
+  and blocked actions are visible before provider selection or storage work.
+- Kept provider selection, persistence writes, backup, restore, export,
+  package promotion, QR/route mutation, and student-facing activation blocked.
+- Added compiled runtime validation and route verification coverage. Recorded
+  ADR 1108 and DR-1108.

@@ -56,6 +56,7 @@ try {
     "packages/content-model/src/persistenceAdapter.ts",
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/persistenceHandoff.ts",
+    "packages/content-model/src/persistenceRecoveryRehearsal.ts",
     "packages/content-model/src/pilotHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
@@ -178,6 +179,7 @@ try {
   const persistenceAdapter = require(join(output, "persistenceAdapter.js"));
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const persistenceHandoff = require(join(output, "persistenceHandoff.js"));
+  const persistenceRecoveryRehearsal = require(join(output, "persistenceRecoveryRehearsal.js"));
   const pilotHandoff = require(join(output, "pilotHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
@@ -2626,6 +2628,79 @@ try {
       categoryCoverage: validPersistenceHandoffPacket.categoryCoverage.slice(1),
     }),
     `Persistence handoff packet is missing tenant-bound category coverage for ${persistenceRecords.TENANT_BOUND_PERSISTENCE_RECORD_CATEGORIES[0]}.`,
+  );
+  const validRecoveryRehearsalPreflight = {
+    preflightId: "preflight-1",
+    tenantId: "tenant-1",
+    packageId: "package-1",
+    label: "Provider selection preflight",
+    status: "blocked",
+    providerNeutral: true,
+    backendMatrixId: "matrix-1",
+    evidenceStorageGateId: "evidence-gate-1",
+    implementationReadinessId: "implementation-1",
+    canonicalScopeValid: true,
+    candidates: [
+      { candidateId: "hosted-1", label: "Hosted", deploymentFit: "hosted", costPosture: "controlled", whiteLabelFit: "Tenant-scoped hosted path.", requiredEvidence: ["Policy evidence"], unresolvedRisks: ["Provider unselected"] },
+      { candidateId: "local-1", label: "Local", deploymentFit: "local", costPosture: "higher", whiteLabelFit: "Closed local path.", requiredEvidence: ["Backup evidence"], unresolvedRisks: ["Operational owner open"] },
+      { candidateId: "hybrid-1", label: "Hybrid", deploymentFit: "hybrid", costPosture: "variable", whiteLabelFit: "Hybrid path.", requiredEvidence: ["Manifest evidence"], unresolvedRisks: ["Parity open"] },
+    ],
+    recommendedCandidateId: "hosted-1",
+    selectionEvidence: {
+      backendMatrixId: "matrix-1",
+      selectionGateId: "gate-1",
+      implementationReadinessId: "implementation-1",
+      tenantId: "tenant-1",
+      packageId: "package-1",
+      recommendedCandidateId: "hosted-1",
+      deploymentFit: "hosted",
+      costPosture: "controlled",
+      openCriterionCount: 1,
+      criteria: [{ criterionId: "policy", status: "open", owner: "joint" }],
+      sourceRecords: ["matrix-1", "gate-1", "implementation-1"],
+    },
+    providerSelected: false,
+    selectionAllowed: false,
+    migrationAllowed: false,
+    writesAllowed: false,
+    activationAllowed: false,
+    requiredEvidence: ["Policy evidence"],
+    blockedActions: ["No provider selected", "No provider-specific implementation", "No migration", "No persistence writes", "No activation"],
+    nextSteps: ["Review policy."],
+    note: "Review-only preflight.",
+  };
+  const validRecoveryRehearsal = persistenceRecoveryRehearsal.derivePersistenceRecoveryRehearsal({
+    rehearsalId: "rehearsal-1",
+    providerPreflight: validRecoveryRehearsalPreflight,
+    handoff: validPersistenceHandoffPacket,
+    localRecoveryReconciliation: {
+      approvalId: "approval-1",
+      recoveryPacketId: "recovery-1",
+      tenantId: "tenant-1",
+      bundleId: "bundle-1",
+      packageId: "package-1",
+      status: "needs-evidence",
+      identityMatches: true,
+      approvalErrors: [],
+      recoveryErrors: [],
+      openApprovalChecks: ["backup"],
+      openRecoveryLanes: ["restore"],
+      blockedActions: [],
+      executionAllowed: false,
+      sideEffect: "none",
+      reasons: ["Recovery review remains open."],
+    },
+  });
+  assertEqual(validRecoveryRehearsal.status, "needs-evidence");
+  assertEqual(persistenceRecoveryRehearsal.validatePersistenceRecoveryRehearsal(validRecoveryRehearsal).length, 0);
+  assertEqual(validRecoveryRehearsal.modes.length, 3);
+  assertEqual(validRecoveryRehearsal.selectedMode, null);
+  assertIncludes(
+    persistenceRecoveryRehearsal.validatePersistenceRecoveryRehearsal({
+      ...validRecoveryRehearsal,
+      persistenceWritesAllowed: true,
+    }),
+    "Persistence recovery rehearsal persistenceWritesAllowed must remain false.",
   );
   const validPilotHandoffPackage = {
     packageId: "pilot-package-1",

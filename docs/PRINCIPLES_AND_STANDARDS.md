@@ -6909,3 +6909,23 @@ This standard is recorded in
 `docs/decision-register/DR-1107-asset-manifest-release-control.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1107-asset-manifest-release-control.md`.
+
+## 446. Cross-Deployment Persistence Recovery Rehearsal Standard
+
+- Hosted-managed, closed-local, and hybrid deployments must be compared using
+  one tenant- and package-bound recovery rehearsal contract before a provider
+  or storage adapter is selected.
+- Each path must expose backup, restore, export, retention, rollback, tenant
+  isolation, and raw learner-data exclusion evidence. Open evidence must remain
+  visible rather than being treated as operational readiness.
+- The rehearsal may validate continuity requirements only. Provider selection,
+  persistence writes, backup creation, restore execution, export, package
+  promotion, and QR or route mutation remain false and side-effect free.
+- A local recovery packet and a provider-selection preflight must reconcile
+  through the same source records; identity drift or malformed handoff evidence
+  blocks the rehearsal.
+
+This standard is recorded in
+`docs/decision-register/DR-1108-cross-deployment-persistence-recovery-rehearsal.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1108-cross-deployment-persistence-recovery-rehearsal.md`.

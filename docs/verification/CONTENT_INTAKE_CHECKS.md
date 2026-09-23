@@ -91,3 +91,15 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Paths, folders, preview status, and evidence-ready status cannot authorize
   storage, local activation, promotion, QR mutation, or student-facing use.
 - Tenant and package identity remain bound through the release-control preview.
+
+## Cross-Deployment Persistence Recovery Rehearsal
+
+- The persistence workbench shows one recovery rehearsal for hosted-managed,
+  closed-local, and hybrid deployment paths.
+- Each path requires backup, restore, export, tenant-isolation, retention, and
+  rollback evidence and excludes raw learner audio and transcripts.
+- Provider selection remains uncommitted and the rehearsal remains review-only.
+- Persistence writes, backup creation, restore execution, export, package
+  promotion, QR mutation, and route mutation remain blocked.
+- Run `npm run verify:runtime-behavior` after changing the rehearsal runtime or
+  its source records; run the full foundation gate before publishing.

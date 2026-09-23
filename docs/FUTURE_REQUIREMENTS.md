@@ -1539,6 +1539,25 @@ References:
 - `scripts/verify-asset-runtime.mjs`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 
+## FR-066: Cross-Deployment Persistence Recovery Rehearsal
+
+Status: Implemented for the provider-neutral review rehearsal.
+
+Requirement: Hosted-managed, closed-local, and hybrid deployment paths must
+share one tenant- and package-bound recovery rehearsal contract before a
+provider or storage adapter is selected. The rehearsal must expose backup,
+restore, export, retention, rollback, tenant-isolation, and raw learner-data
+exclusion evidence for each path while keeping provider selection, writes,
+backup creation, restore execution, export, package promotion, and route
+mutation blocked.
+
+References:
+
+- `packages/content-model/src/persistenceRecoveryRehearsal.ts`
+- `apps/web/src/data/samplePersistenceRecoveryRehearsal.ts`
+- `apps/web/src/features/persistence/PersistenceRecoveryRehearsalPanel.tsx`
+- `docs/verification/CONTENT_INTAKE_CHECKS.md`
+
 ## FR-061: Source Intake File Boundary
 
 Status: Implemented for the review-only source runtime.
