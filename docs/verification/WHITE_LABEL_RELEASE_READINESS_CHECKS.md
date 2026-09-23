@@ -8,6 +8,7 @@ node scripts/verify-white-label-release-readiness-behavior.mjs
 npm run verify:runtime-behavior
 npm run verify:browser-rehearsal-observation
 npm run verify:browser-rehearsal-observation-runtime
+npm run verify:browser-rehearsal-observation-handoff
 ```
 
 Confirm:
@@ -35,6 +36,9 @@ Confirm:
   fields.
 - Teacher capture requires an explicit action and stores only a local receipt;
   the runtime check rejects cross-tenant lookup and promotion drift.
+- Observation handoff preserves the validated receipt identity and keeps adult
+  review, export, hosted writes, promotion, QR mutation, assignment, and
+  student launch boundaries explicit.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

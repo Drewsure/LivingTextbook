@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { Button } from "@living-textbook/ui";
-import type { GameModeId } from "@living-textbook/content-model";
+import {
+  createBrowserRehearsalObservationHandoff,
+  type BrowserRehearsalObservationHandoff,
+  type GameModeId,
+} from "@living-textbook/content-model";
 import { readLocalSessionEvidence, subscribeToLocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import type { LocalSessionEvidence } from "@/features/persistence/localSessionEvidenceStore";
 import {
@@ -104,6 +108,9 @@ export function TeacherSessionLocalEvidencePanel({
   const activityModes = evidence ? getObservedActivityModes(evidence) : [];
   const evidenceEnvelope = evidence ? createPilotSessionEvidenceEnvelope({ evidence, targetLanguage }) : undefined;
   const pilotPreflight = evidenceEnvelope ? evaluatePilotSessionPreflight(evidenceEnvelope, persistenceReadiness) : undefined;
+  const observationHandoff: BrowserRehearsalObservationHandoff | undefined = observation
+    ? createBrowserRehearsalObservationHandoff(observation)
+    : undefined;
 
   function recordTeacherObservation() {
     if (!evidence || !evidenceEnvelope || typeof window === "undefined") return;
@@ -246,6 +253,30 @@ export function TeacherSessionLocalEvidencePanel({
               {isRecordingObservation ? "Recording observation..." : observation ? "Record updated observation" : "Record teacher observation"}
             </Button>
           </section>
+          {observationHandoff ? (
+            <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4" data-observation-handoff="review-only">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Adult evidence review handoff</p>
+                  <h3 className="mt-1 text-base font-bold">Observation packet prepared for adjudication</h3>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+                    The receipt is now represented as a provider-neutral review handoff. This is a review destination, not an export or release-control action.
+                  </p>
+                </div>
+                <StatusPill label="Review-only" tone="warning" />
+              </div>
+              <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
+                <EvidenceMetric label="Handoff" value={observationHandoff.handoffId} />
+                <EvidenceMetric label="Destination" value={observationHandoff.reviewDestination} />
+                <EvidenceMetric label="Routes" value={String(observationHandoff.routePaths.length)} />
+                <EvidenceMetric label="Checks" value={String(observationHandoff.checkIds.length)} />
+              </dl>
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                <ObservationHandoffList title="Blocked actions" items={observationHandoff.blockedActions} />
+                <ObservationHandoffList title="Next gate" items={observationHandoff.nextGate} />
+              </div>
+            </section>
+          ) : null}
           <section className="mt-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
@@ -327,6 +358,17 @@ function EvidenceMetric({ label, value }: { label: string; value: string }) {
     <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
       <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt>
       <dd className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value}</dd>
+    </div>
+  );
+}
+
+function ObservationHandoffList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+      <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4>
+      <ul className="mt-2 grid gap-1 text-xs leading-5 text-[var(--tenant-muted)]">
+        {items.map((item, index) => <li key={`${title}-${index}-${item}`}>{item}</li>)}
+      </ul>
     </div>
   );
 }

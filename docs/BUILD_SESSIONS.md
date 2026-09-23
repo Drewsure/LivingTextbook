@@ -5268,3 +5268,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   QR mutation, release promotion, or student production launch.
 - Added runtime coverage for valid local storage, cross-tenant lookup
   isolation, and promotion drift. Recorded ADR 1118 and DR-1118.
+
+## Build session 1033: Observation review handoff preview
+
+- Added a shared provider-neutral handoff derived from a validated teacher
+  observation receipt, preserving route paths, check ids, tenant identity, and
+  the original student-session scope.
+- Exposed the handoff preview on the teacher session surface with its adult
+  review destination, blocked actions, and next adjudication gate.
+- Kept handoff derivation review-only; it does not export, persist to a hosted
+  provider, promote a release, mutate QR routes, assign work, or launch
+  students. Recorded ADR 1119 and DR-1119.

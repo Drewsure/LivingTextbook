@@ -1587,6 +1587,22 @@ References:
 - `scripts/verify-browser-rehearsal-observation-runtime.mjs`
 - `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
 
+## FR-076: Observation Review Handoff Preview
+
+Status: Implemented for the review-only teacher session surface.
+
+Requirement: A validated local teacher observation must be convertible into a
+provider-neutral adult evidence-review handoff that preserves tenant, package,
+launch, unit, student-session, route, and check identity. The handoff must
+show its blocked actions and next gate while keeping export, hosted writes,
+release promotion, QR mutation, assignment, and student launch disabled.
+
+References:
+
+- `packages/content-model/src/browserRehearsalObservationHandoff.ts`
+- `apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx`
+- `scripts/verify-browser-rehearsal-observation-handoff.mjs`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.

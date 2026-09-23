@@ -7111,3 +7111,21 @@ This standard is recorded in
 `docs/decision-register/DR-1118-teacher-observation-capture.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1118-teacher-observation-capture.md`.
+
+## 456. Observation Review Handoff Standard
+
+- A local observation receipt may be represented as a provider-neutral adult
+  review handoff only after the receipt passes the shared contract validator.
+- The handoff must preserve tenant, package, launch, unit, student-session,
+  route, and check identity, and must display the blocked actions and next
+  adjudication gate.
+- Handoff preparation is not export, approval, release promotion, hosted
+  persistence, QR mutation, assignment, or student launch. Those actions need
+  their own governed contracts and evidence.
+- White-label tenants must receive the same bounded handoff semantics without
+  MiniStar-specific branding or assumptions.
+
+This standard is recorded in
+`docs/decision-register/DR-1119-observation-review-handoff-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1119-observation-review-handoff-preview.md`.
