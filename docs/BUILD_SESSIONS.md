@@ -5300,3 +5300,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept adjudication review-only: it cannot become release approval, promotion,
   hosted persistence, evidence export, QR mutation, assignment, or student
   launch. Recorded ADR 1121 and DR-1121.
+
+## Build session 1036: Observation-to-pilot decision binding
+
+- Added a provider-neutral binding preview that carries the exact browser
+  handoff and adult adjudication identity into the controlled pilot board.
+- Distinguished awaiting adjudication, accepted-for-pilot-review, and
+  blocked-by-adjudication without changing the canonical pilot decision.
+- Kept pilot launch, learner data collection, reporting, package promotion,
+  export, and hosted persistence blocked. Recorded ADR 1122 and DR-1122.

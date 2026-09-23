@@ -710,6 +710,7 @@ Current focused decision records also include:
 - `DR-1119-observation-review-handoff-preview.md`
 - `DR-1120-release-readiness-observation-bridge.md`
 - `DR-1121-adult-observation-adjudication.md`
+- `DR-1122-observation-to-pilot-decision-binding.md`
 
 ## Maintenance Rule
 

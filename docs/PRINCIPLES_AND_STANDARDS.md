@@ -7162,3 +7162,19 @@ This standard is recorded in
 `docs/decision-register/DR-1121-adult-observation-adjudication.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1121-adult-observation-adjudication.md`.
+
+## 459. Observation-to-Pilot Binding Standard
+
+- Pilot review must consume the exact observation handoff and adjudication
+  lineage; a generic “evidence reviewed” label is insufficient.
+- Awaiting, accepted-for-next-gate, and blocked evidence states must remain
+  visibly distinct on the pilot board.
+- An accepted observation may inform pilot review only. It cannot alter the
+  canonical pilot decision or enable learner data, reporting, promotion,
+  export, persistence, or classroom launch.
+- Tenant and package drift must fail closed before the binding is displayed.
+
+This standard is recorded in
+`docs/decision-register/DR-1122-observation-to-pilot-decision-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1122-observation-to-pilot-decision-binding.md`.

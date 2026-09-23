@@ -1729,6 +1729,7 @@ export * from "./whiteLabelReleaseReadiness";
 export * from "./browserRehearsalObservation";
 export * from "./browserRehearsalObservationHandoff";
 export * from "./browserRehearsalObservationAdjudication";
+export * from "./browserRehearsalObservationPilotBinding";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

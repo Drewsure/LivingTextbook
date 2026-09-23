@@ -1638,6 +1638,23 @@ References:
 - `apps/web/src/features/release/BrowserEvidenceAdjudicationPanel.tsx`
 - `scripts/verify-browser-rehearsal-observation-adjudication.mjs`
 
+## FR-079: Observation-to-Pilot Decision Binding
+
+Status: Implemented for the review-only controlled pilot board.
+
+Requirement: The pilot board must show whether the exact browser observation
+handoff is awaiting adult adjudication, accepted for the next pilot review
+gate, or blocked by adult adjudication. The binding must preserve tenant,
+package, handoff, adjudication, and pilot-decision identity while leaving pilot
+launch, learner data collection, reporting, promotion, export, and persistence
+disabled.
+
+References:
+
+- `packages/content-model/src/browserRehearsalObservationPilotBinding.ts`
+- `apps/web/src/features/pilot/BrowserObservationPilotBindingPanel.tsx`
+- `scripts/verify-browser-rehearsal-observation-pilot-binding.mjs`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.

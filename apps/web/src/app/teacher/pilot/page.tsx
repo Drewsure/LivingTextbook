@@ -40,6 +40,8 @@ import { samplePilotReviewDecision, samplePilotReviewDecisionErrors } from "@/da
 import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPanel";
 import { samplePilotDeploymentDecision, samplePilotDeploymentDecisionErrors } from "@/data/samplePilotDeploymentDecision";
 import { PilotDeploymentDecisionPanel } from "@/features/pilot/PilotDeploymentDecisionPanel";
+import { BrowserObservationPilotBindingPanel } from "@/features/pilot/BrowserObservationPilotBindingPanel";
+import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
@@ -57,6 +59,7 @@ const pilotLinks = [
 
 export default function TeacherPilotPage() {
   const partnerPilotRequirements = getPartnerPilotRequirementsIntake(samplePublisherTenant.id);
+  const partnerLaunch = resolveSampleLaunchContext("partner-demo-unit-1");
   const pilotHandoffValidationErrors = [
     ...validatePilotHandoffPackage(samplePilotHandoffPackage),
     ...samplePilotLineageValidationErrors,
@@ -110,6 +113,14 @@ export default function TeacherPilotPage() {
           persistencePlans={samplePersistenceAdapterPlans}
         />
         <PilotReviewDecisionPanel decision={samplePilotReviewDecision} validationErrors={samplePilotReviewDecisionErrors} />
+        <BrowserObservationPilotBindingPanel
+          pilotDecision={samplePilotReviewDecision}
+          tenantId={partnerLaunch.tenant.id}
+          packageId={partnerLaunch.contentPackage.meta.packageId}
+          launchCode={partnerLaunch.launchSession.launchCode}
+          unitKey={partnerLaunch.launchSession.unitKey}
+          studentSessionId={partnerLaunch.progression.studentSessionId}
+        />
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
         <PilotDeploymentDecisionPanel
           decision={samplePilotDeploymentDecision}

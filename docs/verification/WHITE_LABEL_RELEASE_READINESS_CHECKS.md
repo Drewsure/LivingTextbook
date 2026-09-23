@@ -10,6 +10,7 @@ npm run verify:browser-rehearsal-observation
 npm run verify:browser-rehearsal-observation-runtime
 npm run verify:browser-rehearsal-observation-handoff
 npm run verify:browser-rehearsal-observation-adjudication
+npm run verify:browser-rehearsal-observation-pilot-binding
 ```
 
 Confirm:
@@ -47,6 +48,9 @@ Confirm:
   blocked review outcome.
 - Adjudication remains review-only: it cannot become release approval, hosted
   persistence, export, QR mutation, assignment, or student launch.
+- The pilot board must bind the same handoff and adjudication identities to the
+  canonical pilot decision without changing its blocked launch/data/export or
+  promotion flags.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.
