@@ -685,6 +685,11 @@ The decision is recorded in
 `docs/adr/0990-external-candidate-handoff-diagnostics.md` and
 `docs/decision-register/DR-1062-external-candidate-handoff-diagnostics.md`.
 
+Current focused decision records also include:
+
+- `DR-1099-persistence-payload-shape-bounds.md`
+- `DR-1100-external-candidate-manifest-boundary.md`
+
 ## Maintenance Rule
 
 When a new focused decision record is added here, update this index in the same work session unless a local sync or connector conflict blocks it.

@@ -5045,3 +5045,17 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved provider-neutral behavior, tenant binding, target-language
   progression authority, no-raw-audio persistence, and no-live-rollout gates.
 - Recorded ADR 1099 and DR-1099.
+
+## Build session 1014: External candidate manifest boundary
+
+- Hardened returned Z.ai/Phaser package manifests against oversized or
+  control-character metadata, excessive artifact paths, artifact counts, and
+  blocked-action lists.
+- Added runtime regressions proving malformed candidate metadata remains
+  rejected before evidence alignment or integration review.
+- Confirmed the two local frozen snapshots are source context only because
+  neither contains `evidence/return-package.json`.
+- Preserved quarantine: no archive import, source copy, app patch, route
+  replacement, scoring mutation, persistence ownership, promotion, or student
+  assignment.
+- Recorded ADR 1100 and DR-1100.

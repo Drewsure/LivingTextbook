@@ -8895,3 +8895,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   safeguard.
 - The change does not select a backend, enable live writes, retain raw learner
   audio, store transcripts, or close any school rollout gate.
+
+## DR-1100: External Candidate Manifest Boundary
+
+- Frozen Z.ai/Phaser snapshots remain source context and cannot enter review
+  without an isolated `evidence/return-package.json`.
+- Returned-package manifest identifiers, paths, artifact count, and blocked
+  actions are bounded before evidence alignment or adjudication.
+- Manifest validation cannot import source, patch apps, replace routes,
+  mutate scoring, promote packages, or assign students.

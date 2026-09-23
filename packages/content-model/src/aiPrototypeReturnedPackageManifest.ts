@@ -66,6 +66,11 @@ export const AI_PROTOTYPE_RETURNED_BLOCKED_ACTIONS = [
   "No student assignment",
 ] as const;
 
+export const AI_PROTOTYPE_RETURNED_MAX_STRING_LENGTH = 256;
+export const AI_PROTOTYPE_RETURNED_MAX_ARTIFACTS = AI_PROTOTYPE_RETURNED_REQUIRED_ARTIFACT_KINDS.length;
+export const AI_PROTOTYPE_RETURNED_MAX_BLOCKED_ACTIONS = 32;
+export const AI_PROTOTYPE_RETURNED_MAX_ARTIFACT_PATH_LENGTH = 240;
+
 export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): string[] {
   const errors: string[] = [];
 
@@ -87,6 +92,28 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   const targetSurface = readString(manifest, "targetSurface");
   const artifacts = readArtifacts(manifest, errors);
   const blockedActions = readStringArray(manifest, "blockedActions");
+
+  for (const [field, value] of Object.entries({
+    manifestId,
+    tenantId,
+    requestId,
+    queueItemId,
+    sourceRepository,
+    sourceSnapshotId,
+    prototypeFolder,
+    targetMode,
+    parentEngine,
+    targetSurface,
+  })) {
+    errors.push(...validateReturnedPackageString(value, `AI prototype returned package manifest ${field}`, AI_PROTOTYPE_RETURNED_MAX_STRING_LENGTH));
+  }
+  errors.push(...validateReturnedPackageString(sourceCommitSha, "AI prototype returned package manifest sourceCommitSha", 40));
+  if (artifacts.length > AI_PROTOTYPE_RETURNED_MAX_ARTIFACTS) {
+    errors.push(`AI prototype returned package manifest cannot contain more than ${AI_PROTOTYPE_RETURNED_MAX_ARTIFACTS} artifacts.`);
+  }
+  if (blockedActions.length > AI_PROTOTYPE_RETURNED_MAX_BLOCKED_ACTIONS) {
+    errors.push(`AI prototype returned package manifest cannot contain more than ${AI_PROTOTYPE_RETURNED_MAX_BLOCKED_ACTIONS} blocked actions.`);
+  }
 
   if (!manifestId || !tenantId || !requestId || !queueItemId) {
     errors.push("AI prototype returned package manifest must include manifestId, tenantId, requestId, and queueItemId.");
@@ -171,6 +198,14 @@ export function validateAiPrototypeReturnedPackageManifest(manifest: unknown): s
   return errors;
 }
 
+function validateReturnedPackageString(value: string, label: string, maxLength: number): string[] {
+  if (value.length > maxLength) return [`${label} cannot exceed ${maxLength} characters.`];
+  if ([...value].some((character) => character.charCodeAt(0) < 32 && character !== "\t")) {
+    return [`${label} cannot contain control characters.`];
+  }
+  return [];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
@@ -203,6 +238,9 @@ function readArtifacts(record: Record<string, unknown>, errors: string[]): AiPro
     }
     const artifactId = readString(value, "artifactId");
     const status = readString(value, "status") as AiPrototypeReturnedArtifactStatus;
+    errors.push(...validateReturnedPackageString(artifactId, `Returned prototype package artifact ${artifactId || kind} artifactId`, AI_PROTOTYPE_RETURNED_MAX_STRING_LENGTH));
+    errors.push(...validateReturnedPackageString(readString(value, "relativePath"), `Returned prototype package artifact ${artifactId || kind} relativePath`, AI_PROTOTYPE_RETURNED_MAX_ARTIFACT_PATH_LENGTH));
+    errors.push(...validateReturnedPackageString(readString(value, "checksum"), `Returned prototype package artifact ${artifactId || kind} checksum`, 128));
     if (!artifactId) {
       errors.push("Returned prototype package artifacts must include artifactId.");
     }

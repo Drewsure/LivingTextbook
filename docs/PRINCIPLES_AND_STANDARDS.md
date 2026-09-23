@@ -6786,3 +6786,18 @@ This standard is recorded in
 `docs/decision-register/DR-1099-persistence-payload-shape-bounds.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1099-persistence-payload-shape-bounds.md`.
+
+## 438. External Candidate Manifest Boundary Standard
+
+- Frozen external source folders are source context only; a candidate cannot
+  enter evidence review without an isolated `evidence/return-package.json`.
+- Returned-package manifests must bound identifiers, artifact paths, artifact
+  count, and blocked-action lists before evidence alignment or adjudication.
+- Manifest validation never copies source, imports archives, writes app files,
+  replaces routes, owns scoring or persistence, promotes packages, or assigns
+  students.
+
+This standard is recorded in
+`docs/decision-register/DR-1100-external-candidate-manifest-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1100-external-candidate-manifest-boundary.md`.

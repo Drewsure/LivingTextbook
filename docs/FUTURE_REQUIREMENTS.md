@@ -1420,3 +1420,30 @@ References:
 - `scripts/verify-runtime-behavior.mjs`
 - `docs/adr/1079-teacher-draft-persistence-runtime-regression.md`
 - `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_STORAGE_CHECKS.md`
+
+## FR-058: External Candidate Manifest Boundary
+
+Status: Implemented for the current Z.ai/Phaser returned-package manifest;
+filesystem intake, evidence upload, human adjudication, and wrapper approval
+remain separate gates.
+
+Requirement: External candidate packages must be returned as isolated evidence
+packets rather than treated as source snapshots. The manifest must be
+tenant-bound, immutable-source-bound, path-safe, and bounded before evidence
+alignment or integration review.
+
+Current boundary:
+
+- A frozen source snapshot without `evidence/return-package.json` fails closed.
+- Manifest identifiers and external metadata reject excessive length and
+  control characters.
+- Artifact paths are bounded; artifact count and blocked-action lists are
+  bounded before downstream review.
+- No source copy, archive import, app patch, route replacement, scoring
+  mutation, package promotion, or assignment is enabled.
+
+References:
+
+- `packages/content-model/src/aiPrototypeReturnedPackageManifest.ts`
+- `scripts/verify-phaser-candidate-package.mjs`
+- `scripts/verify-runtime-behavior.mjs`

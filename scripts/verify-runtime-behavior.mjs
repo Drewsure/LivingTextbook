@@ -3521,6 +3521,27 @@ try {
     ],
   };
   assertEqual(returnedPackageManifest.validateAiPrototypeReturnedPackageManifest(returnedPackagePreview).length, 0);
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      manifestId: "m".repeat(257),
+    }),
+    "AI prototype returned package manifest manifestId cannot exceed 256 characters.",
+  );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      artifacts: [{ artifactId: "artifact-1", kind: "fixture", relativePath: `evidence/${"x".repeat(240)}.json`, checksum: "", status: "missing" }],
+    }),
+    "Returned prototype package artifact artifact-1 relativePath cannot exceed 240 characters.",
+  );
+  assertIncludes(
+    returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
+      ...returnedPackagePreview,
+      blockedActions: Array.from({ length: 33 }, (_, index) => `blocked-${index}`),
+    }),
+    "AI prototype returned package manifest cannot contain more than 32 blocked actions.",
+  );
   const phaserReturnedPackageProvenanceErrors = returnedPackageManifest.validateAiPrototypeReturnedPackageManifest({
     ...returnedPackagePreview,
     status: "review-only",
