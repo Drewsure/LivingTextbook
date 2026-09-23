@@ -5329,3 +5329,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   pending until their own negative checks are recorded.
 - Kept hosted writes, learner-data collection, export, promotion, QR mutation,
   and student launch blocked. Recorded ADR 1124 and DR-1124.
+
+## Build session 1039: Explicit negative evidence capture boundary
+
+- Added explicit teacher-triggered capture for privacy-negative and
+  tenant-isolation evidence in the exact local rehearsal scope.
+- Added local storage keyed by tenant, package, launch, unit, student session,
+  and observation identity, with fail-closed handling for malformed records,
+  cross-tenant reads, and promotion drift.
+- Kept hosted writes, learner-data collection, export, promotion, QR mutation,
+  assignment, and classroom launch blocked. Recorded ADR 1125 and DR-1125.

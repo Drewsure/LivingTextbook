@@ -15,6 +15,7 @@ export interface BrowserRehearsalEvidenceLane {
   evidenceKind: "browser-rehearsal" | "privacy-negative-test" | "tenant-negative-test";
   status: BrowserRehearsalEvidenceLaneStatus;
   sourceRecord: string;
+  reviewerRef: string;
   scope: string[];
   checkIds: string[];
   observedAt: string;
@@ -77,6 +78,7 @@ export function createPendingBrowserPrivacyTenantEvidencePacket(args: {
       evidenceKind: EXPECTED_KINDS[laneId],
       status: "pending" as const,
       sourceRecord: `pending:${laneId}-rehearsal`,
+      reviewerRef: "pending-review",
       scope: REQUIRED_CHECKS[laneId],
       checkIds: REQUIRED_CHECKS[laneId],
       observedAt,
@@ -127,12 +129,41 @@ export function createBrowserPrivacyTenantEvidencePacketFromObservation(
   if (browserLane && hasBrowserChecks) {
     browserLane.status = "passed";
     browserLane.sourceRecord = `observation:${observation.observationId}`;
+    browserLane.reviewerRef = observation.reviewerRef;
     browserLane.scope = [...observation.routePaths];
     browserLane.checkIds = [...observation.checkIds];
     browserLane.observedAt = observation.observedAt;
     browserLane.notes = "Browser continuity and student-to-teacher handoff were observed in the exact local session scope.";
   }
   return packet;
+}
+
+export function recordBrowserPrivacyTenantNegativeLane(
+  packet: BrowserPrivacyTenantEvidencePacket,
+  laneId: "privacy" | "tenant-isolation",
+  args: {
+    reviewerRef: string;
+    captureId: string;
+    observedAt: string;
+    notes: string;
+  },
+): BrowserPrivacyTenantEvidencePacket {
+  const requiredCheckIds = REQUIRED_CHECKS[laneId];
+  return {
+    ...packet,
+    lanes: packet.lanes.map((lane) => lane.laneId === laneId
+      ? {
+        ...lane,
+        status: "passed" as const,
+        sourceRecord: `teacher-negative-check:${args.captureId}`,
+        reviewerRef: args.reviewerRef.trim(),
+        scope: [...requiredCheckIds],
+        checkIds: [...requiredCheckIds],
+        observedAt: args.observedAt,
+        notes: args.notes.trim(),
+      }
+      : lane),
+  };
 }
 
 export function validateBrowserPrivacyTenantEvidencePacket(value: unknown): string[] {
@@ -201,7 +232,7 @@ export function validateBrowserPrivacyTenantEvidencePacket(value: unknown): stri
     if (!["pending", "passed", "failed"].includes(readString(lane, "status"))) {
       errors.push(`Browser privacy tenant evidence lane ${laneId} status is unsupported.`);
     }
-    for (const field of ["sourceRecord", "observedAt", "notes"] as const) {
+    for (const field of ["sourceRecord", "reviewerRef", "observedAt", "notes"] as const) {
       if (!isNonEmptyString(lane[field])) errors.push(`Browser privacy tenant evidence lane ${laneId} ${field} must be non-empty.`);
     }
     const scope = readStringArray(lane, "scope");
@@ -216,6 +247,9 @@ export function validateBrowserPrivacyTenantEvidencePacket(value: unknown): stri
     if (!isIsoTimestamp(lane.observedAt)) errors.push(`Browser privacy tenant evidence lane ${laneId} observedAt must be an ISO timestamp.`);
     if (readString(lane, "status") === "passed" && readString(lane, "sourceRecord").startsWith("pending:")) {
       errors.push(`Browser privacy tenant evidence lane ${laneId} cannot be passed with a pending source record.`);
+    }
+    if (readString(lane, "status") === "passed" && readString(lane, "reviewerRef") === "pending-review") {
+      errors.push(`Browser privacy tenant evidence lane ${laneId} cannot be passed without a reviewer reference.`);
     }
   }
   for (const laneId of BROWSER_REHEARSAL_EVIDENCE_LANE_IDS) {

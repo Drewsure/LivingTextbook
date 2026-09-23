@@ -8924,3 +8924,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   checks are captured; browser success cannot stand in for either.
 - The derived packet remains review-only with hosted writes, learner-data
   collection, export, promotion, and classroom launch blocked.
+
+## DR-1125: Explicit Negative Evidence Capture Boundary
+
+- Only an explicit adult teacher action may pass privacy-negative or
+  tenant-isolation evidence for the exact local rehearsal scope.
+- Reviewer reference, capture id, timestamp, notes, and full tenant/package/
+  launch/unit/student-session/observation identity are retained.
+- Malformed, cross-tenant, pending-review, or promotion-drifted records are
+  rejected or hidden; hosted writes, learner data, export, promotion, QR
+  mutation, assignment, and classroom launch remain blocked.

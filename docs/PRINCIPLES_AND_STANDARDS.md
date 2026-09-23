@@ -7211,3 +7211,21 @@ This standard is recorded in
 `docs/decision-register/DR-1124-observation-to-composite-evidence-derivation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1124-observation-to-composite-evidence-derivation.md`.
+
+## 462. Explicit Negative Evidence Capture Standard
+
+- Privacy-negative and tenant-isolation evidence require an explicit adult
+  teacher action; they must never be inferred from browser success.
+- Every capture must preserve the exact tenant, package, launch, unit,
+  student-session, and observation scope, plus reviewer reference, capture id,
+  timestamp, and notes.
+- Local evidence storage must fail closed for malformed records,
+  cross-tenant lookups, pending reviewers, and promotion drift.
+- Captured evidence is review-only. It cannot enable hosted persistence,
+  learner-data collection, export, release promotion, QR mutation, assignment,
+  or classroom launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1125-negative-evidence-capture-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1125-negative-evidence-capture-boundary.md`.

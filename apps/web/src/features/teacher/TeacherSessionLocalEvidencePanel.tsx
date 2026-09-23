@@ -6,6 +6,7 @@ import { Button } from "@living-textbook/ui";
 import {
   createBrowserRehearsalObservationHandoff,
   createBrowserPrivacyTenantEvidencePacketFromObservation,
+  recordBrowserPrivacyTenantNegativeLane,
   validateBrowserPrivacyTenantEvidencePacket,
   type BrowserRehearsalObservationHandoff,
   type GameModeId,
@@ -24,6 +25,12 @@ import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilot
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
 import { readPersistenceStatus, type PersistenceStatusResult } from "@/features/persistence/persistenceStatusClient";
 import { BrowserPrivacyTenantEvidencePacketPanel } from "@/features/pilot/BrowserPrivacyTenantEvidencePacketPanel";
+import {
+  readBrowserPrivacyTenantEvidencePacket,
+  saveBrowserPrivacyTenantEvidencePacket,
+  subscribeToBrowserPrivacyTenantEvidencePacket,
+} from "@/features/persistence/browserPrivacyTenantEvidencePacketStore";
+import type { BrowserPrivacyTenantEvidencePacket } from "@living-textbook/content-model";
 
 interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
@@ -46,8 +53,11 @@ export function TeacherSessionLocalEvidencePanel({
   const [bindingErrors, setBindingErrors] = useState<string[]>([]);
   const [persistenceReadiness, setPersistenceReadiness] = useState<PersistenceStatusResult>();
   const [observation, setObservation] = useState<BrowserRehearsalObservation>();
+  const [storedCompositePacket, setStoredCompositePacket] = useState<BrowserPrivacyTenantEvidencePacket>();
   const [observationError, setObservationError] = useState<string>();
+  const [compositePacketError, setCompositePacketError] = useState<string>();
   const [isRecordingObservation, setIsRecordingObservation] = useState(false);
+  const [isRecordingNegativeLane, setIsRecordingNegativeLane] = useState(false);
 
   useEffect(() => {
     function readBoundEvidence() {
@@ -85,6 +95,23 @@ export function TeacherSessionLocalEvidencePanel({
   }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, expectedUnitKey, launchCode]);
 
   useEffect(() => {
+    if (!observation) {
+      setStoredCompositePacket(undefined);
+      return;
+    }
+    const lookup = {
+      tenantId: expectedTenantId,
+      packageId: expectedPackageId,
+      launchCode,
+      unitKey: expectedUnitKey,
+      studentSessionId: expectedStudentSessionId,
+      observationId: observation.observationId,
+    };
+    setStoredCompositePacket(readBrowserPrivacyTenantEvidencePacket(lookup));
+    return subscribeToBrowserPrivacyTenantEvidencePacket(lookup, setStoredCompositePacket);
+  }, [expectedPackageId, expectedStudentSessionId, expectedTenantId, expectedUnitKey, launchCode, observation?.observationId]);
+
+  useEffect(() => {
     const lookup = { tenantId: expectedTenantId, packageId: expectedPackageId, launchCode, unitKey: expectedUnitKey, studentSessionId: expectedStudentSessionId };
     setObservation(readBrowserRehearsalObservation(lookup));
     return subscribeToBrowserRehearsalObservation(lookup, setObservation);
@@ -114,15 +141,36 @@ export function TeacherSessionLocalEvidencePanel({
   const observationHandoff: BrowserRehearsalObservationHandoff | undefined = observation
     ? createBrowserRehearsalObservationHandoff(observation)
     : undefined;
-  const compositeEvidencePacket = observation
+  const derivedCompositeEvidencePacket = observation
     ? createBrowserPrivacyTenantEvidencePacketFromObservation(observation, {
       verificationRunId: `teacher-observation:${observation.observationId}`,
       verificationRevision: `local-observation:${observation.observedAt}`,
     })
     : undefined;
+  const compositeEvidencePacket = storedCompositePacket ?? derivedCompositeEvidencePacket;
   const compositeEvidencePacketErrors = compositeEvidencePacket
     ? validateBrowserPrivacyTenantEvidencePacket(compositeEvidencePacket)
     : [];
+
+  function recordNegativeLane(laneId: "privacy" | "tenant-isolation") {
+    if (!compositeEvidencePacket || typeof window === "undefined") return;
+    setIsRecordingNegativeLane(true);
+    setCompositePacketError(undefined);
+    const label = laneId === "privacy" ? "privacy boundary" : "tenant-isolation boundary";
+    const nextPacket = recordBrowserPrivacyTenantNegativeLane(compositeEvidencePacket, laneId, {
+      reviewerRef: `teacher-session:${launchCode}`,
+      captureId: `${compositeEvidencePacket.observationId}:${laneId}`,
+      observedAt: new Date().toISOString(),
+      notes: `Teacher observed the ${label} checks in this exact local rehearsal scope.`,
+    });
+    const result = saveBrowserPrivacyTenantEvidencePacket(nextPacket);
+    setIsRecordingNegativeLane(false);
+    if (result.errors.length > 0) {
+      setCompositePacketError(result.errors.join(" "));
+      return;
+    }
+    setStoredCompositePacket(result.packet);
+  }
 
   function recordTeacherObservation() {
     if (!evidence || !evidenceEnvelope || typeof window === "undefined") return;
@@ -298,6 +346,21 @@ export function TeacherSessionLocalEvidencePanel({
                 validationErrors={compositeEvidencePacketErrors}
                 embedded
               />
+              <section className="mt-4 border-t border-[var(--tenant-border)] pt-4" data-negative-evidence-capture="review-only">
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Adult negative-check capture</p>
+                <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                  Record these only after manually confirming the named boundary in this exact session. Each action saves a local review receipt; it does not run a provider test or enable a release.
+                </p>
+                {compositePacketError ? <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950" role="alert">{compositePacketError}</p> : null}
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <Button type="button" variant={compositeEvidencePacket.lanes.find((lane) => lane.laneId === "privacy")?.status === "passed" ? "secondary" : "primary"} onClick={() => recordNegativeLane("privacy")} disabled={isRecordingNegativeLane}>
+                    {isRecordingNegativeLane ? "Recording..." : "Record privacy boundary observed"}
+                  </Button>
+                  <Button type="button" variant={compositeEvidencePacket.lanes.find((lane) => lane.laneId === "tenant-isolation")?.status === "passed" ? "secondary" : "primary"} onClick={() => recordNegativeLane("tenant-isolation")} disabled={isRecordingNegativeLane}>
+                    {isRecordingNegativeLane ? "Recording..." : "Record tenant isolation observed"}
+                  </Button>
+                </div>
+              </section>
             </div>
           ) : null}
           <section className="mt-5">
