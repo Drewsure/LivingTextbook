@@ -14,6 +14,8 @@ import { sampleWhiteLabelReleaseReadiness } from "@/data/sampleWhiteLabelRelease
 import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
 import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 import { BrowserPrivacyTenantEvidenceReleaseBindingPanel } from "@/features/release/BrowserPrivacyTenantEvidenceReleaseBindingPanel";
+import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
+import { ReviewerIdentitySignatureGatePanel } from "@/features/evidence/ReviewerIdentitySignatureGatePanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -166,6 +168,7 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
           unitKey={partnerLaunch.launchSession.unitKey}
           studentSessionId={partnerLaunch.progression.studentSessionId}
         />
+        <ReviewerIdentitySignatureGatePanel gate={sampleReviewerIdentitySignatureGate} />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
     </AppShell>

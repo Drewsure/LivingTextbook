@@ -7291,3 +7291,19 @@ This standard is recorded in
 `docs/decision-register/DR-1129-release-control-evidence-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1129-release-control-evidence-reconciliation.md`.
+
+## 467. Human Approval Gate on Release Control Standard
+
+- Release control must show the reviewer identity, approval intent, signature
+  policy, and audit/retention prerequisites before any future approval record
+  can become live behavior.
+- The reviewer gate and the package approval ledger are separate evidence
+  sources; a sign-off count is not authenticated approval.
+- Signature capture, packet freeze, audit writes, evidence download, release
+  mutation, assignment activation, and student launch must remain blocked until
+  their own policy and storage gates are accepted.
+
+This standard is recorded in
+`docs/decision-register/DR-1130-human-approval-gate-on-release-control.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1130-human-approval-gate-on-release-control.md`.

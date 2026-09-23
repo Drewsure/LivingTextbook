@@ -8973,3 +8973,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - This is evidence reconciliation only. Publishing, assignment activation,
   local bundle release, student-ready status, hosted persistence, and QR
   mutation remain blocked.
+
+## DR-1130: Human Approval Gate on Release Control
+
+- The release-control decision room must show the reviewer identity, approval
+  intent, signature policy, and audit/retention prerequisites before any future
+  approval record can be designed as live behavior.
+- The gate is review-only and must remain distinct from the package approval
+  ledger; a sign-off summary is not proof of authenticated approval.
+- Signature capture, packet freeze, audit writes, evidence download, release
+  mutation, assignment activation, and student launch remain blocked.

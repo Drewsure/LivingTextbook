@@ -5378,3 +5378,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept release publication, assignment activation, local bundle release,
   student-ready status, hosted persistence, and QR mutation blocked. Recorded
   ADR 1129 and DR-1129.
+
+## Build session 1044: Human approval gate on release control
+
+- Connected the review-only reviewer identity and signature gate to the
+  tenant-scoped release-control decision room.
+- Made the prerequisites for any future human approval visible alongside the
+  composite evidence and approval ledger without creating signature capture,
+  audit writes, or a release action.
+- Kept approval capture, packet freeze, release mutation, assignment
+  activation, evidence download, and student launch blocked. Recorded ADR 1130
+  and DR-1130.
