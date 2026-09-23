@@ -5348,3 +5348,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   acceptance until all three lanes pass together.
 - Kept hosted writes, student-data collection, export, promotion, QR mutation,
   and student production launch blocked. Recorded ADR 1126 and DR-1126.
+
+## Build session 1041: Composite evidence pilot binding
+
+- Added the composite evidence-to-pilot binding and connected it to the teacher
+  pilot review surface.
+- Preserved awaiting, blocked, and accepted-for-pilot-review states without
+  changing canonical pilot approval.
+- Kept pilot launch, student-data collection, report export, package
+  promotion, QR mutation, and hosted persistence blocked. Recorded ADR 1127
+  and DR-1127.

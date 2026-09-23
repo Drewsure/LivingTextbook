@@ -7245,3 +7245,18 @@ This standard is recorded in
 `docs/decision-register/DR-1126-composite-evidence-adjudication.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1126-composite-evidence-adjudication.md`.
+
+## 464. Composite Evidence Pilot Binding Standard
+
+- Pilot review must preserve the composite packet and adjudication identity,
+  including tenant and package scope.
+- Awaiting evidence, blocked evidence, and accepted-for-pilot-review must be
+  visibly distinct; accepted review is not pilot approval.
+- The binding remains provider-neutral and review-only, with pilot launch,
+  student-data collection, report export, package promotion, QR mutation, and
+  hosted persistence disabled.
+
+This standard is recorded in
+`docs/decision-register/DR-1127-composite-evidence-pilot-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1127-composite-evidence-pilot-binding.md`.

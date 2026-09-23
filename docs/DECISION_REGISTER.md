@@ -8944,3 +8944,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Even accepted review remains unable to write hosted persistence, collect
   student data, export evidence, promote a release, mutate QR routes, or
   launch students.
+
+## DR-1127: Composite Evidence Pilot Binding
+
+- The teacher pilot surface now carries composite packet and adjudication
+  identity into pilot review.
+- Awaiting, blocked, and accepted-for-pilot-review states remain distinct;
+  accepted evidence is not pilot approval.
+- Pilot launch, collection, export, package promotion, QR mutation, and
+  hosted persistence remain blocked in every binding state.
