@@ -31,6 +31,14 @@ try {
   const valid = buildValidReadiness(model);
   assertEmpty(model.validateWhiteLabelReleaseReadiness(valid), "valid readiness");
 
+  const missingVerificationRun = structuredClone(valid);
+  missingVerificationRun.verificationRunId = "";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(missingVerificationRun), "verificationRunId must be non-empty", "verification run rejection");
+
+  const missingVerificationRevision = structuredClone(valid);
+  missingVerificationRevision.verificationRevision = "";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(missingVerificationRevision), "verificationRevision must be non-empty", "verification revision rejection");
+
   const wrongPackage = structuredClone(valid);
   wrongPackage.packageEvidence.packageId = "other-tenant-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackage), "must match the readiness package", "package mismatch rejection");
@@ -171,6 +179,8 @@ function buildValidReadiness(model) {
     tenantId: "sample-publisher",
     packageId: "sample-publisher-package",
     label: "Behavior sample",
+    verificationRunId: "behavior-verification-run",
+    verificationRevision: "legacy-source-import:behavior-revision",
     status: "blocked",
     phases: model.WHITE_LABEL_RELEASE_REQUIRED_PHASE_IDS.map((phaseId, index) => ({
       phaseId,

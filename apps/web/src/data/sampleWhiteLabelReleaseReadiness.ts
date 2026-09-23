@@ -23,6 +23,8 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   tenantId: "sample-publisher",
   packageId: "sample-publisher-l1-u1-routines-package",
   label: "Sample Publisher white-label release readiness",
+  verificationRunId: "foundation-verification-run-2026-09-22-001",
+  verificationRevision: "legacy-source-import:eb60c048",
   status: "blocked",
   phases: [
     {

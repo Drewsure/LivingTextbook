@@ -13,6 +13,8 @@ const sources = Object.fromEntries(Object.entries(files).map(([key, file]) => [k
 const failures = [];
 const markers = [
   ["model", "WhiteLabelReleaseReadiness"],
+  ["model", "verificationRunId"],
+  ["model", "verificationRevision"],
   ["model", "WHITE_LABEL_RELEASE_REQUIRED_PHASE_IDS"],
   ["model", "productionApprovalAllowed: false"],
   ["model", "studentProductionLaunchAllowed: false"],
@@ -41,6 +43,8 @@ const markers = [
   ["model", "route evidence counts must reconcile"],
   ["model", "White-label release package evidence must match the readiness package"],
   ["sample", "sample-publisher-white-label-release-readiness-v1"],
+  ["sample", "foundation-verification-run-2026-09-22-001"],
+  ["sample", "legacy-source-import:eb60c048"],
   ["sample", 'status: "blocked"'],
   ["sample", "No QR redirect mutation"],
   ["sample", "samplePackageReconciliation"],
@@ -54,6 +58,8 @@ const markers = [
   ["sample", "sample-active-route-matrix"],
   ["sample", "expectedActiveRouteCount: 89"],
   ["panel", "White-label release control"],
+  ["panel", "Verification run"],
+  ["panel", "Verification revision"],
   ["panel", "Evidence checks are separate from approval"],
   ["panel", "Evidence tenant"],
   ["panel", "Evidence package"],

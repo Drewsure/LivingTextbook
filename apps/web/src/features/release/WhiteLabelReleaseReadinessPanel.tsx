@@ -41,6 +41,8 @@ export function WhiteLabelReleaseReadinessPanel({
         <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Fact label="Tenant" value={readiness.tenantId} />
           <Fact label="Package" value={readiness.packageId} />
+          <Fact label="Verification run" value={readiness.verificationRunId} />
+          <Fact label="Verification revision" value={readiness.verificationRevision} />
           <Fact label="Phases" value={String(readiness.phases.length)} />
           <Fact label="Next owner action" value={readiness.nextAction} />
         </div>

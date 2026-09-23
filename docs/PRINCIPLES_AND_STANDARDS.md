@@ -7016,3 +7016,23 @@ This standard is recorded in
 `docs/decision-register/DR-1113-white-label-quality-evidence-basis.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1113-white-label-quality-evidence-basis.md`.
+
+## 451. White-Label Verification Run Lineage Standard
+
+- Every white-label release-readiness packet must name the verification run
+  and revision that produced its quality evidence.
+- `verificationRunId` identifies the bounded verification execution or review
+  packet; `verificationRevision` identifies the code, content, or source
+  revision under review. Both must be non-empty and visible to the adult
+  operator.
+- A green quality record without run lineage is incomplete evidence. The
+  lineage does not authorize release, persistence, export, installation,
+  provider activation, QR mutation, or student launch.
+- Sample and review-only packets must be refreshed when their evidence source
+  changes; the model must not imply that an old green record describes a newer
+  build.
+
+This standard is recorded in
+`docs/decision-register/DR-1114-white-label-verification-run-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1114-white-label-verification-run-lineage.md`.

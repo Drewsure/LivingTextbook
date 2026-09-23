@@ -5214,3 +5214,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   tenant-isolation scope. Recorded ADR 1113 and DR-1113.
 - Kept all release, persistence, export, installation, provider, and student
   launch permissions disabled.
+
+## Build session 1028: White-label verification run lineage
+
+- Added run-level verification lineage to the white-label release-readiness
+  packet: a verification run identifier and the revision under review.
+- Exposed both values on the adult review surface so a stale green evidence
+  packet cannot silently appear current after code, content, or source changes.
+- Added negative coverage for missing run and revision lineage.
+- Kept the feature evidence-only; release, persistence, export, installation,
+  provider activation, QR mutation, and student launch remain blocked. Recorded
+  ADR 1114 and DR-1114.

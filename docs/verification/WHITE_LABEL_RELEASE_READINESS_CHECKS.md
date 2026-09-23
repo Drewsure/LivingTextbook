@@ -12,6 +12,8 @@ Confirm:
 
 - Exactly seven quality records exist and each has matching tenant/package
   identity.
+- The packet exposes a non-empty verification run id and verification revision
+  for the evidence snapshot.
 - Typecheck, production build, and runtime records use `command` evidence.
 - Active routes use `route-sweep` evidence.
 - Browser uses `browser-rehearsal` evidence with a non-empty scope.
@@ -21,6 +23,7 @@ Confirm:
   rejection scope.
 - Evidence scopes are non-empty and unique within each record.
 - Wrong evidence kinds and missing scopes are rejected.
+- Missing verification run or revision lineage is rejected.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

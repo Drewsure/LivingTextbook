@@ -112,6 +112,8 @@ export interface WhiteLabelReleaseReadiness {
   tenantId: string;
   packageId: string;
   label: string;
+  verificationRunId: string;
+  verificationRevision: string;
   status: WhiteLabelReleaseReadinessStatus;
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
@@ -160,7 +162,7 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   const errors: string[] = [];
   if (!isRecord(readiness)) return ["White-label release readiness must be a JSON object."];
 
-  for (const field of ["readinessId", "tenantId", "packageId", "label", "nextAction", "note"] as const) {
+  for (const field of ["readinessId", "tenantId", "packageId", "label", "verificationRunId", "verificationRevision", "nextAction", "note"] as const) {
     if (typeof readiness[field] !== "string" || readiness[field].trim().length === 0) {
       errors.push(`White-label release readiness ${field} must be non-empty.`);
     }

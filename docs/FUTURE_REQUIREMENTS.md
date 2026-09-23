@@ -1554,6 +1554,23 @@ References:
 - `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
 - `scripts/verify-white-label-release-readiness-behavior.mjs`
 
+## FR-071: White-Label Verification Run Lineage
+
+Status: Implemented for the review-only release-readiness packet.
+
+Requirement: Every release-readiness packet must expose the verification run
+and revision that produced its quality evidence. Missing lineage must fail
+validation, and changing the evidence source requires a new review packet or
+an explicit refresh. Lineage remains evidence-only and must not activate
+release, persistence, export, installation, provider services, QR mutation,
+or student launch.
+
+References:
+
+- `packages/content-model/src/whiteLabelReleaseReadiness.ts`
+- `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
+- `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
+
 ## FR-066: Cross-Deployment Persistence Recovery Rehearsal
 
 Status: Implemented for the provider-neutral review rehearsal.
