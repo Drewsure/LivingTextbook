@@ -8962,3 +8962,14 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   accepted review is not production approval.
 - Production approval, student launch, package promotion, hosted persistence,
   and QR mutation remain blocked.
+
+## DR-1129: Release-Control Evidence Reconciliation
+
+- The tenant-scoped pilot release-control route must consume the same composite
+  evidence release binding shown on the broader release-readiness dashboard.
+- Packet identity, adjudication identity, tenant, and package scope must remain
+  visible in the release-control decision room; a summary card cannot replace
+  the exact evidence chain.
+- This is evidence reconciliation only. Publishing, assignment activation,
+  local bundle release, student-ready status, hosted persistence, and QR
+  mutation remain blocked.

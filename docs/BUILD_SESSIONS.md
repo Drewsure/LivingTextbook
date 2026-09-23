@@ -5367,3 +5367,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   turning evidence into production approval.
 - Kept production approval, student launch, package promotion, hosted
   persistence, and QR mutation blocked. Recorded ADR 1128 and DR-1128.
+
+## Build session 1043: Release-control evidence reconciliation
+
+- Connected the composite evidence release binding to the tenant-scoped pilot
+  release-control route as well as the release-readiness dashboard.
+- Required the release-control route to expose packet, adjudication, and
+  production-approval state from the same tenant/package-scoped evidence
+  chain; route verification now guards that connection.
+- Kept release publication, assignment activation, local bundle release,
+  student-ready status, hosted persistence, and QR mutation blocked. Recorded
+  ADR 1129 and DR-1129.

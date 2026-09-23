@@ -10,6 +10,10 @@ import { PilotReleaseCandidatePanel } from "@/features/pilot/PilotReleaseCandida
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleLocalBundleMediaReleaseControlBinding, sampleLocalBundleMediaReleaseControlBindingErrors } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 import { MediaReleaseControlBindingPanel } from "@/features/pilot/MediaReleaseControlBindingPanel";
+import { sampleWhiteLabelReleaseReadiness } from "@/data/sampleWhiteLabelReleaseReadiness";
+import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
+import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
+import { BrowserPrivacyTenantEvidenceReleaseBindingPanel } from "@/features/release/BrowserPrivacyTenantEvidenceReleaseBindingPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -63,6 +67,8 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
   if (tenantId !== samplePublisherTenant.id) {
     notFound();
   }
+
+  const partnerLaunch = resolveSampleLaunchContext("partner-demo-unit-1");
 
   return (
     <AppShell tenant={samplePublisherTenant}>
@@ -150,6 +156,15 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
         <MediaReleaseControlBindingPanel
           binding={sampleLocalBundleMediaReleaseControlBinding}
           errors={sampleLocalBundleMediaReleaseControlBindingErrors}
+        />
+        <BrowserPrivacyTenantEvidenceReleaseBindingPanel
+          readiness={sampleWhiteLabelReleaseReadiness}
+          pilotDecision={samplePilotReviewDecision}
+          tenantId={partnerLaunch.tenant.id}
+          packageId={partnerLaunch.contentPackage.meta.packageId}
+          launchCode={partnerLaunch.launchSession.launchCode}
+          unitKey={partnerLaunch.launchSession.unitKey}
+          studentSessionId={partnerLaunch.progression.studentSessionId}
         />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>

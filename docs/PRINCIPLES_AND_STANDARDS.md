@@ -7275,3 +7275,19 @@ This standard is recorded in
 `docs/decision-register/DR-1128-composite-evidence-release-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1128-composite-evidence-release-binding.md`.
+
+## 466. Release-Control Evidence Reconciliation Standard
+
+- The tenant-scoped release-control decision room must consume the same
+  composite evidence binding as the release-readiness dashboard.
+- Packet, adjudication, tenant, package, and production-approval state must be
+  traceable in the release-control route; route summaries must not hide an
+  unresolved evidence lane.
+- Evidence reconciliation must remain review-only and must not enable publish,
+  assignment activation, local bundle release, student-ready status, hosted
+  persistence, or QR mutation.
+
+This standard is recorded in
+`docs/decision-register/DR-1129-release-control-evidence-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1129-release-control-evidence-reconciliation.md`.
