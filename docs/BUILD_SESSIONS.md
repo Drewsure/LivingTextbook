@@ -4893,3 +4893,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved microphone support for the app origin while disabling camera and geolocation.
 - Kept CSP and cross-origin embedding deferred until tenant media/CDN policy is modeled.
 - Recorded ADR 1082 and DR-1082.
+
+## Build session 0997: Session claim input and time hardening
+
+- Bounded student launch identity fields before route resolution and signed-cookie creation.
+- Rejected future-issued, expired, and inverted student/teacher signed-session claims.
+- Added persistence authorization verifier coverage without changing tenant, policy, or deployment gates.
+- Recorded ADR 1083 and DR-1083.

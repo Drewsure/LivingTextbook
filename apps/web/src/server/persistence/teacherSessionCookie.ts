@@ -42,7 +42,10 @@ export function readTeacherSessionClaims(request: Request): TeacherSessionClaims
     if (claims.version !== TEACHER_SESSION_VERSION || claims.role !== "teacher" || claims.scope !== TEACHER_PERSISTENCE_READ_SCOPE) return undefined;
     if (typeof claims.tenantId !== "string" || !claims.tenantId.trim()) return undefined;
     if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
-    if (Date.parse(claims.expiresAt) <= Date.now()) return undefined;
+    const issuedAt = Date.parse(claims.issuedAt);
+    const expiresAt = Date.parse(claims.expiresAt);
+    const now = Date.now();
+    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt) return undefined;
     return claims as TeacherSessionClaims;
   } catch {
     return undefined;

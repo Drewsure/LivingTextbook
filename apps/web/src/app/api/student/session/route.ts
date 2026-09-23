@@ -29,9 +29,20 @@ export async function POST(request: Request) {
   if (!bodyResult.ok) return json({ status: "invalid", errors: bodyResult.errors }, bodyResult.status);
   const body = bodyResult.value;
 
-  const missing = ["tenantId", "packageId", "launchCode", "entryCode", "userCode"]
+  const fieldLimits: Record<keyof StudentSessionStartRequest, number> = {
+    tenantId: 160,
+    packageId: 160,
+    launchCode: 160,
+    entryCode: 512,
+    userCode: 160,
+  };
+  const missing = Object.keys(fieldLimits)
     .filter((field) => typeof body?.[field as keyof StudentSessionStartRequest] !== "string" || !body[field as keyof StudentSessionStartRequest].trim());
   if (missing.length > 0) return json({ status: "invalid", errors: [`Student session fields are required: ${missing.join(", ")}.`] }, 400);
+  const oversized = Object.entries(fieldLimits)
+    .filter(([field, limit]) => body[field as keyof StudentSessionStartRequest].length > limit)
+    .map(([field]) => field);
+  if (oversized.length > 0) return json({ status: "invalid", errors: [`Student session fields exceed their limits: ${oversized.join(", ")}.`] }, 400);
 
   const deployment = getPersistenceDeploymentGateSnapshot();
   if (deployment.gate.status === "rehearsal") {

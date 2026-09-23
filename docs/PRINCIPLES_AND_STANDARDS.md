@@ -6555,3 +6555,17 @@ This standard is recorded in
 `docs/decision-register/DR-1082-web-security-header-baseline.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1082-web-security-header-baseline.md`.
+
+## 421. Session Claim Lifecycle Standard
+
+- Student launch identity fields must be bounded before a signed cookie is
+  created.
+- Student and teacher session claims must reject future-issued, expired, and
+  inverted time windows.
+- Session validity never replaces tenant authorization, deployment policy,
+  retention policy, or persistence activation evidence.
+
+This standard is recorded in
+`docs/decision-register/DR-1083-session-claim-input-and-time-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1083-session-claim-input-and-time-hardening.md`.

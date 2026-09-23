@@ -8789,3 +8789,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - The web application applies MIME, referrer, framing, and browser-capability headers globally.
 - Microphone is limited to the app origin; camera and geolocation are disabled.
 - Cross-origin embedding remains blocked in v1, and a future CSP must follow reviewed tenant media/CDN origins.
+
+## DR-1083: Session Claim Input and Time Hardening
+
+- Student launch-session identity inputs are bounded before cookie creation.
+- Student and teacher signed-session readers reject future-issued, expired, and inverted time windows.
+- The checks remain independent of tenant authorization, deployment policy, and durable persistence activation.

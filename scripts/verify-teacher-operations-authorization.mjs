@@ -35,7 +35,9 @@ requireFragments("signed teacher session", session, [
   "timingSafeEqual",
   "HttpOnly",
   "SameSite=Lax",
-  "Date.parse(claims.expiresAt) <= Date.now()",
+  "issuedAt > now + 30_000",
+  "expiresAt <= now",
+  "expiresAt <= issuedAt",
 ]);
 requireFragments("authorization helper", authorization, [
   "hasTeacherOperationsReadAuthorization",

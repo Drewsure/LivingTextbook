@@ -1454,3 +1454,10 @@ Run `npm run verify:web-security-headers` after changing Next configuration,
 microphone policy, embedding behavior, or tenant media hosting. Do not add a
 global CSP or relax same-origin framing until approved media/CDN and embed
 origins exist in the white-label policy contract.
+
+## Session claim procedure
+
+Run `npm run verify:persistence-runtime` after changing session fields, cookie
+claims, TTLs, or tenant authorization. Keep student and teacher claim parsing
+fail-closed for future-issued, expired, and inverted timestamps; do not widen
+identity field limits without an updated tenant and persistence review.

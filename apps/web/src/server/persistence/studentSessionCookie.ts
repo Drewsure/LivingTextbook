@@ -44,7 +44,10 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
     if (claims.version !== STUDENT_SESSION_VERSION) return undefined;
     if (!claims.tenantId || !claims.packageId || !claims.launchCode || !claims.studentSessionId) return undefined;
     if (!isIsoTimestamp(claims.issuedAt) || !isIsoTimestamp(claims.expiresAt)) return undefined;
-    if (Date.parse(claims.expiresAt) <= Date.now()) return undefined;
+    const issuedAt = Date.parse(claims.issuedAt);
+    const expiresAt = Date.parse(claims.expiresAt);
+    const now = Date.now();
+    if (issuedAt > now + 30_000 || expiresAt <= now || expiresAt <= issuedAt) return undefined;
     return claims;
   } catch {
     return undefined;

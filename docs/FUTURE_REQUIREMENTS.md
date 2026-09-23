@@ -1127,6 +1127,22 @@ References:
 - `scripts/verify-web-security-headers.mjs`
 - `docs/verification/WEB_SECURITY_HEADERS_CHECKS.md`
 
+## FR-041: Session Claim Lifecycle Hardening
+
+Status: Implemented for current student and teacher session boundaries.
+
+Requirement: Every future session-bearing route must bound identity inputs,
+reject temporally invalid claims, and preserve tenant-scoped authorization
+before reaching persistence or report data. New session versions must add
+explicit verifier coverage for their input and time policy.
+
+References:
+
+- `apps/web/src/app/api/student/session/route.ts`
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `docs/verification/SESSION_CLAIM_HARDENING_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

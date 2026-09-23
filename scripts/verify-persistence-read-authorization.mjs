@@ -31,6 +31,9 @@ const evidencePanel = read("apps/web/src/features/persistence/PersistenceOperati
 const hostedAdapterPanel = read("apps/web/src/features/persistence/HostedProgressionAdapterPanel.tsx");
 const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAuthorization.ts");
 const readiness = read("apps/web/src/server/persistence/persistenceReadiness.ts");
+const studentSession = read("apps/web/src/server/persistence/studentSessionCookie.ts");
+const teacherSession = read("apps/web/src/server/persistence/teacherSessionCookie.ts");
+const studentSessionRoute = read("apps/web/src/app/api/student/session/route.ts");
 
 requireFragments("progression read route", route, [
   "const accessMode = url.searchParams.get(\"accessMode\")",
@@ -118,6 +121,15 @@ requireFragments("hosted adapter session refresh", hostedAdapterPanel, [
   "isTeacherOperationsSessionChangeForTenant",
   "checkReadPath",
 ]);
+requireFragments("student session input bounds", studentSessionRoute, [
+  "const fieldLimits",
+  "tenantId: 160",
+  "entryCode: 512",
+  "Student session fields exceed their limits",
+]);
+for (const [label, source] of [["student session time bounds", studentSession], ["teacher session time bounds", teacherSession]]) {
+  requireFragments(label, source, ["issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
+}
 
 if (failures.length > 0) {
   console.error(failures.map((failure) => `FAIL ${failure}`).join("\n"));
