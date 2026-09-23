@@ -5389,3 +5389,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept approval capture, packet freeze, release mutation, assignment
   activation, evidence download, and student launch blocked. Recorded ADR 1130
   and DR-1130.
+
+## Build session 1045: Controlled-pilot approval readiness
+
+- Added one tenant/package-scoped readiness contract joining composite release
+  evidence, the controlled pilot decision, and reviewer identity/signature
+  prerequisites.
+- Distinguished evidence, release-control, reviewer-gate, and future human
+  review states without treating readiness as approval.
+- Kept approval capture, release mutation, assignment activation, student
+  launch, and hosted writes blocked. Recorded ADR 1131 and DR-1131.

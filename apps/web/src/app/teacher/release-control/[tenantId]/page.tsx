@@ -16,6 +16,8 @@ import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 import { BrowserPrivacyTenantEvidenceReleaseBindingPanel } from "@/features/release/BrowserPrivacyTenantEvidenceReleaseBindingPanel";
 import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
 import { ReviewerIdentitySignatureGatePanel } from "@/features/evidence/ReviewerIdentitySignatureGatePanel";
+import { sampleControlledPilotApprovalReadiness, sampleControlledPilotApprovalReadinessErrors } from "@/data/sampleControlledPilotApprovalReadiness";
+import { ControlledPilotApprovalReadinessPanel } from "@/features/pilot/ControlledPilotApprovalReadinessPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -169,6 +171,10 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
           studentSessionId={partnerLaunch.progression.studentSessionId}
         />
         <ReviewerIdentitySignatureGatePanel gate={sampleReviewerIdentitySignatureGate} />
+        <ControlledPilotApprovalReadinessPanel
+          readiness={sampleControlledPilotApprovalReadiness}
+          errors={sampleControlledPilotApprovalReadinessErrors}
+        />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
     </AppShell>

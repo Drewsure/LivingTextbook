@@ -1734,6 +1734,7 @@ export * from "./browserPrivacyTenantEvidencePacket";
 export * from "./browserPrivacyTenantEvidenceAdjudication";
 export * from "./browserPrivacyTenantEvidencePilotBinding";
 export * from "./browserPrivacyTenantEvidenceReleaseBinding";
+export * from "./controlledPilotApprovalReadiness";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

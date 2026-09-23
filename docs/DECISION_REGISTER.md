@@ -8983,3 +8983,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   ledger; a sign-off summary is not proof of authenticated approval.
 - Signature capture, packet freeze, audit writes, evidence download, release
   mutation, assignment activation, and student launch remain blocked.
+
+## DR-1131: Controlled-Pilot Approval Readiness
+
+- One tenant/package-scoped readiness contract joins composite release
+  evidence, the controlled pilot decision, and reviewer identity/signature
+  prerequisites.
+- Evidence, release-control, reviewer-gate, and future-human-review states
+  remain distinct; readiness is not approval.
+- Approval capture, release mutation, assignment activation, student launch,
+  and hosted writes remain blocked.

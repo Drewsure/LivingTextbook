@@ -7307,3 +7307,19 @@ This standard is recorded in
 `docs/decision-register/DR-1130-human-approval-gate-on-release-control.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1130-human-approval-gate-on-release-control.md`.
+
+## 468. Controlled-Pilot Approval Readiness Standard
+
+- Controlled-pilot readiness must join the exact tenant/package-scoped
+  composite release evidence, pilot review decision, and reviewer
+  identity/signature gate.
+- Evidence, release-control, reviewer-gate, and future human-review states
+  must remain distinct; readiness is never approval.
+- Approval capture, release mutation, assignment activation, student launch,
+  and hosted writes must remain disabled until their own policy, identity,
+  audit, retention, and storage gates are accepted.
+
+This standard is recorded in
+`docs/decision-register/DR-1131-controlled-pilot-approval-readiness.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1131-controlled-pilot-approval-readiness.md`.
