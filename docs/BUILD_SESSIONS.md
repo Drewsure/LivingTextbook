@@ -5103,3 +5103,17 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved review-only behavior: no upload adapter, storage write, media
   transform, promotion, or student-facing asset activation was enabled.
 - Recorded ADR 1104 and DR-1104.
+
+## Build session 1019: Asset evidence binding
+
+- Added a shared asset evidence packet contract that binds validated file
+  metadata, tenant scope, source lineage, asset identity, checksum, and
+  review status.
+- Connected representative Labelled Diagram and media evidence flows to the
+  packet so teachers can see the metadata boundary before future storage work.
+- Preserved metadata-first review behavior: no raw file bytes, upload, storage,
+  download, playlist, game-manifest, promotion, or assignment side effect was
+  enabled.
+- Added runtime coverage for valid packets, tenant mismatch rejection, and
+  normalization of blocked side effects.
+- Recorded ADR 1105 and DR-1105.

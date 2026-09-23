@@ -2,6 +2,8 @@ import {
   validateReviewSurfaceScope,
   type ReviewSurfaceScopeKind,
 } from "@living-textbook/content-model";
+import type { AssetEvidencePacket } from "@living-textbook/content-model";
+import { sampleLabelledDiagramAssetEvidencePacket, sampleMediaAssetEvidencePacket } from "@/data/sampleAssetEvidencePacket";
 
 export type EvidencePacketStatus = "preview-ready" | "missing-evidence" | "blocked";
 
@@ -25,6 +27,7 @@ export interface EvidencePacketFlow {
   handoffRule: string;
   packets: EvidencePacket[];
   blockedLiveActions: string[];
+  assetEvidencePacket?: AssetEvidencePacket;
 }
 
 export const sampleUploadEvidencePacketFlow: EvidencePacketFlow = {
@@ -201,6 +204,7 @@ export const sampleLabelledDiagramEvidencePacketFlow: EvidencePacketFlow = {
     "Evidence packet flow for a reviewed image candidate before live label editing, coordinate editing, asset promotion, or student-facing Labelled Diagram gameplay exists.",
   handoffRule:
     "A Labelled Diagram image cannot become a game asset until the game asset manifest, anchor records, audio coverage, accessibility evidence, and release control packet are preserved.",
+  assetEvidencePacket: sampleLabelledDiagramAssetEvidencePacket,
   packets: [
     {
       packetId: "image-target-mapping-evidence",
@@ -282,6 +286,7 @@ export const sampleMediaEvidencePacketFlow: EvidencePacketFlow = {
     "Evidence packet flow for audio, music, video, playlist, background-media, and local-bundle candidates before live media upload, transcoding, playlist creation, or media-only progress exists.",
   handoffRule:
     "Media can enrich a unit only after rights, manifest, optional playback, caption/fallback, learning-audio priority, checksums, and release-control evidence are preserved.",
+  assetEvidencePacket: sampleMediaAssetEvidencePacket,
   packets: [
     {
       packetId: "media-target-mapping-evidence",

@@ -26,6 +26,12 @@ export interface AssetRuntimeRequest {
   studentFacingUseRequested: boolean;
 }
 
+export interface AssetRuntimeFileMetadata {
+  kind: AssetRuntimeKind;
+  mimeType: string;
+  sizeBytes: number;
+}
+
 export interface AssetRuntimeDecision {
   allowed: boolean;
   mode: AssetRuntimeMode;
@@ -73,6 +79,21 @@ export const reviewOnlyAssetBlockedActions = [
   "No QR, playlist, or game manifest mutation",
 ] as const;
 
+export function validateAssetRuntimeFileMetadata(metadata: AssetRuntimeFileMetadata): string[] {
+  const errors: string[] = [];
+  const kind = readText(metadata?.kind);
+  const mimeType = readText(metadata?.mimeType);
+
+  if (!assetRuntimeKinds.has(kind as AssetRuntimeKind)) errors.push("asset kind is unsupported");
+  if (!mimeType) errors.push("MIME type is required");
+  else if (mimeType.length > maxMimeTypeLength || !mimeTypePattern.test(mimeType)) errors.push("MIME type must be a bounded type/subtype value");
+  else if (!assetMimeTypes.get(kind as AssetRuntimeKind)?.has(mimeType)) errors.push("asset MIME type is incompatible with asset kind");
+  if (!Number.isInteger(metadata?.sizeBytes) || metadata.sizeBytes <= 0) errors.push("asset size must be a positive integer");
+  else if (metadata.sizeBytes > ASSET_RUNTIME_MAX_BYTES) errors.push(`asset size cannot exceed ${ASSET_RUNTIME_MAX_BYTES} bytes`);
+
+  return [...new Set(errors)];
+}
+
 export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): string[] {
   const errors: string[] = [];
 
@@ -112,17 +133,12 @@ export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): strin
   else if (assetId.length > maxAssetIdentifierLength || !safeIdentifierPattern.test(assetId)) errors.push("assetId must be a bounded safe identifier");
   if (unitKey && unitKey.length > maxUnitKeyLength) errors.push("unitKey is too long");
   if (!assetRuntimeOperations.has(operation as AssetRuntimeOperation)) errors.push("asset operation is unsupported");
-  if (!assetRuntimeKinds.has(kind as AssetRuntimeKind)) errors.push("asset kind is unsupported");
-  if (!mimeType) errors.push("MIME type is required");
-  else if (mimeType.length > maxMimeTypeLength || !mimeTypePattern.test(mimeType)) errors.push("MIME type must be a bounded type/subtype value");
-  else if (!assetMimeTypes.get(kind as AssetRuntimeKind)?.has(mimeType)) errors.push("asset MIME type is incompatible with asset kind");
+  errors.push(...validateAssetRuntimeFileMetadata({ kind: kind as AssetRuntimeKind, mimeType, sizeBytes: request.sizeBytes }));
   if (!checksum) errors.push("asset checksum is required");
   else if (checksum.length > maxChecksumLength) errors.push("asset checksum is too long");
   if (!assetRuntimeScanStatuses.has(request.scanStatus)) errors.push("asset scan status is unsupported");
   if (!assetRuntimeRightsStatuses.has(request.rightsStatus)) errors.push("asset rights status is unsupported");
   if (!assetRuntimeSourceReviewStatuses.has(request.sourceReviewStatus)) errors.push("asset source review status is unsupported");
-  if (!Number.isInteger(request.sizeBytes) || request.sizeBytes <= 0) errors.push("asset size must be a positive integer");
-  else if (request.sizeBytes > ASSET_RUNTIME_MAX_BYTES) errors.push(`asset size cannot exceed ${ASSET_RUNTIME_MAX_BYTES} bytes`);
   if (!storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
   if (!sizeBudgetAccepted) errors.push("asset size budget review is required");
   if (request.scanStatus !== "passed") errors.push("asset scan must pass before review or promotion");

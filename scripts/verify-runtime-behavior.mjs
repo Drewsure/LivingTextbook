@@ -32,6 +32,7 @@ try {
     "packages/content-model/src/rewardRuntime.ts",
     "packages/content-model/src/entitlementRuntime.ts",
     "packages/content-model/src/assetRuntime.ts",
+    "packages/content-model/src/assetEvidencePacket.ts",
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
@@ -150,6 +151,7 @@ try {
   const reward = require(join(output, "rewardRuntime.js"));
   const entitlement = require(join(output, "entitlementRuntime.js"));
   const asset = require(join(output, "assetRuntime.js"));
+  const assetEvidence = require(join(output, "assetEvidencePacket.js"));
   const source = require(join(output, "sourceRuntime.js"));
   const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
@@ -1165,6 +1167,23 @@ try {
   assertIncludes(malformedAssetShapeErrors, "asset source review status is unsupported");
   assertIncludes(asset.validateAssetRuntimeRequest({ ...assetRequest, mimeType: "image/png" }), "asset MIME type is incompatible with asset kind");
   assertIncludes(asset.validateAssetRuntimeRequest({ ...assetRequest, sizeBytes: 256 * 1024 * 1024 + 1 }), "asset size cannot exceed 268435456 bytes");
+  assertEqual(asset.validateAssetRuntimeFileMetadata({ kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000 }).length, 0);
+  assertIncludes(asset.validateAssetRuntimeFileMetadata({ kind: "audio", mimeType: "image/png", sizeBytes: 1000 }), "asset MIME type is incompatible with asset kind");
+  assertIncludes(asset.validateAssetRuntimeFileMetadata({ kind: "audio", mimeType: "audio/mpeg", sizeBytes: 256 * 1024 * 1024 + 1 }), "asset size cannot exceed 268435456 bytes");
+  const assetEvidencePacket = {
+    packetId: "asset-evidence-packet-1", tenantId: "tenant-1", packageId: "package-1", reviewStatus: "review-only",
+    attachments: [{
+      attachmentId: "attachment-1", tenantId: "tenant-1", assetId: "asset-1", sourceLineageRef: "source-1",
+      file: { kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000 }, checksum: "checksum-1", status: "metadata-captured",
+      storageWriteAllowed: false, downloadAllowed: false, studentFacingAllowed: false,
+      blockedActions: ["No attachment upload", "No object storage write", "No attachment download", "No student-facing attachment"],
+    }],
+    missingEvidence: ["scan evidence", "rights evidence"],
+    blockedActions: ["No evidence upload", "No object storage write", "No asset promotion", "No student-facing attachment"],
+  };
+  assertEqual(assetEvidence.validateAssetEvidencePacket(assetEvidencePacket).length, 0);
+  assertIncludes(assetEvidence.validateAssetEvidencePacket({ ...assetEvidencePacket, attachments: [{ ...assetEvidencePacket.attachments[0], tenantId: "tenant-2" }] }), "asset evidence attachment attachment-1 must match packet tenant");
+  assertEqual(assetEvidence.createReviewOnlyAssetEvidencePacket({ ...assetEvidencePacket, blockedActions: [], attachments: [{ ...assetEvidencePacket.attachments[0], blockedActions: [], storageWriteAllowed: true, downloadAllowed: true, studentFacingAllowed: true }] }).attachments[0].storageWriteAllowed, false);
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",

@@ -1463,6 +1463,25 @@ References:
 - `scripts/verify-phaser-candidate-package-behavior.mjs`
 - `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`
 
+## FR-063: Asset Evidence Binding
+
+Status: Implemented for review-only Labelled Diagram and media evidence
+surfaces.
+
+Requirement: Asset evidence packets must bind validated kind, MIME type, byte
+length, checksum, tenant scope, asset identity, and source lineage before
+future storage, download, playlist, game-manifest, promotion, or assignment
+adapters are considered.
+
+The packet is metadata-first and must not carry raw file bytes or imply that a
+file has been stored, downloaded, promoted, or made student-facing.
+
+References:
+
+- `packages/content-model/src/assetEvidencePacket.ts`
+- `apps/web/src/data/sampleAssetEvidencePacket.ts`
+- `apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx`
+
 ## FR-062: Asset Intake File Boundary
 
 Status: Implemented for the review-only asset runtime boundary.

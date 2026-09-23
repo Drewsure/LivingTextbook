@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import type { EvidencePacket, EvidencePacketFlow, EvidencePacketStatus } from "@/data/sampleEvidencePacketFlows";
 import { validateReviewSurfaceScope } from "@living-textbook/content-model";
+import type { AssetEvidencePacket } from "@living-textbook/content-model";
 
 interface EvidencePacketFlowPanelProps {
   flow: EvidencePacketFlow;
@@ -53,6 +54,8 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
         ))}
       </div>
 
+      {flow.assetEvidencePacket ? <AssetEvidenceBinding packet={flow.assetEvidencePacket} /> : null}
+
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h3 className="text-base font-bold text-[var(--tenant-text)]">Blocked until evidence packets pass</h3>
@@ -67,6 +70,39 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
         </ul>
       </section>
     </Card>
+  );
+}
+
+function AssetEvidenceBinding({ packet }: { packet: AssetEvidencePacket }) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Bound asset evidence</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Validated file metadata is review-only</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            Each candidate carries tenant, source lineage, kind, MIME type, byte length, and checksum metadata before a future storage adapter can be considered.
+          </p>
+        </div>
+        <StatusPill label={packet.reviewStatus} tone="warning" />
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {packet.attachments.map((attachment) => (
+          <article key={attachment.attachmentId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="break-words text-sm font-bold text-[var(--tenant-text)]">{attachment.assetId}</p>
+              <StatusPill label={attachment.status} tone="warning" />
+            </div>
+            <dl className="mt-3 grid gap-1 text-xs text-[var(--tenant-muted)]">
+              <div className="flex justify-between gap-3"><dt>Kind</dt><dd className="font-semibold">{attachment.file.kind}</dd></div>
+              <div className="flex justify-between gap-3"><dt>MIME</dt><dd className="break-all text-right font-semibold">{attachment.file.mimeType}</dd></div>
+              <div className="flex justify-between gap-3"><dt>Bytes</dt><dd className="font-semibold">{attachment.file.sizeBytes.toLocaleString()}</dd></div>
+            </dl>
+            <p className="mt-3 text-xs font-semibold text-[var(--tenant-muted)]">Storage, download, and student-facing use blocked.</p>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

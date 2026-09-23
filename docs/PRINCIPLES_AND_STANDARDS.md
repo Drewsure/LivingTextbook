@@ -6860,3 +6860,20 @@ This standard is recorded in
 `docs/decision-register/DR-1104-asset-intake-file-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1104-asset-intake-file-boundary.md`.
+
+## 443. Asset Evidence Binding Standard
+
+- Asset evidence packets must carry validated file metadata, tenant scope,
+  source lineage, asset identity, checksum, review status, and explicit
+  blocked side effects.
+- Labelled Diagram and media review surfaces must show this metadata before a
+  future storage adapter, download path, playlist binding, game manifest, or
+  student-facing asset decision can be considered.
+- Evidence packets are metadata-first and review-only. They must not contain
+  raw file bytes or imply that an evidence attachment is already stored,
+  downloadable, promoted, or assigned.
+
+This standard is recorded in
+`docs/decision-register/DR-1105-asset-evidence-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1105-asset-evidence-binding.md`.

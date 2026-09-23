@@ -5,8 +5,10 @@ const failures = [];
 
 for (const marker of [
   "AssetRuntimeRequest",
+  "AssetRuntimeFileMetadata",
   "AssetRuntimeAdapter",
   "validateAssetRuntimeRequest",
+  "validateAssetRuntimeFileMetadata",
   "must be a boolean",
   "createReviewOnlyAssetRuntimeAdapter",
   "asset scan must pass before review or promotion",

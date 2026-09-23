@@ -59,3 +59,15 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
   media transformation, promotion, or student-facing use.
 - Learner-recorded media and learner uploads remain outside the core asset
   runtime until a separately approved privacy and cost boundary exists.
+
+## Asset Evidence Binding
+
+- Labelled Diagram and media evidence flows bind validated asset kind, MIME
+  type, positive byte length, checksum, tenant, asset identity, and source
+  lineage metadata.
+- Evidence attachment records are metadata-first and do not carry raw file
+  bytes or storage/download URLs.
+- Evidence packets explicitly block attachment upload, object storage writes,
+  downloads, asset promotion, and student-facing use.
+- Tenant mismatch and invalid asset file metadata are rejected before a future
+  storage adapter could receive the packet.
