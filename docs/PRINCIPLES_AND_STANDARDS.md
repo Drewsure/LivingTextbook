@@ -6657,3 +6657,15 @@ This standard is recorded in
 `docs/decision-register/DR-1090-session-cookie-emission-runtime-regression.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1090-session-cookie-emission-runtime-regression.md`.
+
+## 429. Session Secret Strength Standard
+
+- Every signed-session secret must meet a shared minimum of 32 UTF-8 bytes.
+- Creation, parsing, and deployment readiness must use the same fail-closed
+  policy.
+- Placeholder or short values must not make a deployment appear ready.
+
+This standard is recorded in
+`docs/decision-register/DR-1091-session-secret-strength-policy.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1091-session-secret-strength-policy.md`.

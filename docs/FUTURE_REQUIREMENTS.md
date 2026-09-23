@@ -1214,6 +1214,21 @@ References:
 - `scripts/verify-session-cookie-emission-runtime.mjs`
 - `scripts/verify-persistence-runtime.mjs`
 
+## FR-049: Session Secret Strength Policy
+
+Status: Implemented for current student and teacher signed sessions.
+
+Requirement: Every signed-session secret must meet a shared minimum entropy
+proxy of 32 UTF-8 bytes. Session creation, parsing, and deployment readiness
+must use the same fail-closed policy rather than independent presence checks.
+
+References:
+
+- `apps/web/src/server/persistence/sessionSecretPolicy.ts`
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `apps/web/src/server/persistence/persistenceDeploymentGate.ts`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

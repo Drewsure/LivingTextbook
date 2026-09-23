@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { readServerSessionSecret } from "./sessionSecretPolicy.ts";
 
 export const STUDENT_SESSION_COOKIE = "living-textbook-student-session";
 export const STUDENT_SESSION_VERSION = 1 as const;
@@ -89,8 +90,7 @@ function getStudentSessionCookieMaxAge(expiresAt: string): number {
 }
 
 function getSessionSecret(): string | undefined {
-  const secret = process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET?.trim();
-  return secret || undefined;
+  return readServerSessionSecret("LIVING_TEXTBOOK_STUDENT_SESSION_SECRET");
 }
 
 function sign(payload: string, secret: string): string {

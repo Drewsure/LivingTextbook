@@ -37,6 +37,7 @@ const teacherAuth = read("apps/web/src/server/persistence/teacherOperationsAutho
 const readiness = read("apps/web/src/server/persistence/persistenceReadiness.ts");
 const studentSession = read("apps/web/src/server/persistence/studentSessionCookie.ts");
 const teacherSession = read("apps/web/src/server/persistence/teacherSessionCookie.ts");
+const sessionSecretPolicy = read("apps/web/src/server/persistence/sessionSecretPolicy.ts");
 const persistenceRuntime = read("scripts/verify-persistence-runtime.mjs");
 const studentSessionRoute = read("apps/web/src/app/api/student/session/route.ts");
 const teacherSessionRoute = read("apps/web/src/app/api/teacher/session/route.ts");
@@ -160,8 +161,9 @@ requireFragments("student session input bounds", studentSessionRoute, [
   "Student session fields exceed their limits",
 ]);
 for (const [label, source, emitter, maxTtl] of [["student session time bounds", studentSession, "getStudentSessionCookieMaxAge", "Math.min(STUDENT_SESSION_MAX_TTL_SECONDS, remainingSeconds)"], ["teacher session time bounds", teacherSession, "getTeacherSessionCookieMaxAge", "Math.min(TEACHER_SESSION_MAX_TTL_SECONDS, remainingSeconds)"]]) {
-  requireFragments(label, source, ["COOKIE_MAX_BYTES", "MAX_TTL_SECONDS", emitter, "Number.isFinite(expiresAtMs)", maxTtl, "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
+  requireFragments(label, source, ["readServerSessionSecret", "COOKIE_MAX_BYTES", "MAX_TTL_SECONDS", emitter, "Number.isFinite(expiresAtMs)", maxTtl, "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
 }
+requireFragments("session secret policy", sessionSecretPolicy, ["SESSION_SECRET_MIN_BYTES", "Buffer.byteLength(secret, \"utf8\") < SESSION_SECRET_MIN_BYTES", "readServerSessionSecret"]);
 for (const [label, source] of [["student session sign-out origin gate", studentSessionRoute], ["teacher session sign-out origin gate", teacherSessionRoute]]) {
   requireFragments(label, source, ["export function DELETE(request: Request)", "validateSameOriginMutation(request)", "status: \"signed-out\""]);
 }

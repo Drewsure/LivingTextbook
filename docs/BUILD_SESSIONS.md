@@ -4950,3 +4950,14 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Verified secure attributes, numeric bounded `Max-Age`, and invalid-expiry fail-closed behavior.
 - Wired the regression into the persistence runtime gate and preserved the full foundation gate.
 - Recorded ADR 1090 and DR-1090.
+
+## Build session 1005: Session secret strength policy
+
+- Added one shared server-session secret policy requiring at least 32 UTF-8 bytes.
+- Applied the policy consistently to student creation/reading, teacher creation/reading, and persistence deployment readiness.
+- Added runtime coverage proving weak secrets fail and strong secrets pass.
+- Recorded ADR 1091 and DR-1091.
+
+The web workspace enables `allowImportingTsExtensions` because the executable
+Node verifier loads the same TypeScript server modules directly; the option is
+compatible with the workspace's no-emit typecheck and production bundling.

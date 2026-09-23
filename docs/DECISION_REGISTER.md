@@ -8837,3 +8837,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - The persistence runtime gate executes the actual student and teacher cookie emitters.
 - The regression proves secure attributes, capped numeric `Max-Age`, and zero `Max-Age` for invalid expiration input.
 - This prevents static source coverage from standing in for browser-boundary behavior.
+
+## DR-1091: Session Secret Strength Policy
+
+- Student and teacher signed-session secrets must contain at least 32 UTF-8 bytes.
+- The shared policy is used by session creation, session parsing, and deployment readiness.
+- Weak secrets fail closed; strong secrets remain provider- and tenant-neutral.

@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { readServerSessionSecret } from "./sessionSecretPolicy.ts";
 
 export const TEACHER_SESSION_COOKIE = "living-textbook-teacher-session";
 export const TEACHER_SESSION_VERSION = 1 as const;
@@ -107,8 +108,7 @@ export function isTeacherReviewCodeValid(reviewCode: string): boolean {
 }
 
 function getTeacherSessionSecret(): string | undefined {
-  const secret = process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET?.trim();
-  return secret || undefined;
+  return readServerSessionSecret("LIVING_TEXTBOOK_TEACHER_SESSION_SECRET");
 }
 
 function sign(payload: string, secret: string): string {

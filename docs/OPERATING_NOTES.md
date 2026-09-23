@@ -1493,3 +1493,12 @@ internal caller cannot create a persistent or malformed browser session. Run
 The persistence runtime gate executes `scripts/verify-session-cookie-emission-
 runtime.mjs`; keep that executable check aligned with any cookie attribute or
 expiration policy change.
+
+Session-secret procedure: use independently generated server-only values of at
+least 32 UTF-8 bytes for both student and teacher session secrets. A placeholder
+or short value must leave the deployment boundary blocked; do not weaken this
+check to make a local pilot appear healthy.
+
+Direct server-module verifier procedure: preserve explicit TypeScript import
+extensions and the web workspace's `allowImportingTsExtensions` setting when a
+Node runtime regression loads server modules without Next's resolver.

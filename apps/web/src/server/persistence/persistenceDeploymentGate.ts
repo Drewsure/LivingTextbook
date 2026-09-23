@@ -5,13 +5,14 @@ import {
 } from "./progressionPersistenceAdapter";
 import { derivePersistenceDeploymentGate } from "./persistenceReadiness";
 import { isTeacherSessionConfigured } from "./teacherSessionCookie";
+import { readServerSessionSecret } from "./sessionSecretPolicy";
 
 export function getPersistenceDeploymentGateSnapshot() {
   const provider = getConfiguredPersistenceProvider();
   const providerConfiguration = getPersistenceProviderConfiguration();
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
-  const studentSessionBoundaryConfigured = Boolean(process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET?.trim());
+  const studentSessionBoundaryConfigured = Boolean(readServerSessionSecret("LIVING_TEXTBOOK_STUDENT_SESSION_SECRET"));
   const teacherOperationsSessionBoundaryConfigured = isTeacherSessionConfigured();
 
   return {

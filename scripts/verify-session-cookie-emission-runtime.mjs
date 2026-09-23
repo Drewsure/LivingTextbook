@@ -4,8 +4,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const studentModule = fileURLToPath(new URL("../apps/web/src/server/persistence/studentSessionCookie.ts", import.meta.url));
 const teacherModule = fileURLToPath(new URL("../apps/web/src/server/persistence/teacherSessionCookie.ts", import.meta.url));
 const script = `
-import { setStudentSessionCookie, STUDENT_SESSION_MAX_TTL_SECONDS } from ${JSON.stringify(pathToFileURL(studentModule).href)};
-import { setTeacherSessionCookie, TEACHER_SESSION_MAX_TTL_SECONDS } from ${JSON.stringify(pathToFileURL(teacherModule).href)};
+import { createStudentSessionCookieValue, setStudentSessionCookie, STUDENT_SESSION_MAX_TTL_SECONDS } from ${JSON.stringify(pathToFileURL(studentModule).href)};
+import { createTeacherSessionCookieValue, setTeacherSessionCookie, TEACHER_SESSION_MAX_TTL_SECONDS, TEACHER_PERSISTENCE_READ_SCOPE } from ${JSON.stringify(pathToFileURL(teacherModule).href)};
 
 process.env.NODE_ENV = "production";
 
@@ -18,6 +18,17 @@ function maxAge(header) {
   assert(match, "Set-Cookie must contain a numeric Max-Age");
   return Number(match[1]);
 }
+
+const issuedAt = new Date().toISOString();
+const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET = "too-short";
+process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET = "too-short";
+assert(!createStudentSessionCookieValue({ version: 1, tenantId: "sample", packageId: "package", launchCode: "launch", studentSessionId: "student", issuedAt, expiresAt }), "weak student secret was accepted");
+assert(!createTeacherSessionCookieValue({ version: 1, tenantId: "sample", role: "teacher", scope: TEACHER_PERSISTENCE_READ_SCOPE, issuedAt, expiresAt }), "weak teacher secret was accepted");
+process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET = "student-session-secret-01234567890123456789";
+process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET = "teacher-session-secret-01234567890123456789";
+assert(createStudentSessionCookieValue({ version: 1, tenantId: "sample", packageId: "package", launchCode: "launch", studentSessionId: "student", issuedAt, expiresAt }), "strong student secret was rejected");
+assert(createTeacherSessionCookieValue({ version: 1, tenantId: "sample", role: "teacher", scope: TEACHER_PERSISTENCE_READ_SCOPE, issuedAt, expiresAt }), "strong teacher secret was rejected");
 
 const studentResponse = new Response();
 setStudentSessionCookie(studentResponse, "student-value", new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString());
