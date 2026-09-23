@@ -6948,3 +6948,33 @@ This standard is recorded in
 `docs/decision-register/DR-1109-deployment-continuity-decision.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1109-deployment-continuity-decision.md`.
+
+## 448. Commercial Deployment Handoff Standard
+
+- The commercial deployment handoff must bind hosted PWA, local classroom
+  server, and packaged companion review artifacts to one tenant, package, and
+  continuity-decision identity.
+- Each artifact must name its intended deliverables, recovery evidence, open
+  blockers, and review-only status so a publisher or school can compare paths
+  without receiving a false impression that a product has been installed or
+  activated.
+- The handoff must remain provider-neutral. It may recommend a path, but it
+  must not select a provider, export a package, install a companion, activate
+  persistence, mutate QR or routes, or launch a classroom.
+- Export, installation, activation, and route mutation are independent false
+  flags. A green evidence observation cannot infer permission for any of them.
+- The packet is a commercial planning artifact, not a billing entitlement,
+  license grant, or student-facing release. School policy, retention, rights,
+  recovery, tenant isolation, audio, accessibility, and release evidence must
+  be accepted separately before a future implementation work order can open.
+- MiniStar remains sample tenant data. Other publishers must receive the same
+  packet shape without inheriting MiniStar curriculum, assets, mascots, colors,
+  language rules, or reward names.
+
+The handoff contract is implemented in
+`packages/content-model/src/deploymentContinuityHandoff.ts` and the review
+surface is `apps/web/src/features/deployment/DeploymentContinuityHandoffPanel.tsx`.
+This standard is recorded in
+`docs/decision-register/DR-1110-commercial-deployment-handoff.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1110-commercial-deployment-handoff.md`.

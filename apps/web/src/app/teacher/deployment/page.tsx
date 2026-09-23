@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleDeploymentDecisionGuide } from "@/data/sampleDeploymentDecisionGuide";
 import { sampleDeploymentContinuityDecision, sampleDeploymentContinuityDecisionErrors } from "@/data/sampleDeploymentContinuityDecision";
+import { sampleDeploymentContinuityHandoff, sampleDeploymentContinuityHandoffErrors } from "@/data/sampleDeploymentContinuityHandoff";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
@@ -10,6 +11,7 @@ import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness"
 import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { DeploymentDecisionGuidePanel } from "@/features/deployment/DeploymentDecisionGuidePanel";
 import { DeploymentContinuityDecisionPanel } from "@/features/deployment/DeploymentContinuityDecisionPanel";
+import { DeploymentContinuityHandoffPanel } from "@/features/deployment/DeploymentContinuityHandoffPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
@@ -69,6 +71,10 @@ export default function TeacherDeploymentPage() {
         <DeploymentContinuityDecisionPanel
           decision={sampleDeploymentContinuityDecision}
           errors={sampleDeploymentContinuityDecisionErrors}
+        />
+        <DeploymentContinuityHandoffPanel
+          handoff={sampleDeploymentContinuityHandoff}
+          errors={sampleDeploymentContinuityHandoffErrors}
         />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />

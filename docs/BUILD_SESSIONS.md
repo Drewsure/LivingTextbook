@@ -5168,3 +5168,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   status, installer export, and route mutation.
 - Added compiled runtime validation and route verification coverage. Recorded
   ADR 1109 and DR-1109.
+
+## Build session 1024: Commercial deployment handoff packet
+
+- Added a tenant- and package-bound handoff contract for hosted PWA, local
+  classroom server, and packaged companion review artifacts.
+- Bound each artifact to continuity evidence and explicit deliverables so a
+  school or publisher can compare saleable paths without a hidden activation
+  shortcut.
+- Kept provider selection, export, installation, persistence activation,
+  classroom launch, and QR/route mutation blocked.
+- Added compiled runtime validation and active-route coverage. Recorded ADR
+  1110 and DR-1110.

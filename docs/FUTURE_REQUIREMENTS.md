@@ -1575,6 +1575,22 @@ References:
 - `apps/web/src/data/sampleDeploymentContinuityDecision.ts`
 - `apps/web/src/features/deployment/DeploymentContinuityDecisionPanel.tsx`
 
+## FR-068: Commercial Deployment Handoff Packet
+
+Status: Implemented for the review-only provider-neutral handoff packet.
+
+Requirement: A saleable white-label deployment plan must produce one
+tenant-bound handoff packet with separate hosted PWA, local classroom server,
+and packaged companion artifacts. Each artifact must preserve deliverables,
+continuity evidence bindings, and blockers while keeping export, installation,
+activation, and QR/route mutation false.
+
+References:
+
+- `packages/content-model/src/deploymentContinuityHandoff.ts`
+- `apps/web/src/data/sampleDeploymentContinuityHandoff.ts`
+- `apps/web/src/features/deployment/DeploymentContinuityHandoffPanel.tsx`
+
 ## FR-061: Source Intake File Boundary
 
 Status: Implemented for the review-only source runtime.

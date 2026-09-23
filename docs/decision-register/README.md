@@ -698,6 +698,7 @@ Current focused decision records also include:
 - `DR-1103-source-intake-file-boundary.md`
 - `DR-1108-cross-deployment-persistence-recovery-rehearsal.md`
 - `DR-1109-deployment-continuity-decision.md`
+- `DR-1110-commercial-deployment-handoff.md`
 
 ## Maintenance Rule
 

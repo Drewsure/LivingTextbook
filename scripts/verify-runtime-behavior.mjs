@@ -58,6 +58,7 @@ try {
     "packages/content-model/src/persistenceHandoff.ts",
     "packages/content-model/src/persistenceRecoveryRehearsal.ts",
     "packages/content-model/src/deploymentContinuityDecision.ts",
+    "packages/content-model/src/deploymentContinuityHandoff.ts",
     "packages/content-model/src/pilotHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
@@ -182,6 +183,7 @@ try {
   const persistenceHandoff = require(join(output, "persistenceHandoff.js"));
   const persistenceRecoveryRehearsal = require(join(output, "persistenceRecoveryRehearsal.js"));
   const deploymentContinuityDecision = require(join(output, "deploymentContinuityDecision.js"));
+  const deploymentContinuityHandoff = require(join(output, "deploymentContinuityHandoff.js"));
   const pilotHandoff = require(join(output, "pilotHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
@@ -2737,6 +2739,23 @@ try {
       classroomLaunchAllowed: true,
     }),
     "Deployment continuity decision classroomLaunchAllowed must remain false.",
+  );
+  const continuityHandoff = deploymentContinuityHandoff.deriveDeploymentContinuityHandoff({
+    handoffId: "continuity-handoff-1",
+    activationPreflightId: "activation-preflight-1",
+    decision: continuityDecision,
+    activationPreflightStatus: "blocked",
+    activationPreflightBlockers: ["School policy remains open."],
+  });
+  assertEqual(continuityHandoff.status, "blocked");
+  assertEqual(deploymentContinuityHandoff.validateDeploymentContinuityHandoff(continuityHandoff).length, 0);
+  assertEqual(continuityHandoff.artifacts.length, 3);
+  assertIncludes(
+    deploymentContinuityHandoff.validateDeploymentContinuityHandoff({
+      ...continuityHandoff,
+      exportAllowed: true,
+    }),
+    "Deployment continuity handoff exportAllowed must remain false.",
   );
   const validPilotHandoffPackage = {
     packageId: "pilot-package-1",

@@ -115,3 +115,14 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
   blocked.
 - Run `npm run verify:runtime-behavior` after changing the continuity decision
   contract and the full foundation gate before publishing.
+
+## Commercial Deployment Handoff Packet
+
+- Confirm the packet binds one tenant, package, continuity decision, and
+  activation-preflight identity.
+- Confirm exactly three review artifacts exist: hosted PWA, local classroom
+  server, and packaged textbook companion.
+- Confirm each artifact lists deliverables, recovery evidence, and blockers.
+- Confirm export, installation, activation, and QR/route mutation remain false.
+- Confirm the route labels the packet review-only and does not expose a live
+  download, installer, provider selector, or classroom launch control.
