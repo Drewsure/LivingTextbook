@@ -103,3 +103,15 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
   promotion, QR mutation, and route mutation remain blocked.
 - Run `npm run verify:runtime-behavior` after changing the rehearsal runtime or
   its source records; run the full foundation gate before publishing.
+
+## Deployment Continuity Decision
+
+- The deployment workbench binds hosted PWA, local classroom server, and
+  packaged companion paths to the shared recovery rehearsal.
+- Each product path shows its recovery modes, continuity evidence, and open
+  blockers without treating a recommendation as a selection.
+- Policy acceptance, provider selection, persistence activation, classroom
+  launch, offline-ready status, installer export, and route mutation remain
+  blocked.
+- Run `npm run verify:runtime-behavior` after changing the continuity decision
+  contract and the full foundation gate before publishing.

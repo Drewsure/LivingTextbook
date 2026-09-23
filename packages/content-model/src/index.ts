@@ -1760,6 +1760,7 @@ export * from "./pilotReviewDecisionRetentionPolicy";
 export * from "./pilotReviewDecisionImplementationReadiness";
 export * from "./persistenceProviderSelectionPreflight";
 export * from "./persistenceRecoveryRehearsal";
+export * from "./deploymentContinuityDecision";
 export * from "./aiPackageAssemblyDryRun";
 export * from "./aiPackageWriterPreflight";
 export * from "./aiPackageWriterRollbackDrill";

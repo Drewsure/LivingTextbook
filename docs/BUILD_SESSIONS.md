@@ -5156,3 +5156,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   package promotion, QR/route mutation, and student-facing activation blocked.
 - Added compiled runtime validation and route verification coverage. Recorded
   ADR 1108 and DR-1108.
+
+## Build session 1023: Deployment continuity decision
+
+- Bound the hosted PWA, local classroom server, and packaged companion product
+  paths to the provider-neutral persistence recovery rehearsal.
+- Added path-level recovery modes, evidence bindings, and continuity blockers
+  to the deployment decision workbench.
+- Kept recommendations separate from selection and blocked policy acceptance,
+  provider selection, persistence activation, classroom launch, offline-ready
+  status, installer export, and route mutation.
+- Added compiled runtime validation and route verification coverage. Recorded
+  ADR 1109 and DR-1109.

@@ -6929,3 +6929,22 @@ This standard is recorded in
 `docs/decision-register/DR-1108-cross-deployment-persistence-recovery-rehearsal.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1108-cross-deployment-persistence-recovery-rehearsal.md`.
+
+## 447. Deployment Continuity Decision Standard
+
+- Commercial deployment options must bind to the same provider-neutral
+  continuity evidence before a pilot or white-label package can be described as
+  operationally ready.
+- Hosted PWA, local classroom server, and packaged companion paths must each
+  expose their recovery modes, continuity blockers, and evidence bindings.
+- A recommendation is not a selection. The continuity packet must keep policy
+  acceptance, provider selection, persistence activation, classroom launch,
+  offline-ready status, and installer or route mutation false.
+- The packet is a shared decision surface for teachers, publishers, and later
+  provider-specific work orders; it must not become a second deployment or
+  release-control workflow.
+
+This standard is recorded in
+`docs/decision-register/DR-1109-deployment-continuity-decision.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1109-deployment-continuity-decision.md`.

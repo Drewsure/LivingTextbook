@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleDeploymentDecisionGuide } from "@/data/sampleDeploymentDecisionGuide";
+import { sampleDeploymentContinuityDecision, sampleDeploymentContinuityDecisionErrors } from "@/data/sampleDeploymentContinuityDecision";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
@@ -8,6 +9,7 @@ import { sampleMediaBundleIntegrityPlan } from "@/data/sampleMediaBundleIntegrit
 import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
 import { sampleWhiteLabelPackageCatalog } from "@/data/sampleWhiteLabelPackageCatalog";
 import { DeploymentDecisionGuidePanel } from "@/features/deployment/DeploymentDecisionGuidePanel";
+import { DeploymentContinuityDecisionPanel } from "@/features/deployment/DeploymentContinuityDecisionPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
@@ -64,6 +66,10 @@ export default function TeacherDeploymentPage() {
         </Card>
 
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
+        <DeploymentContinuityDecisionPanel
+          decision={sampleDeploymentContinuityDecision}
+          errors={sampleDeploymentContinuityDecisionErrors}
+        />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />
         <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />

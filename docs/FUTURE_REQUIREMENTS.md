@@ -1558,6 +1558,23 @@ References:
 - `apps/web/src/features/persistence/PersistenceRecoveryRehearsalPanel.tsx`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 
+## FR-067: Deployment Continuity Decision
+
+Status: Implemented for the review-only deployment workbench.
+
+Requirement: Hosted PWA, local classroom server, and packaged companion paths
+must bind their commercial deployment choice to the shared persistence recovery
+rehearsal. Each path must expose recovery modes, open continuity evidence, and
+evidence bindings while keeping policy acceptance, provider selection,
+persistence activation, classroom launch, offline-ready status, and installer
+or route mutation blocked.
+
+References:
+
+- `packages/content-model/src/deploymentContinuityDecision.ts`
+- `apps/web/src/data/sampleDeploymentContinuityDecision.ts`
+- `apps/web/src/features/deployment/DeploymentContinuityDecisionPanel.tsx`
+
 ## FR-061: Source Intake File Boundary
 
 Status: Implemented for the review-only source runtime.

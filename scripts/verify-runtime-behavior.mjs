@@ -57,6 +57,7 @@ try {
     "packages/content-model/src/persistenceConsistency.ts",
     "packages/content-model/src/persistenceHandoff.ts",
     "packages/content-model/src/persistenceRecoveryRehearsal.ts",
+    "packages/content-model/src/deploymentContinuityDecision.ts",
     "packages/content-model/src/pilotHandoff.ts",
     "packages/content-model/src/reportRuntime.ts",
     "packages/content-model/src/teacherReportPersistenceRuntime.ts",
@@ -180,6 +181,7 @@ try {
   const persistenceConsistency = require(join(output, "persistenceConsistency.js"));
   const persistenceHandoff = require(join(output, "persistenceHandoff.js"));
   const persistenceRecoveryRehearsal = require(join(output, "persistenceRecoveryRehearsal.js"));
+  const deploymentContinuityDecision = require(join(output, "deploymentContinuityDecision.js"));
   const pilotHandoff = require(join(output, "pilotHandoff.js"));
   const report = require(join(output, "reportRuntime.js"));
   const teacherReportPersistence = require(join(output, "teacherReportPersistenceRuntime.js"));
@@ -2701,6 +2703,40 @@ try {
       persistenceWritesAllowed: true,
     }),
     "Persistence recovery rehearsal persistenceWritesAllowed must remain false.",
+  );
+  const validPilotDeploymentDecision = {
+    decisionId: "pilot-decision-1",
+    tenantId: "tenant-1",
+    packageId: "package-1",
+    guideId: "guide-1",
+    recommendedOptionId: "hosted-pwa",
+    selectedOptionId: null,
+    selectionStatus: "unselected",
+    policyAcceptancePreflightId: "policy-preflight-1",
+    acceptanceRecordPreviewId: "policy-record-1",
+    policyAcceptanceStatus: "not-accepted",
+    status: "review-only",
+    policyAccepted: false,
+    persistenceActivationAllowed: false,
+    classroomLaunchAllowed: false,
+    sideEffect: "none",
+    blockers: ["School policy remains open."],
+    evidenceBindings: ["guide-1", "policy-preflight-1", "policy-record-1"],
+  };
+  const continuityDecision = deploymentContinuityDecision.deriveDeploymentContinuityDecision({
+    decisionId: "continuity-decision-1",
+    pilotDeploymentDecision: validPilotDeploymentDecision,
+    recoveryRehearsal: validRecoveryRehearsal,
+  });
+  assertEqual(continuityDecision.status, "needs-review");
+  assertEqual(deploymentContinuityDecision.validateDeploymentContinuityDecision(continuityDecision).length, 0);
+  assertEqual(continuityDecision.paths.length, 3);
+  assertIncludes(
+    deploymentContinuityDecision.validateDeploymentContinuityDecision({
+      ...continuityDecision,
+      classroomLaunchAllowed: true,
+    }),
+    "Deployment continuity decision classroomLaunchAllowed must remain false.",
   );
   const validPilotHandoffPackage = {
     packageId: "pilot-package-1",

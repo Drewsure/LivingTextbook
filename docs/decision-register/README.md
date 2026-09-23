@@ -697,6 +697,7 @@ Current focused decision records also include:
 - `DR-1102-external-candidate-read-budget.md`
 - `DR-1103-source-intake-file-boundary.md`
 - `DR-1108-cross-deployment-persistence-recovery-rehearsal.md`
+- `DR-1109-deployment-continuity-decision.md`
 
 ## Maintenance Rule
 
