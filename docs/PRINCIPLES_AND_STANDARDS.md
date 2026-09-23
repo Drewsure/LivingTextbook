@@ -6769,3 +6769,20 @@ This standard is recorded in
 `docs/decision-register/DR-1098-media-source-resolution-safety.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1098-media-source-resolution-safety.md`.
+
+## 437. Persistence Payload Shape Standard
+
+- Persistence validators must bound identifiers, routes, metadata, event
+  counts, and progression mode lists before a provider stores or reports them.
+- The same fail-closed limits must apply to browser requests, server-created
+  records, provider reads, and replayed synthetic evidence; a request-body
+  limit alone is not sufficient protection for a structured persistence
+  contract.
+- These limits protect storage cost, report stability, tenant isolation, and
+  operational observability. They do not authorize writes, select a provider,
+  retain raw learner audio, store transcripts, or activate a pilot.
+
+This standard is recorded in
+`docs/decision-register/DR-1099-persistence-payload-shape-bounds.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1099-persistence-payload-shape-bounds.md`.

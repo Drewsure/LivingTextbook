@@ -8885,3 +8885,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   boundaries against the compiled service implementation.
 - Provider calls, billing, package writes, verifier submissions, route writes,
   playlist writes, assignments, and support-language progression remain blocked.
+
+## DR-1099: Persistence Payload Shape Bounds
+
+- Shared persistence validators bound identifiers, routes, metadata, event
+  streams, and progression mode lists before provider storage or reporting.
+- The same rules protect browser requests, server-created records, provider
+  reads, and replay evidence; the 128 KiB transport limit remains a separate
+  safeguard.
+- The change does not select a backend, enable live writes, retain raw learner
+  audio, store transcripts, or close any school rollout gate.

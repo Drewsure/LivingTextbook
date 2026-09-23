@@ -5032,3 +5032,16 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved separate rights, release, autoplay, and media-only progression
   gates; missing demo media remains unavailable rather than simulated.
 - Recorded ADR 1098 and DR-1098.
+
+## Build session 1013: Persistence payload shape bounds
+
+- Added shared fail-closed limits for persistence event identifiers,
+  metadata, event-stream length, continuity routes, and progression mode lists.
+- Applied the rules to event envelopes, hosted continuity envelopes, client
+  write requests, and persisted event-stream records so the boundary is not
+  dependent on one HTTP route or one provider.
+- Added runtime regressions for oversized metadata, oversized event streams,
+  oversized continuity routes, and oversized progression mode lists.
+- Preserved provider-neutral behavior, tenant binding, target-language
+  progression authority, no-raw-audio persistence, and no-live-rollout gates.
+- Recorded ADR 1099 and DR-1099.

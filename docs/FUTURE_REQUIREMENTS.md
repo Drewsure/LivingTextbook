@@ -1351,6 +1351,36 @@ References:
 - `scripts/verify-media-source-runtime.mjs`
 - `docs/adr/1098-media-source-resolution-safety.md`
 
+## FR-057: Persistence Payload Shape Governance
+
+Status: Implemented for the current progression and progress-event contracts;
+provider-specific quotas, retention controls, and operational alerting remain
+separate deployment gates.
+
+Requirement: Every future persistence adapter must enforce the shared bounded
+shape contract before storage or reporting. Structured identity, routes,
+metadata, event streams, and progression mode lists must remain bounded and
+free of control characters, with the same rules applied to browser input,
+server-created records, provider reads, and replay evidence.
+
+Current boundary:
+
+- Event streams are capped at 256 events.
+- Event metadata is capped at 32 scalar entries, with bounded keys and values.
+- Tenant/package/launch/unit/event identities and routes are bounded; student
+  session identifiers use their larger explicit limit.
+- Progression mode lists are capped at 48 entries and all bounded string
+  values reject control characters.
+- The request body limit remains a separate transport safeguard; these model
+  limits remain required even for internal or provider-originated records.
+
+References:
+
+- `packages/content-model/src/progressEventTaxonomy.ts`
+- `packages/content-model/src/progressionRuntime.ts`
+- `packages/content-model/src/progressEventPersistence.ts`
+- `scripts/verify-runtime-behavior.mjs`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

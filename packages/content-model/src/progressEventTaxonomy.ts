@@ -71,6 +71,15 @@ export const PROGRESS_EVENT_REQUIRED_FIELDS = [
 
 export const PROGRESS_EVENT_ENVELOPE_REQUIRED_FIELDS = [...PROGRESS_EVENT_REQUIRED_FIELDS, "unit_key", "game_mode"] as const;
 
+export const PERSISTENCE_MAX_EVENT_STREAM_LENGTH = 256;
+export const PERSISTENCE_MAX_METADATA_ENTRIES = 32;
+export const PERSISTENCE_MAX_METADATA_KEY_LENGTH = 80;
+export const PERSISTENCE_MAX_METADATA_VALUE_LENGTH = 512;
+export const PERSISTENCE_MAX_ID_LENGTH = 160;
+export const PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH = 512;
+export const PERSISTENCE_MAX_ROUTE_LENGTH = 512;
+export const PERSISTENCE_MAX_GAME_MODE_LIST_LENGTH = 48;
+
 const allowedEffects = new Set<ProgressEventEffect>(["progress-affecting", "report-only", "support-only"]);
 const supportOnlyEvents = new Set([
   "audio_requested",
@@ -288,6 +297,13 @@ export function validateProgressEventEnvelope(
   const settingsContext = envelope.settings_context;
   const taxonomyItem = registry.events.find((item) => item.eventType === eventType);
 
+  for (const field of ["event_id", "event_type", "event_effect", "taxonomy_version", "event_acceptance_gate_id", "unit_key", "game_mode"] as const) {
+    errors.push(...validatePersistenceBoundedString(envelope[field], `Progress event envelope ${field}`, PERSISTENCE_MAX_ID_LENGTH));
+  }
+  errors.push(...validatePersistenceBoundedString(envelope.occurred_at, "Progress event envelope occurred_at", 64));
+  errors.push(...validatePersistenceBoundedString(envelope.launch_code, "Progress event envelope launch_code", PERSISTENCE_MAX_ID_LENGTH));
+  errors.push(...validatePersistenceBoundedString(envelope.student_session_id, "Progress event envelope student_session_id", PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH));
+
   if (!taxonomyItem) {
     errors.push(`Progress event envelope event_type ${eventType || "(missing)"} is not classified in the taxonomy.`);
   }
@@ -323,6 +339,8 @@ export function validateProgressEventEnvelope(
 
   if (!isRecord(metadata)) {
     errors.push(`Progress event envelope ${eventType || "(missing)"} metadata must be an object.`);
+  } else {
+    errors.push(...validateProgressEventMetadata(metadata, eventType));
   }
 
   if (!isRecord(settingsContext)) {
@@ -332,6 +350,11 @@ export function validateProgressEventEnvelope(
     const settingsSnapshotId = readString(settingsContext, "teacher_game_mode_settings_snapshot_id");
     const settingsContractId = readString(settingsContext, "settings_contract_id");
     const progressTriggerPolicy = readString(settingsContext, "progress_trigger_policy");
+
+    errors.push(...validatePersistenceBoundedString(settingsContext.game_mode_settings_profile_id, "Progress event settings_context game_mode_settings_profile_id", PERSISTENCE_MAX_ID_LENGTH));
+    errors.push(...validatePersistenceBoundedString(settingsContext.teacher_game_mode_settings_snapshot_id, "Progress event settings_context teacher_game_mode_settings_snapshot_id", PERSISTENCE_MAX_ID_LENGTH));
+    errors.push(...validatePersistenceBoundedString(settingsContext.settings_contract_id, "Progress event settings_context settings_contract_id", PERSISTENCE_MAX_ID_LENGTH));
+    errors.push(...validatePersistenceBoundedString(settingsContext.progress_trigger_policy, "Progress event settings_context progress_trigger_policy", 64));
 
     if (!settingsProfileId || !settingsSnapshotId || !settingsContractId) {
       errors.push(
@@ -381,7 +404,10 @@ export function validateProgressEventEnvelopeStream(
     return ["Progress event envelope stream must be provided as an array."];
   }
 
-  const errors = envelopes.flatMap((envelope) => validateProgressEventEnvelope(envelope, registry));
+  const errors = envelopes.length > PERSISTENCE_MAX_EVENT_STREAM_LENGTH
+    ? [`Progress event envelope stream cannot contain more than ${PERSISTENCE_MAX_EVENT_STREAM_LENGTH} events.`]
+    : [];
+  errors.push(...envelopes.flatMap((envelope) => validateProgressEventEnvelope(envelope, registry)));
   const records = envelopes.filter(isRecord);
   const eventIds = records.map((envelope) => readString(envelope, "event_id")).filter(Boolean);
   const duplicateIds = eventIds.filter((eventId, index) => eventIds.indexOf(eventId) !== index);
@@ -511,6 +537,36 @@ function readStringArray(source: Record<string, unknown>, key: string): string[]
   }
 
   return value.filter((item): item is string => typeof item === "string").map((item) => item.trim());
+}
+
+export function validatePersistenceBoundedString(value: unknown, label: string, maxLength: number): string[] {
+  if (value === undefined) return [];
+  if (typeof value !== "string") return [`${label} must be a string.`];
+  if (value.length > maxLength) return [`${label} cannot exceed ${maxLength} characters.`];
+  if ([...value].some((character) => character.charCodeAt(0) < 32 && character !== "\t")) {
+    return [`${label} cannot contain control characters.`];
+  }
+  return [];
+}
+
+function validateProgressEventMetadata(metadata: Record<string, unknown>, eventType: string): string[] {
+  const errors: string[] = [];
+  const label = `Progress event envelope ${eventType || "(missing)"} metadata`;
+  const entries = Object.entries(metadata);
+  if (entries.length > PERSISTENCE_MAX_METADATA_ENTRIES) {
+    errors.push(`${label} cannot contain more than ${PERSISTENCE_MAX_METADATA_ENTRIES} entries.`);
+  }
+  for (const [key, value] of entries) {
+    errors.push(...validatePersistenceBoundedString(key, `${label} key`, PERSISTENCE_MAX_METADATA_KEY_LENGTH));
+    if (typeof value === "string") {
+      errors.push(...validatePersistenceBoundedString(value, `${label}.${key}`, PERSISTENCE_MAX_METADATA_VALUE_LENGTH));
+    } else if (typeof value !== "number" && typeof value !== "boolean") {
+      errors.push(`${label}.${key} must be a string, number, or boolean.`);
+    } else if (typeof value === "number" && !Number.isFinite(value)) {
+      errors.push(`${label}.${key} must be a finite number.`);
+    }
+  }
+  return errors;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

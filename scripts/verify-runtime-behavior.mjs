@@ -1013,6 +1013,29 @@ try {
     contentModel.validateProgressEventEnvelopeStream(null, registry)[0],
     "Progress event envelope stream must be provided as an array.",
   );
+  const oversizedMetadataErrors = contentModel.validateProgressEventEnvelope({
+    ...supportEnvelope,
+    metadata: { oversized: "x".repeat(513) },
+  }, registry);
+  assertIncludes(oversizedMetadataErrors, "Progress event envelope audio_requested metadata.oversized cannot exceed 512 characters.");
+  const oversizedStreamErrors = contentModel.validateProgressEventEnvelopeStream(
+    Array.from({ length: 257 }, (_, index) => ({ ...supportEnvelope, event_id: `event-${index}` })),
+    registry,
+  );
+  assertIncludes(oversizedStreamErrors, "Progress event envelope stream cannot contain more than 256 events.");
+  const oversizedContinuityErrors = progression.validateProgressionContinuityEnvelope({
+    ...continuityEnvelope,
+    destinationRoute: `/${"x".repeat(512)}`,
+  });
+  assertIncludes(oversizedContinuityErrors, "Progression continuity destinationRoute cannot exceed 512 characters.");
+  const oversizedModeListErrors = progression.validateProgressionContinuityEnvelope({
+    ...continuityEnvelope,
+    snapshot: {
+      ...continuityEnvelope.snapshot,
+      unlockedGameModes: Array.from({ length: 49 }, () => "flashcards"),
+    },
+  });
+  assertIncludes(oversizedModeListErrors, "Progression continuity snapshot unlockedGameModes cannot contain more than 48 modes.");
   assertEqual(
     contentModel.getProgressEventEnvelopeStreamWarnings({ envelopes: [] }, registry)[0],
     "Progress event envelope stream must be an array before report preview.",

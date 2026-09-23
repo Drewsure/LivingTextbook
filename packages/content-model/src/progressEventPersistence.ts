@@ -3,6 +3,9 @@ import {
   type CanonicalCompletionIdempotencyKeyInput,
 } from "./canonicalGameReplay";
 import {
+  PERSISTENCE_MAX_ID_LENGTH,
+  PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH,
+  validatePersistenceBoundedString,
   validateProgressEventEnvelopeStream,
   type ProgressEventEnvelope,
   type ProgressEventTaxonomyRegistry,
@@ -83,6 +86,12 @@ export function validateProgressEventStreamPersistenceClientWrite(
   })) {
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${name} is required.`);
   }
+  for (const [name, value] of Object.entries({
+    expectedTenantId: candidate.expectedTenantId,
+    expectedPackageId: candidate.expectedPackageId,
+    expectedLaunchCode: candidate.expectedLaunchCode,
+  })) errors.push(...validatePersistenceBoundedString(value, name, PERSISTENCE_MAX_ID_LENGTH));
+  errors.push(...validatePersistenceBoundedString(candidate.expectedStudentSessionId, "expectedStudentSessionId", PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH));
   if (candidate.requestedMode !== "rehearsal-only" && candidate.requestedMode !== "durable-managed") {
     errors.push("Progress event stream client request requires a valid requested mode.");
   }
@@ -221,6 +230,11 @@ export function validateProgressEventStreamPersistenceRecord(
   for (const field of ["tenantId", "packageId", "launchCode", "studentSessionId", "unitKey", "taxonomyVersion", "eventAcceptanceGateId", "writtenAt", "idempotencyKey"] as const) {
     if (typeof candidate[field] !== "string" || candidate[field].trim().length === 0) errors.push(`Persisted progress event stream ${field} is required.`);
   }
+  for (const field of ["tenantId", "packageId", "launchCode", "unitKey", "taxonomyVersion", "eventAcceptanceGateId", "idempotencyKey"] as const) {
+    errors.push(...validatePersistenceBoundedString(candidate[field], `Persisted progress event stream ${field}`, PERSISTENCE_MAX_ID_LENGTH));
+  }
+  errors.push(...validatePersistenceBoundedString(candidate.studentSessionId, "Persisted progress event stream studentSessionId", PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH));
+  errors.push(...validatePersistenceBoundedString(candidate.writtenAt, "Persisted progress event stream writtenAt", 64));
   errors.push(...validatePersistedEventStreamIdentity({
     expectedLaunchCode: typeof candidate.launchCode === "string" ? candidate.launchCode : "",
     expectedStudentSessionId: typeof candidate.studentSessionId === "string" ? candidate.studentSessionId : "",

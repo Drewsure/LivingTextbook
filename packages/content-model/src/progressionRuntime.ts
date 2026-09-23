@@ -1,5 +1,12 @@
 import type { ProgressEventEnvelope, ProgressEventTaxonomyRegistry } from "./progressEventTaxonomy";
-import { validateProgressEventEnvelope } from "./progressEventTaxonomy";
+import {
+  PERSISTENCE_MAX_GAME_MODE_LIST_LENGTH,
+  PERSISTENCE_MAX_ID_LENGTH,
+  PERSISTENCE_MAX_ROUTE_LENGTH,
+  PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH,
+  validatePersistenceBoundedString,
+  validateProgressEventEnvelope,
+} from "./progressEventTaxonomy";
 import { UNIT_STAR_DUST_CAP } from "./economyPolicy";
 import { getGameModeContract } from "./index";
 
@@ -199,6 +206,13 @@ export function validateProgressionContinuityEnvelope(value: unknown): string[] 
   for (const field of ["continuityId", "tenantId", "packageId", "launchCode", "studentSessionId", "unitKey", "sourceRoute", "destinationRoute", "issuedAt", "mode"]) {
     if (typeof envelope[field] === "string" && envelope[field].trim().length === 0) errors.push(`Progression continuity ${field} cannot be blank.`);
   }
+  for (const field of ["continuityId", "tenantId", "packageId", "launchCode", "unitKey", "mode"]) {
+    errors.push(...validatePersistenceBoundedString(envelope[field], `Progression continuity ${field}`, PERSISTENCE_MAX_ID_LENGTH));
+  }
+  errors.push(...validatePersistenceBoundedString(envelope.studentSessionId, "Progression continuity studentSessionId", PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH));
+  errors.push(...validatePersistenceBoundedString(envelope.sourceRoute, "Progression continuity sourceRoute", PERSISTENCE_MAX_ROUTE_LENGTH));
+  errors.push(...validatePersistenceBoundedString(envelope.destinationRoute, "Progression continuity destinationRoute", PERSISTENCE_MAX_ROUTE_LENGTH));
+  errors.push(...validatePersistenceBoundedString(envelope.issuedAt, "Progression continuity issuedAt", 64));
   if (typeof envelope.sourceRoute === "string" && !envelope.sourceRoute.startsWith("/")) errors.push("Progression continuity sourceRoute must be an app-relative path.");
   if (typeof envelope.destinationRoute === "string" && !envelope.destinationRoute.startsWith("/")) errors.push("Progression continuity destinationRoute must be an app-relative path.");
   if (!isIsoTimestamp(envelope.issuedAt)) errors.push("Progression continuity issuedAt must be an ISO timestamp.");
@@ -256,6 +270,9 @@ function validateProgressionContinuitySnapshot(value: unknown): string[] {
   }
   for (const field of ["unlockedGameModes", "completedGameModes"]) {
     if (!Array.isArray(value[field])) errors.push(`Progression continuity snapshot ${field} must be an array.`);
+    if (Array.isArray(value[field]) && value[field].length > PERSISTENCE_MAX_GAME_MODE_LIST_LENGTH) {
+      errors.push(`Progression continuity snapshot ${field} cannot contain more than ${PERSISTENCE_MAX_GAME_MODE_LIST_LENGTH} modes.`);
+    }
   }
   if (!Number.isSafeInteger(value.earnedStarDust) || Number(value.earnedStarDust) < 0 || Number(value.earnedStarDust) > 1000) {
     errors.push(`Progression continuity snapshot earnedStarDust must be an integer from 0 to ${UNIT_STAR_DUST_CAP}.`);
@@ -263,6 +280,14 @@ function validateProgressionContinuitySnapshot(value: unknown): string[] {
   if (value.lastEventAt !== undefined && !isIsoTimestamp(value.lastEventAt)) errors.push("Progression continuity snapshot lastEventAt must be an ISO timestamp.");
   const unlocked = stringArray(value.unlockedGameModes);
   const completed = stringArray(value.completedGameModes);
+  for (const field of ["tenantId", "launchCode", "unitKey", "entryMode", "currentStep", "masteryStatus"]) {
+    errors.push(...validatePersistenceBoundedString(value[field], `Progression continuity snapshot ${field}`, PERSISTENCE_MAX_ID_LENGTH));
+  }
+  errors.push(...validatePersistenceBoundedString(value.studentSessionId, "Progression continuity snapshot studentSessionId", PERSISTENCE_MAX_STUDENT_SESSION_ID_LENGTH));
+  for (const mode of [...unlocked, ...completed]) {
+    errors.push(...validatePersistenceBoundedString(mode, "Progression continuity snapshot game mode", PERSISTENCE_MAX_ID_LENGTH));
+  }
+  errors.push(...validatePersistenceBoundedString(value.lastEventAt, "Progression continuity snapshot lastEventAt", 64));
   const uniqueUnlocked = new Set(unlocked);
   if (uniqueUnlocked.size !== unlocked.length) errors.push("Progression continuity snapshot unlockedGameModes must be unique.");
   if (new Set(completed).size !== completed.length) errors.push("Progression continuity snapshot completedGameModes must be unique.");
