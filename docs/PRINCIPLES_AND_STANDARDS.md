@@ -7323,3 +7323,18 @@ This standard is recorded in
 `docs/decision-register/DR-1131-controlled-pilot-approval-readiness.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1131-controlled-pilot-approval-readiness.md`.
+
+## 469. Controlled-Pilot Human Review Packet Standard
+
+- A human review packet must preserve exact readiness, release-binding,
+  pilot-decision, reviewer-gate, tenant, and package references.
+- Packet presence must never imply approval: approval intent, signed approval,
+  packet freeze, release mutation, assignment activation, and student launch
+  must remain false until their own authorized workflow exists.
+- The packet must carry the required human records and explicit blocked
+  actions so a future implementation cannot infer permission from metadata.
+
+This standard is recorded in
+`docs/decision-register/DR-1132-controlled-pilot-human-review-packet.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1132-controlled-pilot-human-review-packet.md`.

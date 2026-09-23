@@ -8993,3 +8993,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   remain distinct; readiness is not approval.
 - Approval capture, release mutation, assignment activation, student launch,
   and hosted writes remain blocked.
+
+## DR-1132: Controlled-Pilot Human Review Packet
+
+- The exact readiness, release binding, pilot decision, and reviewer-gate
+  references are carried into one review-only human review packet.
+- Packet presence is not approval: approval intent, signed approval, and
+  packet freeze remain explicitly false.
+- Release mutation, assignment activation, student launch, and evidence
+  download remain blocked.

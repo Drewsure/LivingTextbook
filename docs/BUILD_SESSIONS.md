@@ -5399,3 +5399,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   review states without treating readiness as approval.
 - Kept approval capture, release mutation, assignment activation, student
   launch, and hosted writes blocked. Recorded ADR 1131 and DR-1131.
+
+## Build session 1046: Controlled-pilot human review packet
+
+- Added an exact-scope, review-only human review packet carrying readiness,
+  release binding, pilot decision, and reviewer-gate references together.
+- Added explicit not-captured, not-frozen, and not-released invariants so a
+  future approval workflow cannot infer permission from packet presence.
+- Kept approval intent, signed approval, packet freeze, release mutation,
+  assignment activation, and student launch blocked. Recorded ADR 1132 and
+  DR-1132.

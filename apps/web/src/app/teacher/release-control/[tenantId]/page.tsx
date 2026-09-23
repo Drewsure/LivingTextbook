@@ -18,6 +18,8 @@ import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdenti
 import { ReviewerIdentitySignatureGatePanel } from "@/features/evidence/ReviewerIdentitySignatureGatePanel";
 import { sampleControlledPilotApprovalReadiness, sampleControlledPilotApprovalReadinessErrors } from "@/data/sampleControlledPilotApprovalReadiness";
 import { ControlledPilotApprovalReadinessPanel } from "@/features/pilot/ControlledPilotApprovalReadinessPanel";
+import { sampleControlledPilotHumanReviewPacket, sampleControlledPilotHumanReviewPacketErrors } from "@/data/sampleControlledPilotHumanReviewPacket";
+import { ControlledPilotHumanReviewPacketPanel } from "@/features/pilot/ControlledPilotHumanReviewPacketPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -174,6 +176,10 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
         <ControlledPilotApprovalReadinessPanel
           readiness={sampleControlledPilotApprovalReadiness}
           errors={sampleControlledPilotApprovalReadinessErrors}
+        />
+        <ControlledPilotHumanReviewPacketPanel
+          packet={sampleControlledPilotHumanReviewPacket}
+          errors={sampleControlledPilotHumanReviewPacketErrors}
         />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
