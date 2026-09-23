@@ -7196,3 +7196,18 @@ This standard is recorded in
 `docs/decision-register/DR-1123-browser-privacy-tenant-evidence-packet.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1123-browser-privacy-tenant-evidence-packet.md`.
+
+## 461. Observation Derivation Standard
+
+- A composite evidence packet may derive from a validated exact-scope browser
+  observation, preserving the observation's tenant, package, launch, unit,
+  and student-session identity.
+- Only the lane directly supported by explicit observation checks may advance;
+  browser continuity must not imply privacy-negative or tenant-isolation proof.
+- Derived packets remain review-only and retain every blocked side-effect flag
+  until each lane has its own evidence and adult adjudication.
+
+This standard is recorded in
+`docs/decision-register/DR-1124-observation-to-composite-evidence-derivation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1124-observation-to-composite-evidence-derivation.md`.

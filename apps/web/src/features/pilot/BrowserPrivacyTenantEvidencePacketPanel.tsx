@@ -1,4 +1,4 @@
-import { Card, StatusPill } from "@living-textbook/ui";
+import { StatusPill } from "@living-textbook/ui";
 import type {
   BrowserPrivacyTenantEvidencePacket,
   BrowserRehearsalEvidenceLane,
@@ -7,12 +7,14 @@ import type {
 export function BrowserPrivacyTenantEvidencePacketPanel({
   packet,
   validationErrors,
+  embedded = false,
 }: {
   packet: BrowserPrivacyTenantEvidencePacket;
   validationErrors: string[];
+  embedded?: boolean;
 }) {
   return (
-    <Card>
+    <section className={embedded ? "border-t border-[var(--tenant-border)] pt-4" : "rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-5 shadow-sm"}>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Browser rehearsal evidence packet</p>
@@ -42,7 +44,7 @@ export function BrowserPrivacyTenantEvidencePacketPanel({
         <BoundaryList title="Blocked side effects" values={packet.blockedActions} />
         <BoundaryList title="Next gate" values={packet.nextGate} />
       </div>
-    </Card>
+    </section>
   );
 }
 

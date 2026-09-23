@@ -5319,3 +5319,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added the pending packet to the teacher pilot board without enabling hosted
   writes, learner-data collection, export, promotion, QR mutation, or student
   launch. Recorded ADR 1123 and DR-1123.
+
+## Build session 1038: Observation-to-composite evidence derivation
+
+- Connected the validated teacher browser observation to the composite
+  browser/privacy/tenant packet on the teacher session monitor.
+- Advanced only the browser lane from explicit route-continuity and
+  student-to-teacher-handoff checks; privacy and tenant-isolation remain
+  pending until their own negative checks are recorded.
+- Kept hosted writes, learner-data collection, export, promotion, QR mutation,
+  and student launch blocked. Recorded ADR 1124 and DR-1124.

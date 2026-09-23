@@ -8914,3 +8914,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   its source record is still a pending placeholder.
 - Hosted writes, learner-data collection, evidence export, promotion,
   classroom launch, and QR mutation remain blocked.
+
+## DR-1124: Observation-to-Composite Evidence Derivation
+
+- A validated teacher observation may advance only the browser lane of the
+  composite evidence packet when explicit route-continuity and
+  student-to-teacher-handoff checks are present.
+- Privacy-negative and tenant-isolation lanes remain pending until their own
+  checks are captured; browser success cannot stand in for either.
+- The derived packet remains review-only with hosted writes, learner-data
+  collection, export, promotion, and classroom launch blocked.

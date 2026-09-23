@@ -5,6 +5,8 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { Button } from "@living-textbook/ui";
 import {
   createBrowserRehearsalObservationHandoff,
+  createBrowserPrivacyTenantEvidencePacketFromObservation,
+  validateBrowserPrivacyTenantEvidencePacket,
   type BrowserRehearsalObservationHandoff,
   type GameModeId,
 } from "@living-textbook/content-model";
@@ -21,6 +23,7 @@ import { formatMode } from "@/lib/formatLabels";
 import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
 import { readPersistenceStatus, type PersistenceStatusResult } from "@/features/persistence/persistenceStatusClient";
+import { BrowserPrivacyTenantEvidencePacketPanel } from "@/features/pilot/BrowserPrivacyTenantEvidencePacketPanel";
 
 interface TeacherSessionLocalEvidencePanelProps {
   launchCode: string;
@@ -111,6 +114,15 @@ export function TeacherSessionLocalEvidencePanel({
   const observationHandoff: BrowserRehearsalObservationHandoff | undefined = observation
     ? createBrowserRehearsalObservationHandoff(observation)
     : undefined;
+  const compositeEvidencePacket = observation
+    ? createBrowserPrivacyTenantEvidencePacketFromObservation(observation, {
+      verificationRunId: `teacher-observation:${observation.observationId}`,
+      verificationRevision: `local-observation:${observation.observedAt}`,
+    })
+    : undefined;
+  const compositeEvidencePacketErrors = compositeEvidencePacket
+    ? validateBrowserPrivacyTenantEvidencePacket(compositeEvidencePacket)
+    : [];
 
   function recordTeacherObservation() {
     if (!evidence || !evidenceEnvelope || typeof window === "undefined") return;
@@ -124,6 +136,8 @@ export function TeacherSessionLocalEvidencePanel({
     ];
     const checkIds = [
       "tenant-package-session-binding",
+      "route-continuity",
+      "student-to-teacher-handoff",
       "cross-route-event-continuity",
       "review-only-privacy-boundary",
       "teacher-session-summary",
@@ -276,6 +290,15 @@ export function TeacherSessionLocalEvidencePanel({
                 <ObservationHandoffList title="Next gate" items={observationHandoff.nextGate} />
               </div>
             </section>
+          ) : null}
+          {compositeEvidencePacket ? (
+            <div className="mt-4">
+              <BrowserPrivacyTenantEvidencePacketPanel
+                packet={compositeEvidencePacket}
+                validationErrors={compositeEvidencePacketErrors}
+                embedded
+              />
+            </div>
           ) : null}
           <section className="mt-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
