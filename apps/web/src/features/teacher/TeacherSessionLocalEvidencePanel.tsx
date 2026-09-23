@@ -25,6 +25,7 @@ import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilot
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
 import { readPersistenceStatus, type PersistenceStatusResult } from "@/features/persistence/persistenceStatusClient";
 import { BrowserPrivacyTenantEvidencePacketPanel } from "@/features/pilot/BrowserPrivacyTenantEvidencePacketPanel";
+import { BrowserPrivacyTenantEvidenceAdjudicationPanel } from "@/features/pilot/BrowserPrivacyTenantEvidenceAdjudicationPanel";
 import {
   readBrowserPrivacyTenantEvidencePacket,
   saveBrowserPrivacyTenantEvidencePacket,
@@ -346,6 +347,7 @@ export function TeacherSessionLocalEvidencePanel({
                 validationErrors={compositeEvidencePacketErrors}
                 embedded
               />
+              <BrowserPrivacyTenantEvidenceAdjudicationPanel packet={compositeEvidencePacket} embedded />
               <section className="mt-4 border-t border-[var(--tenant-border)] pt-4" data-negative-evidence-capture="review-only">
                 <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Adult negative-check capture</p>
                 <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">

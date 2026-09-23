@@ -7229,3 +7229,19 @@ This standard is recorded in
 `docs/decision-register/DR-1125-negative-evidence-capture-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1125-negative-evidence-capture-boundary.md`.
+
+## 463. Composite Evidence Adjudication Standard
+
+- Composite browser, privacy, and tenant-isolation evidence must have a
+  separate adult review decision before it can proceed to the next gate.
+- A blocked decision may be recorded while evidence is incomplete; acceptance
+  requires all three lanes to pass in the same exact scope.
+- Adjudication must preserve packet identity and remain provider-neutral,
+  local, and review-only.
+- Acceptance must not enable hosted persistence, student-data collection,
+  export, release promotion, QR mutation, or student production launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1126-composite-evidence-adjudication.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1126-composite-evidence-adjudication.md`.

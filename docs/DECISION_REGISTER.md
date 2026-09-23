@@ -8934,3 +8934,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Malformed, cross-tenant, pending-review, or promotion-drifted records are
   rejected or hidden; hosted writes, learner data, export, promotion, QR
   mutation, assignment, and classroom launch remain blocked.
+
+## DR-1126: Composite Evidence Adjudication
+
+- A separate exact-scope adjudication record now carries the composite
+  browser/privacy/tenant packet into the next review gate.
+- Blocked decisions are valid with incomplete evidence; acceptance is rejected
+  until all three lanes pass together.
+- Even accepted review remains unable to write hosted persistence, collect
+  student data, export evidence, promote a release, mutate QR routes, or
+  launch students.

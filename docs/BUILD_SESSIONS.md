@@ -5339,3 +5339,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
   cross-tenant reads, and promotion drift.
 - Kept hosted writes, learner-data collection, export, promotion, QR mutation,
   assignment, and classroom launch blocked. Recorded ADR 1125 and DR-1125.
+
+## Build session 1040: Composite evidence adjudication
+
+- Added a local exact-scope adjudication record and teacher review surface for
+  the composite browser/privacy/tenant packet.
+- Allowed blocked decisions while evidence is incomplete, but rejected
+  acceptance until all three lanes pass together.
+- Kept hosted writes, student-data collection, export, promotion, QR mutation,
+  and student production launch blocked. Recorded ADR 1126 and DR-1126.
