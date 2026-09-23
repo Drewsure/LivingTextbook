@@ -16,6 +16,7 @@ import { UploadIntakeControlPreviewPanel } from "./UploadIntakeControlPreviewPan
 import { UploadPromotionReadinessPanel } from "./UploadPromotionReadinessPanel";
 import { UploadReviewQueuePanel } from "./UploadReviewQueuePanel";
 import { UploadTargetMappingPanel } from "./UploadTargetMappingPanel";
+import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
 
 interface TeacherUploadWorkspacePanelProps {
   tenantId: string;
@@ -100,6 +101,7 @@ export function TeacherUploadWorkspacePanel({
       </Card>
 
       <EvidencePacketFlowPanel flow={evidenceFlow} />
+      <QuarantineMetadataReviewPanel tenantId={tenantId} />
       <UploadIntakeControlPreviewPanel channelPlan={channelPlan} filePolicyPlan={filePolicyPlan} />
       <UploadChannelReadinessPanel plan={channelPlan} />
       <UploadFilePolicyPanel plan={filePolicyPlan} />
