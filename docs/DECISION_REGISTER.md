@@ -24,6 +24,14 @@ records are withheld; all scan, rights, mapping, promotion, and student-use
 mutations remain blocked. See
 `docs/decision-register/DR-1134-quarantine-metadata-review-read-path.md`.
 
+## DR-1135: Quarantine Evidence Admission Preview
+
+Quarantine admission previews compare a validated intake with scan, rights,
+source, mapping, accessibility, and release evidence. An `evidence-ready`
+result is not promotion or student authorization; previews remain tenant-bound,
+review-only, and side-effect-free. See
+`docs/decision-register/DR-1135-quarantine-evidence-admission-preview.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

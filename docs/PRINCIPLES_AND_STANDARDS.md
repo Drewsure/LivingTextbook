@@ -7380,3 +7380,20 @@ This standard is recorded in
 `docs/decision-register/DR-1134-quarantine-metadata-review-read-path.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1134-quarantine-metadata-review-read-path.md`.
+
+## 472. Quarantine Evidence Admission Preview Standard
+
+- Admission previews must compare a validated quarantine intake with
+  target-specific security scan, rights proof, source approval, target
+  mapping, accessibility, and release-control evidence.
+- `evidence-ready` is an evidence state only. It must never imply promotion,
+  storage activation, package publication, assignment, QR mutation, local
+  bundle activation, or student-facing use.
+- Every preview must remain tenant-bound, review-only, side-effect-free, and
+  explicit about missing evidence and blocked actions. Hosted and closed-local
+  implementations must preserve the same vocabulary.
+
+This standard is recorded in
+`docs/decision-register/DR-1135-quarantine-evidence-admission-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1135-quarantine-evidence-admission-preview.md`.

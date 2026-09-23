@@ -5430,3 +5430,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept scan, rights, source review, mapping, promotion, student-facing use,
   playlist, game, assignment, QR, and local-bundle mutations blocked. Recorded
   ADR 1134 and DR-1134.
+
+## Build session 1049: Quarantine evidence admission preview
+
+- Added a provider-neutral admission preview comparing quarantine records with
+  scan, rights, source, target mapping, accessibility, and release evidence.
+- Distinguished `needs-review` from `evidence-ready` without treating either
+  state as authorization or publication.
+- Kept promotion, student-facing use, storage activation, package, playlist,
+  game, assignment, QR, and local-bundle writes blocked. Recorded ADR 1135 and
+  DR-1135.

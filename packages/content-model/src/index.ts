@@ -1738,6 +1738,7 @@ export * from "./controlledPilotApprovalReadiness";
 export * from "./controlledPilotHumanReviewPacket";
 export * from "./uploadQuarantineIntake";
 export * from "./uploadQuarantineReview";
+export * from "./uploadQuarantineAdmission";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";
