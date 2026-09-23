@@ -4968,3 +4968,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - New sessions always use the current strong secret; the previous strong secret is accepted only for validation during rotation.
 - Weak previous values are ignored, duplicate keys are removed, and no third rollover slot is supported.
 - Recorded ADR 1092 and DR-1092.
+
+## Build session 1007: Local bundle resolution delivery status
+
+- Added explicit `planning` and `offline-ready` status to read-only local QR
+  and asset resolutions.
+- Kept planning previews visibly rehearsal-only so a future consumer cannot
+  mistake manifest lookup for playable offline delivery.
+- Added runtime coverage for planning and evidence-complete status behavior.
+- Preserved all no-file-access, no-cache, no-bundle-write, no-offline-activation,
+  and no-learner-data boundaries.
+- Recorded ADR 1093 and DR-1093.

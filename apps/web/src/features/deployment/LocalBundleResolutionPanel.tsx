@@ -37,6 +37,7 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <ResolutionFact label="Resolver mode" value={result.mode} />
+        <ResolutionFact label="Delivery status" value={result.resolver?.deliveryStatus ?? "blocked"} />
         <ResolutionFact label="Tenant scope" value={tenantId} />
         <ResolutionFact label="Routes resolved" value={`${resolvedRoutes}/${routeResolutions.length}`} />
         <ResolutionFact label="Assets resolved" value={`${resolvedAssets}/${assetResolutions.length}`} />
@@ -51,7 +52,7 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
                   <p className="text-sm font-bold text-[var(--tenant-text)]">{route.qrId}</p>
                   <p className="mt-1 text-xs text-[var(--tenant-muted)]">{route.targetType} / {route.targetId}</p>
                 </div>
-                <StatusPill label={resolution ? "Resolved" : "Blocked"} tone={resolution ? "success" : "warning"} />
+                <StatusPill label={resolution ? formatResolutionLabel(resolution.deliveryStatus) : "Blocked"} tone={resolution ? "success" : "warning"} />
               </div>
               <p className="mt-2 break-all font-mono text-xs font-semibold text-[var(--tenant-text)]">
                 {resolution?.localFallbackPath ?? route.localFallbackPath}
@@ -68,7 +69,7 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
                   <p className="text-sm font-bold text-[var(--tenant-text)]">{asset.label}</p>
                   <p className="mt-1 text-xs uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.rightsStatus}</p>
                 </div>
-                <StatusPill label={resolution ? "Resolved" : "Blocked"} tone={resolution ? "success" : "warning"} />
+                <StatusPill label={resolution ? formatResolutionLabel(resolution.deliveryStatus) : "Blocked"} tone={resolution ? "success" : "warning"} />
               </div>
               <p className="mt-2 break-all font-mono text-xs font-semibold text-[var(--tenant-text)]">
                 {resolution?.localPath ?? asset.localPath}
@@ -119,6 +120,10 @@ function ResolutionFact({ label, value }: { label: string; value: string }) {
 
 function BoundaryFact({ label }: { label: string }) {
   return <div className="rounded-lg border border-[var(--tenant-border)] p-3 text-sm font-semibold text-[var(--tenant-text)]">{label}</div>;
+}
+
+function formatResolutionLabel(status: "planning" | "offline-ready") {
+  return status === "offline-ready" ? "Resolved / offline-ready" : "Resolved / rehearsal";
 }
 
 function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenantId: string): LocalBundleManifest {

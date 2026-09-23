@@ -23,11 +23,32 @@ try {
   const result = createReadOnlyLocalBundleResolver(sample);
   assert(result.valid, "planning sample must create a valid read-only resolver");
   assert(result.mode === "read-only-rehearsal", "resolver must identify read-only rehearsal mode");
+  assert(result.resolver?.deliveryStatus === "planning", "planning manifest must expose planning delivery status");
   assert(result.resolver?.resolveRoute("ministar", "qr-ministar-l1-u1-front-door")?.localFallbackPath === "/enter/ministar", "declared QR route must resolve to its manifest fallback");
+  assert(result.resolver?.resolveRoute("ministar", "qr-ministar-l1-u1-front-door")?.deliveryStatus === "planning", "planning route resolution must remain rehearsal-only");
   assert(result.resolver?.resolveAsset("ministar", "media-ministar-l1-u1-greetings-chant")?.localPath === "media/audio/greetings-chant.mp3", "declared asset must resolve to its manifest local path");
+  assert(result.resolver?.resolveAsset("ministar", "media-ministar-l1-u1-greetings-chant")?.deliveryStatus === "planning", "planning asset resolution must remain rehearsal-only");
   assert(result.resolver?.resolveRoute("other-tenant", "qr-ministar-l1-u1-front-door") === undefined, "other tenant must not resolve the bundle route");
   assert(result.resolver?.resolveAsset("other-tenant", "media-ministar-l1-u1-greetings-chant") === undefined, "other tenant must not resolve the bundle asset");
   assert(result.resolver?.resolveRoute("ministar", "unknown-qr") === undefined, "unknown QR identifiers must not invent a route");
+
+  const offlineReady = createReadOnlyLocalBundleResolver({
+    ...sample,
+    offline_ready: true,
+    requires_hosted_redirect: false,
+    assets: sample.assets.map((asset, index) => ({
+      ...asset,
+      checksum: `sha256-${String.fromCharCode(97 + index).repeat(64)}`,
+      rights_status: "owned",
+      scan_status: "passed",
+      target_mapping_reviewed: true,
+      ...(asset.kind === "audio" ? { transcript_path: "media/captions/greetings-chant.vtt" } : {}),
+      ...(asset.kind === "video" ? { alt_text_ready: true } : {}),
+    })),
+  });
+  assert(offlineReady.valid, "evidence-complete offline-ready manifest must create a resolver");
+  assert(offlineReady.resolver?.deliveryStatus === "offline-ready", "offline-ready manifest must expose offline-ready delivery status");
+  assert(offlineReady.resolver?.resolveAsset("ministar", "media-ministar-l1-u1-greetings-chant")?.deliveryStatus === "offline-ready", "offline-ready asset resolution must expose its delivery status");
 
   const invalid = createReadOnlyLocalBundleResolver({
     ...sample,

@@ -1244,6 +1244,20 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `.env.example`
 
+## FR-051: Local Bundle Resolution Delivery Status
+
+Status: Implemented for the read-only local bundle resolver.
+
+Requirement: Every manifest-declared QR or asset resolution must expose whether
+it is a planning rehearsal or an evidence-complete offline-ready result. A
+consumer must not infer playable local delivery from the word "resolved" alone.
+
+References:
+
+- `packages/content-model/src/localBundleRuntime.ts`
+- `apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx`
+- `docs/adr/1093-local-bundle-resolution-delivery-status.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

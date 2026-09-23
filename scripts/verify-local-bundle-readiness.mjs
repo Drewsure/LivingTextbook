@@ -10,6 +10,7 @@ const pwaOfflineReadiness = readSource("../apps/web/src/data/samplePwaOfflineRea
 const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOfflineReadinessPanel.tsx");
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
 const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
+const resolutionContract = readSource("../packages/content-model/src/localBundleRuntime.ts");
 const assetEvidencePanel = readSource("../apps/web/src/features/deployment/LocalBundleAssetEvidencePanel.tsx");
 const assetEvidenceContract = readSource("../packages/content-model/src/localBundleAssetEvidence.ts");
 const handoffContract = readSource("../packages/content-model/src/localBundleHandoff.ts");
@@ -110,6 +111,8 @@ const requiredResolutionMarkers = [
   "No offline activation",
   "No learner-data persistence",
   "createReadOnlyLocalBundleResolver",
+  "deliveryStatus",
+  "Resolved / rehearsal",
 ];
 const requiredLocalAssetKinds = ["audio", "video", "image"];
 const requiredSupportingAssetPaths = [
@@ -255,6 +258,10 @@ for (const field of snapshotFields) {
 
 for (const marker of requiredResolutionMarkers) {
   requireText(resolutionPanel, marker, `Local bundle resolution preview missing marker: ${marker}`);
+}
+
+for (const marker of ["LocalBundleDeliveryStatus", "deliveryStatus", "offline-ready", "planning"]) {
+  requireText(resolutionContract, marker, `Local bundle resolver contract missing delivery marker: ${marker}`);
 }
 
 for (const kind of requiredLocalAssetKinds) {

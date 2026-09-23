@@ -6681,3 +6681,17 @@ This standard is recorded in
 `docs/decision-register/DR-1092-session-secret-rollover.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1092-session-secret-rollover.md`.
+
+## 431. Local Bundle Resolution Status Standard
+
+- A local bundle resolver must label every route and asset result as either
+  `planning` or `offline-ready`.
+- Planning resolution is evidence for rehearsal only; it is not permission to
+  read files, play local media, activate offline mode, or store learner data.
+- Offline-ready status may come only from a manifest that passes the shared
+  offline-ready validator.
+
+This standard is recorded in
+`docs/decision-register/DR-1093-local-bundle-resolution-delivery-status.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1093-local-bundle-resolution-delivery-status.md`.

@@ -8847,5 +8847,14 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 ## DR-1092: Session Secret Rollover
 
 - Session readers may validate against the current strong secret and one optional previous strong secret.
-- Session creators always sign with the current secret.
-- Weak, duplicate, or additional rollover values are not accepted as authority.
+- Session creators always sign with the current strong secret.
+- Weak, duplicate, or additional previous values are not accepted as authority.
+
+## DR-1093: Local Bundle Resolution Delivery Status
+
+- Read-only local bundle route and asset resolutions expose `planning` or
+  `offline-ready` delivery status.
+- Planning results remain rehearsal-only and must not be presented as playable
+  local delivery.
+- Offline-ready status is derived from the validated manifest and does not
+  enable file access, cache mutation, bundle writes, or learner-data storage.
