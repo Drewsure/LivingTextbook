@@ -8904,3 +8904,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   actions are bounded before evidence alignment or adjudication.
 - Manifest validation cannot import source, patch apps, replace routes,
   mutate scoring, promote packages, or assign students.
+
+## DR-1123: Browser, Privacy, and Tenant Evidence Packet
+
+- Browser continuity, privacy-negative, and tenant-isolation evidence are
+  carried in one exact-scope review packet before a pilot decision can rely on
+  them.
+- Pending evidence remains visibly pending and cannot be marked passed while
+  its source record is still a pending placeholder.
+- Hosted writes, learner-data collection, evidence export, promotion,
+  classroom launch, and QR mutation remain blocked.

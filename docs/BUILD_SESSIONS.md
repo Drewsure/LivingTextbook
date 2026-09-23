@@ -5309,3 +5309,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   blocked-by-adjudication without changing the canonical pilot decision.
 - Kept pilot launch, learner data collection, reporting, package promotion,
   export, and hosted persistence blocked. Recorded ADR 1122 and DR-1122.
+
+## Build session 1037: Browser, privacy, and tenant evidence packet
+
+- Added one exact-scope review packet for browser continuity, privacy-negative,
+  and tenant-isolation evidence.
+- Required lane-specific evidence kinds and negative-check ids, and rejected
+  tenant drift or pending evidence presented as passed.
+- Added the pending packet to the teacher pilot board without enabling hosted
+  writes, learner-data collection, export, promotion, QR mutation, or student
+  launch. Recorded ADR 1123 and DR-1123.

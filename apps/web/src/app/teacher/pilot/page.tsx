@@ -41,7 +41,12 @@ import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPa
 import { samplePilotDeploymentDecision, samplePilotDeploymentDecisionErrors } from "@/data/samplePilotDeploymentDecision";
 import { PilotDeploymentDecisionPanel } from "@/features/pilot/PilotDeploymentDecisionPanel";
 import { BrowserObservationPilotBindingPanel } from "@/features/pilot/BrowserObservationPilotBindingPanel";
+import { BrowserPrivacyTenantEvidencePacketPanel } from "@/features/pilot/BrowserPrivacyTenantEvidencePacketPanel";
 import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
+import {
+  sampleBrowserPrivacyTenantEvidencePacket,
+  sampleBrowserPrivacyTenantEvidencePacketErrors,
+} from "@/data/sampleBrowserPrivacyTenantEvidencePacket";
 
 const pilotLinks = [
   { href: "/partner-demo", label: "Partner demo" },
@@ -120,6 +125,10 @@ export default function TeacherPilotPage() {
           launchCode={partnerLaunch.launchSession.launchCode}
           unitKey={partnerLaunch.launchSession.unitKey}
           studentSessionId={partnerLaunch.progression.studentSessionId}
+        />
+        <BrowserPrivacyTenantEvidencePacketPanel
+          packet={sampleBrowserPrivacyTenantEvidencePacket}
+          validationErrors={sampleBrowserPrivacyTenantEvidencePacketErrors}
         />
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
         <PilotDeploymentDecisionPanel

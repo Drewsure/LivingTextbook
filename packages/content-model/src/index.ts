@@ -1730,6 +1730,7 @@ export * from "./browserRehearsalObservation";
 export * from "./browserRehearsalObservationHandoff";
 export * from "./browserRehearsalObservationAdjudication";
 export * from "./browserRehearsalObservationPilotBinding";
+export * from "./browserPrivacyTenantEvidencePacket";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

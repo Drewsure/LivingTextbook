@@ -7178,3 +7178,21 @@ This standard is recorded in
 `docs/decision-register/DR-1122-observation-to-pilot-decision-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1122-observation-to-pilot-decision-binding.md`.
+
+## 460. Composite Browser Evidence Standard
+
+- Browser continuity, privacy-negative, and tenant-isolation checks must be
+  reviewable as one exact-scope packet for the same tenant, package, launch,
+  unit, and student session.
+- Each lane must retain its own evidence kind and required check identifiers;
+  a green browser route check cannot stand in for privacy or tenant proof.
+- Pending evidence must remain pending and must not be described as verified
+  quality evidence or pilot approval.
+- The packet remains provider-neutral and review-only. It cannot write hosted
+  persistence, collect learner data, export evidence, promote a release,
+  mutate QR routes, or launch students.
+
+This standard is recorded in
+`docs/decision-register/DR-1123-browser-privacy-tenant-evidence-packet.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1123-browser-privacy-tenant-evidence-packet.md`.
