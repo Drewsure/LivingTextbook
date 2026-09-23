@@ -8765,3 +8765,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - The implementation-readiness packet is represented as a dedicated tenant-bound durable record and mirrored in hosted/local adapter plans.
 - Backend schema, migration candidate, and migration specification preserve the nine acceptance tests without selecting a provider.
 - Provider selection, implementation, migration, live writes, uploads, route mutation, live test execution, assignment promotion, provider credentials, raw learner audio, and learner transcripts remain blocked.
+
+## DR-1079: Teacher Draft Persistence Runtime Regression
+
+- Runtime validation accepts a complete provider-neutral persistence-readiness record and adapter intent.
+- Runtime validation rejects readiness packets that loosen provider-selection or assignment-promotion blockers.
+- The regression remains review-only and performs no database, upload, route, migration, or assignment operation.

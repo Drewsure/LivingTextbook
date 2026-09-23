@@ -23,4 +23,4 @@ npm run verify:runtime-behavior
 npm run typecheck --workspace @living-textbook/web
 ```
 
-The backend readiness verifier must report the new schema entity, migration candidate, and migration specification without selecting a provider.
+The backend readiness verifier must report the new schema entity, migration candidate, and migration specification without selecting a provider. The runtime harness must accept a complete readiness record and write intent, then reject any readiness contract that allows provider selection or assignment promotion.

@@ -2847,6 +2847,97 @@ try {
     "codex-integration-review-decision write intent codex-decision-intent must preserve tenant boundary.",
   );
 
+  const persistenceImplementationReadinessRecord = {
+    recordId: "teacher-draft-persistence-readiness-record",
+    category: "teacher-draft-persistence-implementation-readiness",
+    label: "Teacher draft persistence implementation readiness",
+    readiness: "policy-required",
+    sourceOfTruth: "provider-neutral persistence implementation-readiness packet",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesPersistenceImplementationReadiness: true,
+    requiresPersistenceAcceptanceTestPlan: true,
+    blocksPersistenceProviderSelection: true,
+    blocksPersistenceImplementation: true,
+    blocksPersistenceMigration: true,
+    blocksPersistenceWrites: true,
+    blocksPersistenceUploads: true,
+    blocksPersistenceRouteMutation: true,
+    blocksPersistenceAssignmentPromotion: true,
+    note: "Provider-neutral readiness remains review-only.",
+  };
+  assertEqual(
+    persistenceRecords.validateDurableRecordContracts([persistenceImplementationReadinessRecord]).length,
+    0,
+  );
+
+  const persistenceImplementationReadinessIntent = {
+    intentId: "teacher-draft-persistence-readiness-write",
+    category: "teacher-draft-persistence-implementation-readiness",
+    label: "Write teacher draft persistence implementation readiness",
+    readiness: "requires-policy",
+    targetStore: ["hosted-database"],
+    deploymentChannels: ["hosted-web"],
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    requiresSchoolPolicy: true,
+    canRunOffline: false,
+    allowsExport: true,
+    rejectsRawAudio: true,
+    rejectsTranscripts: true,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesPersistenceImplementationReadiness: true,
+    requiresPersistenceAcceptanceTestPlan: true,
+    blocksPersistenceProviderSelection: true,
+    blocksPersistenceImplementation: true,
+    blocksPersistenceMigration: true,
+    blocksPersistenceWrites: true,
+    blocksPersistenceUploads: true,
+    blocksPersistenceRouteMutation: true,
+    blocksPersistenceAssignmentPromotion: true,
+    note: "Provider-neutral readiness write remains review-only.",
+  };
+  assertEqual(
+    persistenceAdapter.validatePersistenceAdapterPlan({
+      planId: "teacher-draft-persistence-readiness-plan",
+      label: "Teacher draft persistence readiness plan",
+      mode: "hosted-managed",
+      recommendedForFirstPilot: false,
+      costPosture: "controlled",
+      deploymentChannels: ["hosted-web"],
+      writeIntents: [persistenceImplementationReadinessIntent],
+      handoffSteps: ["Review readiness packet"],
+    }).length,
+    0,
+  );
+  assertIncludes(
+    persistenceRecords.validateDurableRecordContracts([
+      { ...persistenceImplementationReadinessRecord, blocksPersistenceProviderSelection: false },
+    ]),
+    "Teacher draft persistence readiness record teacher-draft-persistence-readiness-record must block provider, implementation, migration, write, upload, route, and assignment actions.",
+  );
+  assertIncludes(
+    persistenceAdapter.validatePersistenceAdapterPlan({
+      planId: "teacher-draft-persistence-readiness-invalid-plan",
+      label: "Invalid teacher draft persistence readiness plan",
+      mode: "hosted-managed",
+      recommendedForFirstPilot: false,
+      costPosture: "controlled",
+      deploymentChannels: ["hosted-web"],
+      writeIntents: [{ ...persistenceImplementationReadinessIntent, blocksPersistenceAssignmentPromotion: false }],
+      handoffSteps: ["Review readiness packet"],
+    }),
+    "Teacher draft persistence readiness write intent teacher-draft-persistence-readiness-write must block provider, implementation, migration, write, upload, route, and assignment actions.",
+  );
+
   assertIncludes(
     persistenceRecords.validateDurableRecordContracts([
       { ...prototypeGateRecord, preservesTenantBoundary: true },

@@ -1079,3 +1079,15 @@ References:
 - `apps/web/src/data/sampleBackendMigrationCandidates.ts`
 - `apps/web/src/data/sampleBackendMigrationSpecs.ts`
 - `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_STORAGE_CHECKS.md`
+
+## FR-037: Teacher Draft Persistence Runtime Regression
+
+Status: Implemented; shared validator regression is green and live persistence remains disabled.
+
+Requirement: The readiness record and adapter intent must be tested at runtime, not only through static schema and migration alignment. Valid provider-neutral packets must pass; loosening provider-selection, implementation, migration, write, upload, route, or assignment blockers must fail deterministically.
+
+References:
+
+- `scripts/verify-runtime-behavior.mjs`
+- `docs/adr/1079-teacher-draft-persistence-runtime-regression.md`
+- `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_STORAGE_CHECKS.md`

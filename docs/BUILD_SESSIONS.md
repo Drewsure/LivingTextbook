@@ -4865,3 +4865,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added backend schema, migration candidate, and migration specification entries for the nine acceptance tests.
 - Kept provider selection, implementation, migration, live writes, uploads, route mutation, live test execution, assignment promotion, provider credentials, raw learner audio, and learner transcripts blocked.
 - Recorded ADR 1078 and DR-1078.
+
+## Build session 0993: Teacher draft persistence runtime regression
+
+- Added runtime coverage for a valid persistence-readiness record and hosted adapter intent.
+- Added negative regressions for provider-selection and assignment-promotion guard weakening.
+- Kept all persistence behavior review-only with no database, upload, route, migration, or assignment execution.
+- Recorded ADR 1079 and DR-1079.
