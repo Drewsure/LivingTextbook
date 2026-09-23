@@ -8783,3 +8783,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Cookie-authenticated session and persistence JSON mutations require an exact same-origin `Origin` header.
 - Originless or cross-origin browser mutations return `403` before side effects.
 - Only progression/event persistence writes may use the configured bearer-token server exception, and existing tenant, policy, deployment, and durable-write gates remain mandatory.
+
+## DR-1082: Web Security Header Baseline
+
+- The web application applies MIME, referrer, framing, and browser-capability headers globally.
+- Microphone is limited to the app origin; camera and geolocation are disabled.
+- Cross-origin embedding remains blocked in v1, and a future CSP must follow reviewed tenant media/CDN origins.

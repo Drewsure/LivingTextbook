@@ -4886,3 +4886,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Kept the bearer-token exception explicit and limited to persistence server-to-server writes.
 - Added verifier coverage and preserved provider, tenant, policy, and durable-write gates.
 - Recorded ADR 1081 and DR-1081.
+
+## Build session 0996: Web security header baseline
+
+- Added global MIME, referrer, framing, and browser-capability headers to the Next web configuration.
+- Preserved microphone support for the app origin while disabling camera and geolocation.
+- Kept CSP and cross-origin embedding deferred until tenant media/CDN policy is modeled.
+- Recorded ADR 1082 and DR-1082.

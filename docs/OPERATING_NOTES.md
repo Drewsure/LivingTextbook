@@ -1447,3 +1447,10 @@ placeholder such as `<returned-package-folder>` and do not create a synthetic
 `evidence/return-package.json`. Wait for the actual isolated return folder,
 then set `LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT` to that real path and run
 `npm run verify:phaser-candidate-package` from the repository root.
+
+## Web security header procedure
+
+Run `npm run verify:web-security-headers` after changing Next configuration,
+microphone policy, embedding behavior, or tenant media hosting. Do not add a
+global CSP or relax same-origin framing until approved media/CDN and embed
+origins exist in the white-label policy contract.

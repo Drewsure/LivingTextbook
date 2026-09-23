@@ -1110,6 +1110,23 @@ References:
 - `scripts/verify-request-boundary.mjs`
 - `docs/verification/JSON_REQUEST_BOUNDARY_CHECKS.md`
 
+## FR-040: Tenant-Aware Web Security Policy
+
+Status: Baseline implemented; tenant-aware CSP and approved embedding remain
+future work.
+
+Requirement: When white-label tenants introduce distinct media/CDN hosts or
+approved embedding origins, derive a reviewed per-tenant security policy and
+replace the v1 same-origin framing baseline only through release evidence.
+Microphone permissions must remain separately governed by tenant entitlement
+and teacher approval.
+
+References:
+
+- `apps/web/next.config.ts`
+- `scripts/verify-web-security-headers.mjs`
+- `docs/verification/WEB_SECURITY_HEADERS_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

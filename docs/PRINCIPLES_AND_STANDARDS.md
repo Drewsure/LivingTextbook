@@ -6541,3 +6541,17 @@ This standard is recorded in
 `docs/decision-register/DR-1081-same-origin-mutation-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1081-same-origin-mutation-boundary.md`.
+
+## 420. Web Security Header Standard
+
+- Every web route must receive the approved MIME, referrer, framing, and
+  browser-capability header baseline.
+- Microphone is app-origin-only and remains subject to teacher/tenant policy;
+  camera and geolocation are disabled by default.
+- Cross-origin embedding and rigid CSP are not enabled until tenant media,
+  CDN, and embed origins are explicitly modeled and reviewed.
+
+This standard is recorded in
+`docs/decision-register/DR-1082-web-security-header-baseline.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1082-web-security-header-baseline.md`.
