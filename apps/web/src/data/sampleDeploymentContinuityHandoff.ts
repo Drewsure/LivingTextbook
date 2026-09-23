@@ -5,10 +5,14 @@ import {
 } from "@living-textbook/content-model";
 import { sampleDeploymentContinuityDecision } from "./sampleDeploymentContinuityDecision";
 import { samplePersistenceActivationPreflight } from "./samplePersistenceActivationPreflight";
+import { sampleWhiteLabelReleaseReadiness } from "./sampleWhiteLabelReleaseReadiness";
 
 export const sampleDeploymentContinuityHandoff: DeploymentContinuityHandoff = deriveDeploymentContinuityHandoff({
   handoffId: "sample-publisher-deployment-continuity-handoff",
   activationPreflightId: samplePersistenceActivationPreflight.packetId,
+  releaseReadinessId: sampleWhiteLabelReleaseReadiness.readinessId,
+  releaseReadinessStatus: sampleWhiteLabelReleaseReadiness.status,
+  releaseReadinessBlockers: sampleWhiteLabelReleaseReadiness.phases.flatMap((phase) => phase.blockers),
   decision: sampleDeploymentContinuityDecision,
   activationPreflightStatus: samplePersistenceActivationPreflight.status,
   activationPreflightBlockers: samplePersistenceActivationPreflight.blockedReasons,

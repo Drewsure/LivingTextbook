@@ -32,6 +32,7 @@ export function DeploymentContinuityHandoffPanel({
         <Fact label="Package" value={handoff.packageId} />
         <Fact label="Recommendation" value={handoff.recommendedOptionId} />
         <Fact label="Evidence bindings" value={String(handoff.evidenceBindings.length)} />
+        <Fact label="Release evidence" value={handoff.releaseReadinessStatus} />
       </dl>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-3">

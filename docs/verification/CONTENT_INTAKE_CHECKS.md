@@ -123,6 +123,8 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Confirm exactly three review artifacts exist: hosted PWA, local classroom
   server, and packaged textbook companion.
 - Confirm each artifact lists deliverables, recovery evidence, and blockers.
+- Confirm the packet binds the white-label release-readiness id and carries its
+  unresolved phase blockers.
 - Confirm export, installation, activation, and QR/route mutation remain false.
 - Confirm the route labels the packet review-only and does not expose a live
   download, installer, provider selector, or classroom launch control.

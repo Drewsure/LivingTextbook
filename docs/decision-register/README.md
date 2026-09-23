@@ -699,6 +699,7 @@ Current focused decision records also include:
 - `DR-1108-cross-deployment-persistence-recovery-rehearsal.md`
 - `DR-1109-deployment-continuity-decision.md`
 - `DR-1110-commercial-deployment-handoff.md`
+- `DR-1111-deployment-handoff-release-readiness-binding.md`
 
 ## Maintenance Rule
 

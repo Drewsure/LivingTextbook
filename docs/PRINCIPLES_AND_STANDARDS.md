@@ -6952,8 +6952,8 @@ This standard is recorded in
 ## 448. Commercial Deployment Handoff Standard
 
 - The commercial deployment handoff must bind hosted PWA, local classroom
-  server, and packaged companion review artifacts to one tenant, package, and
-  continuity-decision identity.
+  server, and packaged companion review artifacts to one tenant, package,
+  continuity-decision, and white-label release-readiness identity.
 - Each artifact must name its intended deliverables, recovery evidence, open
   blockers, and review-only status so a publisher or school can compare paths
   without receiving a false impression that a product has been installed or
@@ -6967,6 +6967,9 @@ This standard is recorded in
   license grant, or student-facing release. School policy, retention, rights,
   recovery, tenant isolation, audio, accessibility, and release evidence must
   be accepted separately before a future implementation work order can open.
+- Release-readiness blockers, including browser, privacy, and tenant-isolation
+  evidence, must be copied into the handoff blocker set; a path recommendation
+  cannot hide an unresolved release phase.
 - MiniStar remains sample tenant data. Other publishers must receive the same
   packet shape without inheriting MiniStar curriculum, assets, mascots, colors,
   language rules, or reward names.

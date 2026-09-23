@@ -1582,8 +1582,8 @@ Status: Implemented for the review-only provider-neutral handoff packet.
 Requirement: A saleable white-label deployment plan must produce one
 tenant-bound handoff packet with separate hosted PWA, local classroom server,
 and packaged companion artifacts. Each artifact must preserve deliverables,
-continuity evidence bindings, and blockers while keeping export, installation,
-activation, and QR/route mutation false.
+continuity and release-readiness evidence bindings, and blockers while keeping
+export, installation, activation, and QR/route mutation false.
 
 References:
 

@@ -5180,3 +5180,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   classroom launch, and QR/route mutation blocked.
 - Added compiled runtime validation and active-route coverage. Recorded ADR
   1110 and DR-1110.
+
+## Build session 1025: Deployment handoff release-readiness binding
+
+- Bound the commercial deployment handoff to the tenant/package-scoped
+  white-label release-readiness identity and status.
+- Propagated unresolved release-phase blockers, including browser, privacy,
+  and tenant-isolation evidence, into each review artifact.
+- Kept recommendations, export, installation, activation, and route mutation
+  separate from release approval.
+- Added runtime coverage for blocked release-readiness input. Recorded ADR
+  1111 and DR-1111.

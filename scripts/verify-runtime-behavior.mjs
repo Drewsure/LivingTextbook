@@ -2743,6 +2743,9 @@ try {
   const continuityHandoff = deploymentContinuityHandoff.deriveDeploymentContinuityHandoff({
     handoffId: "continuity-handoff-1",
     activationPreflightId: "activation-preflight-1",
+    releaseReadinessId: "release-readiness-1",
+    releaseReadinessStatus: "blocked",
+    releaseReadinessBlockers: ["Browser evidence remains review-only."],
     decision: continuityDecision,
     activationPreflightStatus: "blocked",
     activationPreflightBlockers: ["School policy remains open."],
@@ -2750,6 +2753,7 @@ try {
   assertEqual(continuityHandoff.status, "blocked");
   assertEqual(deploymentContinuityHandoff.validateDeploymentContinuityHandoff(continuityHandoff).length, 0);
   assertEqual(continuityHandoff.artifacts.length, 3);
+  assertEqual(continuityHandoff.releaseReadinessStatus, "blocked");
   assertIncludes(
     deploymentContinuityHandoff.validateDeploymentContinuityHandoff({
       ...continuityHandoff,

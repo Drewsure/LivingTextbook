@@ -26,6 +26,8 @@ export interface DeploymentContinuityHandoff {
   packageId: string;
   sourceDecisionId: string;
   activationPreflightId: string;
+  releaseReadinessId: string;
+  releaseReadinessStatus: "blocked" | "review-only" | "pilot-ready";
   status: DeploymentContinuityHandoffStatus;
   recommendedOptionId: PilotDeploymentOptionId;
   selectedOptionId: null;
@@ -42,6 +44,9 @@ export interface DeploymentContinuityHandoff {
 export interface DeploymentContinuityHandoffInput {
   handoffId: string;
   activationPreflightId: string;
+  releaseReadinessId: string;
+  releaseReadinessStatus: "blocked" | "review-only" | "pilot-ready";
+  releaseReadinessBlockers: string[];
   decision: DeploymentContinuityDecision;
   activationPreflightStatus: "blocked" | "ready";
   activationPreflightBlockers: string[];
@@ -73,7 +78,9 @@ export function deriveDeploymentContinuityHandoff(
     ...decisionErrors,
     ...input.decision.blockers,
     ...input.activationPreflightBlockers,
+    ...input.releaseReadinessBlockers,
     ...(input.activationPreflightStatus === "blocked" ? ["Durable-write activation preflight is blocked."] : []),
+    ...(input.releaseReadinessStatus === "blocked" ? ["White-label release readiness is blocked."] : []),
     "Handoff artifacts remain review-only and cannot be exported, installed, or activated.",
   ];
   const blockers = [...new Set(sharedBlockers)];
@@ -85,6 +92,8 @@ export function deriveDeploymentContinuityHandoff(
     packageId: input.decision.packageId,
     sourceDecisionId: input.decision.decisionId,
     activationPreflightId: input.activationPreflightId,
+    releaseReadinessId: input.releaseReadinessId,
+    releaseReadinessStatus: input.releaseReadinessStatus,
     status: decisionErrors.length > 0 || input.activationPreflightStatus === "blocked"
       ? "blocked"
       : blockers.length > 0
@@ -96,6 +105,7 @@ export function deriveDeploymentContinuityHandoff(
     evidenceBindings: [
       `continuity-decision:${input.decision.decisionId}`,
       `activation-preflight:${input.activationPreflightId}`,
+      `release-readiness:${input.releaseReadinessId}`,
       ...input.decision.evidenceBindings,
     ],
     blockers,
@@ -128,10 +138,13 @@ function createArtifact(
 
 export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuityHandoff): string[] {
   const errors: string[] = [];
-  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId"] as const) {
+  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId", "releaseReadinessId"] as const) {
     if (typeof handoff[field] !== "string" || handoff[field].trim().length === 0) {
       errors.push(`Deployment continuity handoff ${field} must be non-empty.`);
     }
+  }
+  if (!["blocked", "review-only", "pilot-ready"].includes(handoff.releaseReadinessStatus)) {
+    errors.push("Deployment continuity handoff releaseReadinessStatus is unsupported.");
   }
   if (handoff.selectedOptionId !== null) errors.push("Deployment continuity handoff must not select an option.");
   for (const field of ["exportAllowed", "installAllowed", "activateAllowed", "routeMutationAllowed"] as const) {
