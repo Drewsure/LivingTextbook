@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/assetRuntime.ts");
+const manifestRuntime = readSource("../packages/content-model/src/assetManifestRuntime.ts");
 const failures = [];
 
 for (const marker of [
@@ -35,6 +36,24 @@ for (const marker of [
   'sideEffect: "none"',
 ]) {
   if (!runtime.includes(marker)) failures.push(`Asset runtime missing marker: ${marker}`);
+}
+
+if (failures.length > 0) {
+  for (const failure of failures) console.error(`FAIL ${failure}`);
+  process.exit(1);
+}
+
+for (const marker of [
+  "AssetManifestPreview",
+  "deriveAssetManifestPreviews",
+  "validateAssetManifestPreview",
+  "Manifest persistence provider is not selected.",
+  "No manifest write",
+  "No object storage write",
+  "No asset promotion",
+  "No student-facing asset use",
+]) {
+  if (!manifestRuntime.includes(marker)) failures.push(`Asset manifest runtime missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

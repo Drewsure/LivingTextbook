@@ -71,3 +71,13 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
   downloads, asset promotion, and student-facing use.
 - Tenant mismatch and invalid asset file metadata are rejected before a future
   storage adapter could receive the packet.
+
+## Asset Manifest Release Preview
+
+- Validated asset evidence derives target-aware previews for game assets,
+  media manifests, and source documents.
+- Previews expose target mapping, rights, accessibility, release-control, and
+  persistence blockers.
+- Evidence-ready is explicitly a release-review state, not a storage,
+  promotion, download, playlist, game, assignment, or student-facing grant.
+- Manifest previews remain provider-neutral, review-only, and side-effect-free.

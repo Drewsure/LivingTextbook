@@ -1,4 +1,4 @@
-import type { AssetEvidencePacket } from "@living-textbook/content-model";
+import { deriveAssetManifestPreviews, type AssetEvidencePacket, type AssetManifestPreview } from "@living-textbook/content-model";
 
 const attachmentBlocks = [
   "No attachment upload",
@@ -74,3 +74,27 @@ export const sampleMediaAssetEvidencePacket: AssetEvidencePacket = {
   missingEvidence: ["media rights proof", "caption/transcript packet", "poster/fallback review", "release approval"],
   blockedActions: [...packetBlocks],
 };
+
+export const sampleLabelledDiagramAssetManifestPreviews: AssetManifestPreview[] = deriveAssetManifestPreviews(
+  sampleLabelledDiagramAssetEvidencePacket,
+  {
+    releaseGateId: "sample-publisher-l1-u1-release-gate",
+    target: "game-asset-manifest",
+    targetMappingReviewed: false,
+    rightsEvidenceReady: false,
+    accessibilityEvidenceReady: false,
+    releaseGateReady: false,
+  },
+);
+
+export const sampleMediaAssetManifestPreviews: AssetManifestPreview[] = deriveAssetManifestPreviews(
+  sampleMediaAssetEvidencePacket,
+  {
+    releaseGateId: "sample-publisher-l1-u1-release-gate",
+    target: "media-manifest",
+    targetMappingReviewed: false,
+    rightsEvidenceReady: false,
+    accessibilityEvidenceReady: false,
+    releaseGateReady: false,
+  },
+);

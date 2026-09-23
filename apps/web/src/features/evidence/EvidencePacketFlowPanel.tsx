@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { EvidencePacket, EvidencePacketFlow, EvidencePacketStatus } from "@/data/sampleEvidencePacketFlows";
 import { validateReviewSurfaceScope } from "@living-textbook/content-model";
 import type { AssetEvidencePacket } from "@living-textbook/content-model";
+import type { AssetManifestPreview } from "@living-textbook/content-model";
 
 interface EvidencePacketFlowPanelProps {
   flow: EvidencePacketFlow;
@@ -55,6 +56,7 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
       </div>
 
       {flow.assetEvidencePacket ? <AssetEvidenceBinding packet={flow.assetEvidencePacket} /> : null}
+      {flow.assetManifestPreviews ? <AssetManifestPreviewSection previews={flow.assetManifestPreviews} /> : null}
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -99,6 +101,41 @@ function AssetEvidenceBinding({ packet }: { packet: AssetEvidencePacket }) {
               <div className="flex justify-between gap-3"><dt>Bytes</dt><dd className="font-semibold">{attachment.file.sizeBytes.toLocaleString()}</dd></div>
             </dl>
             <p className="mt-3 text-xs font-semibold text-[var(--tenant-muted)]">Storage, download, and student-facing use blocked.</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AssetManifestPreviewSection({ previews }: { previews: AssetManifestPreview[] }) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Asset manifest preview</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Provider-neutral target and release gate</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            This preview reconciles evidence into a reusable manifest shape. It does not create a manifest record or activate the asset.
+          </p>
+        </div>
+        <StatusPill label="promotion blocked" tone="warning" />
+      </div>
+      <div className="mt-4 grid gap-3 xl:grid-cols-2">
+        {previews.map((preview) => (
+          <article key={preview.manifestId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="break-words text-sm font-bold text-[var(--tenant-text)]">{preview.assetId}</p>
+              <StatusPill label={preview.decision} tone="warning" />
+            </div>
+            <dl className="mt-3 grid gap-1 text-xs text-[var(--tenant-muted)]">
+              <div className="flex justify-between gap-3"><dt>Target</dt><dd className="font-semibold">{preview.target}</dd></div>
+              <div className="flex justify-between gap-3"><dt>Release gate</dt><dd className="break-all text-right font-semibold">{preview.releaseGateId}</dd></div>
+              <div className="flex justify-between gap-3"><dt>Blockers</dt><dd className="font-semibold">{preview.blockers.length}</dd></div>
+            </dl>
+            <ul className="mt-3 grid gap-1 text-xs leading-5 text-[var(--tenant-muted)]">
+              {preview.blockers.slice(0, 4).map((blocker, index) => <li key={`${preview.manifestId}-blocker-${index}`}>{blocker}</li>)}
+            </ul>
           </article>
         ))}
       </div>

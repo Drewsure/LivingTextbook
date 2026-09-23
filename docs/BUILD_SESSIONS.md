@@ -5117,3 +5117,17 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added runtime coverage for valid packets, tenant mismatch rejection, and
   normalization of blocked side effects.
 - Recorded ADR 1105 and DR-1105.
+
+## Build session 1020: Asset manifest release preview
+
+- Added a provider-neutral manifest preview for game-asset, media-manifest, and
+  source-document targets.
+- Derived target mapping, rights, accessibility, release-control, and
+  persistence blockers from the validated evidence packet.
+- Connected manifest previews to the teacher Labelled Diagram and media
+  evidence surfaces.
+- Defined evidence-ready as release-review readiness only; manifest writes,
+  storage, promotion, downloads, playlist/game binding, and student-facing use
+  remain blocked.
+- Added runtime coverage for derivation, preview validation, and mutation
+  rejection. Recorded ADR 1106 and DR-1106.

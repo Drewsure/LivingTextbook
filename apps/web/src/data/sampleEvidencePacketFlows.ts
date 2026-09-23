@@ -3,7 +3,13 @@ import {
   type ReviewSurfaceScopeKind,
 } from "@living-textbook/content-model";
 import type { AssetEvidencePacket } from "@living-textbook/content-model";
-import { sampleLabelledDiagramAssetEvidencePacket, sampleMediaAssetEvidencePacket } from "@/data/sampleAssetEvidencePacket";
+import {
+  sampleLabelledDiagramAssetEvidencePacket,
+  sampleLabelledDiagramAssetManifestPreviews,
+  sampleMediaAssetEvidencePacket,
+  sampleMediaAssetManifestPreviews,
+} from "@/data/sampleAssetEvidencePacket";
+import type { AssetManifestPreview } from "@living-textbook/content-model";
 
 export type EvidencePacketStatus = "preview-ready" | "missing-evidence" | "blocked";
 
@@ -28,6 +34,7 @@ export interface EvidencePacketFlow {
   packets: EvidencePacket[];
   blockedLiveActions: string[];
   assetEvidencePacket?: AssetEvidencePacket;
+  assetManifestPreviews?: AssetManifestPreview[];
 }
 
 export const sampleUploadEvidencePacketFlow: EvidencePacketFlow = {
@@ -205,6 +212,7 @@ export const sampleLabelledDiagramEvidencePacketFlow: EvidencePacketFlow = {
   handoffRule:
     "A Labelled Diagram image cannot become a game asset until the game asset manifest, anchor records, audio coverage, accessibility evidence, and release control packet are preserved.",
   assetEvidencePacket: sampleLabelledDiagramAssetEvidencePacket,
+  assetManifestPreviews: sampleLabelledDiagramAssetManifestPreviews,
   packets: [
     {
       packetId: "image-target-mapping-evidence",
@@ -287,6 +295,7 @@ export const sampleMediaEvidencePacketFlow: EvidencePacketFlow = {
   handoffRule:
     "Media can enrich a unit only after rights, manifest, optional playback, caption/fallback, learning-audio priority, checksums, and release-control evidence are preserved.",
   assetEvidencePacket: sampleMediaAssetEvidencePacket,
+  assetManifestPreviews: sampleMediaAssetManifestPreviews,
   packets: [
     {
       packetId: "media-target-mapping-evidence",

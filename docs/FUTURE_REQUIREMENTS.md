@@ -1482,6 +1482,24 @@ References:
 - `apps/web/src/data/sampleAssetEvidencePacket.ts`
 - `apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx`
 
+## FR-064: Asset Manifest Release Preview
+
+Status: Implemented for the provider-neutral review preview.
+
+Requirement: Validated asset evidence must be reconcilable into a target-aware
+manifest preview for game assets, media manifests, and source documents. The
+preview must show target mapping, rights, accessibility, release-control, and
+persistence blockers without selecting a provider or enabling side effects.
+
+"Evidence-ready" is a release-review state, not permission to store, promote,
+download, bind to a playlist or game, assign, or expose an asset to students.
+
+References:
+
+- `packages/content-model/src/assetManifestRuntime.ts`
+- `apps/web/src/data/sampleAssetEvidencePacket.ts`
+- `apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx`
+
 ## FR-062: Asset Intake File Boundary
 
 Status: Implemented for the review-only asset runtime boundary.

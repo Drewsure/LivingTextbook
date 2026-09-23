@@ -6877,3 +6877,19 @@ This standard is recorded in
 `docs/decision-register/DR-1105-asset-evidence-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1105-asset-evidence-binding.md`.
+
+## 444. Asset Manifest Release-Preview Standard
+
+- Asset evidence may be reconciled into a provider-neutral manifest preview
+  for a game asset, media manifest, or source-document target.
+- Manifest previews must expose target mapping, rights, accessibility,
+  release-control, and persistence blockers before any future adapter can be
+  selected.
+- "Evidence-ready" means ready for release review only. Manifest persistence,
+  promotion, download, playlist/game binding, and student-facing use remain
+  separately blocked until their own gates pass.
+
+This standard is recorded in
+`docs/decision-register/DR-1106-asset-manifest-release-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1106-asset-manifest-release-preview.md`.

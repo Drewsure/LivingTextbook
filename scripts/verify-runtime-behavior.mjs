@@ -33,6 +33,7 @@ try {
     "packages/content-model/src/entitlementRuntime.ts",
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/assetEvidencePacket.ts",
+    "packages/content-model/src/assetManifestRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
@@ -152,6 +153,7 @@ try {
   const entitlement = require(join(output, "entitlementRuntime.js"));
   const asset = require(join(output, "assetRuntime.js"));
   const assetEvidence = require(join(output, "assetEvidencePacket.js"));
+  const assetManifest = require(join(output, "assetManifestRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
   const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
@@ -1184,6 +1186,14 @@ try {
   assertEqual(assetEvidence.validateAssetEvidencePacket(assetEvidencePacket).length, 0);
   assertIncludes(assetEvidence.validateAssetEvidencePacket({ ...assetEvidencePacket, attachments: [{ ...assetEvidencePacket.attachments[0], tenantId: "tenant-2" }] }), "asset evidence attachment attachment-1 must match packet tenant");
   assertEqual(assetEvidence.createReviewOnlyAssetEvidencePacket({ ...assetEvidencePacket, blockedActions: [], attachments: [{ ...assetEvidencePacket.attachments[0], blockedActions: [], storageWriteAllowed: true, downloadAllowed: true, studentFacingAllowed: true }] }).attachments[0].storageWriteAllowed, false);
+  const manifestPreviews = assetManifest.deriveAssetManifestPreviews(assetEvidencePacket, {
+    releaseGateId: "release-gate-1", target: "media-manifest", targetMappingReviewed: false,
+    rightsEvidenceReady: false, accessibilityEvidenceReady: false, releaseGateReady: false,
+  });
+  assertEqual(manifestPreviews.length, 1);
+  assertEqual(manifestPreviews[0].decision, "needs-review");
+  assertEqual(assetManifest.validateAssetManifestPreview(manifestPreviews[0]).length, 0);
+  assertIncludes(assetManifest.validateAssetManifestPreview({ ...manifestPreviews[0], studentFacingAllowed: true }), "asset manifest preview must block storage, promotion, and student-facing use");
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",

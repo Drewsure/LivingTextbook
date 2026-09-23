@@ -1680,6 +1680,7 @@ export * from "./teacherReportPersistenceRuntime";
 export * from "./canonicalGameReport";
 export * from "./assetRuntime";
 export * from "./assetEvidencePacket";
+export * from "./assetManifestRuntime";
 export * from "./contentPackageRuntime";
 export * from "./launchRuntime";
 export * from "./assignmentRuntime";
