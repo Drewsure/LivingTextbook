@@ -26,6 +26,8 @@ Confirm:
 - Missing verification run or revision lineage is rejected.
 - Fresh observations pass against an explicit reference time; future-dated and
   observations older than seven days are rejected.
+- Browser evidence mode is explicit; coded rehearsal cannot satisfy a
+  pilot-ready packet without browser automation or human observation.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

@@ -26,6 +26,7 @@ export const sampleWhiteLabelReleaseReadiness: WhiteLabelReleaseReadiness = {
   verificationRunId: "foundation-verification-run-2026-09-22-001",
   verificationRevision: "legacy-source-import:eb60c048",
   verificationReferenceAt: "2026-09-23T00:00:00.000Z",
+  browserEvidenceMode: "coded-rehearsal",
   status: "blocked",
   phases: [
     {

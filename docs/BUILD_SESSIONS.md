@@ -5237,3 +5237,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   surface and added focused negative coverage.
 - Kept release, persistence, export, installation, provider activation, QR
   mutation, and student launch blocked. Recorded ADR 1115 and DR-1115.
+
+## Build session 1030: White-label browser evidence integrity
+
+- Added an explicit browser evidence mode: coded rehearsal, browser
+  automation, or human observation.
+- Kept the current sample honestly blocked with coded rehearsal evidence and
+  rejected coded-only browser evidence for a future pilot-ready packet.
+- Added focused negative coverage and kept all release, persistence, export,
+  installation, provider activation, QR mutation, and student launch paths
+  blocked. Recorded ADR 1116 and DR-1116.

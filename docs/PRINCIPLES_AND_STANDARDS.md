@@ -7057,3 +7057,21 @@ This standard is recorded in
 `docs/decision-register/DR-1115-white-label-evidence-freshness.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1115-white-label-evidence-freshness.md`.
+
+## 453. White-Label Browser Evidence Integrity Standard
+
+- Coded route or component rehearsal must be labeled `coded-rehearsal`; it
+  must not be presented as proof that a real browser interaction was observed.
+- A browser evidence record may use `browser-automation` or `human-observed`
+  when that stronger evidence actually exists.
+- A future `pilot-ready` release packet must reject coded-only browser evidence;
+  the current sample remains blocked and may use coded rehearsal while the
+  stronger evidence lane is still open.
+- Browser evidence mode is review metadata only. It cannot authorize release,
+  persistence, export, installation, provider activation, QR mutation, or
+  student launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1116-white-label-browser-evidence-integrity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1116-white-label-browser-evidence-integrity.md`.

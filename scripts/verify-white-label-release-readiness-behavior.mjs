@@ -67,6 +67,16 @@ try {
   malformedVerificationReference.verificationReferenceAt = "not-a-timestamp";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(malformedVerificationReference), "verificationReferenceAt must be an ISO timestamp", "verification reference format rejection");
 
+  const unsupportedBrowserMode = structuredClone(valid);
+  unsupportedBrowserMode.browserEvidenceMode = "route-check";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(unsupportedBrowserMode), "browserEvidenceMode is unsupported", "browser evidence mode rejection");
+
+  const codedPilotBrowserEvidence = structuredClone(valid);
+  codedPilotBrowserEvidence.status = "pilot-ready";
+  codedPilotBrowserEvidence.phases = codedPilotBrowserEvidence.phases.map((phase) => ({ ...phase, status: "ready", blockers: [] }));
+  codedPilotBrowserEvidence.browserEvidenceMode = "coded-rehearsal";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(codedPilotBrowserEvidence), "requires browser automation or human-observed browser evidence", "coded browser evidence rejection");
+
   const wrongPackage = structuredClone(valid);
   wrongPackage.packageEvidence.packageId = "other-tenant-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackage), "must match the readiness package", "package mismatch rejection");
@@ -210,6 +220,7 @@ function buildValidReadiness(model) {
     verificationRunId: "behavior-verification-run",
     verificationRevision: "legacy-source-import:behavior-revision",
     verificationReferenceAt: "2026-09-23T00:00:00.000Z",
+    browserEvidenceMode: "human-observed",
     status: "blocked",
     phases: model.WHITE_LABEL_RELEASE_REQUIRED_PHASE_IDS.map((phaseId, index) => ({
       phaseId,

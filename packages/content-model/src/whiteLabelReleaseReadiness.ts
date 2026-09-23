@@ -37,6 +37,7 @@ export type WhiteLabelReleaseQualityEvidenceKind =
   | "browser-rehearsal"
   | "privacy-negative-test"
   | "tenant-negative-test";
+export type WhiteLabelReleaseBrowserEvidenceMode = "coded-rehearsal" | "browser-automation" | "human-observed";
 
 export interface WhiteLabelReleaseQualityEvidence {
   checkId: WhiteLabelReleaseQualityCheckId;
@@ -115,6 +116,7 @@ export interface WhiteLabelReleaseReadiness {
   verificationRunId: string;
   verificationRevision: string;
   verificationReferenceAt: string;
+  browserEvidenceMode: WhiteLabelReleaseBrowserEvidenceMode;
   status: WhiteLabelReleaseReadinessStatus;
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
@@ -165,7 +167,7 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   const errors: string[] = [];
   if (!isRecord(readiness)) return ["White-label release readiness must be a JSON object."];
 
-  for (const field of ["readinessId", "tenantId", "packageId", "label", "verificationRunId", "verificationRevision", "verificationReferenceAt", "nextAction", "note"] as const) {
+  for (const field of ["readinessId", "tenantId", "packageId", "label", "verificationRunId", "verificationRevision", "verificationReferenceAt", "browserEvidenceMode", "nextAction", "note"] as const) {
     if (typeof readiness[field] !== "string" || readiness[field].trim().length === 0) {
       errors.push(`White-label release readiness ${field} must be non-empty.`);
     }
@@ -173,9 +175,15 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   if (!isIsoTimestamp(readiness.verificationReferenceAt)) {
     errors.push("White-label release readiness verificationReferenceAt must be an ISO timestamp.");
   }
-
+  const browserEvidenceMode = readString(readiness, "browserEvidenceMode");
+  if (!["coded-rehearsal", "browser-automation", "human-observed"].includes(browserEvidenceMode)) {
+    errors.push("White-label release readiness browserEvidenceMode is unsupported.");
+  }
   const status = readString(readiness, "status");
   if (!["blocked", "review-only", "pilot-ready"].includes(status)) errors.push("White-label release readiness status is unsupported.");
+  if (status === "pilot-ready" && browserEvidenceMode === "coded-rehearsal") {
+    errors.push("Pilot-ready white-label release readiness requires browser automation or human-observed browser evidence.");
+  }
   const phases = readPhases(readiness, errors);
   if (phases.length !== WHITE_LABEL_RELEASE_REQUIRED_PHASE_IDS.length) errors.push("White-label release readiness must contain all eight release phases.");
 

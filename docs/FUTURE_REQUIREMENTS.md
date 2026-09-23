@@ -1571,6 +1571,22 @@ References:
 - `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
 - `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
 
+## FR-073: White-Label Browser Evidence Integrity
+
+Status: Implemented for the review-only release-readiness packet.
+
+Requirement: Browser evidence must identify whether it is coded rehearsal,
+browser automation, or human observation. Coded rehearsal may support a
+blocked review packet, but cannot satisfy a future pilot-ready packet by
+itself. This distinction must remain evidence-only and must not activate any
+release, persistence, export, installation, provider, QR, or student path.
+
+References:
+
+- `packages/content-model/src/whiteLabelReleaseReadiness.ts`
+- `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
+- `scripts/verify-white-label-release-readiness-behavior.mjs`
+
 ## FR-072: White-Label Evidence Freshness
 
 Status: Implemented for the review-only release-readiness packet.

@@ -704,6 +704,7 @@ Current focused decision records also include:
 - `DR-1113-white-label-quality-evidence-basis.md`
 - `DR-1114-white-label-verification-run-lineage.md`
 - `DR-1115-white-label-evidence-freshness.md`
+- `DR-1116-white-label-browser-evidence-integrity.md`
 
 ## Maintenance Rule
 

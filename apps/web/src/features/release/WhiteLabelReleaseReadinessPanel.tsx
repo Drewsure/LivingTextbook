@@ -44,6 +44,7 @@ export function WhiteLabelReleaseReadinessPanel({
           <Fact label="Verification run" value={readiness.verificationRunId} />
           <Fact label="Verification revision" value={readiness.verificationRevision} />
           <Fact label="Evidence as of" value={readiness.verificationReferenceAt} />
+          <Fact label="Browser evidence" value={readiness.browserEvidenceMode} />
           <Fact label="Evidence freshness" value={`${WHITE_LABEL_RELEASE_EVIDENCE_FRESHNESS_WINDOW_MS / (24 * 60 * 60 * 1000)} days, review-only`} />
           <Fact label="Phases" value={String(readiness.phases.length)} />
           <Fact label="Next owner action" value={readiness.nextAction} />
