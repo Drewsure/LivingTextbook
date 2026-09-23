@@ -7146,3 +7146,19 @@ This standard is recorded in
 `docs/decision-register/DR-1120-release-readiness-observation-bridge.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1120-release-readiness-observation-bridge.md`.
+
+## 458. Adult Observation Adjudication Standard
+
+- A browser evidence handoff may receive an adult review decision only through
+  an explicit reviewer action that records a reviewer reference and note.
+- The decision must be bound to the exact tenant, package, launch, unit,
+  student session, source observation, and handoff identities.
+- The only review outcomes are accepted for the next review gate or blocked;
+  neither outcome is release approval or permission to launch students.
+- Adjudication remains local/review-only until separate hosted persistence,
+  retention, authorization, school-policy, and release-control decisions clear.
+
+This standard is recorded in
+`docs/decision-register/DR-1121-adult-observation-adjudication.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1121-adult-observation-adjudication.md`.

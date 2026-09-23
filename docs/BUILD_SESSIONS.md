@@ -5290,3 +5290,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   present receipts show scope and blocked actions without changing readiness,
   exporting data, writing hosted persistence, or enabling release. Recorded ADR
   1120 and DR-1120.
+
+## Build session 1035: Adult observation adjudication record
+
+- Added a tenant, package, launch, unit, student-session, and handoff-bound
+  adjudication contract for explicit adult review decisions.
+- Added a browser-local store and release-readiness controls for `accepted for
+  next review gate` or `blocked`, requiring a reviewer reference and note.
+- Kept adjudication review-only: it cannot become release approval, promotion,
+  hosted persistence, evidence export, QR mutation, assignment, or student
+  launch. Recorded ADR 1121 and DR-1121.

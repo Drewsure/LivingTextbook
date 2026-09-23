@@ -9,6 +9,7 @@ npm run verify:runtime-behavior
 npm run verify:browser-rehearsal-observation
 npm run verify:browser-rehearsal-observation-runtime
 npm run verify:browser-rehearsal-observation-handoff
+npm run verify:browser-rehearsal-observation-adjudication
 ```
 
 Confirm:
@@ -41,6 +42,11 @@ Confirm:
   student launch boundaries explicit.
 - Release readiness reads only the exact local observation scope and keeps a
   missing receipt distinguishable from a verified browser observation.
+- Adult adjudication requires an explicit reviewer reference and note, binds to
+  the exact observation handoff, and records only an accepted-for-next-gate or
+  blocked review outcome.
+- Adjudication remains review-only: it cannot become release approval, hosted
+  persistence, export, QR mutation, assignment, or student launch.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

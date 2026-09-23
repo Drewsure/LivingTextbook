@@ -1620,6 +1620,24 @@ References:
 - `apps/web/src/app/teacher/release-readiness/page.tsx`
 - `docs/WHITE_LABEL_RELEASE_READINESS_STANDARD.md`
 
+## FR-078: Adult Observation Adjudication Record
+
+Status: Implemented for the review-only local evidence lane.
+
+Requirement: A teacher or platform owner must be able to record an explicit,
+tenant- and handoff-bound decision that browser evidence is accepted for the
+next review gate or is blocked. The record must require a reviewer reference
+and note, preserve exact observation identity, and remain separate from
+release approval, persistence activation, export, assignment, QR mutation,
+and student launch.
+
+References:
+
+- `packages/content-model/src/browserRehearsalObservationAdjudication.ts`
+- `apps/web/src/features/persistence/browserRehearsalObservationAdjudicationStore.ts`
+- `apps/web/src/features/release/BrowserEvidenceAdjudicationPanel.tsx`
+- `scripts/verify-browser-rehearsal-observation-adjudication.mjs`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.

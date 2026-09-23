@@ -709,6 +709,7 @@ Current focused decision records also include:
 - `DR-1118-teacher-observation-capture.md`
 - `DR-1119-observation-review-handoff-preview.md`
 - `DR-1120-release-readiness-observation-bridge.md`
+- `DR-1121-adult-observation-adjudication.md`
 
 ## Maintenance Rule
 
