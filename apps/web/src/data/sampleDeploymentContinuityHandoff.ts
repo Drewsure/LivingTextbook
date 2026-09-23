@@ -11,6 +11,8 @@ export const sampleDeploymentContinuityHandoff: DeploymentContinuityHandoff = de
   handoffId: "sample-publisher-deployment-continuity-handoff",
   activationPreflightId: samplePersistenceActivationPreflight.packetId,
   releaseReadinessId: sampleWhiteLabelReleaseReadiness.readinessId,
+  releaseReadinessTenantId: sampleWhiteLabelReleaseReadiness.tenantId,
+  releaseReadinessPackageId: sampleWhiteLabelReleaseReadiness.packageId,
   releaseReadinessStatus: sampleWhiteLabelReleaseReadiness.status,
   releaseReadinessBlockers: sampleWhiteLabelReleaseReadiness.phases.flatMap((phase) => phase.blockers),
   decision: sampleDeploymentContinuityDecision,

@@ -2740,20 +2740,32 @@ try {
     }),
     "Deployment continuity decision classroomLaunchAllowed must remain false.",
   );
-  const continuityHandoff = deploymentContinuityHandoff.deriveDeploymentContinuityHandoff({
+  const continuityHandoffInput = {
     handoffId: "continuity-handoff-1",
     activationPreflightId: "activation-preflight-1",
     releaseReadinessId: "release-readiness-1",
+    releaseReadinessTenantId: "tenant-1",
+    releaseReadinessPackageId: "package-1",
     releaseReadinessStatus: "blocked",
     releaseReadinessBlockers: ["Browser evidence remains review-only."],
     decision: continuityDecision,
     activationPreflightStatus: "blocked",
     activationPreflightBlockers: ["School policy remains open."],
-  });
+  };
+  const continuityHandoff = deploymentContinuityHandoff.deriveDeploymentContinuityHandoff(continuityHandoffInput);
   assertEqual(continuityHandoff.status, "blocked");
   assertEqual(deploymentContinuityHandoff.validateDeploymentContinuityHandoff(continuityHandoff).length, 0);
   assertEqual(continuityHandoff.artifacts.length, 3);
   assertEqual(continuityHandoff.releaseReadinessStatus, "blocked");
+  assertEqual(continuityHandoff.releaseReadinessTenantId, "tenant-1");
+  assertEqual(continuityHandoff.releaseReadinessPackageId, "package-1");
+  assertIncludes(
+    deploymentContinuityHandoff.deriveDeploymentContinuityHandoff({
+      ...continuityHandoffInput,
+      releaseReadinessTenantId: "other-tenant",
+    }).blockers,
+    "White-label release readiness tenant does not match the deployment decision tenant.",
+  );
   assertIncludes(
     deploymentContinuityHandoff.validateDeploymentContinuityHandoff({
       ...continuityHandoff,

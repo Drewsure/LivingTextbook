@@ -128,3 +128,13 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Confirm export, installation, activation, and QR/route mutation remain false.
 - Confirm the route labels the packet review-only and does not expose a live
   download, installer, provider selector, or classroom launch control.
+
+## Deployment Handoff Identity Reconciliation
+
+- Confirm the packet carries explicit release-readiness tenant and package
+  identities.
+- Confirm both identities match the deployment decision tenant and package.
+- Confirm a mismatched tenant or package becomes a blocker on the handoff and
+  its hosted, local, and packaged artifacts.
+- Confirm identity reconciliation does not enable provider selection,
+  persistence, installation, promotion, QR mutation, or student launch.

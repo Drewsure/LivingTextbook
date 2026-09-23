@@ -5191,3 +5191,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   separate from release approval.
 - Added runtime coverage for blocked release-readiness input. Recorded ADR
   1111 and DR-1111.
+
+## Build session 1026: Deployment handoff identity reconciliation
+
+- Added explicit release-readiness tenant and package identities to the
+  commercial deployment handoff and its review surface.
+- Added mismatch blockers so cross-tenant or cross-package evidence cannot be
+  accepted because an ID or display label is merely non-empty.
+- Kept identity reconciliation evidence-only; provider selection, persistence,
+  installation, promotion, QR mutation, and student launch remain blocked.
+- Added runtime coverage for a mismatched release-readiness tenant and package
+  scope. Recorded ADR 1112 and DR-1112.

@@ -1591,6 +1591,22 @@ References:
 - `apps/web/src/data/sampleDeploymentContinuityHandoff.ts`
 - `apps/web/src/features/deployment/DeploymentContinuityHandoffPanel.tsx`
 
+## FR-069: Deployment Handoff Identity Reconciliation
+
+Status: Implemented for the review-only deployment handoff contract.
+
+Requirement: The commercial handoff must retain explicit release-readiness
+tenant and package identities and reject identity drift by exposing it as a
+blocker on the handoff and its three review artifacts. This check must remain
+separate from provider selection, persistence activation, installation,
+promotion, QR mutation, and student launch.
+
+References:
+
+- `packages/content-model/src/deploymentContinuityHandoff.ts`
+- `scripts/verify-runtime-behavior.mjs`
+- `docs/verification/CONTENT_INTAKE_CHECKS.md`
+
 ## FR-061: Source Intake File Boundary
 
 Status: Implemented for the review-only source runtime.

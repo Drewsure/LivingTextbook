@@ -700,6 +700,7 @@ Current focused decision records also include:
 - `DR-1109-deployment-continuity-decision.md`
 - `DR-1110-commercial-deployment-handoff.md`
 - `DR-1111-deployment-handoff-release-readiness-binding.md`
+- `DR-1112-deployment-handoff-identity-reconciliation.md`
 
 ## Maintenance Rule
 

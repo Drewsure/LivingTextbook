@@ -6981,3 +6981,20 @@ This standard is recorded in
 `docs/decision-register/DR-1110-commercial-deployment-handoff.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1110-commercial-deployment-handoff.md`.
+
+## 449. Deployment Handoff Identity Reconciliation Standard
+
+- A deployment handoff must carry the release-readiness tenant and package
+  identities as explicit fields, not only as an opaque evidence binding.
+- The release-readiness tenant and package must match the deployment decision
+  tenant and package before the handoff can be considered internally valid.
+- Any mismatch must become a visible blocker on the handoff and every hosted,
+  local, or packaged artifact; it must never be repaired by trusting the
+  display label, route, or recommendation.
+- The identity check is evidence-only. It does not select a provider, enable
+  persistence, install a companion, mutate QR routes, or launch students.
+
+This standard is recorded in
+`docs/decision-register/DR-1112-deployment-handoff-identity-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1112-deployment-handoff-identity-reconciliation.md`.
