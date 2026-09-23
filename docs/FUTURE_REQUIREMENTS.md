@@ -1554,6 +1554,22 @@ References:
 - `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
 - `scripts/verify-white-label-release-readiness-behavior.mjs`
 
+## FR-074: Browser Rehearsal Observation Receipt
+
+Status: Implemented as a provider-neutral review-only contract.
+
+Requirement: A future human-observed or automated browser evidence claim must
+be represented by a tenant/package/session-bound receipt with explicit route
+and check scope, reviewer role, observation time, and blocked promotion and
+student-launch flags. The receipt must remain separate from persistence,
+approval, export, assignment, and release activation.
+
+References:
+
+- `packages/content-model/src/browserRehearsalObservation.ts`
+- `scripts/verify-browser-rehearsal-observation.mjs`
+- `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.

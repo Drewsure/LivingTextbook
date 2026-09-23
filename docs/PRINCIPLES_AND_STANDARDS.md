@@ -7075,3 +7075,21 @@ This standard is recorded in
 `docs/decision-register/DR-1116-white-label-browser-evidence-integrity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1116-white-label-browser-evidence-integrity.md`.
+
+## 454. Browser Rehearsal Observation Receipt Standard
+
+- A stronger browser evidence claim must be represented by a structured,
+  tenant/package/session-bound observation receipt, not by a display label.
+- Human-observed receipts require a teacher reviewer reference; automated
+  receipts require an automation reviewer reference. Both must list the exact
+  app-relative routes and checks observed.
+- Receipts are review-only and must keep release promotion and student
+  production launch false. A receipt cannot become a persistence write, export,
+  approval, QR mutation, or assignment shortcut.
+- A receipt is evidence for later adjudication, not a claim that the current
+  sample tenant is pilot-ready.
+
+This standard is recorded in
+`docs/decision-register/DR-1117-browser-rehearsal-observation-receipt.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1117-browser-rehearsal-observation-receipt.md`.

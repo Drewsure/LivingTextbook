@@ -28,6 +28,9 @@ Confirm:
   observations older than seven days are rejected.
 - Browser evidence mode is explicit; coded rehearsal cannot satisfy a
   pilot-ready packet without browser automation or human observation.
+- Stronger browser evidence uses a structured observation receipt with tenant,
+  package, session, route, check, reviewer, timestamp, and blocked-side-effect
+  fields.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

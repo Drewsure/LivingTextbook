@@ -5247,3 +5247,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added focused negative coverage and kept all release, persistence, export,
   installation, provider activation, QR mutation, and student launch paths
   blocked. Recorded ADR 1116 and DR-1116.
+
+## Build session 1031: Browser rehearsal observation receipt
+
+- Added a structured observation receipt for future human-observed or
+  browser-automated evidence.
+- Bound the receipt to tenant, package, launch, unit, student session, route
+  paths, check ids, reviewer role, and observation time.
+- Rejected role drift, tenant drift, duplicate routes, and any promotion or
+  student-launch flag. Recorded ADR 1117 and DR-1117.
