@@ -1539,6 +1539,21 @@ References:
 - `scripts/verify-asset-runtime.mjs`
 - `docs/verification/CONTENT_INTAKE_CHECKS.md`
 
+## FR-070: White-Label Quality Evidence Basis
+
+Status: Implemented for review-only release-readiness evidence.
+
+Requirement: Every quality record must declare a check-specific evidence kind
+and a non-empty unique scope. Browser rehearsal, privacy negative tests, and
+tenant-isolation negative tests must remain distinguishable from typecheck,
+build, route-sweep, and generic runtime evidence.
+
+References:
+
+- `packages/content-model/src/whiteLabelReleaseReadiness.ts`
+- `apps/web/src/data/sampleWhiteLabelReleaseReadiness.ts`
+- `scripts/verify-white-label-release-readiness-behavior.mjs`
+
 ## FR-066: Cross-Deployment Persistence Recovery Rehearsal
 
 Status: Implemented for the provider-neutral review rehearsal.

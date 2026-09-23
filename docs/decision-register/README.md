@@ -701,6 +701,7 @@ Current focused decision records also include:
 - `DR-1110-commercial-deployment-handoff.md`
 - `DR-1111-deployment-handoff-release-readiness-binding.md`
 - `DR-1112-deployment-handoff-identity-reconciliation.md`
+- `DR-1113-white-label-quality-evidence-basis.md`
 
 ## Maintenance Rule
 

@@ -5202,3 +5202,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   installation, promotion, QR mutation, and student launch remain blocked.
 - Added runtime coverage for a mismatched release-readiness tenant and package
   scope. Recorded ADR 1112 and DR-1112.
+
+## Build session 1027: White-label quality evidence basis
+
+- Added check-specific evidence kinds and non-empty unique scopes to all seven
+  white-label release quality records.
+- Distinguished command, route-sweep, browser-rehearsal, privacy-negative-test,
+  and tenant-negative-test evidence so one green signal cannot impersonate
+  another required gate.
+- Added focused negative coverage for mislabeled browser evidence and missing
+  tenant-isolation scope. Recorded ADR 1113 and DR-1113.
+- Kept all release, persistence, export, installation, provider, and student
+  launch permissions disabled.

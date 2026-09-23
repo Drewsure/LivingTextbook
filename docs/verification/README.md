@@ -80,6 +80,7 @@ Focused verification supplements:
 - `docs/verification/PUBLISHER_MAINTENANCE_CHANGE_STORAGE_CHECKS.md`
 - `docs/verification/PILOT_READINESS_GATE_CHECKS.md`
 - `docs/verification/PILOT_RELEASE_CANDIDATE_CHECKS.md`
+- `docs/verification/WHITE_LABEL_RELEASE_READINESS_CHECKS.md`
 - `docs/verification/PUBLISHER_MAINTENANCE_CHECKS.md`
 - `docs/verification/RELEASE_CANDIDATE_DURABLE_RECORD_CHECKS.md`
 - `docs/verification/RELEASE_CANDIDATE_MIGRATION_SPEC_CHECKS.md`

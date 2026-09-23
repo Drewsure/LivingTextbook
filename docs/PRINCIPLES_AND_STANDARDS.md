@@ -6998,3 +6998,21 @@ This standard is recorded in
 `docs/decision-register/DR-1112-deployment-handoff-identity-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1112-deployment-handoff-identity-reconciliation.md`.
+
+## 450. White-Label Quality Evidence Basis Standard
+
+- Every release quality record must name an explicit evidence kind and a
+  non-empty, unique scope; a free-form source label alone is insufficient.
+- Typecheck, production build, and runtime records use command evidence;
+  active routes use route-sweep evidence; browser uses browser-rehearsal
+  evidence; privacy and tenant isolation use negative-test evidence.
+- The evidence basis and scope must match the quality check it claims to
+  verify. A browser route check cannot silently stand in for browser rehearsal,
+  and a generic runtime pass cannot silently stand in for tenant isolation.
+- Evidence remains review-only and cannot authorize production approval,
+  student launch, persistence, export, installation, or provider activation.
+
+This standard is recorded in
+`docs/decision-register/DR-1113-white-label-quality-evidence-basis.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1113-white-label-quality-evidence-basis.md`.

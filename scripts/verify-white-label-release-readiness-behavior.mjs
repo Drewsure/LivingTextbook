@@ -43,6 +43,14 @@ try {
   qualityMismatch.qualityEvidence[0].verified = false;
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityMismatch), "must match its quality check", "quality evidence mismatch rejection");
 
+  const qualityKindMismatch = structuredClone(valid);
+  qualityKindMismatch.qualityEvidence.find((evidence) => evidence.checkId === "browser").evidenceKind = "command";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityKindMismatch), "must use evidence kind browser-rehearsal", "quality evidence kind rejection");
+
+  const qualityScopeMissing = structuredClone(valid);
+  qualityScopeMissing.qualityEvidence.find((evidence) => evidence.checkId === "tenantIsolation").scope = [];
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityScopeMissing), "scope must not be empty", "quality evidence scope rejection");
+
   const qualityTenantMismatch = structuredClone(valid);
   qualityTenantMismatch.qualityEvidence[0].tenantId = "other-tenant";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(qualityTenantMismatch), "must match the readiness tenant", "quality tenant mismatch rejection");
@@ -182,20 +190,22 @@ function buildValidReadiness(model) {
       tenantIsolation: true,
     },
     qualityEvidence: [
-      ["typecheck", "Web typecheck", "typecheck:web"],
-      ["productionBuild", "Production build", "web-production-build"],
-      ["activeRoutes", "Active route sweep", "active-route-verification"],
-      ["runtime", "Runtime composition", "verify:foundation-composition"],
-      ["browser", "Browser rehearsal", "browser-rehearsal-evidence"],
-      ["privacy", "Privacy boundary", "privacy-boundary-verification"],
-      ["tenantIsolation", "Tenant isolation", "tenant-isolation-verification"],
-    ].map(([checkId, label, sourceRecord]) => ({
+      ["typecheck", "Web typecheck", "command", "typecheck:web", ["apps/web"]],
+      ["productionBuild", "Production build", "command", "web-production-build", ["apps/web"]],
+      ["activeRoutes", "Active route sweep", "route-sweep", "active-route-verification", ["89 active routes"]],
+      ["runtime", "Runtime composition", "command", "verify:foundation-composition", ["shared runtime contracts"]],
+      ["browser", "Browser rehearsal", "browser-rehearsal", "browser-rehearsal-evidence", ["/launch/demo-unit-1"]],
+      ["privacy", "Privacy boundary", "privacy-negative-test", "privacy-boundary-verification", ["raw audio exclusion"]],
+      ["tenantIsolation", "Tenant isolation", "tenant-negative-test", "tenant-isolation-verification", ["cross-tenant rejection"]],
+    ].map(([checkId, label, evidenceKind, sourceRecord, scope]) => ({
       checkId,
       tenantId: "sample-publisher",
       packageId: "sample-publisher-package",
       label,
       verified: true,
+      evidenceKind,
       sourceRecord,
+      scope,
       observedAt: "2026-09-22T00:00:00.000Z",
       notes: "Evidence observed in the review-only foundation gate.",
     })),

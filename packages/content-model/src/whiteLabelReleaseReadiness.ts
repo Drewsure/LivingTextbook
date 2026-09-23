@@ -31,6 +31,12 @@ export interface WhiteLabelReleaseQualityChecks {
 }
 
 export type WhiteLabelReleaseQualityCheckId = keyof WhiteLabelReleaseQualityChecks;
+export type WhiteLabelReleaseQualityEvidenceKind =
+  | "command"
+  | "route-sweep"
+  | "browser-rehearsal"
+  | "privacy-negative-test"
+  | "tenant-negative-test";
 
 export interface WhiteLabelReleaseQualityEvidence {
   checkId: WhiteLabelReleaseQualityCheckId;
@@ -38,7 +44,9 @@ export interface WhiteLabelReleaseQualityEvidence {
   packageId: string;
   label: string;
   verified: boolean;
+  evidenceKind: WhiteLabelReleaseQualityEvidenceKind;
   sourceRecord: string;
+  scope: string[];
   observedAt: string;
   notes: string;
 }
@@ -188,6 +196,15 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
 
   const qualityEvidence = readiness.qualityEvidence;
   const qualityCheckIds = ["typecheck", "productionBuild", "activeRoutes", "runtime", "browser", "privacy", "tenantIsolation"] as const;
+  const expectedEvidenceKinds: Record<WhiteLabelReleaseQualityCheckId, WhiteLabelReleaseQualityEvidenceKind> = {
+    typecheck: "command",
+    productionBuild: "command",
+    activeRoutes: "route-sweep",
+    runtime: "command",
+    browser: "browser-rehearsal",
+    privacy: "privacy-negative-test",
+    tenantIsolation: "tenant-negative-test",
+  };
   if (!Array.isArray(qualityEvidence) || qualityEvidence.length !== qualityCheckIds.length) {
     errors.push("White-label release readiness must include exactly seven quality evidence records.");
   } else {
@@ -207,6 +224,19 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
       if (evidence.tenantId !== readiness.tenantId) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} must match the readiness tenant.`);
       if (evidence.packageId !== readiness.packageId) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} must match the readiness package.`);
       if (typeof evidence.verified !== "boolean") errors.push(`White-label release quality evidence ${checkId || "(unknown)"} verified must be boolean.`);
+      const evidenceKind = readString(evidence, "evidenceKind");
+      if (!["command", "route-sweep", "browser-rehearsal", "privacy-negative-test", "tenant-negative-test"].includes(evidenceKind)) {
+        errors.push(`White-label release quality evidence ${checkId || "(unknown)"} evidence kind is unsupported.`);
+      } else if (qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number]) && evidenceKind !== expectedEvidenceKinds[checkId as WhiteLabelReleaseQualityCheckId]) {
+        errors.push(`White-label release quality evidence ${checkId} must use evidence kind ${expectedEvidenceKinds[checkId as WhiteLabelReleaseQualityCheckId]}.`);
+      }
+      const rawScope = evidence.scope;
+      const scope = readStringArray(evidence, "scope");
+      if (!Array.isArray(rawScope) || rawScope.some((item) => typeof item !== "string" || item.trim().length === 0)) {
+        errors.push(`White-label release quality evidence ${checkId || "(unknown)"} scope must contain only non-empty strings.`);
+      }
+      if (scope.length === 0) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} scope must not be empty.`);
+      if (new Set(scope).size !== scope.length) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} scope must be unique.`);
       if (!isIsoTimestamp(evidence.observedAt)) errors.push(`White-label release quality evidence ${checkId || "(unknown)"} observedAt must be an ISO timestamp.`);
       if (isRecord(qualityChecks) && qualityCheckIds.includes(checkId as (typeof qualityCheckIds)[number]) && qualityChecks[checkId as WhiteLabelReleaseQualityCheckId] !== evidence.verified) {
         errors.push(`White-label release quality evidence ${checkId} must match its quality check.`);

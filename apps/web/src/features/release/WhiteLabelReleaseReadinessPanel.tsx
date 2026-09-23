@@ -165,6 +165,8 @@ export function WhiteLabelReleaseReadinessPanel({
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
               <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value ? "Verified" : "Missing"}</p>
               <p className="mt-2 break-words text-xs text-[var(--tenant-muted)]">Evidence: {qualityEvidence.get(label)?.sourceRecord ?? "No source record"}</p>
+              <p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">Basis: {qualityEvidence.get(label)?.evidenceKind ?? "No evidence basis"}</p>
+              <p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">Scope: {qualityEvidence.get(label)?.scope.join(", ") ?? "No scope"}</p>
             </div>
           ))}
         </div>
