@@ -9,7 +9,8 @@ freshness period evaluated against an explicit reference time.
 
 - Future-dated observations are rejected.
 - Observations outside the configured freshness period are rejected.
-- The evaluator does not read browser or system time implicitly.
+- `verificationReferenceAt` stores the reference time used by the evaluator;
+  browser or system time is never read implicitly.
 - Freshness remains evidence-only and cannot authorize release, persistence,
   export, installation, provider activation, QR mutation, or student launch.
 

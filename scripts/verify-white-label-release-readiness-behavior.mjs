@@ -59,6 +59,14 @@ try {
   missingVerificationRevision.verificationRevision = "";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(missingVerificationRevision), "verificationRevision must be non-empty", "verification revision rejection");
 
+  const missingVerificationReference = structuredClone(valid);
+  missingVerificationReference.verificationReferenceAt = "";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(missingVerificationReference), "verificationReferenceAt must be non-empty", "verification reference rejection");
+
+  const malformedVerificationReference = structuredClone(valid);
+  malformedVerificationReference.verificationReferenceAt = "not-a-timestamp";
+  assertIncludes(model.validateWhiteLabelReleaseReadiness(malformedVerificationReference), "verificationReferenceAt must be an ISO timestamp", "verification reference format rejection");
+
   const wrongPackage = structuredClone(valid);
   wrongPackage.packageEvidence.packageId = "other-tenant-package";
   assertIncludes(model.validateWhiteLabelReleaseReadiness(wrongPackage), "must match the readiness package", "package mismatch rejection");
@@ -201,6 +209,7 @@ function buildValidReadiness(model) {
     label: "Behavior sample",
     verificationRunId: "behavior-verification-run",
     verificationRevision: "legacy-source-import:behavior-revision",
+    verificationReferenceAt: "2026-09-23T00:00:00.000Z",
     status: "blocked",
     phases: model.WHITE_LABEL_RELEASE_REQUIRED_PHASE_IDS.map((phaseId, index) => ({
       phaseId,

@@ -1559,9 +1559,9 @@ References:
 Status: Implemented for the review-only release-readiness packet.
 
 Requirement: Every release-readiness packet must expose the verification run
-and revision that produced its quality evidence. Missing lineage must fail
-validation, and changing the evidence source requires a new review packet or
-an explicit refresh. Lineage remains evidence-only and must not activate
+and revision that produced its quality evidence, plus the explicit reference
+timestamp used to evaluate freshness. Missing lineage must fail validation,
+and changing the evidence source requires a new review packet or an explicit refresh. Lineage remains evidence-only and must not activate
 release, persistence, export, installation, provider services, QR mutation,
 or student launch.
 
@@ -1576,7 +1576,7 @@ References:
 Status: Implemented for the review-only release-readiness packet.
 
 Requirement: Release quality evidence must be evaluated against an explicit
-reference time and bounded freshness period. Future-dated or stale observations
+reference time stored as `verificationReferenceAt` and a bounded freshness period. Future-dated or stale observations
 must fail review. The evaluator must remain deterministic and side-effect-free;
 freshness cannot authorize release, persistence, export, installation, provider
 services, QR mutation, or student launch.

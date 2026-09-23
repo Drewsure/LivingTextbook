@@ -5230,8 +5230,9 @@ compatible with the workspace's no-emit typecheck and production bundling.
 
 - Added a deterministic seven-day freshness policy for release quality
   observations.
-- Future-dated and stale observations are rejected against an explicit caller
-  supplied reference time; browser or system time is not read by the contract.
+- Future-dated and stale observations are rejected against the packet's
+  explicit `verificationReferenceAt`; browser or system time is not read by
+  the contract.
 - Exposed the review-only freshness policy on the adult release-readiness
   surface and added focused negative coverage.
 - Kept release, persistence, export, installation, provider activation, QR

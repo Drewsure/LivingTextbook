@@ -12,8 +12,8 @@ Confirm:
 
 - Exactly seven quality records exist and each has matching tenant/package
   identity.
-- The packet exposes a non-empty verification run id and verification revision
-  for the evidence snapshot.
+- The packet exposes a non-empty verification run id and verification revision,
+  plus a valid `verificationReferenceAt`, for the evidence snapshot.
 - Typecheck, production build, and runtime records use `command` evidence.
 - Active routes use `route-sweep` evidence.
 - Browser uses `browser-rehearsal` evidence with a non-empty scope.

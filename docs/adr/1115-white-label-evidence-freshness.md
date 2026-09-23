@@ -2,8 +2,8 @@
 
 ## Decision
 
-Evaluate white-label release quality evidence against an explicit reference
-time and a seven-day default freshness period.
+Evaluate white-label release quality evidence against the packet's explicit
+`verificationReferenceAt` and a seven-day default freshness period.
 
 ## Rationale
 
@@ -16,7 +16,7 @@ time or enabling any release side effect.
 
 - Future-dated observations are rejected.
 - Observations older than the configured period are rejected.
-- Tests can reproduce the same result with a supplied reference time.
+- Tests can reproduce the same result with the stored reference time.
 - Release, persistence, export, installation, provider activation, QR
   mutation, and student launch remain disabled.
 

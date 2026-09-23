@@ -114,6 +114,7 @@ export interface WhiteLabelReleaseReadiness {
   label: string;
   verificationRunId: string;
   verificationRevision: string;
+  verificationReferenceAt: string;
   status: WhiteLabelReleaseReadinessStatus;
   phases: WhiteLabelReleasePhase[];
   qualityChecks: WhiteLabelReleaseQualityChecks;
@@ -164,10 +165,13 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   const errors: string[] = [];
   if (!isRecord(readiness)) return ["White-label release readiness must be a JSON object."];
 
-  for (const field of ["readinessId", "tenantId", "packageId", "label", "verificationRunId", "verificationRevision", "nextAction", "note"] as const) {
+  for (const field of ["readinessId", "tenantId", "packageId", "label", "verificationRunId", "verificationRevision", "verificationReferenceAt", "nextAction", "note"] as const) {
     if (typeof readiness[field] !== "string" || readiness[field].trim().length === 0) {
       errors.push(`White-label release readiness ${field} must be non-empty.`);
     }
+  }
+  if (!isIsoTimestamp(readiness.verificationReferenceAt)) {
+    errors.push("White-label release readiness verificationReferenceAt must be an ISO timestamp.");
   }
 
   const status = readString(readiness, "status");
@@ -249,6 +253,9 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
     for (const checkId of qualityCheckIds) if (!seenQualityChecks.has(checkId)) errors.push(`White-label release quality evidence is missing ${checkId}.`);
     if (status === "pilot-ready" && qualityEvidence.some((evidence) => isRecord(evidence) && evidence.verified !== true)) {
       errors.push("Pilot-ready white-label release readiness requires every quality evidence record to be verified.");
+    }
+    if (isIsoTimestamp(readiness.verificationReferenceAt)) {
+      errors.push(...validateWhiteLabelReleaseReadinessFreshness(readiness, readiness.verificationReferenceAt));
     }
   }
 

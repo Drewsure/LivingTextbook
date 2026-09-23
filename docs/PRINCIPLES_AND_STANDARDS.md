@@ -7023,8 +7023,9 @@ This standard is recorded in
   and revision that produced its quality evidence.
 - `verificationRunId` identifies the bounded verification execution or review
   packet; `verificationRevision` identifies the code, content, or source
-  revision under review. Both must be non-empty and visible to the adult
-  operator.
+  revision under review. `verificationReferenceAt` identifies the explicit
+  point in time used for freshness evaluation. All three must be non-empty or
+  valid and visible to the adult operator.
 - A green quality record without run lineage is incomplete evidence. The
   lineage does not authorize release, persistence, export, installation,
   provider activation, QR mutation, or student launch.
@@ -7041,6 +7042,8 @@ This standard is recorded in
 
 - Release quality evidence is review evidence with a bounded freshness period;
   the current foundation default is seven days.
+- The packet must store the explicit `verificationReferenceAt` used for the
+  freshness decision so the adult operator can reproduce the review context.
 - A future-dated observation or an observation outside the configured period
   must fail the freshness check and cannot satisfy release review.
 - Freshness evaluation receives an explicit reference time so verification is
