@@ -42,6 +42,8 @@ const verifierMarkers = [
   "phaserCandidateProfiles.json",
   "stored outside the LivingTextbook repository",
   "return-package.json must resolve inside the isolated candidate root",
+  "path still contains a placeholder",
+  "isPlaceholderCandidatePath",
   "isRegularFile",
 ];
 

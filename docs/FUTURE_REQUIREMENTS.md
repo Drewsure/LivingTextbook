@@ -1447,3 +1447,18 @@ References:
 - `packages/content-model/src/aiPrototypeReturnedPackageManifest.ts`
 - `scripts/verify-phaser-candidate-package.mjs`
 - `scripts/verify-runtime-behavior.mjs`
+
+## FR-059: External Candidate Operator Input Diagnostics
+
+Status: Implemented for the current Phaser candidate verifier.
+
+Requirement: Controlled-intake commands must distinguish a literal command
+placeholder from an actual missing folder before attempting filesystem review.
+The diagnostic must direct operators to the real isolated returned-package
+folder while preserving the fail-closed evidence and quarantine boundaries.
+
+References:
+
+- `scripts/verify-phaser-candidate-package.mjs`
+- `scripts/verify-phaser-candidate-package-behavior.mjs`
+- `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`

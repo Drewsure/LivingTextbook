@@ -6801,3 +6801,17 @@ This standard is recorded in
 `docs/decision-register/DR-1100-external-candidate-manifest-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1100-external-candidate-manifest-boundary.md`.
+
+## 439. External Candidate Operator Input Standard
+
+- Controlled-intake commands must identify literal placeholder paths before
+  filesystem resolution and provide an actionable correction.
+- Operators must use a real absolute returned-package folder outside the
+  repository; frozen source snapshots and synthetic manifests remain invalid.
+- A clearer operator error must not weaken the evidence, provenance, review,
+  or quarantine gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1101-external-candidate-operator-input.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1101-external-candidate-operator-input.md`.

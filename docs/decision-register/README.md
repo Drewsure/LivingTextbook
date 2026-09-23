@@ -689,6 +689,7 @@ Current focused decision records also include:
 
 - `DR-1099-persistence-payload-shape-bounds.md`
 - `DR-1100-external-candidate-manifest-boundary.md`
+- `DR-1101-external-candidate-operator-input.md`
 
 ## Maintenance Rule
 

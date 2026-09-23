@@ -9,6 +9,12 @@ if (!candidateRootValue) {
   process.exit(2);
 }
 
+if (isPlaceholderCandidatePath(candidateRootValue)) {
+  fail(
+    "Candidate package path still contains a placeholder. Replace it with the actual absolute returned-package folder; do not use angle brackets or the frozen source snapshot.",
+  );
+}
+
 const candidateRootInput = resolve(candidateRootValue);
 if (!existsSync(candidateRootInput)) {
   fail(`Candidate package root does not exist: ${candidateRootInput}.`);
@@ -438,6 +444,10 @@ function isRegularFile(path) {
   } catch {
     return false;
   }
+}
+
+function isPlaceholderCandidatePath(value) {
+  return /<[^>]+>/.test(value) || /(?:path[\\/]to|returned-package-folder)/i.test(value);
 }
 
 function fail(message) {

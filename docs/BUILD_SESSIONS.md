@@ -5059,3 +5059,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   replacement, scoring mutation, persistence ownership, promotion, or student
   assignment.
 - Recorded ADR 1100 and DR-1100.
+
+## Build session 1015: External candidate operator input
+
+- Added a fail-closed diagnostic for literal placeholder paths such as
+  `<returned-package-folder>` and `path/to/...` before filesystem resolution.
+- Added verifier contract and behavior coverage proving the diagnostic does
+  not create folders, manifests, source copies, or review state.
+- Preserved the requirement for a real isolated returned package containing
+  `evidence/return-package.json`; frozen source remains quarantine-only.
+- Recorded ADR 1101 and DR-1101.

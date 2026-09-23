@@ -24,6 +24,12 @@ exits without changing the repository. This command is intentionally outside
 `verify:foundation` because no returned Z.ai package is part of the canonical
 source tree.
 
+Do not paste a documentation placeholder such as
+`<returned-package-folder>` or `C:\path\to\...` into the command. The verifier
+rejects those values before filesystem access. Replace the example with the
+actual absolute folder returned by Z.ai, and confirm that it contains the
+`evidence` directory.
+
 Any successful package check remains `review-only`; it is evidence for Codex
 review and never a production promotion decision.
 

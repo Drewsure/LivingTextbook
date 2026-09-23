@@ -202,6 +202,8 @@ try {
   assertVerifierRejects(candidateRoot, "cross-session audio");
 
   assertVerifierRejects(resolve(process.cwd()), "candidate root inside product repository");
+  const placeholderRoot = join(tmpdir(), "<returned-package-folder>");
+  assertVerifierRejects(placeholderRoot, "placeholder candidate root", "path still contains a placeholder");
   const frozenSnapshotRoot = mkdtempSync(join(tmpdir(), "living-textbook-frozen-source-snapshot-"));
   try {
     assertVerifierRejects(frozenSnapshotRoot, "frozen source snapshot", "frozen source snapshot");
