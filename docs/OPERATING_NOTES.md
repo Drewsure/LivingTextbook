@@ -1435,6 +1435,11 @@ an intentional `415` response. A request over the route limit is an intentional
 JSON route as foundation-ready. This boundary does not authorize durable
 storage.
 
+Origin procedure: browser POST requests must include an `Origin` matching the
+request origin. A missing or different origin returns `403`. Only progression
+and event server integrations may use the configured bearer token without a
+browser origin; session routes have no such bypass.
+
 ## Z.ai returned-package procedure
 
 The frozen Z.ai source folder is not a candidate package. Do not substitute a

@@ -11,7 +11,7 @@ import {
   TEACHER_PERSISTENCE_READ_SCOPE,
   TEACHER_SESSION_VERSION,
 } from "@/server/persistence/teacherSessionCookie";
-import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES } from "@/server/persistence/requestBoundary";
+import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,6 +22,8 @@ interface TeacherSessionRequest {
 }
 
 export async function POST(request: Request) {
+  const originValidation = validateSameOriginMutation(request);
+  if (!originValidation.valid) return json({ status: "forbidden", errors: originValidation.errors }, originValidation.status);
   const bodyResult = await readJsonRequestBody<TeacherSessionRequest>(request, SESSION_JSON_BODY_LIMIT_BYTES, "Teacher review session request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
   const body = bodyResult.value;

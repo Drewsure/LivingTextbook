@@ -19,6 +19,9 @@ Boundary behavior:
 - Invalid JSON returns `400`.
 - Unsupported content type returns `415`.
 - Invalid or oversized declared/measured length returns `413`.
+- Originless or cross-origin browser mutations return `403`.
+- Persistence progression/event writes may use the configured bearer token for
+  server-to-server operation; session routes have no browser-origin bypass.
 
 Run:
 

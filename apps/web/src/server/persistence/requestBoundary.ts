@@ -14,6 +14,28 @@ type JsonBodySuccess<T> = {
 
 export type JsonBodyResult<T> = JsonBodyFailure | JsonBodySuccess<T>;
 
+export type MutationOriginResult =
+  | { valid: true }
+  | { valid: false; status: 403; errors: string[] };
+
+export function validateSameOriginMutation(request: Request): MutationOriginResult {
+  const origin = request.headers.get("origin")?.trim();
+  if (!origin) {
+    return { valid: false, status: 403, errors: ["Browser mutations require an origin-bound request."] };
+  }
+
+  try {
+    const requestOrigin = new URL(request.url).origin;
+    if (origin !== requestOrigin) {
+      return { valid: false, status: 403, errors: ["Cross-origin mutations are not permitted."] };
+    }
+  } catch {
+    return { valid: false, status: 403, errors: ["The mutation origin could not be verified."] };
+  }
+
+  return { valid: true };
+}
+
 export async function readJsonRequestBody<T>(
   request: Request,
   maxBytes: number,

@@ -1095,6 +1095,21 @@ References:
 - `scripts/verify-request-boundary.mjs`
 - `docs/verification/JSON_REQUEST_BOUNDARY_CHECKS.md`
 
+## FR-039: Same-Origin Mutation Boundary
+
+Status: Implemented for current cookie-authenticated JSON mutation routes.
+
+Requirement: Future browser mutation routes that rely on learner or teacher
+cookies must require exact same-origin binding before side effects. Any
+server-to-server exception must use an explicit reviewed credential path and
+must not bypass tenant, policy, deployment, or persistence authorization.
+
+References:
+
+- `apps/web/src/server/persistence/requestBoundary.ts`
+- `scripts/verify-request-boundary.mjs`
+- `docs/verification/JSON_REQUEST_BOUNDARY_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

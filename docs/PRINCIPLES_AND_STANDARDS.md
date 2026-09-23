@@ -6528,3 +6528,16 @@ This standard is recorded in
 `docs/decision-register/DR-1080-json-request-boundary-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1080-json-request-boundary-hardening.md`.
+
+## 419. Same-Origin Mutation Standard
+
+- Cookie-authenticated JSON mutations must carry an exact same-origin
+  `Origin` header before they can reach session, adapter, or provider logic.
+- Originless and cross-origin browser mutations fail with `403`.
+- A server-to-server exception must be explicit, credentialed, and limited to
+  reviewed persistence routes; it must not bypass tenant or policy gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1081-same-origin-mutation-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1081-same-origin-mutation-boundary.md`.

@@ -8777,3 +8777,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Browser-facing persistence and session JSON writes use one shared content-type and byte-limit boundary.
 - Progression/event writes are capped at 128 KiB; session creation is capped at 8 KiB.
 - The boundary returns deterministic `415`, `413`, and `400` responses and does not alter durable-write or authorization gates.
+
+## DR-1081: Same-Origin Mutation Boundary
+
+- Cookie-authenticated session and persistence JSON mutations require an exact same-origin `Origin` header.
+- Originless or cross-origin browser mutations return `403` before side effects.
+- Only progression/event persistence writes may use the configured bearer-token server exception, and existing tenant, policy, deployment, and durable-write gates remain mandatory.

@@ -4879,3 +4879,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Required `application/json`, measured UTF-8 bytes, and bounded progression/event bodies at 128 KiB and session bodies at 8 KiB.
 - Added deterministic boundary verification and preserved all provider, tenant authorization, and durable-write gates.
 - Recorded ADR 1080 and DR-1080.
+
+## Build session 0995: Same-origin mutation boundary
+
+- Added exact `Origin` matching for student-session, teacher-session, progression, and event POST routes.
+- Kept the bearer-token exception explicit and limited to persistence server-to-server writes.
+- Added verifier coverage and preserved provider, tenant, policy, and durable-write gates.
+- Recorded ADR 1081 and DR-1081.

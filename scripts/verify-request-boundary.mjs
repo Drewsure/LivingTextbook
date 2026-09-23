@@ -18,6 +18,8 @@ if (!helper.includes("PERSISTENCE_JSON_BODY_LIMIT_BYTES = 128 * 1024")) failures
 if (!helper.includes("SESSION_JSON_BODY_LIMIT_BYTES = 8 * 1024")) failures.push("session body limit is missing");
 if (!helper.includes('mediaType !== "application/json"')) failures.push("content-type guard is missing");
 if (!helper.includes("new TextEncoder().encode(source).byteLength")) failures.push("byte-length guard is missing");
+if (!helper.includes("validateSameOriginMutation")) failures.push("same-origin mutation guard is missing");
+if (!helper.includes("Cross-origin mutations are not permitted.")) failures.push("cross-origin rejection is missing");
 
 for (const route of [
   "apps/web/src/app/api/persistence/progression/route.ts",
@@ -26,6 +28,8 @@ for (const route of [
   const source = read(route);
   if (!source.includes("readJsonRequestBody")) failures.push(`${route}: shared request boundary is not used`);
   if (!source.includes("PERSISTENCE_JSON_BODY_LIMIT_BYTES")) failures.push(`${route}: persistence limit is not used`);
+  if (!source.includes("validateSameOriginMutation")) failures.push(`${route}: same-origin mutation guard is not used`);
+  if (!source.includes("!hasApiToken(request)")) failures.push(`${route}: server-token exception is not explicit`);
   if (source.includes("request.json()")) failures.push(`${route}: direct request.json parsing bypasses the shared boundary`);
 }
 
@@ -36,6 +40,7 @@ for (const route of [
   const source = read(route);
   if (!source.includes("readJsonRequestBody")) failures.push(`${route}: shared request boundary is not used`);
   if (!source.includes("SESSION_JSON_BODY_LIMIT_BYTES")) failures.push(`${route}: session limit is not used`);
+  if (!source.includes("validateSameOriginMutation")) failures.push(`${route}: same-origin mutation guard is not used`);
   if (source.includes("request.json()")) failures.push(`${route}: direct request.json parsing bypasses the shared boundary`);
 }
 

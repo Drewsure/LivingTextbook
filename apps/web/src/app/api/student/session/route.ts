@@ -9,7 +9,7 @@ import {
   type StudentSessionClaims,
 } from "@/server/persistence/studentSessionCookie";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
-import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES } from "@/server/persistence/requestBoundary";
+import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -23,6 +23,8 @@ interface StudentSessionStartRequest {
 }
 
 export async function POST(request: Request) {
+  const originValidation = validateSameOriginMutation(request);
+  if (!originValidation.valid) return json({ status: "forbidden", errors: originValidation.errors }, originValidation.status);
   const bodyResult = await readJsonRequestBody<StudentSessionStartRequest>(request, SESSION_JSON_BODY_LIMIT_BYTES, "Student session request");
   if (!bodyResult.ok) return json({ status: "invalid", errors: bodyResult.errors }, bodyResult.status);
   const body = bodyResult.value;

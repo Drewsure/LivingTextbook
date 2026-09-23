@@ -18,12 +18,14 @@ import {
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
-import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody } from "@/server/persistence/requestBoundary";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  const originValidation = validateSameOriginMutation(request);
+  if (!originValidation.valid && !hasApiToken(request)) return json({ status: "forbidden", errors: originValidation.errors }, originValidation.status);
   const providerConfiguration = getPersistenceProviderConfiguration();
   if (!providerConfiguration.valid) {
     return json({ status: "blocked", provider: providerConfiguration.provider, durability: "non-durable-rehearsal", errors: providerConfiguration.errors }, 423);
