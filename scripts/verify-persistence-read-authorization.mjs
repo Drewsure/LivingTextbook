@@ -34,6 +34,7 @@ const readiness = read("apps/web/src/server/persistence/persistenceReadiness.ts"
 const studentSession = read("apps/web/src/server/persistence/studentSessionCookie.ts");
 const teacherSession = read("apps/web/src/server/persistence/teacherSessionCookie.ts");
 const studentSessionRoute = read("apps/web/src/app/api/student/session/route.ts");
+const teacherSessionRoute = read("apps/web/src/app/api/teacher/session/route.ts");
 
 requireFragments("progression read route", route, [
   "const accessMode = url.searchParams.get(\"accessMode\")",
@@ -129,6 +130,9 @@ requireFragments("student session input bounds", studentSessionRoute, [
 ]);
 for (const [label, source] of [["student session time bounds", studentSession], ["teacher session time bounds", teacherSession]]) {
   requireFragments(label, source, ["issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
+}
+for (const [label, source] of [["student session sign-out origin gate", studentSessionRoute], ["teacher session sign-out origin gate", teacherSessionRoute]]) {
+  requireFragments(label, source, ["export function DELETE(request: Request)", "validateSameOriginMutation(request)", "status: \"signed-out\""]);
 }
 
 if (failures.length > 0) {

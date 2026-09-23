@@ -112,7 +112,9 @@ export function GET(request: Request) {
   });
 }
 
-export function DELETE() {
+export function DELETE(request: Request) {
+  const originValidation = validateSameOriginMutation(request);
+  if (!originValidation.valid) return json({ status: "forbidden", errors: originValidation.errors }, originValidation.status);
   const response = json({ status: "signed-out" });
   clearStudentSessionCookie(response);
   return response;

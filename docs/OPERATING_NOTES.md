@@ -1461,3 +1461,8 @@ Run `npm run verify:persistence-runtime` after changing session fields, cookie
 claims, TTLs, or tenant authorization. Keep student and teacher claim parsing
 fail-closed for future-issued, expired, and inverted timestamps; do not widen
 identity field limits without an updated tenant and persistence review.
+
+Session mutation procedure: keep session issuance and sign-out symmetric.
+Every cookie mutation must call `validateSameOriginMutation` and return before
+setting or clearing a cookie when the origin is missing or cross-origin. Run
+`npm run verify:persistence-runtime` after changing either session route.

@@ -1143,6 +1143,21 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `docs/verification/SESSION_CLAIM_HARDENING_CHECKS.md`
 
+## FR-042: Session Mutation Origin Symmetry
+
+Status: Implemented for current student and teacher session boundaries.
+
+Requirement: Every future session-cookie mutation, including sign-out, must
+use the shared exact-origin mutation policy and must fail before changing
+cookies when the origin is missing or different. A new mutation method must
+add explicit verifier coverage before foundation readiness.
+
+References:
+
+- `apps/web/src/app/api/student/session/route.ts`
+- `apps/web/src/app/api/teacher/session/route.ts`
+- `scripts/verify-persistence-read-authorization.mjs`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

@@ -6569,3 +6569,16 @@ This standard is recorded in
 `docs/decision-register/DR-1083-session-claim-input-and-time-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1083-session-claim-input-and-time-hardening.md`.
+
+## 422. Session Mutation Origin Symmetry Standard
+
+- Session issuance and sign-out are both cookie mutations and must use the
+  same exact-origin boundary.
+- Missing or cross-origin mutation requests must fail before setting or
+  clearing session cookies.
+- Sign-out cannot widen tenant, persistence, or teacher-report authority.
+
+This standard is recorded in
+`docs/decision-register/DR-1084-session-sign-out-origin-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1084-session-sign-out-origin-hardening.md`.

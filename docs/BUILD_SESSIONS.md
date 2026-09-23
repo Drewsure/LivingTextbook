@@ -4900,3 +4900,11 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Rejected future-issued, expired, and inverted student/teacher signed-session claims.
 - Added persistence authorization verifier coverage without changing tenant, policy, or deployment gates.
 - Recorded ADR 1083 and DR-1083.
+
+## Build session 0998: Session sign-out origin hardening
+
+- Bound student and teacher session-cookie deletion to the same exact-origin mutation policy as session issuance.
+- Added persistence authorization verifier coverage for both sign-out routes.
+- Preserved fail-closed cookie clearing, tenant authorization, and deployment gates.
+- Recorded ADR 1084 and DR-1084.
+- The regression remains review-only and performs no database, upload, route, migration, or assignment operation.

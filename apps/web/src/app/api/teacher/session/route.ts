@@ -63,7 +63,9 @@ export function GET(request: Request) {
   return json({ status: "authenticated", tenantId: claims.tenantId, expiresAt: claims.expiresAt });
 }
 
-export function DELETE() {
+export function DELETE(request: Request) {
+  const originValidation = validateSameOriginMutation(request);
+  if (!originValidation.valid) return json({ status: "forbidden", errors: originValidation.errors }, originValidation.status);
   const response = json({ status: "signed-out" });
   clearTeacherSessionCookie(response);
   return response;

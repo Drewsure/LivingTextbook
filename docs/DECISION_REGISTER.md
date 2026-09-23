@@ -8795,3 +8795,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Student launch-session identity inputs are bounded before cookie creation.
 - Student and teacher signed-session readers reject future-issued, expired, and inverted time windows.
 - The checks remain independent of tenant authorization, deployment policy, and durable persistence activation.
+
+## DR-1084: Session Sign-out Origin Hardening
+
+- Student and teacher session DELETE routes require the same exact-origin mutation check as session issuance.
+- Originless or cross-origin sign-out requests return `403` before clearing cookies.
+- Sign-out remains a bounded cookie mutation and does not grant persistence, tenant, or report access.
