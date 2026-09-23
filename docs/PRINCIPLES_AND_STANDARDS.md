@@ -6709,3 +6709,17 @@ This standard is recorded in
 `docs/decision-register/DR-1094-asset-runtime-input-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1094-asset-runtime-input-hardening.md`.
+
+## 433. Source Runtime Input Boundary Standard
+
+- Shared source runtime validators must fail closed for malformed JSON or form
+  input before PDF, DOCX, spreadsheet, OCR, or AI-assisted adapters use it.
+- Tenant, source, target-package, and checksum identity plus source and review
+  states must be bounded and structurally valid at runtime.
+- Input hardening does not grant source processing, draft creation, package
+  promotion, assignment, or student-facing permission.
+
+This standard is recorded in
+`docs/decision-register/DR-1095-source-runtime-input-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1095-source-runtime-input-hardening.md`.

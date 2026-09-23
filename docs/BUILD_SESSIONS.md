@@ -4989,3 +4989,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved the no-upload, no-copy, no-storage, no-promotion, and no-learner-
   media boundary.
 - Recorded ADR 1094 and DR-1094.
+
+## Build session 1009: Source runtime input hardening
+
+- Hardened the shared review-only source validator against malformed runtime
+  objects, unsupported document/extraction/review states, unsafe or oversized
+  tenant/source/package identity, and oversized checksums.
+- Added executable regressions covering the new fail-closed behavior.
+- Preserved the no-source-write, no-OCR-promotion, no-draft, no-assignment,
+  and no-student-payload boundary.
+- Recorded ADR 1095 and DR-1095.

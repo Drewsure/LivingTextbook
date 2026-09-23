@@ -1179,6 +1179,20 @@ try {
   });
   assertIncludes(malformedSourceFlagErrors, "filePolicyAccepted must be a boolean");
   assertIncludes(malformedSourceFlagErrors, "studentFacingUseRequested must be a boolean");
+  assertIncludes(source.validateSourceRuntimeRequest(null), "source runtime request must be an object");
+  const malformedSourceShapeErrors = source.validateSourceRuntimeRequest({
+    ...sourceRequest,
+    tenantId: `${"t".repeat(161)}`,
+    sourceType: "image",
+    extractionMethod: "image-parse",
+    contentReviewStatus: "pending",
+    extractionReviewStatus: "complete",
+  });
+  assertIncludes(malformedSourceShapeErrors, "tenantId must be a bounded safe identifier");
+  assertIncludes(malformedSourceShapeErrors, "source document type is unsupported");
+  assertIncludes(malformedSourceShapeErrors, "source extraction method is unsupported");
+  assertIncludes(malformedSourceShapeErrors, "source content review status is unsupported");
+  assertIncludes(malformedSourceShapeErrors, "source extraction review status is unsupported");
   assertEqual(source.createReviewOnlySourceRuntimeAdapter().execute({
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",
     sourceChecksum: "checksum-1", extractionMethod: "pdf-text", contentReviewStatus: "draft",

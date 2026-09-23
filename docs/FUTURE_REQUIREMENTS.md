@@ -1273,6 +1273,21 @@ References:
 - `scripts/verify-runtime-behavior.mjs`
 - `docs/adr/1094-asset-runtime-input-hardening.md`
 
+## FR-053: Runtime Source Intake Shape Hardening
+
+Status: Implemented for the review-only source runtime boundary.
+
+Requirement: Future PDF, DOCX, spreadsheet, OCR, and AI-assisted source intake
+adapters must reject malformed object shapes, unsupported source and review
+states, unsafe or oversized identifiers, and oversized checksums before source
+processing, draft creation, or package promotion is considered.
+
+References:
+
+- `packages/content-model/src/sourceRuntime.ts`
+- `scripts/verify-runtime-behavior.mjs`
+- `docs/adr/1095-source-runtime-input-hardening.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

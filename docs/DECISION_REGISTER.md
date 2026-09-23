@@ -8867,3 +8867,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   bounded before future upload or promotion adapters can use them.
 - No file upload, copy, storage write, student-facing promotion, or provider
   activation is enabled by this validator.
+
+## DR-1095: Source Runtime Input Hardening
+
+- Review-only source runtime requests reject malformed objects and unsupported
+  document, extraction, content-review, and extraction-review values.
+- Tenant, source, target-package, and checksum inputs are bounded before a
+  future PDF/text adapter can use them.
+- No source file write, OCR promotion, teacher draft creation, assignment, or
+  student-facing payload is enabled by this validator.

@@ -50,6 +50,15 @@ export interface SourceRuntimeAdapter {
   execute(request: SourceRuntimeRequest): SourceRuntimeResult;
 }
 
+const sourceDocumentTypes = new Set<SourceDocumentType>(["pdf", "docx", "spreadsheet", "manual", "ai-draft"]);
+const sourceExtractionMethods = new Set<SourceExtractionMethod>(["manual-structure", "pdf-text", "ocr", "docx-parse", "spreadsheet-import", "ai-assisted"]);
+const contentReviewStatuses = new Set<ContentReviewStatus>(["draft", "reviewed", "verified", "approved", "rejected"]);
+const sourceExtractionReviewStatuses = new Set<SourceExtractionReviewStatus>(["not-started", "in-review", "accepted", "rejected"]);
+const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+const maxSourceIdentifierLength = 160;
+const maxTargetPackageIdentifierLength = 200;
+const maxSourceChecksumLength = 256;
+
 export const reviewOnlySourceBlockedActions = [
   "No source file write or replacement",
   "No OCR/parser promotion",
@@ -60,6 +69,8 @@ export const reviewOnlySourceBlockedActions = [
 
 export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  if (!isRecord(request)) return ["source runtime request must be an object"];
 
   for (const field of [
     "filePolicyAccepted",
@@ -97,10 +108,27 @@ export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): str
   const aiExtractionRequested = request.aiExtractionRequested === true;
   const studentFacingUseRequested = request.studentFacingUseRequested === true;
 
-  if (!request.tenantId.trim()) errors.push("tenantId is required");
-  if (!request.sourceId.trim()) errors.push("sourceId is required");
-  if (!request.targetPackageId.trim()) errors.push("targetPackageId is required");
-  if (!request.sourceChecksum.trim()) errors.push("source checksum is required");
+  const tenantId = readText(request.tenantId);
+  const sourceId = readText(request.sourceId);
+  const targetPackageId = readText(request.targetPackageId);
+  const sourceChecksum = readText(request.sourceChecksum);
+  const sourceType = readText(request.sourceType);
+  const extractionMethod = readText(request.extractionMethod);
+  const contentReviewStatus = readText(request.contentReviewStatus);
+  const extractionReviewStatus = readText(request.extractionReviewStatus);
+
+  if (!tenantId) errors.push("tenantId is required");
+  else if (tenantId.length > maxSourceIdentifierLength || !safeIdentifierPattern.test(tenantId)) errors.push("tenantId must be a bounded safe identifier");
+  if (!sourceId) errors.push("sourceId is required");
+  else if (sourceId.length > maxSourceIdentifierLength || !safeIdentifierPattern.test(sourceId)) errors.push("sourceId must be a bounded safe identifier");
+  if (!targetPackageId) errors.push("targetPackageId is required");
+  else if (targetPackageId.length > maxTargetPackageIdentifierLength || !safeIdentifierPattern.test(targetPackageId)) errors.push("targetPackageId must be a bounded safe identifier");
+  if (!sourceChecksum) errors.push("source checksum is required");
+  else if (sourceChecksum.length > maxSourceChecksumLength) errors.push("source checksum is too long");
+  if (!sourceDocumentTypes.has(sourceType as SourceDocumentType)) errors.push("source document type is unsupported");
+  if (!sourceExtractionMethods.has(extractionMethod as SourceExtractionMethod)) errors.push("source extraction method is unsupported");
+  if (!contentReviewStatuses.has(contentReviewStatus as ContentReviewStatus)) errors.push("source content review status is unsupported");
+  if (!sourceExtractionReviewStatuses.has(extractionReviewStatus as SourceExtractionReviewStatus)) errors.push("source extraction review status is unsupported");
   if (!filePolicyAccepted) errors.push("accepted upload file policy is required");
   if (!scanPassed) errors.push("source file scan must pass before extraction");
   if (!sourceLineageReviewed) errors.push("source lineage review is required");
@@ -131,6 +159,14 @@ export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): str
   }
 
   return [...new Set(errors)];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function readText(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
 }
 
 export function createReviewOnlySourceRuntimeAdapter(): SourceRuntimeAdapter {
