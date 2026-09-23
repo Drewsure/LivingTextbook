@@ -6695,3 +6695,17 @@ This standard is recorded in
 `docs/decision-register/DR-1093-local-bundle-resolution-delivery-status.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1093-local-bundle-resolution-delivery-status.md`.
+
+## 432. Asset Runtime Input Boundary Standard
+
+- Shared asset runtime validators must fail closed for malformed JSON or form
+  input before future upload, media, or source adapters use it.
+- Tenant and asset identity, unit keys, MIME types, checksums, and enumerated
+  policy states must be bounded and structurally valid at runtime.
+- Input hardening does not grant upload, storage, promotion, assignment, or
+  student-facing permission.
+
+This standard is recorded in
+`docs/decision-register/DR-1094-asset-runtime-input-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1094-asset-runtime-input-hardening.md`.

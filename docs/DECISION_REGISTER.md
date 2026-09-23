@@ -8858,3 +8858,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   local delivery.
 - Offline-ready status is derived from the validated manifest and does not
   enable file access, cache mutation, bundle writes, or learner-data storage.
+
+## DR-1094: Asset Runtime Input Hardening
+
+- Review-only asset runtime requests reject malformed object input and
+  unsupported operation, kind, scan, rights, and source-review values.
+- Tenant and asset identifiers, unit keys, MIME types, and checksums are
+  bounded before future upload or promotion adapters can use them.
+- No file upload, copy, storage write, student-facing promotion, or provider
+  activation is enabled by this validator.

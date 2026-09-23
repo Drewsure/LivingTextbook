@@ -4979,3 +4979,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved all no-file-access, no-cache, no-bundle-write, no-offline-activation,
   and no-learner-data boundaries.
 - Recorded ADR 1093 and DR-1093.
+
+## Build session 1008: Asset runtime input hardening
+
+- Hardened the shared review-only asset validator against malformed runtime
+  objects, unsupported state values, unsafe or oversized identity, MIME type,
+  unit-key, and checksum input.
+- Added executable regressions covering the new fail-closed behavior.
+- Preserved the no-upload, no-copy, no-storage, no-promotion, and no-learner-
+  media boundary.
+- Recorded ADR 1094 and DR-1094.

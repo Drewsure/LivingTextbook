@@ -45,6 +45,18 @@ export interface AssetRuntimeAdapter {
   execute(request: AssetRuntimeRequest): AssetRuntimeResult;
 }
 
+const assetRuntimeOperations = new Set<AssetRuntimeOperation>(["intake", "review", "promote", "bind", "export"]);
+const assetRuntimeKinds = new Set<AssetRuntimeKind>(["image", "audio", "video", "font", "source-document"]);
+const assetRuntimeScanStatuses = new Set<AssetScanStatus>(["pending", "passed", "failed"]);
+const assetRuntimeRightsStatuses = new Set<AssetRightsStatus>(["owned", "licensed", "partner-provided", "unknown"]);
+const assetRuntimeSourceReviewStatuses = new Set<AssetSourceReviewStatus>(["unreviewed", "reviewed", "approved", "rejected"]);
+const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+const mimeTypePattern = /^[^\s/]+\/[^\s/]+$/;
+const maxAssetIdentifierLength = 160;
+const maxUnitKeyLength = 240;
+const maxMimeTypeLength = 128;
+const maxChecksumLength = 256;
+
 export const reviewOnlyAssetBlockedActions = [
   "No file upload",
   "No media transcode or copy",
@@ -55,6 +67,8 @@ export const reviewOnlyAssetBlockedActions = [
 
 export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  if (!isRecord(request)) return ["asset runtime request must be an object"];
 
   for (const field of [
     "targetMappingReviewed",
@@ -76,11 +90,28 @@ export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): strin
   const learnerUpload = request.learnerUpload === true;
   const studentFacingUseRequested = request.studentFacingUseRequested === true;
 
-  if (!request.tenantId.trim()) errors.push("tenantId is required");
-  if (!request.assetId.trim()) errors.push("assetId is required");
-  if (!request.kind.trim()) errors.push("asset kind is required");
-  if (!request.mimeType.trim()) errors.push("MIME type is required");
-  if (!request.checksum.trim()) errors.push("asset checksum is required");
+  const tenantId = readText(request.tenantId);
+  const assetId = readText(request.assetId);
+  const unitKey = readText(request.unitKey);
+  const kind = readText(request.kind);
+  const operation = readText(request.operation);
+  const mimeType = readText(request.mimeType);
+  const checksum = readText(request.checksum);
+
+  if (!tenantId) errors.push("tenantId is required");
+  else if (tenantId.length > maxAssetIdentifierLength || !safeIdentifierPattern.test(tenantId)) errors.push("tenantId must be a bounded safe identifier");
+  if (!assetId) errors.push("assetId is required");
+  else if (assetId.length > maxAssetIdentifierLength || !safeIdentifierPattern.test(assetId)) errors.push("assetId must be a bounded safe identifier");
+  if (unitKey && unitKey.length > maxUnitKeyLength) errors.push("unitKey is too long");
+  if (!assetRuntimeOperations.has(operation as AssetRuntimeOperation)) errors.push("asset operation is unsupported");
+  if (!assetRuntimeKinds.has(kind as AssetRuntimeKind)) errors.push("asset kind is unsupported");
+  if (!mimeType) errors.push("MIME type is required");
+  else if (mimeType.length > maxMimeTypeLength || !mimeTypePattern.test(mimeType)) errors.push("MIME type must be a bounded type/subtype value");
+  if (!checksum) errors.push("asset checksum is required");
+  else if (checksum.length > maxChecksumLength) errors.push("asset checksum is too long");
+  if (!assetRuntimeScanStatuses.has(request.scanStatus)) errors.push("asset scan status is unsupported");
+  if (!assetRuntimeRightsStatuses.has(request.rightsStatus)) errors.push("asset rights status is unsupported");
+  if (!assetRuntimeSourceReviewStatuses.has(request.sourceReviewStatus)) errors.push("asset source review status is unsupported");
   if (!Number.isFinite(request.sizeBytes) || request.sizeBytes <= 0) errors.push("asset size must be a positive number");
   if (!storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
   if (!sizeBudgetAccepted) errors.push("asset size budget review is required");
@@ -105,6 +136,14 @@ export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): strin
   }
 
   return [...new Set(errors)];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function readText(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
 }
 
 export function createReviewOnlyAssetRuntimeAdapter(): AssetRuntimeAdapter {

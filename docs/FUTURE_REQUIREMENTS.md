@@ -1258,6 +1258,21 @@ References:
 - `apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx`
 - `docs/adr/1093-local-bundle-resolution-delivery-status.md`
 
+## FR-052: Runtime Asset Intake Shape Hardening
+
+Status: Implemented for the review-only asset runtime boundary.
+
+Requirement: Future PDF, image, audio, and video intake adapters must reject
+malformed object shapes, unsupported state values, unsafe or oversized
+identifiers, malformed MIME types, and oversized checksums before storage or
+promotion work is considered.
+
+References:
+
+- `packages/content-model/src/assetRuntime.ts`
+- `scripts/verify-runtime-behavior.mjs`
+- `docs/adr/1094-asset-runtime-input-hardening.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

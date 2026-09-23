@@ -1122,6 +1122,24 @@ try {
   });
   assertIncludes(malformedAssetFlagErrors, "targetMappingReviewed must be a boolean");
   assertIncludes(malformedAssetFlagErrors, "studentFacingUseRequested must be a boolean");
+  assertIncludes(asset.validateAssetRuntimeRequest(null), "asset runtime request must be an object");
+  const malformedAssetShapeErrors = asset.validateAssetRuntimeRequest({
+    ...assetRequest,
+    tenantId: `${"t".repeat(161)}`,
+    operation: "delete",
+    kind: "archive",
+    mimeType: "audio",
+    scanStatus: "unknown",
+    rightsStatus: "unverified",
+    sourceReviewStatus: "pending",
+  });
+  assertIncludes(malformedAssetShapeErrors, "tenantId must be a bounded safe identifier");
+  assertIncludes(malformedAssetShapeErrors, "asset operation is unsupported");
+  assertIncludes(malformedAssetShapeErrors, "asset kind is unsupported");
+  assertIncludes(malformedAssetShapeErrors, "MIME type must be a bounded type/subtype value");
+  assertIncludes(malformedAssetShapeErrors, "asset scan status is unsupported");
+  assertIncludes(malformedAssetShapeErrors, "asset rights status is unsupported");
+  assertIncludes(malformedAssetShapeErrors, "asset source review status is unsupported");
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",
