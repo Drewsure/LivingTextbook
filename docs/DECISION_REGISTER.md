@@ -8825,3 +8825,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Student sessions have a maximum lifetime of 24 hours; teacher review sessions have a maximum lifetime of 12 hours.
 - Configured TTLs are clamped to those maxima, and signed claims outside the limits are rejected on read and creation.
 - Shorter deployment-specific TTLs remain supported.
+
+## DR-1089: Session Cookie Emission Bounds
+
+- Cookie emitters clamp `Max-Age` to the declared student or teacher session lifetime cap.
+- Invalid expiration timestamps fail closed with `Max-Age=0`.
+- The change protects internal callers that bypass route-level session construction and preserves existing cookie attributes.

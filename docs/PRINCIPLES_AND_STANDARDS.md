@@ -6633,3 +6633,15 @@ This standard is recorded in
 `docs/decision-register/DR-1088-session-lifetime-bounds.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1088-session-lifetime-bounds.md`.
+
+## 427. Session Cookie Emission Standard
+
+- Signed-session emitters must produce a finite, non-negative `Max-Age`.
+- `Max-Age` must not exceed the declared maximum lifetime for that session type.
+- Invalid expiration input must fail closed with `Max-Age=0`; it must never
+  produce `NaN`, an unbounded value, or a browser-persistent session.
+
+This standard is recorded in
+`docs/decision-register/DR-1089-session-cookie-emission-bounds.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1089-session-cookie-emission-bounds.md`.

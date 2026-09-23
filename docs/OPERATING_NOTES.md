@@ -1484,3 +1484,8 @@ over the cookie bound before signing. Do not rely on route validation alone.
 Session lifetime procedure: keep TTL configuration below the declared session
 maximum. The current limits are 24 hours for student sessions and 12 hours for
 teacher review sessions; shorter values are valid and preferred for pilots.
+
+Cookie emission procedure: keep `Max-Age` finite, non-negative, and bounded by
+the session lifetime cap. Invalid expiration input must emit `Max-Age=0` so an
+internal caller cannot create a persistent or malformed browser session. Run
+`npm run verify:persistence-runtime` after changing cookie emission.

@@ -1186,6 +1186,21 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `docs/verification/SESSION_COOKIE_SHAPE_CHECKS.md`
 
+## FR-047: Session Cookie Emission Policy
+
+Status: Implemented for current student and teacher session cookies.
+
+Requirement: Every signed-session cookie emitter must produce a finite,
+non-negative `Max-Age` bounded by that session's declared maximum lifetime.
+Invalid expiration input must fail closed and must never produce `NaN`, an
+unbounded value, or a browser-persistent session.
+
+References:
+
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `scripts/verify-persistence-read-authorization.mjs`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

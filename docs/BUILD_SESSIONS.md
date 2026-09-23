@@ -4936,3 +4936,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Applied the cap to configured TTLs, creator validation, and reader validation.
 - Preserved shorter tenant/operator-configured windows and all existing authorization gates.
 - Recorded ADR 1088 and DR-1088.
+
+## Build session 1003: Session cookie emission bounds
+
+- Bounded emitted student and teacher `Max-Age` values to the corresponding session lifetime caps.
+- Invalid expiration timestamps now fail closed by emitting `Max-Age=0` rather than `NaN` or an unbounded value.
+- Preserved HttpOnly, SameSite, Path, Secure, tenant, and deployment gates.
+- Recorded ADR 1089 and DR-1089.

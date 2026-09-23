@@ -67,15 +67,23 @@ export function getTeacherSessionExpiry(now = Date.now()): string {
 
 export function setTeacherSessionCookie(response: Response, value: string, expiresAt: string): void {
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  const maxAge = getTeacherSessionCookieMaxAge(expiresAt);
   response.headers.set(
     "Set-Cookie",
-    `${TEACHER_SESSION_COOKIE}=${value}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${Math.max(0, Math.floor((Date.parse(expiresAt) - Date.now()) / 1000))}${secure}`,
+    `${TEACHER_SESSION_COOKIE}=${value}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}${secure}`,
   );
 }
 
 export function clearTeacherSessionCookie(response: Response): void {
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   response.headers.set("Set-Cookie", `${TEACHER_SESSION_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${secure}`);
+}
+
+function getTeacherSessionCookieMaxAge(expiresAt: string): number {
+  const expiresAtMs = Date.parse(expiresAt);
+  if (!Number.isFinite(expiresAtMs)) return 0;
+  const remainingSeconds = Math.floor((expiresAtMs - Date.now()) / 1000);
+  return Math.max(0, Math.min(TEACHER_SESSION_MAX_TTL_SECONDS, remainingSeconds));
 }
 
 export function isTeacherSessionConfigured(): boolean {
