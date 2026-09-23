@@ -6669,3 +6669,15 @@ This standard is recorded in
 `docs/decision-register/DR-1091-session-secret-strength-policy.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1091-session-secret-strength-policy.md`.
+
+## 430. Session Secret Rollover Standard
+
+- A deployment may retain one previous strong session secret during deliberate
+  rotation.
+- New sessions must always use the current secret.
+- Weak, duplicate, or additional previous values must not authorize sessions.
+
+This standard is recorded in
+`docs/decision-register/DR-1092-session-secret-rollover.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1092-session-secret-rollover.md`.

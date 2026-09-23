@@ -1229,6 +1229,21 @@ References:
 - `apps/web/src/server/persistence/teacherSessionCookie.ts`
 - `apps/web/src/server/persistence/persistenceDeploymentGate.ts`
 
+## FR-050: Session Secret Rollover Policy
+
+Status: Implemented for current student and teacher signed sessions.
+
+Requirement: Secret rotation must allow one bounded previous strong secret for
+validation while signing new sessions with the current secret. Weak, duplicate,
+or additional previous values must not extend the trust window.
+
+References:
+
+- `apps/web/src/server/persistence/sessionSecretPolicy.ts`
+- `apps/web/src/server/persistence/studentSessionCookie.ts`
+- `apps/web/src/server/persistence/teacherSessionCookie.ts`
+- `.env.example`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

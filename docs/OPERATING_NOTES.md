@@ -1502,3 +1502,8 @@ check to make a local pilot appear healthy.
 Direct server-module verifier procedure: preserve explicit TypeScript import
 extensions and the web workspace's `allowImportingTsExtensions` setting when a
 Node runtime regression loads server modules without Next's resolver.
+
+Session-secret rotation procedure: provision the new strong current secret,
+move the old strong value to its matching `_PREVIOUS` variable for one bounded
+rollover window, verify new sign-ins use the current value, then remove the
+previous value. Do not add a second previous secret or use a weak fallback.

@@ -4,8 +4,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const studentModule = fileURLToPath(new URL("../apps/web/src/server/persistence/studentSessionCookie.ts", import.meta.url));
 const teacherModule = fileURLToPath(new URL("../apps/web/src/server/persistence/teacherSessionCookie.ts", import.meta.url));
 const script = `
-import { createStudentSessionCookieValue, setStudentSessionCookie, STUDENT_SESSION_MAX_TTL_SECONDS } from ${JSON.stringify(pathToFileURL(studentModule).href)};
-import { createTeacherSessionCookieValue, setTeacherSessionCookie, TEACHER_SESSION_MAX_TTL_SECONDS, TEACHER_PERSISTENCE_READ_SCOPE } from ${JSON.stringify(pathToFileURL(teacherModule).href)};
+import { createStudentSessionCookieValue, readStudentSessionClaims, setStudentSessionCookie, STUDENT_SESSION_MAX_TTL_SECONDS } from ${JSON.stringify(pathToFileURL(studentModule).href)};
+import { createTeacherSessionCookieValue, readTeacherSessionClaims, setTeacherSessionCookie, TEACHER_SESSION_MAX_TTL_SECONDS, TEACHER_PERSISTENCE_READ_SCOPE } from ${JSON.stringify(pathToFileURL(teacherModule).href)};
 
 process.env.NODE_ENV = "production";
 
@@ -29,6 +29,19 @@ process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET = "student-session-secret-012
 process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET = "teacher-session-secret-01234567890123456789";
 assert(createStudentSessionCookieValue({ version: 1, tenantId: "sample", packageId: "package", launchCode: "launch", studentSessionId: "student", issuedAt, expiresAt }), "strong student secret was rejected");
 assert(createTeacherSessionCookieValue({ version: 1, tenantId: "sample", role: "teacher", scope: TEACHER_PERSISTENCE_READ_SCOPE, issuedAt, expiresAt }), "strong teacher secret was rejected");
+
+const rotationStudentValue = createStudentSessionCookieValue({ version: 1, tenantId: "sample", packageId: "package", launchCode: "launch", studentSessionId: "student", issuedAt, expiresAt });
+const rotationTeacherValue = createTeacherSessionCookieValue({ version: 1, tenantId: "sample", role: "teacher", scope: TEACHER_PERSISTENCE_READ_SCOPE, issuedAt, expiresAt });
+process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET_PREVIOUS = process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET;
+process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET_PREVIOUS = process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET;
+process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET = "rotated-student-session-secret-012345678901234567";
+process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET = "rotated-teacher-session-secret-012345678901234567";
+assert(readStudentSessionClaims(new Request("https://example.test", { headers: { cookie: "living-textbook-student-session=" + rotationStudentValue } })), "student previous secret did not validate during rotation");
+assert(readTeacherSessionClaims(new Request("https://example.test", { headers: { cookie: "living-textbook-teacher-session=" + rotationTeacherValue } })), "teacher previous secret did not validate during rotation");
+process.env.LIVING_TEXTBOOK_STUDENT_SESSION_SECRET_PREVIOUS = "too-short";
+process.env.LIVING_TEXTBOOK_TEACHER_SESSION_SECRET_PREVIOUS = "too-short";
+assert(!readStudentSessionClaims(new Request("https://example.test", { headers: { cookie: "living-textbook-student-session=" + rotationStudentValue } })), "weak student previous secret was accepted");
+assert(!readTeacherSessionClaims(new Request("https://example.test", { headers: { cookie: "living-textbook-teacher-session=" + rotationTeacherValue } })), "weak teacher previous secret was accepted");
 
 const studentResponse = new Response();
 setStudentSessionCookie(studentResponse, "student-value", new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString());

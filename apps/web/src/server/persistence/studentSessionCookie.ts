@@ -1,5 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { readServerSessionSecret } from "./sessionSecretPolicy.ts";
+import { readServerSessionSecret, readServerSessionSecrets } from "./sessionSecretPolicy.ts";
 
 export const STUDENT_SESSION_COOKIE = "living-textbook-student-session";
 export const STUDENT_SESSION_VERSION = 1 as const;
@@ -30,8 +30,8 @@ export function createStudentSessionCookieValue(
 }
 
 export function readStudentSessionClaims(request: Request): StudentSessionClaims | undefined {
-  const secret = getSessionSecret();
-  if (!secret) return undefined;
+  const secrets = getSessionSecrets();
+  if (secrets.length === 0) return undefined;
 
   const cookieHeader = request.headers.get("cookie") ?? "";
   const cookieValue = cookieHeader
@@ -45,7 +45,7 @@ export function readStudentSessionClaims(request: Request): StudentSessionClaims
   const segments = cookieValue.split(".");
   if (segments.length !== 2) return undefined;
   const [payload, signature] = segments;
-  if (!payload || !signature || !isValidSignature(payload, signature, secret)) return undefined;
+  if (!payload || !signature || !isValidSignature(payload, signature, secrets)) return undefined;
 
   try {
     const claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as Partial<StudentSessionClaims>;
@@ -93,14 +93,21 @@ function getSessionSecret(): string | undefined {
   return readServerSessionSecret("LIVING_TEXTBOOK_STUDENT_SESSION_SECRET");
 }
 
+function getSessionSecrets(): string[] {
+  return readServerSessionSecrets("LIVING_TEXTBOOK_STUDENT_SESSION_SECRET");
+}
+
 function sign(payload: string, secret: string): string {
   return createHmac("sha256", secret).update(payload).digest("base64url");
 }
 
-function isValidSignature(payload: string, signature: string, secret: string): boolean {
-  const expected = Buffer.from(sign(payload, secret), "utf8");
+function isValidSignature(payload: string, signature: string, secrets: string[]): boolean {
   const received = Buffer.from(signature, "utf8");
-  return expected.length === received.length && timingSafeEqual(expected, received);
+  return secrets.reduce((valid, secret) => {
+    const expected = Buffer.from(sign(payload, secret), "utf8");
+    const matches = expected.length === received.length && timingSafeEqual(expected, received);
+    return valid || matches;
+  }, false);
 }
 
 function toBase64Url(value: string): string {

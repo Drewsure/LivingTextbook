@@ -4961,3 +4961,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 The web workspace enables `allowImportingTsExtensions` because the executable
 Node verifier loads the same TypeScript server modules directly; the option is
 compatible with the workspace's no-emit typecheck and production bundling.
+
+## Build session 1006: Session secret rollover
+
+- Added one bounded previous-secret slot for student and teacher session verification.
+- New sessions always use the current strong secret; the previous strong secret is accepted only for validation during rotation.
+- Weak previous values are ignored, duplicate keys are removed, and no third rollover slot is supported.
+- Recorded ADR 1092 and DR-1092.

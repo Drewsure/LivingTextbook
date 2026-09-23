@@ -161,9 +161,9 @@ requireFragments("student session input bounds", studentSessionRoute, [
   "Student session fields exceed their limits",
 ]);
 for (const [label, source, emitter, maxTtl] of [["student session time bounds", studentSession, "getStudentSessionCookieMaxAge", "Math.min(STUDENT_SESSION_MAX_TTL_SECONDS, remainingSeconds)"], ["teacher session time bounds", teacherSession, "getTeacherSessionCookieMaxAge", "Math.min(TEACHER_SESSION_MAX_TTL_SECONDS, remainingSeconds)"]]) {
-  requireFragments(label, source, ["readServerSessionSecret", "COOKIE_MAX_BYTES", "MAX_TTL_SECONDS", emitter, "Number.isFinite(expiresAtMs)", maxTtl, "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
+  requireFragments(label, source, ["readServerSessionSecret", "readServerSessionSecrets", "COOKIE_MAX_BYTES", "MAX_TTL_SECONDS", emitter, "Number.isFinite(expiresAtMs)", maxTtl, "Buffer.byteLength(cookieValue, \"utf8\")", "Buffer.byteLength(value, \"utf8\") <=", "segments.length !== 2", "hasBoundedString", "isValid", "issuedAt > now + 30_000", "expiresAt <= issuedAt"]);
 }
-requireFragments("session secret policy", sessionSecretPolicy, ["SESSION_SECRET_MIN_BYTES", "Buffer.byteLength(secret, \"utf8\") < SESSION_SECRET_MIN_BYTES", "readServerSessionSecret"]);
+requireFragments("session secret policy", sessionSecretPolicy, ["SESSION_SECRET_MIN_BYTES", "Buffer.byteLength(secret, \"utf8\") < SESSION_SECRET_MIN_BYTES", "readServerSessionSecret", "readServerSessionSecrets", "_PREVIOUS", "new Set(secrets)"]);
 for (const [label, source] of [["student session sign-out origin gate", studentSessionRoute], ["teacher session sign-out origin gate", teacherSessionRoute]]) {
   requireFragments(label, source, ["export function DELETE(request: Request)", "validateSameOriginMutation(request)", "status: \"signed-out\""]);
 }

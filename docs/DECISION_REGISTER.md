@@ -8843,3 +8843,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Student and teacher signed-session secrets must contain at least 32 UTF-8 bytes.
 - The shared policy is used by session creation, session parsing, and deployment readiness.
 - Weak secrets fail closed; strong secrets remain provider- and tenant-neutral.
+
+## DR-1092: Session Secret Rollover
+
+- Session readers may validate against the current strong secret and one optional previous strong secret.
+- Session creators always sign with the current secret.
+- Weak, duplicate, or additional rollover values are not accepted as authority.
