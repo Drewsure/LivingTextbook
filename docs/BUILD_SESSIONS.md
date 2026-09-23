@@ -5131,3 +5131,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   remain blocked.
 - Added runtime coverage for derivation, preview validation, and mutation
   rejection. Recorded ADR 1106 and DR-1106.
+
+## Build session 1021: Asset manifest release-control binding
+
+- Reconciled manifest previews with provider-neutral release-control evidence.
+- Added hosted, local, and hybrid deployment intent plus deployment-policy,
+  hosted-storage, local-bundle, approval, and release blockers.
+- Connected the binding to teacher evidence surfaces so activation readiness is
+  visible without implying storage, folder activation, promotion, QR mutation,
+  or student-facing use.
+- Added runtime coverage for blocked release decisions and mutation rejection.
+- Recorded ADR 1107 and DR-1107.

@@ -1482,6 +1482,25 @@ References:
 - `apps/web/src/data/sampleAssetEvidencePacket.ts`
 - `apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx`
 
+## FR-065: Asset Manifest Release-Control Binding
+
+Status: Implemented for the review-only provider-neutral binding.
+
+Requirement: Asset manifest previews must reconcile with release-control
+evidence and declare hosted, local, or hybrid deployment intent. The binding
+must surface deployment policy, hosted storage, local bundle, release, and
+approval blockers while preserving tenant and package identity.
+
+The binding must never infer activation from a path, folder, preview state, or
+evidence-ready status. Storage writes, local activation, promotion, QR
+mutation, and student-facing use remain blocked.
+
+References:
+
+- `packages/content-model/src/assetManifestReleaseControlRuntime.ts`
+- `apps/web/src/data/sampleAssetEvidencePacket.ts`
+- `apps/web/src/features/evidence/EvidencePacketFlowPanel.tsx`
+
 ## FR-064: Asset Manifest Release Preview
 
 Status: Implemented for the provider-neutral review preview.

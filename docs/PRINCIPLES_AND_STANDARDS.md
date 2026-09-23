@@ -6893,3 +6893,19 @@ This standard is recorded in
 `docs/decision-register/DR-1106-asset-manifest-release-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1106-asset-manifest-release-preview.md`.
+
+## 445. Asset Manifest Release-Control Binding Standard
+
+- Every manifest preview must reconcile with package release-control evidence
+  and declare the intended hosted, local, or hybrid deployment mode.
+- The binding must show deployment-policy, hosted-storage, local-bundle,
+  release, and approval blockers together; no storage mode is implied by a
+  preview path or folder.
+- Release-control evidence can be evidence-ready without authorizing asset
+  activation. Storage writes, local bundle activation, promotion, QR mutation,
+  and student-facing use remain false until separately approved.
+
+This standard is recorded in
+`docs/decision-register/DR-1107-asset-manifest-release-control.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1107-asset-manifest-release-control.md`.

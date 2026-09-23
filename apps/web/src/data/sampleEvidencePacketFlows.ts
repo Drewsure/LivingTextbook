@@ -6,10 +6,13 @@ import type { AssetEvidencePacket } from "@living-textbook/content-model";
 import {
   sampleLabelledDiagramAssetEvidencePacket,
   sampleLabelledDiagramAssetManifestPreviews,
+  sampleLabelledDiagramAssetReleaseControlBindings,
   sampleMediaAssetEvidencePacket,
   sampleMediaAssetManifestPreviews,
+  sampleMediaAssetReleaseControlBindings,
 } from "@/data/sampleAssetEvidencePacket";
 import type { AssetManifestPreview } from "@living-textbook/content-model";
+import type { AssetManifestReleaseControlBinding } from "@living-textbook/content-model";
 
 export type EvidencePacketStatus = "preview-ready" | "missing-evidence" | "blocked";
 
@@ -35,6 +38,7 @@ export interface EvidencePacketFlow {
   blockedLiveActions: string[];
   assetEvidencePacket?: AssetEvidencePacket;
   assetManifestPreviews?: AssetManifestPreview[];
+  assetReleaseControlBindings?: AssetManifestReleaseControlBinding[];
 }
 
 export const sampleUploadEvidencePacketFlow: EvidencePacketFlow = {
@@ -213,6 +217,7 @@ export const sampleLabelledDiagramEvidencePacketFlow: EvidencePacketFlow = {
     "A Labelled Diagram image cannot become a game asset until the game asset manifest, anchor records, audio coverage, accessibility evidence, and release control packet are preserved.",
   assetEvidencePacket: sampleLabelledDiagramAssetEvidencePacket,
   assetManifestPreviews: sampleLabelledDiagramAssetManifestPreviews,
+  assetReleaseControlBindings: sampleLabelledDiagramAssetReleaseControlBindings,
   packets: [
     {
       packetId: "image-target-mapping-evidence",
@@ -296,6 +301,7 @@ export const sampleMediaEvidencePacketFlow: EvidencePacketFlow = {
     "Media can enrich a unit only after rights, manifest, optional playback, caption/fallback, learning-audio priority, checksums, and release-control evidence are preserved.",
   assetEvidencePacket: sampleMediaAssetEvidencePacket,
   assetManifestPreviews: sampleMediaAssetManifestPreviews,
+  assetReleaseControlBindings: sampleMediaAssetReleaseControlBindings,
   packets: [
     {
       packetId: "media-target-mapping-evidence",

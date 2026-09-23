@@ -1,4 +1,10 @@
-import { deriveAssetManifestPreviews, type AssetEvidencePacket, type AssetManifestPreview } from "@living-textbook/content-model";
+import {
+  deriveAssetManifestPreviews,
+  deriveAssetManifestReleaseControlBinding,
+  type AssetEvidencePacket,
+  type AssetManifestPreview,
+  type AssetManifestReleaseControlBinding,
+} from "@living-textbook/content-model";
 
 const attachmentBlocks = [
   "No attachment upload",
@@ -97,4 +103,23 @@ export const sampleMediaAssetManifestPreviews: AssetManifestPreview[] = deriveAs
     accessibilityEvidenceReady: false,
     releaseGateReady: false,
   },
+);
+
+const sampleAssetReleaseControlOptions = {
+  packageVersion: "1.0.0",
+  deploymentMode: "hybrid" as const,
+  releaseDecision: "blocked" as const,
+  releaseBlockingReasons: ["Package approval and media rights review are open."],
+  requiredApprovals: ["Tenant approver", "Publisher or school media owner"],
+  deploymentPolicyReviewed: false,
+  hostedStorageReviewed: false,
+  localBundleReviewed: false,
+};
+
+export const sampleLabelledDiagramAssetReleaseControlBindings: AssetManifestReleaseControlBinding[] = sampleLabelledDiagramAssetManifestPreviews.map((preview) =>
+  deriveAssetManifestReleaseControlBinding(preview, sampleAssetReleaseControlOptions),
+);
+
+export const sampleMediaAssetReleaseControlBindings: AssetManifestReleaseControlBinding[] = sampleMediaAssetManifestPreviews.map((preview) =>
+  deriveAssetManifestReleaseControlBinding(preview, sampleAssetReleaseControlOptions),
 );

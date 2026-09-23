@@ -36,6 +36,7 @@
 - `DR-1104-asset-intake-file-boundary.md`
 - `DR-1105-asset-evidence-binding.md`
 - `DR-1106-asset-manifest-release-preview.md`
+- `DR-1107-asset-manifest-release-control.md`
 - `DR-062-quiz-selection-playable-slice.md`
 - `DR-063-quiz-reporting-bridge.md`
 - `DR-064-teacher-demo-route-shortcuts.md`

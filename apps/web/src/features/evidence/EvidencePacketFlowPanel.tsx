@@ -3,6 +3,7 @@ import type { EvidencePacket, EvidencePacketFlow, EvidencePacketStatus } from "@
 import { validateReviewSurfaceScope } from "@living-textbook/content-model";
 import type { AssetEvidencePacket } from "@living-textbook/content-model";
 import type { AssetManifestPreview } from "@living-textbook/content-model";
+import type { AssetManifestReleaseControlBinding } from "@living-textbook/content-model";
 
 interface EvidencePacketFlowPanelProps {
   flow: EvidencePacketFlow;
@@ -57,6 +58,7 @@ export function EvidencePacketFlowPanel({ flow }: EvidencePacketFlowPanelProps) 
 
       {flow.assetEvidencePacket ? <AssetEvidenceBinding packet={flow.assetEvidencePacket} /> : null}
       {flow.assetManifestPreviews ? <AssetManifestPreviewSection previews={flow.assetManifestPreviews} /> : null}
+      {flow.assetReleaseControlBindings ? <AssetReleaseControlSection bindings={flow.assetReleaseControlBindings} /> : null}
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -135,6 +137,41 @@ function AssetManifestPreviewSection({ previews }: { previews: AssetManifestPrev
             </dl>
             <ul className="mt-3 grid gap-1 text-xs leading-5 text-[var(--tenant-muted)]">
               {preview.blockers.slice(0, 4).map((blocker, index) => <li key={`${preview.manifestId}-blocker-${index}`}>{blocker}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AssetReleaseControlSection({ bindings }: { bindings: AssetManifestReleaseControlBinding[] }) {
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Release-control binding</p>
+          <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Hosted, local, and hybrid readiness</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            The asset cannot activate until deployment policy, storage mode, package release, and required approvals are reviewed together.
+          </p>
+        </div>
+        <StatusPill label="activation blocked" tone="warning" />
+      </div>
+      <div className="mt-4 grid gap-3 xl:grid-cols-2">
+        {bindings.map((binding) => (
+          <article key={binding.bindingId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="break-words text-sm font-bold text-[var(--tenant-text)]">{binding.manifestId}</p>
+              <StatusPill label={binding.decision} tone="warning" />
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2 text-xs text-[var(--tenant-muted)]">
+              <span className="rounded-full border border-[var(--tenant-border)] px-2 py-1">{binding.deploymentMode}</span>
+              <span className="rounded-full border border-[var(--tenant-border)] px-2 py-1">{binding.requiredApprovals.length} approvals</span>
+              <span className="rounded-full border border-[var(--tenant-border)] px-2 py-1">{binding.blockers.length} blockers</span>
+            </div>
+            <ul className="mt-3 grid gap-1 text-xs leading-5 text-[var(--tenant-muted)]">
+              {binding.blockers.slice(0, 4).map((blocker, index) => <li key={`${binding.bindingId}-blocker-${index}`}>{blocker}</li>)}
             </ul>
           </article>
         ))}

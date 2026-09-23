@@ -81,3 +81,13 @@ npm run dev --workspace @living-textbook/web -- --hostname 127.0.0.1 --port 3000
 - Evidence-ready is explicitly a release-review state, not a storage,
   promotion, download, playlist, game, assignment, or student-facing grant.
 - Manifest previews remain provider-neutral, review-only, and side-effect-free.
+
+## Asset Manifest Release-Control Binding
+
+- Manifest previews reconcile with release-control evidence and declare hosted,
+  local, or hybrid deployment intent.
+- Deployment policy, hosted storage, local bundle, package release, and
+  required approval blockers remain visible together.
+- Paths, folders, preview status, and evidence-ready status cannot authorize
+  storage, local activation, promotion, QR mutation, or student-facing use.
+- Tenant and package identity remain bound through the release-control preview.

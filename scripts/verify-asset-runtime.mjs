@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const runtime = readSource("../packages/content-model/src/assetRuntime.ts");
 const manifestRuntime = readSource("../packages/content-model/src/assetManifestRuntime.ts");
+const releaseControlRuntime = readSource("../packages/content-model/src/assetManifestReleaseControlRuntime.ts");
 const failures = [];
 
 for (const marker of [
@@ -36,6 +37,24 @@ for (const marker of [
   'sideEffect: "none"',
 ]) {
   if (!runtime.includes(marker)) failures.push(`Asset runtime missing marker: ${marker}`);
+}
+
+if (failures.length > 0) {
+  for (const failure of failures) console.error(`FAIL ${failure}`);
+  process.exit(1);
+}
+
+for (const marker of [
+  "AssetManifestReleaseControlBinding",
+  "deriveAssetManifestReleaseControlBinding",
+  "validateAssetManifestReleaseControlBinding",
+  "No asset release",
+  "No package publish",
+  "No hosted storage write",
+  "No local bundle activation",
+  "No student-facing promotion",
+]) {
+  if (!releaseControlRuntime.includes(marker)) failures.push(`Asset manifest release-control runtime missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

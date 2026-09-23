@@ -34,6 +34,7 @@ try {
     "packages/content-model/src/assetRuntime.ts",
     "packages/content-model/src/assetEvidencePacket.ts",
     "packages/content-model/src/assetManifestRuntime.ts",
+    "packages/content-model/src/assetManifestReleaseControlRuntime.ts",
     "packages/content-model/src/sourceRuntime.ts",
     "packages/content-model/src/sourceExtractionPreview.ts",
     "packages/content-model/src/sourcePackageAssembly.ts",
@@ -154,6 +155,7 @@ try {
   const asset = require(join(output, "assetRuntime.js"));
   const assetEvidence = require(join(output, "assetEvidencePacket.js"));
   const assetManifest = require(join(output, "assetManifestRuntime.js"));
+  const assetManifestReleaseControl = require(join(output, "assetManifestReleaseControlRuntime.js"));
   const source = require(join(output, "sourceRuntime.js"));
   const sourceExtractionPreview = require(join(output, "sourceExtractionPreview.js"));
   const sourcePackageAssembly = require(join(output, "sourcePackageAssembly.js"));
@@ -1194,6 +1196,14 @@ try {
   assertEqual(manifestPreviews[0].decision, "needs-review");
   assertEqual(assetManifest.validateAssetManifestPreview(manifestPreviews[0]).length, 0);
   assertIncludes(assetManifest.validateAssetManifestPreview({ ...manifestPreviews[0], studentFacingAllowed: true }), "asset manifest preview must block storage, promotion, and student-facing use");
+  const assetReleaseBinding = assetManifestReleaseControl.deriveAssetManifestReleaseControlBinding(manifestPreviews[0], {
+    packageVersion: "1.0.0", deploymentMode: "hybrid", releaseDecision: "blocked",
+    releaseBlockingReasons: ["Package approval is open."], requiredApprovals: ["Tenant approver"],
+    deploymentPolicyReviewed: false, hostedStorageReviewed: false, localBundleReviewed: false,
+  });
+  assertEqual(assetReleaseBinding.decision, "blocked");
+  assertEqual(assetManifestReleaseControl.validateAssetManifestReleaseControlBinding(assetReleaseBinding).length, 0);
+  assertIncludes(assetManifestReleaseControl.validateAssetManifestReleaseControlBinding({ ...assetReleaseBinding, localActivationAllowed: true }), "asset manifest release-control must block all activation side effects");
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",
