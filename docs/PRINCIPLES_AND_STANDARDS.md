@@ -7129,3 +7129,20 @@ This standard is recorded in
 `docs/decision-register/DR-1119-observation-review-handoff-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1119-observation-review-handoff-preview.md`.
+
+## 457. Release-Readiness Observation Bridge Standard
+
+- Release-readiness review may inspect a local observation only through an
+  exact tenant, package, launch, unit, and student-session lookup.
+- Missing local evidence must be visible and must lead the adult reviewer to
+  the teacher observation surface; it must not be silently treated as green.
+- Present evidence may populate a review-only handoff summary, but must never
+  change readiness status or authorize export, hosted persistence, promotion,
+  QR mutation, assignment, or student launch.
+- The bridge is provider-neutral and must work for white-label tenants without
+  assuming MiniStar branding or curriculum.
+
+This standard is recorded in
+`docs/decision-register/DR-1120-release-readiness-observation-bridge.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1120-release-readiness-observation-bridge.md`.

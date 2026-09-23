@@ -5279,3 +5279,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept handoff derivation review-only; it does not export, persist to a hosted
   provider, promote a release, mutate QR routes, assign work, or launch
   students. Recorded ADR 1119 and DR-1119.
+
+## Build session 1034: Release-readiness observation bridge
+
+- Added a read-only browser evidence adjudication panel to the white-label
+  release-readiness route.
+- The panel reads only the exact tenant, package, launch, unit, and student
+  session key, then derives the existing review-only observation handoff.
+- Missing receipts link the adult reviewer to the teacher observation surface;
+  present receipts show scope and blocked actions without changing readiness,
+  exporting data, writing hosted persistence, or enabling release. Recorded ADR
+  1120 and DR-1120.

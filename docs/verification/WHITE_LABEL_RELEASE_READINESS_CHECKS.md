@@ -39,6 +39,8 @@ Confirm:
 - Observation handoff preserves the validated receipt identity and keeps adult
   review, export, hosted writes, promotion, QR mutation, assignment, and
   student launch boundaries explicit.
+- Release readiness reads only the exact local observation scope and keeps a
+  missing receipt distinguishable from a verified browser observation.
 - Evidence remains review-only; no production approval, student launch,
   persistence, export, installation, provider activation, or QR mutation is
   enabled.

@@ -1603,6 +1603,23 @@ References:
 - `apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx`
 - `scripts/verify-browser-rehearsal-observation-handoff.mjs`
 
+## FR-077: Release-Readiness Observation Bridge
+
+Status: Implemented for the review-only partner release-readiness surface.
+
+Requirement: Release review must inspect a teacher observation receipt only
+through an exact tenant/package/launch/unit/student-session scope. Missing
+evidence must route the adult reviewer back to the teacher observation surface.
+Present evidence may show its handoff and blockers, but must not alter
+readiness status or enable export, hosted writes, promotion, QR mutation,
+assignment, or student launch.
+
+References:
+
+- `apps/web/src/features/release/BrowserEvidenceAdjudicationPanel.tsx`
+- `apps/web/src/app/teacher/release-readiness/page.tsx`
+- `docs/WHITE_LABEL_RELEASE_READINESS_STANDARD.md`
+
 ## FR-071: White-Label Verification Run Lineage
 
 Status: Implemented for the review-only release-readiness packet.
