@@ -1158,6 +1158,20 @@ References:
 - `apps/web/src/app/api/teacher/session/route.ts`
 - `scripts/verify-persistence-read-authorization.mjs`
 
+## FR-043: Persistence Read Query Bounds
+
+Status: Implemented for current persistence read routes.
+
+Requirement: Every future persistence GET route must bound tenant-scoped query
+identifiers and list limits before authorization or storage access. Invalid or
+oversized query values must fail deterministically and receive verifier
+coverage before foundation readiness.
+
+References:
+
+- `apps/web/src/server/persistence/requestBoundary.ts`
+- `scripts/verify-persistence-read-authorization.mjs`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

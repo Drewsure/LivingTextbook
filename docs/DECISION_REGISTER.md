@@ -8801,3 +8801,9 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Student and teacher session DELETE routes require the same exact-origin mutation check as session issuance.
 - Originless or cross-origin sign-out requests return `403` before clearing cookies.
 - Sign-out remains a bounded cookie mutation and does not grant persistence, tenant, or report access.
+
+## DR-1085: Persistence Read-Scope Query Hardening
+
+- Persistence read routes use shared bounded query helpers for tenant-scoped identity and operation-history limits.
+- Oversized identity parameters and invalid operation limits return `400` before authorization, storage access, or report aggregation.
+- The limits apply equally to student continuity, teacher review, local handoff, status, event, progression, and operation-evidence reads.

@@ -20,7 +20,11 @@ function requireFragments(label, source, fragments) {
 }
 
 const route = read("apps/web/src/app/api/persistence/progression/route.ts");
+const eventRoute = read("apps/web/src/app/api/persistence/events/route.ts");
+const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
+const localHandoffRoute = read("apps/web/src/app/api/persistence/local-handoff/route.ts");
+const requestBoundary = read("apps/web/src/server/persistence/requestBoundary.ts");
 const client = read("apps/web/src/features/persistence/hostedProgressionPersistenceClient.ts");
 const statusClient = read("apps/web/src/features/persistence/persistenceStatusClient.ts");
 const panel = read("apps/web/src/app/teacher/persistence/page.tsx");
@@ -46,6 +50,7 @@ requireFragments("progression read route", route, [
   "No progression record is returned without a matching tenant-scoped learner session.",
   'accessMode === "student-continuity" && !hasPersistenceReadAuthorization(request, lookup)',
   "Teacher probes are already authorized against the tenant-scoped teacher session above.",
+  "readBoundedQueryParam",
 ]);
 requireFragments("progression read client", client, [
   'accessMode?: "student-continuity" | "teacher-review-probe"',
@@ -102,6 +107,28 @@ requireFragments("teacher session change contract", sessionEvents, [
   "TEACHER_OPERATIONS_SESSION_CHANGED",
   "CustomEvent",
   "tenantId",
+]);
+requireFragments("event stream read route", eventRoute, [
+  "readBoundedQueryParam",
+  "Event stream read scope exceeds the bounded query limits.",
+]);
+requireFragments("persistence query boundary", requestBoundary, [
+  "export function readBoundedQueryParam",
+  "export function readBoundedQueryLimit",
+  "value.length <= maxLength",
+]);
+requireFragments("operations read route", operationsRoute, [
+  "readBoundedQueryLimit",
+  "Operation evidence query exceeds the bounded query limits.",
+  "listOperationEvidence(limit ?? 50, tenantId)",
+]);
+requireFragments("persistence status query boundary", statusRoute, [
+  "readBoundedQueryParam",
+  "Persistence status query exceeds the bounded tenant limit.",
+]);
+requireFragments("local handoff query boundary", localHandoffRoute, [
+  "readBoundedQueryParam",
+  "Local handoff query exceeds the bounded query limits.",
 ]);
 requireFragments("teacher access session publishing", operationsAccessPanel, [
   "notifyTeacherOperationsSessionChanged(tenantId)",

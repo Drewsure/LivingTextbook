@@ -6582,3 +6582,17 @@ This standard is recorded in
 `docs/decision-register/DR-1084-session-sign-out-origin-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1084-session-sign-out-origin-hardening.md`.
+
+## 423. Persistence Read-Scope Query Standard
+
+- Tenant, package, launch, student-session, bundle, and packet query values
+  must pass shared length bounds before authorization or storage access.
+- Operation-history limits must be positive, safe integers with an explicit
+  maximum.
+- Oversized or invalid read queries fail closed and do not reveal records,
+  paths, or report data.
+
+This standard is recorded in
+`docs/decision-register/DR-1085-persistence-read-scope-query-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1085-persistence-read-scope-query-hardening.md`.

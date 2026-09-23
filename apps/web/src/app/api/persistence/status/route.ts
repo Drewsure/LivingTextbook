@@ -5,12 +5,16 @@ import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teac
 import { getConfiguredPersistenceProvider } from "@/server/persistence/progressionPersistenceAdapter";
 import { derivePersistenceReadiness } from "@/server/persistence/persistenceReadiness";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export function GET(request: Request) {
-  const tenantId = new URL(request.url).searchParams.get("tenantId")?.trim() ?? "";
+  const tenantId = readBoundedQueryParam(new URL(request.url), "tenantId");
+  if (tenantId === undefined) {
+    return NextResponse.json({ status: "rejected", errors: ["Persistence status query exceeds the bounded tenant limit."] }, { status: 400, headers: { "Cache-Control": "no-store" } });
+  }
   if (!tenantId || !hasTeacherOperationsReadAuthorization(request, tenantId)) {
     return NextResponse.json({
       status: "unauthorized",

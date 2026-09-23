@@ -14,6 +14,21 @@ type JsonBodySuccess<T> = {
 
 export type JsonBodyResult<T> = JsonBodyFailure | JsonBodySuccess<T>;
 
+export function readBoundedQueryParam(url: URL, name: string, maxLength = 160): string | undefined {
+  const raw = url.searchParams.get(name);
+  if (raw === null) return "";
+  const value = raw.trim();
+  return value.length <= maxLength ? value : undefined;
+}
+
+export function readBoundedQueryLimit(url: URL, name: string, fallback = 50, max = 100): number | undefined {
+  const raw = url.searchParams.get(name);
+  if (raw === null || raw.trim() === "") return fallback;
+  if (!/^\d+$/.test(raw.trim())) return undefined;
+  const value = Number(raw);
+  return Number.isSafeInteger(value) && value >= 1 && value <= max ? value : undefined;
+}
+
 export type MutationOriginResult =
   | { valid: true }
   | { valid: false; status: 403; errors: string[] };

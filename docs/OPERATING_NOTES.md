@@ -1466,3 +1466,8 @@ Session mutation procedure: keep session issuance and sign-out symmetric.
 Every cookie mutation must call `validateSameOriginMutation` and return before
 setting or clearing a cookie when the origin is missing or cross-origin. Run
 `npm run verify:persistence-runtime` after changing either session route.
+
+Persistence read-query procedure: use `readBoundedQueryParam` for every
+tenant-scoped identity query and `readBoundedQueryLimit` for bounded lists.
+Reject an undefined helper result before authorization or storage access. Run
+`npm run verify:persistence-runtime` after changing any persistence GET route.

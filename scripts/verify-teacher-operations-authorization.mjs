@@ -63,7 +63,7 @@ requireFragments("tenant allowlist", session, [
 requireFragments("operations route", operationsRoute, [
   "Teacher-scoped authorization is required",
   "hasTeacherOperationsReadAuthorization(request, tenantId)",
-  "listOperationEvidence(limit, tenantId)",
+  "listOperationEvidence(limit ?? 50, tenantId)",
 ]);
 if (operationsRoute.includes('status: "unauthorized", provider: getProvider()')) {
   failures.push("operations route: unauthorized response must not disclose provider");

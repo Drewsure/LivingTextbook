@@ -5,16 +5,23 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { getLocalBundleHandoffReviewProvider } from "@/server/persistence/localBundleHandoffReviewAdapter";
+import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export function GET(request: Request) {
   const url = new URL(request.url);
+  const tenantId = readBoundedQueryParam(url, "tenantId");
+  const bundleId = readBoundedQueryParam(url, "bundleId");
+  const packetId = readBoundedQueryParam(url, "packetId");
+  if ([tenantId, bundleId, packetId].some((value) => value === undefined)) {
+    return json({ status: "rejected", records: [], errors: ["Local handoff query exceeds the bounded query limits."] }, 400);
+  }
   const requestShape: LocalBundleHandoffReviewRequest = {
-    tenantId: url.searchParams.get("tenantId")?.trim() ?? "",
-    bundleId: url.searchParams.get("bundleId")?.trim() ?? "",
-    packetId: url.searchParams.get("packetId")?.trim() ?? "",
+    tenantId: tenantId ?? "",
+    bundleId: bundleId ?? "",
+    packetId: packetId ?? "",
     accessMode: (url.searchParams.get("accessMode") ?? "") as LocalBundleHandoffReviewRequest["accessMode"],
     studentFacing: false,
   };

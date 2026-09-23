@@ -6,12 +6,18 @@ import {
   getConfiguredPersistenceProvider,
   getPersistenceProviderConfiguration,
 } from "@/server/persistence/progressionPersistenceAdapter";
+import { readBoundedQueryLimit, readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export function GET(request: Request) {
-  const tenantId = new URL(request.url).searchParams.get("tenantId")?.trim() ?? "";
+  const url = new URL(request.url);
+  const tenantId = readBoundedQueryParam(url, "tenantId");
+  const limit = readBoundedQueryLimit(url, "limit");
+  if (tenantId === undefined || limit === undefined) {
+    return json({ status: "rejected", records: [], errors: ["Operation evidence query exceeds the bounded query limits."], privacy: safePrivacyMessage() }, 400);
+  }
   if (!tenantId || !hasTeacherOperationsReadAuthorization(request, tenantId)) {
     return json({ status: "unauthorized", records: [], errors: ["Teacher-scoped authorization is required to read operation evidence."], privacy: safePrivacyMessage() }, 401);
   }
@@ -24,13 +30,11 @@ export function GET(request: Request) {
     return json({ status: "rehearsal", provider, records: [], errors: ["Operation evidence is unavailable while durable storage is disabled."], privacy: safePrivacyMessage() });
   }
 
-  const limitValue = Number.parseInt(new URL(request.url).searchParams.get("limit") ?? "50", 10);
-  const limit = Number.isFinite(limitValue) ? limitValue : 50;
   try {
     return json({
       status: "available",
       provider,
-      records: getDurableProgressionStore().listOperationEvidence(limit, tenantId).map(({ tenantScopeDigest: _tenantScopeDigest, ...record }) => record),
+      records: getDurableProgressionStore().listOperationEvidence(limit ?? 50, tenantId).map(({ tenantScopeDigest: _tenantScopeDigest, ...record }) => record),
       errors: [],
       privacy: safePrivacyMessage(),
       operations: getDurableOperationsPolicySnapshot(),

@@ -4908,3 +4908,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Preserved fail-closed cookie clearing, tenant authorization, and deployment gates.
 - Recorded ADR 1084 and DR-1084.
 - The regression remains review-only and performs no database, upload, route, migration, or assignment operation.
+
+## Build session 0999: Persistence read-scope query hardening
+
+- Added shared bounded query helpers for tenant, package, launch, session, handoff, and operation-history inputs.
+- Applied fail-closed query limits to progression, event, status, local-handoff, and operation-evidence reads.
+- Kept teacher/student authorization and review-only persistence gates unchanged.
+- Recorded ADR 1085 and DR-1085.

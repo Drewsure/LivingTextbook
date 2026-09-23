@@ -16,7 +16,7 @@ import { readStudentSessionClaims } from "@/server/persistence/studentSessionCoo
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { resolveProgressEventTaxonomy } from "@/server/persistence/progressEventTaxonomyResolver";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
-import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,11 +73,18 @@ export async function POST(request: Request) {
 
 export function GET(request: Request) {
   const url = new URL(request.url);
+  const tenantId = readBoundedQueryParam(url, "tenantId");
+  const packageId = readBoundedQueryParam(url, "packageId");
+  const launchCode = readBoundedQueryParam(url, "launchCode");
+  const studentSessionId = readBoundedQueryParam(url, "studentSessionId", 512);
+  if ([tenantId, packageId, launchCode, studentSessionId].some((value) => value === undefined)) {
+    return json({ status: "rejected", errors: ["Event stream read scope exceeds the bounded query limits."] }, 400);
+  }
   const lookup = {
-    tenantId: url.searchParams.get("tenantId") ?? "",
-    packageId: url.searchParams.get("packageId") ?? "",
-    launchCode: url.searchParams.get("launchCode") ?? "",
-    studentSessionId: url.searchParams.get("studentSessionId") ?? "",
+    tenantId: tenantId ?? "",
+    packageId: packageId ?? "",
+    launchCode: launchCode ?? "",
+    studentSessionId: studentSessionId ?? "",
   };
   const accessMode = url.searchParams.get("accessMode");
   if (accessMode !== "student-continuity" && accessMode !== "teacher-review-probe") {
