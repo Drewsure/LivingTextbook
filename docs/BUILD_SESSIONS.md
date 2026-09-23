@@ -4999,3 +4999,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved the no-source-write, no-OCR-promotion, no-draft, no-assignment,
   and no-student-payload boundary.
 - Recorded ADR 1095 and DR-1095.
+
+## Build session 1010: AI service runtime regression
+
+- Added compiled runtime coverage for the review-only AI authoring service.
+- Verified 8-12 vocabulary terms, exactly two target structures, duplicate
+  rejection, target/support language boundaries, evidence, audio, rights, cost,
+  teacher review, and no-provider-dispatch behavior.
+- Wired the runtime regression into `npm run verify:ai-service` and preserved
+  the no-model, no-billing, no-package-write, no-route, no-assignment boundary.
+- Recorded ADR 1096 and DR-1096.

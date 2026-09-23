@@ -8876,3 +8876,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   future PDF/text adapter can use them.
 - No source file write, OCR promotion, teacher draft creation, assignment, or
   student-facing payload is enabled by this validator.
+
+## DR-1096: AI Service Runtime Regression
+
+- The optional AI service is verified at runtime, not only through static
+  source markers and typechecking.
+- The regression proves pedagogical, language, evidence, cost, and no-dispatch
+  boundaries against the compiled service implementation.
+- Provider calls, billing, package writes, verifier submissions, route writes,
+  playlist writes, assignments, and support-language progression remain blocked.

@@ -1288,6 +1288,21 @@ References:
 - `scripts/verify-runtime-behavior.mjs`
 - `docs/adr/1095-source-runtime-input-hardening.md`
 
+## FR-054: AI Service Runtime Regression
+
+Status: Implemented for the review-only AI authoring boundary.
+
+Requirement: The optional AI authoring service must have executable runtime
+coverage for pedagogical locks, target/support language policy, evidence and
+cost gates, malformed input, and provider-dispatch blocking before any hosted
+or local model adapter is introduced.
+
+References:
+
+- `scripts/verify-ai-service-runtime.mjs`
+- `apps/ai-service/src/index.ts`
+- `docs/adr/1096-ai-service-runtime-regression.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.

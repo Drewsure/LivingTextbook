@@ -6723,3 +6723,18 @@ This standard is recorded in
 `docs/decision-register/DR-1095-source-runtime-input-hardening.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1095-source-runtime-input-hardening.md`.
+
+## 434. AI Service Runtime Verification Standard
+
+- Optional AI authoring services require executable runtime verification in
+  addition to static checks and typechecking.
+- Runtime coverage must prove pedagogical locks, target/support language rules,
+  evidence and cost gates, malformed-input rejection, and provider-dispatch
+  blocking.
+- A passing AI validation result never grants model billing, package writes,
+  route creation, assignment, or student-facing promotion.
+
+This standard is recorded in
+`docs/decision-register/DR-1096-ai-service-runtime-regression.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1096-ai-service-runtime-regression.md`.

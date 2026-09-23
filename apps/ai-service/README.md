@@ -37,4 +37,4 @@ The same trust-boundary rule applies to downstream package handoff: content-pack
 
 Persistence runtime privacy, policy, and release flags follow the same rule before any hosted, local, or hybrid adapter can interpret a record request.
 
-Run `npm run typecheck --workspace @living-textbook/ai-service` from the repository root to verify the boundary.
+Run `npm run typecheck --workspace @living-textbook/ai-service` from the repository root to verify the boundary. Run `npm run verify:ai-service` to execute both the static boundary check and the compiled runtime regression.
