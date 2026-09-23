@@ -5089,3 +5089,17 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved review-only behavior: no file storage, extraction execution, draft
   creation, package promotion, assignment, or raw-source student payload.
 - Recorded ADR 1103 and DR-1103.
+
+## Build session 1018: Asset intake file boundary
+
+- Bound asset-runtime intake to MIME types compatible with image, audio, video,
+  font, and source-document kinds.
+- Required positive integer byte lengths and added a shared 256 MiB platform
+  ceiling; tenant size-budget policy remains a separate, potentially stricter
+  gate.
+- Added runtime regressions for kind/MIME mismatch and oversized assets while
+  preserving checksum, scan, rights, mapping, release, and learner-media
+  exclusions.
+- Preserved review-only behavior: no upload adapter, storage write, media
+  transform, promotion, or student-facing asset activation was enabled.
+- Recorded ADR 1104 and DR-1104.

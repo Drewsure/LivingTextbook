@@ -1463,6 +1463,26 @@ References:
 - `scripts/verify-phaser-candidate-package-behavior.mjs`
 - `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`
 
+## FR-062: Asset Intake File Boundary
+
+Status: Implemented for the review-only asset runtime boundary.
+
+Requirement: Future image, audio, video, font, and source-document upload
+adapters must bind kind-compatible MIME types and positive bounded byte lengths
+before scan, rights, mapping, storage, release, or student-facing decisions.
+The shared platform ceiling is 256 MiB until tenant policy profiles establish
+a stricter limit.
+
+The boundary remains provider-neutral and must not become a live upload,
+storage-write, media-transform, promotion, or learner-upload path by itself.
+
+References:
+
+- `packages/content-model/src/assetRuntime.ts`
+- `scripts/verify-runtime-behavior.mjs`
+- `scripts/verify-asset-runtime.mjs`
+- `docs/verification/CONTENT_INTAKE_CHECKS.md`
+
 ## FR-061: Source Intake File Boundary
 
 Status: Implemented for the review-only source runtime.

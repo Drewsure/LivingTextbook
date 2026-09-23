@@ -33,6 +33,7 @@
 - `DR-059-sentence-builder-playable-slice.md`
 - `DR-060-sentence-builder-discovery.md`
 - `DR-061-sentence-builder-reporting.md`
+- `DR-1104-asset-intake-file-boundary.md`
 - `DR-062-quiz-selection-playable-slice.md`
 - `DR-063-quiz-reporting-bridge.md`
 - `DR-064-teacher-demo-route-shortcuts.md`

@@ -1163,6 +1163,8 @@ try {
   assertIncludes(malformedAssetShapeErrors, "asset scan status is unsupported");
   assertIncludes(malformedAssetShapeErrors, "asset rights status is unsupported");
   assertIncludes(malformedAssetShapeErrors, "asset source review status is unsupported");
+  assertIncludes(asset.validateAssetRuntimeRequest({ ...assetRequest, mimeType: "image/png" }), "asset MIME type is incompatible with asset kind");
+  assertIncludes(asset.validateAssetRuntimeRequest({ ...assetRequest, sizeBytes: 256 * 1024 * 1024 + 1 }), "asset size cannot exceed 268435456 bytes");
   assertEqual(asset.createReviewOnlyAssetRuntimeAdapter().execute({
     tenantId: "tenant-1", assetId: "asset-1", operation: "intake", kind: "image",
     mimeType: "image/png", sizeBytes: 1000, checksum: "checksum-1", scanStatus: "pending",

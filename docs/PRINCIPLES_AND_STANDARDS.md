@@ -6844,3 +6844,19 @@ This standard is recorded in
 `docs/decision-register/DR-1103-source-intake-file-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1103-source-intake-file-boundary.md`.
+
+## 442. Asset Intake File-Boundary Standard
+
+- Asset runtime requests must bind a MIME type compatible with the declared
+  image, audio, video, font, or source-document kind before any future file
+  provider can be considered.
+- Asset byte length must be a positive integer at or below the shared 256 MiB
+  platform ceiling. Tenant policy may impose a stricter budget.
+- This boundary does not create storage, run malware scanning, prove rights,
+  transcode media, promote an asset, or make an asset student-facing. Those
+  remain separate review and release gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1104-asset-intake-file-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1104-asset-intake-file-boundary.md`.

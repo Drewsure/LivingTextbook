@@ -56,6 +56,14 @@ const maxAssetIdentifierLength = 160;
 const maxUnitKeyLength = 240;
 const maxMimeTypeLength = 128;
 const maxChecksumLength = 256;
+export const ASSET_RUNTIME_MAX_BYTES = 256 * 1024 * 1024;
+const assetMimeTypes = new Map<AssetRuntimeKind, ReadonlySet<string>>([
+  ["image", new Set(["image/jpeg", "image/png", "image/webp", "image/svg+xml"])],
+  ["audio", new Set(["audio/mpeg", "audio/wav", "audio/mp4", "audio/ogg"])],
+  ["video", new Set(["video/mp4", "video/webm", "video/quicktime"])],
+  ["font", new Set(["font/woff", "font/woff2", "font/ttf", "application/font-woff", "application/vnd.ms-fontobject"])],
+  ["source-document", new Set(["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "text/plain", "text/markdown", "text/csv"])],
+]);
 
 export const reviewOnlyAssetBlockedActions = [
   "No file upload",
@@ -107,12 +115,14 @@ export function validateAssetRuntimeRequest(request: AssetRuntimeRequest): strin
   if (!assetRuntimeKinds.has(kind as AssetRuntimeKind)) errors.push("asset kind is unsupported");
   if (!mimeType) errors.push("MIME type is required");
   else if (mimeType.length > maxMimeTypeLength || !mimeTypePattern.test(mimeType)) errors.push("MIME type must be a bounded type/subtype value");
+  else if (!assetMimeTypes.get(kind as AssetRuntimeKind)?.has(mimeType)) errors.push("asset MIME type is incompatible with asset kind");
   if (!checksum) errors.push("asset checksum is required");
   else if (checksum.length > maxChecksumLength) errors.push("asset checksum is too long");
   if (!assetRuntimeScanStatuses.has(request.scanStatus)) errors.push("asset scan status is unsupported");
   if (!assetRuntimeRightsStatuses.has(request.rightsStatus)) errors.push("asset rights status is unsupported");
   if (!assetRuntimeSourceReviewStatuses.has(request.sourceReviewStatus)) errors.push("asset source review status is unsupported");
-  if (!Number.isFinite(request.sizeBytes) || request.sizeBytes <= 0) errors.push("asset size must be a positive number");
+  if (!Number.isInteger(request.sizeBytes) || request.sizeBytes <= 0) errors.push("asset size must be a positive integer");
+  else if (request.sizeBytes > ASSET_RUNTIME_MAX_BYTES) errors.push(`asset size cannot exceed ${ASSET_RUNTIME_MAX_BYTES} bytes`);
   if (!storagePolicyAccepted) errors.push("accepted tenant or school storage policy is required");
   if (!sizeBudgetAccepted) errors.push("asset size budget review is required");
   if (request.scanStatus !== "passed") errors.push("asset scan must pass before review or promotion");
