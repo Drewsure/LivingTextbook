@@ -7338,3 +7338,26 @@ This standard is recorded in
 `docs/decision-register/DR-1132-controlled-pilot-human-review-packet.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1132-controlled-pilot-human-review-packet.md`.
+
+## 470. Quarantine-First Upload Intake Standard
+
+- Publisher source documents, labelled-diagram images, audio/music, and video
+  must enter through a tenant-scoped, channel-scoped quarantine boundary; the
+  server must remain disabled unless an explicit deployment setting enables
+  review intake.
+- Intake must validate multipart shape, MIME type, bounded size, safe tenant
+  identity, and checksum before writing an immutable quarantine record and
+  payload. The record must remain pending scan, unknown for rights, and
+  unreviewed for source.
+- Quarantine is not publication. Target mapping, promotion, student-facing
+  use, learner media, download, playlist, game, assignment, QR, and local
+  bundle activation must remain false or unavailable until their separate
+  evidence and release gates exist.
+- Teacher review, source lineage, rights proof, scan results, target mapping,
+  accessibility, and release approval remain outside intake and must not be
+  inferred from the presence of a file.
+
+This standard is recorded in
+`docs/decision-register/DR-1133-quarantine-first-upload-intake.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1133-quarantine-first-upload-intake.md`.

@@ -14,6 +14,7 @@ tsconfig.tsbuildinfo
 data/*.sqlite
 data/*.sqlite-shm
 data/*.sqlite-wal
+data/quarantine/
 
 # Logs
 npm-debug.log*

@@ -1736,6 +1736,7 @@ export * from "./browserPrivacyTenantEvidencePilotBinding";
 export * from "./browserPrivacyTenantEvidenceReleaseBinding";
 export * from "./controlledPilotApprovalReadiness";
 export * from "./controlledPilotHumanReviewPacket";
+export * from "./uploadQuarantineIntake";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

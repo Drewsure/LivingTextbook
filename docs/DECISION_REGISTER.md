@@ -6,6 +6,15 @@ Require matching audio for each canonical term and sentence. Distinct cue IDs re
 
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
+## DR-1133: Quarantine-First Upload Intake
+
+Publisher source documents and media may enter only through an explicitly
+enabled, tenant-scoped quarantine boundary. Intake records are checksum-
+verified metadata with pending scan, unknown rights, and unreviewed source
+status; they cannot create student-facing media, games, playlists,
+assignments, QR routes, or local bundle activation. See
+`docs/decision-register/DR-1133-quarantine-first-upload-intake.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

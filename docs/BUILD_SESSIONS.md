@@ -5409,3 +5409,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept approval intent, signed approval, packet freeze, release mutation,
   assignment activation, and student launch blocked. Recorded ADR 1132 and
   DR-1132.
+
+## Build session 1047: Quarantine-first upload intake
+
+- Added a content-model contract for tenant-scoped PDF/text, image,
+  audio/music, and video quarantine intake.
+- Added an explicitly disabled-by-default multipart endpoint with same-origin
+  or service-token authorization, bounded MIME/size checks, SHA-256 metadata,
+  and tenant-scoped quarantine storage.
+- Kept scan, rights, source review, target mapping, promotion, student-facing
+  use, learner media, download, playlist, assignment, QR, and local-bundle
+  activation blocked. Recorded ADR 1133 and DR-1133.
