@@ -15,6 +15,15 @@ status; they cannot create student-facing media, games, playlists,
 assignments, QR routes, or local bundle activation. See
 `docs/decision-register/DR-1133-quarantine-first-upload-intake.md`.
 
+## DR-1134: Quarantine Metadata Review Read Path
+
+Quarantine review is a tenant-authorized, metadata-only read path. It can
+show validated intake state and payload presence, but never raw files, paths,
+download URLs, learner records, or approval. Malformed and cross-tenant
+records are withheld; all scan, rights, mapping, promotion, and student-use
+mutations remain blocked. See
+`docs/decision-register/DR-1134-quarantine-metadata-review-read-path.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

@@ -5420,3 +5420,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept scan, rights, source review, target mapping, promotion, student-facing
   use, learner media, download, playlist, assignment, QR, and local-bundle
   activation blocked. Recorded ADR 1133 and DR-1133.
+
+## Build session 1048: Quarantine metadata review read path
+
+- Added a tenant-authorized, read-only review contract for quarantine records.
+- The review path returns validated metadata, payload presence, review state,
+  and explicit blockers while withholding raw payloads, filesystem paths,
+  download URLs, malformed records, and cross-tenant records.
+- Kept scan, rights, source review, mapping, promotion, student-facing use,
+  playlist, game, assignment, QR, and local-bundle mutations blocked. Recorded
+  ADR 1134 and DR-1134.

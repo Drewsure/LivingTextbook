@@ -1,10 +1,13 @@
 import { createHash, randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
 import { basename, join, relative, resolve } from "node:path";
 import {
   createUploadQuarantineIntakeRecord,
   type UploadQuarantineChannel,
   type UploadQuarantineIntakeRecord,
+  createUploadQuarantineReviewSummary,
+  type UploadQuarantineReviewSummary,
+  validateUploadQuarantineIntakeRecord,
 } from "@living-textbook/content-model";
 
 const DEFAULT_QUARANTINE_ROOT = join(process.cwd(), "data", "quarantine", "uploads");
@@ -21,6 +24,11 @@ export type QuarantineUploadWrite = {
 export type QuarantineUploadWriteResult = {
   quarantineId: string;
   record: UploadQuarantineIntakeRecord;
+};
+
+export type QuarantineUploadReadResult = {
+  records: UploadQuarantineReviewSummary[];
+  errors: string[];
 };
 
 export async function writeQuarantineUpload(input: QuarantineUploadWrite): Promise<QuarantineUploadWriteResult> {
@@ -57,6 +65,71 @@ export async function writeQuarantineUpload(input: QuarantineUploadWrite): Promi
 export function getQuarantineRoot(): string {
   const configured = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT?.trim();
   return resolve(configured || DEFAULT_QUARANTINE_ROOT);
+}
+
+export async function readQuarantineUploadRecords(tenantId: string, quarantineId?: string): Promise<QuarantineUploadReadResult> {
+  if (quarantineId && !safeRecordDirectory(quarantineId)) {
+    return { records: [], errors: ["The quarantine identity is not a safe record identifier and was withheld."] };
+  }
+  const tenantDirectory = resolve(getQuarantineRoot(), tenantId);
+  const candidateDirectories = quarantineId
+    ? [resolve(tenantDirectory, quarantineId)]
+    : await readChildDirectories(tenantDirectory);
+  const records: UploadQuarantineReviewSummary[] = [];
+  const errors: string[] = [];
+
+  for (const recordDirectory of candidateDirectories) {
+    try {
+      assertInside(tenantDirectory, recordDirectory);
+      const metadataPath = resolve(recordDirectory, "intake.json");
+      assertInside(recordDirectory, metadataPath);
+      const metadata = JSON.parse(await readFile(metadataPath, "utf8")) as unknown;
+      const validationErrors = validateUploadQuarantineIntakeRecord(metadata);
+      if (validationErrors.length > 0) {
+        errors.push("A quarantine intake record failed validation and was withheld.");
+        continue;
+      }
+      const record = metadata as UploadQuarantineIntakeRecord;
+      if (record.tenantId !== tenantId || (quarantineId && record.intakeId !== quarantineId)) {
+        errors.push("A quarantine intake record failed tenant or identity binding and was withheld.");
+        continue;
+      }
+      const payloadPresent = await hasPayloadFile(recordDirectory);
+      records.push(createUploadQuarantineReviewSummary(record, payloadPresent));
+    } catch {
+      errors.push("A quarantine intake record could not be read and was withheld.");
+    }
+  }
+
+  return { records, errors };
+}
+
+async function readChildDirectories(directory: string): Promise<string[]> {
+  try {
+    const entries = await readdir(directory, { withFileTypes: true });
+    return entries.filter((entry) => entry.isDirectory() && safeRecordDirectory(entry.name)).map((entry) => resolve(directory, entry.name));
+  } catch {
+    return [];
+  }
+}
+
+async function hasPayloadFile(recordDirectory: string): Promise<boolean> {
+  try {
+    const entries = await readdir(recordDirectory, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isFile() || entry.name === "intake.json" || !entry.name.startsWith("payload.")) continue;
+      const file = resolve(recordDirectory, entry.name);
+      const fileStat = await stat(file);
+      return fileStat.isFile() && fileStat.size > 0;
+    }
+  } catch {
+    return false;
+  }
+  return false;
+}
+
+function safeRecordDirectory(value: string): boolean {
+  return /^q-[0-9a-f-]{36}$/.test(value);
 }
 
 function extensionForMimeType(mimeType: string): string {

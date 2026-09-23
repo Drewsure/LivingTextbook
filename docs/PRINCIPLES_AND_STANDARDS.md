@@ -7361,3 +7361,22 @@ This standard is recorded in
 `docs/decision-register/DR-1133-quarantine-first-upload-intake.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1133-quarantine-first-upload-intake.md`.
+
+## 471. Quarantine Metadata Review Read Path Standard
+
+- Quarantine review must be tenant-authorized and metadata-only. It may show
+  validated intake identity, channel, filename, MIME type, size, checksum,
+  pending scan, unknown rights, unreviewed source, and payload presence.
+- Review must never return raw payload bytes, filesystem paths, download URLs,
+  credentials, learner records, or an inferred student-ready state.
+- Unsafe, malformed, cross-tenant, or unreadable records must be withheld and
+  represented only by bounded generic errors; no review response may become a
+  path traversal or tenant-leak primitive.
+- Review is not approval. Scan, rights, source review, target mapping,
+  release, playlist, game, assignment, QR, local-bundle, and student-facing
+  mutations remain separate gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1134-quarantine-metadata-review-read-path.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1134-quarantine-metadata-review-read-path.md`.
