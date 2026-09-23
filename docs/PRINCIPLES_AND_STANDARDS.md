@@ -6754,3 +6754,18 @@ This standard is recorded in
 `docs/decision-register/DR-1097-persistence-provider-conformance-gate.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1097-persistence-provider-conformance-gate.md`.
+
+## 436. Multimedia Delivery Locator Standard
+
+- Multimedia locators must be validated again at the browser delivery edge,
+  even when the asset record has already passed review.
+- Hosted-first and local-first modes must remain explicit, deterministic, and
+  tenant/package-scoped; an invalid preferred source may use only a valid
+  declared fallback.
+- Source resolution cannot authorize rights, promotion, autoplay, media-only
+  progress, or student assignment.
+
+This standard is recorded in
+`docs/decision-register/DR-1098-media-source-resolution-safety.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1098-media-source-resolution-safety.md`.

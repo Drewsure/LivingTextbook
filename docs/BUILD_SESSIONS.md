@@ -5021,3 +5021,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved the no-anonymous-write, no-hosted-credential, and no-production-
   rollout boundaries.
 - Recorded ADR 1097 and DR-1097.
+
+## Build session 1012: Multimedia delivery locator safety
+
+- Hardened hosted/local media source resolution before audio or video elements
+  receive a locator.
+- Added runtime coverage for preferred-mode selection, safe fallback, protocol
+  rejection, credential rejection, traversal, backslash, control-character,
+  and oversized path handling.
+- Preserved separate rights, release, autoplay, and media-only progression
+  gates; missing demo media remains unavailable rather than simulated.
+- Recorded ADR 1098 and DR-1098.

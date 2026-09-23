@@ -10,8 +10,8 @@ export interface ResolvedMediaSource {
 }
 
 export function resolveMediaSource(asset: MediaAsset, mode: MediaResolutionMode = "hosted-first"): ResolvedMediaSource {
-  const hostedSource = normalizeSource(asset.sourceUri);
-  const localSource = normalizeSource(asset.localBundlePath);
+  const hostedSource = normalizeHostedSource(asset.sourceUri);
+  const localSource = normalizeLocalBundlePath(asset.localBundlePath);
   const preferredSource = mode === "local-first" ? localSource : hostedSource;
   const fallbackSource = mode === "local-first" ? hostedSource : undefined;
 
@@ -37,7 +37,31 @@ export function resolveMediaSource(asset: MediaAsset, mode: MediaResolutionMode 
   };
 }
 
+function normalizeHostedSource(source: string | undefined): string | undefined {
+  const normalized = normalizeSource(source);
+  if (!normalized || normalized.startsWith("//") || normalized.startsWith("\\")) return undefined;
+  if (normalized.startsWith("/")) return normalized;
+  try {
+    const parsed = new URL(normalized);
+    return parsed.protocol === "https:" && parsed.username === "" && parsed.password === ""
+      ? parsed.toString()
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function normalizeLocalBundlePath(source: string | undefined): string | undefined {
+  const normalized = normalizeSource(source);
+  if (!normalized || normalized.startsWith("/") || normalized.startsWith("\\") || normalized.includes("\\")) return undefined;
+  if (normalized.split("/").some((segment) => segment === "..")) return undefined;
+  if (/^[a-z][a-z\d+.-]*:/i.test(normalized)) return undefined;
+  return normalized;
+}
+
 function normalizeSource(source: string | undefined): string | undefined {
   const normalized = source?.trim();
-  return normalized && normalized.length > 0 ? normalized : undefined;
+  if (!normalized || normalized.length > 2048) return undefined;
+  if (/[\u0000-\u001f\u007f]/.test(normalized)) return undefined;
+  return normalized;
 }

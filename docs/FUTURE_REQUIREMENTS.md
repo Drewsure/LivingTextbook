@@ -1326,6 +1326,31 @@ References:
 - `scripts/verify-progress-event-persistence.mjs`
 - `docs/adr/1097-persistence-provider-conformance-gate.md`
 
+## FR-056: Safe Multimedia Delivery Locators
+
+Status: Implemented for the current browser media resolver; rights approval,
+real media storage, CDN operations, and offline bundle activation remain
+separate gates.
+
+Requirement: Hosted and local media locators must be validated at the delivery
+edge before audio or video elements receive them, while preserving the
+tenant/package-selected hosted-first or local-first resolution mode.
+
+Current boundary:
+
+- Root-relative and credential-free HTTPS hosted locators are accepted.
+- Safe forward-slash relative local bundle paths are accepted.
+- Protocol, protocol-relative, credential-bearing, traversal, backslash,
+  control-character, and oversized locators fail closed.
+- Missing or invalid media remains unavailable and cannot imply playback,
+  mastery, rewards, or release readiness.
+
+References:
+
+- `apps/web/src/features/multimedia/mediaSourceResolver.ts`
+- `scripts/verify-media-source-runtime.mjs`
+- `docs/adr/1098-media-source-resolution-safety.md`
+
 ## FR-045: Signed Session Creation Symmetry
 
 Status: Implemented for current student and teacher session creators.
