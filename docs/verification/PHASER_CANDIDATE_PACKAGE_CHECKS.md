@@ -40,6 +40,10 @@ reviewed artifacts: source archive manifest, fixture, README, event replay,
 audio coverage, scoring replay, mobile/accessibility evidence, and wrapper
 notes. Every artifact must be hash-verified on disk.
 
+The verifier applies a 64 KiB limit to `evidence/return-package.json` and a
+4 MiB limit to each referenced evidence artifact before parsing or hashing.
+These are review-process safety limits, not trust or approval signals.
+
 The candidate root must be outside the `LivingTextbook` repository. The gate
 resolves the candidate root, the return manifest, and every artifact before
 reading them; a missing file, directory, or symlink that resolves outside the

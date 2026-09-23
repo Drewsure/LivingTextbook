@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import { join, relative, resolve } from "node:path";
 
 const candidateRootValue = process.env.LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT;
+const MAX_RETURN_PACKAGE_MANIFEST_BYTES = 64 * 1024;
+const MAX_RETURNED_ARTIFACT_BYTES = 4 * 1024 * 1024;
 if (!candidateRootValue) {
   console.error("NOT READY No candidate package supplied. Set LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT to the isolated return folder.");
   process.exit(2);
@@ -36,6 +38,9 @@ if (!isRegularFile(returnPackagePath)) {
 const returnPackageRealPath = realpathSync(returnPackagePath);
 if (!isWithin(candidateRoot, returnPackageRealPath)) {
   fail("Candidate evidence/return-package.json must resolve inside the isolated candidate root.");
+}
+if (statSync(returnPackageRealPath).size > MAX_RETURN_PACKAGE_MANIFEST_BYTES) {
+  fail(`Candidate return-package.json cannot exceed ${MAX_RETURN_PACKAGE_MANIFEST_BYTES} bytes.`);
 }
 
 let manifest;
@@ -143,6 +148,10 @@ for (const artifact of artifacts) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} resolves outside the isolated candidate root.`);
     continue;
   }
+  if (statSync(artifactRealPath).size > MAX_RETURNED_ARTIFACT_BYTES) {
+    failures.push(`Artifact ${artifact.artifactId || artifact.kind} cannot exceed ${MAX_RETURNED_ARTIFACT_BYTES} bytes.`);
+    continue;
+  }
   const actualChecksum = createHash("sha256").update(readFileSync(artifactRealPath)).digest("hex");
   if (actualChecksum !== artifact.checksum.toLowerCase()) {
     failures.push(`Artifact ${artifact.artifactId || artifact.kind} checksum mismatch: expected ${artifact.checksum}, found ${actualChecksum}.`);
@@ -199,7 +208,12 @@ function resolveArtifactReadPath(kind) {
   const absolutePath = resolve(candidateRoot, artifactPath);
   if (!isRegularFile(absolutePath)) return undefined;
   const realPath = realpathSync(absolutePath);
-  return isWithin(candidateRoot, realPath) ? realPath : undefined;
+  if (!isWithin(candidateRoot, realPath)) return undefined;
+  if (statSync(realPath).size > MAX_RETURNED_ARTIFACT_BYTES) {
+    failures.push(`${kind} artifact cannot exceed ${MAX_RETURNED_ARTIFACT_BYTES} bytes.`);
+    return undefined;
+  }
+  return realPath;
 }
 
 function validateFixture(fixture) {

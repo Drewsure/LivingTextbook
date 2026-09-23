@@ -5069,3 +5069,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved the requirement for a real isolated returned package containing
   `evidence/return-package.json`; frozen source remains quarantine-only.
 - Recorded ADR 1101 and DR-1101.
+
+## Build session 1016: External candidate read budget
+
+- Added pre-read size limits for the returned manifest and reviewed evidence
+  artifacts before JSON parsing, text validation, or checksum hashing.
+- Added contract and behavior coverage for oversized return manifests while
+  retaining the isolated-root and review-only boundaries.
+- Preserved quarantine: external artifacts remain evidence only and cannot be
+  copied, executed, promoted, assigned, or used to mutate the platform.
+- Recorded ADR 1102 and DR-1102.

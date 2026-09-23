@@ -204,6 +204,15 @@ try {
   assertVerifierRejects(resolve(process.cwd()), "candidate root inside product repository");
   const placeholderRoot = join(tmpdir(), "<returned-package-folder>");
   assertVerifierRejects(placeholderRoot, "placeholder candidate root", "path still contains a placeholder");
+  const oversizedRoot = mkdtempSync(join(tmpdir(), "living-textbook-oversized-candidate-"));
+  try {
+    const oversizedEvidenceRoot = join(oversizedRoot, "evidence");
+    mkdirSync(oversizedEvidenceRoot, { recursive: true });
+    writeFileSync(join(oversizedEvidenceRoot, "return-package.json"), JSON.stringify({ padding: "x".repeat(65536) }));
+    assertVerifierRejects(oversizedRoot, "oversized return manifest", "return-package.json cannot exceed 65536 bytes");
+  } finally {
+    rmSync(oversizedRoot, { recursive: true, force: true });
+  }
   const frozenSnapshotRoot = mkdtempSync(join(tmpdir(), "living-textbook-frozen-source-snapshot-"));
   try {
     assertVerifierRejects(frozenSnapshotRoot, "frozen source snapshot", "frozen source snapshot");

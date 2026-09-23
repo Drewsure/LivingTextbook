@@ -44,6 +44,9 @@ const verifierMarkers = [
   "return-package.json must resolve inside the isolated candidate root",
   "path still contains a placeholder",
   "isPlaceholderCandidatePath",
+  "MAX_RETURN_PACKAGE_MANIFEST_BYTES",
+  "MAX_RETURNED_ARTIFACT_BYTES",
+  "return-package.json cannot exceed",
   "isRegularFile",
 ];
 

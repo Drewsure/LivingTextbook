@@ -1462,3 +1462,18 @@ References:
 - `scripts/verify-phaser-candidate-package.mjs`
 - `scripts/verify-phaser-candidate-package-behavior.mjs`
 - `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`
+
+## FR-060: External Candidate Read Budget
+
+Status: Implemented for the current Phaser candidate verifier.
+
+Requirement: External candidate manifests and evidence artifacts must have
+bounded file sizes before parsing, hashing, or downstream review. The limit
+must fail closed and must not become an import, execution, promotion, or
+assignment path.
+
+References:
+
+- `scripts/verify-phaser-candidate-package.mjs`
+- `scripts/verify-phaser-candidate-package-behavior.mjs`
+- `docs/verification/PHASER_CANDIDATE_PACKAGE_CHECKS.md`

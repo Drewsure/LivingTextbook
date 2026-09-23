@@ -6815,3 +6815,17 @@ This standard is recorded in
 `docs/decision-register/DR-1101-external-candidate-operator-input.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1101-external-candidate-operator-input.md`.
+
+## 440. External Candidate Read-Budget Standard
+
+- Controlled candidate intake must bound the returned manifest and each
+  evidence artifact before parsing or hashing it.
+- Read limits protect the review process from oversized external handoffs;
+  they do not imply that any artifact is trusted, approved, or executable.
+- Oversized files remain rejected without source copy, archive import, route
+  creation, package promotion, or student assignment.
+
+This standard is recorded in
+`docs/decision-register/DR-1102-external-candidate-read-budget.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1102-external-candidate-read-budget.md`.
