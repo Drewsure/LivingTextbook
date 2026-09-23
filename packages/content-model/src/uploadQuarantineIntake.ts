@@ -97,6 +97,10 @@ export function getUploadQuarantineChannelMimeTypes(channelId: UploadQuarantineC
   return CHANNEL_MIME_TYPES[channelId];
 }
 
+export function isUploadQuarantineSafeTenantId(value: unknown): value is string {
+  return isSafeIdentifier(value);
+}
+
 function isChannel(value: unknown): value is UploadQuarantineChannel {
   return typeof value === "string" && value in CHANNEL_MIME_TYPES;
 }

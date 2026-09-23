@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isUploadQuarantineSafeTenantId } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import { readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
@@ -13,7 +14,7 @@ export async function GET(request: Request) {
   if (tenantId === undefined || quarantineId === undefined) {
     return json({ status: "rejected", records: [], errors: ["Quarantine review query exceeds bounded identifier limits."] }, 400);
   }
-  if (!tenantId) {
+  if (!tenantId || !isUploadQuarantineSafeTenantId(tenantId)) {
     return json({ status: "rejected", records: [], errors: ["Tenant-scoped quarantine review requires tenantId."] }, 400);
   }
   if (!hasReviewAuthorization(request, tenantId)) {

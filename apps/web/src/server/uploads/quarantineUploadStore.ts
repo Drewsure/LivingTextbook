@@ -7,6 +7,7 @@ import {
   type UploadQuarantineIntakeRecord,
   createUploadQuarantineReviewSummary,
   type UploadQuarantineReviewSummary,
+  isUploadQuarantineSafeTenantId,
   validateUploadQuarantineIntakeRecord,
 } from "@living-textbook/content-model";
 
@@ -68,6 +69,9 @@ export function getQuarantineRoot(): string {
 }
 
 export async function readQuarantineUploadRecords(tenantId: string, quarantineId?: string): Promise<QuarantineUploadReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId)) {
+    return { records: [], errors: ["The tenant identity is not a safe quarantine boundary and was withheld."] };
+  }
   if (quarantineId && !safeRecordDirectory(quarantineId)) {
     return { records: [], errors: ["The quarantine identity is not a safe record identifier and was withheld."] };
   }

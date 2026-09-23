@@ -25,6 +25,7 @@ for (const marker of [
   "validateUploadQuarantineIntakeRecord",
   "createUploadQuarantineReviewSummary",
   "safeRecordDirectory",
+  "isUploadQuarantineSafeTenantId",
   "payloadPresent",
   "intake.json",
   "was withheld",
@@ -36,6 +37,7 @@ for (const marker of [
 for (const marker of [
   "readQuarantineUploadRecords",
   "hasTeacherOperationsReadAuthorization",
+  "isUploadQuarantineSafeTenantId",
   "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN",
   "rawPayloadsIncluded: false",
   "downloadUrlsIncluded: false",
