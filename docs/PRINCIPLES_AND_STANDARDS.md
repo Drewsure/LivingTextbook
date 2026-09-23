@@ -6510,3 +6510,21 @@ This standard is recorded in
   storage, create a student payload, assign students, or promote a package.
 - A draft preview is not proof that a source has passed extraction review,
   rights review, audio review, or teacher approval.
+
+## 418. Shared JSON Request Boundary Standard
+
+- Browser-facing persistence and session JSON writes must pass through the
+  shared request boundary before schema validation, authentication side
+  effects, provider access, or durable writes.
+- Current limits are 128 KiB for progression/event writes and 8 KiB for
+  student/teacher session creation.
+- Wrong content type, oversized bodies, and invalid JSON must fail with the
+  reviewed deterministic boundary responses.
+- The boundary is transport safety, not permission to enable persistence;
+  tenant authorization, policy, deployment, and provider gates remain
+  independent.
+
+This standard is recorded in
+`docs/decision-register/DR-1080-json-request-boundary-hardening.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1080-json-request-boundary-hardening.md`.

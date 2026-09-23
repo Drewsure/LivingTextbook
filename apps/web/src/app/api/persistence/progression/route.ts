@@ -18,6 +18,7 @@ import {
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,12 +28,9 @@ export async function POST(request: Request) {
   if (!providerConfiguration.valid) {
     return json({ status: "blocked", provider: providerConfiguration.provider, durability: "non-durable-rehearsal", errors: providerConfiguration.errors }, 423);
   }
-  let rawBody: unknown;
-  try {
-    rawBody = await request.json();
-  } catch {
-    return json({ status: "rejected", errors: ["Hosted progression request must be valid JSON."] }, 400);
-  }
+  const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Hosted progression request");
+  if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
+  const rawBody = bodyResult.value;
 
   const clientValidation = validateHostedProgressionPersistenceClientWrite(rawBody);
   const requestedMode = isClientWriteRequest(rawBody) ? rawBody.requestedMode : "rehearsal-only";

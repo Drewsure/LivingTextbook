@@ -1080,6 +1080,21 @@ References:
 - `apps/web/src/data/sampleBackendMigrationSpecs.ts`
 - `docs/verification/TEACHER_DRAFT_PERSISTENCE_IMPLEMENTATION_STORAGE_CHECKS.md`
 
+## FR-038: Shared JSON Request Boundary
+
+Status: Implemented for current persistence and session writes.
+
+Requirement: Every future browser-facing JSON mutation route must use the
+shared request boundary before schema validation, authentication side effects,
+provider access, or durable writes. New routes must declare a reviewed byte
+limit, preserve deterministic boundary statuses, and add verifier coverage.
+
+References:
+
+- `apps/web/src/server/persistence/requestBoundary.ts`
+- `scripts/verify-request-boundary.mjs`
+- `docs/verification/JSON_REQUEST_BOUNDARY_CHECKS.md`
+
 ## FR-037: Teacher Draft Persistence Runtime Regression
 
 Status: Implemented; shared validator regression is green and live persistence remains disabled.

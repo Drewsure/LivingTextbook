@@ -4872,3 +4872,10 @@ evidence adapter later records. See ADR 0805 and DR-881.
 - Added negative regressions for provider-selection and assignment-promotion guard weakening.
 - Kept all persistence behavior review-only with no database, upload, route, migration, or assignment execution.
 - Recorded ADR 1079 and DR-1079.
+
+## Build session 0994: JSON request boundary hardening
+
+- Added one shared request reader for persistence progression, event, student-session, and teacher-session JSON writes.
+- Required `application/json`, measured UTF-8 bytes, and bounded progression/event bodies at 128 KiB and session bodies at 8 KiB.
+- Added deterministic boundary verification and preserved all provider, tenant authorization, and durable-write gates.
+- Recorded ADR 1080 and DR-1080.

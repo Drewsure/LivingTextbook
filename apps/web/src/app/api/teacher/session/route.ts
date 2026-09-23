@@ -11,6 +11,7 @@ import {
   TEACHER_PERSISTENCE_READ_SCOPE,
   TEACHER_SESSION_VERSION,
 } from "@/server/persistence/teacherSessionCookie";
+import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,12 +22,9 @@ interface TeacherSessionRequest {
 }
 
 export async function POST(request: Request) {
-  let body: TeacherSessionRequest;
-  try {
-    body = await request.json() as TeacherSessionRequest;
-  } catch {
-    return json({ status: "rejected", errors: ["Teacher review session request must be valid JSON."] }, 400);
-  }
+  const bodyResult = await readJsonRequestBody<TeacherSessionRequest>(request, SESSION_JSON_BODY_LIMIT_BYTES, "Teacher review session request");
+  if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
+  const body = bodyResult.value;
 
   const tenantId = typeof body.tenantId === "string" ? body.tenantId.trim() : "";
   const reviewCode = typeof body.reviewCode === "string" ? body.reviewCode : "";

@@ -16,6 +16,7 @@ import { readStudentSessionClaims } from "@/server/persistence/studentSessionCoo
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { resolveProgressEventTaxonomy } from "@/server/persistence/progressEventTaxonomyResolver";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,12 +25,9 @@ export async function POST(request: Request) {
   const providerConfiguration = getPersistenceProviderConfiguration();
   if (!providerConfiguration.valid) return json({ status: "blocked", provider: providerConfiguration.provider, errors: providerConfiguration.errors }, 423);
 
-  let rawBody: unknown;
-  try {
-    rawBody = await request.json();
-  } catch {
-    return json({ status: "rejected", errors: ["Progress event stream request must be valid JSON."] }, 400);
-  }
+  const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Progress event stream request");
+  if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
+  const rawBody = bodyResult.value;
 
   const identity = readClientIdentity(rawBody);
   const registry = resolveProgressEventTaxonomy(identity.tenantId, identity.packageId);

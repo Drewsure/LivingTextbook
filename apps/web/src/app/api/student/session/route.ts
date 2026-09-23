@@ -9,6 +9,7 @@ import {
   type StudentSessionClaims,
 } from "@/server/persistence/studentSessionCookie";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { readJsonRequestBody, SESSION_JSON_BODY_LIMIT_BYTES } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -22,12 +23,9 @@ interface StudentSessionStartRequest {
 }
 
 export async function POST(request: Request) {
-  let body: StudentSessionStartRequest;
-  try {
-    body = await request.json() as StudentSessionStartRequest;
-  } catch {
-    return json({ status: "invalid", errors: ["Student session request must be valid JSON."] }, 400);
-  }
+  const bodyResult = await readJsonRequestBody<StudentSessionStartRequest>(request, SESSION_JSON_BODY_LIMIT_BYTES, "Student session request");
+  if (!bodyResult.ok) return json({ status: "invalid", errors: bodyResult.errors }, bodyResult.status);
+  const body = bodyResult.value;
 
   const missing = ["tenantId", "packageId", "launchCode", "entryCode", "userCode"]
     .filter((field) => typeof body?.[field as keyof StudentSessionStartRequest] !== "string" || !body[field as keyof StudentSessionStartRequest].trim());

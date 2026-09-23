@@ -1424,3 +1424,21 @@ When a large teacher review route briefly returns `500` with Next reporting
 route to finish compiling and rerun `npm run verify:routes`. The active-route
 verifier retries transient `5xx` responses; a repeated failure after the retry
 window remains a real route defect and must be investigated.
+
+## JSON request boundary procedure
+
+All current persistence and session POST routes use the shared request reader
+in `apps/web/src/server/persistence/requestBoundary.ts`. Browser clients must
+send `Content-Type: application/json`; a missing or different content type is
+an intentional `415` response. A request over the route limit is an intentional
+`413` response. Run `npm run verify:request-boundary` before treating a new
+JSON route as foundation-ready. This boundary does not authorize durable
+storage.
+
+## Z.ai returned-package procedure
+
+The frozen Z.ai source folder is not a candidate package. Do not substitute a
+placeholder such as `<returned-package-folder>` and do not create a synthetic
+`evidence/return-package.json`. Wait for the actual isolated return folder,
+then set `LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT` to that real path and run
+`npm run verify:phaser-candidate-package` from the repository root.
