@@ -9313,3 +9313,11 @@ Memory Match must emit `round_shown` once at first-card selection, then emit
 paired submission/result evidence after the second selection. Audio requests
 are support evidence only and cannot create rounds or unlock progression.
 Evidence: both pairing wrappers and `scripts/verify-pairing-engine-runtime.mjs`.
+
+## DR-1168: White-Label Selection Option Identity
+
+Selection Engine option IDs must include deterministic round and option
+position identity so tenant terms that differ in punctuation, spacing, or
+hyphenation cannot collide after display slugging. Labels, audio text,
+correctness, scoring, progression, and tenant content remain unchanged.
+Evidence: `selectionEngineAdapter.ts` and the selection runtime verifier.

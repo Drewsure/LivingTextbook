@@ -5740,3 +5740,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   and preserved audio as support-only evidence.
 - Added runtime source coverage for the event boundary and recorded ADR 1167
   and DR-1167.
+
+## Build session 1082: White-label selection option identity
+
+- Added deterministic option-position identity to Selection Engine distractors
+  so punctuation and hyphenation variants cannot collide after slugging.
+- Added runtime coverage using tenant vocabulary variants while preserving
+  content labels, audio text, correctness, and scoring behavior.
+- Recorded ADR 1168 and DR-1168.

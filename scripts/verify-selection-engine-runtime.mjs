@@ -73,6 +73,18 @@ try {
   assert(first.standardEvents.includes("game_started"), "selection contract must include game start evidence");
   assert(first.standardEvents.includes("game_completed"), "selection contract must include completion evidence");
 
+  const punctuationVariantUnit = {
+    ...unit,
+    pedagogicalPayload: {
+      ...unit.pedagogicalPayload,
+      vocabularyTerms: ["ice cream", "ice-cream", "ice/cream", "hello", "goodbye", "teacher", "friend", "morning"],
+    },
+  };
+  const punctuationVariant = engine.buildSelectionEnginePreview(punctuationVariantUnit);
+  for (const round of punctuationVariant.rounds.slice(0, 3)) {
+    assert(new Set(round.options.map((option) => option.optionId)).size === round.options.length, `${round.roundId} option ids must remain unique for punctuation variants`);
+  }
+
   console.log("PASS selection engine runtime covers deterministic rounds, unique options, single-answer correctness, prompt/option audio, syntax coverage, and shared event expectations.");
 } finally {
   rmSync(output, { recursive: true, force: true });

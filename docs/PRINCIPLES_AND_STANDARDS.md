@@ -7913,3 +7913,18 @@ This standard is recorded in
 `docs/decision-register/DR-1167-pairing-round-event-semantics.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1167-pairing-round-event-semantics.md`.
+
+## 506. White-Label Selection Option Identity Standard
+
+- Selection option IDs must remain unique even when tenant vocabulary contains
+  punctuation, spacing, or hyphenation variants that normalize to the same
+  display slug.
+- Human-readable labels and audio text remain content-owned; internal option
+  identity must include the deterministic round and option position.
+- The identity rule must not change correctness, scoring, audio policy,
+  progression, rewards, or tenant content normalization decisions.
+
+This standard is recorded in
+`docs/decision-register/DR-1168-white-label-selection-option-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1168-white-label-selection-option-identity.md`.

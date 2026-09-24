@@ -40,8 +40,8 @@ export function buildSelectionEnginePreview(unit: UnitPayload): SelectionEngineP
       promptText: `Choose: ${term}`,
       promptAudioText: term,
       correctOptionId,
-      options: roundTerms.map((optionTerm) => ({
-        optionId: optionTerm === term ? correctOptionId : `vocab-${index}-${slug(optionTerm)}`,
+      options: roundTerms.map((optionTerm, optionIndex) => ({
+        optionId: optionTerm === term ? correctOptionId : `vocab-${index}-${optionIndex + 1}-${slug(optionTerm)}`,
         label: optionTerm,
         audioText: optionTerm,
         isCorrect: optionTerm === term,
