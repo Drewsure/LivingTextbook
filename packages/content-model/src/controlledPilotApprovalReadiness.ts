@@ -1,5 +1,6 @@
 import type { BrowserPrivacyTenantEvidenceReleaseBinding } from "./browserPrivacyTenantEvidenceReleaseBinding";
 import type { PilotReviewDecision } from "./pilotReviewDecision";
+import type { PersistenceProviderSelectionPreflight } from "./persistenceProviderSelectionPreflight";
 import type { WhiteLabelReleaseReadiness } from "./whiteLabelReleaseReadiness";
 
 export type ControlledPilotApprovalReadinessStatus =
@@ -23,6 +24,10 @@ export interface ControlledPilotApprovalReadiness {
   releaseBindingId: string;
   pilotDecisionId: string;
   reviewerGateId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   tenantId: string;
   packageId: string;
   status: ControlledPilotApprovalReadinessStatus;
@@ -40,6 +45,7 @@ export interface ControlledPilotApprovalReadinessInputs {
   releaseBinding: Pick<BrowserPrivacyTenantEvidenceReleaseBinding, "bindingId" | "tenantId" | "packageId" | "status">;
   pilotDecision: Pick<PilotReviewDecision, "decisionId" | "tenantId" | "packageId" | "status">;
   reviewerGate: ControlledPilotReviewerGateEvidence;
+  storageSelection: Pick<PersistenceProviderSelectionPreflight, "preflightId" | "evidenceStorageGateId" | "tenantId" | "packageId" | "status">;
 }
 
 export function createControlledPilotApprovalReadiness(
@@ -51,7 +57,9 @@ export function createControlledPilotApprovalReadiness(
     || inputs.releaseBinding.packageId !== inputs.readiness.packageId
     || inputs.pilotDecision.tenantId !== inputs.readiness.tenantId
     || inputs.pilotDecision.packageId !== inputs.readiness.packageId
-    || inputs.reviewerGate.tenantId !== inputs.readiness.tenantId;
+    || inputs.reviewerGate.tenantId !== inputs.readiness.tenantId
+    || inputs.storageSelection.tenantId !== inputs.readiness.tenantId
+    || inputs.storageSelection.packageId !== inputs.readiness.packageId;
 
   if (inputs.releaseBinding.tenantId !== inputs.readiness.tenantId || inputs.releaseBinding.packageId !== inputs.readiness.packageId) {
     blockingReasons.push("Composite evidence release binding scope does not match readiness scope.");
@@ -61,6 +69,12 @@ export function createControlledPilotApprovalReadiness(
   }
   if (inputs.reviewerGate.tenantId !== inputs.readiness.tenantId) {
     blockingReasons.push("Reviewer gate tenant scope does not match readiness scope.");
+  }
+  if (inputs.storageSelection.tenantId !== inputs.readiness.tenantId || inputs.storageSelection.packageId !== inputs.readiness.packageId) {
+    blockingReasons.push("Storage selection review scope does not match readiness scope.");
+  }
+  if (inputs.storageSelection.status !== "blocked") {
+    blockingReasons.push(`Storage selection review remains ${inputs.storageSelection.status}.`);
   }
   if (inputs.releaseBinding.status !== "accepted-for-release-review") {
     blockingReasons.push(`Composite evidence release binding remains ${inputs.releaseBinding.status}.`);
@@ -81,7 +95,7 @@ export function createControlledPilotApprovalReadiness(
   const status: ControlledPilotApprovalReadinessStatus =
     inputs.releaseBinding.status !== "accepted-for-release-review"
       ? "blocked-by-composite-evidence"
-      : scopeMismatch || control.status !== "pilot-ready" || control.blockingGateCount > 0 || control.openApprovalCount > 0 || inputs.pilotDecision.status !== "pilot-ready"
+      : scopeMismatch || inputs.storageSelection.status !== "blocked" || control.status !== "pilot-ready" || control.blockingGateCount > 0 || control.openApprovalCount > 0 || inputs.pilotDecision.status !== "pilot-ready"
         ? "blocked-by-release-control"
         : !inputs.reviewerGate.identityReady || !inputs.reviewerGate.signaturePolicyReady || !inputs.reviewerGate.approvalCaptureReady
           ? "blocked-by-reviewer-gate"
@@ -93,6 +107,10 @@ export function createControlledPilotApprovalReadiness(
     releaseBindingId: inputs.releaseBinding.bindingId,
     pilotDecisionId: inputs.pilotDecision.decisionId,
     reviewerGateId: inputs.reviewerGate.gateId,
+    storageSelectionPreflightId: inputs.storageSelection.preflightId,
+    storageSelectionGateId: inputs.storageSelection.evidenceStorageGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     tenantId: inputs.readiness.tenantId,
     packageId: inputs.readiness.packageId,
     status,
@@ -107,9 +125,10 @@ export function createControlledPilotApprovalReadiness(
       "evidence packet version record",
       "package version and release candidate record",
       "retention, revocation, and audit policy record",
+      "storage provider selection and school policy record",
     ],
     nextGate: status === "ready-for-human-review"
-      ? "A separately authorized human approval workflow may be designed after policy and storage acceptance."
+      ? "A separately authorized human approval workflow may be designed after release, storage, and school policy acceptance."
       : "Resolve the listed evidence, release-control, and reviewer-gate blockers before human approval review.",
   };
 }
@@ -118,13 +137,15 @@ export function validateControlledPilotApprovalReadiness(value: unknown): string
   const errors: string[] = [];
   if (!isRecord(value)) return ["Controlled pilot approval readiness must be a JSON object."];
   if (value.recordVersion !== 1) errors.push("Controlled pilot approval readiness recordVersion must be 1.");
-  for (const field of ["readinessId", "releaseBindingId", "pilotDecisionId", "reviewerGateId", "tenantId", "packageId", "nextGate"] as const) {
+  for (const field of ["readinessId", "releaseBindingId", "pilotDecisionId", "reviewerGateId", "storageSelectionPreflightId", "storageSelectionGateId", "tenantId", "packageId", "nextGate"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Controlled pilot approval readiness ${field} must be non-empty.`);
   }
   if (!["blocked-by-composite-evidence", "blocked-by-release-control", "blocked-by-reviewer-gate", "ready-for-human-review"].includes(readString(value, "status"))) {
     errors.push("Controlled pilot approval readiness status is unsupported.");
   }
   if (readString(value, "mode") !== "review-only") errors.push("Controlled pilot approval readiness must remain review-only.");
+  if (readString(value, "storageSelectionStatus") !== "blocked") errors.push("Controlled pilot approval readiness storage selection must remain blocked.");
+  if (value.storageSelectionAllowed !== false) errors.push("Controlled pilot approval readiness storage selection must remain false.");
   for (const field of ["approvalCaptureAllowed", "releaseMutationAllowed", "studentLaunchAllowed"] as const) {
     if (value[field] !== false) errors.push(`Controlled pilot approval readiness ${field} must remain false.`);
   }

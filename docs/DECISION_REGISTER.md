@@ -102,6 +102,15 @@ QR mutation, release mutation, and classroom launch until human policy review
 passes. See
 `docs/decision-register/DR-1143-pilot-handoff-storage-selection-review-binding.md`.
 
+## DR-1144: Controlled Pilot Storage Policy Boundary
+
+Preserve storage-selection preflight and evidence-storage gate identity through
+controlled-pilot approval readiness and the human-review packet. Keep storage
+selection, approval capture, packet freeze, persistence writes, activation,
+export, QR mutation, release mutation, assignment, and classroom launch
+blocked until separately authorized policy review passes. See
+`docs/decision-register/DR-1144-controlled-pilot-storage-policy-boundary.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

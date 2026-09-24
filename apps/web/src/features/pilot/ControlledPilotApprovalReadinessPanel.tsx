@@ -33,7 +33,24 @@ export function ControlledPilotApprovalReadinessPanel({
         <Fact label="Release binding" value={readiness.releaseBindingId} />
         <Fact label="Pilot decision" value={readiness.pilotDecisionId} />
         <Fact label="Reviewer gate" value={readiness.reviewerGateId} />
+        <Fact label="Storage review" value={readiness.storageSelectionStatus} />
       </dl>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Storage policy boundary</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Storage review is required before human approval design</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">The approval-readiness record carries the same provider-neutral storage identities used by evidence, deployment, and pilot review. It does not choose or activate a provider.</p>
+          </div>
+          <StatusPill label="Storage selection blocked" tone="warning" />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Fact label="Storage preflight" value={readiness.storageSelectionPreflightId} />
+          <Fact label="Storage gate" value={readiness.storageSelectionGateId} />
+          <Fact label="Selection allowed" value={readiness.storageSelectionAllowed ? "Yes" : "No"} />
+        </dl>
+      </section>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <List title="Blocking reasons" values={readiness.blockingReasons} />

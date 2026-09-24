@@ -39,6 +39,7 @@
 - `DR-1107-asset-manifest-release-control.md`
 - `DR-062-quiz-selection-playable-slice.md`
 - `DR-1143-pilot-handoff-storage-selection-review-binding.md`
+- `DR-1144-controlled-pilot-storage-policy-boundary.md`
 - `DR-063-quiz-reporting-bridge.md`
 - `DR-064-teacher-demo-route-shortcuts.md`
 - `DR-065-active-route-verification-list.md`

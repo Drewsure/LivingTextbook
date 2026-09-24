@@ -18,6 +18,10 @@ try {
     releaseBindingId: "release-binding-a",
     pilotDecisionId: "pilot-a",
     reviewerGateId: "reviewer-a",
+    storageSelectionPreflightId: "storage-preflight-a",
+    storageSelectionGateId: "storage-gate-a",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     tenantId: "tenant-a",
     packageId: "package-a",
     status: "blocked-by-release-control",
@@ -35,6 +39,8 @@ try {
   for (const field of ["approvalIntentCaptured", "signedApprovalCaptured", "packetFreezeAllowed", "approvalCaptureAllowed", "releaseMutationAllowed", "studentLaunchAllowed"]) {
     assert(packet[field] === false, `${field} must remain false`);
   }
+  assert(packet.storageSelectionStatus === "blocked" && packet.storageSelectionAllowed === false, "human review packet storage selection must remain blocked");
+  assert(packet.evidenceReferences.length === 6, "human review packet must carry six evidence references");
 
   const readyPacket = model.createControlledPilotHumanReviewPacket({
     ...readiness,

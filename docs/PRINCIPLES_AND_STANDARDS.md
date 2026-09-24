@@ -7549,3 +7549,20 @@ This standard is recorded in
 `docs/decision-register/DR-1143-pilot-handoff-storage-selection-review-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1143-pilot-handoff-storage-selection-review-binding.md`.
+
+## 482. Controlled Pilot Storage Policy Boundary Standard
+
+- Controlled-pilot approval readiness and the human-review packet must carry the
+  same provider-neutral storage-selection preflight and evidence-storage gate
+  identities used by evidence, deployment, and pilot handoff review.
+- Approval-readiness eligibility is not approval: storage selection, approval
+  capture, packet freeze, persistence writes, activation, export, QR mutation,
+  release mutation, assignment, and classroom launch remain blocked.
+- Scope drift or enabled storage selection must keep the record outside human
+  approval eligibility until separately authorized school and tenant policy
+  review is complete.
+
+This standard is recorded in
+`docs/decision-register/DR-1144-controlled-pilot-storage-policy-boundary.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1144-controlled-pilot-storage-policy-boundary.md`.

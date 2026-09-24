@@ -5532,3 +5532,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   checks so enabled or drifted storage state cannot pass pilot review.
 - Kept hosted, closed-local, and hybrid comparison paths review-only and
   side-effect-free. Recorded ADR 1143 and DR-1143.
+
+## Build session 1058: Controlled-pilot storage policy boundary
+
+- Extended controlled-pilot approval readiness and the human-review packet with
+  storage-selection preflight and evidence-storage gate identity.
+- Added visible release-control evidence that storage policy remains required
+  before human approval design.
+- Preserved approval capture, packet freeze, persistence writes, activation,
+  export, QR mutation, release mutation, assignment, and classroom launch
+  blockers. Recorded ADR 1144 and DR-1144.

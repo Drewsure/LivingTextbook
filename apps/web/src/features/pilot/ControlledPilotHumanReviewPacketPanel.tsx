@@ -8,7 +8,7 @@ export function ControlledPilotHumanReviewPacketPanel({ packet, errors }: { pack
         <div>
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Controlled-pilot human review packet</p>
           <h2 className="mt-1 text-lg font-bold">Exact review scope, no approval side effects</h2>
-          <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">This packet carries the four exact evidence references into a future human review. It is not a signature, approval, frozen release packet, or student-launch permission.</p>
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">This packet carries six exact evidence references, including the storage policy review, into a future human review. It is not a signature, approval, frozen release packet, or student-launch permission.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusPill label={packet.status} tone="warning" />
@@ -21,6 +21,7 @@ export function ControlledPilotHumanReviewPacketPanel({ packet, errors }: { pack
         <Fact label="Package" value={packet.packageId} />
         <Fact label="Evidence refs" value={String(packet.evidenceReferences.length)} />
         <Fact label="Human records" value={String(packet.requiredHumanRecords.length)} />
+        <Fact label="Storage review" value={packet.storageSelectionStatus} />
       </dl>
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <List title="Exact evidence references" values={packet.evidenceReferences} />

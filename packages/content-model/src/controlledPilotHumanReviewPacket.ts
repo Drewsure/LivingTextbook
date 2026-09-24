@@ -9,6 +9,10 @@ export interface ControlledPilotHumanReviewPacket {
   releaseBindingId: string;
   pilotDecisionId: string;
   reviewerGateId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   tenantId: string;
   packageId: string;
   status: ControlledPilotHumanReviewPacketStatus;
@@ -49,6 +53,10 @@ export function createControlledPilotHumanReviewPacket(
     releaseBindingId: readiness.releaseBindingId,
     pilotDecisionId: readiness.pilotDecisionId,
     reviewerGateId: readiness.reviewerGateId,
+    storageSelectionPreflightId: readiness.storageSelectionPreflightId,
+    storageSelectionGateId: readiness.storageSelectionGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     tenantId: readiness.tenantId,
     packageId: readiness.packageId,
     status,
@@ -60,7 +68,14 @@ export function createControlledPilotHumanReviewPacket(
     approvalCaptureAllowed: false,
     releaseMutationAllowed: false,
     studentLaunchAllowed: false,
-    evidenceReferences: [readiness.readinessId, readiness.releaseBindingId, readiness.pilotDecisionId, readiness.reviewerGateId],
+    evidenceReferences: [
+      readiness.readinessId,
+      readiness.releaseBindingId,
+      readiness.pilotDecisionId,
+      readiness.reviewerGateId,
+      readiness.storageSelectionPreflightId,
+      readiness.storageSelectionGateId,
+    ],
     requiredHumanRecords: [...readiness.requiredHumanRecords, "human review decision record", "approval scope and revocation record"],
     blockedActions: [...BLOCKED_ACTIONS],
     nextGate: status === "awaiting-human-review"
@@ -73,17 +88,19 @@ export function validateControlledPilotHumanReviewPacket(value: unknown): string
   const errors: string[] = [];
   if (!isRecord(value)) return ["Controlled pilot human review packet must be a JSON object."];
   if (value.recordVersion !== 1) errors.push("Controlled pilot human review packet recordVersion must be 1.");
-  for (const field of ["packetId", "readinessId", "releaseBindingId", "pilotDecisionId", "reviewerGateId", "tenantId", "packageId", "nextGate"] as const) {
+  for (const field of ["packetId", "readinessId", "releaseBindingId", "pilotDecisionId", "reviewerGateId", "storageSelectionPreflightId", "storageSelectionGateId", "tenantId", "packageId", "nextGate"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Controlled pilot human review packet ${field} must be non-empty.`);
   }
   if (value.status !== "blocked" && value.status !== "awaiting-human-review") errors.push("Controlled pilot human review packet status is unsupported.");
   if (value.mode !== "review-only") errors.push("Controlled pilot human review packet must remain review-only.");
+  if (value.storageSelectionStatus !== "blocked") errors.push("Controlled pilot human review packet storage selection must remain blocked.");
+  if (value.storageSelectionAllowed !== false) errors.push("Controlled pilot human review packet storage selection must remain false.");
   if (value.reviewerIdentityRequired !== true) errors.push("Controlled pilot human review packet must require reviewer identity.");
   for (const field of ["approvalIntentCaptured", "signedApprovalCaptured", "packetFreezeAllowed", "approvalCaptureAllowed", "releaseMutationAllowed", "studentLaunchAllowed"] as const) {
     if (value[field] !== false) errors.push(`Controlled pilot human review packet ${field} must remain false.`);
   }
   const evidenceReferences = readStringArray(value, "evidenceReferences");
-  if (evidenceReferences.length !== 4) errors.push("Controlled pilot human review packet must carry four exact evidence references.");
+  if (evidenceReferences.length !== 6) errors.push("Controlled pilot human review packet must carry six exact evidence references.");
   if (new Set(evidenceReferences).size !== evidenceReferences.length) errors.push("Controlled pilot human review packet evidence references must be unique.");
   const requiredHumanRecords = readStringArray(value, "requiredHumanRecords");
   if (requiredHumanRecords.length < 2) errors.push("Controlled pilot human review packet must list human review records.");
