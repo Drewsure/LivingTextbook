@@ -7465,3 +7465,20 @@ This standard is recorded in
 `docs/decision-register/DR-1138-evidence-attachment-storage-handoff-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1138-evidence-attachment-storage-handoff-binding.md`.
+
+## 477. Per-Asset Evidence Handoff Standard
+
+- Tenant evidence handoffs must carry the validated metadata-only evidence
+  packets for each reviewed image, audio, video, or other asset candidate;
+  section names alone are insufficient for traceability.
+- Every packet must preserve tenant and package identity, attachment identity,
+  source lineage, file kind and MIME metadata, checksum, review state, and
+  explicit blocked actions.
+- Per-asset evidence remains a review reference. It must not expose raw bytes
+  or URLs or authorize upload, storage, download, promotion, release,
+  assignment, or student-facing use.
+
+This standard is recorded in
+`docs/decision-register/DR-1139-per-asset-evidence-packets-in-tenant-handoff.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1139-per-asset-evidence-packets-in-tenant-handoff.md`.

@@ -19,7 +19,12 @@ requireText(route, "validationErrors={samplePublisherEvidencePacketHandoffPackag
 requireText(panel, "Canonical package binding", "Evidence handoff panel must show canonical package binding.");
 requireText(panel, "Contract valid", "Evidence handoff panel must show contract validity.");
 requireText(handoff, "storageReadinessBinding", "Evidence handoff must carry storage readiness identity.");
+requireText(handoff, "assetEvidencePackets", "Evidence handoff must carry per-asset evidence packets.");
+requireText(handoff, "sampleLabelledDiagramAssetEvidencePacket", "Evidence handoff must include the Labelled Diagram evidence packet.");
+requireText(handoff, "sampleMediaAssetEvidencePacket", "Evidence handoff must include the media evidence packet.");
 requireText(panel, "Attachment storage readiness lineage", "Evidence handoff panel must show storage readiness lineage.");
+requireText(panel, "Asset evidence lineage", "Evidence handoff panel must show per-asset evidence lineage.");
+requireText(panel, "Every image, audio, and video candidate keeps its own evidence packet", "Evidence handoff panel must show attachment-level evidence boundaries.");
 requireText(panel, "Storage candidates travel with the handoff, not the files", "Evidence handoff panel must preserve storage attachment boundaries.");
 requireText(storageBinding, "storageActivationAllowed: false", "Storage handoff binding must block activation.");
 requireText(storageBinding, "uploadAllowed: false", "Storage handoff binding must block upload.");

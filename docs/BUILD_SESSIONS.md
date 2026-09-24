@@ -5475,3 +5475,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   retention clock, upload/download action, or release mutation.
 - Reused shared validation, added route assertions, and kept the full
   foundation gate as the acceptance check. Recorded ADR 1138 and DR-1138.
+
+## Build session 1053: Per-asset evidence packets in tenant handoff
+
+- Added the existing metadata-only Labelled Diagram and media evidence
+  packets to the tenant evidence handoff, with tenant and package identity
+  validation at the content-model boundary.
+- Exposed attachment-level kind, MIME, checksum, source packet, and blocked
+  action evidence so reviewers can trace each image, audio, and video
+  candidate without exposing bytes or URLs.
+- Kept upload, storage, download, promotion, release mutation, assignment,
+  and student-facing use blocked. Recorded ADR 1139 and DR-1139.

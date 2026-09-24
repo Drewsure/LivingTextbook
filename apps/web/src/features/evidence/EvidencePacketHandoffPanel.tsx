@@ -76,6 +76,43 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Asset evidence lineage</p>
+            <h3 className="mt-1 text-lg font-bold">Every image, audio, and video candidate keeps its own evidence packet</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The handoff carries metadata-only attachment packets for reviewed assets. Checksums and source lineage remain visible to reviewers while raw bytes, URLs, downloads, promotion, and student use stay blocked.
+            </p>
+          </div>
+          <StatusPill label={`${handoffPackage.assetEvidencePackets.length} packet(s)`} tone="warning" />
+        </div>
+        <div className="mt-5 grid gap-4 xl:grid-cols-2">
+          {handoffPackage.assetEvidencePackets.map((packet) => (
+            <article key={packet.packetId} className="rounded-lg border border-[var(--tenant-border)] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="break-words text-sm font-bold text-[var(--tenant-text)]">{packet.packetId}</p>
+                <StatusPill label={packet.reviewStatus} tone="warning" />
+              </div>
+              <dl className="mt-4 grid gap-2 text-xs text-[var(--tenant-muted)] sm:grid-cols-2">
+                <Fact label="Tenant" value={packet.tenantId} />
+                <Fact label="Package" value={packet.packageId} />
+                <Fact label="Attachments" value={String(packet.attachments.length)} />
+                <Fact label="Student use" value="Blocked" />
+              </dl>
+              <ul className="mt-4 grid gap-2 text-xs leading-5 text-[var(--tenant-muted)]">
+                {packet.attachments.map((attachment) => (
+                  <li key={attachment.attachmentId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+                    <span className="font-semibold text-[var(--tenant-text)]">{attachment.assetId}</span>
+                    <span className="ml-2">{attachment.file.kind} · {attachment.file.mimeType} · checksum captured</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Attachment storage readiness lineage</p>
             <h3 className="mt-1 text-lg font-bold">Storage candidates travel with the handoff, not the files</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

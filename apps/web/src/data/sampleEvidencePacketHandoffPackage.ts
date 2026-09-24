@@ -8,6 +8,10 @@ import type {
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { sampleUploadQuarantineAdmissionHandoffBindings } from "@/data/sampleUploadQuarantineAdmission";
 import { sampleEvidenceAttachmentStorageHandoffBinding } from "@/data/sampleEvidenceAttachmentStorageHandoff";
+import {
+  sampleLabelledDiagramAssetEvidencePacket,
+  sampleMediaAssetEvidencePacket,
+} from "@/data/sampleAssetEvidencePacket";
 
 export type {
   EvidencePacketHandoffPackage,
@@ -104,6 +108,10 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
         "local bundle export checksum",
       ],
     },
+  ],
+  assetEvidencePackets: [
+    sampleLabelledDiagramAssetEvidencePacket,
+    sampleMediaAssetEvidencePacket,
   ],
   admissionBindings: sampleUploadQuarantineAdmissionHandoffBindings,
   storageReadinessBinding: sampleEvidenceAttachmentStorageHandoffBinding,

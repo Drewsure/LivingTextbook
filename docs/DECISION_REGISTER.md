@@ -55,6 +55,15 @@ candidates. No provider, bucket, folder, signed URL, retention clock,
 attachment upload/download, or release mutation may be created by the binding.
 See `docs/decision-register/DR-1138-evidence-attachment-storage-handoff-binding.md`.
 
+## DR-1139: Per-Asset Evidence Packets In Tenant Handoff
+
+Each tenant evidence handoff must carry the validated metadata-only evidence
+packets for its image, audio, video, and other reviewed asset candidates. The
+packets preserve attachment identity, tenant and package scope, source
+lineage, file metadata, checksum, and blocked actions. They do not carry raw
+bytes, storage URLs, downloads, promotion, release mutation, or student use.
+See `docs/decision-register/DR-1139-per-asset-evidence-packets-in-tenant-handoff.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

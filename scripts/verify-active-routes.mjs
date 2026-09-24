@@ -2745,6 +2745,9 @@ expectedTextByPath
   ?.push(...safeFallbackRestorationPreviewExpected);
 
 expectedTextByPath.get("/teacher/evidence/sample-publisher/handoff")?.push(
+  "Asset evidence lineage",
+  "Every image, audio, and video candidate keeps its own evidence packet",
+  "checksum captured",
   "Attachment storage readiness lineage",
   "Storage candidates travel with the handoff, not the files",
   "blocked-preview",

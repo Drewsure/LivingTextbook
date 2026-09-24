@@ -1,4 +1,5 @@
 import { validateEvidenceAttachmentStorageHandoffBinding } from "./evidenceAttachmentStorageHandoff";
+import { validateAssetEvidencePacket, type AssetEvidencePacket } from "./assetEvidencePacket";
 import { validateUploadQuarantineAdmissionHandoffBinding } from "./uploadQuarantineAdmissionHandoff";
 
 export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
@@ -29,6 +30,7 @@ export interface EvidencePacketHandoffPackage {
   sourceIndexRoute: string;
   storageRecord: "evidence_packet";
   sections: EvidencePacketHandoffSection[];
+  assetEvidencePackets: AssetEvidencePacket[];
   admissionBindings: import("./uploadQuarantineAdmissionHandoff").UploadQuarantineAdmissionHandoffBinding[];
   storageReadinessBinding: import("./evidenceAttachmentStorageHandoff").EvidenceAttachmentStorageHandoffBinding;
   recipients: EvidencePacketHandoffRecipient[];
@@ -63,6 +65,19 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   validateUniqueIds(recipients, "recipientId", "recipient", errors);
 
   if (sections.length === 0) errors.push("Evidence packet handoff must include sections.");
+  const assetEvidencePackets = Array.isArray(packet.assetEvidencePackets) ? packet.assetEvidencePackets : [];
+  if (assetEvidencePackets.length === 0) errors.push("Evidence packet handoff must include asset evidence packets.");
+  validateUniqueIds(assetEvidencePackets, "packetId", "asset evidence packet", errors);
+  for (const assetEvidencePacket of assetEvidencePackets) {
+    const packetErrors = validateAssetEvidencePacket(assetEvidencePacket);
+    errors.push(...packetErrors.map((error) => `Evidence packet handoff asset evidence: ${error}`));
+    if (assetEvidencePacket.tenantId !== packet.tenantId) {
+      errors.push(`Evidence packet handoff asset evidence ${assetEvidencePacket.packetId} must match handoff tenant.`);
+    }
+    if (assetEvidencePacket.packageId !== packet.packageId) {
+      errors.push(`Evidence packet handoff asset evidence ${assetEvidencePacket.packetId} must match handoff package.`);
+    }
+  }
   const admissionBindings = Array.isArray(packet.admissionBindings) ? packet.admissionBindings : [];
   if (admissionBindings.length === 0) errors.push("Evidence packet handoff must include upload admission bindings.");
   for (const binding of admissionBindings) {
