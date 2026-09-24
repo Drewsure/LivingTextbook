@@ -22,6 +22,8 @@ try {
     tenantId: "sample-publisher",
     packageId: "sample-publisher-l1-u1-routines-package",
     storageBindingId: "sample-publisher-l1-u1-routines-package:attachment-storage-plan:selection-gate",
+    storageSelectionPreflightId: "sample-publisher-persistence-provider-selection-preflight",
+    storageSelectionGateId: "sample-publisher-evidence-storage-adapter-selection-gate",
     status: "blocked-preview",
     assetPacketIds: ["asset-evidence-labelled-diagram", "asset-evidence-media"],
     attachmentIds: ["attachment-image", "attachment-audio", "attachment-video"],
@@ -34,6 +36,7 @@ try {
   assert(validateEvidenceAttachmentStorageReconciliation(created).length === 0, "valid reconciliation must pass");
   assert(created.reconciliationId === `${fixture.packageId}:${fixture.storageBindingId}`, "reconciliation identity must be deterministic");
   assert(created.storageSelectionAllowed === false && created.uploadAllowed === false, "storage selection and upload must remain blocked");
+  assert(created.storageSelectionPreflightId === fixture.storageSelectionPreflightId && created.storageSelectionGateId === fixture.storageSelectionGateId, "storage reconciliation must carry selection identity");
   assert(created.downloadAllowed === false && created.promotionAllowed === false, "download and promotion must remain blocked");
   assert(created.mode === "review-only" && created.sideEffect === "none", "reconciliation must be review-only and side-effect-free");
 
@@ -46,6 +49,11 @@ try {
     validateEvidenceAttachmentStorageReconciliation({ ...created, storageSelectionAllowed: true })
       .some((error) => error.includes("storageSelectionAllowed must remain false")),
     "provider-selection enablement must be rejected",
+  );
+  assert(
+    validateEvidenceAttachmentStorageReconciliation({ ...created, storageSelectionGateId: "" })
+      .some((error) => error.includes("storageSelectionGateId must be non-empty")),
+    "missing storage gate identity must be rejected",
   );
   assert(
     validateEvidenceAttachmentStorageReconciliation({ ...created, tenantId: "other-tenant" }).length === 0,

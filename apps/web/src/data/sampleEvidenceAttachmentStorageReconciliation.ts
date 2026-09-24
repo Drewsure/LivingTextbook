@@ -3,6 +3,7 @@ import {
   type EvidenceAttachmentStorageReconciliation,
 } from "@living-textbook/content-model";
 import { sampleEvidenceAttachmentStorageHandoffBinding } from "@/data/sampleEvidenceAttachmentStorageHandoff";
+import { samplePersistenceProviderSelectionPreflight } from "@/data/samplePersistenceProviderSelectionPreflight";
 import {
   sampleLabelledDiagramAssetEvidencePacket,
   sampleMediaAssetEvidencePacket,
@@ -13,6 +14,8 @@ export const sampleEvidenceAttachmentStorageReconciliation: EvidenceAttachmentSt
     tenantId: "sample-publisher",
     packageId: "sample-publisher-l1-u1-routines-package",
     storageBindingId: sampleEvidenceAttachmentStorageHandoffBinding.bindingId,
+    storageSelectionPreflightId: samplePersistenceProviderSelectionPreflight.preflightId,
+    storageSelectionGateId: samplePersistenceProviderSelectionPreflight.evidenceStorageGateId,
     status: "blocked-preview",
     assetPacketIds: [
       sampleLabelledDiagramAssetEvidencePacket.packetId,

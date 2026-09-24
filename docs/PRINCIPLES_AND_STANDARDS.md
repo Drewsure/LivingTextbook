@@ -7734,3 +7734,18 @@ This standard is recorded in
 `docs/decision-register/DR-1155-local-media-release-control-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1155-local-media-release-control-storage-identity.md`.
+
+## 494. Evidence Attachment Storage Identity Standard
+
+- Evidence attachment storage reconciliation must carry the same
+  storage-selection preflight and evidence-storage gate identities as the
+  provider-neutral storage review packet.
+- Evidence handoff validation must reject reconciliation records whose storage
+  identity does not match the package storage preflight or selection gate.
+- Upload, download, promotion, signed approval, local activation, and release
+  mutation remain blocked and side-effect free.
+
+This standard is recorded in
+`docs/decision-register/DR-1156-evidence-attachment-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1156-evidence-attachment-storage-identity.md`.

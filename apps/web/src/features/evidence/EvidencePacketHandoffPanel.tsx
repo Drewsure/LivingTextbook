@@ -94,6 +94,9 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
           <ListBlock title="Unresolved policy gates" items={handoffPackage.storageReconciliation.unresolvedGates} />
           <ListBlock title="Blocked reconciliation actions" items={handoffPackage.storageReconciliation.blockedActions} />
         </div>
+        <p className="mt-4 text-xs font-semibold text-[var(--tenant-muted)]">
+          Storage identity: {handoffPackage.storageReconciliation.storageSelectionPreflightId} · {handoffPackage.storageReconciliation.storageSelectionGateId}
+        </p>
       </Card>
 
       <Card>

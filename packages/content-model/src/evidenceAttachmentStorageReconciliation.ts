@@ -5,6 +5,8 @@ export interface EvidenceAttachmentStorageReconciliation {
   tenantId: string;
   packageId: string;
   storageBindingId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
   assetPacketIds: string[];
   attachmentIds: string[];
   candidateIds: string[];
@@ -48,7 +50,7 @@ export function createEvidenceAttachmentStorageReconciliation(
 export function validateEvidenceAttachmentStorageReconciliation(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Evidence attachment storage reconciliation must be an object."];
-  for (const field of ["reconciliationId", "tenantId", "packageId", "storageBindingId"] as const) {
+  for (const field of ["reconciliationId", "tenantId", "packageId", "storageBindingId", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Evidence attachment storage reconciliation ${field} must be non-empty.`);
   }
   if (!statuses.has(String(value.status) as EvidenceAttachmentStorageReconciliationStatus)) {

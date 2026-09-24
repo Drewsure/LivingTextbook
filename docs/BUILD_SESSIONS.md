@@ -5632,3 +5632,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Made storage drift a blocking release decision and added negative coverage
   while preserving promotion, package-write, activation, and QR blockers.
 - Recorded ADR 1155 and DR-1155.
+
+## Build session 1070: Evidence attachment storage identity
+
+- Bound evidence attachment storage reconciliation to the package storage
+  preflight and evidence-storage gate identity.
+- Added handoff mismatch checks, visible identity evidence, and focused
+  negative coverage while preserving upload, download, promotion, activation,
+  and release-mutation blockers.
+- Recorded ADR 1156 and DR-1156.

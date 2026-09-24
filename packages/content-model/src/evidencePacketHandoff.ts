@@ -101,6 +101,12 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   if (packet.storageReconciliation?.storageBindingId !== packet.storageReadinessBinding?.bindingId) {
     errors.push("Evidence packet handoff storage reconciliation must match storage binding.");
   }
+  if (packet.storageReconciliation?.storageSelectionPreflightId !== packet.storageSelectionPreflight?.preflightId) {
+    errors.push("Evidence packet handoff storage reconciliation must match storage selection preflight.");
+  }
+  if (packet.storageReconciliation?.storageSelectionGateId !== packet.storageSelectionPreflight?.evidenceStorageGateId) {
+    errors.push("Evidence packet handoff storage reconciliation must match storage selection gate.");
+  }
   const storageSelectionErrors = validatePersistenceProviderSelectionPreflight(packet.storageSelectionPreflight);
   errors.push(...storageSelectionErrors.map((error) => `Evidence packet handoff storage selection: ${error}`));
   if (packet.storageSelectionPreflight?.status !== "blocked") {

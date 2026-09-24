@@ -9210,3 +9210,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Storage identity mismatch must force a blocked release decision.
 - Promotion, package writes, local activation, student-facing use, and QR
   mutation remain blocked.
+
+## DR-1156: Evidence Attachment Storage Identity
+
+- Evidence attachment storage reconciliation must carry storage-selection
+  preflight and evidence-storage gate identity.
+- Evidence handoff must reject storage identity drift against the package
+  preflight or selection gate.
+- Upload, download, promotion, signed approval, local activation, and release
+  mutation remain blocked.
