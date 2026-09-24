@@ -11,6 +11,7 @@ import {
   type BrowserRehearsalObservationHandoff,
 } from "@living-textbook/content-model";
 import { readBrowserRehearsalObservation, subscribeToBrowserRehearsalObservation } from "@/features/persistence/browserRehearsalObservationStore";
+import { formatStableTimestamp } from "@/lib/formatStableTimestamp";
 import {
   readBrowserRehearsalObservationAdjudication,
   saveBrowserRehearsalObservationAdjudication,
@@ -134,7 +135,7 @@ export function BrowserEvidenceAdjudicationPanel({
             {adjudication ? (
               <div className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
                 <Fact label="Reviewer" value={adjudication.reviewerRef} />
-                <Fact label="Decision time" value={new Date(adjudication.adjudicatedAt).toLocaleString()} />
+                <Fact label="Decision time" value={formatStableTimestamp(adjudication.adjudicatedAt)} />
                 <div className="rounded-lg border border-[var(--tenant-border)] p-3 sm:col-span-2">
                   <dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Reviewer note</dt>
                   <dd className="mt-1 text-sm text-[var(--tenant-text)]">{adjudication.reviewerNote}</dd>

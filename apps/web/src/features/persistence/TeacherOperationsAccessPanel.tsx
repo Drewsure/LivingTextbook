@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { clearTeacherOperationsSession, createTeacherOperationsSession, readTeacherOperationsSession, type TeacherOperationsSessionResult } from "./teacherOperationsAccessClient";
 import { notifyTeacherOperationsSessionChanged } from "./teacherOperationsSessionEvents";
+import { formatStableTime } from "@/lib/formatStableTimestamp";
 
 export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string }) {
   const [reviewCode, setReviewCode] = useState("");
@@ -71,7 +72,7 @@ export function TeacherOperationsAccessPanel({ tenantId }: { tenantId: string })
         {authenticated ? <button type="button" onClick={handleSignOut} disabled={working} className="min-h-11 rounded-lg border border-[var(--tenant-border)] px-4 py-2 text-sm font-bold text-[var(--tenant-text)] disabled:opacity-50">Sign out</button> : null}
       </form>
       {result && !authenticated ? <p className="mt-3 text-sm font-semibold text-[var(--tenant-muted)]" aria-live="polite">{result.errors[0] ?? "Teacher review access is not available."}</p> : null}
-      {authenticated ? <p className="mt-3 text-sm font-semibold text-[var(--tenant-muted)]" aria-live="polite">Tenant review access is active until {new Date(result.expiresAt ?? "").toLocaleTimeString()}.</p> : null}
+      {authenticated ? <p className="mt-3 text-sm font-semibold text-[var(--tenant-muted)]" aria-live="polite">Tenant review access is active until {formatStableTime(result.expiresAt)}.</p> : null}
     </Card>
   );
 }

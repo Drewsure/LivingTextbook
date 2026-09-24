@@ -21,6 +21,7 @@ import {
 } from "@/features/persistence/browserRehearsalObservationStore";
 import type { BrowserRehearsalObservation } from "@living-textbook/content-model";
 import { formatMode } from "@/lib/formatLabels";
+import { formatStableTimestamp } from "@/lib/formatStableTimestamp";
 import { createPilotSessionEvidenceEnvelope } from "@/features/persistence/pilotSessionEvidenceEnvelope";
 import { evaluatePilotSessionPreflight } from "@/features/persistence/pilotSessionPreflight";
 import { readPersistenceStatus, type PersistenceStatusResult } from "@/features/persistence/persistenceStatusClient";
@@ -304,7 +305,7 @@ export function TeacherSessionLocalEvidencePanel({
             </div>
             {observation ? (
               <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
-                <EvidenceMetric label="Observed at" value={new Date(observation.observedAt).toLocaleString()} />
+                <EvidenceMetric label="Observed at" value={formatStableTimestamp(observation.observedAt)} />
                 <EvidenceMetric label="Routes" value={String(observation.routePaths.length)} />
                 <EvidenceMetric label="Checks" value={String(observation.checkIds.length)} />
               </dl>
@@ -387,7 +388,7 @@ export function TeacherSessionLocalEvidencePanel({
             ) : null}
           </section>
           <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">
-            Saved locally at {new Date(evidence.savedAt).toLocaleString()}. A future hosted or packaged adapter must preserve this same shape and pass school policy, privacy, retention, and release gates first.
+            Saved locally at {formatStableTimestamp(evidence.savedAt)}. A future hosted or packaged adapter must preserve this same shape and pass school policy, privacy, retention, and release gates first.
           </p>
         </>
       ) : (

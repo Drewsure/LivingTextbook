@@ -32,6 +32,13 @@ const reviewSurfaceFiles = [
   "apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx",
 ];
 
+const stableTimestampFiles = [
+  "apps/web/src/features/teacher/TeacherSessionLocalEvidencePanel.tsx",
+  "apps/web/src/features/release/BrowserEvidenceAdjudicationPanel.tsx",
+  "apps/web/src/features/pilot/BrowserPrivacyTenantEvidenceAdjudicationPanel.tsx",
+  "apps/web/src/features/persistence/TeacherOperationsAccessPanel.tsx",
+];
+
 const bareKeyPattern = /key=\{(?:item|warning|record|action|rule|error|step)\}/g;
 const failures = [];
 
@@ -132,6 +139,26 @@ for (const filePath of reviewSurfaceFiles) {
   }
 }
 
+for (const filePath of stableTimestampFiles) {
+  const source = readFileSync(new URL(`../${filePath}`, import.meta.url), "utf8");
+  if (/toLocale(String|DateString|TimeString)\s*\(/.test(source)) {
+    failures.push(`${filePath} must not use locale-dependent timestamp rendering.`);
+  }
+  if (!source.includes("formatStable")) {
+    failures.push(`${filePath} must use the shared stable timestamp formatter.`);
+  }
+}
+
+const stableTimestampFormatter = readFileSync(
+  new URL("../apps/web/src/lib/formatStableTimestamp.ts", import.meta.url),
+  "utf8",
+);
+for (const token of ["getUTCFullYear", "getUTCMonth", "getUTCDate", "getUTCHours", "getUTCMinutes", "getUTCSeconds"]) {
+  if (!stableTimestampFormatter.includes(token)) {
+    failures.push(`Shared timestamp formatter is missing ${token}.`);
+  }
+}
+
 if (failures.length > 0) {
   for (const failure of failures) {
     console.error(`FAIL ${failure}`);
@@ -140,4 +167,4 @@ if (failures.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS review list key stability covers ${reviewSurfaceFiles.length} active review surface(s).`);
+console.log(`PASS review identity and stable timestamp checks cover ${reviewSurfaceFiles.length} review surface(s) and ${stableTimestampFiles.length} timestamp surface(s).`);

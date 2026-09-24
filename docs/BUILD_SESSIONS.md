@@ -5802,3 +5802,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept route verification read-only and preserved all storage, launch,
   promotion, tenant, and Z.ai candidate boundaries.
 - Recorded ADR 1173 and DR-1173.
+
+## Build session 1088: Stable review timestamp rendering
+
+- Replaced browser-locale timestamp rendering on teacher evidence,
+  adjudication, privacy/tenant review, and operations-access surfaces with a
+  deterministic UTC formatter.
+- Added a regression check to the existing review-identity verifier so governed
+  surfaces cannot reintroduce locale-dependent timestamp rendering.
+- Preserved event storage, learner localization, scoring, persistence, teacher
+  permissions, and release-control boundaries.
+- Recorded ADR 1174 and DR-1174.

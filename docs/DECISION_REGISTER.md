@@ -9370,3 +9370,13 @@ cleans up the child process. Route verification remains read-only and does not
 enable storage, student launch, package promotion, or tenant mutation.
 Evidence: `scripts/verify-routes-with-preview.mjs`, the web `start` script, and
 the root `verify:routes:preview` command.
+
+## DR-1174: Stable Review Timestamps
+
+Teacher evidence, browser adjudication, privacy/tenant review, and operations
+access surfaces use one deterministic UTC timestamp formatter. This prevents
+server/browser locale differences from producing hydration warnings or
+ambiguous audit evidence. Learner-facing localization, event storage, scoring,
+progression, persistence, and release authority remain unchanged. Evidence:
+`apps/web/src/lib/formatStableTimestamp.ts`, the governed review surfaces, and
+`scripts/verify-review-list-key-stability.mjs`.
