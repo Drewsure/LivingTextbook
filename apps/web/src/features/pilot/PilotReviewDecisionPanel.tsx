@@ -47,6 +47,25 @@ export function PilotReviewDecisionPanel({ decision, validationErrors }: PilotRe
         </dl>
       </section>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Storage policy carried into pilot decision</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Provider selection remains blocked</h3>
+            <p className="mt-2 max-w-4xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The canonical decision preserves the exact provider-neutral storage review identities. It does not choose, activate, or authorize a storage provider.
+            </p>
+          </div>
+          <StatusPill label="Storage selection blocked" tone="warning" />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <DecisionFact label="Storage preflight" value={decision.storageSelectionPreflightId} />
+          <DecisionFact label="Storage gate" value={decision.storageSelectionGateId} />
+          <DecisionFact label="Selection status" value={decision.storageSelectionStatus} />
+          <DecisionFact label="Provider allowed" value={decision.storageSelectionAllowed ? "Allowed" : "Blocked"} />
+        </dl>
+      </section>
+
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <DecisionList title="Blocking reasons" items={decision.blockingReasons} tone="warning" />
         <DecisionList title="Required next steps" items={decision.requiredNextSteps} tone="neutral" />

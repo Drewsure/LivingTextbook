@@ -6,6 +6,10 @@ export interface PilotReviewDecision {
   packageId: string;
   handoffRouteKey: string;
   evidenceHandoffRouteKey: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: PilotReviewDecisionStatus;
   mode: "review-only";
   demoAllowed: true;
@@ -21,7 +25,7 @@ export interface PilotReviewDecision {
 export function validatePilotReviewDecision(decision: PilotReviewDecision): string[] {
   const errors: string[] = [];
 
-  for (const field of ["decisionId", "tenantId", "packageId", "handoffRouteKey", "evidenceHandoffRouteKey"] as const) {
+  for (const field of ["decisionId", "tenantId", "packageId", "handoffRouteKey", "evidenceHandoffRouteKey", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (typeof decision[field] !== "string" || decision[field].trim().length === 0) {
       errors.push(`Pilot review decision ${field} must be a non-empty string.`);
     }
@@ -29,6 +33,8 @@ export function validatePilotReviewDecision(decision: PilotReviewDecision): stri
 
   if (decision.mode !== "review-only") errors.push("Pilot review decision must remain review-only.");
   if (decision.demoAllowed !== true) errors.push("Pilot review decision must allow controlled demos.");
+  if (decision.storageSelectionStatus !== "blocked") errors.push("Pilot review decision storage selection must remain blocked.");
+  if (decision.storageSelectionAllowed !== false) errors.push("Pilot review decision storage selection must remain disallowed.");
   for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed", "packagePromotionAllowed"] as const) {
     if (decision[field] !== false) errors.push(`Pilot review decision ${field} must remain false.`);
   }

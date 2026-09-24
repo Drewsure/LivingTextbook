@@ -11,7 +11,7 @@ import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleLocalBundleMediaReleaseControlBinding, sampleLocalBundleMediaReleaseControlBindingErrors } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 import { MediaReleaseControlBindingPanel } from "@/features/pilot/MediaReleaseControlBindingPanel";
 import { sampleWhiteLabelReleaseReadiness } from "@/data/sampleWhiteLabelReleaseReadiness";
-import { samplePilotReviewDecision } from "@/data/samplePilotReviewDecision";
+import { samplePilotReviewDecision, samplePilotReviewDecisionErrors } from "@/data/samplePilotReviewDecision";
 import { resolveSampleLaunchContext } from "@/data/sampleLaunchResolver";
 import { BrowserPrivacyTenantEvidenceReleaseBindingPanel } from "@/features/release/BrowserPrivacyTenantEvidenceReleaseBindingPanel";
 import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
@@ -20,6 +20,7 @@ import { sampleControlledPilotApprovalReadiness, sampleControlledPilotApprovalRe
 import { ControlledPilotApprovalReadinessPanel } from "@/features/pilot/ControlledPilotApprovalReadinessPanel";
 import { sampleControlledPilotHumanReviewPacket, sampleControlledPilotHumanReviewPacketErrors } from "@/data/sampleControlledPilotHumanReviewPacket";
 import { ControlledPilotHumanReviewPacketPanel } from "@/features/pilot/ControlledPilotHumanReviewPacketPanel";
+import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -171,6 +172,10 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
           launchCode={partnerLaunch.launchSession.launchCode}
           unitKey={partnerLaunch.launchSession.unitKey}
           studentSessionId={partnerLaunch.progression.studentSessionId}
+        />
+        <PilotReviewDecisionPanel
+          decision={samplePilotReviewDecision}
+          validationErrors={samplePilotReviewDecisionErrors}
         />
         <ReviewerIdentitySignatureGatePanel gate={sampleReviewerIdentitySignatureGate} />
         <ControlledPilotApprovalReadinessPanel

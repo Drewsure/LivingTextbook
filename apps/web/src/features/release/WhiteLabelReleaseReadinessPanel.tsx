@@ -80,6 +80,9 @@ export function WhiteLabelReleaseReadinessPanel({
           <Fact label="Pilot package scope" value={readiness.pilotEvidence.packageId} />
           <Fact label="Decision" value={readiness.pilotEvidence.decisionId} />
           <Fact label="Handoff route" value={readiness.pilotEvidence.handoffRouteKey} />
+          <Fact label="Storage preflight" value={readiness.pilotEvidence.storageSelectionPreflightId} />
+          <Fact label="Storage gate" value={readiness.pilotEvidence.storageSelectionGateId} />
+          <Fact label="Storage selection" value={readiness.pilotEvidence.storageSelectionAllowed ? "Allowed" : "Blocked"} />
           <Fact label="Blockers" value={String(readiness.pilotEvidence.blockingReasonCount)} />
           <Fact label="Pilot launch" value={readiness.pilotEvidence.pilotLaunchAllowed ? "Allowed" : "Blocked"} />
           <Fact label="Learner data" value={readiness.pilotEvidence.studentDataCollectionAllowed ? "Allowed" : "Blocked"} />

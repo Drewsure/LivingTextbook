@@ -5542,3 +5542,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved approval capture, packet freeze, persistence writes, activation,
   export, QR mutation, release mutation, assignment, and classroom launch
   blockers. Recorded ADR 1144 and DR-1144.
+
+## Build session 1059: Pilot decision storage identity
+
+- Extended the canonical pilot review decision and white-label release-readiness
+  evidence with the exact storage-selection preflight and evidence-storage gate
+  identities.
+- Kept storage selection provider-neutral, blocked, and disallowed through the
+  release dashboard and pilot decision surfaces.
+- Added focused runtime and source verification for the identity chain.
+- Recorded ADR 1145 and DR-1145.

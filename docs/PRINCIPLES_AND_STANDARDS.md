@@ -7566,3 +7566,19 @@ This standard is recorded in
 `docs/decision-register/DR-1144-controlled-pilot-storage-policy-boundary.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1144-controlled-pilot-storage-policy-boundary.md`.
+
+## 483. Pilot Decision Storage Identity Standard
+
+- The canonical pilot review decision and white-label release-readiness record
+  must carry the exact provider-neutral storage-selection preflight and
+  evidence-storage gate identities used by the pilot handoff.
+- Storage selection must remain explicitly `blocked` with `allowed: false` at
+  every review and release surface. Generic evidence bindings cannot replace
+  the typed identity chain.
+- Evidence visibility is not provider selection, persistence activation,
+  export, release mutation, QR mutation, assignment, or classroom launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1145-pilot-decision-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1145-pilot-decision-storage-identity.md`.

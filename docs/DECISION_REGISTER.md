@@ -111,6 +111,16 @@ export, QR mutation, release mutation, assignment, and classroom launch
 blocked until separately authorized policy review passes. See
 `docs/decision-register/DR-1144-controlled-pilot-storage-policy-boundary.md`.
 
+## DR-1145: Pilot Decision Storage Identity
+
+Preserve the exact provider-neutral storage-selection preflight and
+evidence-storage gate identity through the canonical pilot review decision and
+white-label release-readiness record. Keep storage selection blocked and
+disallowed; evidence visibility does not authorize provider choice, writes,
+activation, export, release mutation, QR mutation, assignment, or classroom
+launch. See
+`docs/decision-register/DR-1145-pilot-decision-storage-identity.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

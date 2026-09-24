@@ -160,6 +160,8 @@ requireText(pilotReviewDecisionPanel, "Demo allowed, pilot launch blocked", "Pil
 requireText(pilotReviewDecisionPanel, "decision.blockingReasons", "Pilot review decision panel must show blocking reasons.");
 requireText(pilotReviewDecisionPanel, "decision.requiredNextSteps", "Pilot review decision panel must show required next steps.");
 requireText(pilotReviewDecisionPanel, "No live action", "Pilot review decision panel must preserve the no-live-action boundary.");
+requireText(pilotReviewDecisionPanel, "Storage policy carried into pilot decision", "Pilot review decision panel must show storage policy identity.");
+requireText(pilotReviewDecisionPanel, "decision.storageSelectionPreflightId", "Pilot review decision panel must consume storage selection preflight identity.");
 requireText(dashboardPanel, "First conversation position", "Dashboard panel must render first conversation position.");
 requireText(dashboardPanel, "Dependent gates", "Dashboard panel must render dependent gates.");
 requireText(dashboardPanel, "Hard blocks", "Dashboard panel must render hard blocks.");

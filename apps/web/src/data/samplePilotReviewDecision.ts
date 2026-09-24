@@ -59,6 +59,10 @@ export function createPilotReviewDecision(
     packageId: handoffPackage.packageId,
     handoffRouteKey: handoffPackage.routeKey,
     evidenceHandoffRouteKey: evidencePackage.routeKey,
+    storageSelectionPreflightId: handoffPackage.storageSelectionPreflightId,
+    storageSelectionGateId: handoffPackage.storageSelectionGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     status: "demo-ready-pilot-blocked",
     mode: "review-only",
     demoAllowed: true,
@@ -75,6 +79,8 @@ export function createPilotReviewDecision(
       `report-snapshot:${handoffPackage.reportSnapshotEvidence.snapshotId}`,
       `persistence-gate:${handoffPackage.persistenceGateEvidence.packageId}`,
       `activation-preflight:${handoffPackage.activationPreflightEvidence.packetId}`,
+      `storage-selection-preflight:${handoffPackage.storageSelectionPreflightId}`,
+      `storage-selection-gate:${handoffPackage.storageSelectionGateId}`,
     ],
   };
 }

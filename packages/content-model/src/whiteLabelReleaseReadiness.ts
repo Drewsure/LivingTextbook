@@ -72,6 +72,10 @@ export interface WhiteLabelReleasePilotEvidence {
   packageId: string;
   handoffRouteKey: string;
   evidenceHandoffRouteKey: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: "demo-ready-pilot-blocked" | "pilot-ready";
   blockingReasons: string[];
   blockingReasonCount: number;
@@ -295,11 +299,13 @@ export function validateWhiteLabelReleaseReadiness(readiness: unknown): string[]
   if (!isRecord(pilotEvidence)) {
     errors.push("White-label release readiness pilotEvidence must be an object.");
   } else {
-    for (const field of ["decisionId", "tenantId", "packageId", "handoffRouteKey", "evidenceHandoffRouteKey"] as const) {
+    for (const field of ["decisionId", "tenantId", "packageId", "handoffRouteKey", "evidenceHandoffRouteKey", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
       if (!isNonEmptyString(pilotEvidence[field])) errors.push(`White-label release pilot evidence ${field} must be non-empty.`);
     }
     if (pilotEvidence.tenantId !== readiness.tenantId) errors.push("White-label release pilot evidence must match the readiness tenant.");
     if (pilotEvidence.packageId !== readiness.packageId) errors.push("White-label release pilot evidence must match the readiness package.");
+    if (pilotEvidence.storageSelectionStatus !== "blocked") errors.push("White-label release pilot evidence storage selection must remain blocked.");
+    if (pilotEvidence.storageSelectionAllowed !== false) errors.push("White-label release pilot evidence storage selection must remain disallowed.");
     if (!["demo-ready-pilot-blocked", "pilot-ready"].includes(readString(pilotEvidence, "status"))) errors.push("White-label release pilot evidence status is unsupported.");
     const rawBlockingReasons = pilotEvidence.blockingReasons;
     const blockingReasons = readStringArray(pilotEvidence, "blockingReasons");
