@@ -9409,3 +9409,8 @@ The dry-run workspace also renders the shared adult adjudication handoff from
 that receipt. The handoff preserves exact route and check scope while keeping
 export, approval, hosted persistence, QR mutation, release promotion, and
 student production launch false.
+
+The same dry-run scope now mounts the existing browser observation adjudication
+control. This records an adult next-gate decision locally against the exact
+handoff and synthetic session, without turning that decision into release
+approval, durable persistence, student launch, or pilot activation.

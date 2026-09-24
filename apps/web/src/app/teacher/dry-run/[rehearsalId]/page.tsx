@@ -6,6 +6,7 @@ import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsa
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
 import { TeacherDryRunObservationPanel } from "@/features/pilot/TeacherDryRunObservationPanel";
+import { BrowserEvidenceAdjudicationPanel } from "@/features/release/BrowserEvidenceAdjudicationPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface TeacherDryRunPageProps {
@@ -72,6 +73,14 @@ export default async function TeacherDryRunPage({ params }: TeacherDryRunPagePro
 
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <TeacherDryRunObservationPanel rehearsal={sampleTeacherDryRunRehearsal} />
+        <BrowserEvidenceAdjudicationPanel
+          tenantId={sampleTeacherDryRunRehearsal.tenantId}
+          packageId={sampleTeacherDryRunRehearsal.packageId}
+          launchCode={sampleTeacherDryRunRehearsal.launchCode}
+          unitKey={sampleTeacherDryRunRehearsal.unitKey}
+          studentSessionId={sampleTeacherDryRunRehearsal.syntheticStudentSessionId}
+          teacherSessionPath={sampleTeacherDryRunRehearsal.workspacePath}
+        />
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
       </div>
     </AppShell>

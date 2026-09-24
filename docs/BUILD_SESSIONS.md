@@ -5881,3 +5881,5 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Exposed its exact route/check scope, review destination, blocked actions, and
   next gate without adding export, approval, hosted persistence, or launch
   behavior.
+- Mounted the existing local browser adjudication control against the same
+  synthetic scope so teacher review decisions cannot drift from the receipt.

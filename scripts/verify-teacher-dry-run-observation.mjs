@@ -4,6 +4,7 @@ const files = {
   rehearsal: read("apps/web/src/data/sampleTeacherDryRunRehearsal.ts"),
   panel: read("apps/web/src/features/pilot/TeacherDryRunObservationPanel.tsx"),
   route: read("apps/web/src/app/teacher/dry-run/[rehearsalId]/page.tsx"),
+  adjudication: read("apps/web/src/features/release/BrowserEvidenceAdjudicationPanel.tsx"),
   store: read("apps/web/src/features/persistence/browserRehearsalObservationStore.ts"),
 };
 const failures = [];
@@ -34,6 +35,14 @@ requireFragments("dry-run observation panel", files.panel, [
 requireFragments("dry-run route", files.route, [
   "TeacherDryRunObservationPanel",
   "<TeacherDryRunObservationPanel rehearsal={sampleTeacherDryRunRehearsal} />",
+  "BrowserEvidenceAdjudicationPanel",
+  "studentSessionId={sampleTeacherDryRunRehearsal.syntheticStudentSessionId}",
+]);
+requireFragments("dry-run adjudication", files.adjudication, [
+  "saveBrowserRehearsalObservationAdjudication",
+  "data-browser-adjudication=\"review-only\"",
+  "never creates hosted persistence",
+  "cannot launch students",
 ]);
 requireFragments("observation store", files.store, [
   "getBrowserRehearsalObservationStorageKey",
