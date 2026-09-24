@@ -5676,3 +5676,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added negative coverage for missing storage evidence references while
   preserving all approval, launch, freeze, and write blockers.
 - Recorded ADR 1160 and DR-1160.
+
+## Build session 1075: Deployment continuity handoff storage identity
+
+- Exposed continuity storage preflight and evidence-storage gate identity on
+  the hosted, local, and packaged deployment handoff artifact.
+- Added focused negative coverage for missing storage evidence bindings while
+  preserving export, installation, activation, route, persistence, and launch
+  blockers.
+- Recorded ADR 1161 and DR-1161.

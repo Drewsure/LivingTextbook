@@ -9254,3 +9254,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Missing or substituted readiness, release, pilot, reviewer, storage
   preflight, or storage gate references must fail validation.
 - Review remains non-activating and side-effect free.
+
+## DR-1161: Deployment Continuity Handoff Storage Identity
+
+- Deployment continuity handoffs must expose and bind the storage preflight
+  and evidence-storage gate identity from the continuity decision.
+- Missing storage bindings fail validation before a hosted, local, or packaged
+  handoff can be considered structurally complete.
+- Export, installation, activation, route mutation, writes, and classroom
+  launch remain blocked.

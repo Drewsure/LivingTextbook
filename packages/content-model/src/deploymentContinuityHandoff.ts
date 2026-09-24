@@ -26,6 +26,8 @@ export interface DeploymentContinuityHandoff {
   packageId: string;
   sourceDecisionId: string;
   activationPreflightId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
   releaseReadinessId: string;
   releaseReadinessTenantId: string;
   releaseReadinessPackageId: string;
@@ -102,6 +104,8 @@ export function deriveDeploymentContinuityHandoff(
     packageId: input.decision.packageId,
     sourceDecisionId: input.decision.decisionId,
     activationPreflightId: input.activationPreflightId,
+    storageSelectionPreflightId: input.decision.storageSelectionPreflightId,
+    storageSelectionGateId: input.decision.storageSelectionGateId,
     releaseReadinessId: input.releaseReadinessId,
     releaseReadinessTenantId: input.releaseReadinessTenantId,
     releaseReadinessPackageId: input.releaseReadinessPackageId,
@@ -150,7 +154,7 @@ function createArtifact(
 
 export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuityHandoff): string[] {
   const errors: string[] = [];
-  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId", "releaseReadinessId", "releaseReadinessTenantId", "releaseReadinessPackageId"] as const) {
+  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId", "storageSelectionPreflightId", "storageSelectionGateId", "releaseReadinessId", "releaseReadinessTenantId", "releaseReadinessPackageId"] as const) {
     if (typeof handoff[field] !== "string" || handoff[field].trim().length === 0) {
       errors.push(`Deployment continuity handoff ${field} must be non-empty.`);
     }
@@ -163,6 +167,12 @@ export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuit
   }
   if (handoff.releaseReadinessPackageId !== handoff.packageId) {
     errors.push("Deployment continuity handoff release readiness package must match the handoff package.");
+  }
+  if (!handoff.evidenceBindings.includes(`storage-selection-preflight:${handoff.storageSelectionPreflightId}`)) {
+    errors.push("Deployment continuity handoff must bind the storage selection preflight.");
+  }
+  if (!handoff.evidenceBindings.includes(`storage-selection-gate:${handoff.storageSelectionGateId}`)) {
+    errors.push("Deployment continuity handoff must bind the storage selection gate.");
   }
   if (handoff.selectedOptionId !== null) errors.push("Deployment continuity handoff must not select an option.");
   for (const field of ["exportAllowed", "installAllowed", "activateAllowed", "routeMutationAllowed"] as const) {

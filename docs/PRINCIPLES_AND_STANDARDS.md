@@ -7809,3 +7809,19 @@ This standard is recorded in
 `docs/decision-register/DR-1160-controlled-pilot-human-review-evidence-references.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1160-controlled-pilot-human-review-evidence-references.md`.
+
+## 499. Deployment Continuity Handoff Storage Identity Standard
+
+- Commercial deployment continuity handoffs must expose the exact storage
+  preflight and evidence-storage gate identity carried by the continuity
+  decision.
+- Handoff evidence must include both storage bindings explicitly; an artifact
+  packet cannot rely on an indirect reference hidden in an earlier decision.
+- Hosted, local, and packaged handoffs remain review-only: no export,
+  installation, activation, route mutation, persistence write, or classroom
+  launch is enabled.
+
+This standard is recorded in
+`docs/decision-register/DR-1161-deployment-continuity-handoff-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1161-deployment-continuity-handoff-storage-identity.md`.
