@@ -5748,3 +5748,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added runtime coverage using tenant vocabulary variants while preserving
   content labels, audio text, correctness, and scoring behavior.
 - Recorded ADR 1168 and DR-1168.
+
+## Build session 1083: White-label Text/Spelling choice identity
+
+- Replaced Sentence Builder label-derived tile suffixes with deterministic
+  position-based tile IDs so punctuation and hyphenation variants cannot
+  collapse into one interaction identity.
+- Added explicit Fill in the Blank choice IDs so answer labels remain
+  tenant-owned content rather than React identity.
+- Added runtime coverage for punctuation variants and the explicit choice-key
+  contract while preserving audio, correctness, scoring, and replay behavior.
+- Recorded ADR 1169 and DR-1169.

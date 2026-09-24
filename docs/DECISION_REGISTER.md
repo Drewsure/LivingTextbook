@@ -9321,3 +9321,13 @@ position identity so tenant terms that differ in punctuation, spacing, or
 hyphenation cannot collide after display slugging. Labels, audio text,
 correctness, scoring, progression, and tenant content remain unchanged.
 Evidence: `selectionEngineAdapter.ts` and the selection runtime verifier.
+
+## DR-1169: White-Label Text/Spelling Choice Identity
+
+Text/Spelling interaction identity must be deterministic and position-based.
+Sentence Builder tile IDs and Fill in the Blank choice IDs cannot depend only
+on learner-visible labels, because tenant punctuation, spacing, and
+hyphenation variants can otherwise collide. Labels, audio lookup, answer
+correctness, scoring, progression, and replay seed behavior remain unchanged.
+Evidence: `textSpellingEngineAdapter.ts`, `FillInBlankPracticeGame.tsx`, and
+`scripts/verify-text-spelling-engine-runtime.mjs`.

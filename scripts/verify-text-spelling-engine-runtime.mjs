@@ -1,4 +1,4 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
@@ -40,6 +40,10 @@ try {
   }
 
   const engine = require(join(output, "apps", "web", "src", "features", "game-shell", "text-spelling", "textSpellingEngineAdapter.js"));
+  const fillInBlankSource = readFileSync(
+    join(root, "apps", "web", "src", "features", "game-shell", "text-spelling", "FillInBlankPracticeGame.tsx"),
+    "utf8",
+  );
   const unit = {
     unitMeta: {
       tenantId: "text-spelling-runtime",
@@ -84,7 +88,23 @@ try {
   assert(first.rounds[0].expectedAnswer.join(" ") === "Hello, teacher", "terminal punctuation must not become a tile");
   assert(first.rounds[1].expectedAnswer.join(" ") === "Thank you, friend", "terminal exclamation punctuation must not become a tile");
 
-  console.log("PASS text/spelling engine runtime covers two-sentence input, deterministic tiles, stable order, punctuation handling, tile audio, scoring identity, and shared event expectations.");
+  const collisionUnit = {
+    ...unit,
+    pedagogicalPayload: {
+      ...unit.pedagogicalPayload,
+      targetSentences: ["Ice cream, ice-cream.", "Hello/hello hello-hello."],
+    },
+  };
+  const collisionPreview = engine.buildSentenceBuilderPreview(collisionUnit);
+  for (const round of collisionPreview.rounds) {
+    assert(new Set(round.tiles.map((tile) => tile.tileId)).size === round.tiles.length, `${round.roundId} must keep position-based tile ids unique for punctuation variants`);
+    assert(round.tiles.every((tile, tileIndex) => tile.tileId === `sentence-${round.roundId.split("-").at(-1)}-tile-${tileIndex + 1}`), `${round.roundId} tile ids must be position-based`);
+  }
+  assert(fillInBlankSource.includes("choiceId: string"), "Fill in the Blank choices must declare explicit identity");
+  assert(fillInBlankSource.includes("key={choice.choiceId}"), "Fill in the Blank must render choices by explicit identity");
+  assert(!fillInBlankSource.includes("key={choice}"), "Fill in the Blank must not use answer labels as React identity");
+
+  console.log("PASS text/spelling engine runtime covers two-sentence input, deterministic position-based tile identity, punctuation handling, explicit choice identity, tile audio, scoring identity, and shared event expectations.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

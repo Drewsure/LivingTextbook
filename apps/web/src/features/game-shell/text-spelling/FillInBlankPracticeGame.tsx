@@ -37,7 +37,12 @@ interface FillInBlankRound {
   targetSentence: string;
   promptSentence: string;
   expectedAnswer: string;
-  choices: string[];
+  choices: FillInBlankChoice[];
+}
+
+interface FillInBlankChoice {
+  choiceId: string;
+  label: string;
 }
 
 const gameMode = "fill-in-the-blank" as const;
@@ -336,13 +341,13 @@ export function FillInBlankPracticeGame({
         </p>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
           {currentRound.choices.map((choice) => {
-            const selected = selectedAnswer === choice;
+            const selected = selectedAnswer === choice.label;
 
             return (
               <button
-                key={choice}
+                key={choice.choiceId}
                 type="button"
-                onClick={() => handleChoiceSelect(choice)}
+                onClick={() => handleChoiceSelect(choice.label)}
                 disabled={completed}
                 className={`min-h-12 rounded-lg border px-4 py-3 text-left text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)] ${
                   selected
@@ -350,7 +355,7 @@ export function FillInBlankPracticeGame({
                     : "border-[var(--tenant-border)] bg-[var(--tenant-surface)] text-[var(--tenant-text)] hover:bg-[var(--tenant-primary-soft)]"
                 }`}
               >
-                {choice}
+                {choice.label}
               </button>
             );
           })}
@@ -437,17 +442,20 @@ function blankSentence(sentence: string, expectedAnswer: string): string {
   return sentence.replace(answerPattern, "_____");
 }
 
-function buildChoices(expectedAnswer: string, vocabularyTerms: string[], roundIndex: number): string[] {
+function buildChoices(expectedAnswer: string, vocabularyTerms: string[], roundIndex: number): FillInBlankChoice[] {
   const normalizedExpected = normalizeAnswer(expectedAnswer);
   const decoys = vocabularyTerms
     .filter((term) => normalizeAnswer(term) !== normalizedExpected)
     .slice(0, 3);
-  const choices = [...decoys];
-  const insertIndex = Math.min(roundIndex % (choices.length + 1), choices.length);
+  const labels = [...decoys];
+  const insertIndex = Math.min(roundIndex % (labels.length + 1), labels.length);
 
-  choices.splice(insertIndex, 0, expectedAnswer);
+  labels.splice(insertIndex, 0, expectedAnswer);
 
-  return choices;
+  return labels.map((label, choiceIndex) => ({
+    choiceId: `fill-in-the-blank-${roundIndex + 1}-choice-${choiceIndex + 1}`,
+    label,
+  }));
 }
 
 function normalizeAnswer(value: string): string {

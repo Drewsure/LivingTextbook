@@ -42,7 +42,7 @@ export function buildSentenceBuilderPreview(unit: UnitPayload): TextSpellingEngi
       promptAudioText: sentence,
       targetSentence: sentence,
       tiles: words.map((word, wordIndex) => ({
-        tileId: `sentence-${sentenceIndex + 1}-tile-${wordIndex + 1}-${slug(word)}`,
+        tileId: `sentence-${sentenceIndex + 1}-tile-${wordIndex + 1}`,
         label: word,
         audioText: word,
         expectedOrder: wordIndex + 1,
@@ -74,8 +74,4 @@ function splitSentenceIntoTiles(sentence: string): string[] {
     .split(/\s+/)
     .map((word) => word.trim())
     .filter(Boolean);
-}
-
-function slug(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "tile";
 }

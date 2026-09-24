@@ -7928,3 +7928,15 @@ This standard is recorded in
 `docs/decision-register/DR-1168-white-label-selection-option-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1168-white-label-selection-option-identity.md`.
+
+## 507. White-Label Text/Spelling Choice Identity Standard
+
+- Text/Spelling tile and answer-choice identity must be deterministic and
+  position-based, never derived only from learner-visible labels.
+- Punctuation, spacing, hyphenation, and other tenant-owned text variants may
+  remain visible and speakable without colliding in the interaction tree.
+- Identity hardening must preserve the reviewed answer, audio cue lookup,
+  correctness, scoring, progression, and replay seed contracts.
+
+This standard is recorded in
+`docs/decision-register/DR-1169-white-label-text-spelling-choice-identity.md`.
