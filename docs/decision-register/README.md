@@ -717,6 +717,7 @@ Current focused decision records also include:
 - `DR-1121-adult-observation-adjudication.md`
 - `DR-1122-observation-to-pilot-decision-binding.md`
 - `DR-1148-teacher-draft-persistence-storage-identity.md`
+- `DR-1149-adapter-write-intent-storage-identity.md`
 
 ## Maintenance Rule
 

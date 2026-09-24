@@ -9144,3 +9144,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   any future adapter work order can be treated as authorized.
 - Draft writes, uploads, migration, route mutation, assignment, and student
   promotion remain blocked.
+
+## DR-1149: Adapter Write-Intent Storage Identity
+
+- Hosted and local teacher-draft persistence write intents must carry the exact
+  storage-selection preflight and evidence-storage gate identities used by the
+  provider and teacher-draft readiness handoffs.
+- Missing, enabled, or drifted storage identity fails validation before a
+  future adapter work order can be treated as authorized.
+- Write, upload, migration, route mutation, assignment, and promotion remain
+  blocked.

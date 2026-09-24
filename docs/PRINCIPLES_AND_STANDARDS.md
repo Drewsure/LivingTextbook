@@ -7627,3 +7627,18 @@ This standard is recorded in
 `docs/decision-register/DR-1148-teacher-draft-persistence-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1148-teacher-draft-persistence-storage-identity.md`.
+
+## 487. Adapter Write-Intent Storage Identity Standard
+
+- Hosted and local teacher-draft persistence write intents must carry the exact
+  storage-selection preflight and evidence-storage gate identities used by the
+  provider and teacher-draft readiness handoffs.
+- Write intents must remain blocked and disallowed; missing, enabled, or
+  drifted identity fails validation before future adapter authorization.
+- Write, upload, migration, route mutation, assignment, and student-facing
+  promotion remain blocked.
+
+This standard is recorded in
+`docs/decision-register/DR-1149-adapter-write-intent-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1149-adapter-write-intent-storage-identity.md`.

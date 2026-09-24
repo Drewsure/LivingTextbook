@@ -16,10 +16,13 @@ try {
     "--module", "commonjs",
     "--target", "ES2022",
     "--moduleResolution", "node",
+    "--resolveJsonModule",
+    "--esModuleInterop",
     "--skipLibCheck",
     "--rootDir", join(root, "packages", "content-model", "src"),
     "--outDir", output,
     "packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts",
+    "packages/content-model/src/persistenceAdapter.ts",
   ], { cwd: root, encoding: "utf8" });
   if (compile.status !== 0) {
     process.stdout.write(compile.stdout);
@@ -28,6 +31,7 @@ try {
   }
 
   const model = require(join(output, "teacherDraftPersistenceImplementationReadiness.js"));
+  const adapter = require(join(output, "persistenceAdapter.js"));
   const valid = {
     readinessId: "draft-readiness",
     tenantId: "sample-publisher",
@@ -98,7 +102,59 @@ try {
   );
   assertIncludes(driftErrors, "storage selection gate id", "storage gate drift rejection");
 
-  console.log("PASS teacher draft persistence implementation readiness rejects storage enablement and identity drift while accepting reconciled blocked evidence.");
+  const writeIntent = {
+    intentId: "draft-readiness-write",
+    category: "teacher-draft-persistence-implementation-readiness",
+    label: "Draft readiness write",
+    readiness: "requires-policy",
+    targetStore: ["hosted-database"],
+    deploymentChannels: ["hosted-web"],
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    requiresSchoolPolicy: true,
+    canRunOffline: false,
+    allowsExport: true,
+    rejectsRawAudio: true,
+    rejectsTranscripts: true,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesPersistenceImplementationReadiness: true,
+    requiresPersistenceAcceptanceTestPlan: true,
+    storageSelectionPreflightId: "preflight-1",
+    storageSelectionGateId: "gate-1",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
+    blocksPersistenceProviderSelection: true,
+    blocksPersistenceImplementation: true,
+    blocksPersistenceMigration: true,
+    blocksPersistenceWrites: true,
+    blocksPersistenceUploads: true,
+    blocksPersistenceRouteMutation: true,
+    blocksPersistenceAssignmentPromotion: true,
+    note: "Provider-neutral readiness write remains review-only.",
+  };
+  assert(adapter.validatePersistenceAdapterPlan({
+    planId: "draft-readiness-plan",
+    label: "Draft readiness plan",
+    mode: "hosted-managed",
+    recommendedForFirstPilot: false,
+    costPosture: "controlled",
+    deploymentChannels: ["hosted-web"],
+    writeIntents: [writeIntent],
+    handoffSteps: ["Review packet"],
+  }).length === 0, "valid blocked storage identity write intent");
+  assertIncludes(adapter.validatePersistenceAdapterPlan({
+    planId: "draft-readiness-plan",
+    label: "Draft readiness plan",
+    mode: "hosted-managed",
+    recommendedForFirstPilot: false,
+    costPosture: "controlled",
+    deploymentChannels: ["hosted-web"],
+    writeIntents: [{ ...writeIntent, storageSelectionAllowed: true }],
+    handoffSteps: ["Review packet"],
+  }), "storage selection must remain disallowed", "write-intent storage enablement rejection");
+
+  console.log("PASS teacher draft persistence implementation readiness and adapter write intents reject storage enablement and identity drift while accepting reconciled blocked evidence.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

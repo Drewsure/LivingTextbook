@@ -5577,3 +5577,10 @@ compatible with the workspace's no-emit typecheck and production bundling.
   and pilot review readiness.
 - Exposed the identity in the teacher-draft persistence handoff panel and
   recorded ADR 1148 and DR-1148.
+
+## Build session 1063: Adapter write-intent storage identity
+
+- Extended hosted and local teacher-draft persistence write intents with exact
+  storage preflight and evidence-storage gate identity.
+- Added blocked/disallowed behavior coverage for write-intent enablement and
+  drift, and recorded ADR 1149 and DR-1149.

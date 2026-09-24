@@ -5,6 +5,7 @@ import {
   validatePersistenceAdapterPlan,
 } from "@living-textbook/content-model";
 import { samplePilotReviewDecisionWriteIntents } from "@/data/samplePilotReviewDecisionPersistence";
+import { sampleStorageSelectionIdentity } from "@/data/sampleStorageSelectionIdentity";
 
 const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
   {
@@ -138,6 +139,10 @@ const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
         tenantBoundaryKey: "tenant_id",
         preservesPersistenceImplementationReadiness: true,
         requiresPersistenceAcceptanceTestPlan: true,
+        storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+        storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+        storageSelectionStatus: "blocked",
+        storageSelectionAllowed: false,
         blocksPersistenceProviderSelection: true,
         blocksPersistenceImplementation: true,
         blocksPersistenceMigration: true,
@@ -2998,6 +3003,10 @@ const samplePersistenceAdapterPlansRaw: PersistenceAdapterPlan[] = [
         tenantBoundaryKey: "tenant_id",
         preservesPersistenceImplementationReadiness: true,
         requiresPersistenceAcceptanceTestPlan: true,
+        storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+        storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+        storageSelectionStatus: "blocked",
+        storageSelectionAllowed: false,
         blocksPersistenceProviderSelection: true,
         blocksPersistenceImplementation: true,
         blocksPersistenceMigration: true,

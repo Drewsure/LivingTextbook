@@ -48,6 +48,10 @@ export interface PersistenceWriteIntent {
   blocksDirectStudentAssignment?: boolean;
   preservesPersistenceImplementationReadiness?: boolean;
   requiresPersistenceAcceptanceTestPlan?: boolean;
+  storageSelectionPreflightId?: string;
+  storageSelectionGateId?: string;
+  storageSelectionStatus?: "blocked";
+  storageSelectionAllowed?: false;
   blocksPersistenceProviderSelection?: boolean;
   blocksPersistenceImplementation?: boolean;
   blocksPersistenceMigration?: boolean;
@@ -601,6 +605,21 @@ function validatePersistenceImplementationReadinessWriteIntent(intent: Persisten
 
   if (!intent.requiresPersistenceAcceptanceTestPlan) {
     errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} must require an acceptance test plan.`);
+  }
+
+  for (const [field, value] of [
+    ["storageSelectionPreflightId", intent.storageSelectionPreflightId],
+    ["storageSelectionGateId", intent.storageSelectionGateId],
+  ] as const) {
+    if (typeof value !== "string" || value.trim().length === 0) {
+      errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} must carry ${field}.`);
+    }
+  }
+  if (intent.storageSelectionStatus !== "blocked") {
+    errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} storage selection must remain blocked.`);
+  }
+  if (intent.storageSelectionAllowed !== false) {
+    errors.push(`Teacher draft persistence readiness write intent ${intent.intentId} storage selection must remain disallowed.`);
   }
 
   const actionBlocks = [
