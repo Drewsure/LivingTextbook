@@ -156,6 +156,8 @@ export function BrowserObservationPilotBindingPanel({
           <Fact label="Evidence packet" value={compositeBinding.packetId} />
           <Fact label="Evidence adjudication" value={compositeBinding.adjudicationId} />
           <Fact label="Binding" value={compositeBinding.bindingId} />
+          <Fact label="Storage preflight" value={compositeBinding.storageSelectionPreflightId} />
+          <Fact label="Storage gate" value={compositeBinding.storageSelectionGateId} />
           <Fact label="Pilot launch" value="Blocked" />
         </dl>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">

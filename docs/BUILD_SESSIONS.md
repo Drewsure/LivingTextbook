@@ -5649,3 +5649,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added package handoff drift validation while preserving all upload, download,
   promotion, activation, and release-mutation blockers.
 - Recorded ADR 1157 and DR-1157.
+
+## Build session 1072: Browser evidence pilot storage lineage
+
+- Carried canonical storage-selection preflight and evidence-storage gate
+  identity into composite browser/privacy/tenant pilot bindings and release
+  review bindings.
+- Added negative coverage for stale storage preflight and gate identity while
+  preserving all pilot, persistence, student-data, promotion, and release
+  blockers.
+- Recorded ADR 1158 and DR-1158.

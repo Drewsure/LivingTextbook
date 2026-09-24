@@ -9228,3 +9228,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   storage binding, and reconciliation.
 - Handoff validity does not authorize upload, download, promotion, activation,
   or release mutation.
+
+## DR-1158: Browser Evidence Pilot Storage Lineage
+
+- Composite browser/privacy/tenant pilot bindings must preserve the canonical
+  storage-selection preflight and evidence-storage gate identity.
+- Release review must reject storage identity drift even when browser evidence
+  and adjudication are otherwise accepted.
+- Pilot launch, hosted writes, student data collection, promotion, and release
+  mutation remain blocked.

@@ -7763,3 +7763,19 @@ This standard is recorded in
 `docs/decision-register/DR-1157-evidence-storage-handoff-preflight-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1157-evidence-storage-handoff-preflight-identity.md`.
+
+## 496. Browser Evidence Pilot Storage Lineage Standard
+
+- Composite browser, privacy, and tenant-isolation pilot bindings must carry
+  the exact storage-selection preflight and evidence-storage gate identities
+  from the canonical pilot decision.
+- The release binding must preserve those identities into release review and
+  reject storage drift; browser evidence acceptance cannot substitute for a
+  storage policy decision.
+- Pilot launch, hosted persistence writes, student data collection, package
+  promotion, production approval, and release mutation remain blocked.
+
+This standard is recorded in
+`docs/decision-register/DR-1158-browser-evidence-pilot-storage-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1158-browser-evidence-pilot-storage-lineage.md`.

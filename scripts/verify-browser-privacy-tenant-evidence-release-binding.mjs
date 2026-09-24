@@ -14,7 +14,7 @@ writeFileSync(join(output, "browserPrivacyTenantEvidenceReleaseBinding.js"), tra
 try {
   const model = require(join(output, "browserPrivacyTenantEvidenceReleaseBinding.js"));
   const readiness = { readinessId: "readiness-a", tenantId: "tenant-a", packageId: "package-a", status: "blocked", nextAction: "Close release gates." };
-  const pendingPilot = { version: 1, bindingId: "pilot-binding-a", packetId: "packet-a", adjudicationId: "awaiting-composite-evidence-adjudication", pilotDecisionId: "pilot-a", tenantId: "tenant-a", packageId: "package-a", status: "awaiting-evidence", mode: "review-only", pilotLaunchAllowed: false, studentDataCollectionAllowed: false, reportExportAllowed: false, packagePromotionAllowed: false, blockedReasons: ["Evidence is not recorded."], nextGate: ["Record composite evidence."] };
+  const pendingPilot = { version: 1, bindingId: "pilot-binding-a", packetId: "packet-a", adjudicationId: "awaiting-composite-evidence-adjudication", pilotDecisionId: "pilot-a", tenantId: "tenant-a", packageId: "package-a", storageSelectionPreflightId: "preflight-a", storageSelectionGateId: "storage-gate-a", storageSelectionStatus: "blocked", storageSelectionAllowed: false, status: "awaiting-evidence", mode: "review-only", pilotLaunchAllowed: false, studentDataCollectionAllowed: false, reportExportAllowed: false, packagePromotionAllowed: false, blockedReasons: ["Evidence is not recorded."], nextGate: ["Record composite evidence."] };
   const pending = model.createBrowserPrivacyTenantEvidenceReleaseBinding(readiness, pendingPilot);
   assert(model.validateBrowserPrivacyTenantEvidenceReleaseBinding(pending, readiness, pendingPilot).length === 0, "pending release binding must validate");
   const acceptedPilot = { ...pendingPilot, bindingId: "pilot-binding-b", packetId: "packet-b", adjudicationId: "adjudication-b", status: "accepted-for-pilot-review", blockedReasons: ["Release gates remain blocked."], nextGate: ["Continue release review."] };
@@ -22,8 +22,11 @@ try {
   assert(accepted.status === "accepted-for-release-review", "accepted pilot binding must advance to release review only");
   assert(model.validateBrowserPrivacyTenantEvidenceReleaseBinding(accepted, readiness, acceptedPilot).length === 0, "accepted release binding must validate");
   assert(accepted.productionApprovalAllowed === false && accepted.studentProductionLaunchAllowed === false && accepted.packagePromotionAllowed === false, "release binding must remain activation-blocked");
+  assert(accepted.storageSelectionPreflightId === acceptedPilot.storageSelectionPreflightId && accepted.storageSelectionGateId === acceptedPilot.storageSelectionGateId, "release binding must preserve storage selection identity");
   const wrongPackage = { ...acceptedPilot, packageId: "package-b" };
   assert(model.validateBrowserPrivacyTenantEvidenceReleaseBinding(accepted, readiness, wrongPackage).some((error) => error.includes("package identity")), "package drift must be rejected");
+  const wrongStorage = { ...acceptedPilot, storageSelectionGateId: "stale-storage-gate" };
+  assert(model.validateBrowserPrivacyTenantEvidenceReleaseBinding(accepted, readiness, wrongStorage).some((error) => error.includes("storage gate identity")), "storage gate drift must be rejected");
   console.log("PASS composite evidence release binding preserves pilot lineage and keeps production approval blocked.");
 } finally { rmSync(output, { recursive: true, force: true }); }
 

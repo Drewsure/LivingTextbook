@@ -86,6 +86,8 @@ export function BrowserPrivacyTenantEvidenceReleaseBindingPanel({
         <Fact label="Readiness" value={binding.readinessId} />
         <Fact label="Evidence packet" value={binding.packetId} />
         <Fact label="Adjudication" value={binding.adjudicationId} />
+        <Fact label="Storage preflight" value={binding.storageSelectionPreflightId} />
+        <Fact label="Storage gate" value={binding.storageSelectionGateId} />
         <Fact label="Production approval" value={binding.productionApprovalAllowed ? "Allowed" : "Blocked"} />
       </dl>
       <div className="mt-4 grid gap-3 lg:grid-cols-2">

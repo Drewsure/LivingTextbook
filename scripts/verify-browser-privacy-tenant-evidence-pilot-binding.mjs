@@ -21,7 +21,7 @@ try {
   const packetModel = require(join(output, "browserPrivacyTenantEvidencePacket.js"));
   const adjudicationModel = require(join(output, "browserPrivacyTenantEvidenceAdjudication.js"));
   const bindingModel = require(join(output, "browserPrivacyTenantEvidencePilotBinding.js"));
-  const pilotDecision = { version: 1, decisionId: "pilot-decision-a", tenantId: "tenant-a", packageId: "package-a", status: "review-only", decision: "blocked", blockingReasons: ["Release gates remain incomplete."], nextGate: ["Complete pilot gates"] };
+  const pilotDecision = { version: 1, decisionId: "pilot-decision-a", tenantId: "tenant-a", packageId: "package-a", handoffRouteKey: "pilot-handoff-a", evidenceHandoffRouteKey: "evidence-handoff-a", storageSelectionPreflightId: "preflight-a", storageSelectionGateId: "storage-gate-a", storageSelectionStatus: "blocked", storageSelectionAllowed: false, status: "demo-ready-pilot-blocked", mode: "review-only", demoAllowed: true, pilotLaunchAllowed: false, studentDataCollectionAllowed: false, reportExportAllowed: false, packagePromotionAllowed: false, blockingReasons: ["Release gates remain incomplete."], requiredNextSteps: ["Complete pilot gates"], evidenceBindings: ["pilot-handoff:pilot-handoff-a"] };
   const observation = { version: 1, observationId: "observation-binding-a", tenantId: "tenant-a", packageId: "package-a", launchCode: "launch-a", unitKey: "tenant-a:curriculum-a:L1:U1", studentSessionId: "launch-a:student-a", mode: "human-observed", reviewerRole: "teacher", reviewerRef: "teacher-session:launch-a", observedAt: "2026-09-24T00:00:00.000Z", routePaths: ["/teacher/sessions/launch-a"], checkIds: ["route-continuity", "student-to-teacher-handoff"], status: "review-only", releasePromotionAllowed: false, studentProductionLaunchAllowed: false };
   let packet = packetModel.createBrowserPrivacyTenantEvidencePacketFromObservation(observation, { verificationRunId: "run-binding-a", verificationRevision: "test-a" });
   const pending = bindingModel.createBrowserPrivacyTenantEvidencePilotBinding(packet, pilotDecision);
@@ -33,8 +33,11 @@ try {
   assert(accepted.status === "accepted-for-pilot-review", "accepted adjudication must advance only to pilot review");
   assert(bindingModel.validateBrowserPrivacyTenantEvidencePilotBinding(accepted, pilotDecision, packet, adjudication).length === 0, "accepted binding must validate");
   assert(accepted.pilotLaunchAllowed === false && accepted.packagePromotionAllowed === false, "binding must remain launch and promotion blocked");
+  assert(accepted.storageSelectionPreflightId === pilotDecision.storageSelectionPreflightId && accepted.storageSelectionGateId === pilotDecision.storageSelectionGateId, "binding must preserve storage selection identity");
   const wrongTenant = { ...pilotDecision, tenantId: "tenant-b" };
   assert(bindingModel.validateBrowserPrivacyTenantEvidencePilotBinding(accepted, wrongTenant, packet, adjudication).some((error) => error.includes("tenant identity")), "wrong tenant must be rejected");
+  const wrongStorage = { ...pilotDecision, storageSelectionPreflightId: "stale-preflight" };
+  assert(bindingModel.validateBrowserPrivacyTenantEvidencePilotBinding(accepted, wrongStorage, packet, adjudication).some((error) => error.includes("storage preflight identity")), "storage preflight drift must be rejected");
   console.log("PASS composite evidence pilot binding preserves adjudication lineage and keeps pilot launch blocked.");
 } finally { rmSync(output, { recursive: true, force: true }); }
 

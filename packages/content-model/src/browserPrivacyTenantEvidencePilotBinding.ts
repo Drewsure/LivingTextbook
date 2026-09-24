@@ -12,6 +12,10 @@ export interface BrowserPrivacyTenantEvidencePilotBinding {
   pilotDecisionId: string;
   tenantId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: BrowserPrivacyTenantEvidencePilotBindingStatus;
   mode: "review-only";
   pilotLaunchAllowed: false;
@@ -42,6 +46,10 @@ export function createBrowserPrivacyTenantEvidencePilotBinding(
     pilotDecisionId: pilotDecision.decisionId,
     tenantId: packet?.tenantId ?? pilotDecision.tenantId,
     packageId: packet?.packageId ?? pilotDecision.packageId,
+    storageSelectionPreflightId: pilotDecision.storageSelectionPreflightId,
+    storageSelectionGateId: pilotDecision.storageSelectionGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     status,
     mode: "review-only",
     pilotLaunchAllowed: false,
@@ -68,16 +76,20 @@ export function validateBrowserPrivacyTenantEvidencePilotBinding(
   adjudication?: BrowserPrivacyTenantEvidenceAdjudication,
 ): string[] {
   const errors: string[] = [];
-  for (const field of ["bindingId", "packetId", "adjudicationId", "pilotDecisionId", "tenantId", "packageId"] as const) {
+  for (const field of ["bindingId", "packetId", "adjudicationId", "pilotDecisionId", "tenantId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (typeof binding[field] !== "string" || binding[field].trim().length === 0) errors.push(`Browser privacy tenant pilot binding ${field} must be non-empty.`);
   }
   if (binding.version !== 1) errors.push("Browser privacy tenant pilot binding version is unsupported.");
   if (binding.mode !== "review-only") errors.push("Browser privacy tenant pilot binding must remain review-only.");
   if (!["awaiting-evidence", "accepted-for-pilot-review", "blocked-by-evidence"].includes(binding.status)) errors.push("Browser privacy tenant pilot binding status is unsupported.");
+  if (binding.storageSelectionStatus !== "blocked") errors.push("Browser privacy tenant pilot binding storage selection must remain blocked.");
+  if (binding.storageSelectionAllowed !== false) errors.push("Browser privacy tenant pilot binding storage selection must remain false.");
   for (const field of ["pilotLaunchAllowed", "studentDataCollectionAllowed", "reportExportAllowed", "packagePromotionAllowed"] as const) if (binding[field] !== false) errors.push(`Browser privacy tenant pilot binding ${field} must remain false.`);
   if (binding.pilotDecisionId !== pilotDecision.decisionId) errors.push("Browser privacy tenant pilot binding must preserve the pilot decision.");
   if (binding.tenantId !== pilotDecision.tenantId) errors.push("Browser privacy tenant pilot binding must preserve tenant identity.");
   if (binding.packageId !== pilotDecision.packageId) errors.push("Browser privacy tenant pilot binding must preserve package identity.");
+  if (binding.storageSelectionPreflightId !== pilotDecision.storageSelectionPreflightId) errors.push("Browser privacy tenant pilot binding must preserve storage preflight identity.");
+  if (binding.storageSelectionGateId !== pilotDecision.storageSelectionGateId) errors.push("Browser privacy tenant pilot binding must preserve storage gate identity.");
   if (packet) {
     if (binding.packetId !== packet.packetId) errors.push("Browser privacy tenant pilot binding must preserve packet identity.");
     if (binding.tenantId !== packet.tenantId || binding.packageId !== packet.packageId) errors.push("Browser privacy tenant pilot binding cannot cross packet scope.");
