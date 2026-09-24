@@ -9366,7 +9366,8 @@ Evidence: the affected preview/report surfaces and
 The active-route gate gains a cross-platform preview wrapper that starts the
 built web app on a free local port, passes the configured base URL to
 `verify-active-routes.mjs`, waits for readiness, preserves failures, and
-cleans up the child process. Route verification remains read-only and does not
+cleans up the child process with non-blocking Windows process-tree
+termination. Route verification remains read-only and does not
 enable storage, student launch, package promotion, or tenant mutation.
 Evidence: `scripts/verify-routes-with-preview.mjs`, the web `start` script, and
 the root `verify:routes:preview` command.
@@ -9388,3 +9389,8 @@ read-only local resolver can resolve routes or assets. This keeps closed-local
 and offline companion packages bound to tenant-owned textbook scope while
 preserving the review-only boundary. See
 `docs/decision-register/DR-1175-local-bundle-package-identity.md`.
+
+The same package unit scope is required in media evidence bindings and is
+carried through media-manifest reconciliation and release control. Unit-scope
+drift is a mismatch and remains blocked from media release, local activation,
+student-facing use, package writes, and QR mutation.

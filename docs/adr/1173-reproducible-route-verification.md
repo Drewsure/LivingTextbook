@@ -16,7 +16,10 @@ reproducible.
 Add `verify:routes:preview`, which starts the built web workspace with a
 cross-platform production preview on a free local port, waits for readiness,
 passes `ACTIVE_ROUTE_BASE_URL` to the existing active-route verifier, and
-cleans up the child process on every exit path.
+cleans up the child process on every exit path. Windows cleanup terminates the
+entire `npm` process tree asynchronously, detaches the child streams, and
+unrefs the preview handle so a wrapper close event cannot hold the foundation
+gate open after route verification has completed.
 
 ## Consequences
 

@@ -1,5 +1,5 @@
 import { createServer } from "node:net";
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
@@ -38,10 +38,18 @@ const stopPreview = () => {
   if (preview.exitCode !== null) return;
 
   if (process.platform === "win32" && preview.pid) {
-    spawnSync("taskkill", ["/pid", String(preview.pid), "/T", "/F"], { stdio: "ignore", windowsHide: true });
+    const killer = spawn("taskkill", ["/pid", String(preview.pid), "/T", "/F"], {
+      stdio: "ignore",
+      windowsHide: true,
+      detached: true,
+    });
+    killer.unref();
   } else {
     preview.kill("SIGTERM");
   }
+  preview.stdout?.destroy();
+  preview.stderr?.destroy();
+  preview.unref();
 };
 
 process.once("SIGINT", () => {
@@ -64,7 +72,6 @@ try {
   process.exitCode = 1;
 } finally {
   stopPreview();
-  await waitForExit(preview);
   if (process.exitCode && previewOutput.trim()) {
     console.error(previewOutput.trim());
   }
@@ -123,9 +130,4 @@ async function runRouteVerifier(baseUrl) {
     verifier.once("error", reject);
     verifier.once("close", (exitCode, signal) => resolveResult({ exitCode: exitCode ?? (signal ? 1 : 0) }));
   });
-}
-
-async function waitForExit(child) {
-  if (child.exitCode !== null) return;
-  await new Promise((resolveExit) => child.once("close", resolveExit));
 }

@@ -24,16 +24,18 @@ export function MediaReleaseControlBindingPanel({ binding, errors }: MediaReleas
           <StatusPill label={binding.decision} tone={decisionTone[binding.decision]} />
           <StatusPill label={`Reconciliation: ${binding.reconciliationStatus}`} tone={binding.reconciliationStatus === "aligned" ? "success" : "warning"} />
           <StatusPill label={binding.storageSelectionMatches ? "Storage aligned" : "Storage mismatch"} tone={binding.storageSelectionMatches ? "success" : "warning"} />
+          <StatusPill label={binding.unitScopeMatches ? "Unit scope aligned" : "Unit scope mismatch"} tone={binding.unitScopeMatches ? "success" : "warning"} />
           <StatusPill label="No promotion" tone="warning" />
           <StatusPill label="No side effect" tone="success" />
         </div>
       </div>
 
-      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <Fact label="Release gate" value={binding.releaseGateId} />
         <Fact label="Tenant" value={binding.tenantId} />
         <Fact label="Package" value={binding.packageId} />
         <Fact label="Media gate" value={binding.releaseGateMediaStatus} />
+        <Fact label="Unit scope" value={binding.unitScopeMatches ? "Aligned" : "Mismatch"} />
       </dl>
       <p className="mt-4 text-xs font-semibold text-[var(--tenant-muted)]">
         Storage identity: {binding.storageSelectionPreflightId} · {binding.storageSelectionGateId}

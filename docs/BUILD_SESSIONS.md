@@ -5825,6 +5825,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   activation, learner-data persistence, or release approval.
 - Recorded ADR 1175 and DR-1175.
 
+### Foundation reliability refinement: preview cleanup
+
+- Made Windows production-preview cleanup terminate the full process tree
+  asynchronously so a completed 89-route verification cannot hang on an
+  `npm` wrapper close event.
+- Preserved route failure propagation, read-only verification, and all storage,
+  launch, promotion, and tenant-mutation boundaries.
+
 ### Identity refinement: QR route unit scope
 
 - Added explicit `unit_id` to local QR route records and required it to match
@@ -5845,3 +5853,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   assets outside the declared textbook unit scope.
 - Kept media copy, package writes, local activation, student promotion, QR
   mutation, and all storage side effects blocked.
+
+### Identity refinement: release-control visibility
+
+- Exposed the media unit-scope match on the pilot/release-control evidence
+  card so the final reviewer can see the same textbook-unit boundary used by
+  the manifest and media evidence binding.
+- Kept the release decision derived, review-only, and blocked from promotion,
+  local activation, package writes, student-facing use, and QR mutation.

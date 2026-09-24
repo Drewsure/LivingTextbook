@@ -13,3 +13,5 @@
   workers, offline activation, learner-data persistence, or package promotion.
 - **Verification:** `npm run verify:local-bundle` plus the full foundation gate;
   reconciliation exposes `unitScopeMatches` and rejects scope drift.
+- Media release control carries the same match state and exposes it to the
+  pilot/release reviewer; unit-scope drift remains a blocking decision.
