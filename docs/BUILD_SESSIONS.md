@@ -5931,3 +5931,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   currently bound; no upload, storage write, approval, promotion, student use,
   local activation, or speech billing was introduced.
 - Added a shared validator, route verifier, ADR 1180, and DR-1180.
+
+## Build session: Assist-language audio catalog approval boundary
+
+- Added a tenant-scoped, provider-neutral approval packet for the support-audio
+  catalog admission record.
+- Exposed the future reviewer role, unresolved evidence, required next records,
+  and explicit `not-recorded` decision in the tenant media library.
+- Kept approval capture, catalog admission, hosted promotion, local activation,
+  student use, speech billing, and progression disabled.
+- Added the shared validator, foundation verifier, ADR 1181, and DR-1181.

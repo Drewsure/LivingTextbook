@@ -16,6 +16,16 @@ export type {
   AssistLanguageAudioCatalogKind,
   AssistLanguageAudioCatalogRecord,
 } from "./assistLanguageAudioCatalog";
+export {
+  ASSIST_LANGUAGE_AUDIO_CATALOG_APPROVAL_BLOCKED_ACTIONS,
+  ASSIST_LANGUAGE_AUDIO_CATALOG_APPROVAL_REQUIRED_EVIDENCE,
+  createReviewOnlyAssistLanguageAudioCatalogApprovalPacket,
+  validateAssistLanguageAudioCatalogApprovalPacket,
+} from "./assistLanguageAudioCatalogApproval";
+export type {
+  AssistLanguageAudioCatalogApprovalPacket,
+  AssistLanguageAudioCatalogApprovalStatus,
+} from "./assistLanguageAudioCatalogApproval";
 
 export type TenantId = string;
 export type CurriculumId = string;

@@ -9461,3 +9461,13 @@ bound. Upload, storage write, rights approval, catalog promotion, local
 activation, student-facing use, speech billing, and support-language
 progression remain blocked. See ADR 1180 and
 `docs/decision-register/DR-1180-assist-language-audio-catalog-admission.md`.
+
+## DR-1181: Assist-Language Audio Catalog Approval Boundary
+
+The tenant media library now shows a tenant-scoped approval packet for support-
+audio catalog admission. It names the teacher or publisher audio owner as the
+future reviewer, lists unresolved evidence and next records, and keeps the
+decision explicitly `not-recorded`. Approval capture, catalog admission,
+hosted promotion, local activation, student-facing use, speech billing, and
+progression remain blocked. See ADR 1181 and
+`docs/decision-register/DR-1181-assist-language-audio-catalog-approval.md`.

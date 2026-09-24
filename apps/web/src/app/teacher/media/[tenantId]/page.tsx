@@ -7,6 +7,8 @@ import {
 import { TeacherMediaLibraryPanel } from "@/features/multimedia/TeacherMediaLibraryPanel";
 import { TeacherAssistLanguageAudioCatalogPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogPanel";
 import { sampleAssistLanguageAudioCatalogRecords } from "@/data/sampleAssistLanguageAudioCatalog";
+import { buildAssistLanguageAudioCatalogApprovalPackets } from "@/data/sampleAssistLanguageAudioCatalogApproval";
+import { TeacherAssistLanguageAudioCatalogApprovalPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogApprovalPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import type { TenantConfig } from "@/features/tenant/types";
@@ -33,6 +35,7 @@ export default async function TeacherMediaLibraryPage({
       <div className="grid gap-5">
         <TeacherMediaLibraryPanel preview={preview} rightsRecords={getTeacherMediaRightsRecords(tenantId)} />
         <TeacherAssistLanguageAudioCatalogPanel records={sampleAssistLanguageAudioCatalogRecords.filter((record) => record.tenantId === tenantId)} />
+        <TeacherAssistLanguageAudioCatalogApprovalPanel packets={buildAssistLanguageAudioCatalogApprovalPackets(sampleAssistLanguageAudioCatalogRecords.filter((record) => record.tenantId === tenantId))} />
       </div>
     </AppShell>
   );
