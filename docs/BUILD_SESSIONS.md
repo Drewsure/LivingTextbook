@@ -5975,3 +5975,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   catalog admission, student-facing assist audio, and all approval capture
   side effects disabled.
 - Added the shared validator, foundation verifier, ADR 1184, and DR-1184.
+
+## Build session: Assist-language audio decision snapshot adjudication
+
+- Linked the assist-audio composite release-review binding to the exact
+  provider-neutral pilot decision snapshot, persistence mode, and fingerprint.
+- Exposed linked records, decision identity, scope drift, blocked actions, and
+  next gates in the tenant media library without creating a second approval
+  system.
+- Kept decision snapshot write, restore, export, approval capture, promotion,
+  activation, and student launch disabled.
+- Added the shared validator, foundation verifier, ADR 1185, and DR-1185.

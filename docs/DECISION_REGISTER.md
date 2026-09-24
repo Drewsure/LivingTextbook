@@ -9504,3 +9504,13 @@ next gate. Production approval, package promotion, student production launch,
 catalog admission, student-facing audio, and approval capture remain blocked.
 See ADR 1184 and
 `docs/decision-register/DR-1184-assist-language-audio-composite-release-review-binding.md`.
+
+## DR-1185: Assist-Language Audio Decision Snapshot Adjudication
+
+The tenant media library now links the assist-audio composite release-review
+binding to the exact provider-neutral pilot decision snapshot, persistence mode,
+and decision fingerprint. This creates one auditable identity chain without
+creating a second approval system. Snapshot write, restore, export, approval
+capture, production approval, package promotion, release activation, and
+student launch remain blocked. See ADR 1185 and
+`docs/decision-register/DR-1185-assist-language-audio-decision-snapshot-adjudication.md`.

@@ -148,3 +148,9 @@ The composite release-review binding now carries assist-audio reconciliation,
 reviewer-gate, white-label release-readiness, package publish, approval-ledger,
 and controlled human-review identities together. It remains a review packet,
 not an approval or release mechanism.
+
+The decision-snapshot adjudication binding now links that composite packet to
+the exact provider-neutral pilot decision snapshot, persistence mode, and
+decision fingerprint. A snapshot may be inspected as evidence, but write,
+restore, export, approval, promotion, activation, and student launch remain
+explicitly disabled.
