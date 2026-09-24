@@ -63,6 +63,10 @@ export interface LocalCompanionPackageArtifact {
 export interface LocalBundleManifestSummary {
   bundleId: string;
   tenantName: string;
+  curriculumId: string;
+  seriesId: string;
+  bookId: string;
+  unitIds: string[];
   version: string;
   readiness: LocalBundleReadiness;
   contentPackagePath: string;
@@ -82,6 +86,10 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
   {
     bundleId: "ministar-level-1-unit-1-demo",
     tenantName: "MiniStar English Lab",
+    curriculumId: "ministar-english",
+    seriesId: "ministar-english",
+    bookId: "level-1",
+    unitIds: ["unit-1"],
     version: "0.1.0",
     readiness: "media-missing",
     contentPackagePath: "content-package.json",
@@ -345,6 +353,10 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
   {
     bundleId: "sample-publisher-unit-1-planning",
     tenantName: "Sample Publisher Lab",
+    curriculumId: "sample-publisher-english",
+    seriesId: "sample-publisher-starter",
+    bookId: "starter-level-1",
+    unitIds: ["unit-1"],
     version: "0.1.0",
     readiness: "planning",
     contentPackagePath: "content-package.json",

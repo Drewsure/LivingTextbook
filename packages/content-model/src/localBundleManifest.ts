@@ -39,10 +39,55 @@ export interface LocalBundleManifest {
   routes: LocalBundleManifestRoute[];
 }
 
+export interface LocalBundlePackageIdentity {
+  tenant_id: string;
+  bundle_id: string;
+  curriculum_id: string;
+  series_id: string;
+  book_id: string;
+  unit_ids: string[];
+}
+
 export interface LocalBundleManifestValidationResult {
   valid: boolean;
   errors: string[];
   warnings: string[];
+}
+
+export function validateLocalBundlePackageIdentity(value: LocalBundleManifest): string[] {
+  const errors: string[] = [];
+  const requiredFields = ["curriculum_id", "series_id", "book_id"] as const;
+
+  for (const field of requiredFields) {
+    const candidate = value[field];
+    if (typeof candidate !== "string" || !candidate.trim()) {
+      errors.push(`Local bundle package identity ${field} is required for resolver activation.`);
+    } else if (!safeIdentifierPattern.test(candidate.trim())) {
+      errors.push(`Local bundle package identity ${field} contains unsafe identifier characters.`);
+    }
+  }
+
+  if (!Array.isArray(value.unit_ids) || value.unit_ids.length === 0) {
+    errors.push("Local bundle package identity unit_ids must contain at least one unit.");
+  } else {
+    const seenUnitIds = new Set<string>();
+    value.unit_ids.forEach((unitId, index) => {
+      if (typeof unitId !== "string" || !unitId.trim()) {
+        errors.push(`Local bundle package identity unit_ids[${index}] must be a non-empty string.`);
+        return;
+      }
+      const normalizedUnitId = unitId.trim();
+      if (!safeIdentifierPattern.test(normalizedUnitId)) {
+        errors.push(`Local bundle package identity unit ${normalizedUnitId} contains unsafe identifier characters.`);
+      }
+      if (seenUnitIds.has(normalizedUnitId)) {
+        errors.push(`Local bundle package identity unit ${normalizedUnitId} must be unique.`);
+      }
+      seenUnitIds.add(normalizedUnitId);
+    });
+  }
+
+  return [...new Set(errors)];
 }
 
 const localBundleAssetKinds = new Set<LocalBundleAssetKind>([

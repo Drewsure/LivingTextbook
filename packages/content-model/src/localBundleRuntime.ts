@@ -1,5 +1,6 @@
 import {
   validateLocalBundleManifest,
+  validateLocalBundlePackageIdentity,
   type LocalBundleManifest,
   type LocalBundleManifestAsset,
   type LocalBundleManifestRoute,
@@ -49,6 +50,11 @@ export function createReadOnlyLocalBundleResolver(value: unknown): ReadOnlyLocal
   const mode: LocalBundleResolverMode = "read-only-rehearsal";
   if (!validation.valid || !isManifest(value)) {
     return { valid: false, mode, errors: validation.errors, warnings: validation.warnings };
+  }
+
+  const identityErrors = validateLocalBundlePackageIdentity(value);
+  if (identityErrors.length > 0) {
+    return { valid: false, mode, errors: identityErrors, warnings: validation.warnings };
   }
 
   const manifest = value;

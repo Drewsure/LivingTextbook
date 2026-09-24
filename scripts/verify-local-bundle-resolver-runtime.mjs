@@ -32,6 +32,14 @@ try {
   assert(result.resolver?.resolveAsset("other-tenant", "media-ministar-l1-u1-greetings-chant") === undefined, "other tenant must not resolve the bundle asset");
   assert(result.resolver?.resolveRoute("ministar", "unknown-qr") === undefined, "unknown QR identifiers must not invent a route");
 
+  const missingPackageIdentity = createReadOnlyLocalBundleResolver({
+    ...sample,
+    curriculum_id: undefined,
+    unit_ids: [],
+  });
+  assert(!missingPackageIdentity.valid && !missingPackageIdentity.resolver, "resolver must reject a bundle without complete curriculum and unit identity");
+  assert(missingPackageIdentity.errors.some((error) => error.includes("package identity")), "package identity rejection must identify the governed identity boundary");
+
   const offlineReady = createReadOnlyLocalBundleResolver({
     ...sample,
     offline_ready: true,

@@ -5813,3 +5813,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved event storage, learner localization, scoring, persistence, teacher
   permissions, and release-control boundaries.
 - Recorded ADR 1174 and DR-1174.
+
+## Build session 1089: Local bundle package identity binding
+
+- Bound MiniStar and Sample Publisher local bundle previews to explicit
+  curriculum, series, book, and unit identifiers.
+- Required complete package identity in the shared read-only local resolver and
+  added a negative runtime check for incomplete identity.
+- Surfaced package identity in the local resolution review panel.
+- Preserved review-only behavior: no file access, bundle write, offline
+  activation, learner-data persistence, or release approval.
+- Recorded ADR 1175 and DR-1175.

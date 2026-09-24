@@ -9380,3 +9380,11 @@ ambiguous audit evidence. Learner-facing localization, event storage, scoring,
 progression, persistence, and release authority remain unchanged. Evidence:
 `apps/web/src/lib/formatStableTimestamp.ts`, the governed review surfaces, and
 `scripts/verify-review-list-key-stability.mjs`.
+
+## DR-1175: Local Bundle Package Identity
+
+Require tenant, bundle, curriculum, series, book, and unit identity before the
+read-only local resolver can resolve routes or assets. This keeps closed-local
+and offline companion packages bound to tenant-owned textbook scope while
+preserving the review-only boundary. See
+`docs/decision-register/DR-1175-local-bundle-package-identity.md`.

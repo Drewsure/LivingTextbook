@@ -1,0 +1,31 @@
+# ADR 1175: Local Bundle Package Identity
+
+## Status
+
+Accepted
+
+## Context
+
+The local companion preview already resolved declared QR routes and media
+assets within a tenant boundary, but the preview created generic curriculum,
+series, book, and unit identifiers. That weakened the connection between a
+white-label package and the content it was intended to deliver.
+
+## Decision
+
+Bind every sample local bundle to explicit tenant-owned curriculum, series,
+book, and unit identifiers. Require complete package identity in the shared
+read-only resolver before any route or asset can resolve.
+
+## Consequences
+
+Local package rehearsal is now meaningfully package-bound and can reject an
+incomplete identity instead of silently resolving generic preview data. The
+change preserves the review-only boundary: no file access, bundle write,
+offline activation, learner-data persistence, or release approval is enabled.
+
+## Verification
+
+The local bundle readiness gate checks the identity contract and the resolver
+runtime test rejects a manifest missing curriculum or unit identity. Full
+foundation verification remains required.

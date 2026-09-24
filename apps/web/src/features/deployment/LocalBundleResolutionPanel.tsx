@@ -39,6 +39,9 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
         <ResolutionFact label="Resolver mode" value={result.mode} />
         <ResolutionFact label="Delivery status" value={result.resolver?.deliveryStatus ?? "blocked"} />
         <ResolutionFact label="Tenant scope" value={tenantId} />
+        <ResolutionFact label="Curriculum / series" value={`${manifest.curriculumId} / ${manifest.seriesId}`} />
+        <ResolutionFact label="Book / units" value={`${manifest.bookId} / ${manifest.unitIds.join(", ")}`} />
+        <ResolutionFact label="Bundle identity" value={manifest.bundleId} />
         <ResolutionFact label="Routes resolved" value={`${resolvedRoutes}/${routeResolutions.length}`} />
         <ResolutionFact label="Assets resolved" value={`${resolvedAssets}/${assetResolutions.length}`} />
       </dl>
@@ -130,10 +133,10 @@ function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenan
   return {
     bundle_id: summary.bundleId,
     tenant_id: tenantId,
-    curriculum_id: "preview-curriculum",
-    series_id: "preview-series",
-    book_id: "preview-book",
-    unit_ids: ["unit-1"],
+    curriculum_id: summary.curriculumId,
+    series_id: summary.seriesId,
+    book_id: summary.bookId,
+    unit_ids: summary.unitIds,
     version: summary.version,
     created_at: "2026-09-18T00:00:00.000Z",
     content_package_path: summary.contentPackagePath,

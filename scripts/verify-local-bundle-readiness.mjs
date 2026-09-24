@@ -113,6 +113,9 @@ const requiredResolutionMarkers = [
   "createReadOnlyLocalBundleResolver",
   "deliveryStatus",
   "Resolved / rehearsal",
+  "Curriculum / series",
+  "Book / units",
+  "Bundle identity",
 ];
 const requiredLocalAssetKinds = ["audio", "video", "image"];
 const requiredSupportingAssetPaths = [
@@ -260,7 +263,7 @@ for (const marker of requiredResolutionMarkers) {
   requireText(resolutionPanel, marker, `Local bundle resolution preview missing marker: ${marker}`);
 }
 
-for (const marker of ["LocalBundleDeliveryStatus", "deliveryStatus", "offline-ready", "planning"]) {
+for (const marker of ["LocalBundleDeliveryStatus", "validateLocalBundlePackageIdentity", "identityErrors", "deliveryStatus", "offline-ready", "planning"]) {
   requireText(resolutionContract, marker, `Local bundle resolver contract missing delivery marker: ${marker}`);
 }
 
