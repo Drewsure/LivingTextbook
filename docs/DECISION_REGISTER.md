@@ -9263,3 +9263,11 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   handoff can be considered structurally complete.
 - Export, installation, activation, route mutation, writes, and classroom
   launch remain blocked.
+
+## DR-1162: Deployment Continuity Scope
+
+- Recovery rehearsal tenant and package must match the pilot deployment
+  decision before continuity review.
+- Tenant or package drift is a hard blocker.
+- Continuity remains review-only and cannot activate persistence, export data,
+  mutate routes, or launch classrooms.

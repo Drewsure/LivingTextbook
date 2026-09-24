@@ -730,6 +730,7 @@ Current focused decision records also include:
 - `DR-1159-controlled-pilot-storage-reconciliation.md`
 - `DR-1160-controlled-pilot-human-review-evidence-references.md`
 - `DR-1161-deployment-continuity-handoff-storage-identity.md`
+- `DR-1162-deployment-continuity-scope.md`
 
 ## Maintenance Rule
 

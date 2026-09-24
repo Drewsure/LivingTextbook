@@ -5685,3 +5685,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   preserving export, installation, activation, route, persistence, and launch
   blockers.
 - Recorded ADR 1161 and DR-1161.
+
+## Build session 1076: Deployment continuity scope
+
+- Reconciled recovery rehearsal tenant and package scope with the pilot
+  deployment decision.
+- Added hard-blocked negative coverage for tenant and package drift before
+  hosted, local, or packaged continuity review.
+- Recorded ADR 1162 and DR-1162.

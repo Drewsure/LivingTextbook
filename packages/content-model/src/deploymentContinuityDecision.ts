@@ -71,6 +71,8 @@ export function deriveDeploymentContinuityDecision(
   const pilotErrors = validatePilotDeploymentDecision(input.pilotDeploymentDecision);
   const recoveryErrors = validatePersistenceRecoveryRehearsal(input.recoveryRehearsal);
   const modeByName = new Map(input.recoveryRehearsal.modes.map((mode) => [mode.mode, mode]));
+  const scopeMismatch = input.recoveryRehearsal.tenantId !== input.pilotDeploymentDecision.tenantId
+    || input.recoveryRehearsal.packageId !== input.pilotDeploymentDecision.packageId;
 
   const paths = REQUIRED_OPTIONS.map((optionId) => {
     const recoveryModes = OPTION_RECOVERY_MODES[optionId];
@@ -95,6 +97,7 @@ export function deriveDeploymentContinuityDecision(
     ...recoveryErrors,
     ...input.pilotDeploymentDecision.blockers,
     ...input.recoveryRehearsal.reasons,
+    ...(scopeMismatch ? ["Deployment continuity recovery rehearsal must match the pilot deployment tenant and package."] : []),
     ...(input.recoveryRehearsal.storageSelectionPreflightId !== input.storageSelectionPreflightId
       ? ["Deployment continuity storage preflight must match the recovery rehearsal."]
       : []),
@@ -107,7 +110,7 @@ export function deriveDeploymentContinuityDecision(
   ];
   const uniqueBlockers = [...new Set(blockers)];
   const status: DeploymentContinuityDecisionStatus =
-    pilotErrors.length > 0 || recoveryErrors.length > 0 || input.recoveryRehearsal.status === "blocked"
+    pilotErrors.length > 0 || recoveryErrors.length > 0 || input.recoveryRehearsal.status === "blocked" || scopeMismatch
       ? "blocked"
       : uniqueBlockers.length > 0
         ? "needs-review"

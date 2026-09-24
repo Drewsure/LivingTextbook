@@ -7825,3 +7825,17 @@ This standard is recorded in
 `docs/decision-register/DR-1161-deployment-continuity-handoff-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1161-deployment-continuity-handoff-storage-identity.md`.
+
+## 500. Deployment Continuity Scope Standard
+
+- A deployment continuity decision must compare the recovery rehearsal tenant
+  and package with the pilot deployment decision before any path is reviewed.
+- Tenant or package drift is a hard blocked state, not a soft warning or a
+  reason to continue with a different recovery record.
+- Hosted, local, and packaged continuity paths remain review-only and cannot
+  activate persistence, export data, mutate routes, or launch classrooms.
+
+This standard is recorded in
+`docs/decision-register/DR-1162-deployment-continuity-scope.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1162-deployment-continuity-scope.md`.
