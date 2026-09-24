@@ -5452,3 +5452,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept the preview side-effect-free and provider-neutral, with no file picker,
   approval action, file URL, or quarantine mutation. Recorded ADR 1136 and
   DR-1136.
+
+## Build session 1051: Upload admission lineage into evidence handoff
+
+- Added a canonical admission-binding contract carrying tenant, package,
+  quarantine, admission, evidence-packet, decision, and blocker identity into
+  the evidence handoff package.
+- Connected the binding to the tenant evidence handoff preview so reviewers
+  can trace upload evidence without treating handoff presence as approval,
+  export permission, promotion, assignment, QR mutation, or student use.
+- Reused the shared binding validator and verified the handoff scope, web and
+  AI-service typechecks, full build, active routes, and foundation gates.
+  Recorded ADR 1137 and DR-1137.

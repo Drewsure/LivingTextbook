@@ -7415,3 +7415,20 @@ This standard is recorded in
 `docs/decision-register/DR-1136-upload-workspace-admission-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1136-upload-workspace-admission-preview.md`.
+
+## 474. Upload Admission Lineage Standard
+
+- Any upload admission shown in an evidence handoff must preserve exact
+  tenant, package, quarantine, admission, source, and evidence-packet
+  identities plus the decision and blocker list.
+- Handoff lineage is evidence reference only. It must not infer approval,
+  export permission, promotion, storage activation, assignment, QR mutation,
+  local-bundle activation, or student-facing use.
+- The upload workspace and evidence handoff must use one shared validator so
+  hosted, closed-local, and hybrid paths cannot drift into weaker identity or
+  side-effect rules.
+
+This standard is recorded in
+`docs/decision-register/DR-1137-upload-admission-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1137-upload-admission-lineage.md`.

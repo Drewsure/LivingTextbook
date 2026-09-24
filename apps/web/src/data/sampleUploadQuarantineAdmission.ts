@@ -1,7 +1,9 @@
 import {
   createUploadQuarantineIntakeRecord,
   deriveUploadQuarantineAdmissionPreview,
+  createUploadQuarantineAdmissionHandoffBinding,
   type UploadQuarantineAdmissionPreview,
+  type UploadQuarantineAdmissionHandoffBinding,
   type UploadQuarantineEvidenceInput,
 } from "@living-textbook/content-model";
 
@@ -40,3 +42,11 @@ export const sampleUploadQuarantineAdmissionPreviews: UploadQuarantineAdmissionP
   deriveUploadQuarantineAdmissionPreview(sampleIntake, awaitingEvidence),
   deriveUploadQuarantineAdmissionPreview(sampleIntake, completeEvidenceForReview),
 ];
+
+export const sampleUploadQuarantineAdmissionHandoffBindings: UploadQuarantineAdmissionHandoffBinding[] =
+  sampleUploadQuarantineAdmissionPreviews.map((preview) =>
+    createUploadQuarantineAdmissionHandoffBinding(preview, {
+      sourceId: "upload-evidence-source",
+      packageId: "sample-publisher-l1-u1-routines-package",
+    }),
+  );

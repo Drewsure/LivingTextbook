@@ -1,5 +1,7 @@
 export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
 
+import { validateUploadQuarantineAdmissionHandoffBinding } from "./uploadQuarantineAdmissionHandoff";
+
 export interface EvidencePacketHandoffSection {
   sectionId: string;
   label: string;
@@ -26,6 +28,7 @@ export interface EvidencePacketHandoffPackage {
   sourceIndexRoute: string;
   storageRecord: "evidence_packet";
   sections: EvidencePacketHandoffSection[];
+  admissionBindings: import("./uploadQuarantineAdmissionHandoff").UploadQuarantineAdmissionHandoffBinding[];
   recipients: EvidencePacketHandoffRecipient[];
   exportBlockedActions: string[];
   nextGate: string[];
@@ -58,6 +61,12 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   validateUniqueIds(recipients, "recipientId", "recipient", errors);
 
   if (sections.length === 0) errors.push("Evidence packet handoff must include sections.");
+  const admissionBindings = Array.isArray(packet.admissionBindings) ? packet.admissionBindings : [];
+  if (admissionBindings.length === 0) errors.push("Evidence packet handoff must include upload admission bindings.");
+  for (const binding of admissionBindings) {
+    const bindingErrors = validateUploadQuarantineAdmissionHandoffBinding(binding);
+    errors.push(...bindingErrors.map((error) => `Evidence packet handoff admission binding: ${error}`));
+  }
   if (recipients.length === 0) errors.push("Evidence packet handoff must include recipients.");
 
   for (const section of sections) {

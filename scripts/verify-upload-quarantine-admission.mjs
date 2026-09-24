@@ -6,6 +6,8 @@ const review = readSource("../packages/content-model/src/uploadQuarantineReview.
 const panel = readSource("../apps/web/src/features/content-intake/QuarantineAdmissionPreviewPanel.tsx");
 const workspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
 const sample = readSource("../apps/web/src/data/sampleUploadQuarantineAdmission.ts");
+const handoff = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
+const handoffPanel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const failures = [];
 
 for (const marker of [
@@ -44,6 +46,10 @@ for (const [source, marker, message] of [
   [panel, "Evidence completeness is not publication", "The admission panel must preserve the publication boundary."],
   [workspace, "quarantineAdmissionPreviews", "The upload workspace must receive admission previews."],
   [sample, "completeEvidenceForReview", "The sample must cover complete evidence for human review."],
+  [sample, "sampleUploadQuarantineAdmissionHandoffBindings", "The sample must derive handoff bindings."],
+  [handoff, "admissionBindings", "The evidence handoff must carry admission bindings."],
+  [handoffPanel, "Upload admission lineage", "The evidence handoff must show admission lineage."],
+  [handoffPanel, "Quarantine evidence bindings carried into handoff", "The evidence handoff must show quarantine bindings."],
 ]) requireText(source, marker, message);
 
 if (failures.length > 0) {

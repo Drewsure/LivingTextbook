@@ -1739,6 +1739,7 @@ export * from "./controlledPilotHumanReviewPacket";
 export * from "./uploadQuarantineIntake";
 export * from "./uploadQuarantineReview";
 export * from "./uploadQuarantineAdmission";
+export * from "./uploadQuarantineAdmissionHandoff";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

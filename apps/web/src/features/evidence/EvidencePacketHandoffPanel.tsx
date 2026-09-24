@@ -76,6 +76,38 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Upload admission lineage</p>
+            <h3 className="mt-1 text-lg font-bold">Quarantine evidence bindings carried into handoff</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These bindings preserve the exact tenant, package, quarantine, admission, and evidence-packet identities. They are evidence references only and cannot promote the source.
+            </p>
+          </div>
+          <StatusPill label="Promotion blocked" tone="warning" />
+        </div>
+        <div className="mt-5 grid gap-4">
+          {handoffPackage.admissionBindings.map((binding) => (
+            <article key={binding.bindingId} className="rounded-lg border border-[var(--tenant-border)] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{binding.bindingId}</p>
+                <StatusPill label={binding.decision} tone={binding.decision === "evidence-ready" ? "success" : "warning"} />
+              </div>
+              <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <Fact label="Tenant" value={binding.tenantId} />
+                <Fact label="Package" value={binding.packageId} />
+                <Fact label="Quarantine" value={binding.quarantineId} />
+                <Fact label="Admission" value={binding.admissionId} />
+                <Fact label="Evidence packet" value={binding.evidencePacketId} />
+                <Fact label="Student use" value="Blocked" />
+              </dl>
+              <ListBlock title="Admission blockers" items={binding.blockers} />
+            </article>
+          ))}
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Handoff sections</p>
             <h3 className="mt-1 text-lg font-bold">Evidence that would enter an export packet</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
