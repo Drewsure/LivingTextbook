@@ -26,6 +26,17 @@ export type {
   AssistLanguageAudioCatalogApprovalPacket,
   AssistLanguageAudioCatalogApprovalStatus,
 } from "./assistLanguageAudioCatalogApproval";
+export {
+  ASSIST_LANGUAGE_AUDIO_CATALOG_APPROVAL_RECONCILIATION_BLOCKED_ACTIONS,
+  ASSIST_LANGUAGE_AUDIO_CATALOG_APPROVAL_RECONCILIATION_IDENTITY_CHECKS,
+  ASSIST_LANGUAGE_AUDIO_CATALOG_APPROVAL_RECONCILIATION_REQUIRED_RECORDS,
+  createReviewOnlyAssistLanguageAudioCatalogApprovalReconciliation,
+  validateAssistLanguageAudioCatalogApprovalReconciliation,
+} from "./assistLanguageAudioCatalogApprovalReconciliation";
+export type {
+  AssistLanguageAudioCatalogApprovalReconciliation,
+  AssistLanguageAudioCatalogApprovalReconciliationStatus,
+} from "./assistLanguageAudioCatalogApprovalReconciliation";
 
 export type TenantId = string;
 export type CurriculumId = string;

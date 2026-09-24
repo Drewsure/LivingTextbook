@@ -115,6 +115,9 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - The same media library now shows the future approval packet, reviewer role,
   unresolved evidence, next records, and an explicit `not-recorded` decision.
   This is a review shape only; it cannot capture approval or activate media.
+- The media library also shows a deterministic reconciliation preview that
+  checks tenant, package, unit, catalog-record, evidence, and future storage
+  identities before any approval workflow can be considered.
 
 ## Not Yet Built
 
@@ -132,3 +135,7 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - Per-student language preference persistence.
 - Full target-language expansion fields for Japanese-as-target packages,
   including furigana/ruby, segmentation, and level-aware script workflows.
+
+The reconciliation preview is not a storage adapter and does not create an
+approval ledger. It is the evidence bridge that must pass before a future
+human approval record can be introduced.

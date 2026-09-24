@@ -9471,3 +9471,14 @@ decision explicitly `not-recorded`. Approval capture, catalog admission,
 hosted promotion, local activation, student-facing use, speech billing, and
 progression remain blocked. See ADR 1181 and
 `docs/decision-register/DR-1181-assist-language-audio-catalog-approval.md`.
+
+## DR-1182: Assist-Language Audio Catalog Approval Reconciliation
+
+The tenant media library now shows a deterministic reconciliation preview that
+links the review-only approval packet to catalog evidence, tenant/package/unit
+identity, and the future storage records required for admission. Identity
+drift and unresolved evidence remain visible. The reconciliation packet cannot
+capture approval, create an approval ledger, admit a catalog, promote hosted
+media, activate a local bundle, expose student-facing audio, bill speech APIs,
+or trigger progression. See ADR 1182 and
+`docs/decision-register/DR-1182-assist-language-audio-catalog-approval-reconciliation.md`.

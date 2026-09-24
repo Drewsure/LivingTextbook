@@ -5941,3 +5941,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept approval capture, catalog admission, hosted promotion, local activation,
   student use, speech billing, and progression disabled.
 - Added the shared validator, foundation verifier, ADR 1181, and DR-1181.
+
+## Build session: Assist-language audio catalog approval reconciliation
+
+- Added a deterministic reconciliation packet linking the approval packet to
+  catalog evidence, tenant/package/unit identity, and future storage records.
+- Exposed identity drift, unresolved evidence, required identity checks, and
+  storage-record linkage in the tenant media library.
+- Kept reconciliation itself review-only; approval capture, catalog admission,
+  hosted promotion, local activation, student use, speech billing, and
+  progression remain disabled.
+- Added the shared validator, foundation verifier, ADR 1182, and DR-1182.
