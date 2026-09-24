@@ -9219,3 +9219,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   preflight or selection gate.
 - Upload, download, promotion, signed approval, local activation, and release
   mutation remain blocked.
+
+## DR-1157: Evidence Storage Handoff Preflight Identity
+
+- Evidence storage handoff bindings must carry the storage-selection preflight
+  identity as well as the evidence-storage gate identity.
+- Package handoff validation must reject preflight drift between the packet,
+  storage binding, and reconciliation.
+- Handoff validity does not authorize upload, download, promotion, activation,
+  or release mutation.

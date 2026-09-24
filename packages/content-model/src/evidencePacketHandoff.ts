@@ -121,6 +121,9 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   if (packet.storageSelectionPreflight?.evidenceStorageGateId !== packet.storageReadinessBinding?.selectionGateId) {
     errors.push("Evidence packet handoff storage selection must match storage selection gate.");
   }
+  if (packet.storageSelectionPreflight?.preflightId !== packet.storageReadinessBinding?.storageSelectionPreflightId) {
+    errors.push("Evidence packet handoff storage selection must match storage readiness preflight.");
+  }
   const assetPacketIds = new Set(assetEvidencePackets.map((assetPacket) => assetPacket.packetId));
   const attachmentIds = new Set(assetEvidencePackets.flatMap((assetPacket) => assetPacket.attachments.map((attachment) => attachment.attachmentId)));
   for (const assetPacketId of packet.storageReconciliation?.assetPacketIds ?? []) {

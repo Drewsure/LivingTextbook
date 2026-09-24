@@ -5641,3 +5641,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   negative coverage while preserving upload, download, promotion, activation,
   and release-mutation blockers.
 - Recorded ADR 1156 and DR-1156.
+
+## Build session 1071: Evidence storage handoff preflight identity
+
+- Carried storage-selection preflight identity into the evidence storage
+  handoff binding.
+- Added package handoff drift validation while preserving all upload, download,
+  promotion, activation, and release-mutation blockers.
+- Recorded ADR 1157 and DR-1157.

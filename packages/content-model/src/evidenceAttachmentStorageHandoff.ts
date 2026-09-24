@@ -5,6 +5,7 @@ export interface EvidenceAttachmentStorageHandoffBinding {
   packageId: string;
   tenantId: string;
   planId: string;
+  storageSelectionPreflightId: string;
   selectionGateId: string;
   status: EvidenceAttachmentStorageHandoffStatus;
   candidateIds: string[];
@@ -38,7 +39,7 @@ export function createEvidenceAttachmentStorageHandoffBinding(input: Omit<Eviden
 export function validateEvidenceAttachmentStorageHandoffBinding(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Evidence attachment storage handoff binding must be an object."];
-  for (const field of ["bindingId", "packageId", "tenantId", "planId", "selectionGateId"] as const) {
+  for (const field of ["bindingId", "packageId", "tenantId", "planId", "storageSelectionPreflightId", "selectionGateId"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Evidence attachment storage handoff ${field} must be non-empty.`);
   }
   if (!["blocked-preview", "selection-review-ready"].includes(String(value.status))) errors.push("Evidence attachment storage handoff status is unsupported.");

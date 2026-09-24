@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 
 const canonicalPackageId = "sample-publisher-l1-u1-routines-package";
 const handoff = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPackage.ts");
+const storageHandoff = readSource("../apps/web/src/data/sampleEvidenceAttachmentStorageHandoff.ts");
 const panel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const validator = readSource("../packages/content-model/src/evidencePacketHandoff.ts");
@@ -12,6 +13,7 @@ const failures = [];
 requireText(handoff, "samplePilotHandoffPackage.packageId", "Evidence handoff must bind to the canonical pilot package id.");
 requireText(handoff, 'routeKey: "sample-publisher-evidence-packet-handoff"', "Evidence handoff must keep a stable route key.");
 requireText(handoff, "samplePublisherEvidencePacketHandoffPackageErrors", "Evidence handoff must expose validator results.");
+requireText(storageHandoff, "storageSelectionPreflightId", "Evidence handoff storage binding must carry selection preflight identity.");
 requireText(validator, "Evidence packet handoff must block evidence packet export.", "Evidence handoff validator must block packet export.");
 requireText(validator, "Evidence packet handoff must block signed approval capture.", "Evidence handoff validator must block signed approval capture.");
 requireText(validator, "Evidence packet handoff must block package publish.", "Evidence handoff validator must block package publish.");

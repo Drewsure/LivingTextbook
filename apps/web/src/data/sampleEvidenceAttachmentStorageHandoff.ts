@@ -5,12 +5,14 @@ import {
 import { sampleEvidenceStorageAdapterSelectionGate } from "@/data/sampleEvidenceStorageAdapterSelectionGate";
 import { sampleEvidenceAttachmentStorageReadinessPlan } from "@/data/sampleEvidenceAttachmentStorageReadiness";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
+import { samplePersistenceProviderSelectionPreflight } from "@/data/samplePersistenceProviderSelectionPreflight";
 
 export const sampleEvidenceAttachmentStorageHandoffBinding: EvidenceAttachmentStorageHandoffBinding =
   createEvidenceAttachmentStorageHandoffBinding({
     packageId: samplePilotHandoffPackage.packageId,
     tenantId: sampleEvidenceAttachmentStorageReadinessPlan.tenantId,
     planId: sampleEvidenceAttachmentStorageReadinessPlan.planId,
+    storageSelectionPreflightId: samplePersistenceProviderSelectionPreflight.preflightId,
     selectionGateId: sampleEvidenceStorageAdapterSelectionGate.gateId,
     status: "blocked-preview",
     candidateIds: sampleEvidenceAttachmentStorageReadinessPlan.candidates.map((candidate) => candidate.candidateId),

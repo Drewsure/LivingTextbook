@@ -7749,3 +7749,17 @@ This standard is recorded in
 `docs/decision-register/DR-1156-evidence-attachment-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1156-evidence-attachment-storage-identity.md`.
+
+## 495. Evidence Storage Handoff Preflight Identity Standard
+
+- Evidence storage handoff bindings must carry the exact storage-selection
+  preflight identity as well as the evidence-storage gate identity.
+- The package handoff, storage binding, and storage reconciliation must agree
+  before the packet can be structurally valid.
+- Handoff validity never authorizes upload, download, promotion, signed
+  approval, local activation, or release mutation.
+
+This standard is recorded in
+`docs/decision-register/DR-1157-evidence-storage-handoff-preflight-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1157-evidence-storage-handoff-preflight-identity.md`.
