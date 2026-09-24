@@ -9394,3 +9394,13 @@ The same package unit scope is required in media evidence bindings and is
 carried through media-manifest reconciliation and release control. Unit-scope
 drift is a mismatch and remains blocked from media release, local activation,
 student-facing use, package writes, and QR mutation.
+
+## DR-1176: Teacher Dry-Run Local Observation
+
+The teacher dry-run workspace records adult rehearsal evidence through the
+shared browser observation contract, but binds it to a deterministic
+`teacher-dry-run:` synthetic session identity. This preserves auditable route
+review without fabricating learner activity. The receipt is browser-local and
+review-only; learner records, hosted persistence, report export, assignments,
+QR mutation, release promotion, and pilot approval remain blocked. See
+`docs/decision-register/DR-1176-teacher-dry-run-local-observation.md`.

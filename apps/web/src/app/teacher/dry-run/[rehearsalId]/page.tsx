@@ -5,6 +5,7 @@ import { sampleClassroomLaunchGate } from "@/data/sampleClassroomLaunchGate";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { TeacherDryRunRehearsalPanel } from "@/features/pilot/TeacherDryRunRehearsalPanel";
+import { TeacherDryRunObservationPanel } from "@/features/pilot/TeacherDryRunObservationPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 interface TeacherDryRunPageProps {
@@ -70,6 +71,7 @@ export default async function TeacherDryRunPage({ params }: TeacherDryRunPagePro
         </Card>
 
         <TeacherDryRunRehearsalPanel rehearsal={sampleTeacherDryRunRehearsal} />
+        <TeacherDryRunObservationPanel rehearsal={sampleTeacherDryRunRehearsal} />
         <ClassroomLaunchGatePanel gate={sampleClassroomLaunchGate} />
       </div>
     </AppShell>

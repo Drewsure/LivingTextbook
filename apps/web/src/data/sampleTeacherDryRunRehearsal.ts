@@ -1,6 +1,8 @@
 import { samplePilotEvidencePacket, type PilotEvidencePacket } from "@/data/samplePilotEvidencePacket";
 import { samplePilotHandoffPackage, type PilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { samplePilotLaunchChecklist, type PilotLaunchChecklist } from "@/data/samplePilotLaunchChecklist";
+import { samplePartnerUnitOne } from "@/data/samplePartnerPackage";
+import { getUnitKey } from "@living-textbook/content-model";
 
 export type TeacherDryRunStageStatus = "ready-for-rehearsal" | "needs-review" | "blocked";
 export type TeacherDryRunStageOwner = "platform" | "publisher" | "school" | "teacher" | "shared";
@@ -24,6 +26,9 @@ export interface TeacherDryRunRehearsal {
   label: string;
   tenantId: string;
   packageId: string;
+  launchCode: string;
+  unitKey: string;
+  syntheticStudentSessionId: string;
   releaseCandidate: string;
   workspacePath: string;
   sourceOfTruth: string;
@@ -60,6 +65,9 @@ export function createTeacherDryRunRehearsal({
     label: "Teacher dry-run rehearsal preview",
     tenantId: handoffPackage.tenantId,
     packageId: handoffPackage.packageId,
+    launchCode: handoffPackage.reportSnapshotEvidence.launchCode,
+    unitKey: getUnitKey(samplePartnerUnitOne.unitMeta),
+    syntheticStudentSessionId: `teacher-dry-run:${handoffPackage.routeKey}`,
     releaseCandidate: checklist.releaseCandidate,
     workspacePath: `/teacher/dry-run/${handoffPackage.routeKey}-teacher-dry-run`,
     sourceOfTruth: "Source of truth: pilot launch checklist and pilot handoff package",

@@ -5861,3 +5861,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   the manifest and media evidence binding.
 - Kept the release decision derived, review-only, and blocked from promotion,
   local activation, package writes, student-facing use, and QR mutation.
+
+## Build session: Teacher dry-run local observation
+
+- Added a teacher-only dry-run observation receipt to the controlled-pilot
+  workspace.
+- Bound the receipt to the rehearsal tenant, package, launch, canonical unit,
+  and deterministic `teacher-dry-run:` synthetic session identity.
+- Reused the validated browser rehearsal observation store while keeping the
+  receipt browser-local and review-only.
+- Kept learner data, hosted persistence, report export, assignments, QR
+  mutation, release promotion, and pilot approval blocked.
+- Added a focused verifier and recorded ADR 1176 / DR-1176.
