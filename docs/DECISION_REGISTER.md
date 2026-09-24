@@ -9271,3 +9271,11 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Tenant or package drift is a hard blocker.
 - Continuity remains review-only and cannot activate persistence, export data,
   mutate routes, or launch classrooms.
+
+## DR-1163: Deployment Handoff Source Reconciliation
+
+- Persisted deployment handoffs must reconcile source decision, tenant,
+  package, storage preflight, and storage gate identity.
+- A handoff cannot be trusted from intrinsic shape validation alone.
+- Export, installation, activation, route mutation, writes, and classroom
+  launch remain blocked.

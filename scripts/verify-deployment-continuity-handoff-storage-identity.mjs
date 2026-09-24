@@ -48,11 +48,21 @@ try {
     routeMutationAllowed: false,
     sideEffect: "none",
   };
+  const decision = {
+    decisionId: "decision-a",
+    tenantId: "tenant-a",
+    packageId: "package-a",
+    storageSelectionPreflightId: "preflight-a",
+    storageSelectionGateId: "storage-gate-a",
+  };
   assert(model.validateDeploymentContinuityHandoff(valid).length === 0, "valid handoff must preserve storage identity");
+  assert(model.validateDeploymentContinuityHandoffAgainstDecision(valid, decision).length === 0, "valid handoff must match its source decision");
   const missingPreflight = { ...valid, evidenceBindings: valid.evidenceBindings.filter((binding) => binding !== "storage-selection-preflight:preflight-a") };
   assert(model.validateDeploymentContinuityHandoff(missingPreflight).some((error) => error.includes("storage selection preflight")), "missing storage preflight binding must be rejected");
   const missingGate = { ...valid, evidenceBindings: valid.evidenceBindings.filter((binding) => binding !== "storage-selection-gate:storage-gate-a") };
   assert(model.validateDeploymentContinuityHandoff(missingGate).some((error) => error.includes("storage selection gate")), "missing storage gate binding must be rejected");
+  const staleDecision = { ...decision, storageSelectionGateId: "stale-storage-gate" };
+  assert(model.validateDeploymentContinuityHandoffAgainstDecision(valid, staleDecision).some((error) => error.includes("storage gate must match")), "source decision storage drift must be rejected");
   console.log("PASS deployment continuity handoff preserves explicit storage identity and rejects missing storage evidence bindings.");
 } finally {
   rmSync(output, { recursive: true, force: true });

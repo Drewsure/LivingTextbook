@@ -203,3 +203,17 @@ export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuit
   }
   return [...new Set(errors)];
 }
+
+export function validateDeploymentContinuityHandoffAgainstDecision(
+  handoff: DeploymentContinuityHandoff,
+  decision: Pick<DeploymentContinuityDecision, "decisionId" | "tenantId" | "packageId" | "storageSelectionPreflightId" | "storageSelectionGateId">,
+): string[] {
+  const errors = validateDeploymentContinuityHandoff(handoff);
+  if (handoff.sourceDecisionId !== decision.decisionId) errors.push("Deployment continuity handoff source decision must match the continuity decision.");
+  if (handoff.tenantId !== decision.tenantId) errors.push("Deployment continuity handoff tenant must match the continuity decision.");
+  if (handoff.packageId !== decision.packageId) errors.push("Deployment continuity handoff package must match the continuity decision.");
+  if (handoff.storageSelectionPreflightId !== decision.storageSelectionPreflightId) errors.push("Deployment continuity handoff storage preflight must match the continuity decision.");
+  if (handoff.storageSelectionGateId !== decision.storageSelectionGateId) errors.push("Deployment continuity handoff storage gate must match the continuity decision.");
+  if (!handoff.evidenceBindings.includes(`continuity-decision:${decision.decisionId}`)) errors.push("Deployment continuity handoff must bind its source continuity decision.");
+  return [...new Set(errors)];
+}

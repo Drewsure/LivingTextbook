@@ -32,6 +32,8 @@ export function DeploymentContinuityHandoffPanel({
         <Fact label="Package" value={handoff.packageId} />
         <Fact label="Recommendation" value={handoff.recommendedOptionId} />
         <Fact label="Evidence bindings" value={String(handoff.evidenceBindings.length)} />
+        <Fact label="Storage preflight" value={handoff.storageSelectionPreflightId} />
+        <Fact label="Storage gate" value={handoff.storageSelectionGateId} />
         <Fact label="Release evidence" value={handoff.releaseReadinessStatus} />
         <Fact label="Release tenant" value={handoff.releaseReadinessTenantId} />
         <Fact label="Release package" value={handoff.releaseReadinessPackageId} />

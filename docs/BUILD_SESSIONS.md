@@ -5693,3 +5693,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added hard-blocked negative coverage for tenant and package drift before
   hosted, local, or packaged continuity review.
 - Recorded ADR 1162 and DR-1162.
+
+## Build session 1077: Deployment handoff source reconciliation
+
+- Added source-decision reconciliation for persisted deployment continuity
+  handoffs, including tenant, package, storage preflight, and storage gate.
+- Added focused negative coverage for stale source storage identity and made
+  the identity visible on the teacher handoff panel.
+- Recorded ADR 1163 and DR-1163.

@@ -7839,3 +7839,18 @@ This standard is recorded in
 `docs/decision-register/DR-1162-deployment-continuity-scope.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1162-deployment-continuity-scope.md`.
+
+## 501. Deployment Handoff Source Reconciliation Standard
+
+- A persisted deployment continuity handoff must be validated against the
+  continuity decision that produced it, including source decision, tenant,
+  package, storage preflight, and storage gate identity.
+- Intrinsic handoff validity is not enough when a handoff can be reviewed or
+  transported separately from its source decision.
+- Source reconciliation remains review-only and cannot authorize export,
+  installation, activation, route mutation, writes, or classroom launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1163-deployment-handoff-source-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1163-deployment-handoff-source-reconciliation.md`.
