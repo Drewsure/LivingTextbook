@@ -9287,3 +9287,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - Scope drift is a hard blocker before continuity review.
 - Activation, writes, export, installation, route mutation, and launch remain
   blocked.
+
+## DR-1165: Canonical Pairing Replay Ordering
+
+Canonical pairing games must order cards from the platform replay seed and use
+an explicit card-identity tie-breaker. This makes the same unit/mode/seed
+replay stable across browser and deployment runtimes without moving scoring,
+mastery, rewards, persistence, or tenant policy into the game scene. Evidence:
+`PairingMemoryMatchGame.tsx`, `scripts/verify-pairing-engine-runtime.mjs`,
+ADR 1165, and the build session record.

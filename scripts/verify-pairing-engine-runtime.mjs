@@ -68,6 +68,9 @@ try {
   assert(engine.getPairingProgressSummary(complete.state).attempts === 3, "progress must retain deterministic attempts");
   assert(engine.selectPairingCard(complete.state, "pair-1:source").result === "ignored", "completed engine must ignore later taps");
 
+  const memoryMatchSource = readSource(join(root, "apps", "web", "src", "features", "game-shell", "pairing", "PairingMemoryMatchGame.tsx"));
+  assert(memoryMatchSource.includes("firstKey - secondKey || first.id.localeCompare(second.id)"), "Memory Match seeded ordering must use an explicit card-id tie-breaker");
+
   const empty = engine.createPairingEngineState([]);
   assert(empty.completed === true, "empty pairing state must be terminal");
   assert(engine.getPairingProgressSummary(empty).totalPairs === 0, "empty progress must report zero pairs");
@@ -81,4 +84,8 @@ function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
   }
+}
+
+function readSource(path) {
+  return require("node:fs").readFileSync(path, "utf8");
 }

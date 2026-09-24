@@ -324,7 +324,12 @@ function createShuffledPairingState(unit: UnitPayload, replaySeed: string): Pair
 
   return {
     ...state,
-    cards: [...state.cards].sort((first, second) => stableSortKey(`${replaySeed}:${first.id}`) - stableSortKey(`${replaySeed}:${second.id}`)),
+    cards: [...state.cards].sort((first, second) => {
+      const firstKey = stableSortKey(`${replaySeed}:${first.id}`);
+      const secondKey = stableSortKey(`${replaySeed}:${second.id}`);
+
+      return firstKey - secondKey || first.id.localeCompare(second.id);
+    }),
   };
 }
 

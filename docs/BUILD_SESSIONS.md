@@ -5710,3 +5710,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   preserving all activation, write, export, installation, route, and launch
   blockers.
 - Recorded ADR 1164 and DR-1164.
+
+## Build session 1079: Canonical pairing replay ordering
+
+- Made the seeded Memory Match card ordering explicitly tie-safe by using the
+  canonical replay key followed by a card-identity tie-breaker.
+- Added runtime coverage so equal seeded keys cannot defer to browser-specific
+  sort behavior.
+- Kept scoring, mastery, rewards, persistence, and tenant policy outside the
+  pairing scene; frozen Z.ai/Phaser source remains review-only.
+- Recorded ADR 1165 and DR-1165.

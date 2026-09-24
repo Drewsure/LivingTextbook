@@ -7868,3 +7868,19 @@ This standard is recorded in
 `docs/decision-register/DR-1164-activation-preflight-scope.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1164-activation-preflight-scope.md`.
+
+## 503. Canonical Pairing Replay Ordering Standard
+
+- Canonical pairing games must derive card order from the platform replay seed,
+  with an explicit stable card-identity tie-breaker so equal ordering keys do
+  not depend on browser sort behavior.
+- Replay evidence must therefore produce the same card identity sequence for
+  the same unit, mode, and seed across hosted, local, and packaged delivery.
+- A seeded layout remains a presentation concern: it cannot move scoring,
+  mastery, Star Dust, collection, persistence, or tenant policy into the game
+  scene.
+
+This standard is recorded in
+`docs/decision-register/DR-1165-canonical-pairing-replay-ordering.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1165-canonical-pairing-replay-ordering.md`.

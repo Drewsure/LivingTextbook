@@ -733,6 +733,7 @@ Current focused decision records also include:
 - `DR-1162-deployment-continuity-scope.md`
 - `DR-1163-deployment-handoff-source-reconciliation.md`
 - `DR-1164-activation-preflight-scope.md`
+- `DR-1165-canonical-pairing-replay-ordering.md`
 
 ## Maintenance Rule
 
