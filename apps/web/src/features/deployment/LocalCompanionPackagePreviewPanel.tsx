@@ -505,6 +505,7 @@ function createLocalCompanionManifestSnapshot(
 function createRuntimeAsset(asset: LocalBundleManifestSummary["assets"][number]) {
   return {
     asset_id: asset.assetId,
+    unit_id: asset.unitId,
     kind: asset.kind,
     local_path: asset.localPath,
     checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",

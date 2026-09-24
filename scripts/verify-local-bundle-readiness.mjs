@@ -117,6 +117,7 @@ const requiredResolutionMarkers = [
   "Curriculum / series",
   "Book / units",
   "Bundle identity",
+  "unitId",
 ];
 const requiredLocalAssetKinds = ["audio", "video", "image"];
 const requiredSupportingAssetPaths = [

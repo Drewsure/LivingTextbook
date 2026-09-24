@@ -96,6 +96,7 @@ function createAssetEvidenceChecks(asset: LocalBundleAssetSummary, evidence: Ret
 function createRuntimeAsset(asset: LocalBundleAssetSummary): LocalBundleManifestAsset {
   return {
     asset_id: asset.assetId,
+    unit_id: asset.unitId,
     kind: asset.kind,
     local_path: asset.localPath,
     checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",

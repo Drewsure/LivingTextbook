@@ -145,6 +145,7 @@ function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenan
     requires_hosted_redirect: summary.requiresHostedRedirect,
     assets: summary.assets.map((asset) => ({
       asset_id: asset.assetId,
+      unit_id: asset.unitId,
       kind: asset.kind,
       local_path: asset.localPath,
       checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",

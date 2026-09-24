@@ -18,6 +18,7 @@ The review manifest must provide:
 - `book_id`
 - a non-empty, unique `unit_ids` list
 - `unit_id` on every declared QR route
+- `unit_id` on every declared local media asset
 
 Identifiers use the same safe identifier rules as the local manifest. The
 identity is package metadata only; it does not grant file access, activate
@@ -42,6 +43,10 @@ before local handoff or offline-readiness review.
 QR routes also carry `unit_id`, and that value must be present in `unit_ids`.
 This prevents a printed or copied QR record from resolving into a different
 unit inside an otherwise valid package.
+
+Audio, video, and image assets follow the same rule. A media item cannot be
+resolved or admitted as package evidence when its unit is outside the declared
+package scope.
 
 ## Current Boundary
 

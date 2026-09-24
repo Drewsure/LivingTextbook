@@ -47,6 +47,13 @@ try {
   assert(!wrongUnitRoute.valid && !wrongUnitRoute.resolver, "resolver must reject a QR route outside the declared package unit scope");
   assert(wrongUnitRoute.errors.some((error) => error.includes("outside the package unit scope")), "unit scope rejection must identify the package boundary");
 
+  const wrongUnitAsset = createReadOnlyLocalBundleResolver({
+    ...sample,
+    assets: sample.assets.map((asset) => ({ ...asset, unit_id: "unit-2" })),
+  });
+  assert(!wrongUnitAsset.valid && !wrongUnitAsset.resolver, "resolver must reject a media asset outside the declared package unit scope");
+  assert(wrongUnitAsset.errors.some((error) => error.includes("asset") && error.includes("outside the package unit scope")), "asset scope rejection must identify the package boundary");
+
   const offlineReady = createReadOnlyLocalBundleResolver({
     ...sample,
     offline_ready: true,

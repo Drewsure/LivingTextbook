@@ -3,6 +3,7 @@ export type LocalBundleAssetScanStatus = "pending" | "passed";
 
 export interface LocalBundleManifestAsset {
   asset_id: string;
+  unit_id: string;
   kind: LocalBundleAssetKind;
   local_path: string;
   checksum: string;
@@ -102,6 +103,19 @@ export function validateLocalBundlePackageIdentity(value: LocalBundleManifest): 
     });
   }
 
+  if (Array.isArray(value.assets)) {
+    value.assets.forEach((asset, index) => {
+      if (!isRecord(asset)) return;
+      const assetId = readString(asset.asset_id) || String(index + 1);
+      const assetUnitId = readString(asset.unit_id);
+      if (!assetUnitId) {
+        errors.push(`Local bundle asset ${assetId} requires unit_id for package scope.`);
+      } else if (!declaredUnitIds.has(assetUnitId)) {
+        errors.push(`Local bundle asset ${assetId} unit ${assetUnitId} is outside the package unit scope.`);
+      }
+    });
+  }
+
   return [...new Set(errors)];
 }
 
@@ -155,6 +169,7 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
       return;
     }
     const assetId = readString(asset.asset_id);
+    if (!readString(asset.unit_id)) errors.push(`Local bundle asset ${assetId || index + 1} requires unit_id.`);
     const localPath = readString(asset.local_path);
     const checksum = readString(asset.checksum);
     const rightsStatus = readString(asset.rights_status);

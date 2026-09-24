@@ -7,6 +7,7 @@ export type LocalCompanionArtifactStatus = "ready" | "pending" | "blocked";
 
 export interface LocalBundleAssetSummary {
   assetId: string;
+  unitId: string;
   kind: "audio" | "video" | "image";
   label: string;
   localPath: string;
@@ -102,6 +103,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
     assets: [
       {
         assetId: "media-ministar-l1-u1-greetings-chant",
+        unitId: "unit-1",
         kind: "audio",
         label: "Greetings chant",
         localPath: "media/audio/greetings-chant.mp3",
@@ -113,6 +115,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
       },
       {
         assetId: "media-ministar-l1-u1-greetings-video",
+        unitId: "unit-1",
         kind: "video",
         label: "Hello friends video",
         localPath: "media/video/hello-friends.mp4",
@@ -125,6 +128,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
       },
       {
         assetId: "media-ministar-l1-u1-greetings-label-board",
+        unitId: "unit-1",
         kind: "image",
         label: "Greetings label board",
         localPath: "media/images/greetings-label-board.png",
@@ -373,6 +377,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
     assets: [
       {
         assetId: "media-sample-publisher-u1-morning-song",
+        unitId: "unit-1",
         kind: "audio",
         label: "Morning song",
         localPath: "media/audio/morning-song.mp3",
@@ -384,6 +389,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
       },
       {
         assetId: "media-sample-publisher-u1-routine-video",
+        unitId: "unit-1",
         kind: "video",
         label: "Routine video",
         localPath: "media/video/routine-video.mp4",
@@ -396,6 +402,7 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
       },
       {
         assetId: "media-sample-publisher-u1-routine-label-board",
+        unitId: "unit-1",
         kind: "image",
         label: "Routine label board",
         localPath: "media/images/routine-label-board.png",

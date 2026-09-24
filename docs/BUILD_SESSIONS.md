@@ -5830,4 +5830,6 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added explicit `unit_id` to local QR route records and required it to match
   the package `unit_ids` set.
 - Added negative runtime coverage for a route outside package unit scope.
+- Applied the same unit-scope check to local audio, video, and image assets.
+- Added negative runtime coverage for a media asset outside package unit scope.
 - Kept local routing review-only and activation-blocked.
