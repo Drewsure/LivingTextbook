@@ -7642,3 +7642,19 @@ This standard is recorded in
 `docs/decision-register/DR-1149-adapter-write-intent-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1149-adapter-write-intent-storage-identity.md`.
+
+## 488. Durable Record Storage Identity Standard
+
+- The teacher-draft persistence implementation-readiness durable record must
+  carry the exact storage-selection preflight and evidence-storage gate
+  identities used by the provider, review-readiness, and adapter write-intent
+  boundaries.
+- The record must remain blocked and disallowed; missing, incomplete, or
+  enabled storage state fails validation before future adapter authorization.
+- Durable-record presence does not authorize writes, uploads, migration, route
+  mutation, assignment, or student-facing promotion.
+
+This standard is recorded in
+`docs/decision-register/DR-1150-durable-record-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1150-durable-record-storage-identity.md`.

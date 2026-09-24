@@ -4,6 +4,8 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const model = readFileSync(join(root, "packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts"), "utf8");
+const durableRecords = readFileSync(join(root, "packages/content-model/src/persistenceRecords.ts"), "utf8");
+const persistencePlan = readFileSync(join(root, "apps/web/src/data/samplePersistencePlan.ts"), "utf8");
 const fixture = readFileSync(join(root, "apps/web/src/data/sampleTeacherDraftPersistenceImplementationReadiness.ts"), "utf8");
 const panel = readFileSync(join(root, "apps/web/src/features/persistence/TeacherDraftPersistenceImplementationReadinessPanel.tsx"), "utf8");
 
@@ -20,6 +22,19 @@ for (const [source, label, markers] of [
   [fixture, "Teacher draft implementation readiness fixture", [
     "storageSelectionPreflightId: samplePersistenceProviderSelectionPreflight.preflightId",
     "storageSelectionGateId: samplePersistenceProviderSelectionPreflight.evidenceStorageGateId",
+    'storageSelectionStatus: "blocked"',
+    "storageSelectionAllowed: false",
+  ]],
+  [durableRecords, "Durable persistence readiness record contract", [
+    "storageSelectionPreflightId?: string",
+    "storageSelectionGateId?: string",
+    'storageSelectionStatus?: "blocked"',
+    "storageSelectionAllowed?: false",
+    "storage selection must remain blocked and disallowed",
+  ]],
+  [persistencePlan, "Durable persistence readiness record fixture", [
+    "storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId",
+    "storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId",
     'storageSelectionStatus: "blocked"',
     "storageSelectionAllowed: false",
   ]],

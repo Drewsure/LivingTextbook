@@ -23,6 +23,7 @@ try {
     "--outDir", output,
     "packages/content-model/src/teacherDraftPersistenceImplementationReadiness.ts",
     "packages/content-model/src/persistenceAdapter.ts",
+    "packages/content-model/src/persistenceRecords.ts",
   ], { cwd: root, encoding: "utf8" });
   if (compile.status !== 0) {
     process.stdout.write(compile.stdout);
@@ -32,6 +33,7 @@ try {
 
   const model = require(join(output, "teacherDraftPersistenceImplementationReadiness.js"));
   const adapter = require(join(output, "persistenceAdapter.js"));
+  const records = require(join(output, "persistenceRecords.js"));
   const valid = {
     readinessId: "draft-readiness",
     tenantId: "sample-publisher",
@@ -153,6 +155,40 @@ try {
     writeIntents: [{ ...writeIntent, storageSelectionAllowed: true }],
     handoffSteps: ["Review packet"],
   }), "storage selection must remain disallowed", "write-intent storage enablement rejection");
+
+  const durableRecord = {
+    recordId: "draft-readiness-record",
+    category: "teacher-draft-persistence-implementation-readiness",
+    label: "Draft persistence implementation readiness",
+    readiness: "policy-required",
+    sourceOfTruth: "Teacher draft persistence implementation readiness packet.",
+    requiredBeforePilot: false,
+    containsStudentData: false,
+    containsMediaRights: false,
+    supportsLocalDeployment: true,
+    storesRawAudio: false,
+    storesTranscript: false,
+    preservesTenantBoundary: true,
+    tenantBoundaryKey: "tenant_id",
+    preservesPersistenceImplementationReadiness: true,
+    requiresPersistenceAcceptanceTestPlan: true,
+    storageSelectionPreflightId: "preflight-1",
+    storageSelectionGateId: "gate-1",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
+    blocksPersistenceProviderSelection: true,
+    blocksPersistenceImplementation: true,
+    blocksPersistenceMigration: true,
+    blocksPersistenceWrites: true,
+    blocksPersistenceUploads: true,
+    blocksPersistenceRouteMutation: true,
+    blocksPersistenceAssignmentPromotion: true,
+    recommendedFirstPilotStore: ["hosted-database", "local-classroom-store"],
+    note: "Review-only durable record.",
+  };
+  assert(records.validateDurableRecordContracts([durableRecord]).length === 0, "valid blocked durable record storage identity");
+  assertIncludes(records.validateDurableRecordContracts([{ ...durableRecord, storageSelectionAllowed: true }]), "storage selection must remain blocked and disallowed", "durable record storage enablement rejection");
+  assertIncludes(records.validateDurableRecordContracts([{ ...durableRecord, storageSelectionGateId: "" }]), "must identify the storage selection gate", "durable record identity presence guard");
 
   console.log("PASS teacher draft persistence implementation readiness and adapter write intents reject storage enablement and identity drift while accepting reconciled blocked evidence.");
 } finally {

@@ -9154,3 +9154,14 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   future adapter work order can be treated as authorized.
 - Write, upload, migration, route mutation, assignment, and promotion remain
   blocked.
+
+## DR-1150: Durable Record Storage Identity
+
+- The teacher-draft persistence implementation-readiness durable record must
+  carry the exact storage-selection preflight and evidence-storage gate
+  identity used by the provider, review-readiness, and adapter write-intent
+  boundaries.
+- Missing, incomplete, or enabled storage state fails validation before a
+  future adapter work order can be treated as authorized.
+- Durable-record presence does not authorize writes, uploads, migration, route
+  mutation, assignment, or promotion.

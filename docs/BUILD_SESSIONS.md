@@ -5584,3 +5584,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   storage preflight and evidence-storage gate identity.
 - Added blocked/disallowed behavior coverage for write-intent enablement and
   drift, and recorded ADR 1149 and DR-1149.
+
+## Build session 1064: Durable record storage identity
+
+- Extended the teacher-draft persistence implementation-readiness durable
+  record with exact storage preflight and evidence-storage gate identity.
+- Added blocked/disallowed validator and runtime coverage for missing and
+  enabled durable-record storage state.
+- Recorded ADR 1150 and DR-1150.

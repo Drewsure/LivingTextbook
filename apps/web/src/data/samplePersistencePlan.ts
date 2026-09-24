@@ -9,6 +9,7 @@ import {
   validateDurableRecordContracts,
 } from "@living-textbook/content-model";
 import { samplePilotReviewDecisionRecord } from "@/data/samplePilotReviewDecisionPersistence";
+import { sampleStorageSelectionIdentity } from "@/data/sampleStorageSelectionIdentity";
 
 export type PersistenceReadinessStatus = "demo-static" | "needs-backend" | "needs-policy";
 
@@ -242,6 +243,10 @@ const sampleDurableRecordContractsRaw: DurableRecordContract[] = [
     tenantBoundaryKey: "tenant_id",
     preservesPersistenceImplementationReadiness: true,
     requiresPersistenceAcceptanceTestPlan: true,
+    storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+    storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     blocksPersistenceProviderSelection: true,
     blocksPersistenceImplementation: true,
     blocksPersistenceMigration: true,

@@ -205,6 +205,10 @@ export interface DurableRecordContract {
   blocksDirectStudentAssignment?: boolean;
   preservesPersistenceImplementationReadiness?: boolean;
   requiresPersistenceAcceptanceTestPlan?: boolean;
+  storageSelectionPreflightId?: string;
+  storageSelectionGateId?: string;
+  storageSelectionStatus?: "blocked";
+  storageSelectionAllowed?: false;
   blocksPersistenceProviderSelection?: boolean;
   blocksPersistenceImplementation?: boolean;
   blocksPersistenceMigration?: boolean;
@@ -749,6 +753,18 @@ function validatePersistenceImplementationReadinessRecord(record: DurableRecordC
 
   if (!record.requiresPersistenceAcceptanceTestPlan) {
     errors.push(`Teacher draft persistence readiness record ${record.recordId} must require an acceptance test plan.`);
+  }
+
+  if (!record.storageSelectionPreflightId?.trim()) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId} must identify the storage selection preflight.`);
+  }
+
+  if (!record.storageSelectionGateId?.trim()) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId} must identify the storage selection gate.`);
+  }
+
+  if (record.storageSelectionStatus !== "blocked" || record.storageSelectionAllowed !== false) {
+    errors.push(`Teacher draft persistence readiness record ${record.recordId}: storage selection must remain blocked and disallowed.`);
   }
 
   const actionBlocks = [
