@@ -37,6 +37,15 @@ export type {
   AssistLanguageAudioCatalogApprovalReconciliation,
   AssistLanguageAudioCatalogApprovalReconciliationStatus,
 } from "./assistLanguageAudioCatalogApprovalReconciliation";
+export {
+  ASSIST_LANGUAGE_AUDIO_REVIEWER_GATE_BINDING_BLOCKED_ACTIONS,
+  createReviewOnlyAssistLanguageAudioCatalogReviewerGateBinding,
+  validateAssistLanguageAudioCatalogReviewerGateBinding,
+} from "./assistLanguageAudioCatalogReviewerGateBinding";
+export type {
+  AssistLanguageAudioCatalogReviewerGateBinding,
+  AssistLanguageAudioCatalogReviewerGateBindingStatus,
+} from "./assistLanguageAudioCatalogReviewerGateBinding";
 
 export type TenantId = string;
 export type CurriculumId = string;

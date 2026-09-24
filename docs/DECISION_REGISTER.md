@@ -9482,3 +9482,14 @@ capture approval, create an approval ledger, admit a catalog, promote hosted
 media, activate a local bundle, expose student-facing audio, bill speech APIs,
 or trigger progression. See ADR 1182 and
 `docs/decision-register/DR-1182-assist-language-audio-catalog-approval-reconciliation.md`.
+
+## DR-1183: Assist-Language Audio Reviewer Gate Binding
+
+Reconciled support-audio evidence is now bound to the existing reviewer
+identity/signature gate shape. The binding is tenant-scoped: the sample
+publisher uses its own review gate, while tenants without a configured gate
+are explicitly reported as unconfigured. Reviewer lanes, gate status, scope
+drift, and unresolved requirements remain visible. The binding cannot capture
+approval, write an approval ledger, mutate release state, admit a catalog,
+activate media, assign students, or trigger progression. See ADR 1183 and
+`docs/decision-register/DR-1183-assist-language-audio-reviewer-gate-binding.md`.

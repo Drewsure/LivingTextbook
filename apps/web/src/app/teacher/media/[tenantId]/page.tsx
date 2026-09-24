@@ -9,10 +9,13 @@ import { TeacherAssistLanguageAudioCatalogPanel } from "@/features/multimedia/Te
 import { sampleAssistLanguageAudioCatalogRecords } from "@/data/sampleAssistLanguageAudioCatalog";
 import { buildAssistLanguageAudioCatalogApprovalPackets } from "@/data/sampleAssistLanguageAudioCatalogApproval";
 import { buildAssistLanguageAudioCatalogApprovalReconciliations } from "@/data/sampleAssistLanguageAudioCatalogApprovalReconciliation";
+import { buildAssistLanguageAudioCatalogReviewerGateBindings } from "@/data/sampleAssistLanguageAudioCatalogReviewerGateBinding";
 import { TeacherAssistLanguageAudioCatalogApprovalPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogApprovalPanel";
 import { TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel";
+import { TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
 import type { TenantConfig } from "@/features/tenant/types";
 
 function findTenantConfig(tenantId: string): TenantConfig | undefined {
@@ -34,6 +37,8 @@ export default async function TeacherMediaLibraryPage({
 
   const tenantCatalogRecords = sampleAssistLanguageAudioCatalogRecords.filter((record) => record.tenantId === tenantId);
   const approvalPackets = buildAssistLanguageAudioCatalogApprovalPackets(tenantCatalogRecords);
+  const reconciliations = buildAssistLanguageAudioCatalogApprovalReconciliations(approvalPackets, tenantCatalogRecords);
+  const reviewerGate = sampleReviewerIdentitySignatureGate.tenantId === tenantId ? sampleReviewerIdentitySignatureGate : undefined;
 
   return (
     <AppShell tenant={tenant}>
@@ -41,7 +46,8 @@ export default async function TeacherMediaLibraryPage({
         <TeacherMediaLibraryPanel preview={preview} rightsRecords={getTeacherMediaRightsRecords(tenantId)} />
         <TeacherAssistLanguageAudioCatalogPanel records={tenantCatalogRecords} />
         <TeacherAssistLanguageAudioCatalogApprovalPanel packets={approvalPackets} />
-        <TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel reconciliations={buildAssistLanguageAudioCatalogApprovalReconciliations(approvalPackets, tenantCatalogRecords)} />
+        <TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel reconciliations={reconciliations} />
+        <TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel bindings={buildAssistLanguageAudioCatalogReviewerGateBindings(reconciliations, reviewerGate)} />
       </div>
     </AppShell>
   );

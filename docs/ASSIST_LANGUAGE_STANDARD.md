@@ -139,3 +139,7 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 The reconciliation preview is not a storage adapter and does not create an
 approval ledger. It is the evidence bridge that must pass before a future
 human approval record can be introduced.
+
+Reviewer identity and signature binding is the next boundary. A tenant may
+only use its own reviewer gate; an unconfigured tenant must remain explicitly
+unconfigured rather than borrowing another tenant's identity state.
