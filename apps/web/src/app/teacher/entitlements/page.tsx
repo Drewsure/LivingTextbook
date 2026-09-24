@@ -159,9 +159,9 @@ export default function TeacherEntitlementsPage() {
             <StatusPill label="Cost-safe foundation" tone="success" />
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            {costControlStatements.map((statement) => (
+            {costControlStatements.map((statement, index) => (
               <section
-                key={statement.label}
+                key={`cost-control-statement-${index + 1}`}
                 className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4"
               >
                 <h3 className="text-sm font-bold text-[var(--tenant-text)]">{statement.label}</h3>

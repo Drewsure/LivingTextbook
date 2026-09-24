@@ -168,8 +168,8 @@ export function WhiteLabelReleaseReadinessPanel({
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Fact label="Evidence tenant" value={qualityEvidenceScope?.tenantId ?? "Missing"} />
           <Fact label="Evidence package" value={qualityEvidenceScope?.packageId ?? "Missing"} />
-          {qualityChecks.map(([label, value]) => (
-            <div key={label} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
+          {qualityChecks.map(([label, value], index) => (
+            <div key={`quality-check-${index + 1}`} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-3">
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
               <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{value ? "Verified" : "Missing"}</p>
               <p className="mt-2 break-words text-xs text-[var(--tenant-muted)]">Evidence: {qualityEvidence.get(label)?.sourceRecord ?? "No source record"}</p>

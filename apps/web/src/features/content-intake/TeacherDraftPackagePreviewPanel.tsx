@@ -73,8 +73,8 @@ export function TeacherDraftPackagePreviewPanel({ draft }: TeacherDraftPackagePr
               <StatusPill label={`${draft.vocabularyDraft.length} terms`} tone="success" />
             </div>
             <ul className="mt-3 flex flex-wrap gap-2 text-sm text-[var(--tenant-text)]">
-              {draft.vocabularyDraft.map((term) => (
-                <li key={term} className="rounded-full border border-[var(--tenant-border)] bg-white/80 px-3 py-1 font-semibold">
+              {draft.vocabularyDraft.map((term, index) => (
+                <li key={`draft-term-${index + 1}`} className="rounded-full border border-[var(--tenant-border)] bg-white/80 px-3 py-1 font-semibold">
                   {term}
                 </li>
               ))}
@@ -84,8 +84,8 @@ export function TeacherDraftPackagePreviewPanel({ draft }: TeacherDraftPackagePr
           <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
             <h4 className="text-sm font-bold text-[var(--tenant-text)]">Target sentence drafts</h4>
             <ol className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
-              {draft.targetSentenceDrafts.map((sentence) => (
-                <li key={sentence} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+              {draft.targetSentenceDrafts.map((sentence, index) => (
+                <li key={`draft-sentence-${index + 1}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
                   {sentence}
                 </li>
               ))}

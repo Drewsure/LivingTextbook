@@ -78,8 +78,8 @@ export function FrontDoorTeacherReportPreview({ tenant, progression, events }: F
           <StatusPill label="Coded slots" tone="neutral" />
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          {learnerLabels.map((label) => (
-            <span key={label} className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]">
+          {learnerLabels.map((label, index) => (
+            <span key={`learner-label-${index + 1}`} className="rounded-full border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] px-3 py-1 text-xs font-semibold text-[var(--tenant-text)]">
               {label}
             </span>
           ))}

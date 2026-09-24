@@ -124,8 +124,8 @@ function ReportBoundaryCard({ context }: { context: TeacherSessionMonitorContext
       </section>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {boundary.metrics.map((metric) => (
-          <ReportMetric key={metric.label} label={metric.label} value={metric.value} note={metric.note} />
+        {boundary.metrics.map((metric, index) => (
+          <ReportMetric key={`report-metric-${index + 1}`} label={metric.label} value={metric.value} note={metric.note} />
         ))}
         <ReportMetric label="Allowed formats" value={exportPlan.allowedFormats.join(", ")} note="Preview only." />
         <ReportMetric label="Retention" value={exportPlan.retentionPolicy} note="Demo policy only." />

@@ -146,7 +146,7 @@ export function FlashcardPracticeCard({
             const assistSentence = assistLanguagePlan?.sentenceGlosses[index];
 
             return (
-              <div key={sentence} className="rounded-lg bg-[var(--tenant-primary-soft)] p-3">
+              <div key={`flashcard-sentence-${index + 1}`} className="rounded-lg bg-[var(--tenant-primary-soft)] p-3">
                 <AudioCueText
                   text={audioCue?.text ?? sentence}
                   language={audioCue?.language ?? targetLanguage}

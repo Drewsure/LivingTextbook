@@ -5778,3 +5778,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Extended review key verification to cover both canonical sequence and
   training sentence surfaces.
 - Recorded ADR 1171 and DR-1171.
+
+## Build session 1086: Tenant-owned text identity
+
+- Replaced visible-text keys across worksheet sentences, flashcard sentences,
+  teacher learner labels, release quality checks, session metrics, entitlement
+  statements, draft terms/sentences, and teacher report metrics with
+  deterministic positional or domain-scoped identity.
+- Extended the review key verifier so these surfaces cannot regress to
+  label-derived identity while tenant content remains unchanged.
+- Preserved audio, report semantics, scoring, progression, persistence, and
+  review-only policy boundaries.
+- Recorded ADR 1172 and DR-1172.

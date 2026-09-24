@@ -9350,3 +9350,13 @@ sentences as separate reviewed controls without changing curated order, audio,
 routes, progression, tenant scope, or review-only policy. Evidence:
 `GameSequence.tsx`, `TrainingAcademyFlow.tsx`, and
 `scripts/verify-review-list-key-stability.mjs`.
+
+## DR-1172: Tenant-Owned Text Identity
+
+Teacher, student, report, worksheet, release, entitlement, and draft-preview
+rows use deterministic positional or domain-scoped identity rather than
+tenant-visible text. Duplicate terms, sentences, labels, metrics, or reward
+names therefore remain separate UI rows without changing content, audio,
+report semantics, scoring, progression, persistence, or review-only policy.
+Evidence: the affected preview/report surfaces and
+`scripts/verify-review-list-key-stability.mjs`.

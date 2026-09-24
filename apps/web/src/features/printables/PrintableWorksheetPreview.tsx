@@ -148,7 +148,7 @@ export function PrintableWorksheetPreview({
         <h2 className="mt-1 text-lg font-bold">Build the target sentences</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {unit.pedagogicalPayload.targetSentences.map((sentence, index) => (
-            <section key={sentence} className="rounded-lg border border-[var(--tenant-border)] p-4">
+            <section key={`worksheet-sentence-${index + 1}`} className="rounded-lg border border-[var(--tenant-border)] p-4">
               <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Sentence {index + 1}</p>
               <p className="mt-2 text-lg font-bold text-[var(--tenant-text)]">{sentence}</p>
               <p className="mt-2 font-mono text-xs text-[var(--tenant-muted)]">{findAudioCueId(contentPackage, sentence, "sentence")}</p>

@@ -123,8 +123,8 @@ export function TeacherSessionMonitorPanel({ context }: TeacherSessionMonitorPan
           <StatusPill label="Sample data" tone="warning" />
         </div>
         <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {context.metrics.map((metric) => (
-            <div key={metric.label} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+          {context.metrics.map((metric, index) => (
+            <div key={`session-metric-${index + 1}`} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
               <dt className="text-xs font-semibold text-[var(--tenant-muted)]">{metric.label}</dt>
               <dd className="mt-1 text-lg font-bold">{metric.value}</dd>
               <dd className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{metric.note}</dd>
@@ -533,8 +533,8 @@ function TeacherReportPackageBoundaryCard({ boundary, href }: { boundary: Teache
       </div>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {boundary.metrics.map((metric) => (
-          <div key={metric.label} className="rounded-lg border border-[var(--tenant-border)] p-3">
+        {boundary.metrics.map((metric, index) => (
+          <div key={`report-boundary-metric-${index + 1}`} className="rounded-lg border border-[var(--tenant-border)] p-3">
             <dt className="text-xs font-semibold text-[var(--tenant-muted)]">{metric.label}</dt>
             <dd className="mt-1 text-lg font-bold">{metric.value}</dd>
             <dd className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{metric.note}</dd>

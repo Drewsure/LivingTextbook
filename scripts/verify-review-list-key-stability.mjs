@@ -62,6 +62,67 @@ if (!stableLinkKeySource.includes("key={`${link.href}-${link.label}`}")) {
   failures.push("apps/web/src/app/teacher/pilot/page.tsx must key pilot links by href and label together.");
 }
 
+const tenantOwnedTextIdentityChecks = [
+  {
+    filePath: "apps/web/src/features/printables/PrintableWorksheetPreview.tsx",
+    required: "key={`worksheet-sentence-${index + 1}`}",
+    forbidden: "key={sentence}",
+    message: "Printable worksheet sentences must use positional identity.",
+  },
+  {
+    filePath: "apps/web/src/features/student/components/FlashcardPracticeCard.tsx",
+    required: "key={`flashcard-sentence-${index + 1}`}",
+    forbidden: "key={sentence}",
+    message: "Flashcard target sentences must use positional identity.",
+  },
+  {
+    filePath: "apps/web/src/features/access/FrontDoorTeacherReportPreview.tsx",
+    required: "learnerLabels.map((label, index)",
+    forbidden: "key={label}",
+    message: "Teacher report learner labels must not use visible text as identity.",
+  },
+  {
+    filePath: "apps/web/src/features/release/WhiteLabelReleaseReadinessPanel.tsx",
+    required: "key={`quality-check-${index + 1}`}",
+    forbidden: "key={label}",
+    message: "White-label quality checks must use deterministic row identity.",
+  },
+  {
+    filePath: "apps/web/src/features/teacher/TeacherSessionMonitorPanel.tsx",
+    required: "key={`session-metric-${index + 1}`}",
+    forbidden: "key={metric.label}",
+    message: "Teacher session metrics must not use tenant-visible labels as identity.",
+  },
+  {
+    filePath: "apps/web/src/app/teacher/entitlements/page.tsx",
+    required: "key={`cost-control-statement-${index + 1}`}",
+    forbidden: "key={statement.label}",
+    message: "Entitlement cost-control statements must use positional identity.",
+  },
+  {
+    filePath: "apps/web/src/features/content-intake/TeacherDraftPackagePreviewPanel.tsx",
+    required: "key={`draft-sentence-${index + 1}`}",
+    forbidden: "key={sentence}",
+    message: "Teacher draft sentences must use positional identity.",
+  },
+  {
+    filePath: "apps/web/src/app/teacher/reporting/page.tsx",
+    required: "key={`report-metric-${index + 1}`}",
+    forbidden: "key={metric.label}",
+    message: "Teacher report metrics must not use visible labels as identity.",
+  },
+];
+
+for (const check of tenantOwnedTextIdentityChecks) {
+  const source = readFileSync(new URL(`../${check.filePath}`, import.meta.url), "utf8");
+  if (!source.includes(check.required)) {
+    failures.push(`${check.filePath} is missing the required stable identity: ${check.message}`);
+  }
+  if (source.includes(check.forbidden)) {
+    failures.push(`${check.filePath} contains a visible-text identity: ${check.forbidden}`);
+  }
+}
+
 for (const filePath of reviewSurfaceFiles) {
   const source = readFileSync(new URL(`../${filePath}`, import.meta.url), "utf8");
   const matches = source.match(bareKeyPattern);

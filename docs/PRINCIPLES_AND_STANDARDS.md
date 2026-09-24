@@ -7965,3 +7965,18 @@ This standard is recorded in
 
 This standard is recorded in
 `docs/decision-register/DR-1171-canonical-sequence-identity.md`.
+
+## 510. Tenant-Owned Text Identity Standard
+
+- Teacher, student, report, worksheet, release, and entitlement surfaces must
+  treat tenant-owned labels, terms, sentences, metrics, and quality-check text
+  as content, never as the sole UI identity.
+- Repeated content rows must use deterministic positional or domain-scoped
+  keys so duplicate vocabulary, sentences, labels, or tenant reward names do
+  not create reconciliation warnings or unstable interaction state.
+- This identity hardening must preserve visible text, tap-to-speak behavior,
+  report meaning, tenant scope, scoring, progression, persistence policy, and
+  review-only boundaries.
+
+This standard is recorded in
+`docs/decision-register/DR-1172-tenant-owned-text-identity.md`.
