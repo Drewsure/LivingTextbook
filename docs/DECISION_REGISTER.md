@@ -9331,3 +9331,12 @@ hyphenation variants can otherwise collide. Labels, audio lookup, answer
 correctness, scoring, progression, and replay seed behavior remain unchanged.
 Evidence: `textSpellingEngineAdapter.ts`, `FillInBlankPracticeGame.tsx`, and
 `scripts/verify-text-spelling-engine-runtime.mjs`.
+
+## DR-1170: Speaking Prompt Identity And Cue Priority
+
+Speaking prompts use deterministic positional IDs rather than learner-visible
+labels. When generic and `speak-it` reviewed cues match the same text, the
+active game-mode cue wins deterministically. Cue choice remains separate from
+speech confirmation, microphone approval, scoring, mastery, rewards,
+persistence, and AI Tutor entitlement. Evidence: `speakingEngineAdapter.ts`
+and `scripts/verify-speaking-engine-runtime.mjs`.

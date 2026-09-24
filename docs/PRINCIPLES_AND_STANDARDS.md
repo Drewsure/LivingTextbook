@@ -7940,3 +7940,16 @@ This standard is recorded in
 
 This standard is recorded in
 `docs/decision-register/DR-1169-white-label-text-spelling-choice-identity.md`.
+
+## 508. Speaking Prompt Identity And Cue Priority Standard
+
+- Speaking prompts must use deterministic positional identity, not learner
+  labels, so punctuation and formatting variants cannot alter interaction
+  identity.
+- When a reviewed audio cue matches the same text, a cue scoped to the active
+  game mode must outrank a generic unit cue; no provider call is implied.
+- Cue selection remains separate from speech confirmation, microphone policy,
+  scoring, mastery, rewards, persistence, and AI Tutor entitlement.
+
+This standard is recorded in
+`docs/decision-register/DR-1170-speaking-prompt-identity-and-cue-priority.md`.

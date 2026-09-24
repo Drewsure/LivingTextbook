@@ -5759,3 +5759,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added runtime coverage for punctuation variants and the explicit choice-key
   contract while preserving audio, correctness, scoring, and replay behavior.
 - Recorded ADR 1169 and DR-1169.
+
+## Build session 1084: Speaking prompt identity and cue priority
+
+- Replaced label-derived Speaking prompt IDs with deterministic term and
+  sentence positions.
+- Made active `speak-it` reviewed audio cues outrank generic unit cues when
+  text matches, without changing target-language fallback behavior.
+- Added runtime coverage for label variants, cue priority, and preserved
+  teacher-controlled microphone and core self-confirmation boundaries.
+- Recorded ADR 1170 and DR-1170.

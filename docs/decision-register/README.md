@@ -738,6 +738,7 @@ Current focused decision records also include:
 - `DR-1167-pairing-round-event-semantics.md`
 - `DR-1168-white-label-selection-option-identity.md`
 - `DR-1169-white-label-text-spelling-choice-identity.md`
+- `DR-1170-speaking-prompt-identity-and-cue-priority.md`
 
 ## Maintenance Rule
 

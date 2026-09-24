@@ -40,6 +40,7 @@ try {
   };
   const audioCues = [
     { kind: "term", text: " Hello ", language: "en" },
+    { kind: "term", text: "hello", language: "en", gameMode: "speak-it", sourceUri: "reviewed-speak-it-hello.mp3" },
     { kind: "sentence", text: "hello, teacher.", language: "en" },
   ];
 
@@ -50,13 +51,24 @@ try {
   assert(first.slice(0, 8).every((prompt) => prompt.kind === "term"), "term prompts must come first");
   assert(first.slice(8).every((prompt) => prompt.kind === "sentence"), "sentence prompts must follow term prompts");
   assert(first.every((prompt) => prompt.id.length > 0 && prompt.label.trim().length > 0), "every speech prompt needs stable identity and text");
-  assert(first[0].audioCue?.text === " Hello ", "term cue matching must be trim/case insensitive");
+  assert(first[0].audioCue?.sourceUri === "reviewed-speak-it-hello.mp3", "game-specific term audio must outrank a generic cue");
   assert(first[8].audioCue?.text === "hello, teacher.", "sentence cue matching must be trim/case insensitive");
   assert(first[1].audioCue === undefined, "uncued terms must remain explicit without invented audio assets");
   assert(first[9].label === "Thank you, friend.", "sentence prompt text must remain the reviewed target sentence");
   assert(new Set(first.map((prompt) => prompt.id)).size === first.length, "speaking prompt ids must be unique");
 
-  console.log("PASS speaking engine runtime covers deterministic term/sentence prompts, stable identities, reviewed text preservation, and case/whitespace-safe audio cue matching.");
+  const collisionUnit = {
+    ...unit,
+    pedagogicalPayload: {
+      vocabularyTerms: ["ice cream", "ice-cream", "ice/cream", "hello", "goodbye", "teacher", "friend", "morning"],
+      targetSentences: ["Ice cream, ice-cream.", "Ice/cream hello-hello."],
+    },
+  };
+  const collisionPrompts = engine.buildSpeakItPrompts(collisionUnit, []);
+  assert(new Set(collisionPrompts.map((prompt) => prompt.id)).size === collisionPrompts.length, "speaking prompt ids must remain unique for label variants");
+  assert(collisionPrompts[0].id === "speak-term:1" && collisionPrompts[1].id === "speak-term:2", "speaking prompt ids must be position-based");
+
+  console.log("PASS speaking engine runtime covers deterministic position-based prompts, reviewed text preservation, game-specific cue priority, and case/whitespace-safe audio cue matching.");
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
