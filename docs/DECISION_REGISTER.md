@@ -6188,6 +6188,11 @@ Live file pickers, image processing, label/anchor editing, alt-text approval,
 student-facing image gameplay, local file access, media caching, and offline
 activation.
 
+The dry-run also reconciles the adjudicated synthetic receipt against the
+canonical pilot decision through the existing observation-to-pilot binding.
+This is a readiness preview only: it does not approve the pilot, select a
+provider, enable durable writes, or launch students.
+
 See ADR 0854 and
 `docs/decision-register/DR-926-local-bundle-visual-asset-coverage.md`.
 

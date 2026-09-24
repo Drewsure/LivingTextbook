@@ -37,12 +37,20 @@ requireFragments("dry-run route", files.route, [
   "<TeacherDryRunObservationPanel rehearsal={sampleTeacherDryRunRehearsal} />",
   "BrowserEvidenceAdjudicationPanel",
   "studentSessionId={sampleTeacherDryRunRehearsal.syntheticStudentSessionId}",
+  "BrowserObservationPilotBindingPanel",
+  "pilotDecision={samplePilotReviewDecision}",
 ]);
 requireFragments("dry-run adjudication", files.adjudication, [
   "saveBrowserRehearsalObservationAdjudication",
   "data-browser-adjudication=\"review-only\"",
   "never creates hosted persistence",
   "cannot launch students",
+]);
+requireFragments("pilot binding contract", read("apps/web/src/features/pilot/BrowserObservationPilotBindingPanel.tsx"), [
+  "createBrowserRehearsalObservationPilotBinding",
+  "Pilot launch",
+  "Awaiting adult adjudication",
+  "pilot activation remains blocked",
 ]);
 requireFragments("observation store", files.store, [
   "getBrowserRehearsalObservationStorageKey",

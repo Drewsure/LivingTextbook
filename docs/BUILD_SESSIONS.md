@@ -5883,3 +5883,6 @@ compatible with the workspace's no-emit typecheck and production bundling.
   behavior.
 - Mounted the existing local browser adjudication control against the same
   synthetic scope so teacher review decisions cannot drift from the receipt.
+- Mounted the existing observation-to-pilot binding preview against the same
+  scope, keeping pilot launch and activation blocked until the independent
+  pilot decision and evidence gates close.
