@@ -9,6 +9,7 @@ interface GameSequenceProps {
 }
 
 interface SequenceItem {
+  id: string;
   label: string;
   engineId: string;
   role: string;
@@ -42,12 +43,14 @@ function buildSequenceItems(unit: UnitPayload, offerMap?: UnitGameOfferMap): Seq
 
   return [
     ...modes.map(({ offer, mode }) => ({
+      id: offer ? `offer:${offer.offerId}` : `mode:${mode.id}`,
       label: offer?.label ?? mode.label,
       engineId: offer?.engineId ?? mode.engineId,
       role: mode.role,
       summary: mode.summary,
     })),
     {
+      id: "training-academy",
       label: "Training Academy",
       engineId: "selection",
       role: "review",
@@ -70,7 +73,7 @@ export function GameSequence({ unit, offerMap }: GameSequenceProps) {
       </div>
       <div className="mt-5 grid gap-3">
         {sequence.map((item, index) => (
-          <article key={item.label} className="grid gap-2 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 sm:grid-cols-[2rem_1fr_auto]">
+          <article key={item.id} className="grid gap-2 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4 sm:grid-cols-[2rem_1fr_auto]">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--tenant-surface)] text-sm font-bold text-[var(--tenant-text)]">{index + 1}</div>
             <div>
               <h3 className="font-semibold">{item.label}</h3>

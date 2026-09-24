@@ -5769,3 +5769,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added runtime coverage for label variants, cue priority, and preserved
   teacher-controlled microphone and core self-confirmation boundaries.
 - Recorded ADR 1170 and DR-1170.
+
+## Build session 1085: Canonical sequence identity
+
+- Replaced visible-label keys in `GameSequence` with offer or catalog mode
+  identity and an explicit Training Academy identity.
+- Replaced Training Academy sentence-text keys with deterministic positions.
+- Extended review key verification to cover both canonical sequence and
+  training sentence surfaces.
+- Recorded ADR 1171 and DR-1171.

@@ -35,6 +35,25 @@ const reviewSurfaceFiles = [
 const bareKeyPattern = /key=\{(?:item|warning|record|action|rule|error|step)\}/g;
 const failures = [];
 
+const gameSequenceSource = readFileSync(
+  new URL("../apps/web/src/features/game-shell/GameSequence.tsx", import.meta.url),
+  "utf8",
+);
+if (!gameSequenceSource.includes("key={item.id}")) {
+  failures.push("GameSequence must key sequence rows by domain identity, not the visible label.");
+}
+if (gameSequenceSource.includes("key={item.label}")) {
+  failures.push("GameSequence must not use repeated teacher-visible labels as row identity.");
+}
+
+const trainingAcademySource = readFileSync(
+  new URL("../apps/web/src/features/training/TrainingAcademyFlow.tsx", import.meta.url),
+  "utf8",
+);
+if (!trainingAcademySource.includes("key={`training-sentence-${index + 1}`}")) {
+  failures.push("Training Academy sentence controls must use deterministic positional identity.");
+}
+
 const stableLinkKeySource = readFileSync(
   new URL("../apps/web/src/app/teacher/pilot/page.tsx", import.meta.url),
   "utf8",

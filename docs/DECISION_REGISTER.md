@@ -9340,3 +9340,13 @@ active game-mode cue wins deterministically. Cue choice remains separate from
 speech confirmation, microphone approval, scoring, mastery, rewards,
 persistence, and AI Tutor entitlement. Evidence: `speakingEngineAdapter.ts`
 and `scripts/verify-speaking-engine-runtime.mjs`.
+
+## DR-1171: Canonical Sequence Identity
+
+Curated game sequence rows must use stable offer or mode identity rather than
+teacher-visible labels, and Training Academy sentence controls must use
+deterministic positional identity. This preserves duplicate labels or
+sentences as separate reviewed controls without changing curated order, audio,
+routes, progression, tenant scope, or review-only policy. Evidence:
+`GameSequence.tsx`, `TrainingAcademyFlow.tsx`, and
+`scripts/verify-review-list-key-stability.mjs`.

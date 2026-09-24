@@ -7953,3 +7953,15 @@ This standard is recorded in
 
 This standard is recorded in
 `docs/decision-register/DR-1170-speaking-prompt-identity-and-cue-priority.md`.
+
+## 509. Canonical Sequence Identity Standard
+
+- Curated game sequence rows must use offer or mode identity, never the
+  teacher-visible label, as their UI key.
+- Training Academy sentence controls must use deterministic positional
+  identity so repeated reviewed sentences remain separate controls.
+- Identity hardening must preserve curated order, tenant scope, audio text,
+  route behavior, progression, and review-only offer policy.
+
+This standard is recorded in
+`docs/decision-register/DR-1171-canonical-sequence-identity.md`.

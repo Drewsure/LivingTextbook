@@ -254,8 +254,8 @@ export function TrainingAcademyFlow({ tenant, unit, launchSession, progression, 
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4">
           <p className="text-sm font-semibold text-[var(--tenant-muted)]">Sentence patterns</p>
           <div className="mt-2 grid gap-2 text-sm leading-6">
-            {recommendation.targetSentences.map((sentence) => (
-              <AudioCueText key={sentence} text={sentence} language={targetLanguage} label={`Hear sentence: ${sentence}`} className="justify-start text-left text-sm" />
+            {recommendation.targetSentences.map((sentence, index) => (
+              <AudioCueText key={`training-sentence-${index + 1}`} text={sentence} language={targetLanguage} label={`Hear sentence: ${sentence}`} className="justify-start text-left text-sm" />
             ))}
           </div>
         </div>
