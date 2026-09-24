@@ -5835,3 +5835,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Made unit scope visible in route and asset evidence, and included it in the
   handoff-ready count.
 - Kept local routing review-only and activation-blocked.
+
+### Identity refinement: media evidence unit scope
+
+- Carried the same package `unit_ids` scope into the separate media evidence
+  binding and required `unit_id` on every audio, video, and image evidence
+  entry.
+- Made media-manifest reconciliation report `unitScopeMatches` and reject
+  assets outside the declared textbook unit scope.
+- Kept media copy, package writes, local activation, student promotion, QR
+  mutation, and all storage side effects blocked.

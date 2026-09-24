@@ -20,6 +20,7 @@ const binding = {
   bundleId: "bundle-1",
   packageId: "package-1",
   packageVersion: "2026.1-preview",
+  unitIds: ["unit-1"],
   storageSelectionPreflightId: "storage-preflight-1",
   storageSelectionGateId: "storage-gate-1",
   storageSelectionStatus: "blocked",
@@ -27,9 +28,9 @@ const binding = {
   mode: "review-only",
   status: "blocked",
   assets: [
-    { assetId: "audio", label: "Audio", kind: "audio", relativePath: "media/audio/a.mp3", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "caption.txt", posterRef: null, altTextReady: true, localEligibility: "blocked", blockers: ["rights"] },
-    { assetId: "video", label: "Video", kind: "video", relativePath: "media/video/v.mp4", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "caption.vtt", posterRef: "poster.jpg", altTextReady: true, localEligibility: "blocked", blockers: ["rights"] },
-    { assetId: "image", label: "Image", kind: "image", relativePath: "media/images/i.png", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: null, posterRef: null, altTextReady: false, localEligibility: "blocked", blockers: ["rights"] },
+    { assetId: "audio", unitId: "unit-1", label: "Audio", kind: "audio", relativePath: "media/audio/a.mp3", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "caption.txt", posterRef: null, altTextReady: true, localEligibility: "blocked", blockers: ["rights"] },
+    { assetId: "video", unitId: "unit-1", label: "Video", kind: "video", relativePath: "media/video/v.mp4", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "caption.vtt", posterRef: "poster.jpg", altTextReady: true, localEligibility: "blocked", blockers: ["rights"] },
+    { assetId: "image", unitId: "unit-1", label: "Image", kind: "image", relativePath: "media/images/i.png", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights-review", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: null, posterRef: null, altTextReady: false, localEligibility: "blocked", blockers: ["rights"] },
   ],
   assetCopyAllowed: false,
   packageWriteAllowed: false,
@@ -76,7 +77,7 @@ const manifest = {
 
 const needsEvidence = reconcileLocalBundleMediaManifest(manifest, binding);
 assert(needsEvidence.status === "needs-evidence", "matching identity with open media evidence must need evidence");
-assert(needsEvidence.identityMatches && needsEvidence.storageSelectionMatches && needsEvidence.mediaArtifactFound && needsEvidence.pathMatches && needsEvidence.versionMatches, "matching manifest identity, storage identity, artifact, path, and version must be reported");
+assert(needsEvidence.identityMatches && needsEvidence.storageSelectionMatches && needsEvidence.unitScopeMatches && needsEvidence.mediaArtifactFound && needsEvidence.pathMatches && needsEvidence.versionMatches, "matching manifest identity, storage identity, unit scope, artifact, path, and version must be reported");
 assert(needsEvidence.localActivationAllowed === false && needsEvidence.studentFacingAllowed === false && needsEvidence.sideEffect === "none", "reconciliation must remain non-executing");
 
 const completeBinding = {
@@ -96,6 +97,7 @@ assert(reconcileLocalBundleMediaManifest(manifest, { ...binding, tenantId: "othe
 assert(reconcileLocalBundleMediaManifest(manifest, { ...binding, assets: binding.assets.map((asset) => asset.assetId === "image" ? { ...asset, relativePath: "outside/image.png" } : asset) }).status === "mismatch", "asset path drift must be a mismatch");
 assert(reconcileLocalBundleMediaManifest({ ...manifest, artifacts: manifest.artifacts.filter((artifact) => artifact.kind !== "media") }, binding).status === "mismatch", "missing media artifact must be a mismatch");
 assert(reconcileLocalBundleMediaManifest({ ...manifest, storageSelectionGateId: "other-storage-gate" }, binding).status === "mismatch", "storage selection drift must be a mismatch");
+assert(reconcileLocalBundleMediaManifest(manifest, { ...binding, assets: binding.assets.map((asset) => asset.assetId === "image" ? { ...asset, unitId: "unit-2" } : asset) }).status === "mismatch", "media unit scope drift must be a mismatch");
 
 console.log("PASS local media manifest reconciliation separates identity drift from open evidence without enabling execution.");
 

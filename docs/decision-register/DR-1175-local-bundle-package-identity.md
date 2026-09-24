@@ -3,10 +3,13 @@
 - **Decision:** Require tenant, bundle, curriculum, series, book, and unit
   identity before the read-only local resolver can resolve routes or assets;
   every QR route and local media asset must name a declared package unit.
+- The separate media evidence binding must also carry `unit_ids`, and every
+  evidence asset must carry a matching `unit_id`.
 - **Reason:** A white-label package must remain bound to its own textbook scope;
   generic preview identifiers are not sufficient evidence.
 - **Scope:** Local companion manifests, sample tenant package plans, and the
   read-only route/asset resolver.
 - **Non-goals:** This does not enable file access, bundle writes, service
   workers, offline activation, learner-data persistence, or package promotion.
-- **Verification:** `npm run verify:local-bundle` plus the full foundation gate.
+- **Verification:** `npm run verify:local-bundle` plus the full foundation gate;
+  reconciliation exposes `unitScopeMatches` and rejects scope drift.

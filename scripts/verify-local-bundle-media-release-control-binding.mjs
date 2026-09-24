@@ -21,6 +21,7 @@ const reconciliation = {
   storageSelectionPreflightId: "storage-preflight-1",
   storageSelectionGateId: "storage-gate-1",
   storageSelectionMatches: true,
+  unitScopeMatches: true,
   status: "needs-evidence",
   identityMatches: true,
   mediaArtifactFound: true,
@@ -48,6 +49,7 @@ assert(binding.decision === "needs-review", "open reconciliation and media gate 
 assert(validateLocalBundleMediaReleaseControlBinding(binding).length === 0, "derived release-control binding must validate");
 assert(binding.promotionAllowed === false && binding.studentFacingAllowed === false && binding.localActivationAllowed === false && binding.sideEffect === "none", "release-control binding must remain non-executing");
 assert(binding.storageSelectionPreflightId === "storage-preflight-1" && binding.storageSelectionGateId === "storage-gate-1", "release-control binding must carry storage identity");
+assert(binding.unitScopeMatches === true, "release-control binding must carry unit scope identity");
 assert(deriveLocalBundleMediaReleaseControlBinding(reconciliation, {
   releaseGateId: "gate-1",
   releaseGateTenantId: "other-tenant",
@@ -63,6 +65,13 @@ assert(deriveLocalBundleMediaReleaseControlBinding({ ...reconciliation, storageS
   releaseGateMediaStatus: "ready",
   requiredApprovals: ["Media rights approval"],
 }).decision === "blocked", "storage identity drift must block release control");
+assert(deriveLocalBundleMediaReleaseControlBinding({ ...reconciliation, unitScopeMatches: false }, {
+  releaseGateId: "gate-1",
+  releaseGateTenantId: "tenant-1",
+  releaseGatePackageId: "package-1",
+  releaseGateMediaStatus: "ready",
+  requiredApprovals: ["Media rights approval"],
+}).decision === "blocked", "unit scope drift must block release control");
 
 console.log("PASS local media release-control binding derives a blocked review decision without enabling promotion.");
 

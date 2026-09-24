@@ -12,6 +12,7 @@ export interface LocalBundleMediaReleaseControlBinding {
   storageSelectionPreflightId: string;
   storageSelectionGateId: string;
   storageSelectionMatches: boolean;
+  unitScopeMatches: boolean;
   decision: LocalBundleMediaReleaseControlDecision;
   reconciliationStatus: LocalBundleMediaManifestReconciliation["status"];
   releaseGateMediaStatus: "ready" | "needs-review" | "blocked" | "missing";
@@ -50,10 +51,11 @@ export function deriveLocalBundleMediaReleaseControlBinding(
     ...(reconciliation.tenantId !== options.releaseGateTenantId ? ["Media evidence tenant does not match the release gate tenant."] : []),
     ...(reconciliation.packageId !== options.releaseGatePackageId ? ["Media evidence package does not match the release gate package."] : []),
     ...(!reconciliation.storageSelectionMatches ? ["Media evidence storage identity does not match the reviewed storage decision."] : []),
+    ...(!reconciliation.unitScopeMatches ? ["Media evidence unit scope does not match the declared package scope."] : []),
     ...(options.releaseGateMediaStatus !== "ready" ? [`Release gate media status is ${options.releaseGateMediaStatus}.`] : []),
   ];
   const identityMatches = reconciliation.tenantId === options.releaseGateTenantId && reconciliation.packageId === options.releaseGatePackageId;
-  const hasMismatch = reconciliation.status === "mismatch" || !identityMatches || !reconciliation.storageSelectionMatches;
+  const hasMismatch = reconciliation.status === "mismatch" || !identityMatches || !reconciliation.storageSelectionMatches || !reconciliation.unitScopeMatches;
   const hasOpenReview = reconciliation.status === "needs-evidence" || options.releaseGateMediaStatus !== "ready";
   const decision = hasMismatch ? "blocked" : hasOpenReview ? "needs-review" : "evidence-ready";
 
@@ -67,6 +69,7 @@ export function deriveLocalBundleMediaReleaseControlBinding(
     storageSelectionPreflightId: reconciliation.storageSelectionPreflightId,
     storageSelectionGateId: reconciliation.storageSelectionGateId,
     storageSelectionMatches: reconciliation.storageSelectionMatches,
+    unitScopeMatches: reconciliation.unitScopeMatches,
     decision,
     reconciliationStatus: reconciliation.status,
     releaseGateMediaStatus: options.releaseGateMediaStatus,
@@ -88,7 +91,8 @@ export function validateLocalBundleMediaReleaseControlBinding(value: unknown): s
     if (!readString(value, field)) errors.push(`Local bundle media release-control binding requires ${field}.`);
   }
   if (typeof value.storageSelectionMatches !== "boolean") errors.push("Media release-control binding requires storage selection match state.");
-  if (value.decision !== "blocked" && value.storageSelectionMatches !== true) errors.push("Media release-control binding must block a non-blocked decision when storage identity is not aligned.");
+  if (typeof value.unitScopeMatches !== "boolean") errors.push("Media release-control binding requires unit scope match state.");
+  if (value.decision !== "blocked" && (value.storageSelectionMatches !== true || value.unitScopeMatches !== true)) errors.push("Media release-control binding must block a non-blocked decision when storage or unit scope identity is not aligned.");
   if (!(["blocked", "needs-review", "evidence-ready"] as string[]).includes(readString(value, "decision"))) errors.push("Media release-control binding requires a supported decision.");
   if (!(["aligned", "needs-evidence", "mismatch"] as string[]).includes(readString(value, "reconciliationStatus"))) errors.push("Media release-control binding requires reconciliation status.");
   if (!(["ready", "needs-review", "blocked", "missing"] as string[]).includes(readString(value, "releaseGateMediaStatus"))) errors.push("Media release-control binding requires release gate media status.");

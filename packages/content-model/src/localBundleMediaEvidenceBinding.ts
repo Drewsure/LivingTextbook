@@ -5,6 +5,7 @@ export type LocalBundleMediaScanStatus = "pending" | "passed" | "failed";
 
 export interface LocalBundleMediaEvidenceEntry {
   assetId: string;
+  unitId: string;
   label: string;
   kind: LocalBundleMediaEvidenceKind;
   relativePath: string;
@@ -28,6 +29,7 @@ export interface LocalBundleMediaEvidenceBinding {
   bundleId: string;
   packageId: string;
   packageVersion: string;
+  unitIds: string[];
   storageSelectionPreflightId: string;
   storageSelectionGateId: string;
   storageSelectionStatus: "blocked";
@@ -59,6 +61,10 @@ export function validateLocalBundleMediaEvidenceBinding(value: unknown): string[
   for (const field of ["bindingId", "manifestId", "tenantId", "bundleId", "packageId", "packageVersion", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (!readString(value, field)) errors.push(`Local bundle media evidence binding requires ${field}.`);
   }
+  const unitIds = readStringArray(value, "unitIds");
+  if (unitIds.length === 0) errors.push("Local bundle media evidence binding requires unit scope (unitIds).");
+  if (unitIds.some((unitId) => !isSafeIdentifier(unitId))) errors.push("Local bundle media evidence binding unit scope must use safe identifiers.");
+  if (new Set(unitIds).size !== unitIds.length) errors.push("Local bundle media evidence binding unit scope must be unique.");
   if (readString(value, "storageSelectionStatus") !== "blocked") errors.push("Local bundle media evidence binding storage selection must remain blocked.");
   if (value.storageSelectionAllowed !== false) errors.push("Local bundle media evidence binding must keep storageSelectionAllowed: false.");
   if (readString(value, "mode") !== "review-only") errors.push("Local bundle media evidence binding must remain review-only.");
@@ -78,10 +84,13 @@ export function validateLocalBundleMediaEvidenceBinding(value: unknown): string[
       continue;
     }
     const assetId = readString(asset, "assetId");
+    const unitId = readString(asset, "unitId");
     const relativePath = readString(asset, "relativePath");
     const kind = readString(asset, "kind");
     if (!assetId || ids.has(assetId)) errors.push(`Local bundle media asset id must be unique: ${assetId || "(missing)"}.`);
     ids.add(assetId);
+    if (!unitId) errors.push(`Local bundle media asset ${assetId || "(missing)"} requires unit scope (unitId).`);
+    else if (!unitIds.includes(unitId)) errors.push(`Local bundle media asset ${assetId || "(missing)"} is outside media evidence package unit scope.`);
     if (!relativePath || !isSafeRelativePath(relativePath) || paths.has(relativePath)) errors.push(`Local bundle media asset ${assetId || "(missing)"} must use a unique safe relative path.`);
     paths.add(relativePath);
     if (!["audio", "video", "image"].includes(kind)) errors.push(`Local bundle media asset ${assetId || "(missing)"} has an unsupported kind.`);
@@ -118,4 +127,7 @@ function readStringArray(source: Record<string, any>, key: string): string[] {
 }
 function isSafeRelativePath(value: string): boolean {
   return Boolean(value) && !value.startsWith("/") && !value.startsWith("file:") && !value.includes("\\") && !value.split("/").some((part) => part === ".." || part === "." || part === "");
+}
+function isSafeIdentifier(value: string): boolean {
+  return /^[A-Za-z0-9][A-Za-z0-9._:-]*$/.test(value);
 }

@@ -26,6 +26,7 @@ const exportRetentionDryRunContract = readSource("../packages/content-model/src/
 const manifestRollbackDryRunContract = readSource("../packages/content-model/src/localBundlePackageManifestRollbackDryRun.ts");
 const mediaEvidenceBindingContract = readSource("../packages/content-model/src/localBundleMediaEvidenceBinding.ts");
 const mediaManifestReconciliationContract = readSource("../packages/content-model/src/localBundleMediaManifestReconciliation.ts");
+const mediaReleaseControlContract = readSource("../packages/content-model/src/localBundleMediaReleaseControlBinding.ts");
 const activeRoutes = readSource("../docs/ACTIVE_ROUTE_VERIFICATION_LIST.md");
 
 const failures = [];
@@ -351,9 +352,14 @@ requireText(mediaEvidenceBindingContract, "storageSelectionPreflightId", "Local 
 requireText(mediaEvidenceBindingContract, "storageSelectionGateId", "Local package media must carry storage selection gate identity.");
 requireText(mediaEvidenceBindingContract, 'storageSelectionStatus") !== "blocked"', "Local package media storage selection must remain blocked.");
 requireText(mediaEvidenceBindingContract, "storageSelectionAllowed !== false", "Local package media storage selection must remain disallowed.");
+requireText(mediaEvidenceBindingContract, "unitIds", "Local package media evidence must declare unit scope.");
+requireText(mediaEvidenceBindingContract, "unitId", "Local package media assets must carry unit identity.");
+requireText(mediaEvidenceBindingContract, "outside media evidence package unit scope", "Local package media evidence must reject assets outside unit scope.");
 requireText(mediaManifestReconciliationContract, "reconcileLocalBundleMediaManifest", "Local package media must reconcile evidence against the versioned manifest.");
 requireText(mediaManifestReconciliationContract, 'localActivationAllowed: false', "Local media reconciliation must keep activation blocked.");
 requireText(mediaManifestReconciliationContract, "storageSelectionMatches", "Local media reconciliation must bind storage identity.");
+requireText(mediaManifestReconciliationContract, "unitScopeMatches", "Local media reconciliation must compare unit scope.");
+requireText(mediaReleaseControlContract, "unitScopeMatches", "Local media release control must carry unit scope identity.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");

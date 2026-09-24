@@ -17,6 +17,7 @@ export interface LocalBundleMediaManifestReconciliation {
   storageSelectionPreflightId: string;
   storageSelectionGateId: string;
   storageSelectionMatches: boolean;
+  unitScopeMatches: boolean;
   status: LocalBundleMediaManifestReconciliationStatus;
   identityMatches: boolean;
   mediaArtifactFound: boolean;
@@ -52,6 +53,8 @@ export function reconcileLocalBundleMediaManifest(
   );
   const storageSelectionMatches = manifest.storageSelectionPreflightId === binding.storageSelectionPreflightId
     && manifest.storageSelectionGateId === binding.storageSelectionGateId;
+  const declaredUnitIds = new Set(Array.isArray(binding.unitIds) ? binding.unitIds : []);
+  const unitScopeMatches = declaredUnitIds.size > 0 && binding.assets.every((asset) => declaredUnitIds.has(asset.unitId));
   const versionMatches = manifest.currentVersion === binding.packageVersion && mediaArtifact?.version === binding.packageVersion;
   const mediaArtifactPath = mediaArtifact?.relativePath ?? null;
   const mediaRoot = mediaArtifactPath ? mediaArtifactPath.slice(0, mediaArtifactPath.lastIndexOf("/")) : "";
@@ -69,6 +72,7 @@ export function reconcileLocalBundleMediaManifest(
   const mismatchChecks = [
     ...(identityMatches ? [] : ["tenant, bundle, package, or manifest identity"]),
     ...(storageSelectionMatches ? [] : ["storage selection identity"]),
+    ...(unitScopeMatches ? [] : ["media evidence package unit scope"]),
     ...(mediaArtifact ? [] : ["media manifest artifact"]),
     ...(versionMatches ? [] : ["package or media artifact version"]),
     ...(pathMatches ? [] : ["media asset path root"]),
@@ -97,6 +101,7 @@ export function reconcileLocalBundleMediaManifest(
     storageSelectionPreflightId: binding.storageSelectionPreflightId,
     storageSelectionGateId: binding.storageSelectionGateId,
     storageSelectionMatches,
+    unitScopeMatches,
     status,
     identityMatches,
     mediaArtifactFound: Boolean(mediaArtifact),

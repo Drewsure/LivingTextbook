@@ -25,15 +25,17 @@ export function LocalBundleMediaManifestReconciliationPanel({
           <StatusPill label={reconciliation.status} tone={statusTone[reconciliation.status]} />
           <StatusPill label={reconciliation.identityMatches ? "Identity aligned" : "Identity mismatch"} tone={reconciliation.identityMatches ? "success" : "warning"} />
           <StatusPill label={reconciliation.storageSelectionMatches ? "Storage aligned" : "Storage mismatch"} tone={reconciliation.storageSelectionMatches ? "success" : "warning"} />
+          <StatusPill label={reconciliation.unitScopeMatches ? "Unit scope aligned" : "Unit scope mismatch"} tone={reconciliation.unitScopeMatches ? "success" : "warning"} />
           <StatusPill label={reconciliation.pathMatches ? "Paths aligned" : "Path mismatch"} tone={reconciliation.pathMatches ? "success" : "warning"} />
           <StatusPill label="No side effect" tone="success" />
         </div>
       </div>
 
-      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <Fact label="Tenant" value={reconciliation.tenantId} />
         <Fact label="Bundle" value={reconciliation.bundleId} />
         <Fact label="Package version" value={reconciliation.packageVersion} />
+        <Fact label="Unit scope" value={reconciliation.unitScopeMatches ? "Aligned" : "Mismatch"} />
         <Fact label="Open checks" value={`${reconciliation.openEvidenceChecks.length + reconciliation.mismatchChecks.length}`} />
       </dl>
 

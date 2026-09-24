@@ -26,11 +26,12 @@ export function LocalBundleMediaEvidenceBindingPanel({ binding, errors }: LocalB
         </div>
       </div>
 
-      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <Fact label="Tenant" value={binding.tenantId} />
         <Fact label="Package" value={binding.packageId} />
         <Fact label="Version" value={binding.packageVersion} />
         <Fact label="Assets" value={`${binding.assets.length}`} />
+        <Fact label="Unit scope" value={binding.unitIds.join(", ")} />
         <Fact label="Manifest" value={binding.manifestId} />
       </dl>
       <p className="mt-4 text-xs font-semibold text-[var(--tenant-muted)]">
@@ -49,6 +50,7 @@ export function LocalBundleMediaEvidenceBindingPanel({ binding, errors }: LocalB
             </div>
             <p className="mt-3 break-words text-xs leading-5 text-[var(--tenant-muted)]">{asset.relativePath}</p>
             <dl className="mt-3 grid gap-2 text-xs text-[var(--tenant-muted)]">
+              <div className="flex justify-between gap-3"><dt>Unit</dt><dd className="font-semibold">{asset.unitId}</dd></div>
               <div className="flex justify-between gap-3"><dt>Rights</dt><dd className="font-semibold">{asset.rightsStatus}</dd></div>
               <div className="flex justify-between gap-3"><dt>Checksum</dt><dd className="font-semibold">{asset.checksum === "missing" ? "Missing" : "SHA-256"}</dd></div>
               <div className="flex justify-between gap-3"><dt>Scan</dt><dd className="font-semibold">{asset.scanStatus}</dd></div>

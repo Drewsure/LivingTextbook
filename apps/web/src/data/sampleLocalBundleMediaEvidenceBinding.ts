@@ -11,6 +11,7 @@ export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBind
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
   packageVersion: "2026.1-preview",
+  unitIds: ["unit-1"],
   storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
   storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
   storageSelectionStatus: sampleStorageSelectionIdentity.storageSelectionStatus,
@@ -20,6 +21,7 @@ export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBind
   assets: [
     {
       assetId: "sample-publisher-u1-morning-song",
+      unitId: "unit-1",
       label: "Morning song",
       kind: "audio",
       relativePath: "media/audio/morning-song.mp3",
@@ -37,6 +39,7 @@ export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBind
     },
     {
       assetId: "sample-publisher-u1-routine-video",
+      unitId: "unit-1",
       label: "Routine video",
       kind: "video",
       relativePath: "media/video/routine-video.mp4",
@@ -54,6 +57,7 @@ export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBind
     },
     {
       assetId: "sample-publisher-u1-routine-label-board",
+      unitId: "unit-1",
       label: "Routine label board",
       kind: "image",
       relativePath: "media/images/routine-label-board.png",

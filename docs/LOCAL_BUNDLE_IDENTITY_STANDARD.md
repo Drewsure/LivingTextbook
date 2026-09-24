@@ -48,6 +48,12 @@ Audio, video, and image assets follow the same rule. A media item cannot be
 resolved or admitted as package evidence when its unit is outside the declared
 package scope.
 
+The separate media evidence binding carries the same `unit_ids` package scope
+and a `unit_id` on every asset. Media-manifest reconciliation must report
+`unitScopeMatches` and treat missing or drifted unit scope as a mismatch. This
+keeps rights, checksum, scan, caption, poster, and alt-text evidence attached
+to the same textbook unit as the media it describes.
+
 The teacher review surface must display the asset or route unit and show unit
 scope as an evidence check. A package is not presented as handoff-ready when
 that check fails.
