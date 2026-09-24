@@ -15,12 +15,14 @@ white-label package and the content it was intended to deliver.
 
 Bind every sample local bundle to explicit tenant-owned curriculum, series,
 book, and unit identifiers. Require complete package identity in the shared
-read-only resolver before any route or asset can resolve.
+read-only resolver before any route or asset can resolve. Require every QR
+route to carry a `unit_id` included in the package unit scope.
 
 ## Consequences
 
 Local package rehearsal is now meaningfully package-bound and can reject an
 incomplete identity instead of silently resolving generic preview data. The
+resolver also rejects a route that points outside the declared unit scope. The
 change preserves the review-only boundary: no file access, bundle write,
 offline activation, learner-data persistence, or release approval is enabled.
 

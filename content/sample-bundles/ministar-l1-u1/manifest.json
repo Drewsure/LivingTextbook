@@ -39,6 +39,7 @@
   "routes": [
     {
       "qr_id": "qr-ministar-l1-u1-front-door",
+      "unit_id": "unit-1",
       "target_type": "front-door",
       "target_id": "enter:ministar:greetings-demo",
       "local_fallback_path": "/enter/ministar"

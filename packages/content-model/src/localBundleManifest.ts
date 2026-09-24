@@ -17,6 +17,7 @@ export interface LocalBundleManifestAsset {
 
 export interface LocalBundleManifestRoute {
   qr_id: string;
+  unit_id: string;
   target_type: string;
   target_id: string;
   local_fallback_path: string;
@@ -84,6 +85,20 @@ export function validateLocalBundlePackageIdentity(value: LocalBundleManifest): 
         errors.push(`Local bundle package identity unit ${normalizedUnitId} must be unique.`);
       }
       seenUnitIds.add(normalizedUnitId);
+    });
+  }
+
+  const declaredUnitIds = new Set((value.unit_ids ?? []).filter((unitId): unitId is string => typeof unitId === "string").map((unitId) => unitId.trim()));
+  if (Array.isArray(value.routes)) {
+    value.routes.forEach((route, index) => {
+      if (!isRecord(route)) return;
+      const routeId = readString(route.qr_id) || String(index + 1);
+      const routeUnitId = readString(route.unit_id);
+      if (!routeUnitId) {
+        errors.push(`Local bundle route ${routeId} requires unit_id for package scope.`);
+      } else if (!declaredUnitIds.has(routeUnitId)) {
+        errors.push(`Local bundle route ${routeId} unit ${routeUnitId} is outside the package unit scope.`);
+      }
     });
   }
 
@@ -183,6 +198,7 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
     if (!qrId) errors.push(`Local bundle route ${index + 1} requires qr_id.`);
     else if (qrIds.has(qrId)) errors.push(`Local bundle route id ${qrId} must be unique.`);
     else qrIds.add(qrId);
+    if (!readString(route.unit_id)) errors.push(`Local bundle route ${qrId || index + 1} requires unit_id.`);
     if (!readString(route.target_type)) errors.push(`Local bundle route ${qrId || index + 1} requires target_type.`);
     if (!readString(route.target_id)) errors.push(`Local bundle route ${qrId || index + 1} requires target_id.`);
     if (!isSafeRelativePath(readString(route.local_fallback_path), false, true)) {

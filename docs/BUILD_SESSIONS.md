@@ -5824,3 +5824,10 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved review-only behavior: no file access, bundle write, offline
   activation, learner-data persistence, or release approval.
 - Recorded ADR 1175 and DR-1175.
+
+### Identity refinement: QR route unit scope
+
+- Added explicit `unit_id` to local QR route records and required it to match
+  the package `unit_ids` set.
+- Added negative runtime coverage for a route outside package unit scope.
+- Kept local routing review-only and activation-blocked.

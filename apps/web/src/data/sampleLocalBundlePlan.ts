@@ -21,6 +21,7 @@ export interface LocalBundleAssetSummary {
 
 export interface LocalBundleRouteSummary {
   qrId: string;
+  unitId: string;
   targetType: "front-door" | "unit-launch" | "activity-hub" | "media-playlist" | "game-mode";
   targetId: string;
   localFallbackPath: string;
@@ -137,24 +138,28 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
     routes: [
       {
         qrId: "qr-ministar-l1-u1-front-door",
+        unitId: "unit-1",
         targetType: "front-door",
         targetId: "enter:ministar:greetings-demo",
         localFallbackPath: "/enter/ministar",
       },
       {
         qrId: "qr-ministar-l1-u1-launch",
+        unitId: "unit-1",
         targetType: "unit-launch",
         targetId: "launch:demo-unit-1",
         localFallbackPath: "/launch/demo-unit-1",
       },
       {
         qrId: "qr-ministar-l1-u1-activity-hub",
+        unitId: "unit-1",
         targetType: "activity-hub",
         targetId: "activities:demo-unit-1",
         localFallbackPath: "/activities/demo-unit-1",
       },
       {
         qrId: "qr-ministar-l1-u1-media-playlist",
+        unitId: "unit-1",
         targetType: "media-playlist",
         targetId: "playlist-ministar-l1-u1-greetings",
         localFallbackPath: "/media/playlist-ministar-l1-u1-greetings",
@@ -404,24 +409,28 @@ export const sampleLocalBundleManifests: LocalBundleManifestSummary[] = [
     routes: [
       {
         qrId: "qr-sample-publisher-u1-front-door",
+        unitId: "unit-1",
         targetType: "front-door",
         targetId: "enter:sample-publisher:routines-demo",
         localFallbackPath: "/enter/sample-publisher",
       },
       {
         qrId: "qr-sample-publisher-u1-launch",
+        unitId: "unit-1",
         targetType: "unit-launch",
         targetId: "launch:partner-demo-unit-1",
         localFallbackPath: "/launch/partner-demo-unit-1",
       },
       {
         qrId: "qr-sample-publisher-u1-activity-hub",
+        unitId: "unit-1",
         targetType: "activity-hub",
         targetId: "activities:partner-demo-unit-1",
         localFallbackPath: "/activities/partner-demo-unit-1",
       },
       {
         qrId: "qr-sample-publisher-u1-media-playlist",
+        unitId: "unit-1",
         targetType: "media-playlist",
         targetId: "playlist-sample-publisher-l1-u1-routines",
         localFallbackPath: "/media/playlist-sample-publisher-l1-u1-routines",

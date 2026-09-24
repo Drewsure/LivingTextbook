@@ -1,7 +1,8 @@
 # DR-1175: Local Bundle Package Identity
 
 - **Decision:** Require tenant, bundle, curriculum, series, book, and unit
-  identity before the read-only local resolver can resolve routes or assets.
+  identity before the read-only local resolver can resolve routes or assets;
+  every QR route must name a declared package unit.
 - **Reason:** A white-label package must remain bound to its own textbook scope;
   generic preview identifiers are not sufficient evidence.
 - **Scope:** Local companion manifests, sample tenant package plans, and the

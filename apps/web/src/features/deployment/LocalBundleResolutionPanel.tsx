@@ -157,6 +157,7 @@ function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenan
     })),
     routes: summary.routes.map((route) => ({
       qr_id: route.qrId,
+      unit_id: route.unitId,
       target_type: route.targetType,
       target_id: route.targetId,
       local_fallback_path: route.localFallbackPath,

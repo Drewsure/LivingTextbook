@@ -11,6 +11,7 @@ const pwaOfflinePanel = readSource("../apps/web/src/features/deployment/PwaOffli
 const localPreviewPanel = readSource("../apps/web/src/features/deployment/LocalCompanionPackagePreviewPanel.tsx");
 const resolutionPanel = readSource("../apps/web/src/features/deployment/LocalBundleResolutionPanel.tsx");
 const resolutionContract = readSource("../packages/content-model/src/localBundleRuntime.ts");
+const manifestContract = readSource("../packages/content-model/src/localBundleManifest.ts");
 const assetEvidencePanel = readSource("../apps/web/src/features/deployment/LocalBundleAssetEvidencePanel.tsx");
 const assetEvidenceContract = readSource("../packages/content-model/src/localBundleAssetEvidence.ts");
 const handoffContract = readSource("../packages/content-model/src/localBundleHandoff.ts");
@@ -265,6 +266,10 @@ for (const marker of requiredResolutionMarkers) {
 
 for (const marker of ["LocalBundleDeliveryStatus", "validateLocalBundlePackageIdentity", "identityErrors", "deliveryStatus", "offline-ready", "planning"]) {
   requireText(resolutionContract, marker, `Local bundle resolver contract missing delivery marker: ${marker}`);
+}
+
+for (const marker of ["unit_id", "outside the package unit scope"]) {
+  requireText(manifestContract, marker, `Local bundle manifest contract missing package scope marker: ${marker}`);
 }
 
 for (const kind of requiredLocalAssetKinds) {

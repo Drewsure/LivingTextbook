@@ -40,6 +40,13 @@ try {
   assert(!missingPackageIdentity.valid && !missingPackageIdentity.resolver, "resolver must reject a bundle without complete curriculum and unit identity");
   assert(missingPackageIdentity.errors.some((error) => error.includes("package identity")), "package identity rejection must identify the governed identity boundary");
 
+  const wrongUnitRoute = createReadOnlyLocalBundleResolver({
+    ...sample,
+    routes: sample.routes.map((route) => ({ ...route, unit_id: "unit-2" })),
+  });
+  assert(!wrongUnitRoute.valid && !wrongUnitRoute.resolver, "resolver must reject a QR route outside the declared package unit scope");
+  assert(wrongUnitRoute.errors.some((error) => error.includes("outside the package unit scope")), "unit scope rejection must identify the package boundary");
+
   const offlineReady = createReadOnlyLocalBundleResolver({
     ...sample,
     offline_ready: true,
