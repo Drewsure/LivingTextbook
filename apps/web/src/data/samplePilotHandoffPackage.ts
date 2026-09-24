@@ -9,6 +9,7 @@ import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalB
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
 import { samplePersistenceProviderSelectionPreflight } from "@/data/samplePersistenceProviderSelectionPreflight";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
+import { sampleStorageSelectionIdentity } from "@/data/sampleStorageSelectionIdentity";
 import {
   samplePilotDeploymentDecisionId,
   sampleSchoolPolicyAcceptancePreflightId,
@@ -95,8 +96,8 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
     blockedReasons: samplePersistenceActivationPreflight.blockedReasons,
     canActivate: false,
   },
-  storageSelectionPreflightId: samplePersistenceProviderSelectionPreflight.preflightId,
-  storageSelectionGateId: samplePersistenceProviderSelectionPreflight.evidenceStorageGateId,
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
   storageSelectionStatus: "blocked",
   storageSelectionAllowed: false,
   routes: [

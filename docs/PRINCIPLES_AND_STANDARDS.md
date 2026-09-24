@@ -7597,3 +7597,18 @@ This standard is recorded in
 `docs/decision-register/DR-1146-pilot-review-snapshot-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1146-pilot-review-snapshot-storage-identity.md`.
+
+## 485. Provider Implementation Readiness Storage Identity Standard
+
+- Provider-implementation readiness must carry the exact storage-selection
+  preflight and evidence-storage gate identity preserved by pilot decisions and
+  persistence snapshots.
+- The handoff must remain provider-neutral, storage-blocked, and disallowed;
+  enabled or unblocked variants fail validation before a provider work order.
+- Implementation planning is not provider selection, migration, persistence,
+  export, release mutation, assignment, or classroom launch.
+
+This standard is recorded in
+`docs/decision-register/DR-1147-provider-implementation-readiness-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1147-provider-implementation-readiness-storage-identity.md`.

@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const model = readSource("../packages/content-model/src/pilotReviewDecisionImplementationReadiness.ts");
@@ -15,6 +16,10 @@ for (const marker of [
   "retentionPolicyValid",
   "providerSelectionAllowed",
   "implementationAllowed",
+  "storageSelectionPreflightId",
+  "storageSelectionGateId",
+  "storageSelectionStatus",
+  "storageSelectionAllowed",
   "No provider selection",
   "No provider implementation",
   "No snapshot write",
@@ -28,6 +33,9 @@ requireText(index, 'export * from "./pilotReviewDecisionImplementationReadiness"
 requireText(fixture, 'status: "blocked"', "Sample implementation readiness must remain blocked.");
 requireText(fixture, "providerSelectionAllowed: false", "Sample implementation readiness must block provider selection.");
 requireText(fixture, "implementationAllowed: false", "Sample implementation readiness must block implementation.");
+requireText(fixture, "...sampleStorageSelectionIdentity", "Sample implementation readiness must preserve shared storage selection identity.");
+requireText(panel, "Storage preflight", "Implementation readiness panel must show storage preflight identity.");
+requireText(panel, "Storage gate", "Implementation readiness panel must show storage gate identity.");
 requireText(panel, "Persistence evidence is complete enough to plan, not to activate", "Persistence workbench must show implementation readiness.");
 requireText(page, "PilotReviewDecisionImplementationReadinessPanel", "Persistence workbench must mount implementation readiness.");
 
@@ -35,6 +43,11 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
 }
+
+const behavior = spawnSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-review-decision-implementation-readiness-behavior.mjs", import.meta.url))], { encoding: "utf8" });
+process.stdout.write(behavior.stdout);
+process.stderr.write(behavior.stderr);
+if (behavior.status !== 0) process.exit(behavior.status ?? 1);
 
 console.log("PASS provider-neutral implementation readiness reconciles persistence evidence while selection and implementation remain blocked.");
 

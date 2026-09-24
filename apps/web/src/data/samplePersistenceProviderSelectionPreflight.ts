@@ -5,6 +5,7 @@ import {
 import { sampleBackendDecisionMatrix } from "@/data/sampleBackendDecisionMatrix";
 import { samplePilotBackendSelectionGate } from "@/data/samplePilotBackendSelectionGate";
 import { samplePilotReviewDecisionImplementationReadiness } from "@/data/samplePilotReviewDecisionImplementationReadiness";
+import { sampleStorageSelectionIdentity } from "@/data/sampleStorageSelectionIdentity";
 
 const openSelectionCriteria = samplePilotBackendSelectionGate.criteria.filter((criterion) => criterion.status !== "passed");
 const selectionCriteria = samplePilotBackendSelectionGate.criteria.map((criterion) => ({
@@ -14,14 +15,14 @@ const selectionCriteria = samplePilotBackendSelectionGate.criteria.map((criterio
 }));
 
 export const samplePersistenceProviderSelectionPreflight: PersistenceProviderSelectionPreflight = {
-  preflightId: "sample-publisher-persistence-provider-selection-preflight",
+  preflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
   tenantId: "sample-publisher",
   packageId: "sample-publisher-l1-u1-routines-package",
   label: "Sample publisher persistence provider selection preflight",
   status: "blocked",
   providerNeutral: true,
   backendMatrixId: "first-pilot-backend-matrix",
-  evidenceStorageGateId: "sample-publisher-evidence-storage-adapter-selection-gate",
+  evidenceStorageGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
   implementationReadinessId: "sample-publisher-pilot-review-decision-implementation-readiness",
   canonicalScopeValid: true,
   candidates: [

@@ -2,6 +2,7 @@ import {
   validatePilotReviewDecisionImplementationReadiness,
   type PilotReviewDecisionImplementationReadiness,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "@/data/sampleStorageSelectionIdentity";
 
 export const samplePilotReviewDecisionImplementationReadiness: PilotReviewDecisionImplementationReadiness = {
   readinessId: "sample-publisher-pilot-review-decision-implementation-readiness",
@@ -9,6 +10,7 @@ export const samplePilotReviewDecisionImplementationReadiness: PilotReviewDecisi
   packageId: "sample-publisher-l1-u1-routines-package",
   policyId: "sample-publisher-pilot-review-decision-retention-policy",
   label: "Sample publisher review decision implementation readiness",
+  ...sampleStorageSelectionIdentity,
   status: "blocked",
   providerNeutral: true,
   snapshotContractValid: true,

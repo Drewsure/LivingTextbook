@@ -129,6 +129,15 @@ matching the embedded pilot decision. Storage selection, writes, restore,
 export, activation, learner data, and release mutation remain blocked. See
 `docs/decision-register/DR-1146-pilot-review-snapshot-storage-identity.md`.
 
+## DR-1147: Provider Implementation Readiness Storage Identity
+
+Require provider-implementation readiness to preserve the exact storage
+selection preflight and evidence-storage gate identity while keeping storage
+selection blocked and disallowed. Provider planning remains review-only and
+does not authorize migration, writes, activation, export, release mutation,
+assignment, or classroom launch. See
+`docs/decision-register/DR-1147-provider-implementation-readiness-storage-identity.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

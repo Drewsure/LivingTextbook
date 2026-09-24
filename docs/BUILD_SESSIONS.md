@@ -5560,3 +5560,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added exact matching validation against the embedded pilot decision and a
   persistence-workbench view of the identities.
 - Added storage drift verification and recorded ADR 1146 and DR-1146.
+
+## Build session 1061: Provider implementation readiness storage identity
+
+- Extended provider-implementation readiness with explicit storage preflight and
+  evidence-storage gate identity.
+- Added blocked/disallowed behavior verification and mounted the identity in the
+  persistence handoff panel.
+- Recorded ADR 1147 and DR-1147.

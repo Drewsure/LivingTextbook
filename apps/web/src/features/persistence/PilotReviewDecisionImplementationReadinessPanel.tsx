@@ -26,6 +26,9 @@ export function PilotReviewDecisionImplementationReadinessPanel({ readiness, err
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Fact label="Tenant" value={readiness.tenantId} />
         <Fact label="Package" value={readiness.packageId} />
+        <Fact label="Storage preflight" value={readiness.storageSelectionPreflightId} />
+        <Fact label="Storage gate" value={readiness.storageSelectionGateId} />
+        <Fact label="Storage selection" value={readiness.storageSelectionAllowed ? "Allowed" : "Blocked"} />
         <Fact label="Provider selection" value={readiness.providerSelectionAllowed ? "Allowed" : "Blocked"} />
         <Fact label="Implementation" value={readiness.implementationAllowed ? "Allowed" : "Blocked"} />
       </dl>

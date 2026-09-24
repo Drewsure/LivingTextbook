@@ -6,6 +6,10 @@ export interface PilotReviewDecisionImplementationReadiness {
   packageId: string;
   policyId: string;
   label: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: PilotReviewDecisionImplementationReadinessStatus;
   providerNeutral: true;
   snapshotContractValid: boolean;
@@ -39,11 +43,13 @@ export function validatePilotReviewDecisionImplementationReadiness(
   readiness: PilotReviewDecisionImplementationReadiness,
 ): string[] {
   const errors: string[] = [];
-  for (const field of ["readinessId", "tenantId", "packageId", "policyId", "label", "note"] as const) {
+  for (const field of ["readinessId", "tenantId", "packageId", "policyId", "label", "storageSelectionPreflightId", "storageSelectionGateId", "note"] as const) {
     if (typeof readiness[field] !== "string" || readiness[field].trim().length === 0) errors.push(`Pilot review decision implementation readiness ${field} must be non-empty.`);
   }
 
   if (readiness.providerNeutral !== true) errors.push("Pilot review decision implementation readiness must remain provider-neutral.");
+  if (readiness.storageSelectionStatus !== "blocked") errors.push("Pilot review decision implementation readiness storage selection must remain blocked.");
+  if (readiness.storageSelectionAllowed !== false) errors.push("Pilot review decision implementation readiness storage selection must remain disallowed.");
   for (const field of ["snapshotContractValid", "adapterContractValid", "retentionPolicyValid", "retentionPolicyAccepted", "auditPolicyAccepted", "schoolPolicyAccepted", "providerSelectionAllowed", "implementationAllowed"] as const) {
     if (typeof readiness[field] !== "boolean") errors.push(`Pilot review decision implementation readiness ${field} must be boolean.`);
   }
