@@ -9246,3 +9246,11 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   blocker before human-review eligibility.
 - Approval capture, release mutation, student launch, hosted writes, and
   student data collection remain blocked.
+
+## DR-1160: Controlled Pilot Human Review Evidence References
+
+- Human-review packets must carry the six authoritative record identities
+  named by their fields, not merely six unique strings.
+- Missing or substituted readiness, release, pilot, reviewer, storage
+  preflight, or storage gate references must fail validation.
+- Review remains non-activating and side-effect free.

@@ -5668,3 +5668,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added explicit release-control blockers and negative coverage for storage
   identity drift and enabled storage state.
 - Recorded ADR 1159 and DR-1159.
+
+## Build session 1074: Controlled pilot human-review evidence references
+
+- Required human-review packets to include each authoritative readiness,
+  release, pilot, reviewer, storage preflight, and storage gate identity.
+- Added negative coverage for missing storage evidence references while
+  preserving all approval, launch, freeze, and write blockers.
+- Recorded ADR 1160 and DR-1160.

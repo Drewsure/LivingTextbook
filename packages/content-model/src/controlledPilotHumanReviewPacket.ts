@@ -102,6 +102,10 @@ export function validateControlledPilotHumanReviewPacket(value: unknown): string
   const evidenceReferences = readStringArray(value, "evidenceReferences");
   if (evidenceReferences.length !== 6) errors.push("Controlled pilot human review packet must carry six exact evidence references.");
   if (new Set(evidenceReferences).size !== evidenceReferences.length) errors.push("Controlled pilot human review packet evidence references must be unique.");
+  for (const field of ["readinessId", "releaseBindingId", "pilotDecisionId", "reviewerGateId", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
+    const reference = readString(value, field);
+    if (reference && !evidenceReferences.includes(reference)) errors.push(`Controlled pilot human review packet evidence references must include ${field}.`);
+  }
   const requiredHumanRecords = readStringArray(value, "requiredHumanRecords");
   if (requiredHumanRecords.length < 2) errors.push("Controlled pilot human review packet must list human review records.");
   if (new Set(requiredHumanRecords).size !== requiredHumanRecords.length) errors.push("Controlled pilot human review packet human records must be unique.");
@@ -113,6 +117,10 @@ export function validateControlledPilotHumanReviewPacket(value: unknown): string
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readString(value: Record<string, unknown>, key: string): string {
+  return typeof value[key] === "string" ? value[key].trim() : "";
 }
 
 function readStringArray(value: Record<string, unknown>, key: string): string[] {

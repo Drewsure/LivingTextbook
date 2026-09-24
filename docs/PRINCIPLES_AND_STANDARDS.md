@@ -7794,3 +7794,18 @@ This standard is recorded in
 `docs/decision-register/DR-1159-controlled-pilot-storage-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1159-controlled-pilot-storage-reconciliation.md`.
+
+## 498. Controlled Pilot Human Review Evidence Reference Standard
+
+- The human-review packet must reference exactly the readiness, release
+  binding, pilot decision, reviewer gate, storage preflight, and storage gate
+  records named by its own fields.
+- Unique reference count alone is insufficient; substituted or missing record
+  identities must fail validation before review begins.
+- The packet remains review-only and cannot capture approval intent, freeze a
+  release, activate an assignment, launch students, or write hosted data.
+
+This standard is recorded in
+`docs/decision-register/DR-1160-controlled-pilot-human-review-evidence-references.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1160-controlled-pilot-human-review-evidence-references.md`.

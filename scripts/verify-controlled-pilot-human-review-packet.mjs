@@ -41,6 +41,8 @@ try {
   }
   assert(packet.storageSelectionStatus === "blocked" && packet.storageSelectionAllowed === false, "human review packet storage selection must remain blocked");
   assert(packet.evidenceReferences.length === 6, "human review packet must carry six evidence references");
+  const missingStorageReference = { ...packet, evidenceReferences: packet.evidenceReferences.filter((reference) => reference !== packet.storageSelectionGateId) };
+  assert(model.validateControlledPilotHumanReviewPacket(missingStorageReference).some((error) => error.includes("storageSelectionGateId")), "missing storage reference must be rejected");
 
   const readyPacket = model.createControlledPilotHumanReviewPacket({
     ...readiness,
