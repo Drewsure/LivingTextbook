@@ -117,6 +117,31 @@ export function PilotHandoffPackagePanel({ handoffPackage, validationErrors }: P
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Storage selection review</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Storage selection review carried into pilot handoff</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              The pilot packet carries the exact provider-neutral storage review identities used by evidence and deployment continuity. No provider is selected, activated, or made student-facing by this handoff.
+            </p>
+          </div>
+          <StatusPill label="Human policy review required" tone="warning" />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <HandoffFact label="Preflight" value={handoffPackage.storageSelectionPreflightId} />
+          <HandoffFact label="Selection gate" value={handoffPackage.storageSelectionGateId} />
+          <HandoffFact label="Status" value={handoffPackage.storageSelectionStatus} />
+          <HandoffFact label="Selection" value={handoffPackage.storageSelectionAllowed ? "Allowed" : "Blocked"} />
+        </dl>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <StatusPill label="No storage provider selected" tone="warning" />
+          <StatusPill label="Hosted comparison retained" tone="neutral" />
+          <StatusPill label="Local comparison retained" tone="neutral" />
+          <StatusPill label="Hybrid comparison retained" tone="neutral" />
+        </div>
+      </section>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Persistence gate evidence</p>
             <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Authoritative hosted readiness</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

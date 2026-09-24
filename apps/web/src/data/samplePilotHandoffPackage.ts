@@ -7,6 +7,7 @@ import type {
 import { toReleaseControlEvidence } from "@living-textbook/content-model";
 import { sampleLocalBundleMediaReleaseControlBinding } from "@/data/sampleLocalBundleMediaReleaseControlBinding";
 import { samplePersistenceActivationPreflight } from "@/data/samplePersistenceActivationPreflight";
+import { samplePersistenceProviderSelectionPreflight } from "@/data/samplePersistenceProviderSelectionPreflight";
 import { samplePackageApprovalLedger } from "@/data/samplePackageApprovalLedger";
 import {
   samplePilotDeploymentDecisionId,
@@ -94,6 +95,10 @@ export const samplePilotHandoffPackage: PilotHandoffPackage = {
     blockedReasons: samplePersistenceActivationPreflight.blockedReasons,
     canActivate: false,
   },
+  storageSelectionPreflightId: samplePersistenceProviderSelectionPreflight.preflightId,
+  storageSelectionGateId: samplePersistenceProviderSelectionPreflight.evidenceStorageGateId,
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   routes: [
     {
       routeId: "partner-demo-home",

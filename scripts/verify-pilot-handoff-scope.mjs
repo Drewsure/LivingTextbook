@@ -25,7 +25,9 @@ requireText(sources.validator, "Pilot handoff report snapshot package must match
 requireText(sources.validator, "Pilot handoff persistence gate package must match the handoff package.", "Handoff validator must reject persistence package drift.");
 requireText(sources.validator, "Pilot handoff release-control package must match the handoff package.", "Handoff validator must reject release-control package drift.");
 requireText(sources.validator, "Pilot handoff approval package must match the handoff package.", "Handoff validator must reject approval package drift.");
+requireText(sources.validator, "Pilot handoff storage selection must remain false.", "Handoff validator must keep storage selection blocked.");
 requireText(sources.handoff, "approvalEvidence", "Pilot handoff fixture must carry approval evidence.");
+requireText(sources.handoff, "storageSelectionPreflightId", "Pilot handoff fixture must carry storage selection preflight identity.");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

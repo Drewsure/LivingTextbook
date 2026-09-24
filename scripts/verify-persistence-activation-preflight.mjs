@@ -54,6 +54,10 @@ requireFragments("pilot handoff contract", handoffModel, [
   "policyAcceptancePreflightId: string",
   "acceptanceRecordPreviewId: string",
   'policyAcceptanceStatus: "not-accepted"',
+  "storageSelectionPreflightId: string",
+  "storageSelectionGateId: string",
+  'storageSelectionStatus: "blocked"',
+  "storageSelectionAllowed: false",
 ]);
 requireFragments("pilot handoff fixture", handoffFixture, [
   "samplePersistenceActivationPreflight",
@@ -63,6 +67,11 @@ requireFragments("pilot handoff fixture", handoffFixture, [
   "sampleSchoolPolicyAcceptancePreflightId",
   "sampleSchoolPolicyAcceptanceRecordPreviewId",
   'policyAcceptanceStatus: "not-accepted"',
+  "samplePersistenceProviderSelectionPreflight",
+  "storageSelectionPreflightId",
+  "storageSelectionGateId",
+  'storageSelectionStatus: "blocked"',
+  "storageSelectionAllowed: false",
 ]);
 requireFragments("pilot handoff panel", handoffPanel, [
   "Activation preflight binding",
@@ -72,6 +81,9 @@ requireFragments("pilot handoff panel", handoffPanel, [
   "Policy preflight",
   "Acceptance preview",
   "Policy status",
+  "Storage selection review carried into pilot handoff",
+  "No storage provider selected",
+  "Human policy review required",
 ]);
 
 if (failures.length > 0) {

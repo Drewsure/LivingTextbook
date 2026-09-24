@@ -104,6 +104,10 @@ export interface PilotHandoffPackage {
   reportSnapshotEvidence: PilotHandoffReportSnapshotEvidence;
   persistenceGateEvidence: PilotHandoffPersistenceGateEvidence;
   activationPreflightEvidence: PilotHandoffActivationPreflightEvidence;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   routes: PilotHandoffRoute[];
   assets: PilotHandoffAsset[];
   decisions: PilotHandoffDecision[];
@@ -219,6 +223,15 @@ export function validatePilotHandoffPackage(packet: PilotHandoffPackage): string
     if (approvalEvidence.mode !== "review-only") {
       errors.push("Pilot handoff approval evidence must remain review-only.");
     }
+  }
+
+  requireText(packet.storageSelectionPreflightId, "storage selection preflight id", errors);
+  requireText(packet.storageSelectionGateId, "storage selection gate id", errors);
+  if (packet.storageSelectionStatus !== "blocked") {
+    errors.push("Pilot handoff storage selection status must remain blocked.");
+  }
+  if (packet.storageSelectionAllowed !== false) {
+    errors.push("Pilot handoff storage selection must remain false.");
   }
 
   const reportSnapshotEvidence = packet.reportSnapshotEvidence;

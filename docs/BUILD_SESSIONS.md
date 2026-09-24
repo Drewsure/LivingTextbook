@@ -5521,3 +5521,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Extended runtime, source, route, and deployment-workbench verification so a
   drifted or enabled storage selection cannot appear review-ready. Recorded ADR
   1142 and DR-1142.
+
+## Build session 1057: Pilot handoff storage selection review binding
+
+- Bound the exact storage-selection preflight and evidence-storage gate into
+  the controlled pilot handoff.
+- Added visible pilot evidence that no storage provider is selected and human
+  policy review remains required.
+- Extended runtime, source, route, persistence-preflight, and pilot-readiness
+  checks so enabled or drifted storage state cannot pass pilot review.
+- Kept hosted, closed-local, and hybrid comparison paths review-only and
+  side-effect-free. Recorded ADR 1143 and DR-1143.

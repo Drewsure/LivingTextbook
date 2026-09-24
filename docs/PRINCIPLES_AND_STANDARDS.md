@@ -7532,3 +7532,20 @@ This standard is recorded in
 `docs/decision-register/DR-1142-deployment-continuity-storage-review-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1142-deployment-continuity-storage-review-binding.md`.
+
+## 481. Pilot Handoff Storage Selection Review Binding Standard
+
+- The controlled pilot handoff must carry the exact storage-selection preflight
+  and evidence-storage gate identity already used by evidence and deployment
+  continuity review.
+- Hosted, closed-local, and hybrid comparison paths may remain visible for
+  partner discussion, but the handoff must not select, migrate, activate, or
+  imply approval of a provider.
+- Storage writes, offline-ready claims, upload, download, QR mutation, release
+  mutation, assignment, and classroom launch remain blocked until human policy
+  review closes the relevant gates.
+
+This standard is recorded in
+`docs/decision-register/DR-1143-pilot-handoff-storage-selection-review-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1143-pilot-handoff-storage-selection-review-binding.md`.

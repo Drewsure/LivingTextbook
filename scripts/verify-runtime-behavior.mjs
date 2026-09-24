@@ -2837,6 +2837,10 @@ try {
       blockedReasons: ["School policy is missing."],
       canActivate: false,
     },
+    storageSelectionPreflightId: "storage-selection-preflight-1",
+    storageSelectionGateId: "storage-selection-gate-1",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     releaseControlEvidence: {
       bindingId: "release-binding-1",
       releaseGateId: "release-gate-1",
@@ -2959,6 +2963,20 @@ try {
       activationPreflightEvidence: { ...validPilotHandoffPackage.activationPreflightEvidence, blockedReasons: ["School policy is missing.", "School policy is missing."] },
     }),
     "Pilot handoff activation preflight blockedReasons must be unique.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      storageSelectionAllowed: true,
+    }),
+    "Pilot handoff storage selection must remain false.",
+  );
+  assertIncludes(
+    pilotHandoff.validatePilotHandoffPackage({
+      ...validPilotHandoffPackage,
+      storageSelectionStatus: "selected",
+    }),
+    "Pilot handoff storage selection status must remain blocked.",
   );
   assertIncludes(
     pilotHandoff.validatePilotHandoffPackage({

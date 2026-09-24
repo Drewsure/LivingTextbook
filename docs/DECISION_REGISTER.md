@@ -92,6 +92,16 @@ recovery rehearsal, local preview, or packaged companion planning from
 activating a provider, persistence, offline mode, QR route, or classroom launch.
 See `docs/decision-register/DR-1142-deployment-continuity-storage-review-binding.md`.
 
+## DR-1143: Pilot Handoff Storage Selection Review Binding
+
+Carry the exact storage-selection preflight and evidence-storage gate into the
+controlled pilot handoff. Preserve tenant/package scope, keep hosted,
+closed-local, and hybrid comparison paths provider-neutral, and block provider
+selection, migration, writes, activation, offline claims, upload, download,
+QR mutation, release mutation, and classroom launch until human policy review
+passes. See
+`docs/decision-register/DR-1143-pilot-handoff-storage-selection-review-binding.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

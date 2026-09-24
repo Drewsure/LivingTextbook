@@ -153,6 +153,8 @@ requireText(pilotHandoffPanel, "Can activate", "Pilot handoff panel must show th
 requireText(pilotHandoffPanel, "Approval ledger binding", "Pilot handoff panel must render approval ledger binding.");
 requireText(pilotHandoffPanel, "handoffPackage.approvalEvidence", "Pilot handoff panel must consume approval evidence.");
 requireText(pilotHandoffPanel, "Human approvals carried into pilot handoff", "Pilot handoff panel must show human approval scope.");
+requireText(pilotHandoffPanel, "Storage selection review carried into pilot handoff", "Pilot handoff panel must show storage selection scope.");
+requireText(pilotHandoffPanel, "handoffPackage.storageSelectionPreflightId", "Pilot handoff panel must consume storage selection preflight identity.");
 const pilotReviewDecisionPanel = readSource("../apps/web/src/features/pilot/PilotReviewDecisionPanel.tsx");
 requireText(pilotReviewDecisionPanel, "Demo allowed, pilot launch blocked", "Pilot review decision panel must show the canonical review decision.");
 requireText(pilotReviewDecisionPanel, "decision.blockingReasons", "Pilot review decision panel must show blocking reasons.");
