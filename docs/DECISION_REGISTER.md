@@ -9433,10 +9433,19 @@ Foundation Japanese remains hiragana-only. See ADR 1177 and
 
 ## DR-1178: Gloss-Bound Assist-Language Audio Coverage
 
-Assist-language audio readiness is now calculated from reviewed term, sentence,
+Assist-language audio readiness is calculated from reviewed term, sentence,
 and instruction glosses rather than a raw file count. The shared contract
 reports required, covered, and missing items in the teacher review packet. It
 remains evidence-only: no speech generation, upload, rights approval, package
 write, assignment, progression, mastery, reward, release, or hosted write is
 enabled. See ADR 1178 and
 `docs/decision-register/DR-1178-assist-language-audio-coverage.md`.
+
+## DR-1179: Assist-Language Audio Asset Evidence
+
+Teacher intake now enumerates each reviewed support gloss and reports whether
+its cue and audio asset are bound. This is a practical publisher handoff list,
+but remains review-only and blocks upload, download, rights approval, promotion,
+student-facing use, speech billing, progression, mastery, rewards, and release.
+See ADR 1179 and
+`docs/decision-register/DR-1179-assist-language-audio-asset-evidence.md`.

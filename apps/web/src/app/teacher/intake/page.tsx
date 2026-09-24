@@ -66,6 +66,7 @@ import { sampleSchoolRollbackSafeFallbackPlan } from "@/data/sampleSchoolRollbac
 import { sampleSchoolRollbackSafeFallbackRestorationPreview } from "@/data/sampleSchoolRollbackSafeFallbackRestorationPreview";
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { sampleAssistLanguageReviewPackets } from "@/data/sampleAssistLanguageReview";
+import { sampleAssistLanguageAudioEvidencePackets } from "@/data/sampleAssistLanguageAudioEvidence";
 import { sampleProgressEventTaxonomyRegistry } from "@/data/sampleProgressEventTaxonomy";
 import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
 import {
@@ -205,6 +206,7 @@ import { TeacherAssignmentRolloutPanel } from "@/features/teacher/TeacherAssignm
 import { TeacherAssignmentReadinessPanel } from "@/features/teacher/TeacherAssignmentReadinessPanel";
 import { TeacherSessionSettingsReviewPacketPanel } from "@/features/teacher/TeacherSessionSettingsReviewPacketPanel";
 import { TeacherAssistLanguageReviewPanel } from "@/features/teacher/TeacherAssistLanguageReviewPanel";
+import { TeacherAssistLanguageAudioEvidencePanel } from "@/features/teacher/TeacherAssistLanguageAudioEvidencePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleJapaneseTargetTenantPreview } from "@/data/sampleTargetLanguageTenantPreview";
 
@@ -278,6 +280,7 @@ export default function TeacherIntakePage() {
         <GamePrototypeAssignmentPanel plan={sampleGamePrototypeAssignmentPlan} />
         <UnitPackageReadinessPanel packages={sampleUnitPackageReadiness} />
         <TeacherAssistLanguageReviewPanel packets={sampleAssistLanguageReviewPackets} />
+        <TeacherAssistLanguageAudioEvidencePanel packets={sampleAssistLanguageAudioEvidencePackets} />
         <TeacherAssignmentReadinessPanel
           plans={sampleTeacherAssignmentPlans}
           errors={sampleTeacherAssignmentErrors}

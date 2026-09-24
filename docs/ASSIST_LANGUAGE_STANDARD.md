@@ -106,6 +106,9 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
   without treating text support as audio-ready.
 - Teacher intake now exposes a read-only assist-language review packet that
   reports text coverage, assist-audio coverage, open items, and blocked actions.
+- A separate evidence packet enumerates each support gloss and records whether
+  its cue and audio asset are bound, while keeping rights, promotion, student
+  use, and speech billing blocked.
 
 ## Not Yet Built
 

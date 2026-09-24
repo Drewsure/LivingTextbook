@@ -5909,3 +5909,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept speech generation, upload, rights approval, package promotion,
   progression, mastery, and hosted writes blocked.
 - Recorded ADR 1178 and DR-1178.
+
+## Build session: Assist-language audio asset evidence
+
+- Added row-level evidence for each reviewed support-language term, sentence,
+  and instruction gloss.
+- Reported cue binding, media-asset binding, status, and blockers in teacher
+  intake.
+- Reused tenant, package, and unit identity while keeping uploads, downloads,
+  rights approval, promotion, student use, speech billing, and release blocked.
+- Recorded ADR 1179 and DR-1179.
