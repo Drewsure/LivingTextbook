@@ -5600,3 +5600,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added continuity drift blockers and runtime coverage while preserving all
   recovery and activation blockers.
 - Recorded ADR 1151 and DR-1151.
+
+## Build session 1066: Local recovery storage identity
+
+- Bound local provider approval and recovery packets to shared storage
+  selection identity.
+- Added storage drift mismatch coverage while preserving local recovery
+  blockers.
+- Recorded ADR 1152 and DR-1152.

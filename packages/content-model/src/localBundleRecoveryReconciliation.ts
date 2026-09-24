@@ -43,7 +43,7 @@ export function reconcileLocalBundleRecoveryEvidence(
 ): LocalBundleRecoveryReconciliation {
   const approvalErrors = validateLocalBundleProviderApprovalPacket(approval);
   const recoveryErrors = validateLocalBundleRecoveryPacket(recovery);
-  const identityMatches = ["tenantId", "bundleId", "packageId"] .every(
+  const identityMatches = ["tenantId", "bundleId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId"] .every(
     (field) => approval[field as keyof typeof approval] === recovery[field as keyof typeof recovery],
   );
   const openApprovalChecks = approval.checks.filter((check) => check.status !== "passed").map((check) => check.checkId);
@@ -58,7 +58,7 @@ export function reconcileLocalBundleRecoveryEvidence(
   const reasons = [
     ...approvalErrors,
     ...recoveryErrors,
-    ...(identityMatches ? [] : ["Provider approval and recovery packet identities must match." ]),
+    ...(identityMatches ? [] : ["Provider approval and recovery packet storage and package identities must match." ]),
     ...(openApprovalChecks.length > 0 ? [`Provider approval evidence remains open: ${openApprovalChecks.join(", ")}.`] : []),
     ...(openRecoveryLanes.length > 0 ? [`Recovery evidence remains open or blocked: ${openRecoveryLanes.join(", ")}.`] : []),
     "Provider activation, recovery execution, package writes, student promotion, and route mutation remain blocked.",

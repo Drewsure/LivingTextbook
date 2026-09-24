@@ -720,6 +720,7 @@ Current focused decision records also include:
 - `DR-1149-adapter-write-intent-storage-identity.md`
 - `DR-1150-durable-record-storage-identity.md`
 - `DR-1151-recovery-rehearsal-storage-identity.md`
+- `DR-1152-local-recovery-storage-identity.md`
 
 ## Maintenance Rule
 

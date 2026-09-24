@@ -21,6 +21,7 @@ try {
   const { reconcileLocalBundleRecoveryEvidence } = require(join(output, "localBundleRecoveryReconciliation.js"));
   const approval = {
     approvalId: "approval-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1",
+    storageSelectionPreflightId: "storage-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false,
     candidateId: "candidate-1", providerKey: "unselected", deploymentChannel: "local-classroom",
     mode: "review-only", selectedProvider: null, providerActivationAllowed: false, studentFacingAllowed: false,
     controls: { retentionPolicyRef: "retention", exportPolicyRef: "export", backupPolicyRef: "backup", restorePolicyRef: "restore", safeFallbackPolicyRef: "fallback", tenantIsolationProofRef: "tenant" },
@@ -30,6 +31,7 @@ try {
   };
   const recovery = {
     packetId: "recovery-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1",
+    storageSelectionPreflightId: "storage-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false,
     mode: "review-only", selectedProvider: null, backupExecutionAllowed: false, restoreExecutionAllowed: false,
     exportExecutionAllowed: false, packageWriteAllowed: false, studentPromotionAllowed: false, routeMutationAllowed: false,
     backup: { status: "blocked", manifestRef: "manifest", checksumRef: "checksum", checksumAlgorithm: "sha256", schemaVersion: "v1", rawLearnerAudioExcluded: true, learnerTranscriptsExcluded: true },
@@ -44,6 +46,7 @@ try {
   assert(result.executionAllowed === false && result.sideEffect === "none", "reconciliation must stay non-executing");
   assert(result.blockedActions.includes("provider-activation"), "provider activation must remain blocked");
   assert(reconcileLocalBundleRecoveryEvidence(approval, { ...recovery, tenantId: "other-tenant" }).status === "mismatch", "tenant drift must be a mismatch");
+  assert(reconcileLocalBundleRecoveryEvidence(approval, { ...recovery, storageSelectionGateId: "other-storage-gate" }).status === "mismatch", "storage gate drift must be a mismatch");
   console.log("PASS local recovery reconciliation preserves identity, evidence gaps, and no-execution boundaries.");
 } finally {
   rmSync(output, { recursive: true, force: true });

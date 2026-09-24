@@ -23,6 +23,10 @@ export interface LocalBundleProviderApprovalPacket {
   tenantId: string;
   bundleId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   candidateId: string;
   providerKey: string;
   deploymentChannel: LocalBundleProviderDeploymentChannel;
@@ -64,6 +68,8 @@ export function validateLocalBundleProviderApprovalPacket(
     "tenantId",
     "bundleId",
     "packageId",
+    "storageSelectionPreflightId",
+    "storageSelectionGateId",
     "candidateId",
     "providerKey",
   ] as const) {
@@ -71,6 +77,8 @@ export function validateLocalBundleProviderApprovalPacket(
   }
   if (packet.mode !== "review-only") errors.push("Local bundle provider approval must remain review-only.");
   if (packet.selectedProvider !== null) errors.push("Local bundle provider approval must not select a provider.");
+  if (packet.storageSelectionStatus !== "blocked") errors.push("Local bundle provider approval storage selection must remain blocked.");
+  if (packet.storageSelectionAllowed !== false) errors.push("Local bundle provider approval storage selection must remain false.");
   if (packet.providerActivationAllowed !== false) errors.push("Local bundle provider approval must block provider activation.");
   if (packet.studentFacingAllowed !== false) errors.push("Local bundle provider approval must remain non-student-facing.");
   if (packet.rawLearnerAudioExcluded !== true) errors.push("Local bundle provider approval must exclude raw learner audio.");

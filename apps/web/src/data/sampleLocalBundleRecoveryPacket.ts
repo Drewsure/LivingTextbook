@@ -2,12 +2,17 @@ import {
   validateLocalBundleRecoveryPacket,
   type LocalBundleRecoveryPacket,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "./sampleStorageSelectionIdentity";
 
 export const sampleLocalBundleRecoveryPacket: LocalBundleRecoveryPacket = {
   packetId: "sample-publisher-local-recovery-review-001",
   tenantId: "sample-publisher",
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   mode: "review-only",
   selectedProvider: null,
   backupExecutionAllowed: false,

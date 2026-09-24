@@ -310,11 +310,18 @@ requireText(handoffReviewAdapter, "record: null", "Local handoff review provider
 requireText(providerApprovalContract, "validateLocalBundleProviderApprovalPacket", "Local provider approval must validate evidence packets.");
 requireText(providerApprovalContract, "selectedProvider: null", "Local provider approval must keep provider selection uncommitted.");
 requireText(providerApprovalContract, "providerActivationAllowed: false", "Local provider approval must block activation.");
+requireText(providerApprovalContract, "storageSelectionPreflightId", "Local provider approval must carry storage selection preflight identity.");
+requireText(providerApprovalContract, "storageSelectionGateId", "Local provider approval must carry storage selection gate identity.");
+requireText(providerApprovalContract, 'storageSelectionStatus: "blocked"', "Local provider approval storage selection must remain blocked.");
 requireText(recoveryPacketContract, "validateLocalBundleRecoveryPacket", "Local recovery packets must validate their evidence lanes.");
+requireText(recoveryPacketContract, "storageSelectionPreflightId", "Local recovery packets must carry storage selection preflight identity.");
+requireText(recoveryPacketContract, "storageSelectionGateId", "Local recovery packets must carry storage selection gate identity.");
+requireText(recoveryPacketContract, 'storageSelectionStatus: "blocked"', "Local recovery packet storage selection must remain blocked.");
 requireText(recoveryPacketContract, "checksumAlgorithm: \"sha256\"", "Local recovery backups must use SHA-256 evidence.");
 requireText(recoveryPacketContract, "includesLearnerData: false", "Local recovery exports must exclude learner data.");
 requireText(recoveryPacketContract, "crossTenantRestoreBlocked: true", "Local recovery restores must block cross-tenant restore.");
 requireText(recoveryReconciliationContract, "reconcileLocalBundleRecoveryEvidence", "Local recovery evidence must reconcile provider and packet identity.");
+requireText(recoveryReconciliationContract, "storage and package identities must match", "Local recovery evidence must reject storage identity drift.");
 requireText(exportRetentionDryRunContract, "validateLocalBundleExportRetentionDryRun", "Local export and retention dry runs must validate package classifications.");
 requireText(exportRetentionDryRunContract, 'deletionAction: "blocked"', "Local retention deletion must remain blocked in dry runs.");
 requireText(manifestRollbackDryRunContract, "validateLocalBundlePackageManifestRollbackDryRun", "Local package manifests must validate rollback evidence.");

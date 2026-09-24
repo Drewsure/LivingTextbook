@@ -40,6 +40,10 @@ export interface LocalBundleRecoveryPacket {
   tenantId: string;
   bundleId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   mode: "review-only";
   selectedProvider: null;
   backupExecutionAllowed: false;
@@ -66,11 +70,13 @@ const REQUIRED_BLOCKED_ACTIONS = [
 
 export function validateLocalBundleRecoveryPacket(packet: LocalBundleRecoveryPacket): string[] {
   const errors: string[] = [];
-  for (const field of ["packetId", "tenantId", "bundleId", "packageId"] as const) {
+  for (const field of ["packetId", "tenantId", "bundleId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (!packet[field].trim()) errors.push(`Local bundle recovery packet requires ${field}.`);
   }
   if (packet.mode !== "review-only") errors.push("Local bundle recovery packet must remain review-only.");
   if (packet.selectedProvider !== null) errors.push("Local bundle recovery packet must not select a provider.");
+  if (packet.storageSelectionStatus !== "blocked") errors.push("Local bundle recovery packet storage selection must remain blocked.");
+  if (packet.storageSelectionAllowed !== false) errors.push("Local bundle recovery packet storage selection must remain false.");
   for (const [field, value] of Object.entries({
     backupExecutionAllowed: packet.backupExecutionAllowed,
     restoreExecutionAllowed: packet.restoreExecutionAllowed,

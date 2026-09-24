@@ -7673,3 +7673,18 @@ This standard is recorded in
 `docs/decision-register/DR-1151-recovery-rehearsal-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1151-recovery-rehearsal-storage-identity.md`.
+
+## 490. Local Recovery Storage Identity Standard
+
+- Local provider-approval and recovery packets must carry the same
+  storage-selection preflight and evidence-storage gate identities as the
+  hosted and hybrid persistence paths.
+- Local recovery reconciliation must reject storage identity drift as a
+  mismatch, not downgrade it to an open evidence item.
+- Backup, restore, export, retention deletion, activation, route mutation,
+  package writes, and student promotion remain blocked until policy approval.
+
+This standard is recorded in
+`docs/decision-register/DR-1152-local-recovery-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1152-local-recovery-storage-identity.md`.

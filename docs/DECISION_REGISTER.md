@@ -9174,3 +9174,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   considered review-ready.
 - Backup, restore, export, writes, route mutation, promotion, and classroom
   launch remain blocked.
+
+## DR-1152: Local Recovery Storage Identity
+
+- Local provider-approval and recovery packets must carry the same
+  storage-selection preflight and evidence-storage gate identity.
+- Local recovery reconciliation must reject storage identity drift as a
+  mismatch.
+- Backup, restore, export, retention deletion, activation, route mutation,
+  package writes, and student promotion remain blocked.

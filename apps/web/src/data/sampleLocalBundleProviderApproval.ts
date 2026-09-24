@@ -2,12 +2,17 @@ import {
   validateLocalBundleProviderApprovalPacket,
   type LocalBundleProviderApprovalPacket,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "./sampleStorageSelectionIdentity";
 
 export const sampleLocalBundleProviderApproval: LocalBundleProviderApprovalPacket = {
   approvalId: "sample-publisher-local-provider-review-001",
   tenantId: "sample-publisher",
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   candidateId: "closed-local-companion-candidate",
   providerKey: "unselected-provider-candidate",
   deploymentChannel: "local-classroom",
