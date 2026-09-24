@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Button, Card, StatusPill } from "@living-textbook/ui";
-import type { BrowserRehearsalObservation } from "@living-textbook/content-model";
+import {
+  createBrowserRehearsalObservationHandoff,
+  type BrowserRehearsalObservation,
+  type BrowserRehearsalObservationHandoff,
+} from "@living-textbook/content-model";
 import {
   createHumanObservedBrowserRehearsalObservation,
   readBrowserRehearsalObservation,
@@ -27,6 +31,9 @@ export function TeacherDryRunObservationPanel({ rehearsal }: TeacherDryRunObserv
   const [observation, setObservation] = useState<BrowserRehearsalObservation>();
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState<string>();
+  const observationHandoff: BrowserRehearsalObservationHandoff | undefined = observation
+    ? createBrowserRehearsalObservationHandoff(observation)
+    : undefined;
 
   useEffect(() => {
     setObservation(readBrowserRehearsalObservation(lookup));
@@ -91,6 +98,29 @@ export function TeacherDryRunObservationPanel({ rehearsal }: TeacherDryRunObserv
           <p className="mt-1 font-semibold">Release promotion and student production launch remain disabled.</p>
         </div>
       ) : null}
+      {observationHandoff ? (
+        <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4" data-dry-run-observation-handoff="review-only">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Adult evidence handoff</p>
+              <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Receipt prepared for adjudication</h3>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                This handoff carries the exact dry-run scope to adult review. It is not an export, approval, release mutation, or student launch action.
+              </p>
+            </div>
+            <StatusPill label={observationHandoff.reviewDestination} tone="warning" />
+          </div>
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+            <EvidenceMetric label="Handoff" value={observationHandoff.handoffId} />
+            <EvidenceMetric label="Routes" value={String(observationHandoff.routePaths.length)} />
+            <EvidenceMetric label="Checks" value={String(observationHandoff.checkIds.length)} />
+          </dl>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <BoundaryList title="Blocked actions" items={observationHandoff.blockedActions} />
+            <BoundaryList title="Next gate" items={observationHandoff.nextGate} />
+          </div>
+        </section>
+      ) : null}
       {error ? <p className="mt-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950" role="alert">{error}</p> : null}
 
       <Button type="button" variant={observation ? "secondary" : "primary"} className="mt-4" onClick={recordDryRunObservation} disabled={isRecording}>
@@ -115,5 +145,19 @@ function BoundaryFact({ label, value }: { label: string; value: string }) {
       <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p>
       <p className="mt-1 font-semibold text-[var(--tenant-text)]">{value}</p>
     </div>
+  );
+}
+
+function BoundaryList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <section className="rounded-lg border border-[var(--tenant-border)] p-3">
+      <div className="flex items-center justify-between gap-2">
+        <h4 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h4>
+        <StatusPill label={String(items.length)} tone="warning" />
+      </div>
+      <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item, index) => <li key={`${title}-${index}`}>{item}</li>)}
+      </ul>
+    </section>
   );
 }

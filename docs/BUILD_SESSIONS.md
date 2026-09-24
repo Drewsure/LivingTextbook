@@ -5873,3 +5873,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept learner data, hosted persistence, report export, assignments, QR
   mutation, release promotion, and pilot approval blocked.
 - Added a focused verifier and recorded ADR 1176 / DR-1176.
+
+## Build session: Dry-run adjudication handoff visibility
+
+- Made the synthetic teacher receipt produce the shared adult evidence handoff
+  on the dry-run workspace.
+- Exposed its exact route/check scope, review destination, blocked actions, and
+  next gate without adding export, approval, hosted persistence, or launch
+  behavior.

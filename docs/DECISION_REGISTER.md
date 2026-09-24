@@ -9404,3 +9404,8 @@ review without fabricating learner activity. The receipt is browser-local and
 review-only; learner records, hosted persistence, report export, assignments,
 QR mutation, release promotion, and pilot approval remain blocked. See
 `docs/decision-register/DR-1176-teacher-dry-run-local-observation.md`.
+
+The dry-run workspace also renders the shared adult adjudication handoff from
+that receipt. The handoff preserves exact route and check scope while keeping
+export, approval, hosted persistence, QR mutation, release promotion, and
+student production launch false.
