@@ -9449,3 +9449,15 @@ but remains review-only and blocks upload, download, rights approval, promotion,
 student-facing use, speech billing, progression, mastery, rewards, and release.
 See ADR 1179 and
 `docs/decision-register/DR-1179-assist-language-audio-asset-evidence.md`.
+
+## DR-1180: Assist-Language Audio Catalog Admission Evidence
+
+The tenant media library now exposes a review-only catalog admission record for
+each reviewed support gloss. The record requires checksum, transcript and
+spoken-text match, rights, accessibility fallback, source lineage, and hosted
+or local delivery evidence before future catalog binding can be considered.
+The sample remains fail-closed because no support-language cue/audio asset is
+bound. Upload, storage write, rights approval, catalog promotion, local
+activation, student-facing use, speech billing, and support-language
+progression remain blocked. See ADR 1180 and
+`docs/decision-register/DR-1180-assist-language-audio-catalog-admission.md`.

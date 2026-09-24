@@ -109,12 +109,16 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - A separate evidence packet enumerates each support gloss and records whether
   its cue and audio asset are bound, while keeping rights, promotion, student
   use, and speech billing blocked.
+- The tenant media library now shows a review-only catalog admission record for
+  each support gloss, including checksum, transcript match, rights,
+  accessibility, source lineage, and hosted/local delivery evidence.
 
 ## Not Yet Built
 
 - Backend-persisted teacher toggle for enabling/disabling assist language per launch session.
 - Full UI localization.
-- Assist-language audio cue catalog with recorded files.
+- Durable assist-language audio catalog admission with recorded files, reviewed
+  rights, and approved hosted/local delivery.
 - Teacher/admin workflow for approving AI-drafted translations.
 - Per-student language preference persistence.
 - Production approval capture and durable teacher toggle persistence for each

@@ -5919,3 +5919,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Reused tenant, package, and unit identity while keeping uploads, downloads,
   rights approval, promotion, student use, speech billing, and release blocked.
 - Recorded ADR 1179 and DR-1179.
+
+## Build session: Assist-language audio catalog admission evidence
+
+- Added a provider-neutral catalog admission record for each support-language
+  audio item in the tenant media library.
+- Made checksum, transcript, spoken-text match, rights, accessibility fallback,
+  source lineage, and hosted/local delivery evidence explicit before catalog
+  binding can be considered.
+- Kept the sample fail-closed because no support-language cue/audio asset is
+  currently bound; no upload, storage write, approval, promotion, student use,
+  local activation, or speech billing was introduced.
+- Added a shared validator, route verifier, ADR 1180, and DR-1180.

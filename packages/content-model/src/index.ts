@@ -5,6 +5,17 @@ import { validateTargetLanguagePolicy } from "./targetLanguagePolicy";
 
 export { GAME_EVENT_TYPES, isGameEventType } from "./gameEventTypes";
 export type { GameEventType } from "./gameEventTypes";
+export {
+  ASSIST_LANGUAGE_AUDIO_CATALOG_BLOCKED_ACTIONS,
+  createReviewOnlyAssistLanguageAudioCatalogRecord,
+  validateAssistLanguageAudioCatalogRecord,
+} from "./assistLanguageAudioCatalog";
+export type {
+  AssistLanguageAudioCatalogDecision,
+  AssistLanguageAudioCatalogEvidenceStatus,
+  AssistLanguageAudioCatalogKind,
+  AssistLanguageAudioCatalogRecord,
+} from "./assistLanguageAudioCatalog";
 
 export type TenantId = string;
 export type CurriculumId = string;
@@ -301,6 +312,7 @@ export interface MediaAsset {
   type: MediaAssetType;
   kind: MediaKind;
   rightsStatus: MediaRightsStatus;
+  checksum?: string;
   sourceUri?: string;
   localBundlePath?: string;
   posterImageUri?: string;
