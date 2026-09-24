@@ -7899,3 +7899,17 @@ This standard is recorded in
 `docs/decision-register/DR-1166-shared-pairing-skin-ordering.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1166-shared-pairing-skin-ordering.md`.
+
+## 505. Pairing Round Event Standard
+
+- A pairing round begins when the learner selects the first card in one pair
+  attempt; that attempt emits exactly one `round_shown` event.
+- The second card selection completes the attempt and may emit the paired
+  `answer_submitted` and `answer_result` events.
+- Card speech remains an audio evidence event and cannot create a second round,
+  unlock progression, award mastery, or award Star Dust.
+
+This standard is recorded in
+`docs/decision-register/DR-1167-pairing-round-event-semantics.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1167-pairing-round-event-semantics.md`.

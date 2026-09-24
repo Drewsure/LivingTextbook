@@ -9305,3 +9305,11 @@ uses a stable card-identity tie-breaker, and keeps ordering as presentation
 state only. Scoring, audio policy, progression, persistence, and tenant
 configuration remain platform-owned. Evidence: `pairingEngineState.ts`, the
 two pairing game wrappers, and the pairing runtime verifier.
+
+## DR-1167: Pairing Round Event Semantics
+
+Define one pairing round as one first-card-to-second-card attempt. Match Up and
+Memory Match must emit `round_shown` once at first-card selection, then emit
+paired submission/result evidence after the second selection. Audio requests
+are support evidence only and cannot create rounds or unlock progression.
+Evidence: both pairing wrappers and `scripts/verify-pairing-engine-runtime.mjs`.

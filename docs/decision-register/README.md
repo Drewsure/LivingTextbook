@@ -735,6 +735,7 @@ Current focused decision records also include:
 - `DR-1164-activation-preflight-scope.md`
 - `DR-1165-canonical-pairing-replay-ordering.md`
 - `DR-1166-shared-pairing-skin-ordering.md`
+- `DR-1167-pairing-round-event-semantics.md`
 
 ## Maintenance Rule
 

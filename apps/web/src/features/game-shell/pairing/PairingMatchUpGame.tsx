@@ -142,15 +142,17 @@ export function PairingMatchUpGame({
       return;
     }
 
-    emitInteractionEvent("round_shown", {
-      cardId: card.id,
-      pairId: card.pairId,
-      cardKind: card.kind,
-      label: card.label,
-      result: outcome.result,
-      attempts: outcome.state.attempts,
-      replaySeed,
-    });
+    if (selectedBefore.length === 0) {
+      emitInteractionEvent("round_shown", {
+        cardId: card.id,
+        pairId: card.pairId,
+        cardKind: card.kind,
+        label: card.label,
+        roundIndex: outcome.state.attempts + 1,
+        totalPairs: progress.totalPairs,
+        replaySeed,
+      });
+    }
 
     emitAudioRequested("term", audioCue?.text ?? card.label, audioCue?.language ?? targetLanguage, "match-up-card");
     playAudioCueText({ text: audioCue?.text ?? card.label, language: audioCue?.language ?? targetLanguage, sourceUri: audioCue?.sourceUri });

@@ -5731,3 +5731,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
   platform ownership of scoring, audio, progression, persistence, and tenant
   policy.
 - Recorded ADR 1166 and DR-1166.
+
+## Build session 1081: Pairing round event semantics
+
+- Normalized Match Up so each pair attempt emits one `round_shown` event when
+  the first card is selected.
+- Kept the second selection responsible for paired submission/result evidence
+  and preserved audio as support-only evidence.
+- Added runtime source coverage for the event boundary and recorded ADR 1167
+  and DR-1167.

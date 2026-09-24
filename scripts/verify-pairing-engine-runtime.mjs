@@ -77,6 +77,7 @@ try {
   const matchUpSource = readSource(join(root, "apps", "web", "src", "features", "game-shell", "pairing", "PairingMatchUpGame.tsx"));
   assert(memoryMatchSource.includes("sortPairingCardsByReplaySeed"), "Memory Match must use the shared seeded pairing order");
   assert(matchUpSource.includes("sortPairingCardsByReplaySeed(state.cards, replaySeed)"), "Match Up must use the shared seeded pairing order");
+  assert(matchUpSource.includes("if (selectedBefore.length === 0)"), "Match Up must emit one round_shown event at the start of each pair attempt");
 
   const empty = engine.createPairingEngineState([]);
   assert(empty.completed === true, "empty pairing state must be terminal");
