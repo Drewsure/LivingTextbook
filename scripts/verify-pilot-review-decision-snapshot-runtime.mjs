@@ -61,6 +61,12 @@ try {
   const snapshot = persistence.createPilotReviewDecisionPersistenceSnapshot(decision, "hosted-managed", "2026-09-22T12:00:00.000Z");
   assert(persistence.validatePilotReviewDecisionPersistenceSnapshot(snapshot).length === 0, "valid snapshot should pass validation");
 
+  const storageIdentityDrift = persistence.validatePilotReviewDecisionPersistenceSnapshot({
+    ...snapshot,
+    storageSelectionGateId: "tampered-storage-gate",
+  });
+  assert(storageIdentityDrift.some((error) => error.includes("storageSelectionGateId must match the decision")), "snapshot must reject storage identity drift");
+
   const duplicateBindings = decisionModel.validatePilotReviewDecision({
     ...decision,
     evidenceBindings: ["handoff:sample-handoff", "handoff:sample-handoff"],

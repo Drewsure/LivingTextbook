@@ -13,6 +13,10 @@ export interface PilotReviewDecisionPersistenceSnapshot {
   decisionId: string;
   tenantId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   decisionFingerprint: string;
   capturedAt: string;
   decision: PilotReviewDecision;
@@ -79,6 +83,10 @@ export function createPilotReviewDecisionPersistenceSnapshot(
     decisionId: decision.decisionId,
     tenantId: decision.tenantId,
     packageId: decision.packageId,
+    storageSelectionPreflightId: decision.storageSelectionPreflightId,
+    storageSelectionGateId: decision.storageSelectionGateId,
+    storageSelectionStatus: decision.storageSelectionStatus,
+    storageSelectionAllowed: decision.storageSelectionAllowed,
     decisionFingerprint: fingerprintPilotReviewDecision(decision),
     capturedAt,
     decision,
@@ -108,11 +116,13 @@ export function validatePilotReviewDecisionPersistenceSnapshot(unknownSnapshot: 
   if (snapshot.storageMode !== "provider-neutral") errors.push("Pilot review decision persistence snapshot storageMode must be provider-neutral.");
   if (!isPersistenceMode(snapshot.persistenceMode)) errors.push("Pilot review decision persistence snapshot persistenceMode is invalid.");
 
-  for (const field of ["snapshotId", "decisionId", "tenantId", "packageId", "decisionFingerprint", "capturedAt"] as const) {
+  for (const field of ["snapshotId", "decisionId", "tenantId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId", "decisionFingerprint", "capturedAt"] as const) {
     if (typeof snapshot[field] !== "string" || snapshot[field].trim().length === 0) {
       errors.push(`Pilot review decision persistence snapshot ${field} is required.`);
     }
   }
+  if (snapshot.storageSelectionStatus !== "blocked") errors.push("Pilot review decision persistence snapshot storage selection must remain blocked.");
+  if (snapshot.storageSelectionAllowed !== false) errors.push("Pilot review decision persistence snapshot storage selection must remain disallowed.");
 
   if (typeof snapshot.capturedAt === "string" && Number.isNaN(Date.parse(snapshot.capturedAt))) {
     errors.push("Pilot review decision persistence snapshot capturedAt must be a valid timestamp.");
@@ -138,6 +148,10 @@ export function validatePilotReviewDecisionPersistenceSnapshot(unknownSnapshot: 
     if (snapshot.decisionId !== snapshot.decision.decisionId) errors.push("Pilot review decision snapshot decisionId must match the decision.");
     if (snapshot.tenantId !== snapshot.decision.tenantId) errors.push("Pilot review decision snapshot tenantId must match the decision.");
     if (snapshot.packageId !== snapshot.decision.packageId) errors.push("Pilot review decision snapshot packageId must match the decision.");
+    if (snapshot.storageSelectionPreflightId !== snapshot.decision.storageSelectionPreflightId) errors.push("Pilot review decision snapshot storageSelectionPreflightId must match the decision.");
+    if (snapshot.storageSelectionGateId !== snapshot.decision.storageSelectionGateId) errors.push("Pilot review decision snapshot storageSelectionGateId must match the decision.");
+    if (snapshot.storageSelectionStatus !== snapshot.decision.storageSelectionStatus) errors.push("Pilot review decision snapshot storageSelectionStatus must match the decision.");
+    if (snapshot.storageSelectionAllowed !== snapshot.decision.storageSelectionAllowed) errors.push("Pilot review decision snapshot storageSelectionAllowed must match the decision.");
     if (snapshot.decisionFingerprint !== fingerprintPilotReviewDecision(snapshot.decision)) {
       errors.push("Pilot review decision persistence snapshot fingerprint does not match the decision.");
     }

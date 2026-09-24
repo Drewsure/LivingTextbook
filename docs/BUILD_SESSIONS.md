@@ -5552,3 +5552,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   release dashboard and pilot decision surfaces.
 - Added focused runtime and source verification for the identity chain.
 - Recorded ADR 1145 and DR-1145.
+
+## Build session 1060: Pilot review snapshot storage identity
+
+- Made storage-selection preflight and evidence-storage gate identity explicit
+  on provider-neutral pilot review snapshots.
+- Added exact matching validation against the embedded pilot decision and a
+  persistence-workbench view of the identities.
+- Added storage drift verification and recorded ADR 1146 and DR-1146.

@@ -7582,3 +7582,18 @@ This standard is recorded in
 `docs/decision-register/DR-1145-pilot-decision-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1145-pilot-decision-storage-identity.md`.
+
+## 484. Pilot Review Snapshot Storage Identity Standard
+
+- Provider-neutral pilot review snapshots must carry the exact storage
+  selection preflight and evidence-storage gate identities at snapshot level,
+  not only inside an embedded decision.
+- Snapshot storage identity must match the canonical decision exactly;
+  missing, drifted, enabled, or provider-bound values fail validation.
+- Snapshot visibility is not permission for writes, restore, export, provider
+  selection, activation, learner data, or release mutation.
+
+This standard is recorded in
+`docs/decision-register/DR-1146-pilot-review-snapshot-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1146-pilot-review-snapshot-storage-identity.md`.

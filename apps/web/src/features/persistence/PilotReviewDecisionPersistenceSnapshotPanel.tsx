@@ -46,6 +46,9 @@ export function PilotReviewDecisionPersistenceSnapshotPanel({
             </div>
               <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
               <div><dt className="font-semibold">Decision</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.decisionId}</dd></div>
+              <div><dt className="font-semibold">Storage preflight</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.storageSelectionPreflightId}</dd></div>
+              <div><dt className="font-semibold">Storage gate</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.storageSelectionGateId}</dd></div>
+              <div><dt className="font-semibold">Storage selection</dt><dd className="mt-1 text-[var(--tenant-muted)]">{snapshot.storageSelectionAllowed ? "Allowed" : "Blocked"}; {snapshot.storageSelectionStatus}</dd></div>
               <div><dt className="font-semibold">Fingerprint</dt><dd className="mt-1 break-words text-[var(--tenant-muted)]">{snapshot.decisionFingerprint}</dd></div>
               <div><dt className="font-semibold">Restore / export</dt><dd className="mt-1 text-[var(--tenant-muted)]">Blocked / blocked</dd></div>
               <div><dt className="font-semibold">Activation</dt><dd className="mt-1 text-[var(--tenant-muted)]">Blocked by contract</dd></div>

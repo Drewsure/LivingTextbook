@@ -121,6 +121,14 @@ activation, export, release mutation, QR mutation, assignment, or classroom
 launch. See
 `docs/decision-register/DR-1145-pilot-decision-storage-identity.md`.
 
+## DR-1146: Pilot Review Snapshot Storage Identity
+
+Require provider-neutral pilot review snapshots to preserve the exact storage
+selection preflight and evidence-storage gate identity at the snapshot level,
+matching the embedded pilot decision. Storage selection, writes, restore,
+export, activation, learner data, and release mutation remain blocked. See
+`docs/decision-register/DR-1146-pilot-review-snapshot-storage-identity.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

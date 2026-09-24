@@ -11,6 +11,10 @@ const failures = [];
 requireText(model, 'category: "pilot-review-decision-snapshot"', "Snapshot model must use the canonical review decision snapshot category.");
 requireText(model, 'storageMode: "provider-neutral"', "Snapshot model must remain provider-neutral.");
 requireText(model, "decisionFingerprint", "Snapshot model must carry a decision fingerprint.");
+requireText(model, "storageSelectionPreflightId", "Snapshot model must carry storage selection preflight identity.");
+requireText(model, "storageSelectionGateId", "Snapshot model must carry storage selection gate identity.");
+requireText(model, "storageSelectionStatus", "Snapshot model must carry storage selection status.");
+requireText(model, "storageSelectionAllowed", "Snapshot model must carry storage selection permission.");
 requireText(model, "restoreAllowed: false", "Snapshot model must block restore.");
 requireText(model, "exportAllowed: false", "Snapshot model must block export.");
 requireText(model, "writesAllowed: false", "Snapshot model must block writes.");
@@ -28,6 +32,8 @@ requireText(fixture, "samplePilotReviewDecisionSnapshotErrors", "Snapshot fixtur
 requireText(fixture, "samplePilotReviewDecisionSnapshotAdapterResults", "Snapshot fixture must expose adapter rehearsal results.");
 requireText(panel, "Provider-neutral recovery without activation authority", "Persistence workbench must explain the snapshot boundary.");
 requireText(panel, "Restore / export", "Persistence workbench must show blocked recovery actions.");
+requireText(panel, "Storage preflight", "Persistence workbench must show storage preflight identity.");
+requireText(panel, "Storage gate", "Persistence workbench must show storage gate identity.");
 requireText(page, "PilotReviewDecisionPersistenceSnapshotPanel", "Persistence workbench must mount the snapshot panel.");
 
 if (failures.length > 0) {

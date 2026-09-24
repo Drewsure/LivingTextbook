@@ -41,6 +41,7 @@
 - `DR-1143-pilot-handoff-storage-selection-review-binding.md`
 - `DR-1144-controlled-pilot-storage-policy-boundary.md`
 - `DR-1145-pilot-decision-storage-identity.md`
+- `DR-1146-pilot-review-snapshot-storage-identity.md`
 - `DR-063-quiz-reporting-bridge.md`
 - `DR-064-teacher-demo-route-shortcuts.md`
 - `DR-065-active-route-verification-list.md`
