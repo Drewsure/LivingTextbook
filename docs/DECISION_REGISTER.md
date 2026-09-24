@@ -9296,3 +9296,12 @@ replay stable across browser and deployment runtimes without moving scoring,
 mastery, rewards, persistence, or tenant policy into the game scene. Evidence:
 `PairingMemoryMatchGame.tsx`, `scripts/verify-pairing-engine-runtime.mjs`,
 ADR 1165, and the build session record.
+
+## DR-1166: Shared Pairing Skin Ordering
+
+Memory Match, Match Up, and future pairing skins must use one shared
+replay-seeded ordering helper. The helper preserves every card exactly once,
+uses a stable card-identity tie-breaker, and keeps ordering as presentation
+state only. Scoring, audio policy, progression, persistence, and tenant
+configuration remain platform-owned. Evidence: `pairingEngineState.ts`, the
+two pairing game wrappers, and the pairing runtime verifier.

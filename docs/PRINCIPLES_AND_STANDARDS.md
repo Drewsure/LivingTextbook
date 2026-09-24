@@ -7884,3 +7884,18 @@ This standard is recorded in
 `docs/decision-register/DR-1165-canonical-pairing-replay-ordering.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1165-canonical-pairing-replay-ordering.md`.
+
+## 504. Shared Pairing Skin Ordering Standard
+
+- Memory Match, Match Up, and future pairing skins must call the same shared
+  replay-order helper rather than implementing local ordering rules.
+- The helper must preserve every card exactly once and use the supplied
+  platform replay seed plus a stable card-identity tie-breaker.
+- A pairing skin may change presentation and interaction, but it may not fork
+  replay identity, scoring authority, audio policy, progression, persistence,
+  or tenant configuration.
+
+This standard is recorded in
+`docs/decision-register/DR-1166-shared-pairing-skin-ordering.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1166-shared-pairing-skin-ordering.md`.

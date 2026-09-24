@@ -27,6 +27,7 @@ import {
   createPairingEngineState,
   getPairingProgressSummary,
   selectPairingCard,
+  sortPairingCardsByReplaySeed,
   type PairingCard,
   type PairingEngineState,
   type PairingSelectionResult,
@@ -324,17 +325,8 @@ function createShuffledPairingState(unit: UnitPayload, replaySeed: string): Pair
 
   return {
     ...state,
-    cards: [...state.cards].sort((first, second) => {
-      const firstKey = stableSortKey(`${replaySeed}:${first.id}`);
-      const secondKey = stableSortKey(`${replaySeed}:${second.id}`);
-
-      return firstKey - secondKey || first.id.localeCompare(second.id);
-    }),
+    cards: sortPairingCardsByReplaySeed(state.cards, replaySeed),
   };
-}
-
-function stableSortKey(value: string): number {
-  return Array.from(value).reduce((total, character, index) => total + character.charCodeAt(0) * (index + 3), 0) % 97;
 }
 
 function findAudioCue(audioCues: AudioCue[], text: string): AudioCue | undefined {

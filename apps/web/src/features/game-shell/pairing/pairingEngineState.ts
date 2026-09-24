@@ -74,6 +74,16 @@ export function getPairingProgressSummary(state: PairingEngineState): PairingPro
   };
 }
 
+/** Stable, platform-seeded presentation order shared by pairing game skins. */
+export function sortPairingCardsByReplaySeed(cards: PairingCard[], replaySeed: string): PairingCard[] {
+  return [...cards].sort((first, second) => {
+    const firstKey = pairingReplaySortKey(`${replaySeed}:${first.id}`);
+    const secondKey = pairingReplaySortKey(`${replaySeed}:${second.id}`);
+
+    return firstKey - secondKey || first.id.localeCompare(second.id);
+  });
+}
+
 export function selectPairingCard(state: PairingEngineState, cardId: string): PairingSelectionOutcome {
   if (state.completed || state.selectedCardIds.includes(cardId)) {
     return { state, result: "ignored" };
@@ -148,4 +158,8 @@ export function selectPairingCard(state: PairingEngineState, cardId: string): Pa
     result: "matched",
     pairId: firstCard.pairId,
   };
+}
+
+function pairingReplaySortKey(value: string): number {
+  return Array.from(value).reduce((total, character, index) => total + character.charCodeAt(0) * (index + 3), 0) % 97;
 }

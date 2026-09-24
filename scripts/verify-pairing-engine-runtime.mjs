@@ -68,8 +68,15 @@ try {
   assert(engine.getPairingProgressSummary(complete.state).attempts === 3, "progress must retain deterministic attempts");
   assert(engine.selectPairingCard(complete.state, "pair-1:source").result === "ignored", "completed engine must ignore later taps");
 
+  const orderedOnce = engine.sortPairingCardsByReplaySeed(initial.cards, "replay-v1:sample:memory-match").map((card) => card.id);
+  const orderedTwice = engine.sortPairingCardsByReplaySeed(initial.cards, "replay-v1:sample:memory-match").map((card) => card.id);
+  assert(JSON.stringify(orderedOnce) === JSON.stringify(orderedTwice), "the same replay seed must produce the same pairing card order");
+  assert(orderedOnce.length === new Set(orderedOnce).size, "seeded pairing order must preserve every card exactly once");
+
   const memoryMatchSource = readSource(join(root, "apps", "web", "src", "features", "game-shell", "pairing", "PairingMemoryMatchGame.tsx"));
-  assert(memoryMatchSource.includes("firstKey - secondKey || first.id.localeCompare(second.id)"), "Memory Match seeded ordering must use an explicit card-id tie-breaker");
+  const matchUpSource = readSource(join(root, "apps", "web", "src", "features", "game-shell", "pairing", "PairingMatchUpGame.tsx"));
+  assert(memoryMatchSource.includes("sortPairingCardsByReplaySeed"), "Memory Match must use the shared seeded pairing order");
+  assert(matchUpSource.includes("sortPairingCardsByReplaySeed(state.cards, replaySeed)"), "Match Up must use the shared seeded pairing order");
 
   const empty = engine.createPairingEngineState([]);
   assert(empty.completed === true, "empty pairing state must be terminal");

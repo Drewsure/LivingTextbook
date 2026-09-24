@@ -734,6 +734,7 @@ Current focused decision records also include:
 - `DR-1163-deployment-handoff-source-reconciliation.md`
 - `DR-1164-activation-preflight-scope.md`
 - `DR-1165-canonical-pairing-replay-ordering.md`
+- `DR-1166-shared-pairing-skin-ordering.md`
 
 ## Maintenance Rule
 

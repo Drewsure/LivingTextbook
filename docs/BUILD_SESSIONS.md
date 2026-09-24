@@ -5720,3 +5720,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept scoring, mastery, rewards, persistence, and tenant policy outside the
   pairing scene; frozen Z.ai/Phaser source remains review-only.
 - Recorded ADR 1165 and DR-1165.
+
+## Build session 1080: Shared pairing skin ordering
+
+- Moved replay-seeded pairing order into the shared Pairing Engine state
+  module.
+- Updated Memory Match and Match Up to consume the same seeded order and
+  explicit card-identity tie-breaker.
+- Added runtime coverage for repeatable, complete card order and preserved
+  platform ownership of scoring, audio, progression, persistence, and tenant
+  policy.
+- Recorded ADR 1166 and DR-1166.

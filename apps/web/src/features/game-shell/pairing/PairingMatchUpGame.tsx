@@ -26,6 +26,7 @@ import {
   createPairingEngineState,
   getPairingProgressSummary,
   selectPairingCard,
+  sortPairingCardsByReplaySeed,
   type PairingCard,
   type PairingEngineState,
   type PairingSelectionResult,
@@ -54,7 +55,7 @@ export function PairingMatchUpGame({
   onEvent,
   onComplete,
 }: PairingMatchUpGameProps) {
-  const [engineState, setEngineState] = useState<PairingEngineState>(() => createMatchUpState(unit));
+  const [engineState, setEngineState] = useState<PairingEngineState>(() => createMatchUpState(unit, replaySeed));
   const [lastResult, setLastResult] = useState<PairingSelectionResult | undefined>();
   const [mismatchCardIds, setMismatchCardIds] = useState<string[]>([]);
   const [completionSent, setCompletionSent] = useState(false);
@@ -233,9 +234,7 @@ export function PairingMatchUpGame({
   }
 
   const sourceCards = engineState.cards.filter((card) => card.kind === "source");
-  const targetCards = engineState.cards
-    .filter((card) => card.kind === "target")
-    .sort((first, second) => stableSortKey(first.id) - stableSortKey(second.id));
+  const targetCards = engineState.cards.filter((card) => card.kind === "target");
   const selectedCards = engineState.cards.filter((card) => engineState.selectedCardIds.includes(card.id));
   const feedbackText = progress.completed
     ? "Match Up complete. Great work."
@@ -396,12 +395,13 @@ function MatchUpFact({ label, value }: { label: string; value: string }) {
   );
 }
 
-function createMatchUpState(unit: UnitPayload): PairingEngineState {
-  return createPairingEngineState(createVocabularyPairingItems(unit));
-}
+function createMatchUpState(unit: UnitPayload, replaySeed: string): PairingEngineState {
+  const state = createPairingEngineState(createVocabularyPairingItems(unit));
 
-function stableSortKey(value: string): number {
-  return Array.from(value).reduce((total, character, index) => total + character.charCodeAt(0) * (index + 5), 0) % 101;
+  return {
+    ...state,
+    cards: sortPairingCardsByReplaySeed(state.cards, replaySeed),
+  };
 }
 
 function findTermAudioCue(audioCues: AudioCue[], text: string): AudioCue | undefined {
