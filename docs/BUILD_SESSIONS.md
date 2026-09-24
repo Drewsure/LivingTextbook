@@ -5616,3 +5616,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added blocked/disallowed validation while preserving all no-execution
   boundaries.
 - Recorded ADR 1153 and DR-1153.
+
+## Build session 1068: Local media evidence storage identity
+
+- Bound local media evidence bindings and manifest reconciliation to the exact
+  storage-selection preflight and evidence-storage gate identity.
+- Added storage-drift mismatch coverage and visible storage identity evidence
+  while preserving media copy, package write, local activation, download, QR,
+  and student-facing blockers.
+- Recorded ADR 1154 and DR-1154.

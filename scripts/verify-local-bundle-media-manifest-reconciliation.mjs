@@ -20,6 +20,10 @@ const binding = {
   bundleId: "bundle-1",
   packageId: "package-1",
   packageVersion: "2026.1-preview",
+  storageSelectionPreflightId: "storage-preflight-1",
+  storageSelectionGateId: "storage-gate-1",
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   mode: "review-only",
   status: "blocked",
   assets: [
@@ -42,6 +46,8 @@ const manifest = {
   bundleId: "bundle-1",
   packageId: "package-1",
   currentVersion: "2026.1-preview",
+  storageSelectionPreflightId: "storage-preflight-1",
+  storageSelectionGateId: "storage-gate-1",
   previousVersion: null,
   mode: "review-only",
   status: "blocked",
@@ -70,7 +76,7 @@ const manifest = {
 
 const needsEvidence = reconcileLocalBundleMediaManifest(manifest, binding);
 assert(needsEvidence.status === "needs-evidence", "matching identity with open media evidence must need evidence");
-assert(needsEvidence.identityMatches && needsEvidence.mediaArtifactFound && needsEvidence.pathMatches && needsEvidence.versionMatches, "matching manifest identity, artifact, path, and version must be reported");
+assert(needsEvidence.identityMatches && needsEvidence.storageSelectionMatches && needsEvidence.mediaArtifactFound && needsEvidence.pathMatches && needsEvidence.versionMatches, "matching manifest identity, storage identity, artifact, path, and version must be reported");
 assert(needsEvidence.localActivationAllowed === false && needsEvidence.studentFacingAllowed === false && needsEvidence.sideEffect === "none", "reconciliation must remain non-executing");
 
 const completeBinding = {
@@ -89,6 +95,7 @@ assert(reconcileLocalBundleMediaManifest(manifest, completeBinding).status === "
 assert(reconcileLocalBundleMediaManifest(manifest, { ...binding, tenantId: "other-tenant" }).status === "mismatch", "tenant drift must be a mismatch");
 assert(reconcileLocalBundleMediaManifest(manifest, { ...binding, assets: binding.assets.map((asset) => asset.assetId === "image" ? { ...asset, relativePath: "outside/image.png" } : asset) }).status === "mismatch", "asset path drift must be a mismatch");
 assert(reconcileLocalBundleMediaManifest({ ...manifest, artifacts: manifest.artifacts.filter((artifact) => artifact.kind !== "media") }, binding).status === "mismatch", "missing media artifact must be a mismatch");
+assert(reconcileLocalBundleMediaManifest({ ...manifest, storageSelectionGateId: "other-storage-gate" }, binding).status === "mismatch", "storage selection drift must be a mismatch");
 
 console.log("PASS local media manifest reconciliation separates identity drift from open evidence without enabling execution.");
 

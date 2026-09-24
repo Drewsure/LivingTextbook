@@ -33,6 +33,9 @@ export function LocalBundleMediaEvidenceBindingPanel({ binding, errors }: LocalB
         <Fact label="Assets" value={`${binding.assets.length}`} />
         <Fact label="Manifest" value={binding.manifestId} />
       </dl>
+      <p className="mt-4 text-xs font-semibold text-[var(--tenant-muted)]">
+        Storage identity: {binding.storageSelectionPreflightId} · {binding.storageSelectionGateId} · selection {binding.storageSelectionStatus} · allowed {binding.storageSelectionAllowed ? "yes" : "no"}
+      </p>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-3">
         {binding.assets.map((asset) => (

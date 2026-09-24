@@ -334,8 +334,13 @@ requireText(manifestRollbackDryRunContract, 'storageSelectionStatus") !== "block
 requireText(manifestRollbackDryRunContract, 'manifestState: "preview-only"', "Local package manifests must remain preview-only.");
 requireText(mediaEvidenceBindingContract, "validateLocalBundleMediaEvidenceBinding", "Local package media must bind rights and checksum evidence.");
 requireText(mediaEvidenceBindingContract, 'assetCopyAllowed: false', "Local package media copy must remain blocked.");
+requireText(mediaEvidenceBindingContract, "storageSelectionPreflightId", "Local package media must carry storage selection preflight identity.");
+requireText(mediaEvidenceBindingContract, "storageSelectionGateId", "Local package media must carry storage selection gate identity.");
+requireText(mediaEvidenceBindingContract, 'storageSelectionStatus") !== "blocked"', "Local package media storage selection must remain blocked.");
+requireText(mediaEvidenceBindingContract, "storageSelectionAllowed !== false", "Local package media storage selection must remain disallowed.");
 requireText(mediaManifestReconciliationContract, "reconcileLocalBundleMediaManifest", "Local package media must reconcile evidence against the versioned manifest.");
 requireText(mediaManifestReconciliationContract, 'localActivationAllowed: false', "Local media reconciliation must keep activation blocked.");
+requireText(mediaManifestReconciliationContract, "storageSelectionMatches", "Local media reconciliation must bind storage identity.");
 requireText(bundlePlan, "content-package.json", "Local bundle must keep a content package artifact path.");
 requireText(bundlePlan, "routes/qr-registry.json", "Local bundle must keep a QR registry artifact path.");
 requireText(bundlePlan, "games/game-routes.json", "Local bundle must keep a game route manifest artifact path.");

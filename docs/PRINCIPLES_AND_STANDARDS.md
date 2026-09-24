@@ -7703,3 +7703,18 @@ This standard is recorded in
 `docs/decision-register/DR-1153-local-export-rollback-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1153-local-export-rollback-storage-identity.md`.
+
+## 492. Local Media Evidence Storage Identity Standard
+
+- Local media evidence bindings and media-manifest reconciliations must carry
+  the same storage-selection preflight and evidence-storage gate identities as
+  the package manifest rollback and recovery previews.
+- Storage identity drift is a reconciliation mismatch, not an open media
+  evidence warning; a matching media path or checksum cannot override it.
+- Media copy, package writes, local activation, student promotion, download,
+  and QR mutation remain blocked and side-effect free until policy approval.
+
+This standard is recorded in
+`docs/decision-register/DR-1154-local-media-evidence-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1154-local-media-evidence-storage-identity.md`.

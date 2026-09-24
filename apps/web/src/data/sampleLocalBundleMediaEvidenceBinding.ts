@@ -2,6 +2,7 @@ import {
   validateLocalBundleMediaEvidenceBinding,
   type LocalBundleMediaEvidenceBinding,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "./sampleStorageSelectionIdentity";
 
 export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBinding = {
   bindingId: "sample-publisher-l1-u1-media-evidence-binding-001",
@@ -10,6 +11,10 @@ export const sampleLocalBundleMediaEvidenceBinding: LocalBundleMediaEvidenceBind
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
   packageVersion: "2026.1-preview",
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+  storageSelectionStatus: sampleStorageSelectionIdentity.storageSelectionStatus,
+  storageSelectionAllowed: sampleStorageSelectionIdentity.storageSelectionAllowed,
   mode: "review-only",
   status: "blocked",
   assets: [

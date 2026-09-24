@@ -28,6 +28,10 @@ export interface LocalBundleMediaEvidenceBinding {
   bundleId: string;
   packageId: string;
   packageVersion: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   mode: "review-only";
   status: "blocked";
   assets: LocalBundleMediaEvidenceEntry[];
@@ -52,9 +56,11 @@ const SHA256_PATTERN = /^sha256-[a-f0-9]{64}$/;
 export function validateLocalBundleMediaEvidenceBinding(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Local bundle media evidence binding must be a JSON object."];
-  for (const field of ["bindingId", "manifestId", "tenantId", "bundleId", "packageId", "packageVersion"] as const) {
+  for (const field of ["bindingId", "manifestId", "tenantId", "bundleId", "packageId", "packageVersion", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (!readString(value, field)) errors.push(`Local bundle media evidence binding requires ${field}.`);
   }
+  if (readString(value, "storageSelectionStatus") !== "blocked") errors.push("Local bundle media evidence binding storage selection must remain blocked.");
+  if (value.storageSelectionAllowed !== false) errors.push("Local bundle media evidence binding must keep storageSelectionAllowed: false.");
   if (readString(value, "mode") !== "review-only") errors.push("Local bundle media evidence binding must remain review-only.");
   if (readString(value, "status") !== "blocked") errors.push("Local bundle media evidence binding must remain blocked.");
   if (readString(value, "sideEffect") !== "none") errors.push("Local bundle media evidence binding must have no side effect.");

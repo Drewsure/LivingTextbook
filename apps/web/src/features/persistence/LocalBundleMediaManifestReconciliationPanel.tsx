@@ -24,6 +24,7 @@ export function LocalBundleMediaManifestReconciliationPanel({
         <div className="flex flex-wrap gap-2">
           <StatusPill label={reconciliation.status} tone={statusTone[reconciliation.status]} />
           <StatusPill label={reconciliation.identityMatches ? "Identity aligned" : "Identity mismatch"} tone={reconciliation.identityMatches ? "success" : "warning"} />
+          <StatusPill label={reconciliation.storageSelectionMatches ? "Storage aligned" : "Storage mismatch"} tone={reconciliation.storageSelectionMatches ? "success" : "warning"} />
           <StatusPill label={reconciliation.pathMatches ? "Paths aligned" : "Path mismatch"} tone={reconciliation.pathMatches ? "success" : "warning"} />
           <StatusPill label="No side effect" tone="success" />
         </div>
@@ -51,6 +52,9 @@ export function LocalBundleMediaManifestReconciliationPanel({
         </p>
         <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
           Blocked actions: {reconciliation.blockedActions.join(", ")}
+        </p>
+        <p className="mt-2 text-xs font-semibold text-[var(--tenant-muted)]">
+          Storage identity: {reconciliation.storageSelectionPreflightId} · {reconciliation.storageSelectionGateId}
         </p>
       </div>
     </Card>

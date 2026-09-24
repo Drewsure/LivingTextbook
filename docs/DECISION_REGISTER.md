@@ -9192,3 +9192,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   authorized.
 - Export, deletion, file copy, package writes, route mutation, and rollback
   execution remain blocked.
+
+## DR-1154: Local Media Evidence Storage Identity
+
+- Local media evidence bindings and manifest reconciliation must carry the
+  same storage-selection preflight and evidence-storage gate identity as local
+  recovery and rollback previews.
+- Storage identity drift is a reconciliation mismatch, not a warning that can
+  be bypassed by complete media evidence.
+- Media copy, package writes, local activation, student promotion, download,
+  and QR mutation remain blocked.

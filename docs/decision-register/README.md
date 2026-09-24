@@ -722,6 +722,7 @@ Current focused decision records also include:
 - `DR-1151-recovery-rehearsal-storage-identity.md`
 - `DR-1152-local-recovery-storage-identity.md`
 - `DR-1153-local-export-rollback-storage-identity.md`
+- `DR-1154-local-media-evidence-storage-identity.md`
 
 ## Maintenance Rule
 

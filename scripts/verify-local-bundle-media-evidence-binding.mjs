@@ -16,7 +16,7 @@ writeFileSync(join(output, "localBundleMediaEvidenceBinding.js"), ts.transpileMo
 try {
   const { validateLocalBundleMediaEvidenceBinding } = require(join(output, "localBundleMediaEvidenceBinding.js"));
   const binding = {
-    bindingId: "binding-1", manifestId: "manifest-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1", packageVersion: "2026.1", mode: "review-only", status: "blocked",
+    bindingId: "binding-1", manifestId: "manifest-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1", packageVersion: "2026.1", storageSelectionPreflightId: "storage-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false, mode: "review-only", status: "blocked",
     assets: [
       { assetId: "audio", label: "Audio", kind: "audio", relativePath: "media/audio.mp3", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "transcript.txt", posterRef: null, altTextReady: true, localEligibility: "blocked", blockers: ["review"] },
       { assetId: "video", label: "Video", kind: "video", relativePath: "media/video.mp4", sourceRef: "source", rightsStatus: "unknown", rightsEvidenceRef: "rights", checksum: "missing", scanStatus: "pending", targetMappingReviewed: false, transcriptOrCaptionRef: "captions.vtt", posterRef: "poster.jpg", altTextReady: true, localEligibility: "blocked", blockers: ["review"] },
@@ -26,6 +26,8 @@ try {
     blockedActions: ["file-upload", "media-copy", "package-write", "local-activation", "student-promotion", "qr-mutation"], sideEffect: "none",
   };
   assert(validateLocalBundleMediaEvidenceBinding(binding).length === 0, "complete media evidence binding must validate");
+  assert(validateLocalBundleMediaEvidenceBinding({ ...binding, storageSelectionGateId: "" }).some((error) => error.includes("storageSelectionGateId")), "media evidence must carry storage gate identity");
+  assert(validateLocalBundleMediaEvidenceBinding({ ...binding, storageSelectionAllowed: true }).some((error) => error.includes("storageSelectionAllowed: false")), "media evidence storage selection must remain disallowed");
   assert(validateLocalBundleMediaEvidenceBinding({ ...binding, assets: binding.assets.map((asset) => asset.assetId === "video" ? { ...asset, relativePath: "file:///unsafe" } : asset) }).some((error) => error.includes("safe relative path")), "unsafe media paths must be rejected");
   assert(validateLocalBundleMediaEvidenceBinding({ ...binding, assetCopyAllowed: true }).some((error) => error.includes("assetCopyAllowed: false")), "media copy must remain blocked");
   assert(validateLocalBundleMediaEvidenceBinding({ ...binding, assets: binding.assets.map((asset) => asset.assetId === "audio" ? { ...asset, transcriptOrCaptionRef: null } : asset) }).some((error) => error.includes("audio asset")), "audio transcript evidence must be required");
