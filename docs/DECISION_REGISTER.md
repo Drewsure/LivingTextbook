@@ -9430,3 +9430,13 @@ activate QR, promote a package, export evidence, or write hosted state. The
 target language remains the only progression and mastery trigger, and MiniStar
 Foundation Japanese remains hiragana-only. See ADR 1177 and
 `docs/decision-register/DR-1177-assist-language-review-packet.md`.
+
+## DR-1178: Gloss-Bound Assist-Language Audio Coverage
+
+Assist-language audio readiness is now calculated from reviewed term, sentence,
+and instruction glosses rather than a raw file count. The shared contract
+reports required, covered, and missing items in the teacher review packet. It
+remains evidence-only: no speech generation, upload, rights approval, package
+write, assignment, progression, mastery, reward, release, or hosted write is
+enabled. See ADR 1178 and
+`docs/decision-register/DR-1178-assist-language-audio-coverage.md`.

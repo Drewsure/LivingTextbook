@@ -54,7 +54,8 @@ export function TeacherAssistLanguageReviewPanel({ packets }: TeacherAssistLangu
               <ReviewFact label="Text review" value={packet.reviewStatus ?? "Not applicable"} />
               <ReviewFact label="Student visibility" value={packet.studentVisibility ?? "No student support"} />
               <ReviewFact label="Text coverage" value={`${packet.vocabularyGlossCount} terms / ${packet.sentenceGlossCount} sentences / ${packet.instructionGlossCount} instructions`} />
-              <ReviewFact label="Assist audio cues" value={String(packet.assistAudioCueCount)} />
+              <ReviewFact label="Assist audio cues" value={`${packet.assistAudioCueCount} cue(s)`} />
+              <ReviewFact label="Audio coverage" value={`Terms ${packet.assistAudioCoverage.terms}; sentences ${packet.assistAudioCoverage.sentences}; instructions ${packet.assistAudioCoverage.instructions}`} />
               <ReviewFact label="Live AI fallback" value={packet.allowLiveAiFallback ? "Declared, review required" : "Disabled"} />
             </dl>
 

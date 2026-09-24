@@ -1,4 +1,6 @@
 import {
+  getAssistLanguageAudioCoverage,
+  getUnitKey,
   validateAssistLanguageScriptPolicy,
   type ContentPackage,
   type UnitAssistLanguagePlan,
@@ -30,6 +32,12 @@ export interface AssistLanguageReviewPacket {
   sentenceGlossCount: number;
   instructionGlossCount: number;
   assistAudioCueCount: number;
+  assistAudioCoverage: {
+    terms: string;
+    sentences: string;
+    instructions: string;
+    ready: boolean;
+  };
   allowLiveAiFallback: boolean;
   reviewEvidence: string[];
   openItems: string[];
@@ -61,6 +69,7 @@ export function buildAssistLanguageReviewPacket(contentPackage: ContentPackage):
       sentenceGlossCount: 0,
       instructionGlossCount: 0,
       assistAudioCueCount: 0,
+      assistAudioCoverage: { terms: "0 / 0", sentences: "0 / 0", instructions: "0 / 0", ready: false },
       allowLiveAiFallback: false,
       reviewEvidence: ["No optional assist-language plan is configured for this package."],
       openItems: ["A tenant owner must supply and review support-language content before student visibility is considered."],
@@ -73,9 +82,17 @@ export function buildAssistLanguageReviewPacket(contentPackage: ContentPackage):
 
 function buildPlanReviewPacket(contentPackage: ContentPackage, plan: UnitAssistLanguagePlan): AssistLanguageReviewPacket {
   const scriptErrors = validateAssistLanguageScriptPolicy(plan);
-  const assistAudioCueCount = (contentPackage.audioCues ?? []).filter(
-    (cue) => cue.language.toLowerCase() === plan.assistLanguage.toLowerCase() && cue.unitKey === plan.unitKey,
-  ).length;
+  const unit = contentPackage.units.find((candidate) => getUnitKey(candidate.unitMeta) === plan.unitKey) ?? contentPackage.units[0];
+
+  if (!unit) {
+    throw new Error(`Assist-language review plan has no matching unit: ${plan.unitKey}`);
+  }
+
+  const assistAudioCoverage = getAssistLanguageAudioCoverage({
+    unit,
+    plan,
+    audioCues: contentPackage.audioCues,
+  });
   const reviewEvidence = [
     `${plan.source} source with ${plan.reviewStatus} review status.`,
     `${plan.studentVisibility} student visibility; target-language activity remains the progression trigger.`,
@@ -84,8 +101,8 @@ function buildPlanReviewPacket(contentPackage: ContentPackage, plan: UnitAssistL
   ];
   const openItems = [...scriptErrors];
 
-  if (assistAudioCueCount === 0) {
-    openItems.push("Assist-language audio cue catalog is not yet bound to this package; text support remains the only reviewed preview evidence.");
+  if (!assistAudioCoverage.ready) {
+    openItems.push(`Assist-language audio coverage is incomplete: ${assistAudioCoverage.missingTerms.length} term(s), ${assistAudioCoverage.missingSentences.length} sentence(s), and ${assistAudioCoverage.missingInstructions.length} instruction(s) remain.`);
   }
 
   if (plan.allowLiveAiFallback) {
@@ -113,7 +130,13 @@ function buildPlanReviewPacket(contentPackage: ContentPackage, plan: UnitAssistL
     vocabularyGlossCount: Object.keys(plan.vocabularyGlosses).length,
     sentenceGlossCount: plan.sentenceGlosses.length,
     instructionGlossCount: Object.keys(plan.instructionGlosses ?? {}).length,
-    assistAudioCueCount,
+    assistAudioCueCount: assistAudioCoverage.audioCueCount,
+    assistAudioCoverage: {
+      terms: `${assistAudioCoverage.coveredTermCount} / ${assistAudioCoverage.requiredTermCount}`,
+      sentences: `${assistAudioCoverage.coveredSentenceCount} / ${assistAudioCoverage.requiredSentenceCount}`,
+      instructions: `${assistAudioCoverage.coveredInstructionCount} / ${assistAudioCoverage.requiredInstructionCount}`,
+      ready: assistAudioCoverage.ready,
+    },
     allowLiveAiFallback: plan.allowLiveAiFallback ?? false,
     reviewEvidence,
     openItems,

@@ -101,6 +101,9 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
   mixed-script plans.
 - Runtime and teacher-session contracts preserve target-language progression,
   support-only visibility, and teacher enablement boundaries.
+- A shared audio-coverage contract compares assist-language audio cues against
+  reviewed term, sentence, and instruction glosses and reports missing items
+  without treating text support as audio-ready.
 - Teacher intake now exposes a read-only assist-language review packet that
   reports text coverage, assist-audio coverage, open items, and blocked actions.
 

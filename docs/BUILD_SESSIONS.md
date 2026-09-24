@@ -5899,3 +5899,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Clarified the assist-language standard by separating implemented foundation
   rules from future production work.
 - Recorded ADR 1177 and DR-1177.
+
+## Build session: Gloss-bound assist-language audio coverage
+
+- Added a shared content-model calculation for support-language term, sentence,
+  and instruction audio coverage.
+- Bound coverage to reviewed gloss text and explicit unit/tenant scope.
+- Exposed exact required, covered, and missing counts in teacher intake.
+- Kept speech generation, upload, rights approval, package promotion,
+  progression, mastery, and hosted writes blocked.
+- Recorded ADR 1178 and DR-1178.
