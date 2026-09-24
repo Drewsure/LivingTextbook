@@ -9202,3 +9202,11 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   be bypassed by complete media evidence.
 - Media copy, package writes, local activation, student promotion, download,
   and QR mutation remain blocked.
+
+## DR-1155: Local Media Release-Control Storage Identity
+
+- Media release-control bindings must carry storage-selection preflight and
+  evidence-storage gate identity from media reconciliation.
+- Storage identity mismatch must force a blocked release decision.
+- Promotion, package writes, local activation, student-facing use, and QR
+  mutation remain blocked.

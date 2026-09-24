@@ -5625,3 +5625,10 @@ compatible with the workspace's no-emit typecheck and production bundling.
   while preserving media copy, package write, local activation, download, QR,
   and student-facing blockers.
 - Recorded ADR 1154 and DR-1154.
+
+## Build session 1069: Local media release-control storage identity
+
+- Carried media storage-selection identity into the release-control binding.
+- Made storage drift a blocking release decision and added negative coverage
+  while preserving promotion, package-write, activation, and QR blockers.
+- Recorded ADR 1155 and DR-1155.

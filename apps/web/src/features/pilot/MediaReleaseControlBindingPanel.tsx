@@ -23,6 +23,7 @@ export function MediaReleaseControlBindingPanel({ binding, errors }: MediaReleas
         <div className="flex flex-wrap gap-2">
           <StatusPill label={binding.decision} tone={decisionTone[binding.decision]} />
           <StatusPill label={`Reconciliation: ${binding.reconciliationStatus}`} tone={binding.reconciliationStatus === "aligned" ? "success" : "warning"} />
+          <StatusPill label={binding.storageSelectionMatches ? "Storage aligned" : "Storage mismatch"} tone={binding.storageSelectionMatches ? "success" : "warning"} />
           <StatusPill label="No promotion" tone="warning" />
           <StatusPill label="No side effect" tone="success" />
         </div>
@@ -34,6 +35,9 @@ export function MediaReleaseControlBindingPanel({ binding, errors }: MediaReleas
         <Fact label="Package" value={binding.packageId} />
         <Fact label="Media gate" value={binding.releaseGateMediaStatus} />
       </dl>
+      <p className="mt-4 text-xs font-semibold text-[var(--tenant-muted)]">
+        Storage identity: {binding.storageSelectionPreflightId} · {binding.storageSelectionGateId}
+      </p>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <List title="Release-blocking reasons" values={binding.releaseBlockingReasons} />

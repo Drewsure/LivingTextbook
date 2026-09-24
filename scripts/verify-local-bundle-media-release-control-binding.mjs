@@ -18,6 +18,9 @@ const reconciliation = {
   bundleId: "bundle-1",
   packageId: "package-1",
   packageVersion: "2026.1-preview",
+  storageSelectionPreflightId: "storage-preflight-1",
+  storageSelectionGateId: "storage-gate-1",
+  storageSelectionMatches: true,
   status: "needs-evidence",
   identityMatches: true,
   mediaArtifactFound: true,
@@ -44,6 +47,7 @@ const binding = deriveLocalBundleMediaReleaseControlBinding(reconciliation, {
 assert(binding.decision === "needs-review", "open reconciliation and media gate must remain needs-review");
 assert(validateLocalBundleMediaReleaseControlBinding(binding).length === 0, "derived release-control binding must validate");
 assert(binding.promotionAllowed === false && binding.studentFacingAllowed === false && binding.localActivationAllowed === false && binding.sideEffect === "none", "release-control binding must remain non-executing");
+assert(binding.storageSelectionPreflightId === "storage-preflight-1" && binding.storageSelectionGateId === "storage-gate-1", "release-control binding must carry storage identity");
 assert(deriveLocalBundleMediaReleaseControlBinding(reconciliation, {
   releaseGateId: "gate-1",
   releaseGateTenantId: "other-tenant",
@@ -52,6 +56,13 @@ assert(deriveLocalBundleMediaReleaseControlBinding(reconciliation, {
   requiredApprovals: ["Media rights approval"],
 }).decision === "blocked", "release gate tenant drift must block the decision");
 assert(validateLocalBundleMediaReleaseControlBinding({ ...binding, blockedActions: [] }).length > 0, "missing blocked actions must fail validation");
+assert(deriveLocalBundleMediaReleaseControlBinding({ ...reconciliation, storageSelectionMatches: false }, {
+  releaseGateId: "gate-1",
+  releaseGateTenantId: "tenant-1",
+  releaseGatePackageId: "package-1",
+  releaseGateMediaStatus: "ready",
+  requiredApprovals: ["Media rights approval"],
+}).decision === "blocked", "storage identity drift must block release control");
 
 console.log("PASS local media release-control binding derives a blocked review decision without enabling promotion.");
 

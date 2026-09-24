@@ -209,6 +209,9 @@ requireText(releaseControlEvidence, "promotionAllowed: false", "Shared release-c
 requireText(releaseControlEvidence, "sideEffect: \"none\"", "Shared release-control evidence must remain side-effect free.");
 requireText(mediaReleaseControlBinding, "deriveLocalBundleMediaReleaseControlBinding", "Release control must derive media status from the manifest reconciliation.");
 requireText(mediaReleaseControlBinding, "promotionAllowed: false", "Media release-control binding must keep promotion blocked.");
+requireText(mediaReleaseControlBinding, "storageSelectionPreflightId", "Media release-control binding must carry storage selection preflight identity.");
+requireText(mediaReleaseControlBinding, "storageSelectionGateId", "Media release-control binding must carry storage selection gate identity.");
+requireText(mediaReleaseControlBinding, "storageSelectionMatches", "Media release-control binding must expose storage identity alignment.");
 requireText(mediaReleaseControlPanel, "Media evidence feeds the publish decision", "Release-control page must show media evidence binding.");
 requireText(releaseControlPage, "sampleLocalBundleMediaReleaseControlBinding", "Release-control page must render media release-control evidence.");
 requireText(schoolPolicyAcceptancePreflight, "Child safety and progression boundaries", "School policy acceptance preflight must preserve child safety and progression boundaries.");

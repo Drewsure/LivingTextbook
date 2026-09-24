@@ -7718,3 +7718,19 @@ This standard is recorded in
 `docs/decision-register/DR-1154-local-media-evidence-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1154-local-media-evidence-storage-identity.md`.
+
+## 493. Local Media Release-Control Storage Identity Standard
+
+- Media release-control bindings must carry the same storage-selection
+  preflight and evidence-storage gate identities as media evidence and
+  manifest reconciliation.
+- Storage identity mismatch must force a blocked release decision, even when
+  media rights, checksums, paths, and accessibility evidence are otherwise
+  complete.
+- Promotion, package writes, local activation, student-facing use, and QR
+  mutation remain blocked and side-effect free.
+
+This standard is recorded in
+`docs/decision-register/DR-1155-local-media-release-control-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1155-local-media-release-control-storage-identity.md`.
