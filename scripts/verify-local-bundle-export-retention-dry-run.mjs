@@ -22,6 +22,7 @@ try {
   ];
   const dryRun = {
     dryRunId: "dry-run-1", reconciliationId: "reconciliation-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1",
+    storageSelectionPreflightId: "storage-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false,
     mode: "review-only", status: "blocked", format: "review-json",
     items: categories.map(([category, disposition]) => ({ itemId: category, label: category, category, disposition, sourceRef: `${category}-ref`, reason: "review" })),
     retention: { policyRef: "retention-policy", deletionScope: "tenant-package-session", retentionDays: null, deletionRequiresPolicy: true, deletionAction: "blocked" },

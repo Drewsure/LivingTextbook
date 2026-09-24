@@ -2,6 +2,7 @@ import {
   validateLocalBundleExportRetentionDryRun,
   type LocalBundleExportRetentionDryRun,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "./sampleStorageSelectionIdentity";
 
 export const sampleLocalBundleExportRetentionDryRun: LocalBundleExportRetentionDryRun = {
   dryRunId: "sample-publisher-local-export-retention-dry-run-001",
@@ -9,6 +10,10 @@ export const sampleLocalBundleExportRetentionDryRun: LocalBundleExportRetentionD
   tenantId: "sample-publisher",
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   mode: "review-only",
   status: "blocked",
   format: "review-json",

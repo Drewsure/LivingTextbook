@@ -323,8 +323,14 @@ requireText(recoveryPacketContract, "crossTenantRestoreBlocked: true", "Local re
 requireText(recoveryReconciliationContract, "reconcileLocalBundleRecoveryEvidence", "Local recovery evidence must reconcile provider and packet identity.");
 requireText(recoveryReconciliationContract, "storage and package identities must match", "Local recovery evidence must reject storage identity drift.");
 requireText(exportRetentionDryRunContract, "validateLocalBundleExportRetentionDryRun", "Local export and retention dry runs must validate package classifications.");
+requireText(exportRetentionDryRunContract, "storageSelectionPreflightId", "Local export and retention dry runs must carry storage selection preflight identity.");
+requireText(exportRetentionDryRunContract, "storageSelectionGateId", "Local export and retention dry runs must carry storage selection gate identity.");
+requireText(exportRetentionDryRunContract, 'storageSelectionStatus") !== "blocked"', "Local export and retention storage selection must remain blocked.");
 requireText(exportRetentionDryRunContract, 'deletionAction: "blocked"', "Local retention deletion must remain blocked in dry runs.");
 requireText(manifestRollbackDryRunContract, "validateLocalBundlePackageManifestRollbackDryRun", "Local package manifests must validate rollback evidence.");
+requireText(manifestRollbackDryRunContract, "storageSelectionPreflightId", "Local package rollback dry runs must carry storage selection preflight identity.");
+requireText(manifestRollbackDryRunContract, "storageSelectionGateId", "Local package rollback dry runs must carry storage selection gate identity.");
+requireText(manifestRollbackDryRunContract, 'storageSelectionStatus") !== "blocked"', "Local package rollback storage selection must remain blocked.");
 requireText(manifestRollbackDryRunContract, 'manifestState: "preview-only"', "Local package manifests must remain preview-only.");
 requireText(mediaEvidenceBindingContract, "validateLocalBundleMediaEvidenceBinding", "Local package media must bind rights and checksum evidence.");
 requireText(mediaEvidenceBindingContract, 'assetCopyAllowed: false', "Local package media copy must remain blocked.");

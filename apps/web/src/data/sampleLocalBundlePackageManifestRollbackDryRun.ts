@@ -2,6 +2,7 @@ import {
   validateLocalBundlePackageManifestRollbackDryRun,
   type LocalBundlePackageManifestRollbackDryRun,
 } from "@living-textbook/content-model";
+import { sampleStorageSelectionIdentity } from "./sampleStorageSelectionIdentity";
 
 const impactDomains = ["qr", "content", "media", "games", "reports", "learner-progress"] as const;
 
@@ -12,6 +13,10 @@ export const sampleLocalBundlePackageManifestRollbackDryRun: LocalBundlePackageM
   tenantId: "sample-publisher",
   bundleId: "sample-publisher-unit-1-planning",
   packageId: "sample-publisher-l1-u1-routines-package",
+  storageSelectionPreflightId: sampleStorageSelectionIdentity.storageSelectionPreflightId,
+  storageSelectionGateId: sampleStorageSelectionIdentity.storageSelectionGateId,
+  storageSelectionStatus: "blocked",
+  storageSelectionAllowed: false,
   currentVersion: "2026.1-preview",
   previousVersion: "2025.1-legacy",
   mode: "review-only",

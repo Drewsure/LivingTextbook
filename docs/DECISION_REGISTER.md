@@ -9183,3 +9183,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   mismatch.
 - Backup, restore, export, retention deletion, activation, route mutation,
   package writes, and student promotion remain blocked.
+
+## DR-1153: Local Export and Rollback Storage Identity
+
+- Local export/retention and package rollback previews must carry the same
+  storage-selection preflight and evidence-storage gate identity as recovery.
+- Missing or enabled storage identity fails validation before future tooling is
+  authorized.
+- Export, deletion, file copy, package writes, route mutation, and rollback
+  execution remain blocked.

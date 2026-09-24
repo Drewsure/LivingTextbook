@@ -5608,3 +5608,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added storage drift mismatch coverage while preserving local recovery
   blockers.
 - Recorded ADR 1152 and DR-1152.
+
+## Build session 1067: Local export and rollback storage identity
+
+- Bound local export/retention and package rollback previews to shared storage
+  selection identity.
+- Added blocked/disallowed validation while preserving all no-execution
+  boundaries.
+- Recorded ADR 1153 and DR-1153.

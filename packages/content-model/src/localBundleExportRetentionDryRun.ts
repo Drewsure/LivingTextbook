@@ -25,6 +25,10 @@ export interface LocalBundleExportRetentionDryRun {
   tenantId: string;
   bundleId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   mode: "review-only";
   status: "blocked";
   format: "review-json" | "bundle-manifest";
@@ -75,11 +79,15 @@ export function validateLocalBundleExportRetentionDryRun(value: unknown): string
   const tenantId = readString(value, "tenantId");
   const bundleId = readString(value, "bundleId");
   const packageId = readString(value, "packageId");
-  if (!dryRunId || !reconciliationId || !tenantId || !bundleId || !packageId) {
+  const storageSelectionPreflightId = readString(value, "storageSelectionPreflightId");
+  const storageSelectionGateId = readString(value, "storageSelectionGateId");
+  if (!dryRunId || !reconciliationId || !tenantId || !bundleId || !packageId || !storageSelectionPreflightId || !storageSelectionGateId) {
     errors.push("Local bundle export/retention dry run requires identity fields.");
   }
   if (readString(value, "mode") !== "review-only") errors.push("Local bundle export/retention dry run must remain review-only.");
   if (readString(value, "status") !== "blocked") errors.push("Local bundle export/retention dry run must remain blocked.");
+  if (readString(value, "storageSelectionStatus") !== "blocked") errors.push("Local bundle export/retention storage selection must remain blocked.");
+  if (value.storageSelectionAllowed !== false) errors.push("Local bundle export/retention storage selection must remain false.");
   if (readString(value, "sideEffect") !== "none") errors.push("Local bundle export/retention dry run must have no side effect.");
 
   for (const field of ["exportExecutionAllowed", "retentionDeletionAllowed", "fileCopyAllowed", "learnerDataExportAllowed", "packageWriteAllowed", "routeMutationAllowed"] as const) {

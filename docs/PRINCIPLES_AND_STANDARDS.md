@@ -7688,3 +7688,18 @@ This standard is recorded in
 `docs/decision-register/DR-1152-local-recovery-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1152-local-recovery-storage-identity.md`.
+
+## 491. Local Export and Rollback Storage Identity Standard
+
+- Local export/retention and package rollback dry runs must carry the same
+  storage-selection preflight and evidence-storage gate identities as local
+  recovery packets.
+- These previews must remain blocked, disallowed, and side-effect free; their
+  evidence must never become an authorization shortcut.
+- Export, retention deletion, file copy, package writes, route mutation, and
+  rollback execution remain blocked until policy approval.
+
+This standard is recorded in
+`docs/decision-register/DR-1153-local-export-rollback-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1153-local-export-rollback-storage-identity.md`.

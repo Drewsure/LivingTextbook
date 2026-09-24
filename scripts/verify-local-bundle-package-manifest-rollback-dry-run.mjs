@@ -18,7 +18,7 @@ try {
   const kinds = ["content", "media", "route", "game", "reporting"];
   const domains = ["qr", "content", "media", "games", "reports", "learner-progress"];
   const dryRun = {
-    manifestId: "manifest-1", rollbackDryRunId: "rollback-1", reconciliationId: "reconciliation-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1", currentVersion: "2026.1", previousVersion: "2025.1", mode: "review-only", status: "blocked", manifestState: "preview-only",
+    manifestId: "manifest-1", rollbackDryRunId: "rollback-1", reconciliationId: "reconciliation-1", tenantId: "tenant-1", bundleId: "bundle-1", packageId: "package-1", storageSelectionPreflightId: "storage-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false, currentVersion: "2026.1", previousVersion: "2025.1", mode: "review-only", status: "blocked", manifestState: "preview-only",
     artifacts: kinds.map((kind) => ({ artifactId: kind, label: kind, kind, relativePath: `${kind}/manifest.json`, version: "2026.1", checksumStatus: "review-required", readiness: "review-required", sourceRef: `${kind}-source` })),
     rollbackImpacts: domains.map((domain) => ({ impactId: domain, domain, currentVersion: "2026.1", fallbackVersion: "2025.1", fallbackTarget: `${domain}-fallback`, status: "blocked", learnerDataMutationAllowed: false, routeMutationAllowed: false, mediaReplacementAllowed: false, verificationRef: `${domain}-verification` })),
     qrFallbackRule: "Stable QR alias fallback remains reviewed.",

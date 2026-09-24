@@ -34,6 +34,10 @@ export interface LocalBundlePackageManifestRollbackDryRun {
   tenantId: string;
   bundleId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   currentVersion: string;
   previousVersion: string | null;
   mode: "review-only";
@@ -72,11 +76,13 @@ export function validateLocalBundlePackageManifestRollbackDryRun(value: unknown)
   const errors: string[] = [];
   if (!isRecord(value)) return ["Local bundle package manifest rollback dry run must be a JSON object."];
 
-  for (const field of ["manifestId", "rollbackDryRunId", "reconciliationId", "tenantId", "bundleId", "packageId", "currentVersion"] as const) {
+  for (const field of ["manifestId", "rollbackDryRunId", "reconciliationId", "tenantId", "bundleId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId", "currentVersion"] as const) {
     if (!readString(value, field)) errors.push(`Local bundle package manifest rollback dry run requires ${field}.`);
   }
   if (readString(value, "mode") !== "review-only") errors.push("Local bundle package manifest rollback dry run must remain review-only.");
   if (readString(value, "status") !== "blocked") errors.push("Local bundle package manifest rollback dry run must remain blocked.");
+  if (readString(value, "storageSelectionStatus") !== "blocked") errors.push("Local bundle package manifest storage selection must remain blocked.");
+  if (value.storageSelectionAllowed !== false) errors.push("Local bundle package manifest storage selection must remain false.");
   if (readString(value, "manifestState") !== "preview-only") errors.push("Local bundle package manifest must remain preview-only.");
   if (!readString(value, "qrFallbackRule").toLowerCase().includes("stable")) errors.push("Local bundle package manifest must define a stable QR fallback rule.");
   if (readString(value, "sideEffect") !== "none") errors.push("Local bundle package manifest rollback dry run must have no side effect.");
