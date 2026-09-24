@@ -27,6 +27,8 @@ resolver also rejects routes or media assets that point outside the declared
 unit scope. The
 change preserves the review-only boundary: no file access, bundle write,
 offline activation, learner-data persistence, or release approval is enabled.
+The teacher evidence surface also shows unit scope and counts it toward
+handoff readiness.
 
 ## Verification
 

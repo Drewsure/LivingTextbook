@@ -5832,4 +5832,6 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added negative runtime coverage for a route outside package unit scope.
 - Applied the same unit-scope check to local audio, video, and image assets.
 - Added negative runtime coverage for a media asset outside package unit scope.
+- Made unit scope visible in route and asset evidence, and included it in the
+  handoff-ready count.
 - Kept local routing review-only and activation-blocked.

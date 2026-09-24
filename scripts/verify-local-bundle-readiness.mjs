@@ -118,6 +118,8 @@ const requiredResolutionMarkers = [
   "Book / units",
   "Bundle identity",
   "unitId",
+  "route.unitId",
+  "asset.unitId",
 ];
 const requiredLocalAssetKinds = ["audio", "video", "image"];
 const requiredSupportingAssetPaths = [
@@ -127,6 +129,8 @@ const requiredSupportingAssetPaths = [
 ];
 const requiredAssetEvidenceMarkers = [
   "Reviewed asset evidence handoff",
+  "Unit scope",
+  "Outside package scope",
   "Rights evidence",
   "Checksum",
   "Scan",

@@ -48,6 +48,10 @@ Audio, video, and image assets follow the same rule. A media item cannot be
 resolved or admitted as package evidence when its unit is outside the declared
 package scope.
 
+The teacher review surface must display the asset or route unit and show unit
+scope as an evidence check. A package is not presented as handoff-ready when
+that check fails.
+
 ## Current Boundary
 
 The local companion path remains review-only. It does not read files, write a

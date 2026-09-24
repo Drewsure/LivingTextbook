@@ -53,7 +53,7 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-bold text-[var(--tenant-text)]">{route.qrId}</p>
-                  <p className="mt-1 text-xs text-[var(--tenant-muted)]">{route.targetType} / {route.targetId}</p>
+                  <p className="mt-1 text-xs text-[var(--tenant-muted)]">{route.targetType} / {route.targetId} / unit {route.unitId}</p>
                 </div>
                 <StatusPill label={resolution ? formatResolutionLabel(resolution.deliveryStatus) : "Blocked"} tone={resolution ? "success" : "warning"} />
               </div>
@@ -70,7 +70,7 @@ export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleRe
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-bold text-[var(--tenant-text)]">{asset.label}</p>
-                  <p className="mt-1 text-xs uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.rightsStatus}</p>
+                  <p className="mt-1 text-xs uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.rightsStatus} / unit {asset.unitId}</p>
                 </div>
                 <StatusPill label={resolution ? formatResolutionLabel(resolution.deliveryStatus) : "Blocked"} tone={resolution ? "success" : "warning"} />
               </div>

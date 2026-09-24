@@ -16,9 +16,10 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
   const evidence = manifest.assets.map((asset) => ({
     asset,
     result: evaluateLocalBundleAssetEvidence(createRuntimeAsset(asset)),
+    unitScopeReady: manifest.unitIds.includes(asset.unitId),
   }));
   const evidenceSet = evaluateLocalBundleAssetEvidenceSet(manifest.assets.map(createRuntimeAsset));
-  const handoffReadyCount = evidenceSet.assets.filter((item) => item.handoffReady).length;
+  const handoffReadyCount = evidence.filter(({ result, unitScopeReady }) => result.handoffReady && unitScopeReady).length;
 
   return (
     <Card>
@@ -34,14 +35,14 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
-        {evidence.map(({ asset, result }) => {
-          const checks = createAssetEvidenceChecks(asset, result);
-          const ready = result.handoffReady;
+        {evidence.map(({ asset, result, unitScopeReady }) => {
+          const checks = createAssetEvidenceChecks(asset, result, unitScopeReady);
+          const ready = result.handoffReady && unitScopeReady;
           return (
             <section key={asset.assetId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.assetId}</p>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{asset.kind} / {asset.assetId} / unit {asset.unitId}</p>
                   <h4 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">{asset.label}</h4>
                   <p className="mt-1 break-all font-mono text-xs text-[var(--tenant-muted)]">{asset.localPath}</p>
                 </div>
@@ -83,8 +84,13 @@ export function LocalBundleAssetEvidencePanel({ manifest }: LocalBundleAssetEvid
   );
 }
 
-function createAssetEvidenceChecks(asset: LocalBundleAssetSummary, evidence: ReturnType<typeof evaluateLocalBundleAssetEvidence>): AssetEvidenceCheck[] {
+function createAssetEvidenceChecks(
+  asset: LocalBundleAssetSummary,
+  evidence: ReturnType<typeof evaluateLocalBundleAssetEvidence>,
+  unitScopeReady: boolean,
+): AssetEvidenceCheck[] {
   return [
+    { label: "Unit scope", ready: unitScopeReady, value: unitScopeReady ? asset.unitId : "Outside package scope" },
     { label: "Rights evidence", ready: evidence.rightsReady, value: evidence.rightsReady ? asset.rightsStatus : "Proof needed" },
     { label: "Checksum", ready: evidence.checksumReady, value: evidence.checksumReady ? "Final" : "Pending" },
     { label: "Scan", ready: evidence.scanReady, value: evidence.scanReady ? "Passed" : "Pending" },
