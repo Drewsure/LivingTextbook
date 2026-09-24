@@ -1521,6 +1521,10 @@ try {
     sourcePackageId: "package-1",
     acceptanceReadinessId: "acceptance-readiness-1",
     providerSelectionPreflightId: "provider-preflight-1",
+    storageSelectionPreflightId: "provider-preflight-1",
+    storageSelectionGateId: "storage-gate-1",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     adapterPlanId: "hosted-pilot-adapter",
     reviewDecisionReadinessId: "review-readiness-1",
     mode: "review-only",
@@ -1553,9 +1557,9 @@ try {
   };
   assertEqual(teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadiness(validTeacherDraftPersistenceImplementationReadiness).length, 0);
   assertEqual(teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadinessSources(validTeacherDraftPersistenceImplementationReadiness, validTeacherDraftAcceptanceReadiness, {
-    preflightId: "provider-preflight-1", tenantId: "tenant-1", packageId: "package-1", providerSelected: false, writesAllowed: false, activationAllowed: false,
+    preflightId: "provider-preflight-1", evidenceStorageGateId: "storage-gate-1", tenantId: "tenant-1", packageId: "package-1", status: "blocked", selectionAllowed: false, providerSelected: false, writesAllowed: false, activationAllowed: false,
   }, { planId: "hosted-pilot-adapter", mode: "hosted-managed" }, {
-    readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false,
+    readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", storageSelectionPreflightId: "provider-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false, providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false,
   }).length, 0);
   assertIncludes(
     teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadiness({ ...validTeacherDraftPersistenceImplementationReadiness, uploadsAllowed: true }),
@@ -1563,8 +1567,8 @@ try {
   );
   assertIncludes(
     teacherDraftImplementation.validateTeacherDraftPersistenceImplementationReadinessSources(validTeacherDraftPersistenceImplementationReadiness, validTeacherDraftAcceptanceReadiness, {
-      preflightId: "provider-preflight-1", tenantId: "other-tenant", packageId: "package-1", providerSelected: false, writesAllowed: false, activationAllowed: false,
-    }, { planId: "hosted-pilot-adapter", mode: "hosted-managed" }, { readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false }),
+    preflightId: "provider-preflight-1", evidenceStorageGateId: "storage-gate-1", tenantId: "other-tenant", packageId: "package-1", status: "blocked", selectionAllowed: false, providerSelected: false, writesAllowed: false, activationAllowed: false,
+    }, { planId: "hosted-pilot-adapter", mode: "hosted-managed" }, { readinessId: "review-readiness-1", tenantId: "tenant-1", packageId: "package-1", storageSelectionPreflightId: "provider-preflight-1", storageSelectionGateId: "storage-gate-1", storageSelectionStatus: "blocked", storageSelectionAllowed: false, providerSelectionAllowed: false, implementationAllowed: false, writesAllowed: false, activationAllowed: false }),
     "Implementation readiness tenant must match provider selection preflight.",
   );
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyExtractionPreviewBinding(validSourcePackageAssemblyPacket, sourcePreviewResult.preview).length, 0);

@@ -18,6 +18,10 @@ export interface TeacherDraftPersistenceImplementationReadiness {
   sourcePackageId: string;
   acceptanceReadinessId: string;
   providerSelectionPreflightId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   adapterPlanId: string;
   reviewDecisionReadinessId: string;
   mode: "review-only";
@@ -73,6 +77,8 @@ export function validateTeacherDraftPersistenceImplementationReadiness(
     ["sourcePackageId", readiness.sourcePackageId],
     ["acceptanceReadinessId", readiness.acceptanceReadinessId],
     ["providerSelectionPreflightId", readiness.providerSelectionPreflightId],
+    ["storageSelectionPreflightId", readiness.storageSelectionPreflightId],
+    ["storageSelectionGateId", readiness.storageSelectionGateId],
     ["adapterPlanId", readiness.adapterPlanId],
     ["reviewDecisionReadinessId", readiness.reviewDecisionReadinessId],
   ] as const) {
@@ -84,6 +90,8 @@ export function validateTeacherDraftPersistenceImplementationReadiness(
   if (readiness.mode !== "review-only") errors.push("Teacher draft persistence implementation readiness must remain review-only.");
   if (readiness.status !== "blocked" && readiness.status !== "ready-review") errors.push("Teacher draft persistence implementation readiness has an unsupported status.");
   if (readiness.providerNeutral !== true) errors.push("Teacher draft persistence implementation readiness must remain provider-neutral.");
+  if (readiness.storageSelectionStatus !== "blocked") errors.push("Teacher draft persistence implementation readiness storage selection must remain blocked.");
+  if (readiness.storageSelectionAllowed !== false) errors.push("Teacher draft persistence implementation readiness storage selection must remain disallowed.");
 
   for (const [field, value] of [
     ["providerSelected", readiness.providerSelected],
@@ -159,6 +167,10 @@ export function validateTeacherDraftPersistenceImplementationReadinessSources(
   for (const [left, right, message] of [
     [readiness.acceptanceReadinessId, acceptance.readinessId, "Readiness must match acceptance readiness id."],
     [readiness.providerSelectionPreflightId, provider.preflightId, "Readiness must match provider selection preflight id."],
+    [readiness.storageSelectionPreflightId, provider.preflightId, "Readiness must match storage selection preflight id."],
+    [readiness.storageSelectionGateId, provider.evidenceStorageGateId, "Readiness must match storage selection gate id."],
+    [readiness.storageSelectionPreflightId, review.storageSelectionPreflightId, "Readiness must match review storage selection preflight id."],
+    [readiness.storageSelectionGateId, review.storageSelectionGateId, "Readiness must match review storage selection gate id."],
     [readiness.adapterPlanId, adapter.planId, "Readiness must match adapter plan id."],
     [readiness.reviewDecisionReadinessId, review.readinessId, "Readiness must match review decision readiness id."],
     [readiness.tenantId, acceptance.tenantId, "Implementation readiness tenant must match acceptance readiness."],
@@ -174,7 +186,9 @@ export function validateTeacherDraftPersistenceImplementationReadinessSources(
 
   if (acceptance.mode !== "review-only" || acceptance.status !== "blocked") errors.push("Acceptance readiness source must remain blocked and review-only.");
   if (provider.providerSelected !== false || provider.writesAllowed !== false || provider.activationAllowed !== false) errors.push("Provider selection source must remain unselected with writes and activation blocked.");
+  if (provider.status !== "blocked" || provider.selectionAllowed !== false) errors.push("Storage selection source must remain blocked and disallowed.");
   if (review.providerSelectionAllowed !== false || review.implementationAllowed !== false || review.writesAllowed !== false || review.activationAllowed !== false) errors.push("Review decision readiness source must remain blocked.");
+  if (review.storageSelectionStatus !== "blocked" || review.storageSelectionAllowed !== false) errors.push("Review storage selection source must remain blocked and disallowed.");
   if (adapter.mode !== "hosted-managed" && adapter.mode !== "local-companion" && adapter.mode !== "hybrid") errors.push("Adapter plan must identify a supported deployment mode.");
   return [...new Set(errors)];
 }

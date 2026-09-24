@@ -5568,3 +5568,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added blocked/disallowed behavior verification and mounted the identity in the
   persistence handoff panel.
 - Recorded ADR 1147 and DR-1147.
+
+## Build session 1062: Teacher draft persistence storage identity
+
+- Extended teacher-draft persistence implementation readiness with explicit
+  storage preflight and evidence-storage gate identity.
+- Added blocked/disallowed source reconciliation against provider comparison
+  and pilot review readiness.
+- Exposed the identity in the teacher-draft persistence handoff panel and
+  recorded ADR 1148 and DR-1148.

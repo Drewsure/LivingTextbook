@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -31,5 +32,10 @@ for (const [relativePath, markers] of requiredMarkers) {
     if (!source.includes(marker)) throw new Error(`${relativePath} is missing marker: ${marker}`);
   }
 }
+
+const behavior = spawnSync(process.execPath, [join(root, "scripts/verify-teacher-draft-persistence-implementation-readiness-behavior.mjs")], { encoding: "utf8" });
+process.stdout.write(behavior.stdout);
+process.stderr.write(behavior.stderr);
+if (behavior.status !== 0) process.exit(behavior.status ?? 1);
 
 console.log("PASS source extraction to teacher draft import and persistence admission remain identity-bound, review-only, and promotion-blocked.");

@@ -7612,3 +7612,18 @@ This standard is recorded in
 `docs/decision-register/DR-1147-provider-implementation-readiness-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1147-provider-implementation-readiness-storage-identity.md`.
+
+## 486. Teacher Draft Persistence Storage Identity Standard
+
+- Teacher-draft persistence implementation readiness must carry the exact
+  storage-selection preflight and evidence-storage gate identities used by
+  provider comparison and pilot review readiness.
+- The handoff must remain blocked, provider-neutral, and disallowed; missing
+  or drifted storage identity fails validation before adapter work-order review.
+- Draft writes, media uploads, migration, route mutation, assignment, and
+  student-facing promotion remain blocked.
+
+This standard is recorded in
+`docs/decision-register/DR-1148-teacher-draft-persistence-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1148-teacher-draft-persistence-storage-identity.md`.

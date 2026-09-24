@@ -9134,3 +9134,13 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   packet freeze remain explicitly false.
 - Release mutation, assignment activation, student launch, and evidence
   download remain blocked.
+
+## DR-1148: Teacher Draft Persistence Storage Identity
+
+- The teacher-draft persistence implementation handoff must carry the exact
+  storage-selection preflight and evidence-storage gate identities used by
+  provider comparison and pilot review readiness.
+- Storage remains blocked and disallowed; identity drift fails validation before
+  any future adapter work order can be treated as authorized.
+- Draft writes, uploads, migration, route mutation, assignment, and student
+  promotion remain blocked.

@@ -29,6 +29,8 @@ export function TeacherDraftPersistenceImplementationReadinessPanel({ readiness,
         <Fact label="Tenant" value={readiness.tenantId} />
         <Fact label="Draft" value={readiness.draftId} />
         <Fact label="Acceptance" value={readiness.acceptanceReadinessId} />
+        <Fact label="Storage preflight" value={readiness.storageSelectionPreflightId} />
+        <Fact label="Storage gate" value={readiness.storageSelectionGateId} />
         <Fact label="Candidate plan" value={readiness.adapterPlanId} />
         <Fact label="Tests" value={`${readiness.acceptanceTests.length} defined / not run`} />
       </dl>
