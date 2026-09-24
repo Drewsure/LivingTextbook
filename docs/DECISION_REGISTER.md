@@ -9493,3 +9493,14 @@ drift, and unresolved requirements remain visible. The binding cannot capture
 approval, write an approval ledger, mutate release state, admit a catalog,
 activate media, assign students, or trigger progression. See ADR 1183 and
 `docs/decision-register/DR-1183-assist-language-audio-reviewer-gate-binding.md`.
+
+## DR-1184: Assist-Language Audio Composite Release-Review Binding
+
+Assist-audio reconciliation and reviewer-gate evidence are now linked to the
+same white-label release-readiness, package publish, approval-ledger, and
+controlled human-review packet identities. The tenant media library exposes
+release-control status, human-review status, scope drift, blockers, and the
+next gate. Production approval, package promotion, student production launch,
+catalog admission, student-facing audio, and approval capture remain blocked.
+See ADR 1184 and
+`docs/decision-register/DR-1184-assist-language-audio-composite-release-review-binding.md`.

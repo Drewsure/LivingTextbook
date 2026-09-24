@@ -46,6 +46,16 @@ export type {
   AssistLanguageAudioCatalogReviewerGateBinding,
   AssistLanguageAudioCatalogReviewerGateBindingStatus,
 } from "./assistLanguageAudioCatalogReviewerGateBinding";
+export {
+  ASSIST_LANGUAGE_AUDIO_RELEASE_REVIEW_BLOCKED_ACTIONS,
+  ASSIST_LANGUAGE_AUDIO_RELEASE_REVIEW_REQUIRED_RECORDS,
+  createReviewOnlyAssistLanguageAudioCatalogReleaseReviewBinding,
+  validateAssistLanguageAudioCatalogReleaseReviewBinding,
+} from "./assistLanguageAudioCatalogReleaseReviewBinding";
+export type {
+  AssistLanguageAudioCatalogReleaseReviewBinding,
+  AssistLanguageAudioCatalogReleaseReviewBindingStatus,
+} from "./assistLanguageAudioCatalogReleaseReviewBinding";
 
 export type TenantId = string;
 export type CurriculumId = string;

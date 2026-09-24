@@ -143,3 +143,8 @@ human approval record can be introduced.
 Reviewer identity and signature binding is the next boundary. A tenant may
 only use its own reviewer gate; an unconfigured tenant must remain explicitly
 unconfigured rather than borrowing another tenant's identity state.
+
+The composite release-review binding now carries assist-audio reconciliation,
+reviewer-gate, white-label release-readiness, package publish, approval-ledger,
+and controlled human-review identities together. It remains a review packet,
+not an approval or release mechanism.

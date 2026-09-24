@@ -10,12 +10,16 @@ import { sampleAssistLanguageAudioCatalogRecords } from "@/data/sampleAssistLang
 import { buildAssistLanguageAudioCatalogApprovalPackets } from "@/data/sampleAssistLanguageAudioCatalogApproval";
 import { buildAssistLanguageAudioCatalogApprovalReconciliations } from "@/data/sampleAssistLanguageAudioCatalogApprovalReconciliation";
 import { buildAssistLanguageAudioCatalogReviewerGateBindings } from "@/data/sampleAssistLanguageAudioCatalogReviewerGateBinding";
+import { buildAssistLanguageAudioCatalogReleaseReviewBindings } from "@/data/sampleAssistLanguageAudioCatalogReleaseReviewBinding";
 import { TeacherAssistLanguageAudioCatalogApprovalPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogApprovalPanel";
 import { TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel";
 import { TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel";
+import { TeacherAssistLanguageAudioCatalogReleaseReviewBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseReviewBindingPanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
+import { sampleWhiteLabelReleaseReadiness } from "@/data/sampleWhiteLabelReleaseReadiness";
+import { sampleControlledPilotHumanReviewPacket } from "@/data/sampleControlledPilotHumanReviewPacket";
 import type { TenantConfig } from "@/features/tenant/types";
 
 function findTenantConfig(tenantId: string): TenantConfig | undefined {
@@ -39,6 +43,9 @@ export default async function TeacherMediaLibraryPage({
   const approvalPackets = buildAssistLanguageAudioCatalogApprovalPackets(tenantCatalogRecords);
   const reconciliations = buildAssistLanguageAudioCatalogApprovalReconciliations(approvalPackets, tenantCatalogRecords);
   const reviewerGate = sampleReviewerIdentitySignatureGate.tenantId === tenantId ? sampleReviewerIdentitySignatureGate : undefined;
+  const reviewerBindings = buildAssistLanguageAudioCatalogReviewerGateBindings(reconciliations, reviewerGate);
+  const releaseReadiness = sampleWhiteLabelReleaseReadiness.tenantId === tenantId ? sampleWhiteLabelReleaseReadiness : undefined;
+  const humanReviewPacket = sampleControlledPilotHumanReviewPacket.tenantId === tenantId ? sampleControlledPilotHumanReviewPacket : undefined;
 
   return (
     <AppShell tenant={tenant}>
@@ -47,7 +54,8 @@ export default async function TeacherMediaLibraryPage({
         <TeacherAssistLanguageAudioCatalogPanel records={tenantCatalogRecords} />
         <TeacherAssistLanguageAudioCatalogApprovalPanel packets={approvalPackets} />
         <TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel reconciliations={reconciliations} />
-        <TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel bindings={buildAssistLanguageAudioCatalogReviewerGateBindings(reconciliations, reviewerGate)} />
+        <TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel bindings={reviewerBindings} />
+        <TeacherAssistLanguageAudioCatalogReleaseReviewBindingPanel bindings={buildAssistLanguageAudioCatalogReleaseReviewBindings(reconciliations, reviewerBindings, releaseReadiness, humanReviewPacket)} />
       </div>
     </AppShell>
   );

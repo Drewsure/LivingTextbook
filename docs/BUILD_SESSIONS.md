@@ -5963,3 +5963,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   approval ledger, mutate release state, admit a catalog, activate media, or
   assign students.
 - Added the shared validator, foundation verifier, ADR 1183, and DR-1183.
+
+## Build session: Assist-language audio composite release-review binding
+
+- Linked assist-audio reconciliation and reviewer-gate identity to the
+  white-label release-readiness, package publish, approval-ledger, and
+  controlled human-review packet records.
+- Made release-control status, human-review status, scope drift, blocking
+  reasons, and next gate visible in the tenant media library.
+- Kept production approval, package promotion, student production launch,
+  catalog admission, student-facing assist audio, and all approval capture
+  side effects disabled.
+- Added the shared validator, foundation verifier, ADR 1184, and DR-1184.
