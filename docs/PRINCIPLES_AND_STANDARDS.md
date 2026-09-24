@@ -7980,3 +7980,17 @@ This standard is recorded in
 
 This standard is recorded in
 `docs/decision-register/DR-1172-tenant-owned-text-identity.md`.
+
+## 511. Reproducible Route Verification Standard
+
+- The active-route gate must be runnable against a built production preview on
+  a free local port, without depending on port 3000 or an unrelated dev
+  terminal.
+- The preview harness must pass the configured base URL to the route verifier,
+  wait for readiness, preserve route failures, and clean up its child process
+  on success, failure, or interruption.
+- The harness verifies route behavior only; it does not enable storage,
+  launch students, promote packages, or mutate tenant configuration.
+
+This standard is recorded in
+`docs/decision-register/DR-1173-reproducible-route-verification.md`.

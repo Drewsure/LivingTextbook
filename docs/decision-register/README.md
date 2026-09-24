@@ -741,6 +741,7 @@ Current focused decision records also include:
 - `DR-1170-speaking-prompt-identity-and-cue-priority.md`
 - `DR-1171-canonical-sequence-identity.md`
 - `DR-1172-tenant-owned-text-identity.md`
+- `DR-1173-reproducible-route-verification.md`
 
 ## Maintenance Rule
 

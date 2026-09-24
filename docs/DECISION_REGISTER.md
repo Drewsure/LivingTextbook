@@ -9360,3 +9360,13 @@ names therefore remain separate UI rows without changing content, audio,
 report semantics, scoring, progression, persistence, or review-only policy.
 Evidence: the affected preview/report surfaces and
 `scripts/verify-review-list-key-stability.mjs`.
+
+## DR-1173: Reproducible Production-Preview Route Verification
+
+The active-route gate gains a cross-platform preview wrapper that starts the
+built web app on a free local port, passes the configured base URL to
+`verify-active-routes.mjs`, waits for readiness, preserves failures, and
+cleans up the child process. Route verification remains read-only and does not
+enable storage, student launch, package promotion, or tenant mutation.
+Evidence: `scripts/verify-routes-with-preview.mjs`, the web `start` script, and
+the root `verify:routes:preview` command.

@@ -5790,3 +5790,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved audio, report semantics, scoring, progression, persistence, and
   review-only policy boundaries.
 - Recorded ADR 1172 and DR-1172.
+
+## Build session 1087: Reproducible production-preview route verification
+
+- Added a cross-platform route-preview harness that starts the built web app on
+  a free local port, passes `ACTIVE_ROUTE_BASE_URL` to the active-route
+  verifier, and cleans up the preview process after the check.
+- Added the web `start` script and root `verify:routes:preview` command so the
+  89-route browser gate no longer depends on port 3000 or a manually managed
+  dev server.
+- Kept route verification read-only and preserved all storage, launch,
+  promotion, tenant, and Z.ai candidate boundaries.
+- Recorded ADR 1173 and DR-1173.
