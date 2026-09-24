@@ -25,6 +25,10 @@ export interface DeploymentContinuityDecision {
   packageId: string;
   pilotDeploymentDecisionId: string;
   recoveryRehearsalId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: DeploymentContinuityDecisionStatus;
   recommendedOptionId: PilotDeploymentOptionId;
   selectedOptionId: null;
@@ -43,6 +47,10 @@ export interface DeploymentContinuityDecisionInput {
   decisionId: string;
   pilotDeploymentDecision: PilotDeploymentDecision;
   recoveryRehearsal: PersistenceRecoveryRehearsal;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
 }
 
 const REQUIRED_OPTIONS: PilotDeploymentOptionId[] = ["hosted-pwa", "local-classroom-server", "packaged-companion"];
@@ -105,6 +113,10 @@ export function deriveDeploymentContinuityDecision(
     packageId: input.pilotDeploymentDecision.packageId,
     pilotDeploymentDecisionId: input.pilotDeploymentDecision.decisionId,
     recoveryRehearsalId: input.recoveryRehearsal.rehearsalId,
+    storageSelectionPreflightId: input.storageSelectionPreflightId,
+    storageSelectionGateId: input.storageSelectionGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     status,
     recommendedOptionId: input.pilotDeploymentDecision.recommendedOptionId,
     selectedOptionId: null,
@@ -118,6 +130,8 @@ export function deriveDeploymentContinuityDecision(
     evidenceBindings: [
       `pilot-deployment:${input.pilotDeploymentDecision.decisionId}`,
       `recovery-rehearsal:${input.recoveryRehearsal.rehearsalId}`,
+      `storage-selection-preflight:${input.storageSelectionPreflightId}`,
+      `storage-selection-gate:${input.storageSelectionGateId}`,
       ...input.recoveryRehearsal.sourceRecords,
     ],
     blockers: uniqueBlockers,
@@ -132,6 +146,8 @@ export function validateDeploymentContinuityDecision(decision: DeploymentContinu
     "packageId",
     "pilotDeploymentDecisionId",
     "recoveryRehearsalId",
+    "storageSelectionPreflightId",
+    "storageSelectionGateId",
     "recommendedOptionId",
   ] as const) {
     if (typeof decision[field] !== "string" || decision[field].trim().length === 0) {
@@ -139,12 +155,16 @@ export function validateDeploymentContinuityDecision(decision: DeploymentContinu
     }
   }
   if (!REQUIRED_OPTIONS.includes(decision.recommendedOptionId)) errors.push("Deployment continuity decision recommendation is unsupported.");
+  if (decision.storageSelectionStatus !== "blocked") errors.push("Deployment continuity decision storage selection must remain blocked.");
+  if (decision.storageSelectionAllowed !== false) errors.push("Deployment continuity decision storage selection must remain false.");
   if (decision.selectedOptionId !== null) errors.push("Deployment continuity decision must not select an option.");
   for (const field of ["policyAccepted", "providerSelected", "persistenceActivationAllowed", "classroomLaunchAllowed", "offlineReady"] as const) {
     if (decision[field] !== false) errors.push(`Deployment continuity decision ${field} must remain false.`);
   }
   if (decision.sideEffect !== "none") errors.push("Deployment continuity decision must have no side effect.");
-  if (!Array.isArray(decision.evidenceBindings) || decision.evidenceBindings.length < 3) errors.push("Deployment continuity decision must include at least three evidence bindings.");
+  if (!Array.isArray(decision.evidenceBindings) || decision.evidenceBindings.length < 5) errors.push("Deployment continuity decision must include storage selection evidence bindings.");
+  if (!decision.evidenceBindings.includes(`storage-selection-preflight:${decision.storageSelectionPreflightId}`)) errors.push("Deployment continuity decision must bind the storage selection preflight.");
+  if (!decision.evidenceBindings.includes(`storage-selection-gate:${decision.storageSelectionGateId}`)) errors.push("Deployment continuity decision must bind the storage selection gate.");
   if (!Array.isArray(decision.blockers) || decision.blockers.length === 0) errors.push("Deployment continuity decision must expose blockers.");
   if (!Array.isArray(decision.paths) || decision.paths.length !== REQUIRED_OPTIONS.length) {
     errors.push("Deployment continuity decision must include hosted, local, and packaged paths.");

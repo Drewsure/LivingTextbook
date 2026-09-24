@@ -7516,3 +7516,19 @@ This standard is recorded in
 `docs/decision-register/DR-1141-policy-gated-storage-selection-review.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1141-policy-gated-storage-selection-review.md`.
+
+## 480. Deployment Continuity Storage Review Binding Standard
+
+- Deployment continuity decisions must carry the exact storage selection
+  preflight and evidence-storage gate identity used by the tenant evidence
+  handoff.
+- Hosted, local, and packaged deployment comparisons may expose the storage
+  review packet, but recommendations must not select or activate a provider.
+- Storage selection, persistence activation, offline-ready claims, QR route
+  mutation, classroom launch, upload, download, and release mutation remain
+  blocked when the continuity packet is review-only.
+
+This standard is recorded in
+`docs/decision-register/DR-1142-deployment-continuity-storage-review-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1142-deployment-continuity-storage-review-binding.md`.

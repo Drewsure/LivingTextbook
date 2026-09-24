@@ -2729,16 +2729,29 @@ try {
     decisionId: "continuity-decision-1",
     pilotDeploymentDecision: validPilotDeploymentDecision,
     recoveryRehearsal: validRecoveryRehearsal,
+    storageSelectionPreflightId: "storage-selection-preflight-1",
+    storageSelectionGateId: "storage-selection-gate-1",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
   });
   assertEqual(continuityDecision.status, "needs-review");
   assertEqual(deploymentContinuityDecision.validateDeploymentContinuityDecision(continuityDecision).length, 0);
   assertEqual(continuityDecision.paths.length, 3);
+  assertIncludes(continuityDecision.evidenceBindings, "storage-selection-preflight:storage-selection-preflight-1");
+  assertEqual(continuityDecision.storageSelectionAllowed, false);
   assertIncludes(
     deploymentContinuityDecision.validateDeploymentContinuityDecision({
       ...continuityDecision,
       classroomLaunchAllowed: true,
     }),
     "Deployment continuity decision classroomLaunchAllowed must remain false.",
+  );
+  assertIncludes(
+    deploymentContinuityDecision.validateDeploymentContinuityDecision({
+      ...continuityDecision,
+      storageSelectionAllowed: true,
+    }),
+    "Deployment continuity decision storage selection must remain false.",
   );
   const continuityHandoffInput = {
     handoffId: "continuity-handoff-1",

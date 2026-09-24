@@ -83,6 +83,15 @@ download, signed URLs, and release mutation blocked until human policy review
 passes. See
 `docs/decision-register/DR-1141-policy-gated-storage-selection-review.md`.
 
+## DR-1142: Deployment Continuity Storage Review Binding
+
+Carry the exact storage selection preflight and evidence-storage gate into
+deployment continuity review. Preserve tenant/package scope, keep storage
+selection blocked and side-effect-free, and prevent deployment recommendation,
+recovery rehearsal, local preview, or packaged companion planning from
+activating a provider, persistence, offline mode, QR route, or classroom launch.
+See `docs/decision-register/DR-1142-deployment-continuity-storage-review-binding.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

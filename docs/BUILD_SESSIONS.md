@@ -5510,3 +5510,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   signed URLs, retention clocks, and release mutation blocked pending human
   policy review. Added a runtime verifier and route/source assertions.
   Recorded ADR 1141 and DR-1141.
+
+## Build session 1056: Deployment continuity storage review binding
+
+- Bound the exact storage selection preflight and evidence-storage gate into
+  deployment continuity decisions.
+- Added visible deployment-workbench evidence for the storage review packet,
+  while keeping provider selection, persistence activation, offline claims, QR
+  mutation, and classroom launch blocked.
+- Extended runtime, source, route, and deployment-workbench verification so a
+  drifted or enabled storage selection cannot appear review-ready. Recorded ADR
+  1142 and DR-1142.

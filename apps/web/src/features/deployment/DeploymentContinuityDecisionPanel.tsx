@@ -30,7 +30,29 @@ export function DeploymentContinuityDecisionPanel({ decision, errors }: Deployme
         <Fact label="Package" value={decision.packageId} />
         <Fact label="Recommendation" value={decision.recommendedOptionId} />
         <Fact label="Evidence bindings" value={String(decision.evidenceBindings.length)} />
+        <Fact label="Storage review" value={decision.storageSelectionStatus} />
+        <Fact label="Storage preflight" value={decision.storageSelectionPreflightId} />
+        <Fact label="Storage gate" value={decision.storageSelectionGateId} />
+        <Fact label="Provider selection" value="Blocked" />
       </dl>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Storage selection review binding</p>
+            <h3 className="mt-1 text-base font-bold">The deployment workbench consumes the Storage selection review packet</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This is an evidence reference, not a provider decision. Human policy review required before any hosted, local, or hybrid storage implementation can be considered.
+            </p>
+          </div>
+          <StatusPill label="No storage provider selected" tone="warning" />
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Fact label="Preflight" value={decision.storageSelectionPreflightId} />
+          <Fact label="Selection gate" value={decision.storageSelectionGateId} />
+          <Fact label="Selection allowed" value={decision.storageSelectionAllowed ? "Allowed" : "Blocked"} />
+        </div>
+      </section>
 
       <section className="mt-5 grid gap-4 lg:grid-cols-3">
         {decision.paths.map((path) => (

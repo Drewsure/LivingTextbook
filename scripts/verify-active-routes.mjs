@@ -2765,6 +2765,13 @@ expectedTextByPath.get("/teacher/evidence/sample-publisher/handoff")?.push(
   "No attachment download",
 );
 
+expectedTextByPath.get("/teacher/deployment")?.push(
+  "Storage selection review binding",
+  "No storage provider selected",
+  "Storage selection review packet",
+  "Human policy review required",
+);
+
 expectedTextByPath.get("/teacher/persistence")?.push(
   "Durable-write activation preflight",
   "Activation blocked",
