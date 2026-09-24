@@ -16,6 +16,7 @@ const decisionRecord = readSource("../docs/decision-register/DR-550-deployment-d
 const adr = readSource("../docs/adr/0479-deployment-decision-workbench.md");
 const routeChecks = readSource("../docs/verification/DEPLOYMENT_DECISION_WORKBENCH_CHECKS.md");
 const continuityModel = readSource("../packages/content-model/src/deploymentContinuityDecision.ts");
+const recoveryModel = readSource("../packages/content-model/src/persistenceRecoveryRehearsal.ts");
 const continuitySample = readSource("../apps/web/src/data/sampleDeploymentContinuityDecision.ts");
 const continuityPanel = readSource("../apps/web/src/features/deployment/DeploymentContinuityDecisionPanel.tsx");
 
@@ -67,6 +68,10 @@ const requiredStorageReviewMarkers = [
   "Storage selection review binding",
   "No storage provider selected",
   "Human policy review required",
+  "storageSelectionPreflightId: input.providerPreflight.preflightId",
+  "storageSelectionGateId: input.providerPreflight.evidenceStorageGateId",
+  "Deployment continuity storage preflight must match the recovery rehearsal.",
+  "Deployment continuity storage gate must match the recovery rehearsal.",
 ];
 
 const requiredRouteVerifierMarkers = [
@@ -125,7 +130,7 @@ for (const marker of requiredRouteVerifierMarkers) {
 }
 
 for (const marker of requiredStorageReviewMarkers) {
-  requireText(continuityModel + continuitySample + continuityPanel + deploymentPage + activeRouteVerifier, marker, `Deployment workbench must bind storage review evidence: ${marker}`);
+  requireText(continuityModel + recoveryModel + continuitySample + continuityPanel + deploymentPage + activeRouteVerifier, marker, `Deployment workbench must bind storage review evidence: ${marker}`);
 }
 
 for (const marker of requiredIntegrationMarkers) {

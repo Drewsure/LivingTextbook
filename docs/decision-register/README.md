@@ -719,6 +719,7 @@ Current focused decision records also include:
 - `DR-1148-teacher-draft-persistence-storage-identity.md`
 - `DR-1149-adapter-write-intent-storage-identity.md`
 - `DR-1150-durable-record-storage-identity.md`
+- `DR-1151-recovery-rehearsal-storage-identity.md`
 
 ## Maintenance Rule
 

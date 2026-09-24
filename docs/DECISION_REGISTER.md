@@ -9165,3 +9165,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   future adapter work order can be treated as authorized.
 - Durable-record presence does not authorize writes, uploads, migration, route
   mutation, assignment, or promotion.
+
+## DR-1151: Recovery Rehearsal Storage Identity
+
+- Cross-deployment recovery rehearsals must carry the exact storage-selection
+  preflight and evidence-storage gate identity from the provider review.
+- Deployment continuity identity drift is a blocker before continuity can be
+  considered review-ready.
+- Backup, restore, export, writes, route mutation, promotion, and classroom
+  launch remain blocked.

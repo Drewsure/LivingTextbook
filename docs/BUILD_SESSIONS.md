@@ -5592,3 +5592,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added blocked/disallowed validator and runtime coverage for missing and
   enabled durable-record storage state.
 - Recorded ADR 1150 and DR-1150.
+
+## Build session 1065: Recovery rehearsal storage identity
+
+- Carried provider storage-selection identity into the cross-deployment
+  recovery rehearsal.
+- Added continuity drift blockers and runtime coverage while preserving all
+  recovery and activation blockers.
+- Recorded ADR 1151 and DR-1151.

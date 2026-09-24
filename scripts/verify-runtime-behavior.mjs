@@ -2733,16 +2733,27 @@ try {
     decisionId: "continuity-decision-1",
     pilotDeploymentDecision: validPilotDeploymentDecision,
     recoveryRehearsal: validRecoveryRehearsal,
-    storageSelectionPreflightId: "storage-selection-preflight-1",
-    storageSelectionGateId: "storage-selection-gate-1",
+    storageSelectionPreflightId: "preflight-1",
+    storageSelectionGateId: "evidence-gate-1",
     storageSelectionStatus: "blocked",
     storageSelectionAllowed: false,
   });
   assertEqual(continuityDecision.status, "needs-review");
   assertEqual(deploymentContinuityDecision.validateDeploymentContinuityDecision(continuityDecision).length, 0);
   assertEqual(continuityDecision.paths.length, 3);
-  assertIncludes(continuityDecision.evidenceBindings, "storage-selection-preflight:storage-selection-preflight-1");
+  assertIncludes(continuityDecision.evidenceBindings, "storage-selection-preflight:preflight-1");
   assertEqual(continuityDecision.storageSelectionAllowed, false);
+  const continuityWithRecoveryDrift = deploymentContinuityDecision.deriveDeploymentContinuityDecision({
+    decisionId: "continuity-drift-1",
+    pilotDeploymentDecision: validPilotDeploymentDecision,
+    recoveryRehearsal: validRecoveryRehearsal,
+    storageSelectionPreflightId: "wrong-preflight",
+    storageSelectionGateId: "wrong-gate",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
+  });
+  assertIncludes(continuityWithRecoveryDrift.blockers, "Deployment continuity storage preflight must match the recovery rehearsal.");
+  assertIncludes(continuityWithRecoveryDrift.blockers, "Deployment continuity storage gate must match the recovery rehearsal.");
   assertIncludes(
     deploymentContinuityDecision.validateDeploymentContinuityDecision({
       ...continuityDecision,

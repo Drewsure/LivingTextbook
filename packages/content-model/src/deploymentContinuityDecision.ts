@@ -95,6 +95,12 @@ export function deriveDeploymentContinuityDecision(
     ...recoveryErrors,
     ...input.pilotDeploymentDecision.blockers,
     ...input.recoveryRehearsal.reasons,
+    ...(input.recoveryRehearsal.storageSelectionPreflightId !== input.storageSelectionPreflightId
+      ? ["Deployment continuity storage preflight must match the recovery rehearsal."]
+      : []),
+    ...(input.recoveryRehearsal.storageSelectionGateId !== input.storageSelectionGateId
+      ? ["Deployment continuity storage gate must match the recovery rehearsal."]
+      : []),
     "No deployment option is selected.",
     "School or publisher policy acceptance is not complete.",
     "Continuity evidence is review-only and cannot activate persistence or classroom launch.",

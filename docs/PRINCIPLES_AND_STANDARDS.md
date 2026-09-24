@@ -7658,3 +7658,18 @@ This standard is recorded in
 `docs/decision-register/DR-1150-durable-record-storage-identity.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1150-durable-record-storage-identity.md`.
+
+## 489. Recovery Rehearsal Storage Identity Standard
+
+- Cross-deployment recovery rehearsals must carry the exact storage-selection
+  preflight and evidence-storage gate identities from the provider review.
+- Deployment continuity decisions must match those identities; drift is a
+  blocker, not a warning that can be ignored.
+- Recovery remains rehearsal-only and storage remains blocked and disallowed;
+  backup, restore, export, writes, route mutation, promotion, and classroom
+  launch require later policy approval.
+
+This standard is recorded in
+`docs/decision-register/DR-1151-recovery-rehearsal-storage-identity.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1151-recovery-rehearsal-storage-identity.md`.

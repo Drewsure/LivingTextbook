@@ -27,6 +27,10 @@ export interface PersistenceRecoveryRehearsal {
   rehearsalId: string;
   tenantId: string;
   packageId: string;
+  storageSelectionPreflightId: string;
+  storageSelectionGateId: string;
+  storageSelectionStatus: "blocked";
+  storageSelectionAllowed: false;
   status: PersistenceRecoveryRehearsalStatus;
   providerNeutral: true;
   selectedMode: null;
@@ -136,6 +140,10 @@ export function derivePersistenceRecoveryRehearsal(
     rehearsalId: input.rehearsalId,
     tenantId: input.providerPreflight.tenantId,
     packageId: input.providerPreflight.packageId,
+    storageSelectionPreflightId: input.providerPreflight.preflightId,
+    storageSelectionGateId: input.providerPreflight.evidenceStorageGateId,
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
     status,
     providerNeutral: true,
     selectedMode: null,
@@ -163,11 +171,13 @@ export function derivePersistenceRecoveryRehearsal(
 
 export function validatePersistenceRecoveryRehearsal(rehearsal: PersistenceRecoveryRehearsal): string[] {
   const errors: string[] = [];
-  for (const field of ["rehearsalId", "tenantId", "packageId"] as const) {
+  for (const field of ["rehearsalId", "tenantId", "packageId", "storageSelectionPreflightId", "storageSelectionGateId"] as const) {
     if (typeof rehearsal[field] !== "string" || rehearsal[field].trim().length === 0) {
       errors.push(`Persistence recovery rehearsal ${field} must be non-empty.`);
     }
   }
+  if (rehearsal.storageSelectionStatus !== "blocked") errors.push("Persistence recovery rehearsal storage selection must remain blocked.");
+  if (rehearsal.storageSelectionAllowed !== false) errors.push("Persistence recovery rehearsal storage selection must remain false.");
   if (rehearsal.providerNeutral !== true) errors.push("Persistence recovery rehearsal must remain provider-neutral.");
   if (rehearsal.selectedMode !== null) errors.push("Persistence recovery rehearsal must not select a deployment mode.");
   for (const field of [
