@@ -9237,3 +9237,12 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
   and adjudication are otherwise accepted.
 - Pilot launch, hosted writes, student data collection, promotion, and release
   mutation remain blocked.
+
+## DR-1159: Controlled Pilot Storage Reconciliation
+
+- Controlled-pilot approval readiness must compare storage preflight and gate
+  identity across provider selection, pilot decision, and release binding.
+- Storage drift or enabled storage state is an explicit release-control
+  blocker before human-review eligibility.
+- Approval capture, release mutation, student launch, hosted writes, and
+  student data collection remain blocked.

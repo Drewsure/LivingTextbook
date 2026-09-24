@@ -42,8 +42,8 @@ export interface ControlledPilotApprovalReadiness {
 
 export interface ControlledPilotApprovalReadinessInputs {
   readiness: Pick<WhiteLabelReleaseReadiness, "readinessId" | "tenantId" | "packageId" | "releaseControlEvidence">;
-  releaseBinding: Pick<BrowserPrivacyTenantEvidenceReleaseBinding, "bindingId" | "tenantId" | "packageId" | "status">;
-  pilotDecision: Pick<PilotReviewDecision, "decisionId" | "tenantId" | "packageId" | "status">;
+  releaseBinding: Pick<BrowserPrivacyTenantEvidenceReleaseBinding, "bindingId" | "tenantId" | "packageId" | "storageSelectionPreflightId" | "storageSelectionGateId" | "storageSelectionStatus" | "storageSelectionAllowed" | "status">;
+  pilotDecision: Pick<PilotReviewDecision, "decisionId" | "tenantId" | "packageId" | "storageSelectionPreflightId" | "storageSelectionGateId" | "storageSelectionStatus" | "storageSelectionAllowed" | "status">;
   reviewerGate: ControlledPilotReviewerGateEvidence;
   storageSelection: Pick<PersistenceProviderSelectionPreflight, "preflightId" | "evidenceStorageGateId" | "tenantId" | "packageId" | "status">;
 }
@@ -59,7 +59,11 @@ export function createControlledPilotApprovalReadiness(
     || inputs.pilotDecision.packageId !== inputs.readiness.packageId
     || inputs.reviewerGate.tenantId !== inputs.readiness.tenantId
     || inputs.storageSelection.tenantId !== inputs.readiness.tenantId
-    || inputs.storageSelection.packageId !== inputs.readiness.packageId;
+    || inputs.storageSelection.packageId !== inputs.readiness.packageId
+    || inputs.releaseBinding.storageSelectionPreflightId !== inputs.storageSelection.preflightId
+    || inputs.releaseBinding.storageSelectionGateId !== inputs.storageSelection.evidenceStorageGateId
+    || inputs.pilotDecision.storageSelectionPreflightId !== inputs.storageSelection.preflightId
+    || inputs.pilotDecision.storageSelectionGateId !== inputs.storageSelection.evidenceStorageGateId;
 
   if (inputs.releaseBinding.tenantId !== inputs.readiness.tenantId || inputs.releaseBinding.packageId !== inputs.readiness.packageId) {
     blockingReasons.push("Composite evidence release binding scope does not match readiness scope.");
@@ -72,6 +76,18 @@ export function createControlledPilotApprovalReadiness(
   }
   if (inputs.storageSelection.tenantId !== inputs.readiness.tenantId || inputs.storageSelection.packageId !== inputs.readiness.packageId) {
     blockingReasons.push("Storage selection review scope does not match readiness scope.");
+  }
+  if (inputs.releaseBinding.storageSelectionPreflightId !== inputs.storageSelection.preflightId || inputs.releaseBinding.storageSelectionGateId !== inputs.storageSelection.evidenceStorageGateId) {
+    blockingReasons.push("Composite evidence release binding storage identity does not match the storage selection review.");
+  }
+  if (inputs.pilotDecision.storageSelectionPreflightId !== inputs.storageSelection.preflightId || inputs.pilotDecision.storageSelectionGateId !== inputs.storageSelection.evidenceStorageGateId) {
+    blockingReasons.push("Canonical pilot decision storage identity does not match the storage selection review.");
+  }
+  if (inputs.releaseBinding.storageSelectionStatus !== "blocked" || inputs.releaseBinding.storageSelectionAllowed !== false) {
+    blockingReasons.push("Composite evidence release binding storage selection is not safely blocked.");
+  }
+  if (inputs.pilotDecision.storageSelectionStatus !== "blocked" || inputs.pilotDecision.storageSelectionAllowed !== false) {
+    blockingReasons.push("Canonical pilot decision storage selection is not safely blocked.");
   }
   if (inputs.storageSelection.status !== "blocked") {
     blockingReasons.push(`Storage selection review remains ${inputs.storageSelection.status}.`);

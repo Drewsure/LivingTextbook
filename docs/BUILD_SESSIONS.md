@@ -5659,3 +5659,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
   preserving all pilot, persistence, student-data, promotion, and release
   blockers.
 - Recorded ADR 1158 and DR-1158.
+
+## Build session 1073: Controlled pilot storage reconciliation
+
+- Reconciled provider-selection, canonical pilot-decision, and composite
+  release-binding storage identity before controlled-pilot human-review
+  eligibility.
+- Added explicit release-control blockers and negative coverage for storage
+  identity drift and enabled storage state.
+- Recorded ADR 1159 and DR-1159.

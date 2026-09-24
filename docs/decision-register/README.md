@@ -727,6 +727,7 @@ Current focused decision records also include:
 - `DR-1156-evidence-attachment-storage-identity.md`
 - `DR-1157-evidence-storage-handoff-preflight-identity.md`
 - `DR-1158-browser-evidence-pilot-storage-lineage.md`
+- `DR-1159-controlled-pilot-storage-reconciliation.md`
 
 ## Maintenance Rule
 

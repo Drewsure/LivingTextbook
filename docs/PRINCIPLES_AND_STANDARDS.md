@@ -7779,3 +7779,18 @@ This standard is recorded in
 `docs/decision-register/DR-1158-browser-evidence-pilot-storage-lineage.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1158-browser-evidence-pilot-storage-lineage.md`.
+
+## 497. Controlled Pilot Storage Reconciliation Standard
+
+- Controlled-pilot approval readiness must reconcile storage preflight and
+  evidence-storage gate identity across the provider-selection review, the
+  canonical pilot decision, and the composite evidence release binding.
+- Any identity drift or unexpectedly enabled storage state must remain an
+  explicit release-control blocker before human-review eligibility.
+- Approval capture, release mutation, student launch, hosted writes, and
+  student data collection remain disabled regardless of evidence status.
+
+This standard is recorded in
+`docs/decision-register/DR-1159-controlled-pilot-storage-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1159-controlled-pilot-storage-reconciliation.md`.

@@ -23,8 +23,8 @@ try {
     storageSelectionAllowed: false,
     releaseControlEvidence: { status: "blocked", blockingGateCount: 1, openApprovalCount: 1 },
   };
-  const pendingBinding = { bindingId: "release-binding-a", tenantId: "tenant-a", packageId: "package-a", status: "awaiting-composite-evidence" };
-  const blockedDecision = { decisionId: "pilot-a", tenantId: "tenant-a", packageId: "package-a", status: "demo-ready-pilot-blocked" };
+  const pendingBinding = { bindingId: "release-binding-a", tenantId: "tenant-a", packageId: "package-a", storageSelectionPreflightId: "storage-preflight-a", storageSelectionGateId: "storage-gate-a", storageSelectionStatus: "blocked", storageSelectionAllowed: false, status: "awaiting-composite-evidence" };
+  const blockedDecision = { decisionId: "pilot-a", tenantId: "tenant-a", packageId: "package-a", storageSelectionPreflightId: "storage-preflight-a", storageSelectionGateId: "storage-gate-a", storageSelectionStatus: "blocked", storageSelectionAllowed: false, status: "demo-ready-pilot-blocked" };
   const blocked = model.createControlledPilotApprovalReadiness({
     readiness,
     releaseBinding: pendingBinding,
@@ -66,6 +66,15 @@ try {
   });
   assert(wrongScope.blockingReasons.some((reason) => reason.includes("scope")), "scope drift must become an explicit blocker");
   assert(wrongScope.status === "blocked-by-release-control", "scope drift must remain outside human-review eligibility");
+  const wrongReleaseStorage = model.createControlledPilotApprovalReadiness({
+    readiness: { ...readiness, releaseControlEvidence: { status: "pilot-ready", blockingGateCount: 0, openApprovalCount: 0 } },
+    releaseBinding: { ...pendingBinding, storageSelectionGateId: "stale-storage-gate", status: "accepted-for-release-review" },
+    pilotDecision: { ...blockedDecision, status: "pilot-ready" },
+    reviewerGate: { gateId: "reviewer-a", tenantId: "tenant-a", identityReady: true, signaturePolicyReady: true, approvalCaptureReady: true, blockedActions: [] },
+    storageSelection: { preflightId: "storage-preflight-a", evidenceStorageGateId: "storage-gate-a", tenantId: "tenant-a", packageId: "package-a", status: "blocked" },
+  });
+  assert(wrongReleaseStorage.blockingReasons.some((reason) => reason.includes("release binding storage identity")), "release binding storage drift must become an explicit blocker");
+  assert(wrongReleaseStorage.status === "blocked-by-release-control", "release binding storage drift must remain outside human-review eligibility");
   console.log("PASS controlled pilot approval readiness distinguishes evidence, release-control, reviewer, and human-review states without enabling approval.");
 } finally {
   rmSync(output, { recursive: true, force: true });
