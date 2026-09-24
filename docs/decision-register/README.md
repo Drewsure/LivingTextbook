@@ -732,6 +732,7 @@ Current focused decision records also include:
 - `DR-1161-deployment-continuity-handoff-storage-identity.md`
 - `DR-1162-deployment-continuity-scope.md`
 - `DR-1163-deployment-handoff-source-reconciliation.md`
+- `DR-1164-activation-preflight-scope.md`
 
 ## Maintenance Rule
 

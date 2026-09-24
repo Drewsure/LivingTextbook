@@ -26,6 +26,8 @@ export interface DeploymentContinuityHandoff {
   packageId: string;
   sourceDecisionId: string;
   activationPreflightId: string;
+  activationPreflightTenantId: string;
+  activationPreflightPackageId: string;
   storageSelectionPreflightId: string;
   storageSelectionGateId: string;
   releaseReadinessId: string;
@@ -48,6 +50,8 @@ export interface DeploymentContinuityHandoff {
 export interface DeploymentContinuityHandoffInput {
   handoffId: string;
   activationPreflightId: string;
+  activationPreflightTenantId: string;
+  activationPreflightPackageId: string;
   releaseReadinessId: string;
   releaseReadinessTenantId: string;
   releaseReadinessPackageId: string;
@@ -91,6 +95,12 @@ export function deriveDeploymentContinuityHandoff(
     ...(input.releaseReadinessPackageId !== input.decision.packageId
       ? ["White-label release readiness package does not match the deployment decision package."]
       : []),
+    ...(input.activationPreflightTenantId !== input.decision.tenantId
+      ? ["Durable-write activation preflight tenant does not match the deployment decision tenant."]
+      : []),
+    ...(input.activationPreflightPackageId !== input.decision.packageId
+      ? ["Durable-write activation preflight package does not match the deployment decision package."]
+      : []),
     ...(input.activationPreflightStatus === "blocked" ? ["Durable-write activation preflight is blocked."] : []),
     ...(input.releaseReadinessStatus === "blocked" ? ["White-label release readiness is blocked."] : []),
     "Handoff artifacts remain review-only and cannot be exported, installed, or activated.",
@@ -104,13 +114,18 @@ export function deriveDeploymentContinuityHandoff(
     packageId: input.decision.packageId,
     sourceDecisionId: input.decision.decisionId,
     activationPreflightId: input.activationPreflightId,
+    activationPreflightTenantId: input.activationPreflightTenantId,
+    activationPreflightPackageId: input.activationPreflightPackageId,
     storageSelectionPreflightId: input.decision.storageSelectionPreflightId,
     storageSelectionGateId: input.decision.storageSelectionGateId,
     releaseReadinessId: input.releaseReadinessId,
     releaseReadinessTenantId: input.releaseReadinessTenantId,
     releaseReadinessPackageId: input.releaseReadinessPackageId,
     releaseReadinessStatus: input.releaseReadinessStatus,
-    status: decisionErrors.length > 0 || input.activationPreflightStatus === "blocked"
+    status: decisionErrors.length > 0
+      || input.activationPreflightStatus === "blocked"
+      || input.activationPreflightTenantId !== input.decision.tenantId
+      || input.activationPreflightPackageId !== input.decision.packageId
       ? "blocked"
       : blockers.length > 0
         ? "needs-review"
@@ -154,7 +169,7 @@ function createArtifact(
 
 export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuityHandoff): string[] {
   const errors: string[] = [];
-  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId", "storageSelectionPreflightId", "storageSelectionGateId", "releaseReadinessId", "releaseReadinessTenantId", "releaseReadinessPackageId"] as const) {
+  for (const field of ["handoffId", "tenantId", "packageId", "sourceDecisionId", "activationPreflightId", "activationPreflightTenantId", "activationPreflightPackageId", "storageSelectionPreflightId", "storageSelectionGateId", "releaseReadinessId", "releaseReadinessTenantId", "releaseReadinessPackageId"] as const) {
     if (typeof handoff[field] !== "string" || handoff[field].trim().length === 0) {
       errors.push(`Deployment continuity handoff ${field} must be non-empty.`);
     }
@@ -167,6 +182,12 @@ export function validateDeploymentContinuityHandoff(handoff: DeploymentContinuit
   }
   if (handoff.releaseReadinessPackageId !== handoff.packageId) {
     errors.push("Deployment continuity handoff release readiness package must match the handoff package.");
+  }
+  if (handoff.activationPreflightTenantId !== handoff.tenantId) {
+    errors.push("Deployment continuity handoff activation preflight tenant must match the handoff tenant.");
+  }
+  if (handoff.activationPreflightPackageId !== handoff.packageId) {
+    errors.push("Deployment continuity handoff activation preflight package must match the handoff package.");
   }
   if (!handoff.evidenceBindings.includes(`storage-selection-preflight:${handoff.storageSelectionPreflightId}`)) {
     errors.push("Deployment continuity handoff must bind the storage selection preflight.");

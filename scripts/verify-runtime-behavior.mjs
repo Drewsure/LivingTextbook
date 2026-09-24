@@ -2775,6 +2775,8 @@ try {
   const continuityHandoffInput = {
     handoffId: "continuity-handoff-1",
     activationPreflightId: "activation-preflight-1",
+    activationPreflightTenantId: "tenant-1",
+    activationPreflightPackageId: "package-1",
     releaseReadinessId: "release-readiness-1",
     releaseReadinessTenantId: "tenant-1",
     releaseReadinessPackageId: "package-1",

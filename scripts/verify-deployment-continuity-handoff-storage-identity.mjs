@@ -20,6 +20,8 @@ try {
     packageId: "package-a",
     sourceDecisionId: "decision-a",
     activationPreflightId: "activation-a",
+    activationPreflightTenantId: "tenant-a",
+    activationPreflightPackageId: "package-a",
     storageSelectionPreflightId: "preflight-a",
     storageSelectionGateId: "storage-gate-a",
     releaseReadinessId: "readiness-a",
@@ -63,6 +65,8 @@ try {
   assert(model.validateDeploymentContinuityHandoff(missingGate).some((error) => error.includes("storage selection gate")), "missing storage gate binding must be rejected");
   const staleDecision = { ...decision, storageSelectionGateId: "stale-storage-gate" };
   assert(model.validateDeploymentContinuityHandoffAgainstDecision(valid, staleDecision).some((error) => error.includes("storage gate must match")), "source decision storage drift must be rejected");
+  const wrongActivationScope = { ...valid, activationPreflightTenantId: "tenant-b" };
+  assert(model.validateDeploymentContinuityHandoff(wrongActivationScope).some((error) => error.includes("activation preflight tenant")), "activation preflight tenant drift must be rejected");
   console.log("PASS deployment continuity handoff preserves explicit storage identity and rejects missing storage evidence bindings.");
 } finally {
   rmSync(output, { recursive: true, force: true });

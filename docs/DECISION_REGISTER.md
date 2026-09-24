@@ -9279,3 +9279,11 @@ Evidence: `packages/content-model/src/teacherDraftAcceptanceReadiness.ts`,
 - A handoff cannot be trusted from intrinsic shape validation alone.
 - Export, installation, activation, route mutation, writes, and classroom
   launch remain blocked.
+
+## DR-1164: Activation Preflight Scope
+
+- Deployment handoffs must carry activation preflight tenant and package scope
+  explicitly.
+- Scope drift is a hard blocker before continuity review.
+- Activation, writes, export, installation, route mutation, and launch remain
+  blocked.

@@ -7854,3 +7854,17 @@ This standard is recorded in
 `docs/decision-register/DR-1163-deployment-handoff-source-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1163-deployment-handoff-source-reconciliation.md`.
+
+## 502. Activation Preflight Scope Standard
+
+- Deployment continuity handoffs must carry the activation preflight tenant
+  and package scope explicitly alongside its packet ID.
+- Activation preflight scope drift is a hard blocker, even when the preflight
+  status or continuity decision is otherwise structurally valid.
+- No activation, persistence write, export, installation, route mutation, or
+  classroom launch is permitted from a mismatched preflight.
+
+This standard is recorded in
+`docs/decision-register/DR-1164-activation-preflight-scope.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1164-activation-preflight-scope.md`.

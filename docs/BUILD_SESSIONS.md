@@ -5701,3 +5701,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added focused negative coverage for stale source storage identity and made
   the identity visible on the teacher handoff panel.
 - Recorded ADR 1163 and DR-1163.
+
+## Build session 1078: Activation preflight scope
+
+- Carried activation preflight tenant and package scope into deployment
+  continuity handoffs.
+- Added hard-blocked negative coverage for activation scope drift while
+  preserving all activation, write, export, installation, route, and launch
+  blockers.
+- Recorded ADR 1164 and DR-1164.

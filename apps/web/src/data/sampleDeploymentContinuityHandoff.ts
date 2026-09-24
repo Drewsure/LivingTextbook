@@ -10,6 +10,8 @@ import { sampleWhiteLabelReleaseReadiness } from "./sampleWhiteLabelReleaseReadi
 export const sampleDeploymentContinuityHandoff: DeploymentContinuityHandoff = deriveDeploymentContinuityHandoff({
   handoffId: "sample-publisher-deployment-continuity-handoff",
   activationPreflightId: samplePersistenceActivationPreflight.packetId,
+  activationPreflightTenantId: samplePersistenceActivationPreflight.tenantId,
+  activationPreflightPackageId: samplePersistenceActivationPreflight.packageId,
   releaseReadinessId: sampleWhiteLabelReleaseReadiness.readinessId,
   releaseReadinessTenantId: sampleWhiteLabelReleaseReadiness.tenantId,
   releaseReadinessPackageId: sampleWhiteLabelReleaseReadiness.packageId,
