@@ -22,9 +22,12 @@ requireText(handoff, "storageReadinessBinding", "Evidence handoff must carry sto
 requireText(handoff, "assetEvidencePackets", "Evidence handoff must carry per-asset evidence packets.");
 requireText(handoff, "sampleLabelledDiagramAssetEvidencePacket", "Evidence handoff must include the Labelled Diagram evidence packet.");
 requireText(handoff, "sampleMediaAssetEvidencePacket", "Evidence handoff must include the media evidence packet.");
+requireText(handoff, "storageReconciliation", "Evidence handoff must carry attachment-to-storage reconciliation.");
 requireText(panel, "Attachment storage readiness lineage", "Evidence handoff panel must show storage readiness lineage.");
 requireText(panel, "Asset evidence lineage", "Evidence handoff panel must show per-asset evidence lineage.");
 requireText(panel, "Every image, audio, and video candidate keeps its own evidence packet", "Evidence handoff panel must show attachment-level evidence boundaries.");
+requireText(panel, "Attachment-to-storage reconciliation", "Evidence handoff panel must show storage reconciliation.");
+requireText(panel, "Every attachment has a storage policy gate, not a storage destination", "Evidence handoff panel must keep storage selection provider-neutral.");
 requireText(panel, "Storage candidates travel with the handoff, not the files", "Evidence handoff panel must preserve storage attachment boundaries.");
 requireText(storageBinding, "storageActivationAllowed: false", "Storage handoff binding must block activation.");
 requireText(storageBinding, "uploadAllowed: false", "Storage handoff binding must block upload.");

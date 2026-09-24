@@ -76,6 +76,29 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Attachment-to-storage reconciliation</p>
+            <h3 className="mt-1 text-lg font-bold">Every attachment has a storage policy gate, not a storage destination</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This review-only reconciliation joins asset packets to the hosted, closed-local, and hybrid candidates without selecting a provider or creating a file location.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.storageReconciliation.status} tone="warning" />
+        </div>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Asset packets" value={String(handoffPackage.storageReconciliation.assetPacketIds.length)} />
+          <Fact label="Attachments" value={String(handoffPackage.storageReconciliation.attachmentIds.length)} />
+          <Fact label="Storage candidates" value={String(handoffPackage.storageReconciliation.candidateIds.length)} />
+          <Fact label="Upload" value="Blocked" />
+        </dl>
+        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <ListBlock title="Unresolved policy gates" items={handoffPackage.storageReconciliation.unresolvedGates} />
+          <ListBlock title="Blocked reconciliation actions" items={handoffPackage.storageReconciliation.blockedActions} />
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Asset evidence lineage</p>
             <h3 className="mt-1 text-lg font-bold">Every image, audio, and video candidate keeps its own evidence packet</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

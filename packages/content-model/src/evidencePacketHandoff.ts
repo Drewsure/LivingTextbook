@@ -1,4 +1,5 @@
 import { validateEvidenceAttachmentStorageHandoffBinding } from "./evidenceAttachmentStorageHandoff";
+import { validateEvidenceAttachmentStorageReconciliation } from "./evidenceAttachmentStorageReconciliation";
 import { validateAssetEvidencePacket, type AssetEvidencePacket } from "./assetEvidencePacket";
 import { validateUploadQuarantineAdmissionHandoffBinding } from "./uploadQuarantineAdmissionHandoff";
 
@@ -33,6 +34,7 @@ export interface EvidencePacketHandoffPackage {
   assetEvidencePackets: AssetEvidencePacket[];
   admissionBindings: import("./uploadQuarantineAdmissionHandoff").UploadQuarantineAdmissionHandoffBinding[];
   storageReadinessBinding: import("./evidenceAttachmentStorageHandoff").EvidenceAttachmentStorageHandoffBinding;
+  storageReconciliation: import("./evidenceAttachmentStorageReconciliation").EvidenceAttachmentStorageReconciliation;
   recipients: EvidencePacketHandoffRecipient[];
   exportBlockedActions: string[];
   nextGate: string[];
@@ -86,6 +88,25 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   }
   const storageBindingErrors = validateEvidenceAttachmentStorageHandoffBinding(packet.storageReadinessBinding);
   errors.push(...storageBindingErrors.map((error) => `Evidence packet handoff storage binding: ${error}`));
+  const reconciliationErrors = validateEvidenceAttachmentStorageReconciliation(packet.storageReconciliation);
+  errors.push(...reconciliationErrors.map((error) => `Evidence packet handoff storage reconciliation: ${error}`));
+  if (packet.storageReconciliation?.tenantId !== packet.tenantId) {
+    errors.push("Evidence packet handoff storage reconciliation must match handoff tenant.");
+  }
+  if (packet.storageReconciliation?.packageId !== packet.packageId) {
+    errors.push("Evidence packet handoff storage reconciliation must match handoff package.");
+  }
+  if (packet.storageReconciliation?.storageBindingId !== packet.storageReadinessBinding?.bindingId) {
+    errors.push("Evidence packet handoff storage reconciliation must match storage binding.");
+  }
+  const assetPacketIds = new Set(assetEvidencePackets.map((assetPacket) => assetPacket.packetId));
+  const attachmentIds = new Set(assetEvidencePackets.flatMap((assetPacket) => assetPacket.attachments.map((attachment) => attachment.attachmentId)));
+  for (const assetPacketId of packet.storageReconciliation?.assetPacketIds ?? []) {
+    if (!assetPacketIds.has(assetPacketId)) errors.push(`Evidence packet handoff storage reconciliation references unknown asset packet ${assetPacketId}.`);
+  }
+  for (const attachmentId of packet.storageReconciliation?.attachmentIds ?? []) {
+    if (!attachmentIds.has(attachmentId)) errors.push(`Evidence packet handoff storage reconciliation references unknown attachment ${attachmentId}.`);
+  }
   if (recipients.length === 0) errors.push("Evidence packet handoff must include recipients.");
 
   for (const section of sections) {

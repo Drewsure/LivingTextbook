@@ -8,6 +8,7 @@ import type {
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { sampleUploadQuarantineAdmissionHandoffBindings } from "@/data/sampleUploadQuarantineAdmission";
 import { sampleEvidenceAttachmentStorageHandoffBinding } from "@/data/sampleEvidenceAttachmentStorageHandoff";
+import { sampleEvidenceAttachmentStorageReconciliation } from "@/data/sampleEvidenceAttachmentStorageReconciliation";
 import {
   sampleLabelledDiagramAssetEvidencePacket,
   sampleMediaAssetEvidencePacket,
@@ -115,6 +116,7 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
   ],
   admissionBindings: sampleUploadQuarantineAdmissionHandoffBindings,
   storageReadinessBinding: sampleEvidenceAttachmentStorageHandoffBinding,
+  storageReconciliation: sampleEvidenceAttachmentStorageReconciliation,
   recipients: [
     {
       recipientId: "publisher",

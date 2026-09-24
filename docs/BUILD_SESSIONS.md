@@ -5486,3 +5486,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
   candidate without exposing bytes or URLs.
 - Kept upload, storage, download, promotion, release mutation, assignment,
   and student-facing use blocked. Recorded ADR 1139 and DR-1139.
+
+## Build session 1054: Attachment-to-storage reconciliation
+
+- Added a provider-neutral reconciliation that joins every reviewed asset
+  packet and attachment to the available hosted, closed-local, and hybrid
+  storage candidates.
+- Preserved unresolved policy gates for tenant selection, quarantine and
+  scan retention, rights, deletion/export, backup, release control, and
+  reviewer approval without choosing a destination.
+- Kept per-asset storage selection, upload, download, promotion, release
+  mutation, assignment, and student-facing use blocked. Recorded ADR 1140
+  and DR-1140.

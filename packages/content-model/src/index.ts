@@ -1741,6 +1741,7 @@ export * from "./uploadQuarantineReview";
 export * from "./uploadQuarantineAdmission";
 export * from "./uploadQuarantineAdmissionHandoff";
 export * from "./evidenceAttachmentStorageHandoff";
+export * from "./evidenceAttachmentStorageReconciliation";
 export * from "./canonicalGameIntegration";
 export * from "./canonicalGameReplay";
 export * from "./aiTargetLanguageAudioApprovalPacket";

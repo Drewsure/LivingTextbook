@@ -7482,3 +7482,19 @@ This standard is recorded in
 `docs/decision-register/DR-1139-per-asset-evidence-packets-in-tenant-handoff.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1139-per-asset-evidence-packets-in-tenant-handoff.md`.
+
+## 478. Attachment-To-Storage Reconciliation Standard
+
+- Every reviewed attachment must reconcile to the provider-neutral storage
+  candidate set before a future hosted, closed-local, or hybrid adapter can be
+  selected.
+- The reconciliation must preserve exact tenant, package, storage-binding,
+  asset-packet, and attachment identities plus unresolved policy gates.
+- Reconciliation is not a destination. Per-asset selection, upload, download,
+  promotion, release mutation, assignment, and student-facing use remain
+  explicitly blocked.
+
+This standard is recorded in
+`docs/decision-register/DR-1140-attachment-to-storage-reconciliation.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1140-attachment-to-storage-reconciliation.md`.

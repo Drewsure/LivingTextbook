@@ -64,6 +64,15 @@ lineage, file metadata, checksum, and blocked actions. They do not carry raw
 bytes, storage URLs, downloads, promotion, release mutation, or student use.
 See `docs/decision-register/DR-1139-per-asset-evidence-packets-in-tenant-handoff.md`.
 
+## DR-1140: Attachment-To-Storage Reconciliation
+
+Reconcile every evidence attachment with the provider-neutral hosted,
+closed-local, and hybrid storage candidates before any storage destination is
+selected. The reconciliation carries unresolved policy gates and blocked
+actions, but cannot create a provider, choose a bucket or folder, upload,
+download, promote, release, or expose an attachment to students. See
+`docs/decision-register/DR-1140-attachment-to-storage-reconciliation.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory
