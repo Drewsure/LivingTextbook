@@ -5886,3 +5886,16 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Mounted the existing observation-to-pilot binding preview against the same
   scope, keeping pilot launch and activation blocked until the independent
   pilot decision and evidence gates close.
+
+## Build session: Assist-language review packet
+
+- Added a teacher/admin review-only packet for optional support-language
+  content at intake.
+- Made target-language progression, Japanese script policy, review provenance,
+  text coverage, assist-audio coverage, live-AI fallback, open items, and
+  blocked actions visible in one bounded surface.
+- Preserved the no-approval, no-assignment, no-QR, no-promotion, no-export, and
+  no-hosted-write boundary.
+- Clarified the assist-language standard by separating implemented foundation
+  rules from future production work.
+- Recorded ADR 1177 and DR-1177.

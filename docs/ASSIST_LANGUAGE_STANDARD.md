@@ -91,6 +91,19 @@ Unit content packages should represent:
 
 MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. It is hiragana-only student support and is a proof of the architecture, not a full localization rollout. It is off by default, can be enabled from `/teacher`, and appears in teacher-session settings as a persisted-launch-session requirement before classroom use.
 
+## Implemented Foundation Rules
+
+- The content model carries assist-language source, review status, student
+  visibility, vocabulary and sentence glosses, live-fallback permission, script
+  policy, and named level band.
+- Shared validation rejects undeclared student-visible Japanese script policy,
+  early-band non-hiragana policy, hiragana-only katakana/kanji, and unreviewed
+  mixed-script plans.
+- Runtime and teacher-session contracts preserve target-language progression,
+  support-only visibility, and teacher enablement boundaries.
+- Teacher intake now exposes a read-only assist-language review packet that
+  reports text coverage, assist-audio coverage, open items, and blocked actions.
+
 ## Not Yet Built
 
 - Backend-persisted teacher toggle for enabling/disabling assist language per launch session.
@@ -98,5 +111,11 @@ MiniStar Level 1 Unit 1 includes a reviewed Japanese assist plan for greetings. 
 - Assist-language audio cue catalog with recorded files.
 - Teacher/admin workflow for approving AI-drafted translations.
 - Per-student language preference persistence.
-- Durable content-model fields for assist progression role, script policy, and named level band are now present. The shared validator rejects undeclared student-visible Japanese script policy, early-band non-hiragana policy, hiragana-only katakana/kanji, and unreviewed mixed-script plans.
-- Durable content-model fields for target-language expansion roles, Japanese script policy, furigana, and segmentation policy.
+- Production approval capture and durable teacher toggle persistence for each
+  launch session.
+- Full UI localization.
+- Durable assist-language audio cue catalog with recorded files and rights
+  evidence.
+- Per-student language preference persistence.
+- Full target-language expansion fields for Japanese-as-target packages,
+  including furigana/ruby, segmentation, and level-aware script workflows.

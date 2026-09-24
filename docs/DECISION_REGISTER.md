@@ -9419,3 +9419,14 @@ The same dry-run scope now mounts the existing browser observation adjudication
 control. This records an adult next-gate decision locally against the exact
 handoff and synthetic session, without turning that decision into release
 approval, durable persistence, student launch, or pilot activation.
+
+## DR-1177: Assist-Language Review Packet
+
+Teacher intake now exposes a read-only assist-language review packet for each
+sample package. It shows target and assist languages, script policy, level band,
+review provenance, text coverage, assist-audio coverage, open items, and blocked
+actions. It does not call live translation, record approval, assign students,
+activate QR, promote a package, export evidence, or write hosted state. The
+target language remains the only progression and mastery trigger, and MiniStar
+Foundation Japanese remains hiragana-only. See ADR 1177 and
+`docs/decision-register/DR-1177-assist-language-review-packet.md`.
