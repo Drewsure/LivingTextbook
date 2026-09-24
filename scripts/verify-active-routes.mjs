@@ -2744,6 +2744,17 @@ expectedTextByPath
   .get("/teacher/policy-handoff/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate-school-policy-gate-handoff-packet")
   ?.push(...safeFallbackRestorationPreviewExpected);
 
+expectedTextByPath.get("/teacher/evidence/sample-publisher/handoff")?.push(
+  "Attachment storage readiness lineage",
+  "Storage candidates travel with the handoff, not the files",
+  "blocked-preview",
+  "Selection gate",
+  "Blocked storage actions",
+  "No object storage write",
+  "No local folder write",
+  "No attachment download",
+);
+
 expectedTextByPath.get("/teacher/persistence")?.push(
   "Durable-write activation preflight",
   "Activation blocked",

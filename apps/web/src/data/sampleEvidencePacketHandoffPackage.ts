@@ -7,6 +7,7 @@ import type {
 } from "@living-textbook/content-model";
 import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { sampleUploadQuarantineAdmissionHandoffBindings } from "@/data/sampleUploadQuarantineAdmission";
+import { sampleEvidenceAttachmentStorageHandoffBinding } from "@/data/sampleEvidenceAttachmentStorageHandoff";
 
 export type {
   EvidencePacketHandoffPackage,
@@ -105,6 +106,7 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
     },
   ],
   admissionBindings: sampleUploadQuarantineAdmissionHandoffBindings,
+  storageReadinessBinding: sampleEvidenceAttachmentStorageHandoffBinding,
   recipients: [
     {
       recipientId: "publisher",

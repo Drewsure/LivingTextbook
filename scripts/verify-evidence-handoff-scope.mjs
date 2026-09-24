@@ -6,6 +6,7 @@ const handoff = readSource("../apps/web/src/data/sampleEvidencePacketHandoffPack
 const panel = readSource("../apps/web/src/features/evidence/EvidencePacketHandoffPanel.tsx");
 const route = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const validator = readSource("../packages/content-model/src/evidencePacketHandoff.ts");
+const storageBinding = readSource("../packages/content-model/src/evidenceAttachmentStorageHandoff.ts");
 const failures = [];
 
 requireText(handoff, "samplePilotHandoffPackage.packageId", "Evidence handoff must bind to the canonical pilot package id.");
@@ -17,6 +18,12 @@ requireText(validator, "Evidence packet handoff must block package publish.", "E
 requireText(route, "validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}", "Evidence handoff route must pass validation errors to the panel.");
 requireText(panel, "Canonical package binding", "Evidence handoff panel must show canonical package binding.");
 requireText(panel, "Contract valid", "Evidence handoff panel must show contract validity.");
+requireText(handoff, "storageReadinessBinding", "Evidence handoff must carry storage readiness identity.");
+requireText(panel, "Attachment storage readiness lineage", "Evidence handoff panel must show storage readiness lineage.");
+requireText(panel, "Storage candidates travel with the handoff, not the files", "Evidence handoff panel must preserve storage attachment boundaries.");
+requireText(storageBinding, "storageActivationAllowed: false", "Storage handoff binding must block activation.");
+requireText(storageBinding, "uploadAllowed: false", "Storage handoff binding must block upload.");
+requireText(storageBinding, "downloadAllowed: false", "Storage handoff binding must block download.");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

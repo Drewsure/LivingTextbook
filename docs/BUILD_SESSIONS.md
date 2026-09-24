@@ -5464,3 +5464,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Reused the shared binding validator and verified the handoff scope, web and
   AI-service typechecks, full build, active routes, and foundation gates.
   Recorded ADR 1137 and DR-1137.
+
+## Build session 1052: Evidence attachment storage handoff binding
+
+- Added a provider-neutral storage readiness binding carrying tenant, package,
+  readiness-plan, selection-gate, candidate, metadata, policy, and blocked
+  action identity into the evidence handoff.
+- Connected hosted, closed-local, and hybrid storage candidates to the
+  handoff preview without creating a provider, bucket, folder, signed URL,
+  retention clock, upload/download action, or release mutation.
+- Reused shared validation, added route assertions, and kept the full
+  foundation gate as the acceptance check. Recorded ADR 1138 and DR-1138.

@@ -7432,3 +7432,36 @@ This standard is recorded in
 `docs/decision-register/DR-1137-upload-admission-lineage.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1137-upload-admission-lineage.md`.
+
+## 475. Evidence Handoff Admission Binding Standard
+
+- Every evidence handoff that references upload admission must carry a
+  canonical admission binding rather than an informal description or copied
+  filename.
+- The binding must preserve the tenant, package, quarantine, admission,
+  evidence-packet, decision, and blocker identities, and must be validated at
+  the content-model boundary.
+- Admission lineage is review evidence only. It must not authorize storage,
+  export, promotion, assignment, QR mutation, release, or student-facing use.
+
+This standard is recorded in
+`docs/decision-register/DR-1137-upload-admission-lineage.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1137-upload-admission-lineage.md`.
+
+## 476. Evidence Attachment Storage Handoff Standard
+
+- Evidence attachment storage readiness must travel through handoff as a
+  tenant- and package-bound, provider-neutral binding that names the
+  readiness plan, selection gate, candidates, metadata, policy gates, and
+  blocked actions.
+- Hosted, closed-local, and hybrid candidates must remain distinct decision
+  lanes. A readiness binding must never select a provider or activate storage.
+- Upload, download, signed URL, bucket, folder, archive, retention-clock, and
+  release-state mutation permissions must remain false until their own policy,
+  identity, scan, retention, and release gates are accepted.
+
+This standard is recorded in
+`docs/decision-register/DR-1138-evidence-attachment-storage-handoff-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1138-evidence-attachment-storage-handoff-binding.md`.

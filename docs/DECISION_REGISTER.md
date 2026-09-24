@@ -32,6 +32,29 @@ result is not promotion or student authorization; previews remain tenant-bound,
 review-only, and side-effect-free. See
 `docs/decision-register/DR-1135-quarantine-evidence-admission-preview.md`.
 
+## DR-1136: Upload Workspace Admission Preview
+
+The tenant upload workspace exposes incomplete and evidence-complete-for-review
+admission states while keeping file URLs, quarantine mutation, storage
+selection, promotion, assignment, and student use blocked. See
+`docs/decision-register/DR-1136-upload-workspace-admission-preview.md`.
+
+## DR-1137: Upload Admission Lineage Into Evidence Handoff
+
+Upload admission bindings preserve tenant, package, source, quarantine,
+admission, evidence-packet, decision, and blocker identity in the review-only
+evidence handoff. Handoff presence never authorizes export, approval,
+promotion, assignment, QR mutation, local activation, or student use. See
+`docs/decision-register/DR-1137-upload-admission-lineage.md`.
+
+## DR-1138: Evidence Attachment Storage Handoff Binding
+
+Evidence attachment storage readiness travels into the tenant handoff as a
+provider-neutral blocked binding covering hosted, closed-local, and hybrid
+candidates. No provider, bucket, folder, signed URL, retention clock,
+attachment upload/download, or release mutation may be created by the binding.
+See `docs/decision-register/DR-1138-evidence-attachment-storage-handoff-binding.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

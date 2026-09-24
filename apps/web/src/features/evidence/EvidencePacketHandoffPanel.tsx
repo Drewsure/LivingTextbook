@@ -76,6 +76,30 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Attachment storage readiness lineage</p>
+            <h3 className="mt-1 text-lg font-bold">Storage candidates travel with the handoff, not the files</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Hosted, closed-local, and hybrid candidates remain provider-neutral readiness evidence. No provider, bucket, folder, signed URL, retention clock, or release mutation is created here.
+            </p>
+          </div>
+          <StatusPill label={handoffPackage.storageReadinessBinding.status} tone="warning" />
+        </div>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Tenant" value={handoffPackage.storageReadinessBinding.tenantId} />
+          <Fact label="Package" value={handoffPackage.storageReadinessBinding.packageId} />
+          <Fact label="Readiness plan" value={handoffPackage.storageReadinessBinding.planId} />
+          <Fact label="Selection gate" value={handoffPackage.storageReadinessBinding.selectionGateId} />
+        </dl>
+        <div className="mt-4 grid gap-3 lg:grid-cols-3">
+          <ListBlock title="Storage candidates" items={handoffPackage.storageReadinessBinding.candidateIds} />
+          <ListBlock title="Policy gates" items={handoffPackage.storageReadinessBinding.policyGates} />
+          <ListBlock title="Blocked storage actions" items={handoffPackage.storageReadinessBinding.blockedActions} />
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Upload admission lineage</p>
             <h3 className="mt-1 text-lg font-bold">Quarantine evidence bindings carried into handoff</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">

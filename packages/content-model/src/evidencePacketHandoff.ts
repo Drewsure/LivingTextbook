@@ -1,6 +1,7 @@
-export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
-
+import { validateEvidenceAttachmentStorageHandoffBinding } from "./evidenceAttachmentStorageHandoff";
 import { validateUploadQuarantineAdmissionHandoffBinding } from "./uploadQuarantineAdmissionHandoff";
+
+export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
 
 export interface EvidencePacketHandoffSection {
   sectionId: string;
@@ -29,6 +30,7 @@ export interface EvidencePacketHandoffPackage {
   storageRecord: "evidence_packet";
   sections: EvidencePacketHandoffSection[];
   admissionBindings: import("./uploadQuarantineAdmissionHandoff").UploadQuarantineAdmissionHandoffBinding[];
+  storageReadinessBinding: import("./evidenceAttachmentStorageHandoff").EvidenceAttachmentStorageHandoffBinding;
   recipients: EvidencePacketHandoffRecipient[];
   exportBlockedActions: string[];
   nextGate: string[];
@@ -67,6 +69,8 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
     const bindingErrors = validateUploadQuarantineAdmissionHandoffBinding(binding);
     errors.push(...bindingErrors.map((error) => `Evidence packet handoff admission binding: ${error}`));
   }
+  const storageBindingErrors = validateEvidenceAttachmentStorageHandoffBinding(packet.storageReadinessBinding);
+  errors.push(...storageBindingErrors.map((error) => `Evidence packet handoff storage binding: ${error}`));
   if (recipients.length === 0) errors.push("Evidence packet handoff must include recipients.");
 
   for (const section of sections) {
