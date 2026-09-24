@@ -58,6 +58,8 @@ export function validateEvidenceAttachmentStorageReconciliation(value: unknown):
     const values = value[field];
     if (!Array.isArray(values) || values.length === 0 || values.some((item) => !isNonEmptyString(item))) {
       errors.push(`Evidence attachment storage reconciliation ${field} must contain non-empty strings.`);
+    } else if (new Set(values).size !== values.length) {
+      errors.push(`Evidence attachment storage reconciliation ${field} must not contain duplicates.`);
     }
   }
   for (const field of ["storageSelectionAllowed", "uploadAllowed", "downloadAllowed", "promotionAllowed"] as const) {
