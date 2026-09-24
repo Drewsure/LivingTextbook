@@ -23,12 +23,16 @@ requireText(handoff, "assetEvidencePackets", "Evidence handoff must carry per-as
 requireText(handoff, "sampleLabelledDiagramAssetEvidencePacket", "Evidence handoff must include the Labelled Diagram evidence packet.");
 requireText(handoff, "sampleMediaAssetEvidencePacket", "Evidence handoff must include the media evidence packet.");
 requireText(handoff, "storageReconciliation", "Evidence handoff must carry attachment-to-storage reconciliation.");
+requireText(handoff, "storageSelectionPreflight", "Evidence handoff must carry the policy-gated storage selection review packet.");
 requireText(panel, "Attachment storage readiness lineage", "Evidence handoff panel must show storage readiness lineage.");
 requireText(panel, "Asset evidence lineage", "Evidence handoff panel must show per-asset evidence lineage.");
 requireText(panel, "Every image, audio, and video candidate keeps its own evidence packet", "Evidence handoff panel must show attachment-level evidence boundaries.");
 requireText(panel, "Attachment-to-storage reconciliation", "Evidence handoff panel must show storage reconciliation.");
 requireText(panel, "Every attachment has a storage policy gate, not a storage destination", "Evidence handoff panel must keep storage selection provider-neutral.");
 requireText(panel, "Storage candidates travel with the handoff, not the files", "Evidence handoff panel must preserve storage attachment boundaries.");
+requireText(panel, "Storage selection review packet", "Evidence handoff panel must show the storage selection review packet.");
+requireText(panel, "No provider selected", "Evidence handoff panel must show that provider selection remains blocked.");
+requireText(panel, "Human policy review required", "Evidence handoff panel must show the human policy review gate.");
 requireText(storageBinding, "storageActivationAllowed: false", "Storage handoff binding must block activation.");
 requireText(storageBinding, "uploadAllowed: false", "Storage handoff binding must block upload.");
 requireText(storageBinding, "downloadAllowed: false", "Storage handoff binding must block download.");

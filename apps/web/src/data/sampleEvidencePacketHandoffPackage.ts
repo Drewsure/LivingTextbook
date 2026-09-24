@@ -9,6 +9,7 @@ import { samplePilotHandoffPackage } from "@/data/samplePilotHandoffPackage";
 import { sampleUploadQuarantineAdmissionHandoffBindings } from "@/data/sampleUploadQuarantineAdmission";
 import { sampleEvidenceAttachmentStorageHandoffBinding } from "@/data/sampleEvidenceAttachmentStorageHandoff";
 import { sampleEvidenceAttachmentStorageReconciliation } from "@/data/sampleEvidenceAttachmentStorageReconciliation";
+import { samplePersistenceProviderSelectionPreflight } from "@/data/samplePersistenceProviderSelectionPreflight";
 import {
   sampleLabelledDiagramAssetEvidencePacket,
   sampleMediaAssetEvidencePacket,
@@ -117,6 +118,7 @@ export const samplePublisherEvidencePacketHandoffPackage: EvidencePacketHandoffP
   admissionBindings: sampleUploadQuarantineAdmissionHandoffBindings,
   storageReadinessBinding: sampleEvidenceAttachmentStorageHandoffBinding,
   storageReconciliation: sampleEvidenceAttachmentStorageReconciliation,
+  storageSelectionPreflight: samplePersistenceProviderSelectionPreflight,
   recipients: [
     {
       recipientId: "publisher",

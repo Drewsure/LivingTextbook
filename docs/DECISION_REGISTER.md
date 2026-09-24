@@ -73,6 +73,16 @@ actions, but cannot create a provider, choose a bucket or folder, upload,
 download, promote, release, or expose an attachment to students. See
 `docs/decision-register/DR-1140-attachment-to-storage-reconciliation.md`.
 
+## DR-1141: Policy-Gated Storage Selection Review
+
+Reuse the provider-neutral persistence selection preflight inside the tenant
+evidence handoff as a storage selection review packet. Bind the comparison to
+the exact tenant, package, evidence storage gate, and implementation-readiness
+evidence. Keep provider selection, migration, writes, activation, upload,
+download, signed URLs, and release mutation blocked until human policy review
+passes. See
+`docs/decision-register/DR-1141-policy-gated-storage-selection-review.md`.
+
 ## DR-963: Persistence Provider Conformance
 
 Require payload-aware idempotency and one conformance gate across process-memory

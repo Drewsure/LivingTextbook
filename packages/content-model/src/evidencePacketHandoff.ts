@@ -2,6 +2,7 @@ import { validateEvidenceAttachmentStorageHandoffBinding } from "./evidenceAttac
 import { validateEvidenceAttachmentStorageReconciliation } from "./evidenceAttachmentStorageReconciliation";
 import { validateAssetEvidencePacket, type AssetEvidencePacket } from "./assetEvidencePacket";
 import { validateUploadQuarantineAdmissionHandoffBinding } from "./uploadQuarantineAdmissionHandoff";
+import { validatePersistenceProviderSelectionPreflight, type PersistenceProviderSelectionPreflight } from "./persistenceProviderSelectionPreflight";
 
 export type EvidencePacketHandoffStatus = "preview-ready" | "blocked";
 
@@ -35,6 +36,7 @@ export interface EvidencePacketHandoffPackage {
   admissionBindings: import("./uploadQuarantineAdmissionHandoff").UploadQuarantineAdmissionHandoffBinding[];
   storageReadinessBinding: import("./evidenceAttachmentStorageHandoff").EvidenceAttachmentStorageHandoffBinding;
   storageReconciliation: import("./evidenceAttachmentStorageReconciliation").EvidenceAttachmentStorageReconciliation;
+  storageSelectionPreflight: PersistenceProviderSelectionPreflight;
   recipients: EvidencePacketHandoffRecipient[];
   exportBlockedActions: string[];
   nextGate: string[];
@@ -98,6 +100,20 @@ export function validateEvidencePacketHandoffPackage(packet: EvidencePacketHando
   }
   if (packet.storageReconciliation?.storageBindingId !== packet.storageReadinessBinding?.bindingId) {
     errors.push("Evidence packet handoff storage reconciliation must match storage binding.");
+  }
+  const storageSelectionErrors = validatePersistenceProviderSelectionPreflight(packet.storageSelectionPreflight);
+  errors.push(...storageSelectionErrors.map((error) => `Evidence packet handoff storage selection: ${error}`));
+  if (packet.storageSelectionPreflight?.status !== "blocked") {
+    errors.push("Evidence packet handoff storage selection must remain blocked until human policy review.");
+  }
+  if (packet.storageSelectionPreflight?.tenantId !== packet.tenantId) {
+    errors.push("Evidence packet handoff storage selection must match handoff tenant.");
+  }
+  if (packet.storageSelectionPreflight?.packageId !== packet.packageId) {
+    errors.push("Evidence packet handoff storage selection must match handoff package.");
+  }
+  if (packet.storageSelectionPreflight?.evidenceStorageGateId !== packet.storageReadinessBinding?.selectionGateId) {
+    errors.push("Evidence packet handoff storage selection must match storage selection gate.");
   }
   const assetPacketIds = new Set(assetEvidencePackets.map((assetPacket) => assetPacket.packetId));
   const attachmentIds = new Set(assetEvidencePackets.flatMap((assetPacket) => assetPacket.attachments.map((attachment) => attachment.attachmentId)));

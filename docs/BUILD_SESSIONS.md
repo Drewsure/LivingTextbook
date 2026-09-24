@@ -5498,3 +5498,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept per-asset storage selection, upload, download, promotion, release
   mutation, assignment, and student-facing use blocked. Recorded ADR 1140
   and DR-1140.
+
+## Build session 1055: Policy-gated storage selection review
+
+- Reused the provider-neutral persistence selection preflight inside the
+  tenant evidence handoff as a storage selection review packet.
+- Bound the review to the exact tenant, package, evidence storage gate, and
+  implementation-readiness evidence, with hosted, closed-local, and hybrid
+  comparison candidates visible together.
+- Kept provider selection, migration, writes, activation, upload, download,
+  signed URLs, retention clocks, and release mutation blocked pending human
+  policy review. Added a runtime verifier and route/source assertions.
+  Recorded ADR 1141 and DR-1141.

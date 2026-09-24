@@ -74,6 +74,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-evidence-handoff
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-evidence-storage-reconciliation.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-evidence-storage-selection-review.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-review-decision-persistence.mjs", import.meta.url))], {
   stdio: "inherit",
 });
@@ -155,4 +158,4 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
-console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, route, and deployment checks plus the stable QR resolver, evidence handoff, and storage reconciliation guards.`);
+console.log(`PASS foundation composition includes ${requiredCommands.length} critical runtime, type, build, route, and deployment checks plus the stable QR resolver, evidence handoff, storage reconciliation, and storage selection review guards.`);

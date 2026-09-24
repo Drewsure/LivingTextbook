@@ -7498,3 +7498,21 @@ This standard is recorded in
 `docs/decision-register/DR-1140-attachment-to-storage-reconciliation.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1140-attachment-to-storage-reconciliation.md`.
+
+## 479. Policy-Gated Storage Selection Review Standard
+
+- Tenant evidence handoffs must carry one provider-neutral storage selection
+  review packet bound to the exact tenant, package, evidence storage gate, and
+  implementation-readiness evidence.
+- The packet must compare hosted, closed-local, and hybrid paths using cost,
+  tenant isolation, retention, deletion/export, backup, rollback, and support
+  responsibility evidence without creating a provider decision.
+- Recommendations are comparison evidence only. Provider selection,
+  migration, writes, activation, upload, download, signed URLs, retention
+  clocks, release mutation, assignment, and student-facing use remain blocked
+  until human policy review passes.
+
+This standard is recorded in
+`docs/decision-register/DR-1141-policy-gated-storage-selection-review.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1141-policy-gated-storage-selection-review.md`.

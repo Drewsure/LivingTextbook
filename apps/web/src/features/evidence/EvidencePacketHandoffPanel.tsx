@@ -99,6 +99,67 @@ export function EvidencePacketHandoffPanel({ handoffPackage, validationErrors }:
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Storage selection review packet</p>
+            <h3 className="mt-1 text-lg font-bold">Compare deployment options before any provider is selected</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This reuses the provider-neutral persistence preflight for the exact evidence package. It compares cost, deployment fit, tenant policy, backup, retention, and rollback evidence while keeping selection and file operations blocked.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <StatusPill label="Blocked review" tone="warning" />
+            <StatusPill label="No provider selected" tone="warning" />
+          </div>
+        </div>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Fact label="Preflight" value={handoffPackage.storageSelectionPreflight.preflightId} />
+          <Fact label="Candidates" value={String(handoffPackage.storageSelectionPreflight.candidates.length)} />
+          <Fact label="Open criteria" value={String(handoffPackage.storageSelectionPreflight.selectionEvidence.openCriterionCount)} />
+          <Fact label="Selection" value="Human policy review required" />
+        </dl>
+        <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Review status</p>
+              <p className="mt-1 text-sm font-bold text-[var(--tenant-text)]">No provider selected</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                A recommendation is comparison evidence only. It cannot create a bucket, folder, archive, signed URL, upload path, download path, migration, retention clock, or release mutation.
+              </p>
+            </div>
+            <StatusPill label={`${handoffPackage.storageSelectionPreflight.selectionEvidence.sourceRecords.length} source records`} tone="success" />
+          </div>
+          <div className="mt-4 grid gap-2 text-sm text-[var(--tenant-muted)] sm:grid-cols-3">
+            <p><strong>Backend matrix:</strong> {handoffPackage.storageSelectionPreflight.backendMatrixId}</p>
+            <p><strong>Storage gate:</strong> {handoffPackage.storageSelectionPreflight.evidenceStorageGateId}</p>
+            <p><strong>Implementation readiness:</strong> {handoffPackage.storageSelectionPreflight.implementationReadinessId}</p>
+          </div>
+        </section>
+        <div className="mt-5 grid gap-4 xl:grid-cols-3">
+          {handoffPackage.storageSelectionPreflight.candidates.map((candidate) => (
+            <article key={candidate.candidateId} className="rounded-lg border border-[var(--tenant-border)] p-4">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{candidate.deploymentFit} / {candidate.costPosture}</p>
+                  <h4 className="mt-1 text-base font-bold">{candidate.label}</h4>
+                </div>
+                {candidate.candidateId === handoffPackage.storageSelectionPreflight.recommendedCandidateId ? (
+                  <StatusPill label="Comparison recommendation" tone="success" />
+                ) : null}
+              </div>
+              <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">{candidate.whiteLabelFit}</p>
+              <ListBlock title="Required evidence" items={candidate.requiredEvidence} />
+              <ListBlock title="Unresolved risks" items={candidate.unresolvedRisks} />
+            </article>
+          ))}
+        </div>
+        <div className="mt-4 grid gap-3 lg:grid-cols-2">
+          <ListBlock title="Open selection criteria" items={handoffPackage.storageSelectionPreflight.selectionEvidence.criteria.filter((criterion) => criterion.status !== "passed").map((criterion) => `${criterion.criterionId} · ${criterion.owner}`)} />
+          <ListBlock title="Blocked selection actions" items={handoffPackage.storageSelectionPreflight.blockedActions} />
+        </div>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
             <p className="text-sm font-semibold text-[var(--tenant-muted)]">Asset evidence lineage</p>
             <h3 className="mt-1 text-lg font-bold">Every image, audio, and video candidate keeps its own evidence packet</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
