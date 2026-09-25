@@ -36,6 +36,11 @@ export function TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingP
               <Fact label="Persistence mode" value={binding.persistenceMode} />
               <Fact label="Fingerprint" value={binding.decisionFingerprint} />
             </dl>
+            <dl className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <Fact label="Reconciliation" value={binding.reconciliationId} />
+              <Fact label="Reviewer gate" value={binding.reviewerGateBindingId} />
+              <Fact label="Human review packet" value={binding.humanReviewPacketId} />
+            </dl>
             <div className="mt-4 grid gap-4 lg:grid-cols-3">
               <List title="Linked records" items={binding.linkedRecords} tone="neutral" />
               <List title="Blocked actions" items={binding.blockedActions} tone="warning" />

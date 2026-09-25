@@ -43,6 +43,9 @@ export function buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings(
 
       return createReviewOnlyAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding({
         releaseReviewBindingId: releaseReviewBinding.bindingId,
+        reconciliationId: releaseReviewBinding.reconciliationId,
+        reviewerGateBindingId: releaseReviewBinding.reviewerGateBindingId,
+        humanReviewPacketId: releaseReviewBinding.humanReviewPacketId,
         snapshotId,
         decisionId,
         tenantId: releaseReviewBinding.tenantId,

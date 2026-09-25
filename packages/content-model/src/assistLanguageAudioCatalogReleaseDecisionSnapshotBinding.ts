@@ -8,6 +8,9 @@ export interface AssistLanguageAudioCatalogReleaseDecisionSnapshotBinding {
   recordVersion: 1;
   bindingId: string;
   releaseReviewBindingId: string;
+  reconciliationId: string;
+  reviewerGateBindingId: string;
+  humanReviewPacketId: string;
   snapshotId: string;
   decisionId: string;
   tenantId: string;
@@ -38,10 +41,13 @@ export interface AssistLanguageAudioCatalogReleaseDecisionSnapshotBinding {
 
 export const ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_REQUIRED_RECORDS = [
   "assist_language_audio_catalog_release_review_binding",
+  "assist_language_audio_catalog_approval_reconciliation",
+  "assist_language_audio_reviewer_gate_binding",
   "pilot_review_decision_snapshot",
   "white_label_release_readiness",
   "package_publish_gate",
   "package_approval_ledger",
+  "controlled_pilot_human_review_packet",
 ] as const;
 
 export const ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_BLOCKED_ACTIONS = [
@@ -87,6 +93,9 @@ export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding
   for (const field of [
     "bindingId",
     "releaseReviewBindingId",
+    "reconciliationId",
+    "reviewerGateBindingId",
+    "humanReviewPacketId",
     "snapshotId",
     "decisionId",
     "tenantId",

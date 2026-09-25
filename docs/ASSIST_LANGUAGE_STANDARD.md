@@ -159,3 +159,7 @@ The main release-control decision room must expose the same adjudication chain,
 not a summary copy. Cross-tenant scope, snapshot identity, and fingerprint
 drift must fail at the shared contract boundary before the room can describe
 the evidence as linked.
+
+The snapshot bridge must also carry exact reconciliation, reviewer-gate, and
+human-review packet IDs. A composite binding name is not sufficient evidence of
+upstream identity.

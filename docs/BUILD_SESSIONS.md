@@ -5997,3 +5997,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
   decision fingerprints.
 - Kept the room evidence-only; no release, persistence, approval, promotion,
   export, or student launch action was introduced.
+
+## Build session: Explicit upstream identity carriage
+
+- Extended the assist-audio decision-snapshot binding with the exact
+  reconciliation, reviewer-gate, and controlled human-review packet IDs.
+- Required those records in the binding validator and displayed them in both
+  the media review and release-control decision-room surfaces.
+- Kept the binding provider-neutral, tenant-scoped, review-only, and fully
+  blocked from operational side effects.
+- Added the shared validator coverage and ADR 1187 / DR-1187.

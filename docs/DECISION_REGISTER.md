@@ -9524,3 +9524,13 @@ decision mismatch, and tampered fingerprints. The room remains evidence-only;
 release, persistence, approval, promotion, export, activation, and student
 launch remain blocked. See ADR 1186 and
 `docs/decision-register/DR-1186-release-control-decision-room-adjudication-surface.md`.
+
+## DR-1187: Explicit Upstream Identity Carriage
+
+The assist-audio decision-snapshot binding now carries exact reconciliation,
+reviewer-gate, and controlled human-review packet IDs rather than relying on a
+composite binding name or UI inference. These records are required by the
+shared validator and visible in both review surfaces. Operational release,
+approval, promotion, persistence, export, activation, and student launch remain
+blocked. See ADR 1187 and
+`docs/decision-register/DR-1187-explicit-upstream-identity-carriage.md`.

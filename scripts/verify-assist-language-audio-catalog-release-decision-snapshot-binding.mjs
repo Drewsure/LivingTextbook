@@ -27,6 +27,9 @@ try {
 
   const fixture = {
     releaseReviewBindingId: "assist-audio-release-review-binding-v1",
+    reconciliationId: "assist-audio-reconciliation-v1",
+    reviewerGateBindingId: "assist-audio-reviewer-gate-binding-v1",
+    humanReviewPacketId: "controlled-pilot-human-review-packet-v1",
     snapshotId: "pilot-review-decision-snapshot-v1:sample-publisher-review-decision:hosted-managed",
     decisionId: "sample-publisher-l1-u1-routines-package-review-decision",
     tenantId: "sample-publisher",
@@ -40,10 +43,13 @@ try {
     status: "blocked-preview",
     linkedRecords: [
       "assist_language_audio_catalog_release_review_binding",
+      "assist_language_audio_catalog_approval_reconciliation",
+      "assist_language_audio_reviewer_gate_binding",
       "pilot_review_decision_snapshot",
       "white_label_release_readiness",
       "package_publish_gate",
       "package_approval_ledger",
+      "controlled_pilot_human_review_packet",
     ],
     scopeDrift: [],
     blockingReasons: ["Canonical pilot decision remains demo-ready-pilot-blocked."],
@@ -91,6 +97,9 @@ try {
     "Blocked actions",
     "Open blockers",
     "fingerprint",
+    "Reconciliation",
+    "Reviewer gate",
+    "Human review packet",
   ]) assert(panel.includes(marker), `decision snapshot panel missing marker: ${marker}`);
 
   for (const marker of [
