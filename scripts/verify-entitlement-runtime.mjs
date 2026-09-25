@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../packages/content-model/src/entitlementRuntime.ts", import.meta.url), "utf8");
+const contentModelSource = readFileSync(new URL("../packages/content-model/src/index.ts", import.meta.url), "utf8");
 const failures = [];
 
 for (const marker of [
@@ -34,6 +35,17 @@ for (const marker of [
   "sideEffect: \"none\"",
 ]) {
   if (!source.includes(marker)) failures.push(`entitlement runtime contract missing marker: ${marker}`);
+}
+
+for (const marker of [
+  "validateAiTutorEntitlement",
+  "AI Tutor entitlement allowed levels must be an array.",
+  "AI Tutor allowed modes contain an unsupported tutor mode.",
+  "AI Tutor monthly usage limit must be a non-negative integer.",
+  "AI Tutor plan source scope is unsupported.",
+  "AI Tutor max response sentences must be between 1 and 8.",
+]) {
+  if (!contentModelSource.includes(marker)) failures.push(`AI Tutor content-model contract missing marker: ${marker}`);
 }
 
 if (failures.length > 0) {

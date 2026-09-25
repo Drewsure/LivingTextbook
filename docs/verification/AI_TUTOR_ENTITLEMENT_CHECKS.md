@@ -59,6 +59,15 @@ On `/teacher/entitlements`:
    permission, AI Tutor dispatch, persistence, release, or student unlock.
 4. Confirm review-only execution remains side-effect free.
 
+## Content-Model Validation Checks
+
+1. Confirm malformed entitlement arrays and unit-plan arrays return validation
+   errors instead of throwing.
+2. Confirm unsupported tutor modes, source scopes, package tiers, duplicate
+   lists, non-integer limits, and malformed optional flags are rejected.
+3. Confirm an absent or disabled AI Tutor plan does not invalidate a baseline
+   core package.
+
 ## Student Flow Checks
 
 On `/launch/demo-unit-1` and `/enter/ministar`:

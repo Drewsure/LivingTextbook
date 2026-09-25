@@ -840,6 +840,24 @@ function isPremiumAiTutorTier(tier: FeaturePackageTier): boolean {
   return tier === "premium" || tier === "enterprise";
 }
 
+const aiTutorModes = new Set<AiTutorModeId>([
+  "speak-with-me",
+  "fix-my-sentence",
+  "explain-my-mistake",
+  "role-play",
+  "writing-coach",
+  "review-coach",
+  "teacher-prompt",
+]);
+const aiTutorSourceScopes = new Set<AiTutorSourceScope>([
+  "current-unit-only",
+  "current-module",
+  "approved-curriculum-window",
+  "teacher-selected-sources",
+]);
+const aiTutorPackageTiers = new Set<FeaturePackageTier>(["core", "multimedia", "games", "premium", "enterprise"]);
+const aiTutorUnitKeyPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$/;
+
 export function getUnitKey(meta: Pick<UnitMeta, "tenantId" | "curriculumId" | "level" | "unit">): string {
   return `${meta.tenantId}:${meta.curriculumId}:L${meta.level}:U${meta.unit}`;
 }
@@ -961,24 +979,51 @@ export function completeEntryPractice(args: {
 export function validateAiTutorEntitlement(entitlement: AiTutorEntitlement): string[] {
   const errors: string[] = [];
 
+  if (!entitlement || typeof entitlement !== "object") {
+    return ["AI Tutor entitlement must be an object."];
+  }
+
+  if (typeof entitlement.enabled !== "boolean") errors.push("AI Tutor entitlement enabled flag must be a boolean.");
+  if (!aiTutorPackageTiers.has(entitlement.packageTier)) errors.push("AI Tutor entitlement package tier is unsupported.");
+  if (!Array.isArray(entitlement.allowedLevels)) {
+    errors.push("AI Tutor entitlement allowed levels must be an array.");
+  }
+  if (!Array.isArray(entitlement.allowedModes)) {
+    errors.push("AI Tutor entitlement allowed modes must be an array.");
+  }
+
+  const allowedLevels = Array.isArray(entitlement.allowedLevels) ? entitlement.allowedLevels : [];
+  const allowedModes = Array.isArray(entitlement.allowedModes) ? entitlement.allowedModes : [];
+  if (allowedLevels.some((level) => !Number.isInteger(level) || level < 1 || level > 12)) {
+    errors.push("AI Tutor allowed levels must be integer values between 1 and 12.");
+  }
+  if (new Set(allowedLevels).size !== allowedLevels.length) {
+    errors.push("AI Tutor allowed levels must be unique.");
+  }
+  if (allowedModes.some((mode) => !aiTutorModes.has(mode))) {
+    errors.push("AI Tutor allowed modes contain an unsupported tutor mode.");
+  }
+  if (new Set(allowedModes).size !== allowedModes.length) {
+    errors.push("AI Tutor allowed modes must be unique.");
+  }
+
   if (entitlement.enabled && !isPremiumAiTutorTier(entitlement.packageTier)) {
     errors.push("AI Tutor entitlement must use premium or enterprise package tier when enabled.");
   }
 
-  if (entitlement.enabled && entitlement.allowedLevels.length === 0) {
+  if (entitlement.enabled && allowedLevels.length === 0) {
     errors.push("Enabled AI Tutor entitlement must list allowed levels.");
   }
 
-  if (entitlement.enabled && entitlement.allowedModes.length === 0) {
+  if (entitlement.enabled && allowedModes.length === 0) {
     errors.push("Enabled AI Tutor entitlement must list allowed tutor modes.");
   }
 
-  if (entitlement.allowedLevels.some((level) => level < 1 || level > 12)) {
-    errors.push("AI Tutor allowed levels must be between 1 and 12.");
+  if (entitlement.monthlyUsageLimit !== undefined && (!Number.isInteger(entitlement.monthlyUsageLimit) || entitlement.monthlyUsageLimit < 0)) {
+    errors.push("AI Tutor monthly usage limit must be a non-negative integer.");
   }
-
-  if (entitlement.monthlyUsageLimit !== undefined && entitlement.monthlyUsageLimit < 0) {
-    errors.push("AI Tutor monthly usage limit cannot be negative.");
+  for (const [field, value] of [["teacherEnabled", entitlement.teacherEnabled], ["schoolEnabled", entitlement.schoolEnabled]] as const) {
+    if (value !== undefined && typeof value !== "boolean") errors.push(`AI Tutor entitlement ${field} flag must be a boolean.`);
   }
 
   return errors;
@@ -987,24 +1032,46 @@ export function validateAiTutorEntitlement(entitlement: AiTutorEntitlement): str
 export function validateUnitAiTutorPlan(plan: UnitAiTutorPlan): string[] {
   const errors: string[] = [];
 
-  if (plan.unitKey.trim().length === 0) {
+  if (!plan || typeof plan !== "object") {
+    return ["AI Tutor plan must be an object."];
+  }
+
+  if (typeof plan.unitKey !== "string" || !aiTutorUnitKeyPattern.test(plan.unitKey)) {
     errors.push("AI Tutor plan must include a unit key.");
   }
+
+  if (typeof plan.enabled !== "boolean") errors.push("AI Tutor plan enabled flag must be a boolean.");
+  if (!aiTutorPackageTiers.has(plan.entitlementRequired)) errors.push("AI Tutor plan entitlement tier is unsupported.");
+  if (!aiTutorSourceScopes.has(plan.sourceScope)) errors.push("AI Tutor plan source scope is unsupported.");
+  if (!Array.isArray(plan.allowedModes)) {
+    errors.push("AI Tutor plan allowed modes must be an array.");
+  }
+  const allowedModes = Array.isArray(plan.allowedModes) ? plan.allowedModes : [];
+  if (allowedModes.some((mode) => !aiTutorModes.has(mode))) errors.push("AI Tutor plan contains an unsupported tutor mode.");
+  if (new Set(allowedModes).size !== allowedModes.length) errors.push("AI Tutor plan allowed modes must be unique.");
 
   if (plan.enabled && !isPremiumAiTutorTier(plan.entitlementRequired)) {
     errors.push("Enabled AI Tutor plan must require premium or enterprise entitlement.");
   }
 
-  if (plan.enabled && plan.allowedModes.length === 0) {
+  if (plan.enabled && allowedModes.length === 0) {
     errors.push("Enabled AI Tutor plan must list at least one allowed tutor mode.");
   }
 
-  if (plan.minimumLevel !== undefined && (plan.minimumLevel < 1 || plan.minimumLevel > 12)) {
+  if (plan.minimumLevel !== undefined && (!Number.isInteger(plan.minimumLevel) || plan.minimumLevel < 1 || plan.minimumLevel > 12)) {
     errors.push("AI Tutor minimum level must be between 1 and 12.");
   }
 
-  if (plan.maxResponseSentences !== undefined && (plan.maxResponseSentences < 1 || plan.maxResponseSentences > 8)) {
+  if (plan.maxResponseSentences !== undefined && (!Number.isInteger(plan.maxResponseSentences) || plan.maxResponseSentences < 1 || plan.maxResponseSentences > 8)) {
     errors.push("AI Tutor max response sentences must be between 1 and 8.");
+  }
+
+  for (const [field, value] of [
+    ["teacherReviewRequired", plan.teacherReviewRequired],
+    ["studentAudioInput", plan.studentAudioInput],
+    ["studentAudioOutput", plan.studentAudioOutput],
+  ] as const) {
+    if (value !== undefined && typeof value !== "boolean") errors.push(`AI Tutor plan ${field} flag must be a boolean.`);
   }
 
   return errors;

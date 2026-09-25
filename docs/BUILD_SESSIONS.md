@@ -6199,3 +6199,12 @@ student-payload-blocked behavior.
 - Preserved review-only, no-billing, no-dispatch, no-microphone, and
   no-student-unlock guarantees.
 - Added ADR 1209 and DR-1209.
+
+## Build session: AI Tutor content-model validation
+
+- Hardened optional AI Tutor entitlement and unit-plan validation against
+  malformed arrays, enum values, identities, limits, duplicates, and flags.
+- Added valid-plan and malformed-authoring behavior coverage.
+- Preserved disabled baseline package behavior and all live AI, speech,
+  billing, persistence, transcript, microphone, and student-unlock blocks.
+- Added ADR 1210 and DR-1210.

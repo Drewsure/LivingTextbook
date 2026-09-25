@@ -9734,3 +9734,9 @@ freeze cannot authorize source import or integration. See ADR 1208.
 Entitlement runtime requests now reject malformed identity and enum values
 deterministically before feature evaluation. Review-only execution remains
 side-effect free and denied. See ADR 1209.
+
+## DR-1210: AI Tutor Content-Model Validation
+
+The shared content model now fail-closes malformed optional AI Tutor
+entitlements and unit plans without enabling live AI, speech, billing,
+persistence, or student-facing behavior. See ADR 1210.

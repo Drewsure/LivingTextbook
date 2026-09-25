@@ -1155,6 +1155,41 @@ try {
   });
   assertIncludes(entitlementErrors, "AI Tutor requires premium or enterprise entitlement");
 
+  const validAiTutorEntitlement = {
+    enabled: true,
+    packageTier: "premium",
+    allowedLevels: [6, 7, 8],
+    allowedModes: ["review-coach", "fix-my-sentence"],
+    monthlyUsageLimit: 100,
+    teacherEnabled: true,
+    schoolEnabled: true,
+  };
+  assertEqual(contentModel.validateAiTutorEntitlement(validAiTutorEntitlement).length, 0);
+  const malformedAiTutorEntitlementErrors = contentModel.validateAiTutorEntitlement({
+    ...validAiTutorEntitlement,
+    allowedLevels: null,
+    allowedModes: ["unknown-mode", "unknown-mode"],
+    monthlyUsageLimit: 1.5,
+    teacherEnabled: "true",
+  });
+  assertIncludes(malformedAiTutorEntitlementErrors, "AI Tutor entitlement allowed levels must be an array.");
+  assertIncludes(malformedAiTutorEntitlementErrors, "AI Tutor allowed modes contain an unsupported tutor mode.");
+  assertIncludes(malformedAiTutorEntitlementErrors, "AI Tutor allowed modes must be unique.");
+  assertIncludes(malformedAiTutorEntitlementErrors, "AI Tutor monthly usage limit must be a non-negative integer.");
+  assertIncludes(malformedAiTutorEntitlementErrors, "AI Tutor entitlement teacherEnabled flag must be a boolean.");
+  const malformedAiTutorPlanErrors = contentModel.validateUnitAiTutorPlan({
+    unitKey: null,
+    enabled: true,
+    entitlementRequired: "core",
+    allowedModes: null,
+    sourceScope: "unknown-scope",
+    maxResponseSentences: 1.5,
+  });
+  assertIncludes(malformedAiTutorPlanErrors, "AI Tutor plan must include a unit key.");
+  assertIncludes(malformedAiTutorPlanErrors, "AI Tutor plan allowed modes must be an array.");
+  assertIncludes(malformedAiTutorPlanErrors, "AI Tutor plan source scope is unsupported.");
+  assertIncludes(malformedAiTutorPlanErrors, "AI Tutor max response sentences must be between 1 and 8.");
+
   const assetRequest = {
     tenantId: "tenant-1", assetId: "asset-1", unitKey: "unit-1", operation: "promote",
     kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000, checksum: "checksum-1",
