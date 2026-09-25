@@ -29,6 +29,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-cross-route-pers
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-storage.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-database-path.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-operations.mjs", import.meta.url))], {
   stdio: "inherit",
 });
