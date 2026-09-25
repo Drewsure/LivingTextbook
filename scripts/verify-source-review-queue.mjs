@@ -119,6 +119,8 @@ requireText(sourcePackageAssemblyModel, "approvalLedgerId", "Source package asse
 requireText(sourcePackageAssemblyModel, "approvalCaptureAllowed", "Source package assembly must block approval capture.");
 requireText(sourcePackageAssemblyModel, "SHA256_CHECKSUM_PATTERN", "Source package assembly must validate source checksums.");
 requireText(sourcePackageAssemblyModel, "must contain unique identifiers", "Source package assembly must reject duplicate candidate units.");
+requireText(sourcePackageAssemblyModel, "candidateUnitKeys must be bounded safe identifiers", "Source package assembly must bound candidate unit identities.");
+requireText(sourcePackageAssemblyModel, "candidateMediaAssetIds must be bounded safe identifiers", "Source package assembly must bound media identities.");
 requireText(sourcePackageAssemblyModel, "Draft-candidate source package assembly requires", "Source package assembly must require review evidence for draft candidates.");
 requireText(sourcePackageAssemblyModel, "targetLanguagePolicy", "Source package assembly must preserve target-language policy evidence.");
 requireText(sourcePackageAssemblyModel, "Non-English source package assembly requires", "Source package assembly must block non-English packages without policy evidence.");

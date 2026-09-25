@@ -1309,6 +1309,10 @@ try {
     approvalCaptureAllowed: false,
   };
   assertEqual(sourcePackageAssembly.validateSourcePackageAssemblyPacket(validSourcePackageAssemblyPacket).length, 0);
+  assertIncludes(
+    sourcePackageAssembly.validateSourcePackageAssemblyPacket({ ...validSourcePackageAssemblyPacket, candidateUnitKeys: ["../outside-tenant"] }),
+    "Source package assembly candidateUnitKeys must be bounded safe identifiers.",
+  );
   const validSourceDraftImportPreview = {
     importPreviewId: "source-draft-import-1",
     tenantId: "tenant-1",

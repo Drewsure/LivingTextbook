@@ -42,6 +42,9 @@ const REQUIRED_ASSEMBLY_RECORDS = [
 ] as const;
 
 const SHA256_CHECKSUM_PATTERN = /^sha256:[0-9a-f]{64}$/i;
+const safeAssemblyIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+const safeAssemblyUnitKeyPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]*$/;
+const maxAssemblyIdentifierLength = 240;
 
 function validateUniqueStringList(values: unknown, field: string, minimumLength = 0): string[] {
   if (!Array.isArray(values)) return [`Source package assembly ${field} must be an array.`];
@@ -75,6 +78,20 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
   ] as const) {
     if (typeof value !== "string" || value.trim().length === 0) {
       errors.push(`Source package assembly ${field} is required.`);
+    }
+  }
+
+  for (const [field, value] of [
+    ["packetId", packet.packetId],
+    ["tenantId", packet.tenantId],
+    ["sourceId", packet.sourceId],
+    ["targetPackageId", packet.targetPackageId],
+    ["extractionPacketId", packet.extractionPacketId],
+    ["extractionPreviewId", packet.extractionPreviewId],
+    ["approvalLedgerId", packet.approvalLedgerId],
+  ] as const) {
+    if (typeof value === "string" && value.trim().length > 0 && !isSafeAssemblyIdentifier(value)) {
+      errors.push(`Source package assembly ${field} must be a bounded safe identifier.`);
     }
   }
 
@@ -133,6 +150,12 @@ export function validateSourcePackageAssemblyPacket(packet: SourcePackageAssembl
   }
   errors.push(...validateUniqueStringList(packet.candidateUnitKeys, "candidateUnitKeys", 1));
   errors.push(...validateUniqueStringList(packet.candidateMediaAssetIds, "candidateMediaAssetIds"));
+  if (Array.isArray(packet.candidateUnitKeys) && packet.candidateUnitKeys.some((unitKey) => !isSafeAssemblyUnitKey(unitKey))) {
+    errors.push("Source package assembly candidateUnitKeys must be bounded safe identifiers.");
+  }
+  if (Array.isArray(packet.candidateMediaAssetIds) && packet.candidateMediaAssetIds.some((assetId) => !isSafeAssemblyIdentifier(assetId))) {
+    errors.push("Source package assembly candidateMediaAssetIds must be bounded safe identifiers.");
+  }
   errors.push(...validateUniqueStringList(packet.requiredRecords, "requiredRecords"));
   if (!Array.isArray(packet.blockers)) {
     errors.push("Source package assembly blockers must be an array.");
@@ -279,6 +302,14 @@ export function validateSourcePackageAssemblyContentPackageBinding(packet: unkno
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function isSafeAssemblyIdentifier(value: unknown): value is string {
+  return typeof value === "string" && value.length <= maxAssemblyIdentifierLength && safeAssemblyIdentifierPattern.test(value);
+}
+
+function isSafeAssemblyUnitKey(value: unknown): value is string {
+  return typeof value === "string" && value.length <= maxAssemblyIdentifierLength && safeAssemblyUnitKeyPattern.test(value);
 }
 
 function isNonBlankString(value: unknown): value is string {
