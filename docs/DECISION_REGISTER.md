@@ -9756,6 +9756,13 @@ cannot claim offline-ready caching, and source-document assets cannot be
 precached. Every local QR fallback route must be covered by the cache route
 allowlist. Validation remains review-only. See ADR 1212.
 
+## DR-1214: Student Route Cache Boundary
+
+Offline-ready cache policies now reject route prefixes covering `/api`,
+`/admin`, or `/teacher`. Student routes must be explicitly allowlisted so a
+future local companion cannot precache operational surfaces, persistence
+endpoints, or teacher workspaces. Validation remains review-only. See ADR 1214.
+
 ## DR-1213: Durable Backup Manifest Validation
 
 SQLite restore now validates complete manifest identity, schema, byte count,

@@ -67,6 +67,22 @@ try {
   assert(!routeCoverageResult.valid, "offline-ready routes must be covered by the cache allowlist");
   assert(routeCoverageResult.errors.some((error) => error.includes("outside the cache_policy route allowlist")), "route coverage rejection must be explicit");
 
+  const privilegedRouteResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    cache_policy: { ...offlineCachePolicy, allowed_route_prefixes: ["/teacher"] },
+  });
+  assert(!privilegedRouteResult.valid, "offline-ready cache policy must reject teacher routes");
+  assert(privilegedRouteResult.errors.some((error) => error.includes("privileged or API routes")), "privileged route rejection must be explicit");
+
+  const apiRouteResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    cache_policy: { ...offlineCachePolicy, allowed_route_prefixes: ["/api"] },
+  });
+  assert(!apiRouteResult.valid, "offline-ready cache policy must reject API routes");
+  assert(apiRouteResult.errors.some((error) => error.includes("privileged or API routes")), "API route rejection must be explicit");
+
   const missingCachePolicyResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,

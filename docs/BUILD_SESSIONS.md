@@ -6237,6 +6237,14 @@ student-payload-blocked behavior.
   document precache and route coverage attempts without enabling cache or
   service-worker writes.
 
+## Build session: Student route cache boundary
+
+- Rejected offline-ready cache prefixes covering `/api`, `/admin`, or `/teacher`.
+- Added negative runtime coverage for teacher and API route prefixes.
+- Preserved explicit student-route allowlisting and all no-service-worker,
+  no-cache-mutation, and no-offline-learner-data boundaries.
+- Added ADR 1214 and DR-1214.
+
 ## Build session: Durable backup manifest validation
 
 - Added a pure runtime validator for SQLite progression backup manifests.

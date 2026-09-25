@@ -191,6 +191,8 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
         routePrefixes.forEach((route, index) => {
           if (typeof route !== "string" || !isSafeRelativePath(route.trim(), false, true)) {
             errors.push(`Local bundle cache_policy route prefix ${index + 1} must be a safe application path.`);
+          } else if (isPrivilegedApplicationPath(route.trim())) {
+            errors.push(`Local bundle cache_policy route prefix ${index + 1} cannot include privileged or API routes.`);
           }
         });
       }
@@ -346,4 +348,8 @@ function isSafeRelativePath(value: string, allowDirectory = false, allowApplicat
 
 function isApplicationPathCoveredByPrefix(path: string, prefix: string): boolean {
   return path === prefix || path.startsWith(`${prefix}/`);
+}
+
+function isPrivilegedApplicationPath(path: string): boolean {
+  return ["/api", "/admin", "/teacher"].some((prefix) => isApplicationPathCoveredByPrefix(path, prefix));
 }
