@@ -154,3 +154,8 @@ the exact provider-neutral pilot decision snapshot, persistence mode, and
 decision fingerprint. A snapshot may be inspected as evidence, but write,
 restore, export, approval, promotion, activation, and student launch remain
 explicitly disabled.
+
+The main release-control decision room must expose the same adjudication chain,
+not a summary copy. Cross-tenant scope, snapshot identity, and fingerprint
+drift must fail at the shared contract boundary before the room can describe
+the evidence as linked.

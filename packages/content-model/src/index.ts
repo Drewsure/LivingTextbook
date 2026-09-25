@@ -61,6 +61,7 @@ export {
   ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_REQUIRED_RECORDS,
   createReviewOnlyAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
   validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
+  validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot,
 } from "./assistLanguageAudioCatalogReleaseDecisionSnapshotBinding";
 export type {
   AssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,

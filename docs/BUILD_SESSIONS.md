@@ -5986,3 +5986,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept decision snapshot write, restore, export, approval capture, promotion,
   activation, and student launch disabled.
 - Added the shared validator, foundation verifier, ADR 1185, and DR-1185.
+
+## Build session: Release-control decision-room adjudication surface
+
+- Exposed the assist-audio decision-snapshot adjudication binding in the main
+  tenant-scoped release-control decision room.
+- Added shared identity comparison checks for snapshot ID, decision ID, tenant,
+  package, persistence mode, and decision fingerprint.
+- Added negative verification for cross-tenant snapshot scope and tampered
+  decision fingerprints.
+- Kept the room evidence-only; no release, persistence, approval, promotion,
+  export, or student launch action was introduced.

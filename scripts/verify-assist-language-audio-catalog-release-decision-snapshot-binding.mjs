@@ -10,6 +10,7 @@ const contract = readFileSync(contractPath, "utf8");
 const builder = readFileSync(new URL("../apps/web/src/data/sampleAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding.ts", import.meta.url), "utf8");
 const panel = readFileSync(new URL("../apps/web/src/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel.tsx", import.meta.url), "utf8");
 const route = readFileSync(new URL("../apps/web/src/app/teacher/media/[tenantId]/page.tsx", import.meta.url), "utf8");
+const releaseControlRoute = readFileSync(new URL("../apps/web/src/app/teacher/release-control/[tenantId]/page.tsx", import.meta.url), "utf8");
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
@@ -21,6 +22,7 @@ try {
     ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_BLOCKED_ACTIONS,
     createReviewOnlyAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot,
   } = await import(pathToFileURL(join(output, "binding.js")).href);
 
   const fixture = {
@@ -50,7 +52,16 @@ try {
   };
 
   const created = createReviewOnlyAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(fixture);
+  const sourceSnapshot = {
+    snapshotId: fixture.snapshotId,
+    tenantId: fixture.tenantId,
+    packageId: fixture.packageId,
+    persistenceMode: fixture.persistenceMode,
+    decisionFingerprint: fixture.decisionFingerprint,
+    decision: { decisionId: fixture.decisionId },
+  };
   assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(created).length === 0, "valid decision snapshot binding must pass");
+  assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(created, sourceSnapshot).length === 0, "matching decision snapshot identity must pass");
   assert(created.bindingId === `assist-language-audio-release-decision-snapshot-binding-v1:${fixture.releaseReviewBindingId}:${fixture.snapshotId}`, "decision snapshot binding identity must be deterministic");
   assert(created.snapshotWriteAllowed === false && created.snapshotRestoreAllowed === false && created.snapshotExportAllowed === false, "snapshot operations must remain blocked");
   assert(created.approvalCaptureAllowed === false && created.productionApprovalAllowed === false && created.packagePromotionAllowed === false && created.studentProductionLaunchAllowed === false && created.activationAllowed === false, "release actions must remain blocked");
@@ -63,6 +74,14 @@ try {
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding({ ...created, snapshotWriteAllowed: true }).some((error) => error.includes("snapshotWriteAllowed must remain false")),
     "snapshot write enablement must be rejected",
   );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(created, { ...sourceSnapshot, tenantId: "other-tenant" }).some((error) => error.includes("tenantId does not match")),
+    "cross-tenant snapshot identity must be rejected",
+  );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(created, { ...sourceSnapshot, decisionFingerprint: "pilot-review-decision-fnv1a-v1:deadbeef" }).some((error) => error.includes("decisionFingerprint does not match")),
+    "tampered decision fingerprint must be rejected",
+  );
 
   for (const marker of [
     "Decision snapshot adjudication",
@@ -71,6 +90,7 @@ try {
     "No live action",
     "Blocked actions",
     "Open blockers",
+    "fingerprint",
   ]) assert(panel.includes(marker), `decision snapshot panel missing marker: ${marker}`);
 
   for (const marker of [
@@ -78,6 +98,12 @@ try {
     "TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel",
     "samplePilotReviewDecisionSnapshots",
   ]) assert(builder.includes(marker) || route.includes(marker), `decision snapshot integration missing marker: ${marker}`);
+
+  for (const marker of [
+    "buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings",
+    "TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel",
+    "samplePilotReviewDecisionSnapshots",
+  ]) assert(releaseControlRoute.includes(marker), `release-control route missing marker: ${marker}`);
 
   console.log("PASS assist-language audio decision snapshot binding preserves fingerprint identity, release lineage, tenant scope, and review-only action blocks.");
 } finally {

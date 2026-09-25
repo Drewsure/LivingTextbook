@@ -139,6 +139,38 @@ export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding
   return [...new Set(errors)];
 }
 
+export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(
+  bindingValue: unknown,
+  snapshotValue: unknown,
+): string[] {
+  const errors = validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(bindingValue);
+  const binding = isRecord(bindingValue) ? bindingValue : undefined;
+  if (!isRecord(snapshotValue)) return [...new Set([...errors, "decision snapshot must be an object"])];
+
+  for (const field of ["snapshotId", "tenantId", "packageId", "persistenceMode", "decisionFingerprint"] as const) {
+    if (!isNonEmptyString(snapshotValue[field])) {
+      errors.push(`decision snapshot ${field} is required for identity comparison`);
+    }
+  }
+  const decision = snapshotValue.decision;
+  if (!isRecord(decision) || !isNonEmptyString(decision.decisionId)) {
+    errors.push("decision snapshot decisionId is required for identity comparison");
+  }
+
+  if (binding && isNonEmptyString(binding.snapshotId) && binding.snapshotId !== snapshotValue.snapshotId) {
+    errors.push("decision snapshot binding snapshotId does not match the source snapshot");
+  }
+  if (binding && isNonEmptyString(binding.decisionId) && isRecord(decision) && isNonEmptyString(decision.decisionId) && binding.decisionId !== decision.decisionId) {
+    errors.push("decision snapshot binding decisionId does not match the source decision");
+  }
+  for (const field of ["tenantId", "packageId", "persistenceMode", "decisionFingerprint"] as const) {
+    if (binding && isNonEmptyString(binding[field]) && binding[field] !== snapshotValue[field]) {
+      errors.push(`decision snapshot binding ${field} does not match the source snapshot`);
+    }
+  }
+  return [...new Set(errors)];
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }

@@ -9514,3 +9514,13 @@ creating a second approval system. Snapshot write, restore, export, approval
 capture, production approval, package promotion, release activation, and
 student launch remain blocked. See ADR 1185 and
 `docs/decision-register/DR-1185-assist-language-audio-decision-snapshot-adjudication.md`.
+
+## DR-1186: Release-Control Decision-Room Adjudication Surface
+
+The main tenant-scoped release-control decision room now exposes the same
+assist-audio decision-snapshot adjudication chain used by the media review
+surface. Shared identity comparison rejects cross-tenant scope, package drift,
+decision mismatch, and tampered fingerprints. The room remains evidence-only;
+release, persistence, approval, promotion, export, activation, and student
+launch remain blocked. See ADR 1186 and
+`docs/decision-register/DR-1186-release-control-decision-room-adjudication-surface.md`.

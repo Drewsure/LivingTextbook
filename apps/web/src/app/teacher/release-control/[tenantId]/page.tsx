@@ -21,6 +21,14 @@ import { ControlledPilotApprovalReadinessPanel } from "@/features/pilot/Controll
 import { sampleControlledPilotHumanReviewPacket, sampleControlledPilotHumanReviewPacketErrors } from "@/data/sampleControlledPilotHumanReviewPacket";
 import { ControlledPilotHumanReviewPacketPanel } from "@/features/pilot/ControlledPilotHumanReviewPacketPanel";
 import { PilotReviewDecisionPanel } from "@/features/pilot/PilotReviewDecisionPanel";
+import { sampleAssistLanguageAudioCatalogRecords } from "@/data/sampleAssistLanguageAudioCatalog";
+import { buildAssistLanguageAudioCatalogApprovalPackets } from "@/data/sampleAssistLanguageAudioCatalogApproval";
+import { buildAssistLanguageAudioCatalogApprovalReconciliations } from "@/data/sampleAssistLanguageAudioCatalogApprovalReconciliation";
+import { buildAssistLanguageAudioCatalogReviewerGateBindings } from "@/data/sampleAssistLanguageAudioCatalogReviewerGateBinding";
+import { buildAssistLanguageAudioCatalogReleaseReviewBindings } from "@/data/sampleAssistLanguageAudioCatalogReleaseReviewBinding";
+import { buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings } from "@/data/sampleAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding";
+import { samplePilotReviewDecisionSnapshots } from "@/data/samplePilotReviewDecisionSnapshots";
+import { TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -76,6 +84,17 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
   }
 
   const partnerLaunch = resolveSampleLaunchContext("partner-demo-unit-1");
+  const tenantCatalogRecords = sampleAssistLanguageAudioCatalogRecords.filter((record) => record.tenantId === tenantId);
+  const approvalPackets = buildAssistLanguageAudioCatalogApprovalPackets(tenantCatalogRecords);
+  const reconciliations = buildAssistLanguageAudioCatalogApprovalReconciliations(approvalPackets, tenantCatalogRecords);
+  const reviewerGate = sampleReviewerIdentitySignatureGate.tenantId === tenantId ? sampleReviewerIdentitySignatureGate : undefined;
+  const reviewerBindings = buildAssistLanguageAudioCatalogReviewerGateBindings(reconciliations, reviewerGate);
+  const releaseReviewBindings = buildAssistLanguageAudioCatalogReleaseReviewBindings(
+    reconciliations,
+    reviewerBindings,
+    sampleWhiteLabelReleaseReadiness,
+    sampleControlledPilotHumanReviewPacket,
+  );
 
   return (
     <AppShell tenant={samplePublisherTenant}>
@@ -185,6 +204,9 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
         <ControlledPilotHumanReviewPacketPanel
           packet={sampleControlledPilotHumanReviewPacket}
           errors={sampleControlledPilotHumanReviewPacketErrors}
+        />
+        <TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel
+          bindings={buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings(releaseReviewBindings, samplePilotReviewDecisionSnapshots)}
         />
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
