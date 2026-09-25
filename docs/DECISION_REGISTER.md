@@ -9721,3 +9721,10 @@ review-only and isolated. See ADR 1206.
 Returned Phaser event evidence now uses the same bounded `replay-v1` seed shape
 as canonical games. Malformed or path-like seeds fail before replay review;
 the candidate remains isolated and review-only. See ADR 1207.
+
+## DR-1208: Freeze Does Not Satisfy Candidate Return
+
+The Z.ai frozen snapshot is provenance only. Memory Match candidate review
+requires a separate isolated package containing `evidence/return-package.json`,
+all eight reviewed artifacts, and a passing canonical verifier. A successful
+freeze cannot authorize source import or integration. See ADR 1208.

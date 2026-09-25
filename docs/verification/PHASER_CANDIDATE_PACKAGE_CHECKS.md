@@ -74,6 +74,11 @@ learner data is used by this test.
 The currently approved profiles are `memory-match` (`pairing`) and
 `balloon-pop` (`selection`). The fixture must contain 8-12 unique vocabulary
 terms, exactly two target sentences, and tenant-bound parent-engine metadata.
+Manifest tenant, request, queue, and artifact identifiers must be bounded safe
+identities, and every referenced relative path must be bounded and
+control-character-free. Replay unit keys may retain publisher namespaces;
+launch/session identities and replay seeds must use the canonical portable
+shapes.
 The event replay must carry
 tenant, unit, launch, and student-session identity on every learning event,
 use a `replay-v1:` seed, and remain chronological in canonical event order.

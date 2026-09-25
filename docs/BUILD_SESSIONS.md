@@ -6181,3 +6181,12 @@ student-payload-blocked behavior.
 - Added negative behavior coverage for a path-like replay seed.
 - Preserved valid candidate replay evidence and all review-only blockers.
 - Added ADR 1207 and DR-1207.
+
+## Build session: Freeze versus return package
+
+- Corrected intake documentation so frozen provenance is not confused with a
+  returned evidence package.
+- Repeated the requirement for `evidence/return-package.json` and eight
+  reviewed artifacts.
+- Preserved the review-only, source-isolated integration boundary.
+- Added ADR 1208 and DR-1208.

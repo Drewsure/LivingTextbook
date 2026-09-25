@@ -83,10 +83,16 @@ plan. A returned package is evidence for review, not approval to integrate.
 
 ## Human-Side Action
 
-The owner has completed the source-freeze handoff. Codex may now inspect the
-identified snapshot and open the first candidate review. No other human
-intervention is required unless the review finds missing fixtures, replay
-reports, asset rights, or access to a specific candidate game.
+The owner has completed the source-freeze handoff. The freeze proves source
+provenance only; it is not the returned candidate package. The next human-side
+action is to ask Z.ai to return the isolated Memory Match evidence folder with
+`evidence/return-package.json` and all eight reviewed artifacts. The frozen ZIP
+alone cannot enter candidate review.
+
+After extraction outside `LivingTextbook`, run the repository helper in the
+Returned Candidate Package Check section. A passing result starts Codex review;
+it does not authorize source import, route replacement, scoring mutation,
+persistence ownership, package promotion, or student assignment.
 
 ## Reproducibility Check
 
@@ -105,7 +111,8 @@ When a named candidate package is returned, set
 `npm run verify:phaser-candidate-package`. The command checks the selected
 approved candidate profile (currently Memory Match or Balloon Pop), frozen
 source identity, eight reviewed artifact kinds, profile-specific replay
-scenarios, safe paths, and blocked actions. It is intentionally outside
+scenarios, bounded manifest/replay identities, safe paths, and blocked actions.
+It is intentionally outside
 `verify:foundation`:
 absence of a returned package is `NOT READY`, not a canonical build failure.
 
