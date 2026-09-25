@@ -24,6 +24,7 @@ export interface DurableOperationsPolicySnapshot {
   schoolPolicyAccepted: boolean;
   retentionPolicyAccepted: boolean;
   releaseApprovalAccepted: boolean;
+  encryptionAtRestAccepted: boolean;
   retentionDays: number | null;
   errors: string[];
 }
@@ -131,6 +132,7 @@ export function getDurableOperationsPolicySnapshot(): DurableOperationsPolicySna
     schoolPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_SCHOOL_POLICY_ACCEPTED === "true",
     retentionPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED === "true",
     releaseApprovalAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED === "true",
+    encryptionAtRestAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_ENCRYPTION_AT_REST_ACCEPTED === "true",
     retentionDays: Number.isInteger(retentionDays) && retentionDays > 0 ? retentionDays : null,
     errors: [] as string[],
   };
@@ -138,6 +140,7 @@ export function getDurableOperationsPolicySnapshot(): DurableOperationsPolicySna
   if (!snapshot.schoolPolicyAccepted) snapshot.errors.push("Durable operations require the deployment school-policy gate.");
   if (!snapshot.retentionPolicyAccepted) snapshot.errors.push("Durable operations require the deployment retention-policy gate.");
   if (!snapshot.releaseApprovalAccepted) snapshot.errors.push("Durable operations require the deployment release-approval gate.");
+  if (!snapshot.encryptionAtRestAccepted) snapshot.errors.push("Durable operations require the deployment encryption-at-rest gate.");
   if (snapshot.retentionDays === null) snapshot.errors.push("Durable operations require a positive retention period in days.");
   return snapshot;
 }

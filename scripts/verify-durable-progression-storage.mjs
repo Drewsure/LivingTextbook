@@ -99,12 +99,14 @@ requireFragments("student session cookie", sessionCookie, [
 ]);
 requireFragments("environment contract", envExample, [
   "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER=process-memory",
+  "LIVING_TEXTBOOK_PERSISTENCE_ENCRYPTION_AT_REST_ACCEPTED=false",
+  "LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT",
   "LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES=false",
   "LIVING_TEXTBOOK_PERSISTENCE_API_TOKEN",
   "LIVING_TEXTBOOK_PROGRESSION_DB_PATH",
   "LIVING_TEXTBOOK_STUDENT_SESSION_SECRET",
 ]);
-requireFragments("database ignore policy", gitignore, ["data/*.sqlite", "data/*.sqlite-wal"]);
+requireFragments("database ignore policy", gitignore, ["data/**/*.sqlite", "data/**/*.sqlite-wal"]);
 
 if (failures.length > 0) {
   console.error(failures.map((failure) => `FAIL ${failure}`).join("\n"));

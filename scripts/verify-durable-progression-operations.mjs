@@ -69,6 +69,7 @@ requireFragments("SQLite operations policy", operations, [
   "schoolPolicyAccepted",
   "retentionPolicyAccepted",
   "releaseApprovalAccepted",
+  "encryptionAtRestAccepted",
   "retentionDays",
   "backupTo",
   "backupWithManifest",
