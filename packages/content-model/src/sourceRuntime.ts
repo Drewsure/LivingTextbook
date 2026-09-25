@@ -60,6 +60,7 @@ const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 const maxSourceIdentifierLength = 160;
 const maxTargetPackageIdentifierLength = 200;
 const maxSourceChecksumLength = 256;
+const sourceChecksumPattern = /^sha256:[0-9a-f]{64}$/i;
 export const SOURCE_RUNTIME_MAX_BYTES = 50 * 1024 * 1024;
 const sourceMimeTypes = new Map<SourceDocumentType, ReadonlySet<string>>([
   ["pdf", new Set(["application/pdf"])],
@@ -136,6 +137,7 @@ export function validateSourceRuntimeRequest(request: SourceRuntimeRequest): str
   else if (targetPackageId.length > maxTargetPackageIdentifierLength || !safeIdentifierPattern.test(targetPackageId)) errors.push("targetPackageId must be a bounded safe identifier");
   if (!sourceChecksum) errors.push("source checksum is required");
   else if (sourceChecksum.length > maxSourceChecksumLength) errors.push("source checksum is too long");
+  else if (!sourceChecksumPattern.test(sourceChecksum)) errors.push("source checksum must use sha256:<64 hexadecimal characters> format");
   if (!sourceMimeType) errors.push("source MIME type is required");
   else if (!sourceMimeTypes.get(sourceType as SourceDocumentType)?.has(sourceMimeType)) errors.push("source MIME type is incompatible with source document type");
   if (!Number.isInteger(request.sourceByteLength) || request.sourceByteLength <= 0) errors.push("source byte length must be a positive integer");

@@ -1230,6 +1230,7 @@ try {
   };
   const sourceErrors = source.validateSourceRuntimeRequest(sourceRequest);
   assertIncludes(sourceErrors, "raw source files cannot become student payloads");
+  assertIncludes(sourceErrors, "source checksum must use sha256:<64 hexadecimal characters> format");
   const malformedSourceFlagErrors = source.validateSourceRuntimeRequest({
     ...sourceRequest,
     filePolicyAccepted: "true",
@@ -1265,6 +1266,7 @@ try {
   assertIncludes(malformedSourceShapeErrors, "source content review status is unsupported");
   assertIncludes(malformedSourceShapeErrors, "source extraction review status is unsupported");
   assertIncludes(source.validateSourceRuntimeRequest({ ...sourceRequest, sourceMimeType: "image/png" }), "source MIME type is incompatible with source document type");
+  assertIncludes(source.validateSourceRuntimeRequest({ ...sourceRequest, sourceChecksum: "sha256-placeholder" }), "source checksum must use sha256:<64 hexadecimal characters> format");
   assertIncludes(source.validateSourceRuntimeRequest({ ...sourceRequest, sourceByteLength: 50 * 1024 * 1024 + 1 }), "source byte length cannot exceed 52428800 bytes");
   assertEqual(source.createReviewOnlySourceRuntimeAdapter().execute({
     tenantId: "tenant-1", sourceId: "source-1", targetPackageId: "package-1", sourceType: "pdf",

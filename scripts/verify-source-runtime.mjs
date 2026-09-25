@@ -16,6 +16,7 @@ for (const marker of [
   "bounded safe identifier",
   "sourceMimeType",
   "sourceByteLength",
+  "source checksum must use sha256:<64 hexadecimal characters> format",
   "source MIME type is required",
   "source MIME type is incompatible with source document type",
   "source byte length must be a positive integer",

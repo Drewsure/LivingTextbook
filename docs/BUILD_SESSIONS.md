@@ -6101,3 +6101,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
   characters, trailing dots, and reserved device names.
 - Kept payload storage quarantine-generated and promotion-neutral.
 - Added ADR 1198, DR-1198, and verifier coverage.
+
+## Build session: Source runtime checksum format
+
+- Aligned source-runtime checksum validation with extraction preview and source
+  package assembly.
+- Rejected arbitrary or ambiguous source identities at the earliest structured
+  intake boundary.
+- Preserved review-only mode and all no-side-effect gates.
+- Added ADR 1199, DR-1199, and runtime behavior coverage.
