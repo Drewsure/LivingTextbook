@@ -6007,3 +6007,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Kept the binding provider-neutral, tenant-scoped, review-only, and fully
   blocked from operational side effects.
 - Added the shared validator coverage and ADR 1187 / DR-1187.
+
+## Build session: Upstream release-review identity reconciliation
+
+- Added a shared comparison helper that validates the decision-snapshot binding
+  against the upstream release-review binding rather than checking only local
+  field presence.
+- Covered reconciliation, reviewer-gate, human-review, release-readiness,
+  release-control, approval-ledger, tenant, package, and unit identity.
+- Added negative verification for tampered reviewer-gate and human-review
+  identities while preserving the review-only and no-side-effect boundary.
+- Added ADR 1188 and DR-1188.

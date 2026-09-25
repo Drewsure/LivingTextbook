@@ -163,3 +163,11 @@ the evidence as linked.
 The snapshot bridge must also carry exact reconciliation, reviewer-gate, and
 human-review packet IDs. A composite binding name is not sufficient evidence of
 upstream identity.
+
+The decision-snapshot bridge must also compare those carried IDs against the
+upstream release-review binding itself. Required IDs are not sufficient merely
+because they are present: reconciliation, reviewer gate, human-review packet,
+release readiness, release-control gate, approval ledger, tenant, package, and
+unit scope must match the source record before the evidence can be described as
+linked. This comparison remains review-only and cannot approve, promote,
+persist, activate, or launch anything.

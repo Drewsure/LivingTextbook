@@ -9534,3 +9534,17 @@ shared validator and visible in both review surfaces. Operational release,
 approval, promotion, persistence, export, activation, and student launch remain
 blocked. See ADR 1187 and
 `docs/decision-register/DR-1187-explicit-upstream-identity-carriage.md`.
+
+## DR-1188: Upstream Release-Review Identity Reconciliation
+
+The assist-audio decision-snapshot binding must compare its carried identity
+fields against the upstream release-review binding. Presence of a
+reconciliation, reviewer-gate, human-review, release-readiness,
+release-control, approval-ledger, tenant, package, or unit ID is not proof of
+lineage when the source record can be different. The shared validator therefore
+rejects drift before the review surface can describe the snapshot as linked.
+
+This is evidence reconciliation only. Approval capture, snapshot writes,
+promotion, persistence, export, activation, and student launch remain blocked.
+See ADR 1188 and
+`docs/decision-register/DR-1188-upstream-release-review-identity-reconciliation.md`.

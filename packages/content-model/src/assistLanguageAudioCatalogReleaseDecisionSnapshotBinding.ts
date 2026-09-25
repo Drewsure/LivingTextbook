@@ -1,4 +1,5 @@
 import type { PilotReviewDecisionPersistenceSnapshot } from "./pilotReviewDecisionPersistence";
+import { validateAssistLanguageAudioCatalogReleaseReviewBinding } from "./assistLanguageAudioCatalogReleaseReviewBinding";
 
 export type AssistLanguageAudioCatalogReleaseDecisionSnapshotBindingStatus =
   | "blocked-preview"
@@ -177,6 +178,43 @@ export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding
       errors.push(`decision snapshot binding ${field} does not match the source snapshot`);
     }
   }
+  return [...new Set(errors)];
+}
+
+export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(
+  bindingValue: unknown,
+  releaseReviewBindingValue: unknown,
+): string[] {
+  const errors = validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(bindingValue);
+  const binding = isRecord(bindingValue) ? bindingValue : undefined;
+  const sourceErrors = validateAssistLanguageAudioCatalogReleaseReviewBinding(releaseReviewBindingValue);
+  errors.push(...sourceErrors.map((error) => `release review binding: ${error}`));
+  if (!isRecord(releaseReviewBindingValue)) return [...new Set(errors)];
+
+  const identityFields = [
+    ["releaseReviewBindingId", "bindingId"],
+    ["reconciliationId", "reconciliationId"],
+    ["reviewerGateBindingId", "reviewerGateBindingId"],
+    ["humanReviewPacketId", "humanReviewPacketId"],
+    ["releaseReadinessId", "releaseReadinessId"],
+    ["releaseControlGateId", "releaseControlGateId"],
+    ["approvalLedgerId", "approvalLedgerId"],
+    ["tenantId", "tenantId"],
+    ["packageId", "packageId"],
+    ["unitKey", "unitKey"],
+  ] as const;
+
+  for (const [bindingField, sourceField] of identityFields) {
+    const sourceIdentity = releaseReviewBindingValue[sourceField];
+    if (!isNonEmptyString(sourceIdentity)) {
+      errors.push(`release review binding ${sourceField} is required for identity comparison`);
+      continue;
+    }
+    if (binding && isNonEmptyString(binding[bindingField]) && binding[bindingField] !== sourceIdentity) {
+      errors.push(`release decision snapshot binding ${bindingField} does not match the release review binding`);
+    }
+  }
+
   return [...new Set(errors)];
 }
 

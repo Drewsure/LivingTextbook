@@ -7,6 +7,7 @@ import ts from "typescript";
 const output = mkdtempSync(join(tmpdir(), "living-textbook-assist-audio-decision-snapshot-"));
 const contractPath = new URL("../packages/content-model/src/assistLanguageAudioCatalogReleaseDecisionSnapshotBinding.ts", import.meta.url);
 const contract = readFileSync(contractPath, "utf8");
+const releaseReviewBindingContract = readFileSync(new URL("../packages/content-model/src/assistLanguageAudioCatalogReleaseReviewBinding.ts", import.meta.url), "utf8");
 const builder = readFileSync(new URL("../apps/web/src/data/sampleAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding.ts", import.meta.url), "utf8");
 const panel = readFileSync(new URL("../apps/web/src/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel.tsx", import.meta.url), "utf8");
 const route = readFileSync(new URL("../apps/web/src/app/teacher/media/[tenantId]/page.tsx", import.meta.url), "utf8");
@@ -17,12 +18,16 @@ try {
   writeFileSync(join(output, "binding.js"), ts.transpileModule(contract, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
+  writeFileSync(join(output, "assistLanguageAudioCatalogReleaseReviewBinding.js"), ts.transpileModule(releaseReviewBindingContract, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, "utf8");
 
   const {
     ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_BLOCKED_ACTIONS,
     createReviewOnlyAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot,
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding,
   } = await import(pathToFileURL(join(output, "binding.js")).href);
 
   const fixture = {
@@ -68,6 +73,39 @@ try {
   };
   assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(created).length === 0, "valid decision snapshot binding must pass");
   assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(created, sourceSnapshot).length === 0, "matching decision snapshot identity must pass");
+  const sourceReleaseReviewBinding = {
+    bindingId: fixture.releaseReviewBindingId,
+    reconciliationId: fixture.reconciliationId,
+    reviewerGateBindingId: fixture.reviewerGateBindingId,
+    humanReviewPacketId: fixture.humanReviewPacketId,
+    releaseReadinessId: fixture.releaseReadinessId,
+    releaseControlGateId: fixture.releaseControlGateId,
+    approvalLedgerId: fixture.approvalLedgerId,
+    tenantId: fixture.tenantId,
+    packageId: fixture.packageId,
+    unitKey: fixture.unitKey,
+    releaseControlStatus: "blocked",
+    humanReviewStatus: "awaiting-human-review",
+    status: "blocked-preview",
+    linkedRecords: [
+      "assist_language_audio_catalog_approval_reconciliation",
+      "assist_language_audio_reviewer_gate_binding",
+      "white_label_release_readiness",
+      "package_publish_gate",
+      "package_approval_ledger",
+      "controlled_pilot_human_review_packet",
+    ],
+    scopeDrift: [],
+    blockingReasons: ["No approval capture", "No production approval", "No package promotion", "No student production launch", "No catalog admission", "No student-facing assist audio"],
+    nextGate: ["Human review"],
+    approvalCaptureAllowed: false,
+    productionApprovalAllowed: false,
+    packagePromotionAllowed: false,
+    studentProductionLaunchAllowed: false,
+    mode: "review-only",
+    sideEffect: "none",
+  };
+  assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(created, sourceReleaseReviewBinding).length === 0, "matching release-review upstream identity must pass");
   assert(created.bindingId === `assist-language-audio-release-decision-snapshot-binding-v1:${fixture.releaseReviewBindingId}:${fixture.snapshotId}`, "decision snapshot binding identity must be deterministic");
   assert(created.snapshotWriteAllowed === false && created.snapshotRestoreAllowed === false && created.snapshotExportAllowed === false, "snapshot operations must remain blocked");
   assert(created.approvalCaptureAllowed === false && created.productionApprovalAllowed === false && created.packagePromotionAllowed === false && created.studentProductionLaunchAllowed === false && created.activationAllowed === false, "release actions must remain blocked");
@@ -87,6 +125,14 @@ try {
   assert(
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot(created, { ...sourceSnapshot, decisionFingerprint: "pilot-review-decision-fnv1a-v1:deadbeef" }).some((error) => error.includes("decisionFingerprint does not match")),
     "tampered decision fingerprint must be rejected",
+  );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(created, { ...sourceReleaseReviewBinding, reviewerGateBindingId: "other-reviewer-gate" }).some((error) => error.includes("reviewerGateBindingId does not match")),
+    "tampered reviewer gate identity must be rejected",
+  );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(created, { ...sourceReleaseReviewBinding, humanReviewPacketId: "other-human-review-packet" }).some((error) => error.includes("humanReviewPacketId does not match")),
+    "tampered human review identity must be rejected",
   );
 
   for (const marker of [
