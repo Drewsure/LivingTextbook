@@ -6084,3 +6084,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   rewards, and external-source isolation.
 - Kept the roadmap check documentation-only and promotion-neutral.
 - Added ADR 1196 and DR-1196.
+
+## Build session: SQLite provider cache lifecycle hardening
+
+- Closed the prior cached SQLite store before replacing it after a configured
+  database-path change.
+- Added conformance coverage for the lifecycle guard, preserving local/hosted
+  provider selection and all write-policy gates.
+- Added ADR 1197 and DR-1197.

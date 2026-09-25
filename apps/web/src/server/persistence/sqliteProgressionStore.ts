@@ -588,6 +588,7 @@ export function getDurableProgressionStore(): SqliteProgressionStore {
   const databasePath = configuredPath ? resolve(configuredPath) : defaultDatabasePath;
 
   if (!cachedStore || cachedPath !== databasePath) {
+    cachedStore?.close();
     cachedStore = new SqliteProgressionStore(databasePath);
     cachedPath = databasePath;
   }

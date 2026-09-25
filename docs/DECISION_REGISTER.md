@@ -9632,6 +9632,14 @@ rewards, and external-source isolation markers. This guards roadmap drift
 without converting a documented phase into production approval. See ADR 1196
 and `docs/LONG_TERM_BUILD_PLAN.md`.
 
+## DR-1197: SQLite Provider Cache Lifecycle
+
+The SQLite progression adapter now closes its cached database connection before
+replacing it when `LIVING_TEXTBOOOK_PROGRESSION_DB_PATH` changes. This prevents
+file-handle and WAL-resource leaks during local/hosted configuration changes
+without changing provider selection, activation, tenant scope, or persistence
+policy gates. See ADR 1197.
+
 ## DR-1195: Long-Term Governed Build Map
 
 The repository now maintains one current phase map for the saleable

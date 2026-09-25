@@ -9,6 +9,10 @@ const require = createRequire(import.meta.url);
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
 const output = mkdtempSync(join(tmpdir(), "living-textbook-persistence-conformance-"));
 const failures = [];
+const sqliteSource = readFileSync(join(root, "apps", "web", "src", "server", "persistence", "sqliteProgressionStore.ts"), "utf8");
+if (!sqliteSource.includes("cachedStore?.close();")) {
+  failures.push("SQLite provider path changes must close the previous cached store before replacement.");
+}
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
