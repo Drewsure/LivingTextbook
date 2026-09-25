@@ -23,13 +23,30 @@ try {
   const { validateLocalBundleManifest } = require(join(output, "localBundleManifest.js"));
   const { evaluateLocalBundleAssetEvidence } = require(join(output, "localBundleAssetEvidence.js"));
   const sample = JSON.parse(readFileSync(join(root, "content", "sample-bundles", "ministar-l1-u1", "manifest.json"), "utf8"));
+  const offlineCachePolicy = {
+    mode: "offline-ready",
+    version: "0.1.0",
+    cache_name: "ministar-level-1-unit-1-demo-v0.1.0",
+    allowed_route_prefixes: ["/enter/ministar"],
+    precache_asset_kinds: ["audio", "video"],
+    student_data_mode: "excluded",
+    background_sync: false,
+  };
   const sampleResult = validateLocalBundleManifest(sample);
   assert(sampleResult.valid, "planning sample manifest must remain structurally valid");
   assert(sampleResult.warnings.some((warning) => warning.includes("checksum")), "planning sample must expose checksum warnings");
 
+  const missingCachePolicyResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+  });
+  assert(!missingCachePolicyResult.valid, "offline-ready manifest without a cache policy must be rejected");
+  assert(missingCachePolicyResult.errors.some((error) => error.includes("offline-ready cache policy")), "missing cache policy rejection must be explicit");
+
   const offlineResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,
+    cache_policy: offlineCachePolicy,
   });
   assert(!offlineResult.valid, "offline-ready sample with placeholder checksums must be rejected");
   assert(offlineResult.errors.some((error) => error.includes("final sha256 checksum")), "offline-ready rejection must name checksum evidence");
@@ -38,6 +55,7 @@ try {
     ...sample,
     offline_ready: true,
     requires_hosted_redirect: false,
+    cache_policy: offlineCachePolicy,
     assets: sample.assets.map((asset) => ({
       ...asset,
       checksum: `sha256-${"a".repeat(64)}`,
@@ -57,6 +75,7 @@ try {
   const imageWithoutAltTextResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,
+    cache_policy: offlineCachePolicy,
     assets: [
       ...sample.assets.map((asset) => ({
         ...asset,
@@ -94,6 +113,7 @@ try {
     ...sample,
     offline_ready: true,
     requires_hosted_redirect: false,
+    cache_policy: offlineCachePolicy,
     assets: sample.assets.map((asset, index) => index === 0
       ? {
           ...asset,
@@ -129,6 +149,7 @@ try {
     ...sample,
     offline_ready: true,
     requires_hosted_redirect: false,
+    cache_policy: offlineCachePolicy,
     assets: sample.assets.map((asset, index) => index === 1
       ? {
           ...asset,

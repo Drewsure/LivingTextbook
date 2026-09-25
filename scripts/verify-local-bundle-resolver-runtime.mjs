@@ -58,6 +58,15 @@ try {
     ...sample,
     offline_ready: true,
     requires_hosted_redirect: false,
+    cache_policy: {
+      mode: "offline-ready",
+      version: "0.1.0",
+      cache_name: "ministar-level-1-unit-1-demo-v0.1.0",
+      allowed_route_prefixes: ["/enter/ministar"],
+      precache_asset_kinds: ["audio", "video"],
+      student_data_mode: "excluded",
+      background_sync: false,
+    },
     assets: sample.assets.map((asset, index) => ({
       ...asset,
       checksum: `sha256-${String.fromCharCode(97 + index).repeat(64)}`,

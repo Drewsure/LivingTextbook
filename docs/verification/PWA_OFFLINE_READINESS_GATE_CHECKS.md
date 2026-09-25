@@ -33,6 +33,11 @@ Keep the hosted PWA, installable shell, offline cache, local companion, and clos
 
 The app may have a manifest and installable shell during foundation, but it may not claim offline-ready status until cache, service worker, media rights, checksums, QR fallback, rollback, local storage, report export, and school policy gates are complete.
 
+The local-bundle manifest must also carry a valid versioned `cache_policy` when
+`offline_ready` is true. The policy must declare route and asset-kind
+allowlists, exclude student data, and keep background sync disabled. This is a
+review-only validation rule; it does not mutate browser caches.
+
 ## Verification
 
 Run:

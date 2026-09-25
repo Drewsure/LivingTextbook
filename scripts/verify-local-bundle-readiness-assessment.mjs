@@ -43,6 +43,15 @@ try {
     content_package_path: "content/package.json",
     media_root: "media/",
     offline_ready: false,
+    cache_policy: {
+      mode: "review-only",
+      version: "1.0.0",
+      cache_name: "living-textbook-sample-bundle-v1.0.0",
+      allowed_route_prefixes: ["/launch"],
+      precache_asset_kinds: ["audio"],
+      student_data_mode: "excluded",
+      background_sync: false,
+    },
     requires_hosted_redirect: false,
     assets: [{
       asset_id: "greetings-audio",
@@ -132,7 +141,14 @@ try {
 
   const offlineCandidate = assessLocalBundleReadiness({
     ...baseInput,
-    manifest: { ...manifest, offline_ready: true },
+    manifest: {
+      ...manifest,
+      offline_ready: true,
+      cache_policy: {
+        ...manifest.cache_policy,
+        mode: "offline-ready",
+      },
+    },
   });
   assert(offlineCandidate.decision === "offline-ready-candidate", "complete offline manifest must be a candidate only");
   assert(offlineCandidate.exportAllowed === false, "offline candidate must not enable export");

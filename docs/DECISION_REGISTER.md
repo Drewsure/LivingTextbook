@@ -9746,3 +9746,9 @@ persistence, or student-facing behavior. See ADR 1210.
 Content packages reject duplicate AI Tutor plans for one unit, preserving one
 deterministic optional tutor configuration while keeping live AI behavior
 blocked. See ADR 1211.
+
+## DR-1212: Explicit Local-Bundle Cache Policy
+
+Offline-ready local bundle manifests now require a versioned cache policy with
+route and asset-kind allowlists, learner-data exclusion, and disabled
+background sync. Validation remains review-only. See ADR 1212.

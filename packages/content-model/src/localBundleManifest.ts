@@ -1,5 +1,16 @@
 export type LocalBundleAssetKind = "audio" | "video" | "image" | "font" | "source-document";
 export type LocalBundleAssetScanStatus = "pending" | "passed";
+export type LocalBundleCacheMode = "none" | "review-only" | "offline-ready";
+
+export interface LocalBundleCachePolicy {
+  mode: LocalBundleCacheMode;
+  version: string;
+  cache_name: string;
+  allowed_route_prefixes: string[];
+  precache_asset_kinds: LocalBundleAssetKind[];
+  student_data_mode: "excluded";
+  background_sync: false;
+}
 
 export interface LocalBundleManifestAsset {
   asset_id: string;
@@ -37,6 +48,7 @@ export interface LocalBundleManifest {
   media_root: string;
   offline_ready: boolean;
   requires_hosted_redirect: boolean;
+  cache_policy?: LocalBundleCachePolicy;
   assets: LocalBundleManifestAsset[];
   routes: LocalBundleManifestRoute[];
 }
@@ -153,6 +165,43 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
   if (!isSafeRelativePath(readString(value.content_package_path))) errors.push("Local bundle content_package_path must be a safe relative path.");
   if (!isSafeRelativePath(readString(value.media_root), true)) errors.push("Local bundle media_root must be a safe relative path.");
 
+  const cachePolicy = value.cache_policy;
+  if (cachePolicy !== undefined) {
+    if (!isRecord(cachePolicy)) {
+      errors.push("Local bundle cache_policy must be an object.");
+    } else {
+      if (!( ["none", "review-only", "offline-ready"] as const).includes(cachePolicy.mode as LocalBundleCacheMode)) {
+        errors.push("Local bundle cache_policy mode is unsupported.");
+      }
+      const cacheVersion = readString(cachePolicy.version);
+      if (!cacheVersion || !safeIdentifierPattern.test(cacheVersion)) errors.push("Local bundle cache_policy version must be a safe identity.");
+      const cacheName = readString(cachePolicy.cache_name);
+      if (!cacheName || !safeIdentifierPattern.test(cacheName)) errors.push("Local bundle cache_policy cache_name must be a safe identity.");
+      if (!Array.isArray(cachePolicy.allowed_route_prefixes) || cachePolicy.allowed_route_prefixes.length === 0) {
+        errors.push("Local bundle cache_policy allowed_route_prefixes must contain at least one route.");
+      } else {
+        const routePrefixes = cachePolicy.allowed_route_prefixes;
+        if (new Set(routePrefixes).size !== routePrefixes.length) errors.push("Local bundle cache_policy route prefixes must be unique.");
+        routePrefixes.forEach((route, index) => {
+          if (typeof route !== "string" || !isSafeRelativePath(route.trim(), false, true)) {
+            errors.push(`Local bundle cache_policy route prefix ${index + 1} must be a safe application path.`);
+          }
+        });
+      }
+      if (!Array.isArray(cachePolicy.precache_asset_kinds) || cachePolicy.precache_asset_kinds.length === 0) {
+        errors.push("Local bundle cache_policy precache_asset_kinds must contain at least one asset kind.");
+      } else {
+        const assetKinds = cachePolicy.precache_asset_kinds;
+        if (new Set(assetKinds).size !== assetKinds.length) errors.push("Local bundle cache_policy asset kinds must be unique.");
+        assetKinds.forEach((kind) => {
+          if (!localBundleAssetKinds.has(kind as LocalBundleAssetKind)) errors.push(`Local bundle cache_policy asset kind ${String(kind)} is unsupported.`);
+        });
+      }
+      if (cachePolicy.student_data_mode !== "excluded") errors.push("Local bundle cache_policy must exclude student data.");
+      if (cachePolicy.background_sync !== false) errors.push("Local bundle cache_policy background sync must remain disabled.");
+    }
+  }
+
   if (value.unit_ids !== undefined) {
     if (!Array.isArray(value.unit_ids) || value.unit_ids.some((item) => typeof item !== "string" || !item.trim())) {
       errors.push("Local bundle manifest unit_ids must contain non-empty strings.");
@@ -223,6 +272,9 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
 
   if (value.offline_ready === true) {
     if (value.requires_hosted_redirect === true) errors.push("Offline-ready bundles cannot require a hosted redirect.");
+    if (!isRecord(cachePolicy) || cachePolicy.mode !== "offline-ready") {
+      errors.push("Offline-ready bundles require an offline-ready cache policy.");
+    }
     assets.forEach((asset, index) => {
       if (!isRecord(asset) || !sha256Pattern.test(readString(asset.checksum))) {
         errors.push(`Offline-ready bundle asset ${readString(isRecord(asset) ? asset.asset_id : undefined) || index + 1} requires a final sha256 checksum.`);

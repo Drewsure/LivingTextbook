@@ -6216,3 +6216,12 @@ student-payload-blocked behavior.
 - Preserved optional disabled plans and all live AI, speech, billing,
   persistence, and assignment blockers.
 - Added ADR 1211 and DR-1211.
+
+## Build session: Explicit local-bundle cache policy
+
+- Added review-only cache-policy validation to local bundle manifests.
+- Required offline-ready manifests to declare safe cache identity, route and
+  asset-kind allowlists, student-data exclusion, and disabled background sync.
+- Preserved no-service-worker, no-cache-mutation, no-media-precache, and
+  no-offline-learner-data boundaries.
+- Added ADR 1212 and DR-1212.

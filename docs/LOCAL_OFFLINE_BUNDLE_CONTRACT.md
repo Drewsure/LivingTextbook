@@ -58,6 +58,7 @@ A local/offline bundle should contain:
 - `audio-cues/` assets when recorded audio is bundled
 - `posters/` and captions/transcripts for video where available
 - `checksums.json` or checksum fields in the manifest
+- a versioned `cache_policy` record before any bundle may claim offline-ready
 - optional tenant theme tokens
 - optional teacher/report seed data for local pilots
 
@@ -92,6 +93,20 @@ Planning shape:
 ```
 
 This is a planning shape, not the final schema.
+
+## Cache Policy Boundary
+
+An offline-ready manifest must declare a cache policy with:
+
+- a safe cache version and cache name,
+- allowed application route prefixes,
+- allowed asset kinds to precache,
+- `student_data_mode: "excluded"`, and
+- `background_sync: false` until persistence, retention, and school policy
+  have been accepted.
+
+The content-model validator checks this record but does not register a service
+worker, mutate a browser cache, precache media, or store learner data.
 
 ## Route Resolution
 

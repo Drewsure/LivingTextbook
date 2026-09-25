@@ -20,6 +20,15 @@ export function createLocalBundleRuntimeManifest(
     media_root: summary.mediaRoot,
     offline_ready: summary.offlineReady,
     requires_hosted_redirect: summary.requiresHostedRedirect,
+    cache_policy: {
+      mode: summary.offlineReady ? "offline-ready" : "review-only",
+      version: summary.version,
+      cache_name: `living-textbook-${tenantId}-${summary.bundleId}`,
+      allowed_route_prefixes: Array.from(new Set(summary.routes.map((route) => route.localFallbackPath))),
+      precache_asset_kinds: Array.from(new Set(summary.assets.map((asset) => asset.kind))),
+      student_data_mode: "excluded",
+      background_sync: false,
+    },
     assets: summary.assets.map((asset) => ({
       asset_id: asset.assetId,
       unit_id: asset.unitId,
