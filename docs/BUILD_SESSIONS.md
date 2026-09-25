@@ -6174,3 +6174,10 @@ student-payload-blocked behavior.
 - Preserved valid Memory Match and Balloon Pop candidate packages.
 - Preserved review-only source isolation and all integration blockers.
 - Added ADR 1206 and DR-1206.
+
+## Build session: Phaser return replay seed boundary
+
+- Aligned returned replay seed validation with the canonical `replay-v1` rule.
+- Added negative behavior coverage for a path-like replay seed.
+- Preserved valid candidate replay evidence and all review-only blockers.
+- Added ADR 1207 and DR-1207.

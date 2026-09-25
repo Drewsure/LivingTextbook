@@ -56,6 +56,8 @@ const verifierMarkers = [
   "event ${event?.type || \"(unnamed)\"} must use a bounded safe unitKey.",
   "event ${event?.type || \"(unnamed)\"} must use a bounded safe launchCode.",
   "event ${event?.type || \"(unnamed)\"} must use a bounded safe studentSessionId.",
+  "candidateReplaySeedPattern",
+  "must include a bounded replay-v1 seed.",
 ];
 
 const guideMarkers = [

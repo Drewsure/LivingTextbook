@@ -9715,3 +9715,9 @@ Returned Phaser event replays now use the same bounded safe unit, launch, and
 student-session identity rules as canonical game events. Unsafe replay
 identities fail before evidence adjudication; external source remains
 review-only and isolated. See ADR 1206.
+
+## DR-1207: Phaser Return Replay Seed Boundary
+
+Returned Phaser event evidence now uses the same bounded `replay-v1` seed shape
+as canonical games. Malformed or path-like seeds fail before replay review;
+the candidate remains isolated and review-only. See ADR 1207.

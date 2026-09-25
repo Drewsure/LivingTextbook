@@ -168,6 +168,16 @@ try {
   replayArtifact.checksum = hashFile(replayPath);
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
 
+  replay.events[1].metadata.replaySeed = "replay-v1:../outside";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe replay seed", "must include a bounded replay-v1 seed.");
+  replay.events[1].metadata.replaySeed = "replay-v1:memory-match-sample";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const roundShownIndex = replay.events.findIndex((candidate) => candidate.type === "round_shown");
   const audioRequestedIndex = replay.events.findIndex((candidate) => candidate.type === "audio_requested");
   [replay.events[roundShownIndex], replay.events[audioRequestedIndex]] = [
