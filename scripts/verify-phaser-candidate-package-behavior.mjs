@@ -143,6 +143,31 @@ try {
 
   const replayPath = join(candidateRoot, artifactPaths["event-replay"]);
   const replay = JSON.parse(readFileSync(replayPath, "utf8"));
+  const replayArtifact = manifest.artifacts.find((artifact) => artifact.kind === "event-replay");
+  replay.events[1].unitKey = "../outside-tenant";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe replay unit identity", "must use a bounded safe unitKey.");
+  replay.events[1].unitKey = "sample:curriculum:L1:U1";
+
+  replay.events[1].launchCode = "launch/session";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe replay launch identity", "must use a bounded safe launchCode.");
+  replay.events[1].launchCode = "launch-1";
+
+  replay.events[1].studentSessionId = "session\\child";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe replay session identity", "must use a bounded safe studentSessionId.");
+  replay.events[1].studentSessionId = "session-1";
+  writeFileSync(replayPath, JSON.stringify(replay));
+  replayArtifact.checksum = hashFile(replayPath);
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const roundShownIndex = replay.events.findIndex((candidate) => candidate.type === "round_shown");
   const audioRequestedIndex = replay.events.findIndex((candidate) => candidate.type === "audio_requested");
   [replay.events[roundShownIndex], replay.events[audioRequestedIndex]] = [
@@ -150,7 +175,6 @@ try {
     replay.events[roundShownIndex],
   ];
   writeFileSync(replayPath, JSON.stringify(replay));
-  const replayArtifact = manifest.artifacts.find((artifact) => artifact.kind === "event-replay");
   replayArtifact.checksum = hashFile(replayPath);
   writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
   assertVerifierRejects(candidateRoot, "audio before round");

@@ -9708,3 +9708,10 @@ The external Phaser return-package verifier now requires bounded safe tenant,
 request, queue, and artifact identities, plus bounded safe relative paths.
 Malformed package metadata fails before evidence adjudication while the
 candidate remains review-only. See ADR 1205.
+
+## DR-1206: Phaser Return Replay Identity Boundaries
+
+Returned Phaser event replays now use the same bounded safe unit, launch, and
+student-session identity rules as canonical game events. Unsafe replay
+identities fail before evidence adjudication; external source remains
+review-only and isolated. See ADR 1206.

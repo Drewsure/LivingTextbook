@@ -6165,3 +6165,12 @@ student-payload-blocked behavior.
 - Preserved complete-package acceptance, frozen-source binding, and review-only
   integration blockers.
 - Added ADR 1205 and DR-1205.
+
+## Build session: Phaser return replay identity boundaries
+
+- Applied canonical unit, launch, and student-session identity rules to
+  returned event replay evidence.
+- Added negative behavior coverage for path-like replay identities.
+- Preserved valid Memory Match and Balloon Pop candidate packages.
+- Preserved review-only source isolation and all integration blockers.
+- Added ADR 1206 and DR-1206.

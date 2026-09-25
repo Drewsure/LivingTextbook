@@ -88,6 +88,8 @@ const requiredBlockedActions = [
   "No student assignment",
 ];
 const candidateIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
+const candidateUnitIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$/;
+const candidateSessionIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 
 requireValue(manifest.sourceRepository === "Drewsure/ministar-lab", "sourceRepository must be Drewsure/ministar-lab.");
 requireValue(manifest.sourceSnapshotId === "frozen-2026-09-12-aaa-stable", "sourceSnapshotId must be the immutable frozen snapshot tag.");
@@ -263,8 +265,11 @@ function validateEventReplay(replay) {
   let identity;
   for (const event of events) {
     requireValue(isNonBlankString(event?.unitKey), `event ${event?.type || "(unnamed)"} must include unitKey.`);
+    requireValue(candidateUnitIdentityPattern.test(event?.unitKey || ""), `event ${event?.type || "(unnamed)"} must use a bounded safe unitKey.`);
     requireValue(isNonBlankString(event?.launchCode), `event ${event?.type || "(unnamed)"} must include launchCode.`);
+    requireValue(candidateSessionIdentityPattern.test(event?.launchCode || ""), `event ${event?.type || "(unnamed)"} must use a bounded safe launchCode.`);
     requireValue(isNonBlankString(event?.studentSessionId), `event ${event?.type || "(unnamed)"} must include studentSessionId.`);
+    requireValue(candidateSessionIdentityPattern.test(event?.studentSessionId || ""), `event ${event?.type || "(unnamed)"} must use a bounded safe studentSessionId.`);
     requireValue(event?.gameMode === manifest.targetMode, `event ${event?.type || "(unnamed)"} must use gameMode ${manifest.targetMode}.`);
     requireValue(event?.metadata?.tenantId === manifest.tenantId, `event ${event?.type || "(unnamed)"} must include the package tenantId.`);
     requireValue(isNonBlankString(event?.metadata?.replaySeed) && event.metadata.replaySeed.startsWith("replay-v1:"), `event ${event?.type || "(unnamed)"} must include replay-v1 evidence.`);

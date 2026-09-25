@@ -53,6 +53,9 @@ const verifierMarkers = [
   "requestId must be a bounded safe identity.",
   "queueItemId must be a bounded safe identity.",
   "requires a bounded safe artifactId.",
+  "event ${event?.type || \"(unnamed)\"} must use a bounded safe unitKey.",
+  "event ${event?.type || \"(unnamed)\"} must use a bounded safe launchCode.",
+  "event ${event?.type || \"(unnamed)\"} must use a bounded safe studentSessionId.",
 ];
 
 const guideMarkers = [
