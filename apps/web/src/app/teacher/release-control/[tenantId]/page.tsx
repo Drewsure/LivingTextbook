@@ -31,6 +31,8 @@ import { samplePilotReviewDecisionSnapshots } from "@/data/samplePilotReviewDeci
 import { TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel";
 import { ControlledPilotHumanReviewAdjudicationPanel } from "@/features/pilot/ControlledPilotHumanReviewAdjudicationPanel";
 import { buildSampleControlledPilotHumanReviewAdjudication, validateSampleControlledPilotHumanReviewAdjudication } from "@/data/sampleControlledPilotHumanReviewAdjudication";
+import { buildSampleControlledPilotHumanReviewNextGateHandoff, validateSampleControlledPilotHumanReviewNextGateHandoff } from "@/data/sampleControlledPilotHumanReviewNextGateHandoff";
+import { ControlledPilotHumanReviewNextGateHandoffPanel } from "@/features/pilot/ControlledPilotHumanReviewNextGateHandoffPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -106,6 +108,12 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
   const humanReviewAdjudicationErrors = humanReviewAdjudication && hostedDecisionSnapshotBinding && releaseReviewBinding
     ? validateSampleControlledPilotHumanReviewAdjudication(humanReviewAdjudication, hostedDecisionSnapshotBinding, releaseReviewBinding, sampleControlledPilotHumanReviewPacket)
     : ["Controlled-pilot human-review adjudication is not configured for this tenant/package."];
+  const humanReviewNextGateHandoff = humanReviewAdjudication
+    ? buildSampleControlledPilotHumanReviewNextGateHandoff(humanReviewAdjudication)
+    : undefined;
+  const humanReviewNextGateHandoffErrors = humanReviewNextGateHandoff && humanReviewAdjudication
+    ? validateSampleControlledPilotHumanReviewNextGateHandoff(humanReviewNextGateHandoff, humanReviewAdjudication)
+    : ["Controlled-pilot next-gate handoff is not configured for this tenant/package."];
 
   return (
     <AppShell tenant={samplePublisherTenant}>
@@ -220,6 +228,7 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
           bindings={buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings(releaseReviewBindings, samplePilotReviewDecisionSnapshots)}
         />
         {humanReviewAdjudication ? <ControlledPilotHumanReviewAdjudicationPanel adjudication={humanReviewAdjudication} errors={humanReviewAdjudicationErrors} /> : null}
+        {humanReviewNextGateHandoff ? <ControlledPilotHumanReviewNextGateHandoffPanel handoff={humanReviewNextGateHandoff} errors={humanReviewNextGateHandoffErrors} /> : null}
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
     </AppShell>

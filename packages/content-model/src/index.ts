@@ -1813,6 +1813,7 @@ export * from "./browserPrivacyTenantEvidencePilotBinding";
 export * from "./browserPrivacyTenantEvidenceReleaseBinding";
 export * from "./controlledPilotApprovalReadiness";
 export * from "./controlledPilotHumanReviewPacket";
+export * from "./controlledPilotHumanReviewNextGateHandoff";
 export * from "./uploadQuarantineIntake";
 export * from "./uploadQuarantineReview";
 export * from "./uploadQuarantineAdmission";

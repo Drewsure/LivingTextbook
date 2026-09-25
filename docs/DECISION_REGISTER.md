@@ -9575,3 +9575,16 @@ approval and cannot write persistence, mutate release state, promote a package,
 activate a route, or launch students. Cross-tenant packets, stale readiness,
 scope drift, and approval-capture drift remain fail-closed. See ADR 1190 and
 `docs/decision-register/DR-1190-controlled-pilot-human-review-evidence-adjudication.md`.
+
+## DR-1191: Controlled-Pilot Human-Review Next-Gate Handoff
+
+An adjudication outcome is now carried into a separate, typed next-gate
+handoff. The handoff preserves tenant, package, packet, readiness, decision
+snapshot, release-review, and adjudication identities, and derives only two
+statuses: `blocked` or `ready-for-next-gate`.
+
+`ready-for-next-gate` means that evidence may be inspected by the named adult
+review lane. It does not capture approval, write persistence, mutate release
+state, promote a package, activate a local route, or launch students. The
+sample remains blocked until its upstream evidence is accepted. See ADR 1191
+and `docs/adr/1191-controlled-pilot-human-review-next-gate-handoff.md`.

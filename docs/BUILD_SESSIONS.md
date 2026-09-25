@@ -6040,3 +6040,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   promotion, mutation, and student-launch boundaries.
 - Added negative coverage for cross-tenant packets and approval-capture drift.
 - Added ADR 1190 and DR-1190.
+
+## Build session: Controlled-pilot human-review next-gate handoff
+
+- Added a typed, tenant-bound handoff derived from the controlled-pilot human
+  review adjudication.
+- Made `blocked` and `ready-for-next-gate` explicit without allowing a review
+  outcome to become approval, persistence, release, promotion, or student
+  launch authority.
+- Exposed evidence references, recipient role, blockers, required next records,
+  and next gate in the release-control decision room.
+- Added targeted verification, ADR 1191, and DR-1191.

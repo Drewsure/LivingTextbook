@@ -78,6 +78,7 @@ try {
   assert(wrongReleaseStorage.status === "blocked-by-release-control", "release binding storage drift must remain outside human-review eligibility");
   console.log("PASS controlled pilot approval readiness distinguishes evidence, release-control, reviewer, and human-review states without enabling approval.");
   execFileSync(process.execPath, [fileURLToPath(new URL("./verify-controlled-pilot-human-review-adjudication.mjs", import.meta.url))], { stdio: "inherit" });
+  execFileSync(process.execPath, [fileURLToPath(new URL("./verify-controlled-pilot-human-review-next-gate-handoff.mjs", import.meta.url))], { stdio: "inherit" });
 } finally {
   rmSync(output, { recursive: true, force: true });
 }
