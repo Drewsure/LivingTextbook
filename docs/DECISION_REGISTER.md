@@ -9728,3 +9728,9 @@ The Z.ai frozen snapshot is provenance only. Memory Match candidate review
 requires a separate isolated package containing `evidence/return-package.json`,
 all eight reviewed artifacts, and a passing canonical verifier. A successful
 freeze cannot authorize source import or integration. See ADR 1208.
+
+## DR-1209: Entitlement Runtime Input Boundary
+
+Entitlement runtime requests now reject malformed identity and enum values
+deterministically before feature evaluation. Review-only execution remains
+side-effect free and denied. See ADR 1209.

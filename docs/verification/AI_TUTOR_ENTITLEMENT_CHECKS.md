@@ -49,6 +49,16 @@ On `/teacher/entitlements`:
 6. Confirm MiniStar and sample publisher tenant packages show AI Tutor disabled by default.
 7. Confirm no microphone prompt, speech API billing, raw-audio storage, or transcript storage is enabled from this route.
 
+## Runtime Input Boundary Checks
+
+1. Confirm tenant, package, and entitlement identifiers use bounded safe
+   identities before entitlement evaluation.
+2. Confirm unsupported feature, requested-state, runtime-mode, or package-tier
+   values return validation errors rather than throwing.
+3. Confirm malformed identity input cannot reach provider billing, microphone
+   permission, AI Tutor dispatch, persistence, release, or student unlock.
+4. Confirm review-only execution remains side-effect free.
+
 ## Student Flow Checks
 
 On `/launch/demo-unit-1` and `/enter/ministar`:

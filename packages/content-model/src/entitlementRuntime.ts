@@ -49,6 +49,20 @@ export interface EntitlementRuntimeAdapter {
   execute(request: EntitlementRuntimeRequest): EntitlementRuntimeResult;
 }
 
+const runtimeIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,159}$/;
+const entitlementFeatures = new Set<EntitlementFeature>([
+  "ai-tutor",
+  "microphone-practice",
+  "assist-language",
+  "background-media",
+  "local-companion",
+  "teacher-reports",
+  "student-assignments",
+]);
+const entitlementStates = new Set<EntitlementRequestedState>(["disabled", "preview", "enabled"]);
+const entitlementModes = new Set<EntitlementRuntimeMode>(["review-only", "hosted-managed", "local-classroom", "hybrid"]);
+const entitlementTiers = new Set<EntitlementRuntimeRequest["packageTier"]>(["core", "premium", "enterprise"]);
+
 export const reviewOnlyEntitlementBlockedActions = [
   "No entitlement activation",
   "No premium provider billing",
@@ -60,6 +74,24 @@ export const reviewOnlyEntitlementBlockedActions = [
 
 export function validateEntitlementRuntimeRequest(request: EntitlementRuntimeRequest): string[] {
   const errors: string[] = [];
+
+  if (!request || typeof request !== "object") {
+    return ["entitlement runtime request must be an object"];
+  }
+
+  for (const field of ["tenantId", "packageId", "entitlementId"] as const) {
+    const value = request[field];
+    if (typeof value !== "string") {
+      errors.push(`${field} must be a string`);
+    } else if (!runtimeIdentityPattern.test(value)) {
+      errors.push(`${field} must be a bounded safe identity`);
+    }
+  }
+
+  if (!entitlementFeatures.has(request.feature)) errors.push("feature must be a supported entitlement feature");
+  if (!entitlementStates.has(request.requestedState)) errors.push("requestedState must be a supported entitlement state");
+  if (!entitlementModes.has(request.mode)) errors.push("mode must be a supported entitlement runtime mode");
+  if (!entitlementTiers.has(request.packageTier)) errors.push("packageTier must be a supported entitlement tier");
 
   for (const field of [
     "teacherApprovalAccepted",
@@ -85,9 +117,9 @@ export function validateEntitlementRuntimeRequest(request: EntitlementRuntimeReq
   const usageLimitDeclared = request.usageLimitDeclared === true;
   const targetLanguageAudioReady = request.targetLanguageAudioReady === true;
 
-  if (!request.tenantId.trim()) errors.push("tenantId is required");
-  if (!request.packageId.trim()) errors.push("packageId is required");
-  if (!request.entitlementId.trim()) errors.push("entitlementId is required");
+  if (typeof request.tenantId === "string" && !request.tenantId.trim()) errors.push("tenantId is required");
+  if (typeof request.packageId === "string" && !request.packageId.trim()) errors.push("packageId is required");
+  if (typeof request.entitlementId === "string" && !request.entitlementId.trim()) errors.push("entitlementId is required");
   if (!teacherApprovalAccepted) errors.push("teacher approval is required");
   if (!schoolPolicyAccepted) errors.push("school policy acceptance is required");
   if (!privacyPolicyAccepted) errors.push("privacy policy acceptance is required");

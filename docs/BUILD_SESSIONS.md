@@ -6190,3 +6190,12 @@ student-payload-blocked behavior.
   reviewed artifacts.
 - Preserved the review-only, source-isolated integration boundary.
 - Added ADR 1208 and DR-1208.
+
+## Build session: Entitlement runtime input boundary
+
+- Added bounded safe validation for entitlement runtime identities and enum
+  values.
+- Added malformed-input runtime behavior coverage.
+- Preserved review-only, no-billing, no-dispatch, no-microphone, and
+  no-student-unlock guarantees.
+- Added ADR 1209 and DR-1209.

@@ -4494,6 +4494,25 @@ try {
   });
   assertIncludes(malformedEntitlementFlagErrors, "teacherApprovalAccepted must be a boolean");
   assertIncludes(malformedEntitlementFlagErrors, "targetLanguageAudioReady must be a boolean");
+  const malformedEntitlementIdentityErrors = entitlement.validateEntitlementRuntimeRequest({
+    ...premiumTutorRequest,
+    tenantId: null,
+    packageId: "unsafe package id",
+    entitlementId: "entitlement-ai-1",
+  });
+  assertIncludes(malformedEntitlementIdentityErrors, "tenantId must be a string");
+  assertIncludes(malformedEntitlementIdentityErrors, "packageId must be a bounded safe identity");
+  const malformedEntitlementEnumErrors = entitlement.validateEntitlementRuntimeRequest({
+    ...premiumTutorRequest,
+    feature: "unknown-feature",
+    requestedState: "live",
+    mode: "unknown-mode",
+    packageTier: "unknown-tier",
+  });
+  assertIncludes(malformedEntitlementEnumErrors, "feature must be a supported entitlement feature");
+  assertIncludes(malformedEntitlementEnumErrors, "requestedState must be a supported entitlement state");
+  assertIncludes(malformedEntitlementEnumErrors, "mode must be a supported entitlement runtime mode");
+  assertIncludes(malformedEntitlementEnumErrors, "packageTier must be a supported entitlement tier");
 
   console.log("PASS runtime behavior harness exercises AI authoring, language policy, package, launch, assignment, persistence, report, progression, recovery, reward, entitlement, asset, source, and release boundaries.");
 } finally {
