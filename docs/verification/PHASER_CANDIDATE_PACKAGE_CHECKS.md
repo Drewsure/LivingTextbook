@@ -14,6 +14,19 @@ production app.
 
 ## Command
 
+For the Windows human-side handoff, prefer the repository helper. It accepts
+the extracted package folder, can resolve one nested candidate folder, and
+rejects placeholders, frozen snapshots, ambiguous extraction folders, and
+packages inside `LivingTextbook` before invoking the canonical verifier:
+
+```powershell
+Set-Location -LiteralPath "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+& .\scripts\verify-zai-memory-match-package.ps1 -PackageRoot "D:\LIVING TEXTBOOOK PROJECT\zai-review\memory-match-candidate-2026-09-25"
+```
+
+The direct environment-variable command remains available for automated or
+non-Windows callers:
+
 ```powershell
 $env:LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT = "C:\\path\\to\\isolated\\memory-match-candidate"
 npm run verify:phaser-candidate-package
@@ -32,6 +45,9 @@ actual absolute folder returned by Z.ai, and confirm that it contains the
 
 Any successful package check remains `review-only`; it is evidence for Codex
 review and never a production promotion decision.
+
+The full human procedure is recorded in
+`docs/agent-briefs/ZAI_MEMORY_MATCH_HUMAN_HANDOFF.md`.
 
 ## Required return package
 
