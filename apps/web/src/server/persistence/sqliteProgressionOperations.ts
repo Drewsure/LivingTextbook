@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { statSync } from "node:fs";
 import type {
   DurableProgressionBackupResult,
   DurableProgressionHealth,
@@ -7,6 +8,9 @@ import type {
   SqliteProgressionStore,
 } from "./sqliteProgressionStore";
 import { createTenantScopeDigest, getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
+import { validateDurableProgressionBackupManifest } from "./backupManifest";
+import type { DurableProgressionBackupManifest } from "./backupManifest";
+export type { DurableProgressionBackupManifest } from "./backupManifest";
 
 export interface DurableOperationsPolicy {
   schoolPolicyAccepted: boolean;
@@ -21,19 +25,6 @@ export interface DurableOperationsPolicySnapshot {
   releaseApprovalAccepted: boolean;
   retentionDays: number | null;
   errors: string[];
-}
-
-export interface DurableProgressionBackupManifest {
-  manifestVersion: 1;
-  artifactKind: "sqlite-progression-backup";
-  provider: "sqlite";
-  schemaVersion: number;
-  bytes: number;
-  sha256: string;
-  createdAt: string;
-  retentionDays: number;
-  rawLearnerAudioExcluded: true;
-  learnerTranscriptsExcluded: true;
 }
 
 export interface DurableProgressionBackupEvidence {
@@ -101,15 +92,14 @@ export class SqliteProgressionOperations {
     policy: DurableOperationsPolicy,
   ): DurableProgressionBackupResult {
     assertOperationsAllowed(policy);
-    if (manifest.artifactKind !== "sqlite-progression-backup" || manifest.provider !== "sqlite") {
-      throw new Error("The backup manifest does not describe a SQLite progression backup.");
-    }
-    if (manifest.rawLearnerAudioExcluded !== true || manifest.learnerTranscriptsExcluded !== true) {
-      throw new Error("The backup manifest must exclude raw learner audio and learner transcripts.");
-    }
-    if (sha256File(sourcePath) !== manifest.sha256) {
-      throw new Error("The progression backup does not match its checksum manifest.");
-    }
+    const sourceBytes = statSync(sourcePath).size;
+    const sourceSha256 = sha256File(sourcePath);
+    const manifestErrors = validateDurableProgressionBackupManifest(manifest, {
+      bytes: sourceBytes,
+      sha256: sourceSha256,
+      schemaVersion: 1,
+    });
+    if (manifestErrors.length > 0) throw new Error(manifestErrors.join(" "));
     const source = SqliteStore.restoreFromBackup(sourcePath, destinationPath);
     this.store.recordOperationEvidence({
       operation: "restore",

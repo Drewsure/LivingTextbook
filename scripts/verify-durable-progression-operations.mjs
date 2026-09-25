@@ -2,6 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { DatabaseSync } from "node:sqlite";
 
 const root = process.cwd();
@@ -28,6 +29,7 @@ function requireFragments(label, source, fragments) {
 
 const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const operations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
+const backupManifest = read("apps/web/src/server/persistence/backupManifest.ts");
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
@@ -71,6 +73,15 @@ requireFragments("SQLite operations policy", operations, [
   "restoreFromBackup",
   "restoreWithManifest",
   "deleteForIdentity",
+  "validateDurableProgressionBackupManifest",
+  "statSync",
+]);
+requireFragments("backup manifest contract", backupManifest, [
+  "manifestVersion must be 1",
+  "lowercase 64-character SHA-256 digest",
+  "bytes do not match the source artifact",
+  "schemaVersion does not match the source artifact",
+  "raw learner audio and learner transcripts",
 ]);
 requireFragments("safe status route", statusRoute, [
   'runtime = "nodejs"',
@@ -135,6 +146,10 @@ requireFragments("operations environment", envExample, [
 ]);
 requireFragments("evidence chain checks", chainChecks, ["tamper-evident chain", "Health diagnostics", "npm run verify:durable-operations"]);
 requireFragments("evidence chain ADR", chainAdr, ["tamper-evident hash chain", "backfill", "teacher-safe status"]);
+
+execFileSync(process.execPath, [path.join(root, "scripts", "verify-durable-progression-backup-manifest.mjs")], {
+  stdio: "inherit",
+});
 
 try {
   const db = new DatabaseSync(sourcePath);

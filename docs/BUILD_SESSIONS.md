@@ -6236,3 +6236,14 @@ student-payload-blocked behavior.
 - Added negative runtime coverage for version drift, mode drift, and source
   document precache and route coverage attempts without enabling cache or
   service-worker writes.
+
+## Build session: Durable backup manifest validation
+
+- Added a pure runtime validator for SQLite progression backup manifests.
+- Required supported manifest/schema identity, positive bytes and retention,
+  valid timestamp, lowercase SHA-256, and explicit learner-data exclusion.
+- Restore now compares declared bytes, checksum, and schema with the source
+  artifact before copying it.
+- Added positive and negative verification while preserving all persistence
+  activation gates and review-only behavior.
+- Added ADR 1213 and DR-1213.

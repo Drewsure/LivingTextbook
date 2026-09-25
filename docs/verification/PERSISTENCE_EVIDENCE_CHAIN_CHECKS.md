@@ -18,5 +18,9 @@ operation receipts.
 - Tenant history may contain only receipts carrying the matching one-way tenant
   scope digest; platform-wide backup and restore receipts remain hidden from
   tenant teachers.
+- Restore must validate a complete backup manifest, including supported schema,
+  positive bytes and retention, valid timestamp, lowercase SHA-256, and
+  explicit exclusion of raw learner audio and transcripts. Declared bytes and
+  checksum must match the source artifact.
 - This chain is tamper-evident, not a replacement for access control, encrypted
   storage, external backup custody, or an immutable audit service.

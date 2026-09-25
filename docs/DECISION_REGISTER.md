@@ -9755,3 +9755,11 @@ background sync. Policy and manifest versions must agree, review-only bundles
 cannot claim offline-ready caching, and source-document assets cannot be
 precached. Every local QR fallback route must be covered by the cache route
 allowlist. Validation remains review-only. See ADR 1212.
+
+## DR-1213: Durable Backup Manifest Validation
+
+SQLite restore now validates complete manifest identity, schema, byte count,
+checksum, timestamp, retention, and learner-data exclusion before any restore
+copy. Declared bytes and checksum must match the source artifact. Existing
+operations, school-policy, retention-policy, and release-approval gates remain
+required. See ADR 1213.
