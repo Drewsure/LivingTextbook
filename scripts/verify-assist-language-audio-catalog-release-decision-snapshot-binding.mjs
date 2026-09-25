@@ -8,6 +8,7 @@ const output = mkdtempSync(join(tmpdir(), "living-textbook-assist-audio-decision
 const contractPath = new URL("../packages/content-model/src/assistLanguageAudioCatalogReleaseDecisionSnapshotBinding.ts", import.meta.url);
 const contract = readFileSync(contractPath, "utf8");
 const releaseReviewBindingContract = readFileSync(new URL("../packages/content-model/src/assistLanguageAudioCatalogReleaseReviewBinding.ts", import.meta.url), "utf8");
+const humanReviewPacketContract = readFileSync(new URL("../packages/content-model/src/controlledPilotHumanReviewPacket.ts", import.meta.url), "utf8");
 const builder = readFileSync(new URL("../apps/web/src/data/sampleAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding.ts", import.meta.url), "utf8");
 const panel = readFileSync(new URL("../apps/web/src/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel.tsx", import.meta.url), "utf8");
 const route = readFileSync(new URL("../apps/web/src/app/teacher/media/[tenantId]/page.tsx", import.meta.url), "utf8");
@@ -21,6 +22,9 @@ try {
   writeFileSync(join(output, "assistLanguageAudioCatalogReleaseReviewBinding.js"), ts.transpileModule(releaseReviewBindingContract, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
+  writeFileSync(join(output, "controlledPilotHumanReviewPacket.js"), ts.transpileModule(humanReviewPacketContract, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, "utf8");
 
   const {
     ASSIST_LANGUAGE_AUDIO_RELEASE_DECISION_SNAPSHOT_BLOCKED_ACTIONS,
@@ -28,6 +32,7 @@ try {
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot,
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding,
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket,
   } = await import(pathToFileURL(join(output, "binding.js")).href);
 
   const fixture = {
@@ -106,6 +111,34 @@ try {
     sideEffect: "none",
   };
   assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(created, sourceReleaseReviewBinding).length === 0, "matching release-review upstream identity must pass");
+  const sourceHumanReviewPacket = {
+    recordVersion: 1,
+    packetId: fixture.humanReviewPacketId,
+    readinessId: fixture.releaseReadinessId,
+    releaseBindingId: "sample-release-binding",
+    pilotDecisionId: fixture.decisionId,
+    reviewerGateId: "sample-reviewer-gate",
+    storageSelectionPreflightId: "sample-storage-preflight",
+    storageSelectionGateId: "sample-storage-gate",
+    storageSelectionStatus: "blocked",
+    storageSelectionAllowed: false,
+    tenantId: fixture.tenantId,
+    packageId: fixture.packageId,
+    status: "awaiting-human-review",
+    mode: "review-only",
+    reviewerIdentityRequired: true,
+    approvalIntentCaptured: false,
+    signedApprovalCaptured: false,
+    packetFreezeAllowed: false,
+    approvalCaptureAllowed: false,
+    releaseMutationAllowed: false,
+    studentLaunchAllowed: false,
+    evidenceReferences: [fixture.releaseReadinessId, "sample-release-binding", fixture.decisionId, "sample-reviewer-gate", "sample-storage-preflight", "sample-storage-gate"],
+    requiredHumanRecords: ["human review decision record", "approval scope and revocation record"],
+    blockedActions: ["No approval intent capture", "No signed approval capture", "No packet version freeze", "No release-state mutation", "No assignment activation", "No student launch"],
+    nextGate: "A separately authorized reviewer may inspect this packet; approval capture remains disabled.",
+  };
+  assert(validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket(created, sourceHumanReviewPacket).length === 0, "matching human-review packet identity must pass");
   assert(created.bindingId === `assist-language-audio-release-decision-snapshot-binding-v1:${fixture.releaseReviewBindingId}:${fixture.snapshotId}`, "decision snapshot binding identity must be deterministic");
   assert(created.snapshotWriteAllowed === false && created.snapshotRestoreAllowed === false && created.snapshotExportAllowed === false, "snapshot operations must remain blocked");
   assert(created.approvalCaptureAllowed === false && created.productionApprovalAllowed === false && created.packagePromotionAllowed === false && created.studentProductionLaunchAllowed === false && created.activationAllowed === false, "release actions must remain blocked");
@@ -133,6 +166,14 @@ try {
   assert(
     validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding(created, { ...sourceReleaseReviewBinding, humanReviewPacketId: "other-human-review-packet" }).some((error) => error.includes("humanReviewPacketId does not match")),
     "tampered human review identity must be rejected",
+  );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket(created, { ...sourceHumanReviewPacket, tenantId: "other-tenant" }).some((error) => error.includes("tenantId does not match")),
+    "cross-tenant human-review packet identity must be rejected",
+  );
+  assert(
+    validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket(created, { ...sourceHumanReviewPacket, readinessId: "other-readiness" }).some((error) => error.includes("releaseReadinessId does not match")),
+    "tampered human-review readiness identity must be rejected",
   );
 
   for (const marker of [

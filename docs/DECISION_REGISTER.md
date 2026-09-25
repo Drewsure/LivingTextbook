@@ -9548,3 +9548,17 @@ This is evidence reconciliation only. Approval capture, snapshot writes,
 promotion, persistence, export, activation, and student launch remain blocked.
 See ADR 1188 and
 `docs/decision-register/DR-1188-upstream-release-review-identity-reconciliation.md`.
+
+## DR-1189: Controlled-Pilot Human-Review Packet Reconciliation
+
+The assist-audio decision-snapshot binding must compare the carried
+human-review packet and readiness IDs with the validated controlled-pilot
+human-review packet itself. Packet identity, readiness identity, tenant, and
+package scope must match; an intermediate release binding must not be trusted
+as a substitute for the packet record.
+
+Cross-tenant and stale-readiness packet evidence is rejected before the
+decision room can describe human-review evidence as linked. Approval capture,
+snapshot writes, promotion, persistence, export, activation, and student
+launch remain blocked. See ADR 1189 and
+`docs/decision-register/DR-1189-controlled-pilot-human-review-packet-reconciliation.md`.

@@ -6018,3 +6018,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added negative verification for tampered reviewer-gate and human-review
   identities while preserving the review-only and no-side-effect boundary.
 - Added ADR 1188 and DR-1188.
+
+## Build session: Controlled-pilot human-review packet reconciliation
+
+- Added a shared comparison helper for the controlled-pilot human-review
+  packet carried by the assist-audio decision-snapshot binding.
+- Bound packet ID, release-readiness ID, tenant, and package scope to the
+  validated packet record itself.
+- Added negative verification for cross-tenant and stale-readiness packet
+  evidence without enabling approval, persistence, promotion, activation, or
+  student launch.
+- Added ADR 1189 and DR-1189.

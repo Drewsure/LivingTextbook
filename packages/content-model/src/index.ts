@@ -63,6 +63,7 @@ export {
   validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
   validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstSnapshot,
   validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstReleaseReviewBinding,
+  validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket,
 } from "./assistLanguageAudioCatalogReleaseDecisionSnapshotBinding";
 export type {
   AssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,

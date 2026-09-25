@@ -171,3 +171,9 @@ release readiness, release-control gate, approval ledger, tenant, package, and
 unit scope must match the source record before the evidence can be described as
 linked. This comparison remains review-only and cannot approve, promote,
 persist, activate, or launch anything.
+
+The same bridge must compare the carried packet and readiness identities with
+the controlled-pilot human-review packet itself. A packet ID passed through a
+release binding is not enough if the packet has crossed tenant, package, or
+readiness scope. Packet validation and identity comparison must fail closed
+before human-review evidence is treated as linked.

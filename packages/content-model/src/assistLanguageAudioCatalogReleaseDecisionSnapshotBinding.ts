@@ -1,5 +1,6 @@
 import type { PilotReviewDecisionPersistenceSnapshot } from "./pilotReviewDecisionPersistence";
 import { validateAssistLanguageAudioCatalogReleaseReviewBinding } from "./assistLanguageAudioCatalogReleaseReviewBinding";
+import { validateControlledPilotHumanReviewPacket } from "./controlledPilotHumanReviewPacket";
 
 export type AssistLanguageAudioCatalogReleaseDecisionSnapshotBindingStatus =
   | "blocked-preview"
@@ -212,6 +213,37 @@ export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding
     }
     if (binding && isNonEmptyString(binding[bindingField]) && binding[bindingField] !== sourceIdentity) {
       errors.push(`release decision snapshot binding ${bindingField} does not match the release review binding`);
+    }
+  }
+
+  return [...new Set(errors)];
+}
+
+export function validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingAgainstHumanReviewPacket(
+  bindingValue: unknown,
+  humanReviewPacketValue: unknown,
+): string[] {
+  const errors = validateAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding(bindingValue);
+  const binding = isRecord(bindingValue) ? bindingValue : undefined;
+  const packetErrors = validateControlledPilotHumanReviewPacket(humanReviewPacketValue);
+  errors.push(...packetErrors.map((error) => `human review packet: ${error}`));
+  if (!isRecord(humanReviewPacketValue)) return [...new Set(errors)];
+
+  const identityFields = [
+    ["humanReviewPacketId", "packetId"],
+    ["releaseReadinessId", "readinessId"],
+    ["tenantId", "tenantId"],
+    ["packageId", "packageId"],
+  ] as const;
+
+  for (const [bindingField, packetField] of identityFields) {
+    const packetIdentity = humanReviewPacketValue[packetField];
+    if (!isNonEmptyString(packetIdentity)) {
+      errors.push(`human review packet ${packetField} is required for identity comparison`);
+      continue;
+    }
+    if (binding && isNonEmptyString(binding[bindingField]) && binding[bindingField] !== packetIdentity) {
+      errors.push(`release decision snapshot binding ${bindingField} does not match the human review packet`);
     }
   }
 
