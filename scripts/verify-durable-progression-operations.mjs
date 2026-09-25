@@ -30,6 +30,7 @@ function requireFragments(label, source, fragments) {
 const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const operations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
 const backupManifest = read("apps/web/src/server/persistence/backupManifest.ts");
+const backupPathPolicy = read("apps/web/src/server/persistence/backupPathPolicy.ts");
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
@@ -83,6 +84,11 @@ requireFragments("backup manifest contract", backupManifest, [
   "bytes do not match the source artifact",
   "schemaVersion does not match the source artifact",
   "raw learner audio and learner transcripts",
+]);
+requireFragments("backup path policy", backupPathPolicy, [
+  "configured backup custody root",
+  "stored below, not at, the custody root",
+  "inside the configured custody root",
 ]);
 const manifestCreationIndex = operations.indexOf("const manifest = createDurableProgressionBackupManifest");
 const evidenceWriteIndex = operations.indexOf("const evidence = this.store.recordOperationEvidence");
@@ -154,6 +160,9 @@ requireFragments("evidence chain checks", chainChecks, ["tamper-evident chain", 
 requireFragments("evidence chain ADR", chainAdr, ["tamper-evident hash chain", "backfill", "teacher-safe status"]);
 
 execFileSync(process.execPath, [path.join(root, "scripts", "verify-durable-progression-backup-manifest.mjs")], {
+  stdio: "inherit",
+});
+execFileSync(process.execPath, [path.join(root, "scripts", "verify-durable-progression-backup-path.mjs")], {
   stdio: "inherit",
 });
 

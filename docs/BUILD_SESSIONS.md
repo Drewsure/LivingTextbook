@@ -6257,3 +6257,12 @@ student-payload-blocked behavior.
 - Added positive and negative verification while preserving all persistence
   activation gates and review-only behavior.
 - Added ADR 1213 and DR-1213.
+
+## Build session: Durable backup custody root
+
+- Required an explicit server-side backup custody root for durable operations.
+- Bound both backup destinations and restore source/destination paths inside
+  that root, rejecting missing, root-level, outside, and traversal paths.
+- Preserved separate encryption, retention, external-custody, approval, and
+  no-execution gates.
+- Added ADR 1215 and DR-1215.

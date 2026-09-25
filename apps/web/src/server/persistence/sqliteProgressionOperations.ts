@@ -9,6 +9,7 @@ import type {
 } from "./sqliteProgressionStore";
 import { createTenantScopeDigest, getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
 import { createDurableProgressionBackupManifest, validateDurableProgressionBackupManifest } from "./backupManifest";
+import { validateDurableBackupPath } from "./backupPathPolicy";
 import type { DurableProgressionBackupManifest } from "./backupManifest";
 export type { DurableProgressionBackupManifest } from "./backupManifest";
 
@@ -46,6 +47,7 @@ export class SqliteProgressionOperations {
 
   backupTo(destinationPath: string, policy: DurableOperationsPolicy): DurableProgressionBackupResult {
     assertOperationsAllowed(policy);
+    assertDurableBackupPath(destinationPath);
     return this.store.backupTo(destinationPath);
   }
 
@@ -82,6 +84,8 @@ export class SqliteProgressionOperations {
     policy: DurableOperationsPolicy,
   ): DurableProgressionBackupResult {
     assertOperationsAllowed(policy);
+    assertDurableBackupPath(sourcePath);
+    assertDurableBackupPath(destinationPath);
     const sourceBytes = statSync(sourcePath).size;
     const sourceSha256 = sha256File(sourcePath);
     const manifestErrors = validateDurableProgressionBackupManifest(manifest, {
@@ -146,5 +150,10 @@ function assertOperationsAllowed(policy: DurableOperationsPolicy): void {
     ...(policy.retentionPolicyAccepted ? [] : ["Operation evidence must include retention-policy acceptance."]),
     ...(policy.releaseApprovalAccepted ? [] : ["Operation evidence must include release approval."]),
   ];
+  if (errors.length > 0) throw new Error(errors.join(" "));
+}
+
+function assertDurableBackupPath(candidatePath: string): void {
+  const errors = validateDurableBackupPath(candidatePath, process.env.LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT);
   if (errors.length > 0) throw new Error(errors.join(" "));
 }

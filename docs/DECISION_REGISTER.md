@@ -9770,3 +9770,10 @@ checksum, timestamp, retention, and learner-data exclusion before any restore
 copy. Declared bytes and checksum must match the source artifact. Existing
 operations, school-policy, retention-policy, and release-approval gates remain
 required. See ADR 1213.
+
+## DR-1215: Durable Backup Custody Root
+
+Durable SQLite backup and restore paths now require the configured
+`LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT` and must remain below that custody
+root. Missing, root-level, outside, and traversal paths fail closed. See ADR
+1215.

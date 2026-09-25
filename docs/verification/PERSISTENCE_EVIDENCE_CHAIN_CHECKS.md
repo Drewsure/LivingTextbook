@@ -22,5 +22,9 @@ operation receipts.
   positive bytes and retention, valid timestamp, lowercase SHA-256, and
   explicit exclusion of raw learner audio and transcripts. Declared bytes and
   checksum must match the source artifact.
+- Durable backup and restore artifacts must remain below the configured server
+  custody root; missing, root-level, outside, and traversal paths must fail
+  closed. The root itself is not evidence of encryption, retention, external
+  custody, or activation approval.
 - This chain is tamper-evident, not a replacement for access control, encrypted
   storage, external backup custody, or an immutable audit service.
