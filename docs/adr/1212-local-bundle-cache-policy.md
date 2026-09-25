@@ -19,7 +19,8 @@ explicit learner-data exclusion, and disabled background sync. The validator
 remains review-only and performs no browser cache or service-worker side
 effect. The policy version must match the manifest version, review-only
 manifests cannot claim an offline-ready policy, and source-document assets
-cannot be precached.
+cannot be precached. Every declared local QR fallback route must be covered
+by the policy route allowlist.
 
 ## Consequences
 

@@ -6231,5 +6231,8 @@ student-payload-blocked behavior.
 - Required the cache-policy version to match the bundle manifest version.
 - Rejected offline-ready cache claims on review-only manifests.
 - Rejected source-document assets from future precache allowlists.
+- Required every offline-ready QR fallback route to be covered by the cache
+  route allowlist.
 - Added negative runtime coverage for version drift, mode drift, and source
-  document precache attempts without enabling cache or service-worker writes.
+  document precache and route coverage attempts without enabling cache or
+  service-worker writes.

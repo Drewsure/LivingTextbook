@@ -279,6 +279,17 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
     }
   });
 
+  if (isRecord(cachePolicy) && cachePolicy.mode === "offline-ready" && Array.isArray(cachePolicy.allowed_route_prefixes)) {
+    const routePrefixes = cachePolicy.allowed_route_prefixes.filter((route): route is string => typeof route === "string");
+    routes.forEach((route, index) => {
+      if (!isRecord(route)) return;
+      const fallbackPath = readString(route.local_fallback_path);
+      if (fallbackPath && !routePrefixes.some((prefix) => isApplicationPathCoveredByPrefix(fallbackPath, prefix))) {
+        errors.push(`Offline-ready bundle route ${readString(route.qr_id) || index + 1} is outside the cache_policy route allowlist.`);
+      }
+    });
+  }
+
   if (value.offline_ready === true) {
     if (value.requires_hosted_redirect === true) errors.push("Offline-ready bundles cannot require a hosted redirect.");
     if (!isRecord(cachePolicy) || cachePolicy.mode !== "offline-ready") {
@@ -331,4 +342,8 @@ function isSafeRelativePath(value: string, allowDirectory = false, allowApplicat
   if (segments.some((segment, index) => segment === ".." || segment === "." || (segment === "" && !allowDirectory && !(allowApplicationPath && index === 0)))) return false;
   if (!allowDirectory && value.endsWith("/")) return false;
   return true;
+}
+
+function isApplicationPathCoveredByPrefix(path: string, prefix: string): boolean {
+  return path === prefix || path.startsWith(`${prefix}/`);
 }

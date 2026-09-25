@@ -59,6 +59,14 @@ try {
   assert(!sourceDocumentCacheResult.valid, "source documents must not be precacheable learner assets");
   assert(sourceDocumentCacheResult.errors.some((error) => error.includes("source-document assets")), "source-document cache rejection must be explicit");
 
+  const routeCoverageResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    cache_policy: { ...offlineCachePolicy, allowed_route_prefixes: ["/launch"] },
+  });
+  assert(!routeCoverageResult.valid, "offline-ready routes must be covered by the cache allowlist");
+  assert(routeCoverageResult.errors.some((error) => error.includes("outside the cache_policy route allowlist")), "route coverage rejection must be explicit");
+
   const missingCachePolicyResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,
