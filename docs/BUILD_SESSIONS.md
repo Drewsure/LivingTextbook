@@ -6145,3 +6145,13 @@ student-payload-blocked behavior.
 - Preserved review-only, promotion-blocked, and student-activation-blocked
   behavior.
 - Added ADR 1203 and DR-1203.
+
+## Build session: Canonical game event identity boundaries
+
+- Added bounded safe identity validation to the canonical game event sequence.
+- Preserved namespaced unit keys while narrowing launch and student-session
+  identifiers to portable values.
+- Added runtime rejection coverage for path-like unit, launch, and session IDs.
+- Preserved canonical game ownership, review-only external-candidate handling,
+  and all persistence, scoring, progression, audio, and reporting gates.
+- Added ADR 1204 and DR-1204.

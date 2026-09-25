@@ -9693,3 +9693,11 @@ Package-readiness reconciliation now validates bounded safe identities for its
 package, tenant, release, evidence, and gate references. This prevents a
 malformed or path-like reference from being attached to a release decision
 without changing review-only or promotion-blocked behavior. See ADR 1203.
+
+## DR-1204: Canonical Game Event Identity Boundaries
+
+Canonical game events now reject blank, oversized, path-like, or otherwise
+unsafe unit, launch, and student-session identities. Namespaced unit keys stay
+supported for publisher content while launch and session IDs use a narrower
+portable shape. This protects tenant joins, reporting, persistence boundaries,
+and replay identity without enabling external source promotion. See ADR 1204.
