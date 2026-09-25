@@ -69,6 +69,17 @@ export type {
   AssistLanguageAudioCatalogReleaseDecisionSnapshotBinding,
   AssistLanguageAudioCatalogReleaseDecisionSnapshotBindingStatus,
 } from "./assistLanguageAudioCatalogReleaseDecisionSnapshotBinding";
+export {
+  CONTROLLED_PILOT_HUMAN_REVIEW_ADJUDICATION_BLOCKED_ACTIONS,
+  createReviewOnlyControlledPilotHumanReviewAdjudication,
+  validateControlledPilotHumanReviewAdjudication,
+} from "./controlledPilotHumanReviewAdjudication";
+export type {
+  ControlledPilotHumanReviewAdjudication,
+  ControlledPilotHumanReviewAdjudicationDecision,
+  ControlledPilotHumanReviewAdjudicationReviewerRole,
+  ControlledPilotHumanReviewAdjudicationStatus,
+} from "./controlledPilotHumanReviewAdjudication";
 
 export type TenantId = string;
 export type CurriculumId = string;

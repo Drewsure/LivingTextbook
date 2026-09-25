@@ -3,6 +3,7 @@ import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import ts from "typescript";
 
 const require = createRequire(import.meta.url);
@@ -76,6 +77,7 @@ try {
   assert(wrongReleaseStorage.blockingReasons.some((reason) => reason.includes("release binding storage identity")), "release binding storage drift must become an explicit blocker");
   assert(wrongReleaseStorage.status === "blocked-by-release-control", "release binding storage drift must remain outside human-review eligibility");
   console.log("PASS controlled pilot approval readiness distinguishes evidence, release-control, reviewer, and human-review states without enabling approval.");
+  execFileSync(process.execPath, [fileURLToPath(new URL("./verify-controlled-pilot-human-review-adjudication.mjs", import.meta.url))], { stdio: "inherit" });
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

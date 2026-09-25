@@ -6029,3 +6029,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
   evidence without enabling approval, persistence, promotion, activation, or
   student launch.
 - Added ADR 1189 and DR-1189.
+
+## Build session: Controlled-pilot human-review evidence adjudication
+
+- Added a review-only adjudication record for explicit blocked or
+  next-gate-only human outcomes.
+- Bound the adjudication to the decision snapshot, release-review binding,
+  human-review packet, readiness, tenant, and package identities.
+- Added a release-control panel with explicit approval, persistence,
+  promotion, mutation, and student-launch boundaries.
+- Added negative coverage for cross-tenant packets and approval-capture drift.
+- Added ADR 1190 and DR-1190.

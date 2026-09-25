@@ -29,6 +29,8 @@ import { buildAssistLanguageAudioCatalogReleaseReviewBindings } from "@/data/sam
 import { buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings } from "@/data/sampleAssistLanguageAudioCatalogReleaseDecisionSnapshotBinding";
 import { samplePilotReviewDecisionSnapshots } from "@/data/samplePilotReviewDecisionSnapshots";
 import { TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel";
+import { ControlledPilotHumanReviewAdjudicationPanel } from "@/features/pilot/ControlledPilotHumanReviewAdjudicationPanel";
+import { buildSampleControlledPilotHumanReviewAdjudication, validateSampleControlledPilotHumanReviewAdjudication } from "@/data/sampleControlledPilotHumanReviewAdjudication";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -95,6 +97,15 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
     sampleWhiteLabelReleaseReadiness,
     sampleControlledPilotHumanReviewPacket,
   );
+  const hostedDecisionSnapshotBinding = buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings(releaseReviewBindings, samplePilotReviewDecisionSnapshots)
+    .find((binding) => binding.persistenceMode === "hosted-managed");
+  const releaseReviewBinding = releaseReviewBindings[0];
+  const humanReviewAdjudication = hostedDecisionSnapshotBinding && releaseReviewBinding
+    ? buildSampleControlledPilotHumanReviewAdjudication(hostedDecisionSnapshotBinding, releaseReviewBinding, sampleControlledPilotHumanReviewPacket)
+    : undefined;
+  const humanReviewAdjudicationErrors = humanReviewAdjudication && hostedDecisionSnapshotBinding && releaseReviewBinding
+    ? validateSampleControlledPilotHumanReviewAdjudication(humanReviewAdjudication, hostedDecisionSnapshotBinding, releaseReviewBinding, sampleControlledPilotHumanReviewPacket)
+    : ["Controlled-pilot human-review adjudication is not configured for this tenant/package."];
 
   return (
     <AppShell tenant={samplePublisherTenant}>
@@ -208,6 +219,7 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
         <TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel
           bindings={buildAssistLanguageAudioCatalogReleaseDecisionSnapshotBindings(releaseReviewBindings, samplePilotReviewDecisionSnapshots)}
         />
+        {humanReviewAdjudication ? <ControlledPilotHumanReviewAdjudicationPanel adjudication={humanReviewAdjudication} errors={humanReviewAdjudicationErrors} /> : null}
         <PackageApprovalLedgerPanel ledger={samplePackageApprovalLedger} />
       </div>
     </AppShell>

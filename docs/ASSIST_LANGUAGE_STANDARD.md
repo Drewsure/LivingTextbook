@@ -177,3 +177,8 @@ the controlled-pilot human-review packet itself. A packet ID passed through a
 release binding is not enough if the packet has crossed tenant, package, or
 readiness scope. Packet validation and identity comparison must fail closed
 before human-review evidence is treated as linked.
+
+The controlled-pilot room must record an explicit evidence adjudication before
+any future approval design can advance. `blocked-by-evidence` and
+`accepted-for-next-gate` are review outcomes only; neither outcome authorizes
+approval, storage writes, release mutation, promotion, or student launch.

@@ -9562,3 +9562,16 @@ decision room can describe human-review evidence as linked. Approval capture,
 snapshot writes, promotion, persistence, export, activation, and student
 launch remain blocked. See ADR 1189 and
 `docs/decision-register/DR-1189-controlled-pilot-human-review-packet-reconciliation.md`.
+
+## DR-1190: Controlled-Pilot Human-Review Evidence Adjudication
+
+The controlled-pilot release room must record a review-only adjudication tied
+to the decision snapshot, release-review binding, human-review packet,
+readiness, tenant, and package identities. The adjudication has two bounded
+outcomes: `blocked-by-evidence` or `accepted-for-next-gate`.
+
+An accepted outcome advances evidence only to the next review gate. It is not
+approval and cannot write persistence, mutate release state, promote a package,
+activate a route, or launch students. Cross-tenant packets, stale readiness,
+scope drift, and approval-capture drift remain fail-closed. See ADR 1190 and
+`docs/decision-register/DR-1190-controlled-pilot-human-review-evidence-adjudication.md`.
