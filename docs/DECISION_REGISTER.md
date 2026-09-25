@@ -9686,3 +9686,10 @@ Source-package assembly now validates bounded safe identities for its packet,
 tenant, source, package, extraction, approval-ledger, candidate-unit, and
 candidate-media fields. Namespaced unit keys remain supported while path-like
 identities are rejected before reconciliation. See ADR 1202.
+
+## DR-1203: Package Readiness Identifiers
+
+Package-readiness reconciliation now validates bounded safe identities for its
+package, tenant, release, evidence, and gate references. This prevents a
+malformed or path-like reference from being attached to a release decision
+without changing review-only or promotion-blocked behavior. See ADR 1203.

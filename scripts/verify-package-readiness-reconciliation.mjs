@@ -20,6 +20,7 @@ for (const marker of [
   "sourceAssemblyPacketId",
   "sourceExtractionPreviewId",
   "sourceAssemblyChecksum",
+  "bounded safe identifier",
   "approvalLedgerId",
   "targetLanguageAudioApprovalId",
   "promotionAllowed",

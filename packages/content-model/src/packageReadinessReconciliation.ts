@@ -60,6 +60,9 @@ export const PACKAGE_READINESS_BLOCKED_ACTIONS = [
   "No student-facing activation from reconciliation",
 ] as const;
 
+const safeReadinessIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
+const maxReadinessIdentifierLength = 240;
+
 export function validatePackageReadinessReconciliation(reconciliation: unknown): string[] {
   const errors: string[] = [];
 
@@ -84,6 +87,25 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
     "targetLanguageProgressionRule",
   ] as const) {
     if (!isNonEmptyString(reconciliation[field])) errors.push(`Package readiness reconciliation ${field} is required.`);
+  }
+
+  for (const [field, value] of [
+    ["reconciliationId", reconciliation.reconciliationId],
+    ["tenantId", reconciliation.tenantId],
+    ["packageId", reconciliation.packageId],
+    ["releaseCandidate", reconciliation.releaseCandidate],
+    ["sourceAssemblyPacketId", reconciliation.sourceAssemblyPacketId],
+    ["sourceExtractionPreviewId", reconciliation.sourceExtractionPreviewId],
+    ["approvalLedgerId", reconciliation.approvalLedgerId],
+    ["verifierEvidencePacketId", reconciliation.verifierEvidencePacketId],
+    ["targetLanguageAudioApprovalId", reconciliation.targetLanguageAudioApprovalId],
+    ["mediaRightsEvidenceId", reconciliation.mediaRightsEvidenceId],
+    ["publishGateId", reconciliation.publishGateId],
+    ["assignmentRolloutGateId", reconciliation.assignmentRolloutGateId],
+  ] as const) {
+    if (isNonEmptyString(value) && !isSafeReadinessIdentifier(value)) {
+      errors.push(`Package readiness reconciliation ${field} must be a bounded safe identifier.`);
+    }
   }
 
   if (reconciliation.mode !== "review-only") errors.push("Package readiness reconciliation must remain review-only.");
@@ -111,6 +133,12 @@ export function validatePackageReadinessReconciliation(reconciliation: unknown):
   for (const lane of lanes) {
     for (const field of ["laneId", "label", "sourceRecord", "referenceId", "evidence"] as const) {
       if (!isNonEmptyString(lane[field])) errors.push(`Package readiness lane ${String(lane.laneId ?? "unknown")} requires ${field}.`);
+    }
+    if (isNonEmptyString(lane.laneId) && !isSafeReadinessIdentifier(lane.laneId)) {
+      errors.push(`Package readiness lane ${String(lane.laneId)} must be a bounded safe identifier.`);
+    }
+    if (isNonEmptyString(lane.referenceId) && !isSafeReadinessIdentifier(lane.referenceId)) {
+      errors.push(`Package readiness lane ${String(lane.laneId ?? "unknown")} referenceId must be a bounded safe identifier.`);
     }
     if (!isPackageReadinessLaneStatus(lane.status)) {
       errors.push(`Package readiness lane ${String(lane.laneId ?? "unknown")} has an unsupported status.`);
@@ -227,6 +255,10 @@ function isPackageReadinessLaneStatus(value: unknown): value is PackageReadiness
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function isSafeReadinessIdentifier(value: unknown): value is string {
+  return isNonEmptyString(value) && value.length <= maxReadinessIdentifierLength && safeReadinessIdentifierPattern.test(value);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

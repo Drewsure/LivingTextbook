@@ -1751,6 +1751,10 @@ try {
   };
   assertEqual(packageReadinessReconciliation.validatePackageReadinessReconciliation(validPackageReadinessReconciliation).length, 0);
   assertIncludes(
+    packageReadinessReconciliation.validatePackageReadinessReconciliation({ ...validPackageReadinessReconciliation, packageId: "../outside-tenant" }),
+    "Package readiness reconciliation packageId must be a bounded safe identifier.",
+  );
+  assertIncludes(
     packageReadinessReconciliation.validatePackageReadinessReconciliation({
       ...validPackageReadinessReconciliation,
       promotionAllowed: true,
