@@ -30,6 +30,7 @@ const evidenceEnvelope = read("apps/web/src/features/persistence/pilotSessionEvi
 const sessionPreflight = read("apps/web/src/features/persistence/pilotSessionPreflight.ts");
 const persistenceRoute = read("apps/web/src/app/api/persistence/progression/route.ts");
 const persistenceOperations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
+const backupManifest = read("apps/web/src/server/persistence/backupManifest.ts");
 
 requireFragments("rehearsal sequence", rehearsal, [
   'stageId: "front-door-route"',
@@ -114,9 +115,11 @@ requireFragments("hosted persistence safety", persistenceRoute, [
   "LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED",
   "LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED",
 ]);
-requireFragments("persistence privacy boundary", persistenceOperations, [
+requireFragments("persistence privacy boundary", backupManifest, [
   "rawLearnerAudioExcluded: true",
   "learnerTranscriptsExcluded: true",
+]);
+requireFragments("persistence operations policy", persistenceOperations, [
   "Durable operations require the deployment school-policy gate.",
 ]);
 
