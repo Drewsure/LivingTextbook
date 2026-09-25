@@ -24,6 +24,8 @@ records. Use a temporary SQLite path and a throwaway coded identity.
   `.sqlite` file.
 - Durable readiness also requires the explicit encryption-at-rest policy gate;
   the flag is not itself proof that encryption has been implemented.
+- Durable readiness also requires the explicit secret-rotation policy gate;
+  the flag is not itself proof that rotation has been automated.
 
 ## Production gates still open
 

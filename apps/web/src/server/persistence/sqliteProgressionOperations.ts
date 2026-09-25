@@ -25,6 +25,7 @@ export interface DurableOperationsPolicySnapshot {
   retentionPolicyAccepted: boolean;
   releaseApprovalAccepted: boolean;
   encryptionAtRestAccepted: boolean;
+  secretRotationPolicyAccepted: boolean;
   retentionDays: number | null;
   errors: string[];
 }
@@ -133,6 +134,7 @@ export function getDurableOperationsPolicySnapshot(): DurableOperationsPolicySna
     retentionPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RETENTION_POLICY_ACCEPTED === "true",
     releaseApprovalAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_RELEASE_APPROVED === "true",
     encryptionAtRestAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_ENCRYPTION_AT_REST_ACCEPTED === "true",
+    secretRotationPolicyAccepted: process.env.LIVING_TEXTBOOK_PERSISTENCE_SECRET_ROTATION_POLICY_ACCEPTED === "true",
     retentionDays: Number.isInteger(retentionDays) && retentionDays > 0 ? retentionDays : null,
     errors: [] as string[],
   };
@@ -141,6 +143,7 @@ export function getDurableOperationsPolicySnapshot(): DurableOperationsPolicySna
   if (!snapshot.retentionPolicyAccepted) snapshot.errors.push("Durable operations require the deployment retention-policy gate.");
   if (!snapshot.releaseApprovalAccepted) snapshot.errors.push("Durable operations require the deployment release-approval gate.");
   if (!snapshot.encryptionAtRestAccepted) snapshot.errors.push("Durable operations require the deployment encryption-at-rest gate.");
+  if (!snapshot.secretRotationPolicyAccepted) snapshot.errors.push("Durable operations require the deployment secret-rotation policy gate.");
   if (snapshot.retentionDays === null) snapshot.errors.push("Durable operations require a positive retention period in days.");
   return snapshot;
 }

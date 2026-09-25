@@ -70,6 +70,7 @@ requireFragments("SQLite operations policy", operations, [
   "retentionPolicyAccepted",
   "releaseApprovalAccepted",
   "encryptionAtRestAccepted",
+  "secretRotationPolicyAccepted",
   "retentionDays",
   "backupTo",
   "backupWithManifest",
