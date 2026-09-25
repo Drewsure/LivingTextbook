@@ -9622,3 +9622,13 @@ It resolves an actual returned package, requires
 and invokes the canonical verifier. This addresses path and extraction errors
 without importing or promoting any Z.ai source. See ADR 1194 and
 `docs/agent-briefs/ZAI_MEMORY_MATCH_HUMAN_HANDOFF.md`.
+
+## DR-1195: Long-Term Governed Build Map
+
+The repository now maintains one current phase map for the saleable
+white-label Living Textbook objective. It distinguishes verified foundations,
+review-only scaffolds, external-candidate gates, controlled pilot conditions,
+publisher content, persistence/deployment, accessibility/localization,
+optional AI services, and final release readiness. It does not convert any
+preview into production approval. See
+`docs/LONG_TERM_BUILD_PLAN.md`.

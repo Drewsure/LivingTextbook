@@ -6063,3 +6063,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Delegated all package checks to the existing canonical verifier and kept the
   result review-only with no source import or promotion.
 - Added ADR 1194 and DR-1194.
+
+## Build session: Long-term governed build map
+
+- Added one maintained phase map for the saleable white-label platform.
+- Recorded the current Memory Match evidence gate and the exit evidence for
+  foundation, canonical games, controlled pilot, publisher content,
+  persistence/deployment, accessibility/localization, optional AI services,
+  and release readiness.
+- Preserved the rule that review-only scaffolds, frozen source, and green
+  verification signals do not authorize production promotion.
+- Added DR-1195.
