@@ -1209,6 +1209,7 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   const audioPlanUnitKeys = new Set<string>();
   const assistPlanUnitKeys = new Set<string>();
   const multimediaPlanUnitKeys = new Set<string>();
+  const aiTutorPlanUnitKeys = new Set<string>();
 
   if (contentPackage.meta.packageId.trim().length === 0 || contentPackage.meta.tenantId.trim().length === 0) {
     errors.push("Content package metadata must include package and tenant identifiers.");
@@ -1696,6 +1697,11 @@ export function validateContentPackage(contentPackage: ContentPackage): string[]
   }
 
   for (const plan of contentPackage.aiTutorPlans ?? []) {
+    if (aiTutorPlanUnitKeys.has(plan.unitKey)) {
+      errors.push(`Content package must not contain duplicate AI Tutor plan for ${plan.unitKey}.`);
+    }
+
+    aiTutorPlanUnitKeys.add(plan.unitKey);
     errors.push(...validateUnitAiTutorPlan(plan));
 
     if (!unitKeys.has(plan.unitKey)) {

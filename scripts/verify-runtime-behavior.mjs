@@ -1189,7 +1189,6 @@ try {
   assertIncludes(malformedAiTutorPlanErrors, "AI Tutor plan allowed modes must be an array.");
   assertIncludes(malformedAiTutorPlanErrors, "AI Tutor plan source scope is unsupported.");
   assertIncludes(malformedAiTutorPlanErrors, "AI Tutor max response sentences must be between 1 and 8.");
-
   const assetRequest = {
     tenantId: "tenant-1", assetId: "asset-1", unitKey: "unit-1", operation: "promote",
     kind: "audio", mimeType: "audio/mpeg", sizeBytes: 1000, checksum: "checksum-1",
@@ -2042,6 +2041,14 @@ try {
     },
     units: [audioUnit], audioCues, audioSupportPlans: [audioPlan],
   };
+  const duplicateAiTutorPlanErrors = contentModel.validateContentPackage({
+    ...audioPackage,
+    aiTutorPlans: [
+      { unitKey: audioUnitKey, enabled: false, entitlementRequired: "premium", allowedModes: [], sourceScope: "current-unit-only" },
+      { unitKey: audioUnitKey, enabled: false, entitlementRequired: "premium", allowedModes: [], sourceScope: "current-unit-only" },
+    ],
+  });
+  assertIncludes(duplicateAiTutorPlanErrors, `Content package must not contain duplicate AI Tutor plan for ${audioUnitKey}.`);
   const japaneseTargetPolicy = {
     language: "ja", progressionRole: "target", scriptPolicy: "hiragana-first",
     segmentationPolicy: "japanese-aware", targetLanguageAudioRequired: true,

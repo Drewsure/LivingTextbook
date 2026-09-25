@@ -44,6 +44,7 @@ for (const marker of [
   "AI Tutor monthly usage limit must be a non-negative integer.",
   "AI Tutor plan source scope is unsupported.",
   "AI Tutor max response sentences must be between 1 and 8.",
+  "Content package must not contain duplicate AI Tutor plan",
 ]) {
   if (!contentModelSource.includes(marker)) failures.push(`AI Tutor content-model contract missing marker: ${marker}`);
 }

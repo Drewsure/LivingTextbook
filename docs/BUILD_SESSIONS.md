@@ -6208,3 +6208,11 @@ student-payload-blocked behavior.
 - Preserved disabled baseline package behavior and all live AI, speech,
   billing, persistence, transcript, microphone, and student-unlock blocks.
 - Added ADR 1210 and DR-1210.
+
+## Build session: One AI Tutor plan per unit
+
+- Added duplicate AI Tutor plan detection to content-package validation.
+- Added same-unit conflict behavior coverage.
+- Preserved optional disabled plans and all live AI, speech, billing,
+  persistence, and assignment blockers.
+- Added ADR 1211 and DR-1211.

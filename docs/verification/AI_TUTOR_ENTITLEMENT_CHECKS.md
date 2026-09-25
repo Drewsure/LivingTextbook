@@ -67,6 +67,8 @@ On `/teacher/entitlements`:
    lists, non-integer limits, and malformed optional flags are rejected.
 3. Confirm an absent or disabled AI Tutor plan does not invalidate a baseline
    core package.
+4. Confirm a content package cannot contain two AI Tutor plans for the same
+   unit.
 
 ## Student Flow Checks
 

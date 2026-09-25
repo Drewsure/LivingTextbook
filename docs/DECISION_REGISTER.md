@@ -9740,3 +9740,9 @@ side-effect free and denied. See ADR 1209.
 The shared content model now fail-closes malformed optional AI Tutor
 entitlements and unit plans without enabling live AI, speech, billing,
 persistence, or student-facing behavior. See ADR 1210.
+
+## DR-1211: One AI Tutor Plan Per Unit
+
+Content packages reject duplicate AI Tutor plans for one unit, preserving one
+deterministic optional tutor configuration while keeping live AI behavior
+blocked. See ADR 1211.
