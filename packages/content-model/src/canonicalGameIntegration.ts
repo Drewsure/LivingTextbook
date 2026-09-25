@@ -79,6 +79,9 @@ export interface CanonicalGameEventIdentity {
   studentSessionId: string;
 }
 
+const canonicalUnitIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]{0,239}$/;
+const canonicalSessionIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
+
 /**
  * Validates the platform-owned completion boundary for a playable game route.
  * Audio requests and other report-only events may appear between the required
@@ -121,14 +124,23 @@ export function validateCanonicalGameEventSequence(
     if (readNonBlankString(event.metadata?.tenantId) === undefined) {
       errors.push(`Canonical game event ${event.type} must include tenantId metadata.`);
     }
-    if (readNonBlankString(event.unitKey) === undefined) {
+    const unitIdentity = readNonBlankString(event.unitKey);
+    if (unitIdentity === undefined) {
       errors.push(`Canonical game event ${event.type} must include unit identity.`);
+    } else if (!canonicalUnitIdentityPattern.test(unitIdentity)) {
+      errors.push(`Canonical game event ${event.type} must use a bounded safe unit identity.`);
     }
-    if (readNonBlankString(event.launchCode) === undefined) {
+    const launchIdentity = readNonBlankString(event.launchCode);
+    if (launchIdentity === undefined) {
       errors.push(`Canonical game event ${event.type} must include launch identity.`);
+    } else if (!canonicalSessionIdentityPattern.test(launchIdentity)) {
+      errors.push(`Canonical game event ${event.type} must use a bounded safe launch identity.`);
     }
-    if (readNonBlankString(event.studentSessionId) === undefined) {
+    const studentSessionIdentity = readNonBlankString(event.studentSessionId);
+    if (studentSessionIdentity === undefined) {
       errors.push(`Canonical game event ${event.type} must include student session identity.`);
+    } else if (!canonicalSessionIdentityPattern.test(studentSessionIdentity)) {
+      errors.push(`Canonical game event ${event.type} must use a bounded safe student session identity.`);
     }
   }
 

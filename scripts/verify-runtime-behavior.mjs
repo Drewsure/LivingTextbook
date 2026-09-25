@@ -459,6 +459,27 @@ try {
     "flashcards",
   ).errors;
   assertIncludes(malformedCanonicalIdentityErrors, "Canonical game event round_shown must include unit identity.");
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, unitKey: "../outside-tenant" } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game event round_shown must use a bounded safe unit identity.",
+  );
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, launchCode: "launch/session" } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game event round_shown must use a bounded safe launch identity.",
+  );
+  assertIncludes(
+    canonicalGame.validateCanonicalGameEventSequence(
+      canonicalEvents.map((event) => event.type === "round_shown" ? { ...event, studentSessionId: "session\\child" } : event),
+      "flashcards",
+    ).errors,
+    "Canonical game event round_shown must use a bounded safe student session identity.",
+  );
   const malformedCanonicalShapeErrors = canonicalGame.validateCanonicalGameEventSequence(
     [null, ...canonicalEvents],
     "flashcards",
