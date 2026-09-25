@@ -9603,3 +9603,13 @@ canonical repository until the complete evidence return package proves
 canonical state ownership, deterministic replay, audio coverage,
 accessibility, privacy, wrapper boundaries, and asset rights. See ADR 1192 and
 `docs/build-session-notes/2026-09-25-zai-frozen-snapshot-read-only-review.md`.
+
+## DR-1193: Local Bundle Composite Readiness Assessment
+
+The closed local companion path now reconciles manifest validation, tenant and
+bundle identity, read-only QR/asset resolution, media evidence, persistence
+admission, deployment preflight, and release checks through one shared
+review-only assessment. It derives `blocked`, `review-ready`, or
+`offline-ready-candidate`, while export, offline activation, and student
+promotion remain disabled. See ADR 1193 and
+`docs/build-session-notes/2026-09-25-local-bundle-composite-readiness-assessment.md`.

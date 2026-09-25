@@ -1,7 +1,8 @@
-import { createReadOnlyLocalBundleResolver, type LocalBundleManifest } from "@living-textbook/content-model";
+import { createReadOnlyLocalBundleResolver } from "@living-textbook/content-model";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { Children } from "react";
 import type { LocalBundleManifestSummary } from "@/data/sampleLocalBundlePlan";
+import { createLocalBundleRuntimeManifest } from "@/data/localBundleRuntimeManifest";
 
 interface LocalBundleResolutionPanelProps {
   manifest: LocalBundleManifestSummary;
@@ -9,7 +10,7 @@ interface LocalBundleResolutionPanelProps {
 }
 
 export function LocalBundleResolutionPanel({ manifest, tenantId }: LocalBundleResolutionPanelProps) {
-  const runtimeManifest = createPreviewRuntimeManifest(manifest, tenantId);
+  const runtimeManifest = createLocalBundleRuntimeManifest(manifest, tenantId);
   const result = createReadOnlyLocalBundleResolver(runtimeManifest);
   const routeResolutions = manifest.routes.map((route) => ({
     route,
@@ -127,41 +128,4 @@ function BoundaryFact({ label }: { label: string }) {
 
 function formatResolutionLabel(status: "planning" | "offline-ready") {
   return status === "offline-ready" ? "Resolved / offline-ready" : "Resolved / rehearsal";
-}
-
-function createPreviewRuntimeManifest(summary: LocalBundleManifestSummary, tenantId: string): LocalBundleManifest {
-  return {
-    bundle_id: summary.bundleId,
-    tenant_id: tenantId,
-    curriculum_id: summary.curriculumId,
-    series_id: summary.seriesId,
-    book_id: summary.bookId,
-    unit_ids: summary.unitIds,
-    version: summary.version,
-    created_at: "2026-09-18T00:00:00.000Z",
-    content_package_path: summary.contentPackagePath,
-    media_root: summary.mediaRoot,
-    offline_ready: summary.offlineReady,
-    requires_hosted_redirect: summary.requiresHostedRedirect,
-    assets: summary.assets.map((asset) => ({
-      asset_id: asset.assetId,
-      unit_id: asset.unitId,
-      kind: asset.kind,
-      local_path: asset.localPath,
-      checksum: asset.checksumReady ? `sha256-${"a".repeat(64)}` : "sha256-placeholder-not-ready",
-      rights_status: asset.rightsStatus,
-      poster_path: asset.posterPath,
-      transcript_path: asset.transcriptPath,
-      scan_status: asset.scanStatus,
-      target_mapping_reviewed: asset.targetMappingReviewed,
-      alt_text_ready: asset.altTextReady,
-    })),
-    routes: summary.routes.map((route) => ({
-      qr_id: route.qrId,
-      unit_id: route.unitId,
-      target_type: route.targetType,
-      target_id: route.targetId,
-      local_fallback_path: route.localFallbackPath,
-    })),
-  };
 }

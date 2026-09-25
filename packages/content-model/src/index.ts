@@ -1890,4 +1890,5 @@ export * from "./localBundleMediaManifestReconciliation";
 export * from "./localBundleMediaReleaseControlBinding";
 export * from "./releaseControlEvidence";
 export * from "./localBundleRuntime";
+export * from "./localBundleReadinessAssessment";
 export * from "./qrAliasRuntime";

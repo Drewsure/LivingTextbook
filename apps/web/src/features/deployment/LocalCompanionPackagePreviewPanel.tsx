@@ -14,12 +14,12 @@ import type {
   LocalDeploymentPreflightStatus,
 } from "@/data/sampleLocalDeploymentPreflight";
 import { countLocalCompanionReleaseGateItems, countLocalDeploymentChecks } from "@/data/sampleLocalDeploymentPreflight";
-import { buildLocalBundleHandoffPacket } from "@/data/localBundleHandoff";
-import { buildLocalBundleHandoffPersistencePreview } from "@/data/localBundleHandoffPersistence";
+import { buildLocalBundleReadinessAssessment } from "@/data/localBundleReadinessAssessment";
 import { LocalBundleResolutionPanel } from "./LocalBundleResolutionPanel";
 import { LocalBundleAssetEvidencePanel } from "./LocalBundleAssetEvidencePanel";
 import { LocalBundleHandoffPersistencePanel } from "./LocalBundleHandoffPersistencePanel";
-import type { PersistenceHandoffPacket } from "@living-textbook/content-model";
+import { LocalBundleReadinessAssessmentPanel } from "./LocalBundleReadinessAssessmentPanel";
+import type { LocalBundleHandoffPacket, PersistenceHandoffPacket } from "@living-textbook/content-model";
 import type { TeacherReportSnapshotRecoveryRehearsalPackage } from "@/data/sampleTeacherReportSnapshotRecoveryRehearsal";
 import { TeacherReportSnapshotRecoveryRehearsalPanel } from "@/features/persistence/TeacherReportSnapshotRecoveryRehearsalPanel";
 
@@ -77,24 +77,13 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
   const assetEvidence = evaluateLocalBundleAssetEvidenceSet(manifest.assets.map(createRuntimeAsset));
   const handoffBlockedCount = manifest.handoffItems.filter((item) => item.status === "blocked").length;
   const handoffNeededCount = manifest.handoffItems.filter((item) => item.status === "needed").length;
+  const readiness = buildLocalBundleReadinessAssessment({ manifest, tenantId, preflight, releaseGate, persistencePacket });
   const manifestSnapshot = createLocalCompanionManifestSnapshot(manifest, {
     handoffBlockedCount,
     preflightBlockedCount: blockedCount,
     releaseBlockedCount,
     assetEvidenceBlockedCount: assetEvidence.blockers.length,
   });
-  const handoff = buildLocalBundleHandoffPacket({
-    manifest,
-    assetEvidenceBlockedCount: assetEvidence.blockers.length,
-    routeResolutionReady: manifest.routes.length > 0,
-    releaseBlockedCount,
-    preflightBlockedCount: blockedCount,
-  });
-  const persistenceAdmission = buildLocalBundleHandoffPersistencePreview({
-    handoffPacket: handoff.packet,
-    persistencePacket,
-  });
-
   return (
     <div className="grid gap-5">
       <Card>
@@ -122,9 +111,11 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
 
       <LocalBundleAssetEvidencePanel manifest={manifest} />
 
-      <LocalBundleHandoffPacketPanel packet={handoff.packet} errors={handoff.errors} />
+      <LocalBundleHandoffPacketPanel packet={readiness.handoff.packet} errors={readiness.handoff.errors} />
 
-      <LocalBundleHandoffPersistencePanel preview={persistenceAdmission.preview} errors={[...handoff.errors, ...persistenceAdmission.errors]} />
+      <LocalBundleHandoffPersistencePanel preview={readiness.persistenceAdmission.preview} errors={[...readiness.handoff.errors, ...readiness.persistenceAdmission.errors]} />
+
+      <LocalBundleReadinessAssessmentPanel assessment={readiness.assessment} />
 
       <TeacherReportSnapshotRecoveryRehearsalPanel rehearsal={reportSnapshotRecovery} />
 
@@ -387,7 +378,7 @@ export function LocalCompanionPackagePreviewPanel({ manifest, tenantId, prefligh
   );
 }
 
-function LocalBundleHandoffPacketPanel({ packet, errors }: { packet: ReturnType<typeof buildLocalBundleHandoffPacket>["packet"]; errors: string[] }) {
+function LocalBundleHandoffPacketPanel({ packet, errors }: { packet: LocalBundleHandoffPacket; errors: string[] }) {
   const passedCount = packet.checks.filter((check) => check.status === "passed").length;
   const blockedCount = packet.checks.filter((check) => check.status === "blocked").length;
 
