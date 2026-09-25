@@ -19,7 +19,7 @@ try {
   writeFileSync(join(output, "backupManifest.js"), ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
-  const { validateDurableProgressionBackupManifest } = require(join(output, "backupManifest.js"));
+  const { createDurableProgressionBackupManifest, validateDurableProgressionBackupManifest } = require(join(output, "backupManifest.js"));
   const valid = {
     manifestVersion: 1,
     artifactKind: "sqlite-progression-backup",
@@ -34,6 +34,9 @@ try {
   };
 
   assert(validateDurableProgressionBackupManifest(valid).length === 0, "valid backup manifest must pass");
+  const created = createDurableProgressionBackupManifest({ bytes: valid.bytes, sha256: valid.sha256, schemaVersion: 1 }, 30, valid.createdAt);
+  assert(validateDurableProgressionBackupManifest(created).length === 0, "created backup manifest must pass its own validator");
+  assert(created.bytes === valid.bytes && created.sha256 === valid.sha256, "created backup manifest must bind artifact identity");
   assert(validateDurableProgressionBackupManifest(valid, { bytes: 4096, sha256: valid.sha256, schemaVersion: 1 }).length === 0, "matching artifact expectations must pass");
   assert(validateDurableProgressionBackupManifest({ ...valid, manifestVersion: 2 }).some((error) => error.includes("manifestVersion")), "manifest version drift must fail");
   assert(validateDurableProgressionBackupManifest({ ...valid, sha256: "A".repeat(64) }).some((error) => error.includes("lowercase")), "uppercase checksum must fail");
@@ -43,6 +46,13 @@ try {
   assert(validateDurableProgressionBackupManifest({ ...valid, rawLearnerAudioExcluded: false }).some((error) => error.includes("exclude")), "raw learner audio inclusion must fail");
   assert(validateDurableProgressionBackupManifest({ ...valid, retentionDays: 0 }).some((error) => error.includes("retentionDays")), "invalid retention must fail");
   assert(validateDurableProgressionBackupManifest({ ...valid, createdAt: "not-a-date" }).some((error) => error.includes("createdAt")), "invalid timestamp must fail");
+  let invalidCreationRejected = false;
+  try {
+    createDurableProgressionBackupManifest({ bytes: valid.bytes, sha256: valid.sha256, schemaVersion: 1 }, 0, valid.createdAt);
+  } catch {
+    invalidCreationRejected = true;
+  }
+  assert(invalidCreationRejected, "backup manifest creation must reject invalid retention");
 } catch (error) {
   failures.push(`backup manifest verification failed: ${error instanceof Error ? error.message : String(error)}`);
 } finally {

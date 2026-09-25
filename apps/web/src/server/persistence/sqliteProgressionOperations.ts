@@ -8,7 +8,7 @@ import type {
   SqliteProgressionStore,
 } from "./sqliteProgressionStore";
 import { createTenantScopeDigest, getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
-import { validateDurableProgressionBackupManifest } from "./backupManifest";
+import { createDurableProgressionBackupManifest, validateDurableProgressionBackupManifest } from "./backupManifest";
 import type { DurableProgressionBackupManifest } from "./backupManifest";
 export type { DurableProgressionBackupManifest } from "./backupManifest";
 
@@ -60,18 +60,7 @@ export class SqliteProgressionOperations {
     });
     return {
       backup,
-      manifest: {
-        manifestVersion: 1,
-        artifactKind: "sqlite-progression-backup",
-        provider: "sqlite",
-        schemaVersion: backup.schemaVersion,
-        bytes: backup.bytes,
-        sha256: backup.sha256,
-        createdAt: new Date().toISOString(),
-        retentionDays: policySnapshot.retentionDays ?? 0,
-        rawLearnerAudioExcluded: true,
-        learnerTranscriptsExcluded: true,
-      },
+      manifest: createDurableProgressionBackupManifest(backup, policySnapshot.retentionDays ?? 0),
       evidence,
     };
   }

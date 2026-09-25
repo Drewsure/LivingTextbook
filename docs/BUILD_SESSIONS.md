@@ -6252,6 +6252,7 @@ student-payload-blocked behavior.
   valid timestamp, lowercase SHA-256, and explicit learner-data exclusion.
 - Restore now compares declared bytes, checksum, and schema with the source
   artifact before copying it.
+- Backup creation now validates the manifest it emits before returning evidence.
 - Added positive and negative verification while preserving all persistence
   activation gates and review-only behavior.
 - Added ADR 1213 and DR-1213.

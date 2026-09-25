@@ -13,7 +13,8 @@ flag that would include raw learner material.
 
 ## Decision
 
-Validate durable backup manifests before restore using a pure shared contract.
+Create and validate durable backup manifests on backup, then validate them
+again before restore using a pure shared contract.
 The validator requires the supported manifest and SQLite schema versions,
 artifact identity, positive byte and retention values, a lowercase SHA-256
 digest, a valid creation timestamp, and explicit exclusion of raw learner
@@ -23,7 +24,8 @@ school-policy, retention-policy, and release-approval gates.
 
 ## Consequences
 
-- Corrupt, stale, incomplete, or privacy-unsafe restore packets fail closed.
+- Corrupt, stale, incomplete, or privacy-unsafe backup and restore packets fail
+  closed.
 - Manifest validation is independently executable without opening a database or
   enabling persistence operations.
 - The adapter remains reviewable and gated; this decision does not activate

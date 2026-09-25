@@ -17,6 +17,38 @@ export interface DurableProgressionBackupManifestExpectations {
   schemaVersion?: number;
 }
 
+export interface DurableProgressionBackupArtifact {
+  bytes: number;
+  sha256: string;
+  schemaVersion: number;
+}
+
+export function createDurableProgressionBackupManifest(
+  artifact: DurableProgressionBackupArtifact,
+  retentionDays: number,
+  createdAt = new Date().toISOString(),
+): DurableProgressionBackupManifest {
+  const manifest: DurableProgressionBackupManifest = {
+    manifestVersion: 1,
+    artifactKind: "sqlite-progression-backup",
+    provider: "sqlite",
+    schemaVersion: artifact.schemaVersion as 1,
+    bytes: artifact.bytes,
+    sha256: artifact.sha256,
+    createdAt,
+    retentionDays,
+    rawLearnerAudioExcluded: true,
+    learnerTranscriptsExcluded: true,
+  };
+  const errors = validateDurableProgressionBackupManifest(manifest, {
+    bytes: artifact.bytes,
+    sha256: artifact.sha256,
+    schemaVersion: artifact.schemaVersion,
+  });
+  if (errors.length > 0) throw new Error(errors.join(" "));
+  return manifest;
+}
+
 export function validateDurableProgressionBackupManifest(
   value: unknown,
   expectations: DurableProgressionBackupManifestExpectations = {},

@@ -74,6 +74,7 @@ requireFragments("SQLite operations policy", operations, [
   "restoreWithManifest",
   "deleteForIdentity",
   "validateDurableProgressionBackupManifest",
+  "createDurableProgressionBackupManifest",
   "statSync",
 ]);
 requireFragments("backup manifest contract", backupManifest, [
