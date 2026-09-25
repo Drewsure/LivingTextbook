@@ -56,6 +56,8 @@ try {
   assert(aiResult.valid && aiResult.warnings.some((warning) => warning.includes("reviewer suggestion")), "AI extraction must remain visibly review-only");
   const invalidChecksum = validateSourceExtractionPreviewRequest({ ...fixture, sourceChecksum: "sha256-placeholder" });
   assert(invalidChecksum.some((error) => error.includes("sha256:<64 hexadecimal characters>")), "invalid source checksum must be rejected");
+  const invalidUnitKey = validateSourceExtractionPreviewRequest({ ...fixture, candidateUnitKeys: ["../outside-tenant"] });
+  assert(invalidUnitKey.some((error) => error.includes("candidate unit keys must be bounded safe identifiers")), "unsafe candidate unit keys must be rejected");
   const duplicateOrder = validateSourceExtractionPreviewRequest({ ...fixture, segments: [fixture.segments[0], { ...fixture.segments[1], sequence: 2 }] });
   assert(duplicateOrder.some((error) => error.includes("order 1:2")), "duplicate page/order evidence must be rejected");
   const crossUnit = validateSourceExtractionPreviewRequest({ ...fixture, segments: [{ ...fixture.segments[0], unitKey: "other-tenant:book:L1:U1" }, fixture.segments[1]] });

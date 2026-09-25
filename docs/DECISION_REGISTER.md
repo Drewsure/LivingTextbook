@@ -9672,3 +9672,10 @@ Source draft import previews now reject arbitrary source checksum strings and
 require the canonical `sha256:<64 hexadecimal characters>` format. This keeps
 the final review-only publisher intake handoff independently identity-safe
 before upstream binding. See ADR 1200.
+
+## DR-1201: Source Extraction Identifier Boundary
+
+Source extraction previews now validate bounded safe identifiers for their
+lineage fields, candidate unit keys, and segment IDs. The rule preserves
+namespaced unit keys while rejecting path-like identities before later package
+and teacher-draft binding. See ADR 1201.

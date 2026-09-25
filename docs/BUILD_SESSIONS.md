@@ -6116,5 +6116,14 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added canonical checksum validation to the source draft import preview.
 - Added behavior coverage for malformed source identities.
 - Preserved review-only, storage-blocked, assignment-blocked, and
-  student-payload-blocked behavior.
+student-payload-blocked behavior.
 - Added ADR 1200 and DR-1200.
+
+## Build session: Source extraction identifier boundary
+
+- Constrained source extraction preview lineage IDs, candidate unit keys, and
+  segment IDs to bounded safe identifiers.
+- Preserved the namespaced unit-key format used by publisher fixtures.
+- Added unsafe-identity behavior coverage.
+- Preserved review-only and no-side-effect guarantees.
+- Added ADR 1201 and DR-1201.

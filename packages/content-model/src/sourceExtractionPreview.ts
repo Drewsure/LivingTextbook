@@ -91,6 +91,8 @@ const extractionMethods = new Set<SourceExtractionPreviewRequest["extractionMeth
   "ai-assisted",
 ]);
 const checksumPattern = /^sha256:[0-9a-f]{64}$/i;
+const safeLineageIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]*$/;
+const maxLineageIdentifierLength = 240;
 
 export function validateSourceExtractionPreviewRequest(value: unknown): string[] {
   const errors: string[] = [];
@@ -98,6 +100,9 @@ export function validateSourceExtractionPreviewRequest(value: unknown): string[]
 
   for (const field of ["previewId", "tenantId", "sourceId", "targetPackageId", "sourceChecksum"] as const) {
     if (!isNonBlankString(value[field])) errors.push(`Source extraction preview ${field} is required.`);
+    else if (field !== "sourceChecksum" && !isSafeLineageIdentifier(value[field])) {
+      errors.push(`Source extraction preview ${field} must be a bounded safe identifier.`);
+    }
   }
   if (!sourceTypes.has(value.sourceType as SourceDocumentType)) errors.push("Source extraction preview sourceType is unsupported.");
   if (!extractionMethods.has(value.extractionMethod as SourceExtractionPreviewRequest["extractionMethod"])) {
@@ -112,7 +117,7 @@ export function validateSourceExtractionPreviewRequest(value: unknown): string[]
   if (!Array.isArray(candidateUnitKeys) || candidateUnitKeys.length === 0) {
     errors.push("Source extraction preview must include at least one candidate unit key.");
   } else {
-    if (candidateUnitKeys.some((unitKey) => !isNonBlankString(unitKey))) errors.push("Source extraction preview candidate unit keys must be non-blank strings.");
+    if (candidateUnitKeys.some((unitKey) => !isSafeLineageIdentifier(unitKey))) errors.push("Source extraction preview candidate unit keys must be bounded safe identifiers.");
     if (new Set(candidateUnitKeys).size !== candidateUnitKeys.length) errors.push("Source extraction preview candidate unit keys must be unique.");
   }
 
@@ -132,6 +137,7 @@ export function validateSourceExtractionPreviewRequest(value: unknown): string[]
       const pageNumber = typeof segment.pageNumber === "number" ? segment.pageNumber : Number.NaN;
       const sequence = typeof segment.sequence === "number" ? segment.sequence : Number.NaN;
       if (!segmentId) errors.push(`Source extraction segment ${index + 1} requires segmentId.`);
+      else if (!isSafeLineageIdentifier(segmentId)) errors.push(`Source extraction segment ${segmentId} must be a bounded safe identifier.`);
       else if (segmentIds.has(segmentId)) errors.push(`Source extraction segment ${segmentId} must be unique.`);
       else segmentIds.add(segmentId);
       if (!Number.isInteger(pageNumber) || pageNumber < 1) errors.push(`Source extraction segment ${segmentId || index + 1} pageNumber must be a positive integer.`);
@@ -143,6 +149,7 @@ export function validateSourceExtractionPreviewRequest(value: unknown): string[]
       }
       if (!segmentKinds.has(segment.kind as SourceExtractionSegmentKind)) errors.push(`Source extraction segment ${segmentId || index + 1} kind is unsupported.`);
       if (!unitKey) errors.push(`Source extraction segment ${segmentId || index + 1} requires unitKey.`);
+      else if (!isSafeLineageIdentifier(unitKey)) errors.push(`Source extraction segment ${segmentId || index + 1} unitKey must be a bounded safe identifier.`);
       if (!isNonBlankString(segment.text)) errors.push(`Source extraction segment ${segmentId || index + 1} requires text.`);
       if (Array.isArray(candidateUnitKeys) && unitKey && !candidateUnitKeys.includes(unitKey)) errors.push(`Source extraction segment ${segmentId || index + 1} references an undeclared candidate unit.`);
     }
@@ -306,6 +313,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isNonBlankString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function isSafeLineageIdentifier(value: unknown): value is string {
+  return isNonBlankString(value) && value.length <= maxLineageIdentifierLength && safeLineageIdentifierPattern.test(value);
 }
 
 function readStringList(value: unknown): string[] | undefined {
