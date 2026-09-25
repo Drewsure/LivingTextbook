@@ -17,7 +17,9 @@ marked `offline_ready` must include a valid `offline-ready` policy with a safe
 version and cache name, application route allowlist, asset-kind allowlist,
 explicit learner-data exclusion, and disabled background sync. The validator
 remains review-only and performs no browser cache or service-worker side
-effect.
+effect. The policy version must match the manifest version, review-only
+manifests cannot claim an offline-ready policy, and source-document assets
+cannot be precached.
 
 ## Consequences
 

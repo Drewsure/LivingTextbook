@@ -6225,3 +6225,11 @@ student-payload-blocked behavior.
 - Preserved no-service-worker, no-cache-mutation, no-media-precache, and
   no-offline-learner-data boundaries.
 - Added ADR 1212 and DR-1212.
+
+## Build session: Local-bundle cache-policy cross-field invariants
+
+- Required the cache-policy version to match the bundle manifest version.
+- Rejected offline-ready cache claims on review-only manifests.
+- Rejected source-document assets from future precache allowlists.
+- Added negative runtime coverage for version drift, mode drift, and source
+  document precache attempts without enabling cache or service-worker writes.

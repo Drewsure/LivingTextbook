@@ -175,8 +175,14 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
       }
       const cacheVersion = readString(cachePolicy.version);
       if (!cacheVersion || !safeIdentifierPattern.test(cacheVersion)) errors.push("Local bundle cache_policy version must be a safe identity.");
+      if (cacheVersion && cacheVersion !== readString(value.version)) {
+        errors.push("Local bundle cache_policy version must match the manifest version.");
+      }
       const cacheName = readString(cachePolicy.cache_name);
       if (!cacheName || !safeIdentifierPattern.test(cacheName)) errors.push("Local bundle cache_policy cache_name must be a safe identity.");
+      if (value.offline_ready !== true && cachePolicy.mode === "offline-ready") {
+        errors.push("Review-only bundles cannot declare an offline-ready cache policy.");
+      }
       if (!Array.isArray(cachePolicy.allowed_route_prefixes) || cachePolicy.allowed_route_prefixes.length === 0) {
         errors.push("Local bundle cache_policy allowed_route_prefixes must contain at least one route.");
       } else {
@@ -196,6 +202,9 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
         assetKinds.forEach((kind) => {
           if (!localBundleAssetKinds.has(kind as LocalBundleAssetKind)) errors.push(`Local bundle cache_policy asset kind ${String(kind)} is unsupported.`);
         });
+        if (assetKinds.includes("source-document")) {
+          errors.push("Local bundle cache_policy cannot precache source-document assets.");
+        }
       }
       if (cachePolicy.student_data_mode !== "excluded") errors.push("Local bundle cache_policy must exclude student data.");
       if (cachePolicy.background_sync !== false) errors.push("Local bundle cache_policy background sync must remain disabled.");

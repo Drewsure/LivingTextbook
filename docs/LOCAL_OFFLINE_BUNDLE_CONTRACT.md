@@ -105,6 +105,10 @@ An offline-ready manifest must declare a cache policy with:
 - `background_sync: false` until persistence, retention, and school policy
   have been accepted.
 
+The cache-policy version must match the bundle manifest version. Review-only
+bundles may not declare an offline-ready policy, and source-document assets
+must never be listed as precacheable learner assets.
+
 The content-model validator checks this record but does not register a service
 worker, mutate a browser cache, precache media, or store learner data.
 

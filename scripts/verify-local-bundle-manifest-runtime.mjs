@@ -36,6 +36,29 @@ try {
   assert(sampleResult.valid, "planning sample manifest must remain structurally valid");
   assert(sampleResult.warnings.some((warning) => warning.includes("checksum")), "planning sample must expose checksum warnings");
 
+  const reviewOnlyOfflinePolicyResult = validateLocalBundleManifest({
+    ...sample,
+    cache_policy: offlineCachePolicy,
+  });
+  assert(!reviewOnlyOfflinePolicyResult.valid, "review-only manifest must not declare an offline-ready cache policy");
+  assert(reviewOnlyOfflinePolicyResult.errors.some((error) => error.includes("cannot declare an offline-ready cache policy")), "review-only cache policy rejection must be explicit");
+
+  const mismatchedCacheVersionResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    cache_policy: { ...offlineCachePolicy, version: "9.9.9" },
+  });
+  assert(!mismatchedCacheVersionResult.valid, "cache policy version drift must be rejected");
+  assert(mismatchedCacheVersionResult.errors.some((error) => error.includes("must match the manifest version")), "cache version drift rejection must be explicit");
+
+  const sourceDocumentCacheResult = validateLocalBundleManifest({
+    ...sample,
+    offline_ready: true,
+    cache_policy: { ...offlineCachePolicy, precache_asset_kinds: ["source-document"] },
+  });
+  assert(!sourceDocumentCacheResult.valid, "source documents must not be precacheable learner assets");
+  assert(sourceDocumentCacheResult.errors.some((error) => error.includes("source-document assets")), "source-document cache rejection must be explicit");
+
   const missingCachePolicyResult = validateLocalBundleManifest({
     ...sample,
     offline_ready: true,

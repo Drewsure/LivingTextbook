@@ -9751,4 +9751,6 @@ blocked. See ADR 1211.
 
 Offline-ready local bundle manifests now require a versioned cache policy with
 route and asset-kind allowlists, learner-data exclusion, and disabled
-background sync. Validation remains review-only. See ADR 1212.
+background sync. Policy and manifest versions must agree, review-only bundles
+cannot claim offline-ready caching, and source-document assets cannot be
+precached. Validation remains review-only. See ADR 1212.
