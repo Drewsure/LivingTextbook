@@ -9649,3 +9649,11 @@ publisher content, persistence/deployment, accessibility/localization,
 optional AI services, and final release readiness. It does not convert any
 preview into production approval. See
 `docs/LONG_TERM_BUILD_PLAN.md`.
+
+## DR-1198: Quarantine Filename Portability
+
+Quarantine upload metadata now validates a bounded portable filename while
+preserving Unicode. Path separators, control characters, unsafe Windows
+characters, trailing dots, and reserved device names are rejected. The store
+normalizes backslashes before taking a basename, and payload files remain named
+from the quarantine identity. See ADR 1198.

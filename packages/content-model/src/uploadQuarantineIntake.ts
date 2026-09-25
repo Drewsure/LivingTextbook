@@ -43,6 +43,15 @@ const CHANNEL_MIME_TYPES: Record<UploadQuarantineChannel, readonly string[]> = {
 const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 const safeUnitKeyPattern = /^[A-Za-z0-9][A-Za-z0-9._:/-]*$/;
 const checksumPattern = /^[a-f0-9]{64}$/;
+const portableFileNamePattern = /^[^\\/\u0000-\u001F\u007F:*?"<>|]+$/u;
+const reservedWindowsFileNames = new Set([
+  "con",
+  "prn",
+  "aux",
+  "nul",
+  ...Array.from({ length: 9 }, (_, index) => `com${index + 1}`),
+  ...Array.from({ length: 9 }, (_, index) => `lpt${index + 1}`),
+]);
 
 export function createUploadQuarantineIntakeRecord(input: Omit<UploadQuarantineIntakeRecord, "recordVersion" | "storageMode" | "scanStatus" | "rightsStatus" | "sourceReviewStatus" | "targetMappingReviewed" | "promotionAllowed" | "studentFacingUseAllowed" | "learnerMediaIncluded" | "nextGate">): UploadQuarantineIntakeRecord {
   const record: UploadQuarantineIntakeRecord = {
@@ -74,6 +83,9 @@ export function validateUploadQuarantineIntakeRecord(value: unknown): string[] {
   if (!isSafeIdentifier(value.tenantId)) errors.push("Upload quarantine intake tenantId must be a safe identifier.");
   if (value.unitKey !== undefined && (!isNonEmptyString(value.unitKey) || value.unitKey.length > 240 || !safeUnitKeyPattern.test(value.unitKey))) {
     errors.push("Upload quarantine intake unitKey must be a bounded safe identifier when present.");
+  }
+  if (!isPortableFileName(value.fileName)) {
+    errors.push("Upload quarantine fileName must be a bounded portable filename without path separators, control characters, or reserved device names.");
   }
   if (!isChannel(value.channelId)) errors.push("Upload quarantine intake channelId is unsupported.");
   if (isChannel(value.channelId) && !CHANNEL_MIME_TYPES[value.channelId].includes(String(value.mimeType))) {
@@ -107,6 +119,15 @@ function isChannel(value: unknown): value is UploadQuarantineChannel {
 
 function isSafeIdentifier(value: unknown): value is string {
   return isNonEmptyString(value) && value.length <= 160 && safeIdentifierPattern.test(value);
+}
+
+function isPortableFileName(value: unknown): value is string {
+  if (!isNonEmptyString(value) || value.length > 240 || value !== value.trim() || value.endsWith(".") || !portableFileNamePattern.test(value)) {
+    return false;
+  }
+
+  const baseName = value.replace(/\.[^.]*$/u, "").toLowerCase();
+  return value !== "." && value !== ".." && !reservedWindowsFileNames.has(baseName);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

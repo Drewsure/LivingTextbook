@@ -6092,3 +6092,12 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Added conformance coverage for the lifecycle guard, preserving local/hosted
   provider selection and all write-policy gates.
 - Added ADR 1197 and DR-1197.
+
+## Build session: Quarantine filename portability
+
+- Hardened the review-only multimedia and source upload boundary for filenames.
+- Preserved international-language filenames for white-label publisher use.
+- Rejected path separators, control characters, unsafe Windows filename
+  characters, trailing dots, and reserved device names.
+- Kept payload storage quarantine-generated and promotion-neutral.
+- Added ADR 1198, DR-1198, and verifier coverage.

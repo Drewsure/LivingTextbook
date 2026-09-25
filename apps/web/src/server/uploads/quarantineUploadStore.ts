@@ -40,7 +40,7 @@ export async function writeQuarantineUpload(input: QuarantineUploadWrite): Promi
     tenantId: input.tenantId,
     channelId: input.channelId,
     unitKey: input.unitKey,
-    fileName: basename(input.fileName).slice(0, 240),
+    fileName: basename(input.fileName.replaceAll("\\", "/")).slice(0, 240),
     mimeType: input.mimeType,
     sizeBytes: input.bytes.byteLength,
     checksumSha256,

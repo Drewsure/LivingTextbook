@@ -18,6 +18,8 @@ for (const marker of [
   "studentFacingUseAllowed: false",
   "learnerMediaIncluded: false",
   "lowercase SHA-256 checksum",
+  "portable filename",
+  "path separators, control characters, or reserved device names",
   "MIME type is not allowed",
   "ASSET_RUNTIME_MAX_BYTES",
 ]) {
@@ -27,6 +29,7 @@ for (const marker of [
 for (const marker of [
   "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT",
   "createHash(\"sha256\")",
+  "replaceAll(\"\\\\\", \"/\")",
   "createUploadQuarantineIntakeRecord",
   "writeQuarantineUpload",
   "intake.json",
