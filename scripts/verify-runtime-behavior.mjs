@@ -1334,6 +1334,10 @@ try {
     assignmentAllowed: false,
   };
   assertEqual(sourceDraftImport.validateSourceDraftImportPreview(validSourceDraftImportPreview).length, 0);
+  assertIncludes(
+    sourceDraftImport.validateSourceDraftImportPreview({ ...validSourceDraftImportPreview, sourceChecksum: "sha256-placeholder" }),
+    "Source draft import preview sourceChecksum must use the sha256:<64 hexadecimal characters> format.",
+  );
   const sourcePreviewResult = sourceExtractionPreview.createReviewOnlySourceExtractionPreview({
     previewId: "preview-1",
     tenantId: "tenant-1",

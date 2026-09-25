@@ -9665,3 +9665,10 @@ The source-runtime validator now requires the canonical
 preview and source-package assembly validation. This closes a source-lineage
 weakening point without enabling storage, draft creation, promotion, or
 student-facing use. See ADR 1199.
+
+## DR-1200: Source Draft Import Checksum
+
+Source draft import previews now reject arbitrary source checksum strings and
+require the canonical `sha256:<64 hexadecimal characters>` format. This keeps
+the final review-only publisher intake handoff independently identity-safe
+before upstream binding. See ADR 1200.

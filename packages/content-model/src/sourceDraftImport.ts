@@ -26,6 +26,7 @@ const REQUIRED_SOURCE_DRAFT_IMPORT_RECORDS = [
   "teacher_draft_package_preview",
   "teacher_draft_review_handoff",
 ] as const;
+const SOURCE_DRAFT_IMPORT_CHECKSUM_PATTERN = /^sha256:[0-9a-f]{64}$/i;
 
 export function validateSourceDraftImportPreview(preview: SourceDraftImportPreview): string[] {
   const errors: string[] = [];
@@ -47,6 +48,9 @@ export function validateSourceDraftImportPreview(preview: SourceDraftImportPrevi
   }
 
   if (preview.mode !== "review-only") errors.push("Source draft import preview must remain review-only.");
+  if (typeof preview.sourceChecksum === "string" && !SOURCE_DRAFT_IMPORT_CHECKSUM_PATTERN.test(preview.sourceChecksum)) {
+    errors.push("Source draft import preview sourceChecksum must use the sha256:<64 hexadecimal characters> format.");
+  }
   if (preview.status !== "blocked" && preview.status !== "ready-preview") {
     errors.push("Source draft import preview has an unsupported status.");
   }

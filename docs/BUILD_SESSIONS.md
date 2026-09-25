@@ -6110,3 +6110,11 @@ compatible with the workspace's no-emit typecheck and production bundling.
   intake boundary.
 - Preserved review-only mode and all no-side-effect gates.
 - Added ADR 1199, DR-1199, and runtime behavior coverage.
+
+## Build session: Source draft import checksum
+
+- Added canonical checksum validation to the source draft import preview.
+- Added behavior coverage for malformed source identities.
+- Preserved review-only, storage-blocked, assignment-blocked, and
+  student-payload-blocked behavior.
+- Added ADR 1200 and DR-1200.

@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const root = process.cwd();
 const requiredMarkers = [
-  ["packages/content-model/src/sourceDraftImport.ts", ["SourceDraftImportPreview", "validateSourceDraftImportPreviewBinding", "storageWriteAllowed"]],
+  ["packages/content-model/src/sourceDraftImport.ts", ["SourceDraftImportPreview", "validateSourceDraftImportPreviewBinding", "storageWriteAllowed", "SOURCE_DRAFT_IMPORT_CHECKSUM_PATTERN", "sha256:<64 hexadecimal characters>"]],
   ["apps/web/src/data/sampleSourceDraftImport.ts", ["sampleSourceDraftImportPreviews", "sampleSourceDraftImportErrors"]],
   ["apps/web/src/features/content-intake/SourceDraftImportPreviewPanel.tsx", ["Teacher draft import preview", "Storage write", "Assignment"]],
   ["apps/web/src/app/teacher/intake/page.tsx", ["SourceDraftImportPreviewPanel"]],
