@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-long-term-build-plan.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integrity.mjs", import.meta.url))], {
   stdio: "inherit",
 });

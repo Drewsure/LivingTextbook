@@ -9623,6 +9623,15 @@ and invokes the canonical verifier. This addresses path and extraction errors
 without importing or promoting any Z.ai source. See ADR 1194 and
 `docs/agent-briefs/ZAI_MEMORY_MATCH_HUMAN_HANDOFF.md`.
 
+## DR-1196: Machine-Checked Long-Term Build Plan
+
+The long-term white-label platform roadmap is now checked during foundation
+composition. The validator requires the eight governed phases, the active Z.ai
+return-package gate, target-language progression authority, deterministic
+rewards, and external-source isolation markers. This guards roadmap drift
+without converting a documented phase into production approval. See ADR 1196
+and `docs/LONG_TERM_BUILD_PLAN.md`.
+
 ## DR-1195: Long-Term Governed Build Map
 
 The repository now maintains one current phase map for the saleable

@@ -6074,3 +6074,13 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Preserved the rule that review-only scaffolds, frozen source, and green
   verification signals do not authorize production promotion.
 - Added DR-1195.
+
+## Build session: Machine-checked long-term build plan
+
+- Added a foundation-composition verifier for the governed white-label phase
+  map.
+- Required the roadmap to retain all eight delivery phases, the active Z.ai
+  return-package gate, target-language progression authority, deterministic
+  rewards, and external-source isolation.
+- Kept the roadmap check documentation-only and promotion-neutral.
+- Added ADR 1196 and DR-1196.

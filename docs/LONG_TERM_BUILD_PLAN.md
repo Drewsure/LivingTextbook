@@ -38,6 +38,10 @@ The first external game candidate is Memory Match from
 return a separate package containing `evidence/return-package.json` before
 Codex can open candidate review or propose a wrapper adapter.
 
+The immutable source identity is
+`frozen-2026-09-12-aaa-stable` at commit
+`eb79ddf5940ab47cc3c45c119c67ee1b6b958e55`.
+
 The human procedure is:
 
 ```powershell
