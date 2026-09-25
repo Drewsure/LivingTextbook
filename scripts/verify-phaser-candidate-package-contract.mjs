@@ -48,6 +48,11 @@ const verifierMarkers = [
   "MAX_RETURNED_ARTIFACT_BYTES",
   "return-package.json cannot exceed",
   "isRegularFile",
+  "isSafeBoundedIdentity",
+  "tenantId must be a bounded safe identity.",
+  "requestId must be a bounded safe identity.",
+  "queueItemId must be a bounded safe identity.",
+  "requires a bounded safe artifactId.",
 ];
 
 const guideMarkers = [

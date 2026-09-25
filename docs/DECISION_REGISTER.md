@@ -9701,3 +9701,10 @@ unsafe unit, launch, and student-session identities. Namespaced unit keys stay
 supported for publisher content while launch and session IDs use a narrower
 portable shape. This protects tenant joins, reporting, persistence boundaries,
 and replay identity without enabling external source promotion. See ADR 1204.
+
+## DR-1205: Phaser Return Manifest Identity Boundaries
+
+The external Phaser return-package verifier now requires bounded safe tenant,
+request, queue, and artifact identities, plus bounded safe relative paths.
+Malformed package metadata fails before evidence adjudication while the
+candidate remains review-only. See ADR 1205.

@@ -87,6 +87,7 @@ const requiredBlockedActions = [
   "No package promotion",
   "No student assignment",
 ];
+const candidateIdentityPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,159}$/;
 
 requireValue(manifest.sourceRepository === "Drewsure/ministar-lab", "sourceRepository must be Drewsure/ministar-lab.");
 requireValue(manifest.sourceSnapshotId === "frozen-2026-09-12-aaa-stable", "sourceSnapshotId must be the immutable frozen snapshot tag.");
@@ -99,8 +100,11 @@ if (candidateProfile) {
 requireValue(manifest.targetSurface === "phaser" || manifest.targetSurface === "hybrid", "targetSurface must be phaser or hybrid.");
 requireValue(["review-only", "blocked"].includes(manifest.status), "status must remain review-only or blocked.");
 requireValue(isNonBlankString(manifest.tenantId), "tenantId is required.");
+requireValue(isSafeBoundedIdentity(manifest.tenantId), "tenantId must be a bounded safe identity.");
 requireValue(isNonBlankString(manifest.requestId), "requestId is required.");
+requireValue(isSafeBoundedIdentity(manifest.requestId), "requestId must be a bounded safe identity.");
 requireValue(isNonBlankString(manifest.queueItemId), "queueItemId is required.");
+requireValue(isSafeBoundedIdentity(manifest.queueItemId), "queueItemId must be a bounded safe identity.");
 requireValue(isNonBlankString(manifest.prototypeFolder), "prototypeFolder is required.");
 requireValue(isSafeRelativePath(manifest.prototypeFolder), "prototypeFolder must be a safe relative path.");
 
@@ -120,6 +124,7 @@ for (const artifact of artifacts) {
   if (seenKinds.has(artifact.kind)) failures.push(`Artifact kind is repeated: ${artifact.kind}.`);
   seenKinds.add(artifact.kind);
   if (!isNonBlankString(artifact.artifactId)) failures.push("Every artifact requires artifactId.");
+  else if (!isSafeBoundedIdentity(artifact.artifactId)) failures.push(`Artifact ${artifact.kind || "(unnamed)"} requires a bounded safe artifactId.`);
   if (seenIds.has(artifact.artifactId)) failures.push(`Artifact id is repeated: ${artifact.artifactId}.`);
   seenIds.add(artifact.artifactId);
   if (seenArtifactPaths.has(artifact.relativePath)) failures.push(`Artifact path is repeated: ${artifact.relativePath}.`);
@@ -437,9 +442,15 @@ function isNonBlankString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+function isSafeBoundedIdentity(value) {
+  return typeof value === "string" && candidateIdentityPattern.test(value);
+}
+
 function isSafeRelativePath(value) {
   return (
     isNonBlankString(value) &&
+    value.length <= 240 &&
+    !/[\u0000-\u001f\u007f]/.test(value) &&
     !value.startsWith("/") &&
     !value.includes("..") &&
     !value.includes("\\") &&

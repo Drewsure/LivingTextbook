@@ -119,6 +119,28 @@ try {
 
   assertVerifierPasses(candidateRoot, "complete package");
 
+  manifest.tenantId = "../outside-tenant";
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe tenant identity", "tenantId must be a bounded safe identity.");
+  manifest.tenantId = "sample";
+
+  manifest.requestId = "request/id";
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe request identity", "requestId must be a bounded safe identity.");
+  manifest.requestId = "zai-memory-match-evidence-request";
+
+  manifest.queueItemId = "queue\\item";
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe queue identity", "queueItemId must be a bounded safe identity.");
+  manifest.queueItemId = "intake-sample-memory-match-phaser";
+
+  const firstArtifact = manifest.artifacts[0];
+  firstArtifact.artifactId = "artifact/id";
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+  assertVerifierRejects(candidateRoot, "unsafe artifact identity", "requires a bounded safe artifactId.");
+  firstArtifact.artifactId = "memory-match-source-archive";
+  writeFileSync(join(evidenceRoot, "return-package.json"), JSON.stringify(manifest, null, 2));
+
   const replayPath = join(candidateRoot, artifactPaths["event-replay"]);
   const replay = JSON.parse(readFileSync(replayPath, "utf8"));
   const roundShownIndex = replay.events.findIndex((candidate) => candidate.type === "round_shown");
