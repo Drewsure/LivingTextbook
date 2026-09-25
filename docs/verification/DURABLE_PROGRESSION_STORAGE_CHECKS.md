@@ -17,7 +17,11 @@ records. Use a temporary SQLite path and a throwaway coded identity.
   `provider: sqlite` and `durability: durable-managed`.
 - A read without the server token returns `401` when a record exists.
 - A different tenant identity cannot read the record.
-- SQLite files and WAL sidecars are ignored by source control.
+- SQLite files and WAL sidecars are ignored by source control, including nested
+  data-custody directories.
+- Durable SQLite readiness requires `LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT` and
+  keeps `LIVING_TEXTBOOK_PROGRESSION_DB_PATH` below that root as a nested
+  `.sqlite` file.
 
 ## Production gates still open
 

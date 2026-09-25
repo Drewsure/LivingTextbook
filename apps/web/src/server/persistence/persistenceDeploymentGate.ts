@@ -1,4 +1,5 @@
 import { getDurableOperationsPolicySnapshot } from "./sqliteProgressionOperations";
+import { getDurableDatabasePathPolicySnapshot } from "./databasePathPolicy";
 import {
   getConfiguredPersistenceProvider,
   getPersistenceProviderConfiguration,
@@ -12,6 +13,7 @@ export function getPersistenceDeploymentGateSnapshot() {
   const providerConfiguration = getPersistenceProviderConfiguration();
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
+  const databasePath = getDurableDatabasePathPolicySnapshot();
   const studentSessionBoundaryConfigured = Boolean(readServerSessionSecret("LIVING_TEXTBOOK_STUDENT_SESSION_SECRET"));
   const teacherOperationsSessionBoundaryConfigured = isTeacherSessionConfigured();
 
@@ -21,9 +23,12 @@ export function getPersistenceDeploymentGateSnapshot() {
     policy,
     studentSessionBoundaryConfigured,
     teacherOperationsSessionBoundaryConfigured,
+    databasePath,
     gate: derivePersistenceDeploymentGate({
       provider,
       providerConfigurationValid: providerConfiguration.valid,
+      databasePathReady: databasePath.valid,
+      databasePathErrors: databasePath.errors,
       allowDurableWrites: process.env.LIVING_TEXTBOOK_PERSISTENCE_ALLOW_DURABLE_WRITES === "true",
       studentSessionBoundaryConfigured,
       teacherOperationsSessionBoundaryConfigured,

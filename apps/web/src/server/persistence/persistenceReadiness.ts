@@ -20,6 +20,8 @@ export interface PersistenceReadinessResult {
 export interface PersistenceDeploymentGateInput {
   provider: "process-memory" | "sqlite";
   providerConfigurationValid: boolean;
+  databasePathReady: boolean;
+  databasePathErrors: string[];
   allowDurableWrites: boolean;
   studentSessionBoundaryConfigured: boolean;
   teacherOperationsSessionBoundaryConfigured: boolean;
@@ -90,6 +92,7 @@ export function derivePersistenceDeploymentGate(input: PersistenceDeploymentGate
   }
 
   const blockedReasons = [
+    ...(!input.databasePathReady ? input.databasePathErrors : []),
     ...(!input.allowDurableWrites ? ["Durable write approval is not enabled for this deployment."] : []),
     ...(!input.studentSessionBoundaryConfigured ? ["Signed student session boundary is not configured."] : []),
     ...(!input.teacherOperationsSessionBoundaryConfigured ? ["Tenant-scoped teacher operations boundary is not configured."] : []),

@@ -11,9 +11,9 @@ tsconfig.tsbuildinfo
 !.env.example
 
 # Local durable pilot data (never commit learner records)
-data/*.sqlite
-data/*.sqlite-shm
-data/*.sqlite-wal
+data/**/*.sqlite
+data/**/*.sqlite-shm
+data/**/*.sqlite-wal
 data/quarantine/
 
 # Logs

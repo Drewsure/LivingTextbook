@@ -27,9 +27,20 @@ export function GET(request: Request) {
   const providerConfiguration = deployment.providerConfiguration;
   const durable = provider === "sqlite";
   const policy = getDurableOperationsPolicySnapshot();
-  const health = durable
+  const health = durable && deployment.gate.status !== "blocked"
     ? getDurableProgressionStore().getHealth()
-    : { healthy: true, schemaVersion: null, journalMode: null, synchronous: null, errors: [], operationEvidenceIntegrity: { healthy: true, checkedRecords: 0, errors: [] as string[] } };
+    : {
+      healthy: !durable,
+      schemaVersion: null,
+      journalMode: null,
+      synchronous: null,
+      errors: durable ? deployment.gate.blockedReasons : [],
+      operationEvidenceIntegrity: {
+        healthy: !durable,
+        checkedRecords: 0,
+        errors: durable ? ["SQLite health was withheld until the durable deployment gate is ready."] : [],
+      },
+    };
   const studentSessionBoundaryConfigured = deployment.studentSessionBoundaryConfigured;
   const teacherOperationsSessionBoundaryConfigured = deployment.teacherOperationsSessionBoundaryConfigured;
   const readiness = derivePersistenceReadiness({

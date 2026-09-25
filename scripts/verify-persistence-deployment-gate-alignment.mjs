@@ -27,10 +27,12 @@ const events = read("apps/web/src/app/api/persistence/events/route.ts");
 
 requireFragments("shared deployment gate", gate, [
   "getDurableOperationsPolicySnapshot",
+  "getDurableDatabasePathPolicySnapshot",
   "getPersistenceProviderConfiguration",
   "derivePersistenceDeploymentGate",
   "isTeacherSessionConfigured",
   "operationsReady: durable && policy.errors.length === 0",
+  "databasePathReady: databasePath.valid",
 ]);
 
 for (const [label, source] of [

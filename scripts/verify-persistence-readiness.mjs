@@ -45,6 +45,8 @@ try {
   const rehearsalGate = derivePersistenceDeploymentGate({
     provider: "process-memory",
     providerConfigurationValid: true,
+    databasePathReady: true,
+    databasePathErrors: [],
     allowDurableWrites: false,
     studentSessionBoundaryConfigured: false,
     teacherOperationsSessionBoundaryConfigured: false,
@@ -59,6 +61,8 @@ try {
   const durableGate = derivePersistenceDeploymentGate({
     provider: "sqlite",
     providerConfigurationValid: true,
+    databasePathReady: true,
+    databasePathErrors: [],
     allowDurableWrites: true,
     studentSessionBoundaryConfigured: true,
     teacherOperationsSessionBoundaryConfigured: true,
@@ -93,6 +97,8 @@ function durableGateInput() {
   return {
     provider: "sqlite",
     providerConfigurationValid: true,
+    databasePathReady: true,
+    databasePathErrors: [],
     allowDurableWrites: true,
     studentSessionBoundaryConfigured: true,
     teacherOperationsSessionBoundaryConfigured: true,

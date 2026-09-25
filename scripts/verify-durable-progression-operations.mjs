@@ -31,6 +31,7 @@ const store = read("apps/web/src/server/persistence/sqliteProgressionStore.ts");
 const operations = read("apps/web/src/server/persistence/sqliteProgressionOperations.ts");
 const backupManifest = read("apps/web/src/server/persistence/backupManifest.ts");
 const backupPathPolicy = read("apps/web/src/server/persistence/backupPathPolicy.ts");
+const databasePathPolicy = read("apps/web/src/server/persistence/databasePathPolicy.ts");
 const statusRoute = read("apps/web/src/app/api/persistence/status/route.ts");
 const statusPanel = read("apps/web/src/features/persistence/PersistenceOperationsStatusPanel.tsx");
 const operationsRoute = read("apps/web/src/app/api/persistence/operations/route.ts");
@@ -89,6 +90,12 @@ requireFragments("backup path policy", backupPathPolicy, [
   "configured backup custody root",
   "stored below, not at, the custody root",
   "inside the configured custody root",
+]);
+requireFragments("database path policy", databasePathPolicy, [
+  "configured data custody root",
+  "stored below, not at, the data custody root",
+  "inside the configured data custody root",
+  ".sqlite extension",
 ]);
 const manifestCreationIndex = operations.indexOf("const manifest = createDurableProgressionBackupManifest");
 const evidenceWriteIndex = operations.indexOf("const evidence = this.store.recordOperationEvidence");
