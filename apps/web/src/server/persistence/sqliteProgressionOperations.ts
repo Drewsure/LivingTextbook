@@ -52,6 +52,7 @@ export class SqliteProgressionOperations {
   backupWithManifest(destinationPath: string, policy: DurableOperationsPolicy): DurableProgressionBackupEvidence {
     const backup = this.backupTo(destinationPath, policy);
     const policySnapshot = getDurableOperationsPolicySnapshot();
+    const manifest = createDurableProgressionBackupManifest(backup, policySnapshot.retentionDays ?? 0);
     const evidence = this.store.recordOperationEvidence({
       operation: "backup",
       artifactSha256: backup.sha256,
@@ -60,7 +61,7 @@ export class SqliteProgressionOperations {
     });
     return {
       backup,
-      manifest: createDurableProgressionBackupManifest(backup, policySnapshot.retentionDays ?? 0),
+      manifest,
       evidence,
     };
   }

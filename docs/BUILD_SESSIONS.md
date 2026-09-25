@@ -6253,6 +6253,7 @@ student-payload-blocked behavior.
 - Restore now compares declared bytes, checksum, and schema with the source
   artifact before copying it.
 - Backup creation now validates the manifest it emits before returning evidence.
+- Backup receipts are recorded only after that manifest validation succeeds.
 - Added positive and negative verification while preserving all persistence
   activation gates and review-only behavior.
 - Added ADR 1213 and DR-1213.

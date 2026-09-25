@@ -26,6 +26,8 @@ school-policy, retention-policy, and release-approval gates.
 
 - Corrupt, stale, incomplete, or privacy-unsafe backup and restore packets fail
   closed.
+- Backup operation evidence is recorded only after the emitted manifest passes
+  validation.
 - Manifest validation is independently executable without opening a database or
   enabling persistence operations.
 - The adapter remains reviewable and gated; this decision does not activate

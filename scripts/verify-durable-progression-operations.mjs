@@ -84,6 +84,11 @@ requireFragments("backup manifest contract", backupManifest, [
   "schemaVersion does not match the source artifact",
   "raw learner audio and learner transcripts",
 ]);
+const manifestCreationIndex = operations.indexOf("const manifest = createDurableProgressionBackupManifest");
+const evidenceWriteIndex = operations.indexOf("const evidence = this.store.recordOperationEvidence");
+if (manifestCreationIndex < 0 || evidenceWriteIndex < 0 || manifestCreationIndex > evidenceWriteIndex) {
+  failures.push("SQLite backup evidence must be recorded only after manifest validation.");
+}
 requireFragments("safe status route", statusRoute, [
   'runtime = "nodejs"',
   'dynamic = "force-dynamic"',
