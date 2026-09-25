@@ -6051,3 +6051,15 @@ compatible with the workspace's no-emit typecheck and production bundling.
 - Exposed evidence references, recipient role, blockers, required next records,
   and next gate in the release-control decision room.
 - Added targeted verification, ADR 1191, and DR-1191.
+
+## Build session: Z.ai Memory Match human handoff helper
+
+- Added a Windows PowerShell procedure for locating a real returned Memory
+  Match evidence package rather than treating the frozen source ZIP as the
+  candidate.
+- Required `evidence/return-package.json`, rejected placeholders, frozen
+  snapshots, ambiguous extraction folders, and candidates inside
+  `LivingTextbook`.
+- Delegated all package checks to the existing canonical verifier and kept the
+  result review-only with no source import or promotion.
+- Added ADR 1194 and DR-1194.

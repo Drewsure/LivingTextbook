@@ -9613,3 +9613,12 @@ review-only assessment. It derives `blocked`, `review-ready`, or
 `offline-ready-candidate`, while export, offline activation, and student
 promotion remain disabled. See ADR 1193 and
 `docs/build-session-notes/2026-09-25-local-bundle-composite-readiness-assessment.md`.
+
+## DR-1194: Z.ai Memory Match Human Handoff Helper
+
+The human-side Memory Match handoff now has a repeatable PowerShell procedure.
+It resolves an actual returned package, requires
+`evidence/return-package.json`, rejects frozen or in-repository candidates,
+and invokes the canonical verifier. This addresses path and extraction errors
+without importing or promoting any Z.ai source. See ADR 1194 and
+`docs/agent-briefs/ZAI_MEMORY_MATCH_HUMAN_HANDOFF.md`.
