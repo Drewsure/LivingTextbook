@@ -9588,3 +9588,18 @@ review lane. It does not capture approval, write persistence, mutate release
 state, promote a package, activate a local route, or launch students. The
 sample remains blocked until its upstream evidence is accepted. See ADR 1191
 and `docs/adr/1191-controlled-pilot-human-review-next-gate-handoff.md`.
+
+## DR-1192: Z.ai Frozen Snapshot Read-Only Assessment
+
+The isolated frozen `Drewsure/ministar-lab` snapshot has reproducible
+provenance and a usable Memory Match Phaser scene, but it is not integration
+ready. Read-only inspection found candidate-owned score/completion state,
+browser storage, direct telemetry dispatch, non-deterministic scene behavior,
+and a shared pirate-themed mascot entry. One prototype README also contradicts
+the shared runtime's browser-storage behavior.
+
+Memory Match remains the first candidate. The source stays outside the
+canonical repository until the complete evidence return package proves
+canonical state ownership, deterministic replay, audio coverage,
+accessibility, privacy, wrapper boundaries, and asset rights. See ADR 1192 and
+`docs/build-session-notes/2026-09-25-zai-frozen-snapshot-read-only-review.md`.

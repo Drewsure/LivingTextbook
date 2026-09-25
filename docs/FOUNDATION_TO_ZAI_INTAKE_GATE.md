@@ -50,6 +50,16 @@ LivingTextbook wrapper compatibility, target-language audio coverage,
 standard-event replay, deterministic scoring ownership, mobile accessibility,
 or white-label tenant safety.
 
+## Read-Only Source Assessment
+
+The isolated snapshot has now been inspected without importing or executing it
+inside LivingTextBook. Memory Match is present at
+`src/game/scenes/MemoryMatchScene.ts` and remains the first candidate, but the
+shared `BaseEngine` and telemetry code currently include candidate-owned score
+and completion state, browser storage, direct telemetry dispatch, and random
+scene behavior. These findings keep the candidate blocked. The full assessment
+is recorded in ADR 1192 and the 2026-09-25 build-session note.
+
 The isolated snapshot has now been checked locally with
 `node scripts/verify-phaser-source-evidence.mjs` using the extracted review
 folder. Result: `5/5` manifest hashes match
