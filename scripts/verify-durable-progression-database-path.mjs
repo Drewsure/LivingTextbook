@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { readFileSync, rmSync, writeFileSync, mkdtempSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync, mkdtempSync, symlinkSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -20,6 +20,7 @@ try {
   writeFileSync(modulePath, compiled, "utf8");
   const policy = require(modulePath);
   const dataRoot = resolve(output, "data");
+  mkdirSync(dataRoot, { recursive: true });
 
   assertEmpty(policy.validateDurableDatabasePath(join(dataRoot, "progress.sqlite"), dataRoot), "nested sqlite path");
   assertEmpty(policy.validateDurableDatabasePath(join(dataRoot, "tenant-a", "progress.sqlite"), dataRoot), "tenant nested sqlite path");
@@ -28,6 +29,18 @@ try {
   assertError(policy.validateDurableDatabasePath(join(output, "outside.sqlite"), dataRoot), "outside path");
   assertError(policy.validateDurableDatabasePath(join(dataRoot, "..", "outside.sqlite"), dataRoot), "traversal path");
   assertError(policy.validateDurableDatabasePath(join(dataRoot, "progress.sqlite"), undefined), "missing data root");
+  assertEmpty(policy.validateDurableDatabaseFilesystemPath(join(dataRoot, "progress.sqlite"), dataRoot), "existing data root");
+  assertError(policy.validateDurableDatabaseFilesystemPath(join(output, "missing", "progress.sqlite"), join(output, "missing")), "missing data root");
+
+  const outsideRoot = resolve(output, "outside");
+  mkdirSync(outsideRoot, { recursive: true });
+  const junction = join(dataRoot, "escape");
+  try {
+    symlinkSync(outsideRoot, junction, "junction");
+    assertError(policy.validateDurableDatabaseFilesystemPath(join(junction, "progress.sqlite"), dataRoot), "junction escape");
+  } catch {
+    console.log("SKIP junction escape test: filesystem does not permit junction creation in this environment.");
+  }
 } finally {
   rmSync(output, { recursive: true, force: true });
 }

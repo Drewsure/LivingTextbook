@@ -22,6 +22,8 @@ records. Use a temporary SQLite path and a throwaway coded identity.
 - Durable SQLite readiness requires `LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT` and
   keeps `LIVING_TEXTBOOK_PROGRESSION_DB_PATH` below that root as a nested
   `.sqlite` file.
+- The configured data root must exist, and existing database filesystem paths
+  must not resolve through a symlink or junction outside that root.
 - Durable readiness also requires the explicit encryption-at-rest policy gate;
   the flag is not itself proof that encryption has been implemented.
 - Durable readiness also requires the explicit secret-rotation policy gate;
