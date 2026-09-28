@@ -1517,3 +1517,14 @@ artifacts and rejects junction or symlink escapes. Run
 `node scripts/verify-durable-progression-operations.mjs` after changing backup
 path handling. This procedure does not activate backup, restore, or learner
 data writes.
+
+Upload-quarantine procedure: provision
+`LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT` as an existing directory before
+enabling review intake. Keep tenant and quarantine records below that root;
+the store now resolves existing ancestors and artifacts and withholds paths
+that escape through a junction or symlink. Run
+`node scripts/verify-upload-quarantine-filesystem-boundary.mjs`,
+`npm run verify:upload-quarantine-intake`, and
+`npm run verify:upload-quarantine-review` after changing upload storage. This
+procedure does not enable extraction, scanning approval, promotion, raw-payload
+responses, or student-facing asset use.

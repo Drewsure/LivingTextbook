@@ -6288,3 +6288,13 @@ student-payload-blocked behavior.
 - Preserved lexical validation, backup manifests, policy gates, and the
   review-only/no-execution boundary.
 - Added ADR 1222 and DR-1222.
+
+## Build session: Upload quarantine filesystem boundary
+
+- Added realpath-aware containment for publisher and teacher upload quarantine
+  writes, metadata reads, and payload-presence checks.
+- Rejected missing roots, traversal, outside paths, and junction or symlink
+  escapes before quarantine records can be written or reported.
+- Preserved tenant authorization, checksums, MIME validation, rights and scan
+  review lanes, raw-payload exclusion, and promotion blocking.
+- Added ADR 1223 and DR-1223.

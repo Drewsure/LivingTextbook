@@ -10,6 +10,7 @@ import {
   isUploadQuarantineSafeTenantId,
   validateUploadQuarantineIntakeRecord,
 } from "@living-textbook/content-model";
+import { validateQuarantineFilesystemPath } from "./quarantinePathPolicy";
 
 const DEFAULT_QUARANTINE_ROOT = join(process.cwd(), "data", "quarantine", "uploads");
 
@@ -51,12 +52,17 @@ export async function writeQuarantineUpload(input: QuarantineUploadWrite): Promi
   const recordDirectory = resolve(tenantDirectory, quarantineId);
   assertInside(root, tenantDirectory);
   assertInside(root, recordDirectory);
+  await mkdir(root, { recursive: true });
+  assertQuarantineFilesystemPath(tenantDirectory, root);
   await mkdir(recordDirectory, { recursive: true });
+  assertQuarantineFilesystemPath(recordDirectory, root);
 
   const filePath = resolve(recordDirectory, `payload${extensionForMimeType(input.mimeType)}`);
   const metadataPath = resolve(recordDirectory, "intake.json");
   assertInside(recordDirectory, filePath);
   assertInside(recordDirectory, metadataPath);
+  assertQuarantineFilesystemPath(filePath, root);
+  assertQuarantineFilesystemPath(metadataPath, root);
   await writeFile(filePath, input.bytes, { flag: "wx" });
   await writeFile(metadataPath, `${JSON.stringify({ ...record, quarantineId }, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
 
@@ -75,7 +81,13 @@ export async function readQuarantineUploadRecords(tenantId: string, quarantineId
   if (quarantineId && !safeRecordDirectory(quarantineId)) {
     return { records: [], errors: ["The quarantine identity is not a safe record identifier and was withheld."] };
   }
-  const tenantDirectory = resolve(getQuarantineRoot(), tenantId);
+  const quarantineRoot = getQuarantineRoot();
+  const tenantDirectory = resolve(quarantineRoot, tenantId);
+  try {
+    assertQuarantineFilesystemPath(tenantDirectory, quarantineRoot);
+  } catch {
+    return { records: [], errors: ["The upload quarantine filesystem boundary could not be verified and was withheld."] };
+  }
   const candidateDirectories = quarantineId
     ? [resolve(tenantDirectory, quarantineId)]
     : await readChildDirectories(tenantDirectory);
@@ -85,8 +97,10 @@ export async function readQuarantineUploadRecords(tenantId: string, quarantineId
   for (const recordDirectory of candidateDirectories) {
     try {
       assertInside(tenantDirectory, recordDirectory);
+      assertQuarantineFilesystemPath(recordDirectory, quarantineRoot);
       const metadataPath = resolve(recordDirectory, "intake.json");
       assertInside(recordDirectory, metadataPath);
+      assertQuarantineFilesystemPath(metadataPath, quarantineRoot);
       const metadata = JSON.parse(await readFile(metadataPath, "utf8")) as unknown;
       const validationErrors = validateUploadQuarantineIntakeRecord(metadata);
       if (validationErrors.length > 0) {
@@ -98,7 +112,7 @@ export async function readQuarantineUploadRecords(tenantId: string, quarantineId
         errors.push("A quarantine intake record failed tenant or identity binding and was withheld.");
         continue;
       }
-      const payloadPresent = await hasPayloadFile(recordDirectory);
+      const payloadPresent = await hasPayloadFile(recordDirectory, quarantineRoot);
       records.push(createUploadQuarantineReviewSummary(record, payloadPresent));
     } catch {
       errors.push("A quarantine intake record could not be read and was withheld.");
@@ -117,12 +131,13 @@ async function readChildDirectories(directory: string): Promise<string[]> {
   }
 }
 
-async function hasPayloadFile(recordDirectory: string): Promise<boolean> {
+async function hasPayloadFile(recordDirectory: string, quarantineRoot: string): Promise<boolean> {
   try {
     const entries = await readdir(recordDirectory, { withFileTypes: true });
     for (const entry of entries) {
       if (!entry.isFile() || entry.name === "intake.json" || !entry.name.startsWith("payload.")) continue;
       const file = resolve(recordDirectory, entry.name);
+      if (validateQuarantineFilesystemPath(file, quarantineRoot).length > 0) continue;
       const fileStat = await stat(file);
       return fileStat.isFile() && fileStat.size > 0;
     }
@@ -130,6 +145,11 @@ async function hasPayloadFile(recordDirectory: string): Promise<boolean> {
     return false;
   }
   return false;
+}
+
+function assertQuarantineFilesystemPath(candidatePath: string, quarantineRoot: string): void {
+  const errors = validateQuarantineFilesystemPath(candidatePath, quarantineRoot);
+  if (errors.length > 0) throw new Error(errors.join(" "));
 }
 
 function safeRecordDirectory(value: string): boolean {

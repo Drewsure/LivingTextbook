@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 
 const model = readSource("../packages/content-model/src/uploadQuarantineIntake.ts");
 const store = readSource("../apps/web/src/server/uploads/quarantineUploadStore.ts");
+const pathPolicy = readSource("../apps/web/src/server/uploads/quarantinePathPolicy.ts");
 const route = readSource("../apps/web/src/app/api/teacher/uploads/intake/route.ts");
 const failures = [];
 
@@ -38,6 +39,16 @@ for (const marker of [
   "return { quarantineId, record }",
 ]) {
   requireText(store, marker, `Quarantine store missing marker: ${marker}.`);
+}
+
+for (const marker of [
+  "validateQuarantineFilesystemPath",
+  "realpathSync.native",
+  "findExistingAncestor",
+  "filesystem path escapes",
+  "root must exist",
+]) {
+  requireText(pathPolicy, marker, `Quarantine filesystem policy missing marker: ${marker}.`);
 }
 
 for (const marker of [

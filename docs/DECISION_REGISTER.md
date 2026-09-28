@@ -9815,3 +9815,10 @@ Backup and restore paths now use realpath-aware custody validation in addition
 to lexical validation. Missing roots, non-directory roots, and junction or
 symlink escapes fail closed before SQLite artifacts are created or copied. See
 ADR 1222.
+
+## DR-1223: Upload Quarantine Filesystem Boundary
+
+Upload quarantine writes and metadata-only reads now use realpath-aware
+filesystem containment in addition to lexical checks. Missing roots,
+non-directory roots, traversal, and junction or symlink escapes fail closed;
+upload promotion and student-facing use remain blocked. See ADR 1223.

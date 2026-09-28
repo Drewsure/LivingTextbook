@@ -32,6 +32,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progress
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-database-path.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-upload-quarantine-filesystem-boundary.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progression-operations.mjs", import.meta.url))], {
   stdio: "inherit",
 });
