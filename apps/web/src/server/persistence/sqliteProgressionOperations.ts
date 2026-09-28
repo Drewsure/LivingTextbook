@@ -9,7 +9,7 @@ import type {
 } from "./sqliteProgressionStore";
 import { createTenantScopeDigest, getDurableProgressionStore, sha256File, SqliteProgressionStore as SqliteStore } from "./sqliteProgressionStore";
 import { createDurableProgressionBackupManifest, validateDurableProgressionBackupManifest } from "./backupManifest";
-import { validateDurableBackupPath } from "./backupPathPolicy";
+import { validateDurableBackupFilesystemPath } from "./backupPathPolicy";
 import type { DurableProgressionBackupManifest } from "./backupManifest";
 export type { DurableProgressionBackupManifest } from "./backupManifest";
 
@@ -160,6 +160,6 @@ function assertOperationsAllowed(policy: DurableOperationsPolicy): void {
 }
 
 function assertDurableBackupPath(candidatePath: string): void {
-  const errors = validateDurableBackupPath(candidatePath, process.env.LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT);
+  const errors = validateDurableBackupFilesystemPath(candidatePath, process.env.LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT);
   if (errors.length > 0) throw new Error(errors.join(" "));
 }

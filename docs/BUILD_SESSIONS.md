@@ -6266,3 +6266,25 @@ student-payload-blocked behavior.
 - Preserved separate encryption, retention, external-custody, approval, and
   no-execution gates.
 - Added ADR 1215 and DR-1215.
+
+## Build session: Durable data custody and policy gates
+
+- Bound the durable SQLite database path to an explicit data custody root and
+  rejected filesystem escapes through existing junctions or symlinks.
+- Added explicit encryption-at-rest and secret-rotation policy gates without
+  pretending that policy acknowledgement is implementation of either control.
+- Corrected pilot privacy verification to read raw-audio and transcript
+  exclusions from the authoritative backup-manifest contract.
+- Wired the real database filesystem verifier into foundation composition so
+  the broad gate executes behavior, not only source-fragment checks.
+- Added ADRs 1216-1221 and their decision-register/build-session evidence.
+
+## Build session: Durable backup filesystem boundary
+
+- Applied realpath-aware custody validation to backup and restore artifacts.
+- Required the configured backup root to exist as a directory before durable
+  operations can be used.
+- Rejected junction or symlink escapes and added focused negative coverage.
+- Preserved lexical validation, backup manifests, policy gates, and the
+  review-only/no-execution boundary.
+- Added ADR 1222 and DR-1222.

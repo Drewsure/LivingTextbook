@@ -92,6 +92,9 @@ requireFragments("backup path policy", backupPathPolicy, [
   "configured backup custody root",
   "stored below, not at, the custody root",
   "inside the configured custody root",
+  "validateDurableBackupFilesystemPath",
+  "realpathSync.native",
+  "findExistingAncestor",
 ]);
 requireFragments("database path policy", databasePathPolicy, [
   "configured data custody root",

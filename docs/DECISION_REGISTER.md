@@ -9777,3 +9777,41 @@ Durable SQLite backup and restore paths now require the configured
 `LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT` and must remain below that custody
 root. Missing, root-level, outside, and traversal paths fail closed. See ADR
 1215.
+
+## DR-1216: Durable Database Custody Root
+
+Durable SQLite database paths now require an explicit data custody root and
+must remain below it before readiness can be reported. See ADR 1216.
+
+## DR-1217: Durable Encryption-at-Rest Policy Gate
+
+Durable readiness remains blocked until the deployment explicitly documents
+and accepts encryption-at-rest and key-management controls. The flag is a
+policy gate, not an encryption implementation. See ADR 1217.
+
+## DR-1218: Durable Secret-Rotation Policy Gate
+
+Durable readiness remains blocked until the deployment documents bounded
+secret rotation and revocation for server-only credentials. See ADR 1218.
+
+## DR-1219: Pilot Privacy Verifier Authority
+
+Pilot privacy verification now reads learner-audio and transcript exclusions
+from the authoritative backup-manifest contract. See ADR 1219.
+
+## DR-1220: Durable Database Filesystem Boundary
+
+Durable SQLite paths now use realpath-aware filesystem containment in addition
+to lexical containment, rejecting junction and symlink escapes. See ADR 1220.
+
+## DR-1221: Foundation Filesystem Verifier Coverage
+
+Foundation composition now executes the database filesystem custody verifier,
+ensuring broad verification covers real behavior. See ADR 1221.
+
+## DR-1222: Durable Backup Filesystem Boundary
+
+Backup and restore paths now use realpath-aware custody validation in addition
+to lexical validation. Missing roots, non-directory roots, and junction or
+symlink escapes fail closed before SQLite artifacts are created or copied. See
+ADR 1222.

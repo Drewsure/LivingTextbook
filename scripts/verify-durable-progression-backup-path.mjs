@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import ts from "typescript";
@@ -19,7 +19,7 @@ try {
   writeFileSync(join(output, "backupPathPolicy.js"), ts.transpileModule(source, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
-  const { validateDurableBackupPath } = require(join(output, "backupPathPolicy.js"));
+  const { validateDurableBackupPath, validateDurableBackupFilesystemPath } = require(join(output, "backupPathPolicy.js"));
   const custodyRoot = join(output, "custody");
   assert(validateDurableBackupPath(join(custodyRoot, "backup.sqlite"), custodyRoot).length === 0, "backup below custody root must pass");
   assert(validateDurableBackupPath(join(custodyRoot, "nested", "backup.sqlite"), custodyRoot).length === 0, "nested backup below custody root must pass");
@@ -27,6 +27,20 @@ try {
   assert(validateDurableBackupPath(custodyRoot, custodyRoot).some((error) => error.includes("below")), "custody root itself must fail");
   assert(validateDurableBackupPath(join(custodyRoot, "backup.sqlite"), undefined).some((error) => error.includes("configured")), "missing custody root must fail");
   assert(validateDurableBackupPath(resolve(custodyRoot, "..", "custody-other", "backup.sqlite"), custodyRoot).some((error) => error.includes("inside")), "path traversal outside custody root must fail");
+
+  mkdirSync(custodyRoot, { recursive: true });
+  assert(validateDurableBackupFilesystemPath(join(custodyRoot, "backup.sqlite"), custodyRoot).length === 0, "filesystem path below existing custody root must pass");
+  assert(validateDurableBackupFilesystemPath(join(output, "missing", "backup.sqlite"), join(output, "missing")).some((error) => error.includes("must exist")), "missing filesystem custody root must fail");
+
+  const outsideRoot = join(output, "outside");
+  mkdirSync(outsideRoot, { recursive: true });
+  const junction = join(custodyRoot, "escape");
+  try {
+    symlinkSync(outsideRoot, junction, "junction");
+    assert(validateDurableBackupFilesystemPath(join(junction, "backup.sqlite"), custodyRoot).some((error) => error.includes("escapes")), "junction escape must fail");
+  } catch {
+    console.log("SKIP junction escape test: filesystem does not permit junction creation in this environment.");
+  }
 } catch (error) {
   failures.push(`backup path verification failed: ${error instanceof Error ? error.message : String(error)}`);
 } finally {

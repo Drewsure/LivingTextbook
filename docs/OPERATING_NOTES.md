@@ -1507,3 +1507,13 @@ Session-secret rotation procedure: provision the new strong current secret,
 move the old strong value to its matching `_PREVIOUS` variable for one bounded
 rollover window, verify new sign-ins use the current value, then remove the
 previous value. Do not add a second previous secret or use a weak fallback.
+
+Backup-custody procedure: provision the configured
+`LIVING_TEXTBOOK_PERSISTENCE_BACKUP_ROOT` as an existing directory before
+durable operations are considered ready. Keep backup and restore artifacts
+below that root; the operation boundary now resolves existing ancestors and
+artifacts and rejects junction or symlink escapes. Run
+`node scripts/verify-durable-progression-backup-path.mjs` and
+`node scripts/verify-durable-progression-operations.mjs` after changing backup
+path handling. This procedure does not activate backup, restore, or learner
+data writes.
