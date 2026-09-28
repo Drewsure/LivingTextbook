@@ -11,6 +11,8 @@ future server-side caller bypasses the normal deployment-gate helper.
   opening.
 - Bound direct construction to `LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT`.
 - Added conformance coverage for an unsafe direct-constructor path.
+- Included the resolved custody root in the process-cache identity and added
+  root-change invalidation coverage.
 - Preserved process-memory rehearsal behavior and all durable activation gates.
 
 ## Verification

@@ -119,6 +119,7 @@ interface StoredEventStreamIdentityRow extends StoredRow {
 const defaultDatabasePath = resolve(process.cwd(), "data", "living-textbook-progress.sqlite");
 let cachedStore: SqliteProgressionStore | undefined;
 let cachedPath: string | undefined;
+let cachedCustodyRoot: string | undefined;
 
 /**
  * Server-only durable store for the first closed/hosted pilot slice.
@@ -592,11 +593,17 @@ export function createTenantScopeDigest(tenantId: string): string {
 export function getDurableProgressionStore(): SqliteProgressionStore {
   const configuredPath = process.env.LIVING_TEXTBOOK_PROGRESSION_DB_PATH?.trim();
   const databasePath = configuredPath ? resolve(configuredPath) : defaultDatabasePath;
+  const configuredRoot = process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT?.trim();
+  const custodyRoot = configuredRoot ? resolve(configuredRoot) : undefined;
 
-  if (!cachedStore || cachedPath !== databasePath) {
+  if (!cachedStore || cachedPath !== databasePath || cachedCustodyRoot !== custodyRoot) {
     cachedStore?.close();
+    cachedStore = undefined;
+    cachedPath = undefined;
+    cachedCustodyRoot = undefined;
     cachedStore = new SqliteProgressionStore(databasePath);
     cachedPath = databasePath;
+    cachedCustodyRoot = custodyRoot;
   }
 
   return cachedStore;
@@ -607,6 +614,7 @@ export function closeDurableProgressionStore(): void {
   cachedStore?.close();
   cachedStore = undefined;
   cachedPath = undefined;
+  cachedCustodyRoot = undefined;
 }
 
 function parseStoredRecord(row: StoredRow | undefined): HostedProgressionPersistenceRecord | undefined {

@@ -70,6 +70,18 @@ try {
     } catch {
       // Expected: the store must enforce custody even when called directly.
     }
+    const alternateRoot = join(output, "alternate-root");
+    mkdirSync(alternateRoot, { recursive: true });
+    process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT = alternateRoot;
+    try {
+      adapter.getProgressionPersistenceAdapter();
+      failures.push("SQLite adapter reused a cached store after the custody root changed.");
+    } catch {
+      // Expected: changing the custody root must close and revalidate the cached store.
+    }
+    process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT = dataRoot;
+    const restoredAdapter = adapter.getProgressionPersistenceAdapter();
+    if (restoredAdapter.provider !== "sqlite") failures.push("SQLite adapter did not recover after restoring the custody root.");
     const otherTenant = reopenedStore.read({ ...identityOf(durableRecord), tenantId: "other-tenant" });
     if (otherTenant !== undefined) failures.push("SQLite read crossed a tenant boundary.");
     reopenedStore.close();

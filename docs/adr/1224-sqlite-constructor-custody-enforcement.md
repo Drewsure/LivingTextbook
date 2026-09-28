@@ -18,6 +18,10 @@ Direct construction therefore uses the same realpath-aware policy as the
 deployment gate and rejects missing roots, unsafe paths, and filesystem
 escapes.
 
+The process-level store cache also includes the resolved custody root in its
+cache identity. A root change closes the previous store and forces a fresh
+policy validation.
+
 ## Consequences
 
 - Lower-level callers cannot bypass database custody by constructing the store

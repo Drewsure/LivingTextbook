@@ -6305,6 +6305,8 @@ student-payload-blocked behavior.
   before it creates directories or opens a database.
 - Added direct-constructor rejection coverage for an unsafe path outside the
   configured data root.
+- Included the resolved custody root in the process-level store-cache identity
+  and added root-change invalidation coverage.
 - Preserved process-memory rehearsal behavior and all durable activation,
   encryption, rotation, retention, approval, and no-execution gates.
 - Added ADR 1224 and DR-1224.

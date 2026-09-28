@@ -1535,4 +1535,5 @@ rejects paths outside that root before opening SQLite. Keep conformance tests
 provisioned with a temporary root and run
 `node scripts/verify-persistence-provider-conformance.mjs` after changing the
 store, database path policy, or provider adapter. This remains a custody
-guard, not activation of durable persistence.
+guard, not activation of durable persistence. If the custody root changes at
+runtime, the cached store must be closed and recreated under the new root.

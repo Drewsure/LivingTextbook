@@ -9827,5 +9827,6 @@ upload promotion and student-facing use remain blocked. See ADR 1223.
 
 The SQLite progression store now enforces the realpath-aware data custody
 policy inside its constructor before opening or creating a database. Direct
-server-side callers cannot bypass the deployment gate with an unsafe path. See
-ADR 1224.
+server-side callers cannot bypass the deployment gate with an unsafe path. The
+process cache also invalidates when the resolved custody root changes. See ADR
+1224.
