@@ -18,7 +18,7 @@ try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
   const compiled = join(output, "persistence");
   mkdirSync(compiled, { recursive: true });
-  for (const sourceName of ["progressionRecordFingerprint.ts", "sqliteProgressionStore.ts", "progressionPersistenceAdapter.ts"]) {
+  for (const sourceName of ["progressionRecordFingerprint.ts", "databasePathPolicy.ts", "sqliteProgressionStore.ts", "progressionPersistenceAdapter.ts"]) {
     const sourcePath = join(root, "apps", "web", "src", "server", "persistence", sourceName);
     writeFileSync(join(compiled, sourceName.replace(/\.ts$/, ".js")), ts.transpileModule(readFileSync(sourcePath, "utf8"), {
       compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
@@ -27,16 +27,20 @@ try {
 
   const adapter = require(join(compiled, "progressionPersistenceAdapter.js"));
   const sqlite = require(join(compiled, "sqliteProgressionStore.js"));
-  const databasePath = join(output, "restart.sqlite");
-  const adapterDatabasePath = join(output, "adapter.sqlite");
+  const dataRoot = join(output, "data-root");
+  mkdirSync(dataRoot, { recursive: true });
+  const databasePath = join(dataRoot, "restart.sqlite");
+  const adapterDatabasePath = join(dataRoot, "adapter.sqlite");
   const originalProvider = process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER;
   const originalDatabasePath = process.env.LIVING_TEXTBOOK_PROGRESSION_DB_PATH;
+  const originalDataRoot = process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT;
 
   try {
     runAdapterChecks(adapter, "process-memory", "rehearsal");
     runEventStreamAdapterChecks(adapter, "process-memory", "rehearsal");
     process.env.LIVING_TEXTBOOK_PERSISTENCE_PROVIDER = "sqlite";
     process.env.LIVING_TEXTBOOK_PROGRESSION_DB_PATH = adapterDatabasePath;
+    process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT = dataRoot;
     runAdapterChecks(adapter, "sqlite", "durable");
     runEventStreamAdapterChecks(adapter, "sqlite", "durable");
 
@@ -49,7 +53,7 @@ try {
     const reopenedStore = new sqlite.SqliteProgressionStore(databasePath);
     const reopened = reopenedStore.read(identityOf(durableRecord));
     if (!reopened || reopened.idempotencyKey !== durableRecord.idempotencyKey) failures.push("SQLite record did not survive a store restart.");
-    const eventDatabasePath = join(output, "event-restart.sqlite");
+    const eventDatabasePath = join(dataRoot, "event-restart.sqlite");
     const firstEventStore = new sqlite.SqliteProgressionStore(eventDatabasePath);
     const durableEventRecord = createEventStreamRecord("restart-events", "2026-09-19T03:00:00.000Z");
     const eventWritten = firstEventStore.writeEventStream(durableEventRecord);
@@ -60,6 +64,12 @@ try {
     if (!reopenedEvent || reopenedEvent.idempotencyKey !== durableEventRecord.idempotencyKey) failures.push("SQLite event stream did not survive a store restart.");
     const listedEvents = reopenedEventStore.listEventStreams({ tenantId: durableEventRecord.tenantId, packageId: durableEventRecord.packageId, launchCode: durableEventRecord.launchCode });
     if (listedEvents.length !== 1 || listedEvents[0]?.idempotencyKey !== durableEventRecord.idempotencyKey) failures.push("SQLite launch-scoped event stream list did not survive a store restart.");
+    try {
+      new sqlite.SqliteProgressionStore(join(output, "outside", "escape.sqlite"));
+      failures.push("SQLite direct constructor accepted a database path outside the configured custody root.");
+    } catch {
+      // Expected: the store must enforce custody even when called directly.
+    }
     const otherTenant = reopenedStore.read({ ...identityOf(durableRecord), tenantId: "other-tenant" });
     if (otherTenant !== undefined) failures.push("SQLite read crossed a tenant boundary.");
     reopenedStore.close();
@@ -68,6 +78,7 @@ try {
     sqlite.closeDurableProgressionStore();
     restoreEnv("LIVING_TEXTBOOK_PERSISTENCE_PROVIDER", originalProvider);
     restoreEnv("LIVING_TEXTBOOK_PROGRESSION_DB_PATH", originalDatabasePath);
+    restoreEnv("LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT", originalDataRoot);
   }
 } catch (error) {
   failures.push(`Provider conformance smoke test failed: ${error instanceof Error ? error.message : String(error)}`);

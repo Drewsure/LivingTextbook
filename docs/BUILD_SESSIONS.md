@@ -6298,3 +6298,13 @@ student-payload-blocked behavior.
 - Preserved tenant authorization, checksums, MIME validation, rights and scan
   review lanes, raw-payload exclusion, and promotion blocking.
 - Added ADR 1223 and DR-1223.
+
+## Build session: SQLite constructor custody enforcement
+
+- Bound the SQLite store constructor to the realpath-aware data custody policy
+  before it creates directories or opens a database.
+- Added direct-constructor rejection coverage for an unsafe path outside the
+  configured data root.
+- Preserved process-memory rehearsal behavior and all durable activation,
+  encryption, rotation, retention, approval, and no-execution gates.
+- Added ADR 1224 and DR-1224.

@@ -9822,3 +9822,10 @@ Upload quarantine writes and metadata-only reads now use realpath-aware
 filesystem containment in addition to lexical checks. Missing roots,
 non-directory roots, traversal, and junction or symlink escapes fail closed;
 upload promotion and student-facing use remain blocked. See ADR 1223.
+
+## DR-1224: SQLite Constructor Custody Enforcement
+
+The SQLite progression store now enforces the realpath-aware data custody
+policy inside its constructor before opening or creating a database. Direct
+server-side callers cannot bypass the deployment gate with an unsafe path. See
+ADR 1224.

@@ -1528,3 +1528,11 @@ that escape through a junction or symlink. Run
 `npm run verify:upload-quarantine-review` after changing upload storage. This
 procedure does not enable extraction, scanning approval, promotion, raw-payload
 responses, or student-facing asset use.
+
+SQLite-constructor procedure: every direct store construction must run under
+an explicit `LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT`; the constructor itself
+rejects paths outside that root before opening SQLite. Keep conformance tests
+provisioned with a temporary root and run
+`node scripts/verify-persistence-provider-conformance.mjs` after changing the
+store, database path policy, or provider adapter. This remains a custody
+guard, not activation of durable persistence.

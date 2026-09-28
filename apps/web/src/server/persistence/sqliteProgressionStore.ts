@@ -7,6 +7,7 @@ import type {
   ProgressEventStreamPersistenceRecord,
 } from "@living-textbook/content-model";
 import { createProgressionRecordFingerprint } from "./progressionRecordFingerprint";
+import { validateDurableDatabaseFilesystemPath } from "./databasePathPolicy";
 
 export interface DurableProgressionIdentity {
   tenantId: string;
@@ -131,6 +132,11 @@ export class SqliteProgressionStore {
 
   constructor(databasePath = defaultDatabasePath) {
     const resolvedPath = resolve(databasePath);
+    const custodyErrors = validateDurableDatabaseFilesystemPath(
+      resolvedPath,
+      process.env.LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT,
+    );
+    if (custodyErrors.length > 0) throw new Error(custodyErrors.join(" "));
     this.databasePath = resolvedPath;
     mkdirSync(dirname(resolvedPath), { recursive: true });
     this.database = new DatabaseSync(resolvedPath);

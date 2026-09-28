@@ -32,6 +32,9 @@ const gitignore = read(".gitignore");
 requireFragments("SQLite store", store, [
   'from "node:sqlite"',
   "class SqliteProgressionStore",
+  "validateDurableDatabaseFilesystemPath",
+  "custodyErrors",
+  "LIVING_TEXTBOOK_PERSISTENCE_DATA_ROOT",
   "CREATE TABLE IF NOT EXISTS hosted_progression_records",
   "PRIMARY KEY (tenant_id, package_id, launch_code, student_session_id, idempotency_key)",
   "CREATE INDEX IF NOT EXISTS idx_hosted_progression_identity",
