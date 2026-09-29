@@ -8914,3 +8914,18 @@ This standard is recorded in DR-1270 and ADR 1270.
   QR printing, hosted persistence, or student use.
 
 This standard is recorded in DR-1271 and ADR 1271.
+
+## 556. Package Evidence Decision Precedence Standard
+
+- Multimedia and game evidence capture must require the same quarantine source
+  decision to be `accepted-for-package-review` before it can be recorded.
+- Missing or `changes-required` source decisions must keep the evidence lanes
+  blocked and explain the prerequisite in the teacher workspace.
+- Evidence lane capture remains an immutable metadata sidecar; it does not
+  upload, assemble, promote, print QR codes, enable persistence, or activate
+  student use.
+- The server route is authoritative even when the teacher UI is disabled or
+  stale, and every record must retain tenant, package, quarantine, and source
+  checksum lineage.
+
+This standard is recorded in DR-1272 and ADR 1272.

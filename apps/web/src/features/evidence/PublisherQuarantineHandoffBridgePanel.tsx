@@ -259,6 +259,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             packageId={handoff.packageId}
             enabled={packageEvidenceReviewsEnabled}
             review={packageEvidenceReview}
+            sourceDecision={reviewDecision}
             onRecorded={() => setRefreshToken((current) => current + 1)}
           />
           <QuarantineReviewDecisionCapture

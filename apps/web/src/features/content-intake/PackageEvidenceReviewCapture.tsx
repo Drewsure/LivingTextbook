@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { StatusPill } from "@living-textbook/ui";
-import { UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES, type UploadQuarantinePackageEvidenceLane, type UploadQuarantinePackageEvidenceReview } from "@living-textbook/content-model";
+import { UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES, type UploadQuarantinePackageEvidenceLane, type UploadQuarantinePackageEvidenceReview, type UploadQuarantineReviewDecisionRecord } from "@living-textbook/content-model";
 
 const laneLabels: Record<UploadQuarantinePackageEvidenceLane, string> = {
   content: "Textbook content and unit mapping",
@@ -21,6 +21,7 @@ export function PackageEvidenceReviewCapture({
   packageId,
   enabled,
   review,
+  sourceDecision,
   onRecorded,
 }: {
   tenantId: string;
@@ -28,6 +29,7 @@ export function PackageEvidenceReviewCapture({
   packageId: string;
   enabled: boolean;
   review: UploadQuarantinePackageEvidenceReview | null;
+  sourceDecision: UploadQuarantineReviewDecisionRecord | null;
   onRecorded: () => void;
 }) {
   const [reviewerId, setReviewerId] = useState("");
@@ -70,11 +72,13 @@ export function PackageEvidenceReviewCapture({
           <h2 className="mt-1 text-lg font-bold">Confirm the multimedia and game lanes before assembly</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">This is a bounded evidence attestation for the quarantined source. It records what a reviewer checked without uploading files, exposing payloads, assembling a package, printing QR codes, or activating students.</p>
         </div>
-        <StatusPill label={!enabled ? "Operator gate" : review?.status ?? "Human action"} tone={review?.status === "reviewed-package-evidence" ? "success" : "warning"} />
+        <StatusPill label={!enabled ? "Operator gate" : sourceDecision?.decision !== "accepted-for-package-review" ? "Source gate" : review?.status ?? "Human action"} tone={review?.status === "reviewed-package-evidence" ? "success" : "warning"} />
       </div>
 
       {!enabled ? (
         <p className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">Package evidence review is disabled by default. Enable <code>LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED=true</code> only in the controlled review environment.</p>
+      ) : sourceDecision?.decision !== "accepted-for-package-review" ? (
+        <p className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">An accepted-for-package-review source decision is required before these multimedia and game evidence lanes can be recorded.</p>
       ) : (
         <form className="mt-5 grid gap-4" onSubmit={submit}>
           <fieldset className="grid gap-2 sm:grid-cols-2">
@@ -85,7 +89,7 @@ export function PackageEvidenceReviewCapture({
             <label className="grid gap-2 text-sm font-semibold text-[var(--tenant-text)]">Reviewer ID<input required value={reviewerId} onChange={(event) => setReviewerId(event.target.value)} maxLength={160} placeholder="publisher-or-school-reviewer" className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-sm font-normal" /></label>
             <label className="grid gap-2 text-sm font-semibold text-[var(--tenant-text)]">Evidence note<textarea required value={reviewerNote} onChange={(event) => setReviewerNote(event.target.value)} maxLength={2000} placeholder="Reference the reviewed package records and any remaining caveats." className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-sm font-normal" /></label>
           </div>
-          <div className="flex flex-wrap items-center gap-3"><button type="submit" disabled={state === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">{state === "submitting" ? "Recording package evidence..." : "Record package evidence review"}</button><span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">{message || `${reviewedLanes.length}/${UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.length} lanes selected.`}</span></div>
+          <div className="flex flex-wrap items-center gap-3"><button type="submit" disabled={state === "submitting" || reviewedLanes.length === 0} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">{state === "submitting" ? "Recording package evidence..." : "Record package evidence review"}</button><span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">{message || `${reviewedLanes.length}/${UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.length} lanes selected.`}</span></div>
         </form>
       )}
       {review ? <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Recorded by {review.reviewerId} on {review.reviewedAt}. Assembly, promotion, QR printing, and student use remain blocked.</p> : null}

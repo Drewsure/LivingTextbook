@@ -14,7 +14,10 @@ const required = [
   ["sidecar path", store, "package-evidence-review.json"],
   ["feature gate", store, "LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED"],
   ["route response", route, '"recorded-review-only"'],
+  ["source decision gate", route, "readQuarantineReviewDecision"],
+  ["source decision blocker", route, "accepted-for-package-review source decision is required before package evidence can be recorded"],
   ["metadata-only UI", panel, "without uploading files"],
+  ["source decision UI gate", panel, "sourceDecision"],
   ["live reader", liveRoute, "readQuarantinePackageEvidenceReview"],
   ["live check", liveRoute, 'check("package-preview"'],
 ];

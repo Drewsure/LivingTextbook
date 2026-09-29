@@ -6,7 +6,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageEvidenceReview, readQuarantineUploadRecords, writeQuarantinePackageEvidenceReview } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineUploadRecords, writeQuarantinePackageEvidenceReview } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -39,6 +39,10 @@ export async function POST(request: Request) {
   if (!isPackageEvidenceReviewRequest(bodyResult.value)) return json({ status: "rejected", record: null, errors: ["Package evidence review requires tenant, quarantine, reviewer, note, and reviewed lane fields."], privacy: privacyMessage() }, 400);
   if (!isUploadQuarantineSafeTenantId(bodyResult.value.tenantId)) return json({ status: "rejected", record: null, errors: ["Package evidence review tenant identity is unsafe."], privacy: privacyMessage() }, 400);
   if (!hasReviewAuthorization(request, bodyResult.value.tenantId)) return json({ status: "unauthorized", record: null, errors: ["Tenant-scoped teacher or service authorization is required for package evidence review writes."], privacy: privacyMessage() }, 401);
+  const reviewDecision = (await readQuarantineReviewDecision(bodyResult.value.tenantId, bodyResult.value.quarantineId)).record;
+  if (!reviewDecision || reviewDecision.decision !== "accepted-for-package-review") {
+    return json({ status: "blocked", record: null, errors: [reviewDecision?.decision === "changes-required" ? "The source review decision requires changes before package evidence can be recorded." : "An accepted-for-package-review source decision is required before package evidence can be recorded."], privacy: privacyMessage() }, 423);
+  }
   const intake = await readQuarantineUploadRecords(bodyResult.value.tenantId, bodyResult.value.quarantineId);
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== bodyResult.value.quarantineId) return json({ status: "not-found", record: null, errors: ["The requested quarantine record was not available for package evidence review."], privacy: privacyMessage() }, 404);

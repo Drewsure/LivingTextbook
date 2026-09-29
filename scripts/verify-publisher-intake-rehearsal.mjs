@@ -106,7 +106,7 @@ try {
   const deliveryMode = await readJson(deliveryModeResponse);
   assert(deliveryModeResponse.status === 200 && deliveryMode.status === "recorded-review-only" && deliveryMode.record?.persistenceActivationAllowed === false, "delivery mode selection must be review-only and activation-blocked");
 
-  const packageEvidenceResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-evidence-review`, {
+  const blockedPackageEvidenceResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-evidence-review`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
@@ -118,8 +118,8 @@ try {
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
     }),
   });
-  const packageEvidence = await readJson(packageEvidenceResponse);
-  assert(packageEvidenceResponse.status === 200 && packageEvidence.status === "recorded-review-only" && packageEvidence.reviewedPackageEvidence === true, "complete package evidence must be recorded as review-only metadata");
+  const blockedPackageEvidence = await readJson(blockedPackageEvidenceResponse);
+  assert(blockedPackageEvidenceResponse.status === 423 && blockedPackageEvidence.status === "blocked", "package evidence must remain blocked until the source decision is accepted");
 
   const reviewDecisionResponse = await fetch(`${baseUrl}/api/teacher/uploads/review-decision`, {
     method: "POST",
@@ -138,16 +138,31 @@ try {
   const reviewDecision = await readJson(reviewDecisionResponse);
   assert(reviewDecisionResponse.status === 200 && reviewDecision.status === "recorded-review-only" && reviewDecision.approvalCaptured === false, "source review decision must remain review-only");
 
+  const packageEvidenceResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-evidence-review`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
+      reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
+    }),
+  });
+  const packageEvidence = await readJson(packageEvidenceResponse);
+  assert(packageEvidenceResponse.status === 200 && packageEvidence.status === "recorded-review-only" && packageEvidence.reviewedPackageEvidence === true, "complete package evidence must be recorded as review-only metadata");
+
   const packetResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({ tenantId: "sample-publisher", quarantineId, packageId: "sample-publisher-l1-u1-routines-package" }),
   });
   const packet = await readJson(packetResponse);
-  assert(packetResponse.status === 200 && packet.status === "recorded-review-only" && packet.packet?.status === "blocked", "review packet capture must remain review-only and blocked without a human decision");
+  assert(packetResponse.status === 200 && packet.status === "recorded-review-only" && packet.packet?.status === "blocked" && packet.packet?.reviewDecision === "accepted-for-package-review" && !packet.packet?.blockers.some((blocker) => blocker.includes("human review decision must be recorded")), "review packet capture must remain review-only, source-decision-bound, and blocked only by downstream gates");
 
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
-  assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "blocked packet state must flow into live readiness");
+  assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "downstream packet blockers must flow into live readiness after source decision acceptance");
   assert(secondBinding.deliveryModeDecision?.selectedMode === "closed-local", "delivery mode selection must flow into live readiness");
   assert(secondBinding.packageEvidenceReview?.status === "reviewed-package-evidence", "complete package evidence must flow into live readiness");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must close only the reviewed package preview check");
