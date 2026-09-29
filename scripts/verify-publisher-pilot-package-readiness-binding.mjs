@@ -20,7 +20,7 @@ for (const [source, markers, label] of [
   [liveRoute, ["Package readiness binding requires", "createReviewOnlyPublisherPilotPackageReadinessBinding", "readQuarantinePackageReviewPacket", "hasReviewAuthorization", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "raw payloads"], "live readiness route"],
   [bridge, ["Live package readiness binding", "/api/teacher/uploads/package-readiness-binding", "Package assembly: blocked"], "live bridge integration"],
   [bridge, ["Refresh live readiness", "setRefreshToken"], "live readiness refresh"],
-  [uploadPanel, ["Open live package readiness workspace"], "publisher intake handoff link"],
+  [uploadPanel, ["Open package handoff workspace"], "publisher intake handoff link"],
   [metadataPanel, ["Live package readiness binding contract", "/api/teacher/uploads/package-readiness-binding"], "metadata review contract"],
   [index, ["./publisherPilotPackageReadinessBinding"], "content-model export"],
 ]) {

@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -85,6 +85,13 @@ try {
     process.exit(1);
   }
 
+  // Keep the production source's explicit .ts import for the direct
+  // strip-types verifier, but normalize the sibling import in this temporary
+  // CommonJS runtime harness to the emitted .js file.
+  const compiledReceiptPath = join(output, "pilotDeliveryReleaseReceipt.js");
+  const compiledReceipt = readFileSync(compiledReceiptPath, "utf8").replace("./pilotDeliveryManifest.ts", "./pilotDeliveryManifest.js");
+  writeFileSync(compiledReceiptPath, compiledReceipt, "utf8");
+
   const aiTsconfig = join(output, "ai-tsconfig.json");
   writeFileSync(aiTsconfig, JSON.stringify({
     compilerOptions: {
@@ -111,6 +118,10 @@ try {
     process.exit(1);
   }
 
+  const compiledAiReceiptPath = join(aiOutput, "packages", "content-model", "src", "pilotDeliveryReleaseReceipt.js");
+  const compiledAiReceipt = readFileSync(compiledAiReceiptPath, "utf8").replace("./pilotDeliveryManifest.ts", "./pilotDeliveryManifest.js");
+  writeFileSync(compiledAiReceiptPath, compiledAiReceipt, "utf8");
+
   const adapterTsconfig = join(output, "adapter-tsconfig.json");
   writeFileSync(adapterTsconfig, JSON.stringify({
     compilerOptions: {
@@ -136,6 +147,10 @@ try {
     process.stderr.write(adapterCompile.stderr);
     process.exit(1);
   }
+
+  const compiledAdapterReceiptPath = join(adapterOutput, "packages", "content-model", "src", "pilotDeliveryReleaseReceipt.js");
+  const compiledAdapterReceipt = readFileSync(compiledAdapterReceiptPath, "utf8").replace("./pilotDeliveryManifest.ts", "./pilotDeliveryManifest.js");
+  writeFileSync(compiledAdapterReceiptPath, compiledAdapterReceipt, "utf8");
 
   const contentModelAlias = join(aiOutput, "node_modules", "@living-textbook", "content-model");
   mkdirSync(contentModelAlias, { recursive: true });

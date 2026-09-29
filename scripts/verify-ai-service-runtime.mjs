@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -32,6 +32,13 @@ try {
     process.stderr.write(compile.stderr);
     process.exit(1);
   }
+
+  // The production source keeps the explicit .ts extension for the direct
+  // strip-types ESM harness. Normalize the compiled CommonJS sibling import
+  // here so this independent AI-service harness exercises the same contract.
+  const compiledReceiptPath = join(output, "packages", "content-model", "src", "pilotDeliveryReleaseReceipt.js");
+  const compiledReceipt = readFileSync(compiledReceiptPath, "utf8").replace("./pilotDeliveryManifest.ts", "./pilotDeliveryManifest.js");
+  writeFileSync(compiledReceiptPath, compiledReceipt, "utf8");
 
   const packageDir = join(output, "node_modules", "@living-textbook", "content-model");
   mkdirSync(packageDir, { recursive: true });

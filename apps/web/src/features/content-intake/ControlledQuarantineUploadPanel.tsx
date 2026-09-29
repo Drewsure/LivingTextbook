@@ -220,7 +220,7 @@ function IntakeResult({
                 className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
                 href={`/teacher/evidence/${encodeURIComponent(tenantId)}/handoff?quarantineId=${encodeURIComponent(response.quarantineId)}`}
               >
-                Open live package readiness workspace
+                Open package handoff workspace
               </a>
             </div>
           ) : null}
