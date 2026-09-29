@@ -8,10 +8,13 @@ import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherSourceReviewWorkspacePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tenantId: string }>;
+  searchParams?: Promise<{ quarantineId?: string }>;
 }) {
   const { tenantId } = await params;
+  const query = searchParams ? await searchParams : {};
   const tenant = resolveTenantConfig(tenantId);
 
   if (!tenant) notFound();
@@ -24,6 +27,7 @@ export default async function TeacherSourceReviewWorkspacePage({
         queue={sampleSourceReviewQueue}
         extractionPackets={sampleSourceExtractionReviewPackets}
         extractionPreviews={sampleSourceExtractionPreviews}
+        quarantineId={query.quarantineId}
       />
     </AppShell>
   );

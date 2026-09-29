@@ -206,6 +206,12 @@ function IntakeResult({
             <div className="mt-4 flex flex-wrap gap-4 text-sm font-semibold">
               <a
                 className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+                href={`/teacher/sources/${encodeURIComponent(tenantId)}?quarantineId=${encodeURIComponent(response.quarantineId)}`}
+              >
+                Open source review workspace
+              </a>
+              <a
+                className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
                 href={`/api/teacher/uploads/review?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
               >
                 Open metadata review

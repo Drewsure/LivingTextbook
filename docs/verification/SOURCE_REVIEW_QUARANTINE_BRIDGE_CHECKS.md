@@ -12,6 +12,8 @@ quarantine review contract without widening data or activation permissions.
   readiness binding contracts.
 - The bridge remains metadata-only and states that raw payloads, download URLs,
   promotion, and student use are blocked.
+- An admitted quarantine identity can be carried into the source-review page,
+  which exposes metadata, evidence, and package-handoff links.
 - Known tenant routes and the generic white-label route build and return `200`.
 
 ## Commands

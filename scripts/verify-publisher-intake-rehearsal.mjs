@@ -74,6 +74,11 @@ try {
   assert(typeof intake.quarantineId === "string" && intake.record?.studentFacingUseAllowed === false, "quarantine intake must return an opaque id and block student use");
 
   const quarantineId = intake.quarantineId;
+  const submittedSourceReviewPage = await fetch(`${baseUrl}/teacher/sources/${rehearsalTenantId}?quarantineId=${encodeURIComponent(quarantineId)}`, { cache: "no-store" });
+  const submittedSourceReviewHtml = await submittedSourceReviewPage.text();
+  assert(submittedSourceReviewPage.status === 200, "the submitted publisher source must return to the tenant source review workspace");
+  assert(submittedSourceReviewHtml.includes("Current publisher submission") && submittedSourceReviewHtml.includes(quarantineId), "source review must carry the opaque quarantine identity forward");
+  assert(submittedSourceReviewHtml.includes("Open metadata review") && submittedSourceReviewHtml.includes("Open package handoff"), "source review must expose the review-only next-step links");
   const query = `tenantId=${rehearsalTenantId}&quarantineId=${encodeURIComponent(quarantineId)}&packageId=${rehearsalPackageId}`;
   const handoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
   assert(handoff.status === "review-only" && handoff.handoff?.writeAllowed === false, "handoff must remain metadata-only");

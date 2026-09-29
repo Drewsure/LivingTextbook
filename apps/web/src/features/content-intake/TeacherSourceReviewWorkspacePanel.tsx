@@ -5,6 +5,7 @@ import type { SourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { SourceExtractionReviewPacketPanel } from "./SourceExtractionReviewPacketPanel";
 import { SourceReviewQueuePanel } from "./SourceReviewQueuePanel";
 import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
+import { SourceReviewQuarantineSubmissionPanel } from "./SourceReviewQuarantineSubmissionPanel";
 
 interface TeacherSourceReviewWorkspacePanelProps {
   tenantId: string;
@@ -12,6 +13,7 @@ interface TeacherSourceReviewWorkspacePanelProps {
   queue: SourceReviewQueue;
   extractionPackets: SourceExtractionReviewPacket[];
   extractionPreviews: SourceExtractionPreview[];
+  quarantineId?: string;
 }
 
 const guardrails = [
@@ -29,6 +31,7 @@ export function TeacherSourceReviewWorkspacePanel({
   queue,
   extractionPackets,
   extractionPreviews,
+  quarantineId,
 }: TeacherSourceReviewWorkspacePanelProps) {
   const tenantItems = queue.items.filter((item) => item.tenantId === tenantId);
   const tenantPackets = extractionPackets.filter((packet) => packet.tenantId === tenantId);
@@ -111,6 +114,7 @@ export function TeacherSourceReviewWorkspacePanel({
       </Card>
 
       <SourceReviewQueuePanel queue={tenantQueue} />
+      {quarantineId ? <SourceReviewQuarantineSubmissionPanel tenantId={tenantId} quarantineId={quarantineId} /> : null}
       <QuarantineMetadataReviewPanel tenantId={tenantId} />
       <SourceExtractionReviewPacketPanel packets={tenantPackets} previews={tenantPreviews} />
     </div>

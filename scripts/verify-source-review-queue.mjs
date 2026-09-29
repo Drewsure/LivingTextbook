@@ -14,6 +14,7 @@ const packageReadinessPanel = readSource("../apps/web/src/features/content-intak
 const queuePanel = readSource("../apps/web/src/features/content-intake/SourceReviewQueuePanel.tsx");
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const quarantineMetadataPanel = readSource("../apps/web/src/features/content-intake/QuarantineMetadataReviewPanel.tsx");
+const quarantineSubmissionPanel = readSource("../apps/web/src/features/content-intake/SourceReviewQuarantineSubmissionPanel.tsx");
 const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
 const sourceWorkspaceRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
 const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
@@ -163,6 +164,9 @@ requireText(sourceWorkspacePanel, "Extraction stays evidence-first", "Source rev
 requireText(sourceWorkspacePanel, "SourceReviewQueuePanel", "Source review workspace panel must render the source review queue.");
 requireText(sourceWorkspacePanel, "SourceExtractionReviewPacketPanel", "Source review workspace panel must render extraction packet previews.");
 requireText(sourceWorkspacePanel, "QuarantineMetadataReviewPanel", "Source review workspace panel must expose the tenant quarantine metadata bridge.");
+requireText(sourceWorkspacePanel, "SourceReviewQuarantineSubmissionPanel", "Source review workspace panel must expose a carried quarantine submission.");
+requireText(quarantineSubmissionPanel, "Current publisher submission", "Source review quarantine submission panel must expose the current submission heading.");
+requireText(quarantineSubmissionPanel, "Open package handoff", "Source review quarantine submission panel must expose the package handoff link.");
 requireText(quarantineMetadataPanel, "Authorized review contract", "Quarantine metadata panel must expose the authorized review contract.");
 requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source review route must render the workspace panel.");
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
