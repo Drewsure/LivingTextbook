@@ -7013,3 +7013,11 @@ student-payload-blocked behavior.
   ids identical across every review-only route.
 - Added verifier coverage so future route additions cannot silently fork
   package lineage.
+
+## Build session: Pilot QR alias registry preview
+
+- Added a shared review-only registry preview for every package QR alias.
+- Bound alias entries to tenant, package, version, manifest, release receipt,
+  target, fallback, deployment targets, and rollback evidence.
+- Kept durable registry writes, route mutation, production printing, and
+  student activation blocked until the human release gates close.
