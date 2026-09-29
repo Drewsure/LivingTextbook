@@ -15,6 +15,7 @@ const queuePanel = readSource("../apps/web/src/features/content-intake/SourceRev
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
 const sourceWorkspaceRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
+const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
 const teacherIntakePage = readSource("../apps/web/src/app/teacher/intake/page.tsx");
 const routeContracts = readSource("../apps/web/src/features/routes/routeContracts.ts");
 const partnerDemo = readSource("../apps/web/src/app/partner-demo/page.tsx");
@@ -164,8 +165,10 @@ requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source r
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionReviewPackets", "Source review route must pass extraction review packets.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionPreviews", "Source review route must pass structured extraction previews.");
-requireText(sourceWorkspaceRoute, "samplePublisherTenant", "Source review route must support the sample publisher tenant.");
-requireText(sourceWorkspaceRoute, "ministarTenant", "Source review route must support the MiniStar tenant.");
+requireText(sourceWorkspaceRoute, "resolveTenantConfig", "Source review route must resolve a tenant-scoped shell.");
+requireText(tenantResolver, "samplePublisherTenant", "Tenant resolver must retain the sample publisher tenant.");
+requireText(tenantResolver, "ministarTenant", "Tenant resolver must retain the MiniStar tenant.");
+requireText(tenantResolver, "createGenericWhiteLabelTenant", "Tenant resolver must provide a generic white-label tenant shell.");
 requireText(teacherIntakePage, "SourceReviewQueuePanel", "Teacher intake page must render the source review queue panel.");
 requireText(teacherIntakePage, "sampleSourceReviewQueue", "Teacher intake page must pass the sample source review queue.");
 requireText(routeContracts, "getTeacherSourceReviewWorkspacePath", "Route contracts must expose a teacher source review workspace helper.");
