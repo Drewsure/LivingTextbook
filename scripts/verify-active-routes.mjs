@@ -454,6 +454,18 @@ expectedTextByPath.set("/teacher/pilot/requirements/white-label-review", [
   "Review-only boundary",
   "No live capture",
 ]);
+expectedTextByPath.set("/teacher/pilot/white-label-review", [
+  "Tenant pilot readiness",
+  "A review path for this publisher",
+  "Awaiting source package",
+  "Student launch blocked",
+  "Open pilot requirements",
+  "Open controlled intake",
+  "Open evidence review",
+  "Open media review",
+  "Pilot boundary",
+  "review-only",
+]);
 expectedTextByPath.get("/teacher/entitlements")?.push(
   "Package adoption readiness",
   "School and tenant approval before premium activation",

@@ -33,7 +33,7 @@ export default async function TeacherPilotRequirementsPage({
               </p>
             </div>
             <a
-              href="/teacher/pilot"
+              href={`/teacher/pilot/${encodeURIComponent(tenant.id)}`}
               className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-[var(--tenant-primary-text)] underline-offset-4 hover:brightness-95"
             >
               Back to pilot dashboard

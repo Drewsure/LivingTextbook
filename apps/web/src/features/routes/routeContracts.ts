@@ -661,6 +661,10 @@ export function getTeacherPilotReadinessDashboardPath(): string {
   return "/teacher/pilot";
 }
 
+export function getTenantPilotReadinessDashboardPath(tenantId: TenantId): string {
+  return `/teacher/pilot/${encodeURIComponent(tenantId)}`;
+}
+
 export function getTeacherPilotRequirementsIntakePath(tenantId: TenantId): string {
   return `/teacher/pilot/requirements/${encodeURIComponent(tenantId)}`;
 }

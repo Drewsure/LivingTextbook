@@ -6954,3 +6954,15 @@ student-payload-blocked behavior.
   packet, and demo links visible only for the tenant that owns those records.
 - Kept upload, extraction, storage, package creation, policy acceptance, QR
   printing, persistence, and student launch blocked.
+
+## Build session: Tenant-scoped pilot command shell
+
+- Added a tenant-scoped pilot readiness route for publishers that do not yet
+  have a complete requirements or package record.
+- Changed the requirements review return path so a tenant stays inside its own
+  pilot shell instead of being sent to the Sample Publisher command view.
+- Kept the Sample Publisher tenant on the populated reference dashboard while
+  safe unprovisioned tenants receive only source, media, evidence, and intake
+  review links.
+- Kept file admission, package assembly, QR printing, persistence, local
+  activation, and student launch blocked.
