@@ -4,15 +4,9 @@ import { AppShell } from "@/components/layout/AppShell";
 import { LocalPilotPackageRuntimePanel } from "@/features/deployment/LocalPilotPackageRuntimePanel";
 import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts";
 import { TeacherSessionLocalEvidencePanel } from "@/features/teacher/TeacherSessionLocalEvidencePanel";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readLocalPilotPackageContent, readLocalPilotPackageRuntime } from "@/server/delivery/localPilotPackageRuntimeReader";
 import { createLocalPilotPackageRouteMap } from "@/server/delivery/localPilotPackageRouteMap";
-
-const tenants = {
-  ministar: ministarTenant,
-  "sample-publisher": samplePublisherTenant,
-} as const;
+import { resolveLocalPilotPackageTenant } from "@/server/delivery/localPilotPackageTenantResolver";
 
 export default async function LocalPilotPackageTeacherEvidencePage({
   params,
@@ -20,7 +14,8 @@ export default async function LocalPilotPackageTeacherEvidencePage({
   params: Promise<{ tenantId: string; packageId: string; version: string; unitId: string }>;
 }) {
   const { tenantId, packageId, version, unitId } = await params;
-  const tenant = tenants[tenantId as keyof typeof tenants];
+  const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
+  const tenant = resolveLocalPilotPackageTenant(tenantId, runtimeResult.status === "available" ? runtimeResult.summary.tenantConfig : undefined);
   if (!tenant) notFound();
 
   const contentResult = await readLocalPilotPackageContent({ tenantId, packageId, version });
@@ -42,7 +37,6 @@ export default async function LocalPilotPackageTeacherEvidencePage({
   const unit = contentResult.contentPackage.units.find((candidate) => getUnitKey(candidate.unitMeta) === unitId);
   if (!unit) notFound();
 
-  const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
   if (runtimeResult.status !== "available") {
     return (
       <AppShell tenant={tenant} compact>

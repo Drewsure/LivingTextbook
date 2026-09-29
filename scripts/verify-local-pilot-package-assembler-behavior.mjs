@@ -52,6 +52,7 @@ try {
     const runtime = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(runtime.status === "available", "assembled local package must be readable through the runtime reader");
     if (runtime.status === "available") {
+      assert(runtime.summary.tenantConfig.id === "tenant-one" && runtime.summary.tenantConfig.displayName === "Tenant One Textbook", "runtime reader must expose package-owned white-label tenant configuration");
       assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
@@ -93,6 +94,11 @@ try {
     unsafeFallbackInput.bundleManifest.routes[0].local_fallback_path = "/launch/unit-1";
     const unsafeFallback = await assembleLocalPilotPackage(unsafeFallbackInput);
     assert(unsafeFallback.status === "blocked" && unsafeFallback.errors.some((error) => error.includes("must fall back to /local/package/tenant-one/package-one/1.0.0/front-door/unit-1")), "closed-local assembly must reject a generic fallback that bypasses the package-scoped resolver");
+
+    const missingTenantConfigInput = JSON.parse(JSON.stringify(input));
+    delete missingTenantConfigInput.bundleManifest.tenant_config;
+    const missingTenantConfig = await assembleLocalPilotPackage(missingTenantConfigInput);
+    assert(missingTenantConfig.status === "blocked" && missingTenantConfig.errors.some((error) => error.includes("embedded tenant configuration")), "closed-local assembly must reject packages without package-owned white-label configuration");
 
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED = "false";
     const disabledRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
@@ -253,6 +259,27 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     created_at: "2026-09-30T00:00:00.000Z",
     content_package_path: "content/package.json",
     media_root: "media/",
+    tenant_config: {
+      id: "tenant-one",
+      displayName: "Tenant One Textbook",
+      curriculumName: "Tenant One Companion",
+      rewardName: "Learning Sparks",
+      avatarFamilies: ["tenant-one-starter"],
+      languageSettings: { targetLanguage: "en", defaultUiLanguage: "en", assistLanguages: [] },
+      brand: {
+        primary: "#123524",
+        primaryText: "#ffffff",
+        primarySoft: "#dcfce7",
+        accent: "#0f766e",
+        accentText: "#ffffff",
+        accentSoft: "#ccfbf1",
+        background: "#f7fbf9",
+        surface: "#ffffff",
+        text: "#10231c",
+        muted: "#5e746b",
+        border: "#d7e5de",
+      },
+    },
     offline_ready: true,
     requires_hosted_redirect: false,
     cache_policy: {

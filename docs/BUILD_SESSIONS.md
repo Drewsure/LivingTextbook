@@ -6841,3 +6841,15 @@ student-payload-blocked behavior.
 - Added ADR 1286, DR-1001, and negative behavior coverage. No QR print
   authorization, package activation, learner write, or hosted persistence was
   enabled.
+
+## Build session: Package-owned white-label tenant configuration
+
+- Added validated tenant branding and language identity to the local bundle
+  contract, bound to the bundle tenant id and restricted to safe color values
+  before AppShell consumes it.
+- Closed-local assembly and runtime reads now require the package-owned tenant
+  configuration; local pages resolve branding from the approved package rather
+  than a MiniStar-only application registry.
+- Preserved known demo tenants and added a safe generic white-label fallback
+  for review/error surfaces. No tenant activation, learner write, QR mutation,
+  hosted persistence, or release approval was enabled.

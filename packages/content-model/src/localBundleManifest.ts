@@ -1,3 +1,5 @@
+import { validateTenantConfig, type TenantConfig } from "./tenant";
+
 export type LocalBundleAssetKind = "audio" | "video" | "image" | "font" | "source-document";
 export type LocalBundleAssetScanStatus = "pending" | "passed";
 export type LocalBundleCacheMode = "none" | "review-only" | "offline-ready";
@@ -46,6 +48,7 @@ export interface LocalBundleManifest {
   created_at: string;
   content_package_path: string;
   media_root: string;
+  tenant_config?: TenantConfig;
   offline_ready: boolean;
   requires_hosted_redirect: boolean;
   cache_policy?: LocalBundleCachePolicy;
@@ -164,6 +167,7 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
   if (typeof value.requires_hosted_redirect !== "boolean") errors.push("Local bundle manifest requires_hosted_redirect must be a boolean.");
   if (!isSafeRelativePath(readString(value.content_package_path))) errors.push("Local bundle content_package_path must be a safe relative path.");
   if (!isSafeRelativePath(readString(value.media_root), true)) errors.push("Local bundle media_root must be a safe relative path.");
+  if (value.tenant_config !== undefined) errors.push(...validateTenantConfig(value.tenant_config, readString(value.tenant_id)));
 
   const cachePolicy = value.cache_policy;
   if (cachePolicy !== undefined) {

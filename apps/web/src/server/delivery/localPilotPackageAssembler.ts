@@ -197,6 +197,7 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
   if (!input.bundleManifest.offline_ready) errors.push("Local pilot package assembly requires an offline-ready bundle manifest.");
   if (input.bundleManifest.tenant_id !== input.manifest.tenantId) errors.push("Local bundle tenant does not match the approved delivery manifest.");
   if (input.bundleManifest.version !== input.manifest.version) errors.push("Local bundle version does not match the approved delivery manifest.");
+  if (!input.bundleManifest.tenant_config) errors.push("Closed-local package assembly requires an embedded tenant configuration for white-label delivery.");
   if (input.bundleManifest.requires_hosted_redirect) errors.push("Offline-ready local packages cannot require a hosted redirect.");
   if (!isSafeSegment(input.operatorId)) errors.push("Local pilot package assembly requires a bounded operator identity.");
   if (!isIsoTimestamp(input.writtenAt)) errors.push("Local pilot package assembly requires a valid write timestamp.");

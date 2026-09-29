@@ -6,11 +6,13 @@ import {
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
   validateContentPackage,
+  validateTenantConfig,
   type LocalBundleManifest,
   type ContentPackage,
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
   type PilotDeliveryReleaseReceipt,
+  type TenantConfig,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
 
@@ -49,6 +51,7 @@ export interface LocalPilotPackageRuntimeSummary {
   gameRoutePaths: string[];
   mediaKinds: string[];
   contentPackagePath: string;
+  tenantConfig: TenantConfig;
   quarantineId: string;
   reviewPacketId: string;
   qrPrintArtifactReady: boolean;
@@ -108,6 +111,10 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
     const bundle = bundleValue as LocalBundleManifest;
     const assembly = assemblyValue as Record<string, unknown>;
     const reviewPacketBinding = reviewPacketBindingValue as LocalPilotPackageReviewBinding;
+    const tenantConfig = bundle.tenant_config;
+    if (!tenantConfig) return { status: "blocked", summary: null, errors: ["Local package runtime requires an embedded tenant configuration for white-label delivery."] };
+    const tenantConfigErrors = validateTenantConfig(tenantConfig, identity.tenantId);
+    if (tenantConfigErrors.length > 0) return { status: "blocked", summary: null, errors: tenantConfigErrors };
     return {
       status: "available",
       summary: {
@@ -127,6 +134,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         gameRoutePaths: packageIndex.gameRoutePaths.slice(),
         mediaKinds: packageIndex.mediaKinds.slice(),
         contentPackagePath: bundle.content_package_path,
+        tenantConfig,
         quarantineId: reviewPacketBinding.quarantineId,
         reviewPacketId: reviewPacketBinding.packetId,
         qrPrintArtifactReady: true,
