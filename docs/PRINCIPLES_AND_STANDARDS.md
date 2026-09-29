@@ -8759,3 +8759,27 @@ This standard is recorded in DR-1261 and ADR 1261.
   the exact next human decision before release work begins.
 
 This standard is recorded in DR-1262 and ADR 1262.
+
+## 547. Delivery Mode Decision Sidecar Standard
+
+- Every real publisher quarantine submission may carry one immutable,
+  tenant-scoped delivery-mode decision sidecar with `closed-local`,
+  `hosted-pwa`, or `hybrid` as its selected mode.
+- The sidecar is a planning and review record only. It must remain
+  `selected-review-only`, side-effect-free, and incapable of selecting a
+  provider, accepting school policy, enabling persistence writes, assembling a
+  package, printing QR codes, or authorizing student-facing use.
+- Recording a mode requires the explicit
+  `LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED=true` gate and an
+  authorized tenant reviewer. Identical replays may be read as idempotent;
+  conflicting replacement decisions must fail closed.
+- The live delivery-manifest preview may reflect the selected mode, but the
+  delivery, QR, release, package, hosted-opt-in, and learner checks must stay
+  independently blocked until their own evidence and authorization records
+  exist.
+- Closed-local remains the default operational fallback for the first pilot.
+  Hosted and hybrid choices require later provider, cost, privacy, school
+  policy, persistence, recovery, and rollback decisions; this sidecar does
+  not make those decisions on behalf of a tenant.
+
+This standard is recorded in DR-1263 and ADR 1263.

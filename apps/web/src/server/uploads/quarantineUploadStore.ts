@@ -15,6 +15,10 @@ import {
   createUploadQuarantineEvidenceReviewRecord,
   validateUploadQuarantineEvidenceReviewRecord,
   type UploadQuarantineEvidenceReviewRecord,
+  createUploadQuarantineDeliveryModeDecision,
+  validateUploadQuarantineDeliveryModeDecision,
+  type UploadQuarantineDeliveryMode,
+  type UploadQuarantineDeliveryModeDecision,
   type UploadQuarantinePackageReviewPacket,
   validateUploadQuarantinePackageReviewPacket,
 } from "@living-textbook/content-model";
@@ -71,6 +75,25 @@ export type QuarantineEvidenceReviewWriteResult = {
 
 export type QuarantineEvidenceReviewReadResult = {
   record: UploadQuarantineEvidenceReviewRecord | null;
+  errors: string[];
+};
+
+export type QuarantineDeliveryModeDecisionWrite = Omit<UploadQuarantineDeliveryModeDecision, "recordVersion" | "decisionId" | "tenantId" | "quarantineId" | "sourceChecksumSha256" | "hostedPersistenceDecisionPacketId" | "policyAccepted" | "providerSelected" | "persistenceActivationAllowed" | "packageAssemblyAllowed" | "qrPrintAllowed" | "studentFacingUseAllowed" | "status" | "blockers" | "nextSteps" | "mode" | "sideEffect"> & {
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  selectedMode: UploadQuarantineDeliveryMode;
+};
+
+export type QuarantineDeliveryModeDecisionWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantineDeliveryModeDecision;
+  errors: string[];
+};
+
+export type QuarantineDeliveryModeDecisionReadResult = {
+  record: UploadQuarantineDeliveryModeDecision | null;
   errors: string[];
 };
 
@@ -247,6 +270,48 @@ export async function readQuarantineEvidenceReview(tenantId: string, quarantineI
     return { record, errors: [] };
   } catch {
     return { record: null, errors: [] };
+  }
+}
+
+export async function readQuarantineDeliveryModeDecision(tenantId: string, quarantineId: string): Promise<QuarantineDeliveryModeDecisionReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) return { record: null, errors: ["The delivery mode decision identity did not pass tenant and quarantine boundary checks."] };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const decisionPath = resolve(recordDirectory, "delivery-mode-decision.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, decisionPath);
+    assertQuarantineFilesystemPath(decisionPath, root);
+    const value = JSON.parse(await readFile(decisionPath, "utf8")) as unknown;
+    const errors = validateUploadQuarantineDeliveryModeDecision(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored delivery mode decision failed validation and was withheld."] };
+    const record = value as UploadQuarantineDeliveryModeDecision;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored delivery mode decision failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantineDeliveryModeDecision(input: QuarantineDeliveryModeDecisionWrite): Promise<QuarantineDeliveryModeDecisionWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED !== "true") return { status: "blocked", idempotent: false, errors: ["Delivery mode decision writes are disabled. Enable the explicit local delivery-mode decision gate before recording a review-only selection."] };
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for delivery mode decision capture."] };
+  const record = createUploadQuarantineDeliveryModeDecision({ ...input, sourceChecksumSha256: summary.record.checksumSha256 });
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, input.tenantId, input.quarantineId);
+  const decisionPath = resolve(recordDirectory, "delivery-mode-decision.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, decisionPath);
+    assertQuarantineFilesystemPath(decisionPath, root);
+    const existing = await readQuarantineDeliveryModeDecision(input.tenantId, input.quarantineId);
+    if (existing.record) return stableJson(existing.record) === stableJson(record) ? { status: "accepted", idempotent: true, record: existing.record, errors: existing.errors } : { status: "conflict", idempotent: false, errors: ["A different delivery mode decision already exists for this quarantine record."] };
+    await writeFile(decisionPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    return { status: "blocked", idempotent: false, errors: ["Delivery mode decision metadata could not be written inside the quarantine custody boundary."] };
   }
 }
 

@@ -37,6 +37,23 @@ Evidence: `packages/content-model/src/uploadQuarantineDeliveryManifestPreview.ts
 `apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts`, and
 `scripts/verify-live-delivery-manifest-preview.mjs`.
 
+  ## Build session: Review-only delivery mode decision sidecar
+
+  - Added a tenant-scoped immutable sidecar for the publisher's intended
+    `closed-local`, `hosted-pwa`, or `hybrid` pilot shape.
+  - Added a feature-gated authorized capture route and handoff UI while keeping
+    provider selection, persistence activation, package assembly, QR printing,
+    and student use false.
+  - Propagated the selected mode into the live delivery-manifest preview and
+    strengthened the publisher intake rehearsal to prove that only the mode
+    check changes from open to passed.
+  - Added focused verifier coverage and recorded the decision in ADR 1263,
+    DR-1263, and the standing principles and standards.
+
+  Evidence: `packages/content-model/src/uploadQuarantineDeliveryModeDecision.ts`,
+  `apps/web/src/app/api/teacher/uploads/delivery-mode-decision/route.ts`, and
+  `scripts/verify-delivery-mode-decision.mjs`.
+
 ## Build session 0964: Full foundation verification baseline and controlled Z.ai handoff
 
 - Re-ran the complete `npm run verify:foundation` suite on `legacy-source-import`.

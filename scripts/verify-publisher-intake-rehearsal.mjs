@@ -25,6 +25,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED: "true",
     LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED: "true",
+    LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
@@ -89,6 +90,21 @@ try {
   assert(evidenceHandoff.handoff?.admissionDecision === "evidence-ready", "complete evidence review must advance admission decision");
   assert(evidenceHandoff.handoff?.blockers.some((blocker) => blocker.includes("Promotion adapter selection")), "promotion adapter selection must remain a separate deployment blocker");
 
+  const deliveryModeResponse = await fetch(`${baseUrl}/api/teacher/uploads/delivery-mode-decision`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      selectedMode: "closed-local",
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Synthetic closed-local choice for controlled pilot rehearsal.",
+    }),
+  });
+  const deliveryMode = await readJson(deliveryModeResponse);
+  assert(deliveryModeResponse.status === 200 && deliveryMode.status === "recorded-review-only" && deliveryMode.record?.persistenceActivationAllowed === false, "delivery mode selection must be review-only and activation-blocked");
+
   const reviewDecisionResponse = await fetch(`${baseUrl}/api/teacher/uploads/review-decision`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -116,14 +132,18 @@ try {
 
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "blocked packet state must flow into live readiness");
+  assert(secondBinding.deliveryModeDecision?.selectedMode === "closed-local", "delivery mode selection must flow into live readiness");
+  assert(secondBinding.deliveryManifestPreview?.selectedMode === "closed-local", "delivery mode selection must flow into live delivery manifest preview");
+  assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
+  assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || check.checkId === "review-packet"), "downstream readiness must not be inferred from packet capture");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, reviewDecision, packet, secondBinding });
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, reviewDecision, packet, secondBinding });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 
-  console.log("PASS publisher intake rehearsal submits a source, follows live readiness, captures blocked review metadata, and never crosses the package-writer boundary.");
+  console.log("PASS publisher intake rehearsal submits a source, follows live readiness, captures blocked review metadata and delivery mode, and never crosses the package-writer boundary.");
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   if (previewOutput.trim()) console.error(previewOutput.trim());

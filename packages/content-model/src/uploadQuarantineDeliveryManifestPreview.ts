@@ -56,6 +56,7 @@ export function createReviewOnlyUploadQuarantineDeliveryManifestPreview(input: {
   quarantineId: string;
   packageId: string;
   sourceChecksumSha256: string;
+  selectedMode?: "unselected" | "closed-local" | "hosted-pwa" | "hybrid";
   evidenceReviewId?: string | null;
   packageReviewPacketId?: string | null;
   checks: UploadQuarantineDeliveryManifestPreviewCheck[];
@@ -74,7 +75,7 @@ export function createReviewOnlyUploadQuarantineDeliveryManifestPreview(input: {
     releaseReceiptId: `${input.packageId}:delivery-manifest:release-receipt`,
     packageIndexId: `${input.packageId}:delivery-manifest:package-index`,
     sourceChecksumSha256: input.sourceChecksumSha256,
-    selectedMode: "unselected",
+    selectedMode: input.selectedMode ?? "unselected",
     evidenceReviewId: input.evidenceReviewId ?? null,
     packageReviewPacketId: input.packageReviewPacketId ?? null,
     status: "blocked",

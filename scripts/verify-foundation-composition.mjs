@@ -173,6 +173,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-publisher-pilot-
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-live-delivery-manifest-preview.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-delivery-mode-decision.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

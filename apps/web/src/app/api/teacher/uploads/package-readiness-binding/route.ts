@@ -20,6 +20,7 @@ import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import {
   readQuarantinePackageReviewPacket,
   readQuarantineEvidenceReview,
+  readQuarantineDeliveryModeDecision,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 
@@ -35,6 +36,7 @@ type ReadinessResponse = {
   preflight?: UploadQuarantinePackageAssemblyPreflight | null;
   binding?: PublisherPilotPackageReadinessBinding | null;
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
+  deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
   errors?: string[];
   privacy: string;
 };
@@ -74,6 +76,8 @@ export async function GET(request: Request) {
   });
   const packetResult = await readQuarantinePackageReviewPacket(tenantId, quarantineId);
   const packet = packetResult.record;
+  const deliveryModeDecisionResult = await readQuarantineDeliveryModeDecision(tenantId, quarantineId);
+  const deliveryModeDecision = deliveryModeDecisionResult.record;
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
@@ -88,12 +92,13 @@ export async function GET(request: Request) {
     quarantineId,
     packageId,
     sourceChecksumSha256: summary.record.checksumSha256,
+    selectedMode: deliveryModeDecision?.selectedMode ?? "unselected",
     evidenceReviewId: evidenceReview.record?.reviewId ?? null,
     packageReviewPacketId: packet?.packetId ?? null,
     checks: [
       check("source-evidence", "Source and evidence review", handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.admissionDecision === "evidence-ready" ? "The source evidence review is complete for this metadata handoff." : handoff.blockers.join(" ") || "Source evidence remains incomplete.", "Complete scan, rights, source, mapping, accessibility, and release evidence."),
       check("package-review", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The immutable package review packet is ready for the next gate." : "No durable package review packet is linked.", "Record and reconcile the package review packet."),
-      check("delivery-mode", "Delivery mode selection", "open", "No local, hosted, or hybrid delivery mode has been selected for this submission.", "Choose closed-local, hosted PWA, or hybrid delivery."),
+      check("delivery-mode", "Delivery mode selection", deliveryModeDecision ? "passed" : "open", deliveryModeDecision ? `The publisher selected ${deliveryModeDecision.selectedMode} for review-only planning.` : "No local, hosted, or hybrid delivery mode has been selected for this submission.", deliveryModeDecision ? "Keep the selected mode aligned with the final release and policy packet." : "Choose closed-local, hosted PWA, or hybrid delivery."),
       check("package-preview", "Reviewed package preview", "blocked", "A reviewed multimedia/game package is not linked to this live quarantine submission.", "Attach reviewed content, games, audio, video, image, font, and rights evidence."),
       check("release-receipt", "Manual release receipt", "blocked", "No approved delivery manifest or named release receipt is linked.", "Complete release, rollback, school-policy, and operator review."),
       check("qr-print", "QR print authorization", "blocked", "Production QR printing remains blocked for this live submission.", "Validate stable aliases, local fallback, release checksum, and print authorization."),
@@ -142,7 +147,8 @@ export async function GET(request: Request) {
     preflight,
     binding: bindingErrors.length === 0 ? binding : null,
     deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
-    errors: [...intake.errors, ...packetResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
+    deliveryModeDecision,
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
     privacy: privacyMessage(),
   });
 }
