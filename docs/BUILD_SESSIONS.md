@@ -40,6 +40,8 @@ The local pilot package assembly slice now executes the approved local-delivery 
   reader while traversal identities remain blocked.
 - Verified a reviewed partner-style content package passes the canonical
   content reader with tenant and package identity preserved before use.
+- Verified approved audio and transcript bytes are served only through the
+  declared package asset mapping, while undeclared media remains unavailable.
 - Kept learner records, student activation, and hosted persistence outside the
   local package writer.
 

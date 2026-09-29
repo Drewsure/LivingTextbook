@@ -17,6 +17,8 @@ closed-local package path without opening production writes.
   reader, including QR readiness, fallback mapping, and learner-record privacy.
 - Confirmed a reviewed partner-style content payload passes canonical content
   validation before local student-facing content reads are allowed.
+- Confirmed approved audio and transcript files resolve through the package
+  manifest with safe content types, while undeclared media is rejected.
 - Confirmed disabled writes and unsafe `file:` print bases remain blocked.
 - Added the behavior verifier to `verify:foundation`.
 

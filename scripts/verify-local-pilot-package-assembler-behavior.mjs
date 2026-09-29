@@ -17,7 +17,7 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
-  const { readLocalPilotPackageContent, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
   const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage });
@@ -25,6 +25,7 @@ try {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_MEDIA_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -61,6 +62,13 @@ try {
       assert(content.contentPackage.meta.packageId === "package-one", "content reader must preserve package identity");
       assert(content.contentPackage.meta.reviewStatus === "approved", "content reader must require approved package content");
     }
+    const media = await readLocalPilotPackageMedia({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" }, "greetings-audio", "media");
+    assert(media.status === "available" && media.contentType === "audio/mpeg", "approved package audio must be readable with a safe content type");
+    if (media.status === "available") assert(Buffer.from(media.bytes).toString("utf8").includes("approved-audio-fixture"), "media reader must return the approved audio bytes");
+    const transcript = await readLocalPilotPackageMedia({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" }, "greetings-audio", "transcript");
+    assert(transcript.status === "available" && transcript.contentType.startsWith("text/plain"), "approved package transcript must be readable as text");
+    const unknownMedia = await readLocalPilotPackageMedia({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" }, "unknown-audio", "media");
+    assert(unknownMedia.status === "not-found", "undeclared package media must remain unavailable");
     const unsafeIdentity = await readLocalPilotPackageRuntime({ tenantId: "../tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(unsafeIdentity.status === "blocked", "runtime reader must reject traversal identities");
     const second = await assembleLocalPilotPackage(input);
@@ -90,7 +98,7 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log("PASS local pilot package assembly and runtime reading prove approved QR print output, local fallback mapping, idempotence, privacy, and fail-closed write/read/base-URL gates.");
+  console.log("PASS local pilot package assembly and runtime reading prove approved QR print output, local fallback mapping, content/audio/transcript access, idempotence, privacy, and fail-closed write/read/base-URL gates.");
 }
 
 function compileSources() {
@@ -155,6 +163,10 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
   const approvedContentRecord = JSON.parse(JSON.stringify(samplePartnerContentPackage));
   for (const cue of approvedContentRecord.audioCues ?? []) delete cue.gameMode;
   approvedContentRecord.multimediaPlans = [];
+  approvedContentRecord.playlists = [];
+  approvedContentRecord.mediaAssets = [approvedContentRecord.mediaAssets?.[0]];
+  approvedContentRecord.mediaAssets[0].mediaAssetId = "greetings-audio";
+  approvedContentRecord.mediaAssets[0].localBundlePath = "media/greetings.mp3";
   approvedContentRecord.meta.reviewStatus = "approved";
   const approvedContent = JSON.stringify(approvedContentRecord)
     .replaceAll("sample-publisher-l1-u1-routines-package", "package-one")
