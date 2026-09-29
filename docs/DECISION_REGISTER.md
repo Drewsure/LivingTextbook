@@ -9904,3 +9904,20 @@ The record is not release approval and does not mutate the intake record. Raw
 payloads, filesystem paths, learner data, evidence attachments, package writes,
 promotion, routes, playlists, games, assignments, QR aliases, and student use
 remain blocked. See ADR 1229.
+
+## DR-1230: Publisher Pilot Package Preview
+
+Date: 2026-09-29
+Status: Accepted
+
+The first saleable white-label pilot now has one tenant-scoped package preview
+that brings together textbook content, curated games, audio/video/image lanes,
+stable QR aliases, local fallback, and optional hosted persistence. It is the
+publisher-facing map of what the eventual reviewed package contains.
+
+The preview is not a release archive. Proposed artifacts remain write-blocked
+and student-facing-blocked; QR records remain draft-only or blocked; hosted
+persistence remains opt-in review-only; and package export, production QR
+printing, promotion, and provider activation remain blocked until the named
+source, rights, game/audio, release, deployment, reporting, and rollback gates
+are closed. See ADR 1230.

@@ -6373,3 +6373,16 @@ student-payload-blocked behavior.
   QR aliases, and student use.
 - Added ADR 1229, DR-1229, and a focused verifier included through the
   quarantine admission gate.
+
+## Build session: Publisher pilot package preview
+
+- Added the first tenant-scoped saleable-pilot package map joining reviewed
+  textbook content, curated game routes, multimedia lanes, stable QR aliases,
+  local fallback, and optional hosted persistence.
+- Added explicit artifact records for content, games, media, QR registry,
+  local bundle, and teacher reporting policy, each with source records and
+  missing evidence.
+- Added a QR print map that preserves `/q/` alias paths and local fallback
+  paths while keeping production printing blocked.
+- Integrated the preview into the evidence handoff route and added a focused
+  verifier to the foundation composition gate.

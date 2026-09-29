@@ -5,6 +5,8 @@ import {
   samplePublisherEvidencePacketHandoffPackageErrors,
 } from "@/data/sampleEvidencePacketHandoffPackage";
 import { EvidencePacketHandoffPanel } from "@/features/evidence/EvidencePacketHandoffPanel";
+import { PublisherPilotPackagePreviewPanel } from "@/features/evidence/PublisherPilotPackagePreviewPanel";
+import { samplePublisherPilotPackagePreview, samplePublisherPilotPackagePreviewErrors } from "@/data/samplePublisherPilotPackagePreview";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 export default async function TeacherEvidencePacketHandoffPage({
@@ -20,10 +22,13 @@ export default async function TeacherEvidencePacketHandoffPage({
 
   return (
     <AppShell tenant={samplePublisherTenant}>
-      <EvidencePacketHandoffPanel
-        handoffPackage={samplePublisherEvidencePacketHandoffPackage}
-        validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}
-      />
+      <div className="grid gap-5">
+        <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
+        <EvidencePacketHandoffPanel
+          handoffPackage={samplePublisherEvidencePacketHandoffPackage}
+          validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}
+        />
+      </div>
     </AppShell>
   );
 }

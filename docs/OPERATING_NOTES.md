@@ -1599,3 +1599,15 @@ or student-use authorization. Run
 `node scripts/verify-upload-quarantine-review-decision.mjs`,
 `npm run verify:upload-quarantine-admission`, and the full foundation gate after
 changing this procedure.
+
+Publisher package preview procedure: open the evidence handoff route after
+source review and inspect the tenant-scoped package map. Confirm that the
+content, game-route, media, QR-registry, local-bundle, and report-policy
+artifacts each show source records and missing evidence. Confirm that QR
+previews use stable `/q/` aliases with a safe local fallback and that hosted
+persistence is labelled opt-in review-only. Treat the preview as a package
+assembly map, not as a downloadable archive or print authorization. Do not
+print production QR codes, activate persistence, promote student content, or
+export raw media from this route. Run
+`node scripts/verify-publisher-pilot-package-preview.mjs`, then the full
+foundation gate after changes to this slice.

@@ -1967,3 +1967,4 @@ export * from "./releaseControlEvidence";
 export * from "./localBundleRuntime";
 export * from "./localBundleReadinessAssessment";
 export * from "./qrAliasRuntime";
+export * from "./publisherPilotPackagePreview";

@@ -8063,3 +8063,27 @@ This standard is recorded in
 `docs/decision-register/DR-1229-quarantine-review-decision-record.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1229-quarantine-review-decision-record.md`.
+
+## 515. Publisher Pilot Package Preview Standard
+
+- A saleable white-label pilot must show one tenant-scoped package map that
+  joins reviewed textbook content, curated game routes, multimedia evidence,
+  stable QR aliases, local fallback, and optional hosted persistence.
+- The package map is a review artifact until source review, media rights,
+  game/audio coverage, release control, deployment, reporting, and rollback
+  evidence are complete. It must never imply that a preview is a release
+  archive.
+- Every proposed artifact must name its source records, missing evidence,
+  proposed path, and blocked write/student-use state. Every QR preview must
+  resolve through a stable `/q/` alias and retain a safe local fallback.
+- Hosted persistence remains opt-in and provider-neutral. Package preview,
+  QR preview, or local-bundle preview cannot activate persistence, print
+  production QR codes, promote student content, or export raw media.
+- Run the publisher package preview verifier with the full foundation gate
+  after changes to package assembly, QR routes, multimedia, local bundles,
+  or white-label deployment options.
+
+This standard is recorded in
+`docs/decision-register/DR-1230-publisher-pilot-package-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1230-publisher-pilot-package-preview.md`.
