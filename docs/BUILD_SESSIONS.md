@@ -6633,3 +6633,13 @@ student-payload-blocked behavior.
 - Added ADR 1249, DR-1249, and a foundation verifier. The QR mapping is now
   reviewable inside the package boundary; real print authorization still
   requires human release, rollback, rights, accessibility, and policy evidence.
+
+## Build session: Canonical integration verifier resilience
+
+- The full foundation audit exposed a false negative in the canonical game
+  integration checker: valid multiline audio-coverage and support-plan calls
+  were being rejected because the checker required one exact formatting shape.
+- Updated the verifier to normalize whitespace while preserving the semantic
+  requirements: reviewed audio coverage must still derive `audioReady`, and
+  recommended routes must still carry the reviewed support plan and target
+  language.

@@ -632,15 +632,19 @@ for (const [surface, source, fragment] of [
   }
 }
 
+const normalizedRecommendedRoutesCard = recommendedRoutesCard.replace(/\s+/gu, " ");
 for (const fragment of [
   "getGameAudioCoverage",
   "audioReady",
-  "audioReady: getGameAudioCoverage",
   "audioCues: ContentPackage[\"audioCues\"]",
 ]) {
   if (!recommendedRoutesCard.includes(fragment)) {
     failures.push(`recommended routes card must align learner continuation with audio readiness: ${fragment}`);
   }
+}
+if (!recommendedRoutesCard.includes("audioReady: getGameAudioCoverage")
+  && !recommendedRoutesCard.includes("const audioReady = getGameAudioCoverage")) {
+  failures.push("recommended routes card must derive audioReady from getGameAudioCoverage");
 }
 
 for (const fragment of ["getGameAudioCues", "cue.unitKey === unitKey && cue.tenantId === unit.unitMeta.tenantId", "!cue.gameMode || cue.gameMode === gameMode", "targetCues = scopedCues.filter"]) {
@@ -690,7 +694,8 @@ for (const [label, source, fragments] of [
   ["front door", frontDoorFlow, ["audioSupportPlan", "gameMode: launchSession.entryMode", "gameMode: nextMode"]],
 ]) {
   for (const fragment of fragments) {
-    if (!source.includes(fragment)) {
+    const normalizedSource = source.replace(/\s+/gu, " ");
+    if (!source.includes(fragment) && !normalizedSource.includes(fragment)) {
       failures.push(`${label} must preserve reviewed audio support-plan authority: ${fragment}`);
     }
   }
