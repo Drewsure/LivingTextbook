@@ -1537,3 +1537,13 @@ provisioned with a temporary root and run
 store, database path policy, or provider adapter. This remains a custody
 guard, not activation of durable persistence. If the custody root changes at
 runtime, the cached store must be closed and recreated under the new root.
+
+Provider-selection procedure: run `npm run verify:persistence-provider-configuration`,
+`npm run verify:persistence-provider-selection-preflight`,
+`npm run verify:persistence-provider-selection-preflight-behavior`, and
+`npm run verify:persistence-activation-preflight` when reviewing the hosted or
+local persistence choice for a pilot. The root `npm run verify:persistence-runtime`
+gate runs the same checks. These commands prove configuration, comparison
+evidence, and activation boundaries only; they must continue to leave provider
+selection, migration, durable writes, and activation blocked until the human
+deployment and school-policy gates are accepted.

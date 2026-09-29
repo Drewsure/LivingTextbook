@@ -6310,3 +6310,15 @@ student-payload-blocked behavior.
 - Preserved process-memory rehearsal behavior and all durable activation,
   encryption, rotation, retention, approval, and no-execution gates.
 - Added ADR 1224 and DR-1224.
+
+## Build session: Persistence provider verification command surface
+
+- Added root npm commands for persistence provider configuration, provider
+  selection preflight, selection behavior, and durable-write activation
+  preflight.
+- Included those checks in `npm run verify:persistence-runtime` so the
+  provider-neutral pilot gate cannot silently omit them.
+- Preserved the review-only boundary: provider selection, migration, durable
+  writes, and activation remain blocked pending human deployment and policy
+  decisions.
+- Added ADR 1225 and DR-1225.

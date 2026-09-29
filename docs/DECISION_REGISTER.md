@@ -9830,3 +9830,17 @@ policy inside its constructor before opening or creating a database. Direct
 server-side callers cannot bypass the deployment gate with an unsafe path. The
 process cache also invalidates when the resolved custody root changes. See ADR
 1224.
+
+## DR-1225: Persistence Provider Verification Command Surface
+
+Date: 2026-09-29  
+Status: Accepted
+
+The root verification surface now exposes provider configuration, provider
+selection preflight, selection behavior, and durable-write activation preflight
+as reproducible npm commands. The persistence runtime gate runs these checks
+so a pilot cannot appear provider-ready because a lower-level review gate was
+omitted. The commands remain review-only and do not select a provider, migrate
+data, enable durable writes, or activate hosted persistence.
+
+See ADR 1225.
