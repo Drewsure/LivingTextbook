@@ -5,6 +5,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import { QuarantineEvidenceReviewCapture } from "@/features/content-intake/QuarantineEvidenceReviewCapture";
 import { DeliveryModeDecisionCapture } from "@/features/content-intake/DeliveryModeDecisionCapture";
 import { PackageEvidenceReviewCapture } from "@/features/content-intake/PackageEvidenceReviewCapture";
+import { QuarantineReviewDecisionCapture } from "@/features/content-intake/QuarantineReviewDecisionCapture";
 import type {
   UploadQuarantinePackageAssemblyPreflight,
   UploadQuarantinePackageHandoffPreview,
@@ -26,6 +27,7 @@ interface PublisherQuarantineHandoffBridgePanelProps {
   evidenceReviewsEnabled?: boolean;
   deliveryModeDecisionsEnabled?: boolean;
   packageEvidenceReviewsEnabled?: boolean;
+  reviewDecisionsEnabled?: boolean;
 }
 
 type HandoffResponse = {
@@ -54,6 +56,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   evidenceReviewsEnabled = false,
   deliveryModeDecisionsEnabled = false,
   packageEvidenceReviewsEnabled = false,
+  reviewDecisionsEnabled = false,
 }: PublisherQuarantineHandoffBridgePanelProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [payload, setPayload] = useState<HandoffResponse | null>(null);
@@ -251,6 +254,14 @@ export function PublisherQuarantineHandoffBridgePanel({
             packageId={handoff.packageId}
             enabled={packageEvidenceReviewsEnabled}
             review={packageEvidenceReview}
+            onRecorded={() => setRefreshToken((current) => current + 1)}
+          />
+          <QuarantineReviewDecisionCapture
+            tenantId={tenantId}
+            quarantineId={quarantineId}
+            packageId={handoff.packageId}
+            enabled={reviewDecisionsEnabled}
+            decision={reviewDecision}
             onRecorded={() => setRefreshToken((current) => current + 1)}
           />
           <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">

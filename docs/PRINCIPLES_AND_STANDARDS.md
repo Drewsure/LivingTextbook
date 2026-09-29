@@ -8881,3 +8881,20 @@ This standard is recorded in DR-1268 and ADR 1268.
   or blocked rather than being synthesized from sample or static package data.
 
 This standard is recorded in DR-1269 and ADR 1269.
+
+## 554. Live Review Decision Capture Standard
+
+- The live handoff may offer one source-review decision capture control only
+  when `LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED=true` is explicitly enabled
+  in the controlled review environment.
+- Capture must submit through the existing same-origin, tenant-authorized
+  review-decision route and must bind the package and quarantine identities.
+- The control must become read-only after an immutable decision exists;
+  conflicting replacements must remain rejected by the server.
+- Capturing `accepted-for-package-review` or `changes-required` is evidence of
+  a source checkpoint, never release approval or permission to assemble,
+  promote, print QR codes, enable hosted persistence, or use students.
+- Disabled capture must explain the operator gate instead of implying that a
+  reviewer can bypass the release-control workflow.
+
+This standard is recorded in DR-1270 and ADR 1270.
