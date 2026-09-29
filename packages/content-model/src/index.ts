@@ -1893,6 +1893,7 @@ export * from "./uploadQuarantineAdmission";
 export * from "./uploadQuarantineAdmissionHandoff";
 export * from "./uploadQuarantinePackageHandoff";
 export * from "./pilotDeliveryManifest";
+export * from "./pilotDeliveryReleaseReceipt";
 export * from "./uploadQuarantineReviewDecision";
 export * from "./evidenceAttachmentStorageHandoff";
 export * from "./evidenceAttachmentStorageReconciliation";

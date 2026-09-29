@@ -8195,3 +8195,26 @@ This standard is recorded in
 `docs/decision-register/DR-1235-pilot-delivery-manifest.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1235-pilot-delivery-manifest.md`.
+
+## 521. Pilot Delivery Release Receipt Standard
+
+- A delivery manifest must be followed by a separate manual release receipt
+  before a package can be treated as handoff-ready. The receipt binds the exact
+  tenant, package, version, source checksum, reviewer identity and role, review
+  timestamp, QR-print decision, and rollback reference.
+- Release approval and QR-print authorization remain separate decisions. A
+  blocked manifest, missing reviewer, missing rollback evidence, or pending
+  policy decision must produce a blocked receipt.
+- The receipt is an auditable decision artifact, not a package writer. It must
+  not write generated app files, mutate a QR alias, activate hosted
+  persistence, expose publisher payload bytes, collect learner data, or make a
+  support-language-only path eligible for progression.
+- Any future manual package writer must compare the receipt checksum with the
+  delivery manifest, require tenant-scoped operations authorization, create a
+  pre-write custody snapshot, verify the written package, and retain a rollback
+  reference before handoff.
+
+This standard is recorded in
+`docs/decision-register/DR-1236-pilot-delivery-release-receipt.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1236-pilot-delivery-release-receipt.md`.

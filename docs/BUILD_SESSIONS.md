@@ -6433,3 +6433,18 @@ student-payload-blocked behavior.
 - Kept manifest creation side-effect-free: no package writer, QR mutation,
   persistence activation, raw media exposure, or student-facing activation.
 - Added the focused delivery-manifest verifier, ADR 1235, and DR-1235.
+
+## Build session: Pilot delivery release receipt
+
+- Added a separate manual release receipt after the governed delivery
+  manifest. It binds the exact package checksum to reviewer identity, review
+  time, QR-print authorization, and rollback evidence.
+- Kept the current sample blocked because no real reviewer, release approval,
+  QR authorization, or rollback evidence exists yet.
+- Kept receipt creation side-effect-free: it cannot write package files,
+  mutate QR aliases, activate hosted persistence, expose publisher payloads, or
+  activate students.
+- Added the receipt to the publisher evidence handoff route and added a focused
+  verifier. The next release slice can implement a controlled package writer
+  only after this receipt, tenant authorization, custody snapshot, and post-
+  write verification are all present.
