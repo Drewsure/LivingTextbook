@@ -6987,3 +6987,6 @@ student-payload-blocked behavior.
 - The rehearsal still advances a real quarantined source through evidence,
   immutable package-review revision, delivery-mode, package-evidence, and
   blocked release checks.
+- It now also exercises package assembly preflight, proving that reviewed
+  multimedia/game evidence does not silently authorize delivery, QR printing,
+  local assembly, hosted deployment, or student use.

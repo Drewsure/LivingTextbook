@@ -207,6 +207,13 @@ try {
   const packetReadback = await requestJson(`${baseUrl}/api/teacher/uploads/package-review-packet?${query}`, headers);
   assert(packetReadback.packet?.packetRevision === 2 && packetReadback.packet?.packetId === revisedPacket.packet?.packetId, "packet reads must return the highest valid immutable revision");
 
+  const assemblyPreflight = await requestJson(`${baseUrl}/api/teacher/uploads/package-assembly-preflight?${query}`, headers);
+  assert(assemblyPreflight.status === "review-only" && assemblyPreflight.preflight?.status === "blocked", "package assembly preflight must remain review-only and blocked");
+  assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("approved delivery manifest")), "assembly preflight must require an approved delivery manifest");
+  assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("manual release receipt")), "assembly preflight must require release and QR authorization");
+  assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("approved local bundle or hosted deployment handoff")), "assembly preflight must require an approved delivery handoff");
+  assert(assemblyPreflight.preflight?.assemblyWriteAllowed === false && assemblyPreflight.preflight?.promotionAllowed === false && assemblyPreflight.preflight?.studentFacingUseAllowed === false, "assembly preflight must keep writes, promotion, and student use blocked");
+
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "passed"), "the immutable adapter-bound packet revision must close the package review check without authorizing release");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "passed"), "accepted source decision must close only its own live readiness gate");
@@ -241,7 +248,7 @@ try {
   const metadataAttempt = await readJson(metadataAttemptResponse);
   assert(metadataAttemptResponse.status === 423 && metadataAttempt.status === "blocked" && metadataAttempt.deliveryMetadataWritten !== true, "delivery metadata writes must remain disabled after a review-only readiness rehearsal");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, secondBinding, releaseAttempt, metadataAttempt });
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, assemblyPreflight, secondBinding, releaseAttempt, metadataAttempt });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 

@@ -25,6 +25,9 @@ through the existing review-only package flow.
   asset during the rehearsal.
 - Evidence, package revision, delivery mode, promotion adapter, persistence,
   QR, release, and student-use gates remain independently enforced.
+- Assembly preflight may confirm that reviewed multimedia/game evidence exists,
+  but it must still name missing delivery, release/QR, and local/hosted handoff
+  evidence as blockers.
 - This is a deterministic rehearsal fixture, not permission to enable live
   publisher intake or release.
 

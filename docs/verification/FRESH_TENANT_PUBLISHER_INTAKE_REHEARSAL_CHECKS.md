@@ -17,6 +17,9 @@ any publisher source can be promoted into a reviewed package.
   opaque quarantine id and student-facing use disabled.
 - Evidence review, source review, package evidence, delivery mode, promotion
   adapter, and immutable packet revision are recorded as review-only metadata.
+- Assembly preflight recognizes the reviewed multimedia/game evidence while
+  keeping delivery manifest, release/QR authorization, and local/hosted
+  handoff blockers explicit.
 - Hosted persistence remains preview-only, unselected, and write-disabled.
 - QR printing, delivery release, package assembly, promotion, and student use
   remain blocked.
