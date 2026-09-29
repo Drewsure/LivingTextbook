@@ -6886,3 +6886,16 @@ student-payload-blocked behavior.
   DR-1004, and a focused verifier.
 - Surfaced the same continuity packet on the publisher-facing pilot command
   view so deployment continuity is visible in the main saleability review.
+
+## Build session: Tenant-scoped upload review workspace
+
+- Replaced the sample-publisher-only upload workspace guard with the shared
+  tenant resolver, preserving known tenant branding and a safe generic
+  white-label shell for review surfaces before a publisher package exists.
+- Added a regression gate so the workspace remains tenant-aware without
+  reintroducing sample-tenant hard-coding.
+- Kept quarantine intake disabled by default and left scan, rights, evidence,
+  promotion, assignment, QR, playlist, package-release, hosted-persistence,
+  and student-use gates unchanged.
+- Added ADR 1289 and DR-1005. This is a presentation/review boundary change,
+  not a release or upload authorization.

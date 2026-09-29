@@ -46,6 +46,7 @@ const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/c
 const controlledQuarantineUploadPanel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
+const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
 const teacherEvidencePacketHandoffRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
@@ -840,6 +841,15 @@ requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload wor
 requireText(teacherUploadWorkspace, "UploadTargetMappingPanel", "Teacher upload workspace must render upload target mapping.");
 requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
 requireText(teacherUploadWorkspace, "EvidencePacketFlowPanel", "Teacher upload workspace must render evidence packet flow.");
+requireText(teacherUploadRoute, "resolveTenantConfig", "Teacher upload route must resolve a tenant through the shared white-label resolver.");
+requireText(teacherUploadRoute, "tenantId", "Teacher upload route must preserve the requested tenant id.");
+requireText(teacherUploadRoute, "AppShell tenant={tenant}", "Teacher upload route must render the resolved tenant shell.");
+requireAbsent(teacherUploadRoute, "samplePublisherTenant", "Teacher upload route must not hard-code the sample publisher tenant.");
+requireText(tenantResolver, "export function resolveTenantConfig", "Shared tenant resolver must expose the white-label tenant boundary.");
+requireText(tenantResolver, "createGenericWhiteLabelTenant", "Shared tenant resolver must provide a safe generic tenant shell.");
+requireText(tenantResolver, "isSafeTenantId", "Shared tenant resolver must validate tenant ids before rendering review surfaces.");
+requireText(tenantResolver, "liveAiAssistAllowed: false", "Generic tenant shells must keep live AI assist disabled by default.");
+requireText(tenantResolver, "teacherApprovalRequired: true", "Generic tenant shells must keep microphone approval required.");
 requireText(teacherUploadRoute, "sampleUploadFilePolicyPlan", "Teacher upload route must pass the upload file policy plan.");
 requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload route must pass the upload target mapping plan.");
 requireText(teacherUploadRoute, "sampleUploadEvidencePacketFlow", "Teacher upload route must pass the upload evidence packet flow.");
@@ -951,6 +961,12 @@ function readSource(relativePath) {
 
 function requireText(source, text, message) {
   if (!source.includes(text)) {
+    failures.push(message);
+  }
+}
+
+function requireAbsent(source, text, message) {
+  if (source.includes(text)) {
     failures.push(message);
   }
 }

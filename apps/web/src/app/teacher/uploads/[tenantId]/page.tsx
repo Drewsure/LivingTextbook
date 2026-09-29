@@ -10,7 +10,7 @@ import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import { sampleUploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
 import { sampleUploadQuarantineAdmissionPreviews } from "@/data/sampleUploadQuarantineAdmission";
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export const dynamic = "force-dynamic";
 
@@ -21,12 +21,11 @@ export default async function TeacherUploadWorkspacePage({
 }) {
   const { tenantId } = await params;
 
-  if (tenantId !== samplePublisherTenant.id) {
-    notFound();
-  }
+  const tenant = resolveTenantConfig(tenantId);
+  if (!tenant) notFound();
 
   return (
-    <AppShell tenant={samplePublisherTenant}>
+    <AppShell tenant={tenant}>
       <TeacherUploadWorkspacePanel
         tenantId={tenantId}
         channelPlan={sampleUploadChannelReadinessPlan}
