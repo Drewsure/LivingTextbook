@@ -1898,6 +1898,7 @@ export * from "./pilotDeliveryPackageIndex";
 export * from "./uploadQuarantineReviewDecision";
 export * from "./uploadQuarantineEvidenceReview";
 export * from "./uploadQuarantineDeliveryManifestPreview";
+export * from "./uploadQuarantineReleaseReceiptPreview";
 export * from "./uploadQuarantineDeliveryModeDecision";
 export * from "./uploadQuarantinePackageEvidenceReview";
 export * from "./uploadQuarantinePackageReviewPacket";

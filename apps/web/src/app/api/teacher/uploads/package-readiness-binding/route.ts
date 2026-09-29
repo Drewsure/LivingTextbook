@@ -6,8 +6,10 @@ import {
   deriveUploadQuarantineAdmissionPreview,
   createReviewOnlyUploadQuarantineDeliveryManifestPreview,
   isUploadQuarantineSafeTenantId,
+  createReviewOnlyUploadQuarantineReleaseReceiptPreview,
   validatePublisherPilotPackageReadinessBindingRecord,
   validateUploadQuarantineDeliveryManifestPreview,
+  validateUploadQuarantineReleaseReceiptPreview,
   type PublisherPilotPackageReadinessBinding,
   type PublisherPilotPackageReadinessCheck,
   type UploadQuarantinePackageAssemblyPreflight,
@@ -15,6 +17,7 @@ import {
   type UploadQuarantinePackageReviewPacket,
   type UploadQuarantineDeliveryManifestPreview,
   type UploadQuarantinePackageEvidenceReview,
+  type UploadQuarantineReleaseReceiptPreview,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -40,6 +43,7 @@ type ReadinessResponse = {
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
+  releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   errors?: string[];
   privacy: string;
 };
@@ -110,6 +114,17 @@ export async function GET(request: Request) {
     ],
   });
   const deliveryManifestPreviewErrors = validateUploadQuarantineDeliveryManifestPreview(deliveryManifestPreview);
+  const releaseReceiptPreview = createReviewOnlyUploadQuarantineReleaseReceiptPreview({
+    deliveryManifestPreview,
+    checks: [
+      check("delivery-manifest", "Delivery manifest", deliveryManifestPreview.status === "blocked" ? "blocked" : "passed", deliveryManifestPreview.status === "blocked" ? "The live delivery manifest is still review-only and blocked." : "The delivery manifest preview is structurally complete.", "Close all delivery-manifest checks before release review."),
+      check("release-approval", "Named release approval", "blocked", "No named reviewer has approved this live quarantine for release.", "Record a separate human release decision against the exact manifest checksum."),
+      check("qr-print", "QR print authorization", "blocked", "Production QR printing remains blocked for this live quarantine.", "Authorize print only after stable alias, release, rollback, and local fallback checks pass."),
+      check("rollback", "Rollback reference", "blocked", "No approved rollback reference is linked to this live quarantine.", "Record the recovery target and operator owner before release."),
+      check("package-index", "Package index", "blocked", "The metadata-only package index has not been created from an approved manifest and receipt.", "Create the index only after the manifest and receipt are approved together."),
+    ],
+  });
+  const releaseReceiptPreviewErrors = validateUploadQuarantineReleaseReceiptPreview(releaseReceiptPreview);
   const checks: PublisherPilotPackageReadinessCheck[] = [
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("review-packet", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The package review packet is ready for the next gate." : "No durable package review packet has been recorded.", "Record and reconcile the immutable package review packet."),
@@ -154,7 +169,8 @@ export async function GET(request: Request) {
     deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
     deliveryModeDecision,
     packageEvidenceReview,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
+    releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors],
     privacy: privacyMessage(),
   });
 }

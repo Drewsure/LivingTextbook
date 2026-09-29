@@ -8837,3 +8837,18 @@ This standard is recorded in DR-1265 and ADR 1265.
   publisher can understand what remains before a package becomes saleable.
 
 This standard is recorded in DR-1266 and ADR 1266.
+
+## 551. Live Release Receipt Preview Standard
+
+- A real quarantine handoff must derive a release-receipt preview from its own
+  delivery-manifest preview, source checksum, tenant, package, and future
+  package-index identity. A sample receipt must never stand in for it.
+- The preview may show the future receipt identity and independent checks for
+  delivery manifest, named release approval, QR authorization, rollback, and
+  package index. Reviewer, rollback, approval, and authorization fields remain
+  pending until a separate human-controlled release workflow exists.
+- The preview is always blocked, review-only, and side-effect-free. It cannot
+  write a receipt, assemble a package, mutate QR aliases, enable persistence,
+  or activate student use.
+
+This standard is recorded in DR-1267 and ADR 1267.
