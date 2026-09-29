@@ -17,6 +17,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-pack
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-package-runtime-route.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-companion-release-continuity.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-package-content-reader.mjs", import.meta.url))], {
   stdio: "inherit",
 });

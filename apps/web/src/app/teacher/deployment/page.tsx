@@ -5,6 +5,7 @@ import { sampleDeploymentContinuityDecision, sampleDeploymentContinuityDecisionE
 import { sampleDeploymentContinuityHandoff, sampleDeploymentContinuityHandoffErrors } from "@/data/sampleDeploymentContinuityHandoff";
 import { sampleDeploymentProfiles } from "@/data/sampleDeploymentProfiles";
 import { sampleLocalBundleManifests } from "@/data/sampleLocalBundlePlan";
+import { sampleLocalCompanionReleaseContinuity, sampleLocalCompanionReleaseContinuityErrors } from "@/data/sampleLocalCompanionReleaseContinuity";
 import { sampleLocalDeploymentPreflightPlan } from "@/data/sampleLocalDeploymentPreflight";
 import { sampleMediaBundleIntegrityPlan } from "@/data/sampleMediaBundleIntegrity";
 import { samplePwaOfflineReadinessGate } from "@/data/samplePwaOfflineReadiness";
@@ -14,6 +15,7 @@ import { DeploymentContinuityDecisionPanel } from "@/features/deployment/Deploym
 import { DeploymentContinuityHandoffPanel } from "@/features/deployment/DeploymentContinuityHandoffPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { LocalCompanionReleaseContinuityPanel } from "@/features/deployment/LocalCompanionReleaseContinuityPanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
@@ -81,6 +83,10 @@ export default function TeacherDeploymentPage() {
         <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
+        <LocalCompanionReleaseContinuityPanel
+          packet={sampleLocalCompanionReleaseContinuity}
+          errors={sampleLocalCompanionReleaseContinuityErrors}
+        />
         <PackageTierCatalogPanel packages={sampleWhiteLabelPackageCatalog} />
       </div>
     </AppShell>

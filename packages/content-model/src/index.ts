@@ -1982,3 +1982,4 @@ export * from "./localBundleReadinessAssessment";
 export * from "./qrAliasRuntime";
 export * from "./publisherPilotPackagePreview";
 export * from "./publisherPilotPackageReadinessBinding";
+export * from "./localCompanionReleaseContinuity";

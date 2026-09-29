@@ -6872,3 +6872,15 @@ student-payload-blocked behavior.
   tenant registry at the white-label package boundary.
 - The route remains read-only: no package writes, activation, QR mutation,
   learner data, or hosted persistence was enabled.
+
+## Build session: Local companion release continuity packet
+
+- Added a package-scoped review contract joining installer identity, checksums,
+  supported-device testing, yearly update strategy, migration, rollback,
+  backup, restore, retention, and operator handoff evidence.
+- Mounted the continuity packet in the deployment workbench so a future
+  publisher handoff has an explicit operational checklist rather than an
+  implied installer promise.
+- Kept installation, update/recovery execution, export, package writes, route
+  mutation, hosted persistence, and student promotion blocked. Added ADR 1288,
+  DR-1004, and a focused verifier.
