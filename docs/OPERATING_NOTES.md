@@ -1619,3 +1619,10 @@ Do not describe this sheet as production-ready or distribute it as a final
 textbook insert until durable alias persistence, rights/checksum evidence,
 release approval, local fallback, and rollback approval are closed. The QR
 encoder is local and produces no network call or route mutation.
+
+Publisher evidence reconciliation procedure: review the package-readiness
+reconciliation on the handoff route and compare it with the intake route before
+any pilot decision. The publisher package is not ready when source assembly,
+verifier evidence, target-language audio, media rights, publish, assignment, or
+persistence lanes are unresolved. Treat the reconciliation as a joined
+evidence view, not as an approval or storage write.

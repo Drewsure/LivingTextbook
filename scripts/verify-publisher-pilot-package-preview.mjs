@@ -22,6 +22,8 @@ const required = [
   [printSheet, "QRCode.toString", "local QR symbol generation"],
   [printButton, "Print review sheet", "review print control"],
   [printSheet, "Production textbook printing remains blocked", "production print boundary"],
+  [route, "PackageReadinessReconciliationPanel", "publisher package readiness reconciliation handoff"],
+  [route, "samplePackageReadinessReconciliations", "publisher package readiness reconciliation data"],
   [route, "PublisherPilotPackagePreviewPanel", "handoff route integration"],
 ];
 for (const [source, marker, label] of required) {

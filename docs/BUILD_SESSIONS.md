@@ -6389,3 +6389,8 @@ student-payload-blocked behavior.
 - Added local QR SVG generation and a browser-print review sheet for stable
   alias previews. The sheet is suitable for internal rehearsal only; it does
   not mutate aliases or authorize production textbook printing.
+- Bound the existing package-readiness reconciliation into the publisher
+  evidence handoff. The handoff now shows the same source, checksum, verifier,
+  target-language audio, media-rights, publish, assignment, and persistence
+  lanes used by intake, preventing a package preview from appearing more
+  complete than its evidence chain.

@@ -8090,3 +8090,22 @@ This standard is recorded in
 `docs/decision-register/DR-1230-publisher-pilot-package-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1230-publisher-pilot-package-preview.md`.
+
+## 516. Publisher Evidence Reconciliation Handoff Standard
+
+- The publisher evidence handoff must render the same package-readiness lanes
+  used by intake for the same tenant and package identity.
+- Source assembly, checksum, verifier evidence, target-language audio, media
+  rights, publish, assignment rollout, and persistence must remain visibly
+  bound before a pilot can be considered.
+- A joined reconciliation is evidence only. It cannot promote a package, write
+  a route or playlist, activate persistence, authorize QR printing, or enable
+  student-facing use.
+- Future replacement of sample publisher records must update the bound source,
+  media, game, QR, deployment, and policy evidence together; a visually
+  complete package preview is not sufficient.
+
+This standard is recorded in
+`docs/decision-register/DR-1231-publisher-evidence-reconciliation-handoff.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1231-publisher-evidence-reconciliation-handoff.md`.
