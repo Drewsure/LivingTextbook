@@ -19,6 +19,8 @@ import { samplePilotDeliveryManifest, samplePilotDeliveryManifestErrors } from "
 import { samplePilotDeliveryReleaseReceipt, samplePilotDeliveryReleaseReceiptErrors } from "@/data/samplePilotDeliveryReleaseReceipt";
 import { PilotDeliveryReleaseReceiptPanel } from "@/features/evidence/PilotDeliveryReleaseReceiptPanel";
 import { PilotDeliveryPackageIndexPanel } from "@/features/evidence/PilotDeliveryPackageIndexPanel";
+import { PublisherPilotPackageReadinessBindingPanel } from "@/features/evidence/PublisherPilotPackageReadinessBindingPanel";
+import { samplePublisherPilotPackageReadinessBinding, samplePublisherPilotPackageReadinessBindingErrors } from "@/data/samplePublisherPilotPackageReadinessBinding";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
@@ -45,6 +47,7 @@ export default async function TeacherEvidencePacketHandoffPage({
   return (
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
+        <PublisherPilotPackageReadinessBindingPanel binding={samplePublisherPilotPackageReadinessBinding} validationErrors={samplePublisherPilotPackageReadinessBindingErrors} />
         <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
         <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
         <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />

@@ -7,7 +7,7 @@ export const sampleHostedPersistenceOptInDecisionPacket: HostedPersistenceOptInD
   packageId: "sample-publisher-l1-u1-routines-package",
   quarantineId: "q-00000000-0000-4000-8000-000000000001",
   reviewPacketId: "sample-publisher-l1-u1-routines-package:q-00000000-0000-4000-8000-000000000001:package-review-packet",
-  sourceChecksumSha256: "a".repeat(64),
+  sourceChecksumSha256: "2".repeat(64),
   providerSelectionPreflightId: "sample-publisher-storage-selection-preflight",
   persistenceActivationPreflightId: "sample-publisher-durable-write-activation-preflight",
   policyRecordId: "sample-publisher-pilot-retention-policy-not-recorded",

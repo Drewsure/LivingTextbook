@@ -8654,3 +8654,23 @@ This standard is recorded in DR-1256 and ADR 1256.
   capability.
 
 This standard is recorded in DR-1257 and ADR 1257.
+
+## 542. Publisher Pilot Readiness Binding Standard
+
+- The first saleable white-label pilot must expose one metadata-only readiness
+  binding joining source quarantine, package review, assembly preflight,
+  package preview, readiness reconciliation, delivery manifest, release
+  receipt, package index, and hosted opt-in identity.
+- Every required check must be present, unique, and tied to a bounded package
+  and tenant identity. A source checksum must remain identical across the
+  lineage, with representation normalization recorded by the validator.
+- Any open or blocked check keeps the binding blocked. A ready binding means
+  only that the evidence is sufficient for manual assembly review; it does not
+  authorize a package writer, QR printing, promotion, hosted writes, or student
+  use.
+- The binding is review-only and side-effect-free. The closed-local fallback
+  remains a complete delivery option when hosted persistence is not selected.
+- The handoff view must show blockers and next actions clearly enough for a
+  publisher, teacher, or platform operator to understand the remaining work.
+
+This standard is recorded in DR-1258 and ADR 1258.
