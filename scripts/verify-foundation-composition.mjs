@@ -26,6 +26,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-memo
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-front-door-route.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-media-route.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });

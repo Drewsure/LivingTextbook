@@ -6590,3 +6590,20 @@ student-payload-blocked behavior.
   and release changes blocked. Added ADR 1246, DR-1246, and a foundation
   verifier. The first production-shaped onboarding chain is now ready for
   real publisher package evidence, not yet saleable approval.
+
+## Build session: Local package multimedia read lane
+
+- Added a disabled-by-default local media reader and bounded API for approved
+  audio, video, poster, and transcript files. It first validates the local
+  package content lane, then resolves only the matching local-bundle manifest
+  path inside the package custody root.
+- Added a package-scoped playlist route that reuses the canonical media
+  engagement and playback components. Media starts, pauses, completions, and
+  optional background-media events remain browser rehearsal evidence and do
+  not unlock progression or activate hosted persistence.
+- Derived local media URLs from tenant, package, version, and asset identity;
+  arbitrary publisher URLs and filesystem paths are not accepted by the
+  runtime lane. Added ADR 1247, DR-1247, and a foundation verifier.
+- The pilot now has a production-shaped local content, game, audio, and
+  multimedia path. Real publisher files, rights, device, rollback, and
+  release evidence are still required before saleable approval.

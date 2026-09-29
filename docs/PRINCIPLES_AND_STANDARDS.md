@@ -8456,3 +8456,27 @@ session log, and ADR 1245.
 
 This standard is recorded in the decision register entry DR-1246, the build
 session log, and ADR 1246.
+
+## 532. Local Package Multimedia Read Standard
+
+- Approved package media must be served through a gated, package-scoped read
+  lane. The lane may expose only an asset declared by the approved content
+  package and matching local-bundle manifest; it must never serve arbitrary
+  filesystem paths.
+- Media, poster, and transcript reads require separate bounded identity
+  parameters and an explicit local media-read feature gate. The route must
+  preserve tenant, package, version, and asset identity and must return safe
+  content types with no write or learner-data behavior.
+- The local pilot may reuse the canonical media engagement and playback
+  components after approved package content has passed the content reader.
+  Media starts, pauses, completions, and teacher-controlled background-media
+  events remain support/reporting events; media playback cannot unlock a game.
+- Local media URLs must be derived from package identity and asset identity,
+  not from publisher-provided absolute URLs. Hosted-first and local-first
+  resolution remain explicit deployment choices.
+- A playable local media route proves package asset delivery and accessibility
+  plumbing. It does not prove rights, offline caching, release approval, or
+  saleable-pilot readiness until the corresponding evidence is accepted.
+
+This standard is recorded in the decision register entry DR-1247, the build
+session log, and ADR 1247.

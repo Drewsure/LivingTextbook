@@ -52,6 +52,12 @@ export type LocalPilotPackageContentReadResult =
   | { status: "blocked" | "not-found"; contentPackage: null; errors: string[] }
   | { status: "available"; contentPackage: ContentPackage; errors: [] };
 
+export type LocalPilotPackageMediaPart = "media" | "poster" | "transcript";
+
+export type LocalPilotPackageMediaReadResult =
+  | { status: "blocked" | "not-found"; bytes: null; contentType: null; errors: string[] }
+  | { status: "available"; bytes: Uint8Array; contentType: string; errors: [] };
+
 export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageRuntimeReadResult> {
   const identityErrors = validateIdentity(identity);
   if (identityErrors.length > 0) return { status: "blocked", summary: null, errors: identityErrors };
@@ -149,6 +155,60 @@ export async function readLocalPilotPackageContent(identity: LocalPilotPackageRu
   }
 }
 
+export async function readLocalPilotPackageMedia(
+  identity: LocalPilotPackageRuntimeIdentity,
+  assetId: string,
+  part: LocalPilotPackageMediaPart = "media",
+): Promise<LocalPilotPackageMediaReadResult> {
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_MEDIA_READS_ENABLED !== "true") {
+    return { status: "blocked", bytes: null, contentType: null, errors: ["Local pilot package media reads are disabled. Enable the explicit local-package media read gate before serving package media."] };
+  }
+  if (!isSafeSegment(assetId)) {
+    return { status: "blocked", bytes: null, contentType: null, errors: ["Local package media asset identity must be a bounded filesystem-safe identity."] };
+  }
+  if (!(["media", "poster", "transcript"] as const).includes(part)) {
+    return { status: "blocked", bytes: null, contentType: null, errors: ["Local package media part is unsupported."] };
+  }
+
+  const contentResult = await readLocalPilotPackageContent(identity);
+  if (contentResult.status !== "available") {
+    return { status: contentResult.status, bytes: null, contentType: null, errors: contentResult.errors };
+  }
+  const asset = (contentResult.contentPackage.mediaAssets ?? []).find((candidate) => candidate.mediaAssetId === assetId);
+  if (!asset) {
+    return { status: "not-found", bytes: null, contentType: null, errors: ["The requested local package media asset is not declared by the approved content package."] };
+  }
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) {
+    return { status: "blocked", bytes: null, contentType: null, errors: ["Local pilot package media reads require an explicit package root."] };
+  }
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const bundlePath = join(directory, "metadata/local-bundle-manifest.json");
+  try {
+    const bundle = JSON.parse(await readFile(bundlePath, "utf8")) as LocalBundleManifest;
+    const bundleAsset = bundle.assets.find((candidate) => candidate.asset_id === assetId);
+    const relativeAssetPath = part === "media"
+      ? asset.localBundlePath ?? bundleAsset?.local_path
+      : part === "poster"
+        ? bundleAsset?.poster_path
+        : bundleAsset?.transcript_path;
+    if (!relativeAssetPath || !isSafeRelativePackagePath(relativeAssetPath)) {
+      return { status: "not-found", bytes: null, contentType: null, errors: [`The approved local package has no safe ${part} file for media asset ${assetId}.`] };
+    }
+    const mediaPath = resolve(directory, relativeAssetPath);
+    const boundaryErrors = validateDurableBackupFilesystemPath(mediaPath, directory);
+    if (boundaryErrors.length > 0) {
+      return { status: "blocked", bytes: null, contentType: null, errors: boundaryErrors };
+    }
+    const bytes = new Uint8Array(await readFile(mediaPath));
+    return { status: "available", bytes, contentType: getMediaContentType(relativeAssetPath, part), errors: [] };
+  } catch {
+    return { status: "not-found", bytes: null, contentType: null, errors: ["The requested local package media file could not be read from the configured package root."] };
+  }
+}
+
 function validateIdentity(identity: LocalPilotPackageRuntimeIdentity): string[] {
   const errors: string[] = [];
   for (const [label, value] of Object.entries(identity)) {
@@ -181,6 +241,37 @@ async function readJson(path: string): Promise<unknown> {
 
 function isSafeSegment(value: string): boolean {
   return typeof value === "string" && value.length > 0 && value.length <= 160 && /^[A-Za-z0-9._-]+$/.test(value);
+}
+
+function isSafeRelativePackagePath(value: string): boolean {
+  return value.length > 0
+    && value.length <= 2048
+    && !value.startsWith("/")
+    && !value.startsWith("\\")
+    && !value.includes("\\")
+    && !value.split("/").some((segment) => segment === "" || segment === "." || segment === "..");
+}
+
+function getMediaContentType(path: string, part: LocalPilotPackageMediaPart): string {
+  if (part === "transcript") {
+    return path.toLowerCase().endsWith(".vtt") ? "text/vtt; charset=utf-8" : "text/plain; charset=utf-8";
+  }
+  const extension = path.toLowerCase().split(".").pop() ?? "";
+  const types: Record<string, string> = {
+    mp3: "audio/mpeg",
+    m4a: "audio/mp4",
+    wav: "audio/wav",
+    ogg: "audio/ogg",
+    mp4: "video/mp4",
+    webm: "video/webm",
+    mov: "video/quicktime",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    avif: "image/avif",
+  };
+  return types[extension] ?? (part === "poster" ? "image/*" : "application/octet-stream");
 }
 
 function isRecord(value: unknown): value is Record<string, any> {

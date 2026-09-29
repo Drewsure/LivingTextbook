@@ -760,3 +760,18 @@ export function getLocalPilotPackageMemoryMatchPath(tenantId: TenantId, packageI
 export function getLocalPilotPackageFrontDoorPath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/front-door/${encodeURIComponent(unitId)}`;
 }
+
+export function getLocalPilotPackageMediaPath(
+  tenantId: TenantId,
+  packageId: string,
+  version: string,
+  assetId: string,
+  part: "media" | "poster" | "transcript" = "media",
+): string {
+  const query = new URLSearchParams({ tenantId, packageId, version, assetId, part });
+  return `/api/local-package/media?${query.toString()}`;
+}
+
+export function getLocalPilotPackageMediaRoutePath(tenantId: TenantId, packageId: string, version: string, playlistId: string): string {
+  return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/media/${encodeURIComponent(playlistId)}`;
+}
