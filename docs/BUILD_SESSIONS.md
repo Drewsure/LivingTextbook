@@ -24,6 +24,23 @@ The game catalog learner-metadata slice now checks role, skill focus, summary, a
 
 The publisher delivery-writer rehearsal now follows the review-only intake path through its immutable adapter-bound packet revision and then attempts the release and delivery-metadata writer endpoints. Both must remain explicitly blocked, so review readiness cannot be mistaken for release approval or package assembly.
 
+The local pilot package assembly slice now executes the approved local-delivery writer in a temporary custody root. It proves QR SVG and printable HTML generation, stable local fallback mapping, atomic read-back, exact replay idempotence, and fail-closed write/base-URL gates without creating learner records.
+
+## Build session: Local pilot package and QR print behavior
+
+- Added a behavior-level rehearsal for the real local package assembler rather
+  than relying only on static source checks.
+- Verified that an approved publisher package copies only approved content and
+  accessibility evidence into an immutable package directory.
+- Verified the QR manifest and printable HTML contain the approved alias, SVG,
+  and local fallback path.
+- Verified exact assembly replay is idempotent, writes stay blocked unless the
+  explicit local gate is enabled, and unsafe `file:` print bases are rejected.
+- Kept learner records, student activation, and hosted persistence outside the
+  local package writer.
+
+Evidence: `scripts/verify-local-pilot-package-assembler-behavior.mjs`, `docs/adr/1284-local-package-qr-print-behavior.md`, and `docs/build-session-notes/2026-09-30-local-package-qr-print-behavior.md`.
+
 ## Build session: Publisher delivery-writer rehearsal
 
 - Extended the controlled publisher intake rehearsal through the adapter-bound
