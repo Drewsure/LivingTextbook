@@ -5,7 +5,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,9 +24,13 @@ export async function GET(request: Request) {
   if (!packet) return json({ status: "not-recorded", tenantId, quarantineId, preflight: null, errors: ["A durable package review packet is required before assembly preflight can run.", ...packetResult.errors], privacy: privacyMessage() }, 404);
   if (requestedPackageId && requestedPackageId !== packet.packageId) return json({ status: "rejected", tenantId, quarantineId, preflight: null, errors: ["Requested package identity does not match the durable review packet."], privacy: privacyMessage() }, 409);
 
+  const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
+  const packageEvidenceReview = packageEvidenceReviewResult.record;
+
   const preflight = createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
+      ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
       "A manual release receipt and QR print authorization are not linked to this quarantine review packet.",
       "An approved local bundle or hosted deployment handoff is not linked to this quarantine review packet.",
@@ -40,7 +44,7 @@ export async function GET(request: Request) {
     assemblyWriteAllowed: false,
     promotionAllowed: false,
     studentFacingUseAllowed: false,
-    errors: packetResult.errors,
+    errors: [...packetResult.errors, ...packageEvidenceReviewResult.errors],
     privacy: privacyMessage(),
   });
 }

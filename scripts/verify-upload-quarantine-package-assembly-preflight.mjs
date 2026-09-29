@@ -21,6 +21,8 @@ for (const marker of [
 requireText(index, "./uploadQuarantinePackageAssemblyPreflight", "Content model must export package assembly preflight.");
 for (const marker of [
   "createUploadQuarantinePackageAssemblyPreflight",
+  "readQuarantinePackageEvidenceReview",
+  "complete reviewed multimedia and game evidence sidecar is not linked",
   "readQuarantinePackageReviewPacket",
   "An approved delivery manifest is not linked",
   "An approved delivery manifest is not linked",

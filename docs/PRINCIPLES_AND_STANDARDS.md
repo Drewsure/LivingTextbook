@@ -8941,3 +8941,17 @@ This standard is recorded in DR-1272 and ADR 1272.
   package assembly, release approval, QR printing, persistence, or student use.
 
 This standard is recorded in DR-1273 and ADR 1273.
+
+## 558. Assembly Evidence Lineage Standard
+
+- Assembly preflight must read the real package evidence sidecar in addition
+  to the package-review packet.
+- Missing or incomplete content, game, audio, video, image, font,
+  accessibility, or rights evidence must remain an explicit preflight blocker.
+- A complete evidence sidecar only removes its own blocker; delivery manifest,
+  release receipt, QR authorization, local bundle, hosted policy, and teacher
+  policy gates remain separate.
+- Preflight remains metadata-only and cannot write a package, copy payloads,
+  create routes, print QR codes, activate persistence, or use students.
+
+This standard is recorded in DR-1274 and ADR 1274.
