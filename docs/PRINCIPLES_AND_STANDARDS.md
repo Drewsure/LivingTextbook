@@ -9008,3 +9008,16 @@ This standard is recorded in DR-1277 and ADR 1277.
   persistence is not selected or approved.
 
 This standard is recorded in DR-1278 and ADR 1278.
+
+## 563. Hosted Opt-In Preview Must Be Visible at the Handoff Boundary
+
+- The teacher handoff must render the same live hosted or hybrid opt-in preview
+  returned by the package-readiness binding; a separate static sample is not
+  sufficient evidence for a pilot review.
+- The preview must show its package identities, check status, blocked reasons,
+  required human decisions, and explicit no-write/no-activation state.
+- Rendering the preview must remain observational: it must not record policy,
+  select a provider, store credentials, include learner records, or activate a
+  hosted route.
+
+This standard is recorded in DR-1278 and the 2026-09-29 handoff build note.

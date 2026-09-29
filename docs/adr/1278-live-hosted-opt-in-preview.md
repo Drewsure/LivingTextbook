@@ -23,6 +23,11 @@ The preview is not an opt-in capture, provider selection, credential store,
 learner record, or activation control. All hosted writes remain disabled until a
 separate policy and release decision exists. Closed-local fallback is preserved.
 
+The teacher handoff renders the live preview returned by the readiness binding,
+including its identities, check status, blockers, required decisions, and
+explicit no-write state. This is display-only and does not create a decision
+record.
+
 ## Verification
 
 `scripts/verify-hosted-persistence-opt-in-decision-packet.mjs` and the full
