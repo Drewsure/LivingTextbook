@@ -6643,3 +6643,18 @@ student-payload-blocked behavior.
   requirements: reviewed audio coverage must still derive `audioReady`, and
   recommended routes must still carry the reviewed support plan and target
   language.
+
+## Build session: Local package review packet snapshot
+
+- Added a durable package review packet contract that joins the quarantine
+  intake, admission preview, package handoff preview, checksum, and optional
+  teacher review decision.
+- Added an explicit local feature gate, immutable create-only storage, tenant and
+  checksum binding, idempotent reread behavior, a teacher handoff action, and a
+  dedicated verifier.
+- Kept package assembly, evidence attachment, promotion, QR print authorization,
+  hosted persistence, and student-facing use blocked. This is lineage capture,
+  not release approval.
+- Added ADR 1250, DR-1250, and the standing package review packet standard. The
+  next gate is evidence-provider selection and human completion of rights,
+  accessibility, release, device, rollback, and school-policy evidence.

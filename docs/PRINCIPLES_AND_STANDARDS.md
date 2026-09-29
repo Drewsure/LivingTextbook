@@ -8513,3 +8513,21 @@ students, write packages, enable hosted persistence, or display learner data.
 The review route proves mapping only; print authorization still requires the
 release, rollback, rights, accessibility, and human policy records in the
 acceptance matrix.
+
+## 534. Local Package Review Packet Standard
+
+- A publisher submission must have a durable, tenant-scoped review packet before
+  any future package assembler can consume it. The packet joins intake,
+  admission, package mapping, checksum, and teacher-review lineage.
+- Packet capture is an explicitly gated local metadata write. It must be
+  immutable, create-only, checksum-bound to the quarantine record, and safe to
+  reread idempotently.
+- `blocked` and `ready-for-next-gate` are review workflow statuses, not release
+  approvals. A ready packet still requires evidence storage, package assembly,
+  release, QR print, persistence, and student-use decisions.
+- The packet must never contain raw payload bytes, filesystem paths, download
+  URLs, learner records, credentials, or an activation capability. Package
+  assembly, promotion, hosted persistence, QR printing, and student use remain
+  false until separate gates authorize them.
+
+This standard is recorded in DR-1250 and ADR 1250.

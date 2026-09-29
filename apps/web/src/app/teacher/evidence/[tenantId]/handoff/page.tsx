@@ -54,6 +54,7 @@ export default async function TeacherEvidencePacketHandoffPage({
             tenantId={tenantId}
             quarantineId={query.quarantineId}
             packageId={query.packageId}
+            packageReviewPacketsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED === "true"}
           />
         ) : null}
         <PackageReadinessReconciliationPanel

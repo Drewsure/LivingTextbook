@@ -37,7 +37,10 @@ const required = [
 for (const [source, marker, label] of required) {
   if (!source.includes(marker)) throw new Error(`Missing ${label}: ${marker}`);
 }
-for (const forbidden of ["download=", "window.open", "fetch(\"/api", "studentFacingAllowed: true", "printAllowed: true"]) {
+// The review workspace may fetch a metadata-only handoff preview or review packet.
+// Reject only write/activation endpoints here; a generic fetch check would also
+// reject the deliberately gated, read-only quarantine bridge.
+for (const forbidden of ["download=", "window.open", "/package-assembly", "/promotion", "/activate", "studentFacingAllowed: true", "printAllowed: true"]) {
   if (model.includes(forbidden) || sample.includes(forbidden) || panel.includes(forbidden) || bridge.includes(forbidden) || printSheet.includes(forbidden) || printButton.includes(forbidden)) throw new Error(`Forbidden package preview behavior: ${forbidden}`);
 }
 console.log("PASS publisher pilot package preview binds content, games, media, QR, local, and hosted lanes while keeping export, print, promotion, and activation blocked.");

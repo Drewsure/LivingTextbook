@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { UploadQuarantinePackageHandoffPreview } from "@living-textbook/content-model";
+import type { UploadQuarantinePackageHandoffPreview, UploadQuarantinePackageReviewPacket } from "@living-textbook/content-model";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
   quarantineId: string;
   packageId?: string;
+  packageReviewPacketsEnabled?: boolean;
 }
 
 type HandoffResponse = {
@@ -15,6 +16,7 @@ type HandoffResponse = {
   tenantId?: string;
   quarantineId?: string;
   handoff?: UploadQuarantinePackageHandoffPreview | null;
+  packet?: UploadQuarantinePackageReviewPacket | null;
   errors?: string[];
   privacy?: string;
 };
@@ -23,9 +25,12 @@ export function PublisherQuarantineHandoffBridgePanel({
   tenantId,
   quarantineId,
   packageId,
+  packageReviewPacketsEnabled = false,
 }: PublisherQuarantineHandoffBridgePanelProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [payload, setPayload] = useState<HandoffResponse | null>(null);
+  const [packetState, setPacketState] = useState<"idle" | "submitting" | "recorded" | "blocked" | "error">("idle");
+  const [packetMessage, setPacketMessage] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,6 +57,30 @@ export function PublisherQuarantineHandoffBridgePanel({
   }, [packageId, quarantineId, tenantId]);
 
   const handoff = payload?.handoff;
+
+  async function recordReviewPacket() {
+    setPacketState("submitting");
+    setPacketMessage("");
+    try {
+      const response = await fetch("/api/teacher/uploads/package-review-packet", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tenantId, quarantineId, packageId }),
+      });
+      const next = (await response.json()) as { packet?: UploadQuarantinePackageReviewPacket | null; errors?: string[]; status?: string };
+      if (!response.ok) {
+        setPacketState(next.status === "blocked" ? "blocked" : "error");
+        setPacketMessage(next.errors?.[0] ?? "The package review packet could not be recorded.");
+        return;
+      }
+      setPacketState("recorded");
+      setPacketMessage(next.packet?.status === "blocked" ? "Review packet recorded; next gate remains blocked." : "Review packet recorded for the next gate.");
+    } catch {
+      setPacketState("error");
+      setPacketMessage("The package review packet could not be recorded.");
+    }
+  }
 
   return (
     <Card>
@@ -107,6 +136,26 @@ export function PublisherQuarantineHandoffBridgePanel({
           <p className="mt-4 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             This screen is a bridge into review evidence only. It does not create a package, write evidence, print production QR codes, activate persistence, or promote the quarantined payload.
           </p>
+          <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Review packet snapshot</p>
+                <h3 className="mt-1 text-base font-bold">Preserve this handoff for package review</h3>
+                <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                  This records bounded metadata and the current blockers only. It never authorizes assembly or student use.
+                </p>
+              </div>
+              <StatusPill label={packetState === "recorded" ? "Recorded" : packageReviewPacketsEnabled ? "Operator gate" : "Disabled"} tone={packetState === "recorded" ? "success" : "warning"} />
+            </div>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={recordReviewPacket} disabled={!packageReviewPacketsEnabled || packetState === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                {packetState === "submitting" ? "Recording packet..." : "Record review packet snapshot"}
+              </button>
+              <span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">
+                {packetMessage || (packageReviewPacketsEnabled ? "Explicit local packet gate is enabled." : "Enable LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true to record this local metadata snapshot.")}
+              </span>
+            </div>
+          </div>
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

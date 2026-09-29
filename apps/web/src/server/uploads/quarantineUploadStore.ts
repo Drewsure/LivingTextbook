@@ -12,6 +12,8 @@ import {
   createUploadQuarantineReviewDecisionRecord,
   validateUploadQuarantineReviewDecisionRecord,
   type UploadQuarantineReviewDecisionRecord,
+  type UploadQuarantinePackageReviewPacket,
+  validateUploadQuarantinePackageReviewPacket,
 } from "@living-textbook/content-model";
 import { validateQuarantineFilesystemPath } from "./quarantinePathPolicy";
 
@@ -47,6 +49,20 @@ export type QuarantineReviewDecisionWriteResult = {
 
 export type QuarantineReviewDecisionReadResult = {
   record: UploadQuarantineReviewDecisionRecord | null;
+  errors: string[];
+};
+
+export type QuarantinePackageReviewPacketWrite = UploadQuarantinePackageReviewPacket;
+
+export type QuarantinePackageReviewPacketWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantinePackageReviewPacket;
+  errors: string[];
+};
+
+export type QuarantinePackageReviewPacketReadResult = {
+  record: UploadQuarantinePackageReviewPacket | null;
   errors: string[];
 };
 
@@ -187,6 +203,56 @@ export async function writeQuarantineReviewDecision(input: QuarantineReviewDecis
     const existing = await readQuarantineReviewDecision(input.tenantId, input.quarantineId);
     if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
     return { status: "conflict", idempotent: false, errors: ["A different immutable review decision is already bound to this quarantine record."] };
+  }
+}
+
+export async function readQuarantinePackageReviewPacket(tenantId: string, quarantineId: string): Promise<QuarantinePackageReviewPacketReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) {
+    return { record: null, errors: ["The package review packet identity did not pass tenant and quarantine boundary checks."] };
+  }
+  const root = getQuarantineRoot();
+  const tenantDirectory = resolve(root, tenantId);
+  const recordDirectory = resolve(tenantDirectory, quarantineId);
+  const packetPath = resolve(recordDirectory, "package-review-packet.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, packetPath);
+    assertQuarantineFilesystemPath(packetPath, root);
+    const value = JSON.parse(await readFile(packetPath, "utf8")) as unknown;
+    const errors = validateUploadQuarantinePackageReviewPacket(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored package review packet failed validation and was withheld."] };
+    const record = value as UploadQuarantinePackageReviewPacket;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored package review packet failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantinePackageReviewPacket(input: QuarantinePackageReviewPacketWrite): Promise<QuarantinePackageReviewPacketWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED !== "true") {
+    return { status: "blocked", idempotent: false, errors: ["Package review packet writes are disabled. Enable the explicit local packet gate before recording a review packet."] };
+  }
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for package review packet capture."] };
+  if (summary.record.checksumSha256 !== input.checksumSha256) return { status: "blocked", idempotent: false, errors: ["The package review packet checksum does not match the quarantined intake record."] };
+  const validationErrors = validateUploadQuarantinePackageReviewPacket(input);
+  if (validationErrors.length > 0) return { status: "blocked", idempotent: false, errors: validationErrors };
+  const root = getQuarantineRoot();
+  const tenantDirectory = resolve(root, input.tenantId);
+  const recordDirectory = resolve(tenantDirectory, input.quarantineId);
+  const packetPath = resolve(recordDirectory, "package-review-packet.json");
+  assertQuarantineFilesystemPath(recordDirectory, root);
+  assertInside(recordDirectory, packetPath);
+  assertQuarantineFilesystemPath(packetPath, root);
+  try {
+    await writeFile(packetPath, `${JSON.stringify(input, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record: input, errors: [] };
+  } catch {
+    const existing = await readQuarantinePackageReviewPacket(input.tenantId, input.quarantineId);
+    if (existing.record && stableJson(existing.record) === stableJson(input)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
+    return { status: "conflict", idempotent: false, errors: ["A different immutable package review packet is already bound to this quarantine record."] };
   }
 }
 
