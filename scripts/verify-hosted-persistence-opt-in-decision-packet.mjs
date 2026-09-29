@@ -9,6 +9,7 @@ const sample = read("apps/web/src/data/sampleHostedPersistenceOptInDecisionPacke
 const panel = read("apps/web/src/features/persistence/HostedPersistenceOptInDecisionPacketPanel.tsx");
 const page = read("apps/web/src/app/teacher/persistence/page.tsx");
 const liveBinding = read("apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts");
+const handoffPanel = read("apps/web/src/features/evidence/PublisherQuarantineHandoffBridgePanel.tsx");
 
 for (const [label, source, tokens] of [
   ["model", model, ["HostedPersistenceOptInDecisionPacket", "createReviewOnlyHostedPersistenceOptInDecisionPacket", "validateHostedPersistenceOptInDecisionPacket", "reviewOnly", "writesAllowed", "learnerRecordsIncluded"]],
@@ -16,6 +17,7 @@ for (const [label, source, tokens] of [
   ["panel", panel, ["Hosted persistence opt-in, package-scoped", "No activation control", "Human decision boundary"]],
   ["page", page, ["HostedPersistenceOptInDecisionPacketPanel", "sampleHostedPersistenceOptInDecisionPacket"]],
   ["live binding", liveBinding, ["createReviewOnlyHostedPersistenceOptInDecisionPacket", "hostedPersistenceOptInPacket", "hostedPersistenceDecisionPacketId"]],
+  ["live handoff", handoffPanel, ["LiveHostedPersistenceOptInPreview", "Live hosted persistence preview", "hostedPersistenceOptInPacket", "hosted writes: blocked"]],
 ]) for (const token of tokens) if (!source.includes(token)) throw new Error(`${label} is missing required token: ${token}`);
 
 if (model.includes("optInRecorded: true") || model.includes("writesAllowed: true") || model.includes("activationAllowed: true")) throw new Error("Hosted persistence opt-in contract must not authorize activation or writes.");

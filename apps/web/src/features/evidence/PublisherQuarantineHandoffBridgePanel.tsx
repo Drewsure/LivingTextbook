@@ -17,6 +17,7 @@ import type {
   UploadQuarantinePackageIndexPreview,
   UploadQuarantineReviewDecisionRecord,
   PublisherPilotPackageReadinessBinding,
+  HostedPersistenceOptInDecisionPacket,
 } from "@living-textbook/content-model";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
@@ -44,6 +45,7 @@ type HandoffResponse = {
   reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
+  hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
   errors?: string[];
   privacy?: string;
 };
@@ -71,6 +73,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [reviewDecision, setReviewDecision] = useState<UploadQuarantineReviewDecisionRecord | null>(null);
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
   const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
+  const [hostedPersistenceOptInPacket, setHostedPersistenceOptInPacket] = useState<HostedPersistenceOptInDecisionPacket | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -122,7 +125,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
@@ -130,6 +133,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReviewDecision(next.reviewDecision ?? null);
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
         setPackageIndexPreview(next.packageIndexPreview ?? null);
+        setHostedPersistenceOptInPacket(next.hostedPersistenceOptInPacket ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -140,6 +144,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReviewDecision(null);
         setReleaseReceiptPreview(null);
         setPackageIndexPreview(null);
+        setHostedPersistenceOptInPacket(null);
       });
 
     return () => controller.abort();
@@ -321,6 +326,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             )}
           </section>
           {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
+          {hostedPersistenceOptInPacket ? <LiveHostedPersistenceOptInPreview packet={hostedPersistenceOptInPacket} /> : null}
           <LiveReviewDecisionSummary decision={reviewDecision} />
           {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
           {releaseReceiptPreview ? <LiveReleaseReceiptPreview preview={releaseReceiptPreview} /> : null}
@@ -401,6 +407,33 @@ function LiveReadinessSummary({ binding }: { binding: PublisherPilotPackageReadi
         {binding.checks.map((check) => <div key={check.checkId} className="flex items-center justify-between gap-2 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div>)}
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Package assembly: blocked · promotion: blocked · student use: blocked · side effect: none</p>
+    </section>
+  );
+}
+
+function LiveHostedPersistenceOptInPreview({ packet }: { packet: HostedPersistenceOptInDecisionPacket }) {
+  const passed = packet.checks.filter((check) => check.status === "passed").length;
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live hosted persistence preview</p>
+          <h3 className="mt-1 text-base font-bold">Optional hosted reporting, still behind human policy</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{passed}/{packet.checks.length} checks passed. This package-scoped preview is derived from the selected hosted or hybrid mode; it does not record opt-in or enable learner writes.</p>
+        </div>
+        <div className="flex flex-wrap gap-2"><StatusPill label="Blocked" tone="warning" /><StatusPill label="No writes" tone="success" /></div>
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Packet" value={packet.packetId} />
+        <Fact label="Tenant" value={packet.tenantId} />
+        <Fact label="Package" value={packet.packageId} />
+        <Fact label="Checksum" value={packet.sourceChecksumSha256} />
+      </dl>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {packet.checks.map((check) => <div key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3"><div className="flex items-center justify-between gap-2"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div><p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{check.evidence}</p><p className="mt-2 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {check.nextAction}</p></div>)}
+      </div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2"><ListBlock title="Blocked reasons" items={packet.blockedReasons} tone="warning" /><ListBlock title="Required human decisions" items={packet.requiredDecisions} /></div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Provider: not selected · opt-in: not recorded · hosted writes: blocked · learner records: excluded · closed-local fallback: preserved · side effect: none</p>
     </section>
   );
 }
