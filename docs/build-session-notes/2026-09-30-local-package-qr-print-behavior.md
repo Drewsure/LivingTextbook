@@ -13,6 +13,8 @@ closed-local package path without opening production writes.
 - Confirmed generated QR JSON and printable HTML, SVG evidence, local fallback
   mapping, copied asset count, and assembly read-back.
 - Confirmed exact reassembly is idempotent.
+- Confirmed the resulting package is readable through the real local runtime
+  reader, including QR readiness, fallback mapping, and learner-record privacy.
 - Confirmed disabled writes and unsafe `file:` print bases remain blocked.
 - Added the behavior verifier to `verify:foundation`.
 

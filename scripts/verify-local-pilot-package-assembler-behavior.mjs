@@ -17,10 +17,12 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
+  const { readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt });
   const environment = {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -43,8 +45,21 @@ try {
     assert(qrManifest.entries[0].svg.includes("<svg"), "QR print manifest must contain generated SVG evidence");
     const qrHtml = readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.html"), "utf8");
     assert(qrHtml.includes("https://pilot.example.test/q/tenant-one/unit-one") && qrHtml.includes("<svg"), "printable QR HTML must contain the approved alias and SVG");
+    const runtime = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(runtime.status === "available", "assembled local package must be readable through the runtime reader");
+    if (runtime.status === "available") {
+      assert(runtime.summary.routes[0]?.localFallbackPath === "/launch/unit-1", "runtime reader must preserve the QR local fallback path");
+      assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
+      assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
+    }
+    const unsafeIdentity = await readLocalPilotPackageRuntime({ tenantId: "../tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(unsafeIdentity.status === "blocked", "runtime reader must reject traversal identities");
     const second = await assembleLocalPilotPackage(input);
     assert(second.status === "accepted" && second.idempotent === true, "exact local package replay must be idempotent");
+
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED = "false";
+    const disabledRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(disabledRead.status === "blocked" && disabledRead.errors.some((error) => error.includes("reads are disabled")), "local package reads must remain fail-closed by default");
 
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED = "false";
     const disabled = await assembleLocalPilotPackage(input);
@@ -66,7 +81,7 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log("PASS local pilot package assembly proves approved QR print output, local fallback mapping, idempotence, and fail-closed write/base-URL gates.");
+  console.log("PASS local pilot package assembly and runtime reading prove approved QR print output, local fallback mapping, idempotence, privacy, and fail-closed write/read/base-URL gates.");
 }
 
 function compileSources() {
@@ -85,6 +100,7 @@ function compileSources() {
     "--rootDir", root,
     "--outDir", compiledRoot,
     "apps/web/src/server/delivery/localPilotPackageAssembler.ts",
+    "apps/web/src/server/delivery/localPilotPackageRuntimeReader.ts",
     "apps/web/src/server/persistence/backupPathPolicy.ts",
     "apps/web/src/server/uploads/quarantinePathPolicy.ts",
     "packages/content-model/src/index.ts",
