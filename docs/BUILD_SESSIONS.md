@@ -6998,5 +6998,7 @@ student-payload-blocked behavior.
 - A publisher now has a visible next stop from source review to validated
   quarantine metadata, evidence preview, package handoff, and readiness
   binding without opening raw files or creating a download path.
+- The end-to-end rehearsal checks that this source-review bridge is present on
+  a fresh tenant before the synthetic file is submitted.
 - Kept source extraction, package promotion, QR printing, local assembly,
   hosted persistence, and student use behind their existing independent gates.

@@ -13,6 +13,8 @@ any publisher source can be promoted into a reviewed package.
   shown.
 - Sample Publisher and MiniStar reference records are absent from the fresh
   tenant response.
+- The fresh tenant source-review page returns `200`, starts with no source
+  records, and exposes the authorized quarantine review contract.
 - A synthetic PDF enters the explicitly enabled quarantine route with an
   opaque quarantine id and student-facing use disabled.
 - Evidence review, source review, package evidence, delivery mode, promotion

@@ -54,6 +54,12 @@ try {
   assert(genericUploadHtml.includes("No Sample Publisher or MiniStar review records are shown"), "fresh publisher upload workspace must disclose reference-record isolation");
   assert(!genericUploadHtml.includes("Sample Publisher / Starter English") && !genericUploadHtml.includes("MiniStar / Level 1"), "fresh publisher upload workspace must not render reference tenant records");
 
+  const sourceReviewPage = await fetch(`${baseUrl}/teacher/sources/${rehearsalTenantId}`, { cache: "no-store" });
+  const sourceReviewHtml = await sourceReviewPage.text();
+  assert(sourceReviewPage.status === 200, "a fresh publisher tenant must reach the source review workspace");
+  assert(sourceReviewHtml.includes("Review-only source intake") && sourceReviewHtml.includes("Authorized review contract"), "source review workspace must expose the quarantine review bridge");
+  assert(sourceReviewHtml.includes("No source records yet") && !sourceReviewHtml.includes("Sample Publisher Lab"), "fresh publisher source review must start empty and tenant-isolated");
+
   const intakeStatus = await requestJson(`${baseUrl}/api/teacher/uploads/intake`);
   assert(intakeStatus.status === "review-only-quarantine-intake", "intake must expose the explicitly enabled review-only mode");
 
