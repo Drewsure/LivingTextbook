@@ -14,7 +14,13 @@ The writer requires a dedicated operator token and
 manifest, receipt, source checksum, tenant/package/version identity, operator
 identity, and custody-root filesystem boundary before writing. It is
 idempotent for the same record and conflicts on a different record; it never
-overwrites an existing release.
+overwrites an existing release. Files are written to a private staging
+directory and committed as one completed custody directory so an interrupted
+write cannot look like a delivered package.
+
+Every write has an authenticated read-back path that validates all three
+records and their tenant/package/version/checksum bindings before the handoff
+can be treated as present.
 
 ## Deferred operations
 

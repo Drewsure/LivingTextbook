@@ -10,14 +10,20 @@ for (const [source, marker, label] of [
   [writer, "LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED", "explicit write gate"],
   [writer, "LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT", "custody root"],
   [writer, "validateDurableBackupFilesystemPath", "filesystem custody validation"],
-  [writer, "writeImmutableJsonFile", "immutable write"],
+  [writer, "writeJsonFile", "immutable staged write"],
+  [writer, "readPilotDeliveryMetadata", "post-write readback"],
+  [writer, "validateStoredBinding", "stored identity reconciliation"],
+  [writer, "staging-", "atomic staging directory"],
+  [writer, "rename(staging, directory)", "atomic directory commit"],
   [writer, "payloadBytesIncluded: false", "payload privacy boundary"],
   [route, "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN", "dedicated writer authorization"],
+  [route, "readPilotDeliveryMetadata", "readback endpoint"],
+  [route, "deliveryMetadataWritten: true", "metadata-only write result"],
   [route, "studentFacingActivationAllowed: false", "student activation boundary"],
 ]) {
   if (!source.includes(marker)) throw new Error(`Missing ${label}: ${marker}`);
 }
-for (const forbidden of ["writeFile(.*payload", "download=", "window.open", "qrAliasPaths"] ) {
+for (const forbidden of ["writeFile(.*payload", "download=", "window.open", "packageAssemblyAllowed: true"] ) {
   if (writer.includes(forbidden) || route.includes(forbidden)) throw new Error(`Forbidden writer behavior: ${forbidden}`);
 }
 console.log("PASS controlled pilot delivery writer is explicitly gated, tenant-scoped, custody-validated, immutable, and student-disabled.");

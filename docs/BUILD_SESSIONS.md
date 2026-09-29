@@ -6461,3 +6461,8 @@ student-payload-blocked behavior.
   a prior release.
 - Added the authenticated API route and focused verifier. The feature remains
   disabled by default; the current blocked sample cannot write anything.
+- Corrected the API result so metadata writing cannot be mistaken for package
+  assembly, and added authenticated read-back verification for the three
+  immutable handoff records.
+- Hardened the writer against partial or concurrent delivery writes by staging
+  all three metadata files and atomically committing the completed directory.

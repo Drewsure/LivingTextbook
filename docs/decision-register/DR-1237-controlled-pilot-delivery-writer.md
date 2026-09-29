@@ -10,6 +10,9 @@
   identity, filesystem custody validation, and immutable conflict handling.
 - **Current state:** Implemented but disabled by default; the current sample is
   blocked and produces no files.
+- **Verification rule:** A write is not accepted as delivered until the
+  authenticated read-back path validates the manifest, receipt, handoff record,
+  identity bindings, checksum, and metadata-only marker.
 - **Next evidence:** A real publisher package with complete rights/audio/game
   evidence, approved release receipt, custody-root test, local/hosted delivery
   selection, and a post-write verification/rollback rehearsal.

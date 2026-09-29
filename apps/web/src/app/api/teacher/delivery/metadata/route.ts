@@ -1,10 +1,23 @@
 import { NextResponse } from "next/server";
 import type { PilotDeliveryMetadataWriteInput } from "@/server/delivery/pilotDeliveryMetadataWriter";
-import { writePilotDeliveryMetadata } from "@/server/delivery/pilotDeliveryMetadataWriter";
-import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
+import { readPilotDeliveryMetadata, writePilotDeliveryMetadata } from "@/server/delivery/pilotDeliveryMetadataWriter";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+export async function GET(request: Request) {
+  if (!hasWriterToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery writer token is required."], privacy: privacyMessage() }, 401);
+  const url = new URL(request.url);
+  const tenantId = readBoundedQueryParam(url, "tenantId");
+  const packageId = readBoundedQueryParam(url, "packageId");
+  const version = readBoundedQueryParam(url, "version");
+  if ([tenantId, packageId, version].some((value) => value === undefined || !value)) return json({ status: "rejected", errors: ["Pilot delivery metadata reads require bounded tenantId, packageId, and version identifiers."], privacy: privacyMessage() }, 400);
+  const result = await readPilotDeliveryMetadata({ tenantId: tenantId as string, packageId: packageId as string, version: version as string });
+  if (result.status === "not-found") return json({ ...result, privacy: privacyMessage() }, 404);
+  if (result.status === "blocked") return json({ ...result, privacy: privacyMessage() }, 423);
+  return json({ ...result, rawPayloadIncluded: false, learnerRecordsIncluded: false, privacy: privacyMessage() });
+}
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
@@ -19,7 +32,7 @@ export async function POST(request: Request) {
   const result = await writePilotDeliveryMetadata(bodyResult.value);
   if (result.status === "conflict") return json({ ...result, privacy: privacyMessage() }, 409);
   if (result.status === "blocked") return json({ ...result, privacy: privacyMessage() }, 423);
-  return json({ ...result, packageAssemblyAllowed: true, rawPayloadIncluded: false, studentFacingActivationAllowed: false, privacy: privacyMessage() });
+  return json({ ...result, deliveryMetadataWritten: true, packageAssemblyAllowed: false, rawPayloadIncluded: false, studentFacingActivationAllowed: false, privacy: privacyMessage() });
 }
 
 function isWriterInput(value: unknown): value is PilotDeliveryMetadataWriteInput {

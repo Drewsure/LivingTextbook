@@ -8229,9 +8229,15 @@ This standard is recorded in
   manual release receipt, matching tenant/package/version/checksum identities,
   a dedicated operator token, `LIVING_TEXTBOBOOK_PILOT_DELIVERY_WRITES_ENABLED=true`,
   and an explicit custody root that passes filesystem boundary checks.
-- Writes are immutable and idempotent. A different record for the same tenant,
-  package, and version is a conflict, not an overwrite. The writer stores no
-  learner records and never activates a student-facing route.
+- Writes are immutable and idempotent. The writer stages all required metadata
+  together and commits the completed custody directory atomically. A different
+  or incomplete record for the same tenant, package, and version is a conflict,
+  not an overwrite. The writer stores no learner records and never activates a
+  student-facing route.
+- Every accepted write must have a read-back verification path that validates
+  the manifest, receipt, handoff record, identity binding, checksum binding,
+  metadata-only marker, and approved release state. A successful filesystem
+  write without successful read-back is not a delivered pilot package.
 - Hosted persistence, QR alias mutation, media copying, and local bundle
   activation remain separate release operations. A metadata writer cannot
   silently perform any of them.
