@@ -6976,3 +6976,14 @@ student-payload-blocked behavior.
   no sample queue, sample evidence flow, or MiniStar asset records.
 - Kept quarantine intake disabled by default and kept scan, rights, mapping,
   package, QR, persistence, local delivery, and student-use gates closed.
+
+## Build session: Fresh-tenant publisher intake rehearsal
+
+- Rebased the end-to-end publisher intake rehearsal onto a fresh synthetic
+  tenant instead of the populated Sample Publisher tenant.
+- Added a browser-level assertion that a new publisher sees an empty,
+  tenant-owned upload workspace with platform channel policy but no reference
+  tenant records.
+- The rehearsal still advances a real quarantined source through evidence,
+  immutable package-review revision, delivery-mode, package-evidence, and
+  blocked release checks.

@@ -8,6 +8,9 @@ import { resolve } from "node:path";
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const host = "127.0.0.1";
 const token = "publisher-intake-rehearsal-token";
+const rehearsalTenantId = "rehearsal-publisher";
+const rehearsalUnitKey = `${rehearsalTenantId}:publisher-textbook:L1:U1`;
+const rehearsalPackageId = `${rehearsalTenantId}-l1-u1-package`;
 const quarantineRoot = mkdtempSync(resolve(tmpdir(), "living-textbook-publisher-intake-"));
 const port = await findFreePort();
 const baseUrl = `http://${host}:${port}`;
@@ -44,13 +47,20 @@ try {
   await waitForPreview(baseUrl, preview);
   const headers = { authorization: `Bearer ${token}` };
 
+  const genericUploadPage = await fetch(`${baseUrl}/teacher/uploads/${rehearsalTenantId}`, { cache: "no-store" });
+  const genericUploadHtml = await genericUploadPage.text();
+  assert(genericUploadPage.status === 200, "a fresh publisher tenant must reach the generic upload workspace");
+  assert(genericUploadHtml.includes("No publisher files have been admitted yet"), "fresh publisher upload workspace must start empty");
+  assert(genericUploadHtml.includes("No Sample Publisher or MiniStar review records are shown"), "fresh publisher upload workspace must disclose reference-record isolation");
+  assert(!genericUploadHtml.includes("Sample Publisher / Starter English") && !genericUploadHtml.includes("MiniStar / Level 1"), "fresh publisher upload workspace must not render reference tenant records");
+
   const intakeStatus = await requestJson(`${baseUrl}/api/teacher/uploads/intake`);
   assert(intakeStatus.status === "review-only-quarantine-intake", "intake must expose the explicitly enabled review-only mode");
 
   const form = new FormData();
-  form.set("tenantId", "sample-publisher");
+  form.set("tenantId", rehearsalTenantId);
   form.set("channelId", "source-pdf-text-upload");
-  form.set("unitKey", "sample-publisher:partner-textbook-companion:L1:U1");
+  form.set("unitKey", rehearsalUnitKey);
   form.set("file", new Blob(["Publisher Unit 1 rehearsal source"], { type: "application/pdf" }), "partner-unit-1.pdf");
   const intakeResponse = await fetch(`${baseUrl}/api/teacher/uploads/intake`, { method: "POST", headers, body: form });
   const intake = await readJson(intakeResponse);
@@ -58,7 +68,7 @@ try {
   assert(typeof intake.quarantineId === "string" && intake.record?.studentFacingUseAllowed === false, "quarantine intake must return an opaque id and block student use");
 
   const quarantineId = intake.quarantineId;
-  const query = `tenantId=sample-publisher&quarantineId=${encodeURIComponent(quarantineId)}&packageId=sample-publisher-l1-u1-routines-package`;
+  const query = `tenantId=${rehearsalTenantId}&quarantineId=${encodeURIComponent(quarantineId)}&packageId=${rehearsalPackageId}`;
   const handoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
   assert(handoff.status === "review-only" && handoff.handoff?.writeAllowed === false, "handoff must remain metadata-only");
   assert(handoff.handoff?.checksumSha256 === intake.record.checksumSha256, "handoff must preserve the intake checksum");
@@ -73,9 +83,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic evidence review for the controlled pilot rehearsal.",
       reviewedFields: ["Security scan evidence", "Publisher rights evidence", "Source and unit mapping", "Accessibility and transcript evidence", "Package readiness evidence", "Release-control evidence"],
@@ -98,9 +108,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       selectedMode: "hybrid",
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic hybrid choice for controlled pilot rehearsal.",
@@ -113,9 +123,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
@@ -128,9 +138,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       reviewerId: "publisher-intake-reviewer",
       decision: "accepted-for-package-review",
       reviewerNote: "Synthetic source review decision for the controlled pilot rehearsal.",
@@ -145,9 +155,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
@@ -159,7 +169,7 @@ try {
   const packetResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
-    body: JSON.stringify({ tenantId: "sample-publisher", quarantineId, packageId: "sample-publisher-l1-u1-routines-package" }),
+    body: JSON.stringify({ tenantId: rehearsalTenantId, quarantineId, packageId: rehearsalPackageId }),
   });
   const packet = await readJson(packetResponse);
   assert(packetResponse.status === 200 && packet.status === "recorded-review-only" && packet.packet?.status === "blocked" && packet.packet?.reviewDecision === "accepted-for-package-review" && !packet.packet?.blockers.some((blocker) => blocker.includes("human review decision must be recorded")), "review packet capture must remain review-only, source-decision-bound, and blocked only by downstream gates");
@@ -169,9 +179,9 @@ try {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
     body: JSON.stringify({
-      tenantId: "sample-publisher",
+      tenantId: rehearsalTenantId,
       quarantineId,
-      packageId: "sample-publisher-l1-u1-routines-package",
+      packageId: rehearsalPackageId,
       selectedAdapter: "hybrid-package",
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic hybrid adapter selection for the controlled pilot rehearsal.",
@@ -186,7 +196,7 @@ try {
   const revisedPacketResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
-    body: JSON.stringify({ tenantId: "sample-publisher", quarantineId, packageId: "sample-publisher-l1-u1-routines-package" }),
+    body: JSON.stringify({ tenantId: rehearsalTenantId, quarantineId, packageId: rehearsalPackageId }),
   });
   const revisedPacket = await readJson(revisedPacketResponse);
   assert(revisedPacketResponse.status === 200 && revisedPacket.status === "recorded-review-only" && revisedPacket.packet?.packetRevision === 2, "a blocked packet with a newly reviewed adapter must receive an immutable revision-two packet");
