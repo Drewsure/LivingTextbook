@@ -783,3 +783,7 @@ export function getLocalPilotPackageMediaRoutePath(tenantId: TenantId, packageId
 export function getLocalPilotPackageTeacherEvidencePath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/teacher/${encodeURIComponent(unitId)}`;
 }
+
+export function getLocalPilotPackageQrReviewPath(tenantId: TenantId, packageId: string, version: string, qrId: string): string {
+  return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/qr/${encodeURIComponent(qrId)}`;
+}

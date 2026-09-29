@@ -6621,3 +6621,15 @@ student-payload-blocked behavior.
 - Added ADR 1248, DR-1248, and a foundation verifier. The local pilot now has
   a coherent student-to-teacher rehearsal loop; real publisher evidence and
   policy decisions remain required for saleable approval.
+
+## Build session: Local package QR review route
+
+- Added a tenant/package/version/QR-scoped review route that reads the verified
+  local bundle route map and shows the printed identity, unit, target, and
+  declared local fallback.
+- Allowed reviewers to open the declared fallback for rehearsal while keeping
+  QR alias mutation, print authorization, student activation, package writes,
+  hosted persistence, learner records, and release changes blocked.
+- Added ADR 1249, DR-1249, and a foundation verifier. The QR mapping is now
+  reviewable inside the package boundary; real print authorization still
+  requires human release, rollback, rights, accessibility, and policy evidence.

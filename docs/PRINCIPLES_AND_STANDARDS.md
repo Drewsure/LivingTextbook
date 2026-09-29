@@ -8501,3 +8501,15 @@ session log, and ADR 1247.
 
 This standard is recorded in the decision register entry DR-1248, the build
 session log, and ADR 1248.
+
+## Local Package QR Review Standard
+
+The local companion must expose a tenant, package, version, and QR-identity
+scoped review surface before any printed QR route is treated as pilot evidence.
+The surface reads the verified bundle manifest, shows the unit and target
+identity, and may open the declared local fallback for rehearsal. It must not
+redirect through or mutate the QR registry, authorize printing, activate
+students, write packages, enable hosted persistence, or display learner data.
+The review route proves mapping only; print authorization still requires the
+release, rollback, rights, accessibility, and human policy records in the
+acceptance matrix.

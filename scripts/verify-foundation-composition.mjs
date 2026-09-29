@@ -32,6 +32,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-medi
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-teacher-evidence-route.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-qr-review-route.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
