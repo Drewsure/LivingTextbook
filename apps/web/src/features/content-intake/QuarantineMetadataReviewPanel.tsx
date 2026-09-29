@@ -11,6 +11,7 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
   const reviewEndpoint = `/api/teacher/uploads/review?tenantId=${encodeURIComponent(tenantId)}`;
   const evidencePreviewEndpoint = `/api/teacher/uploads/evidence-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}`;
   const packageHandoffEndpoint = `/api/teacher/uploads/package-handoff-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
+  const packageReadinessEndpoint = `/api/teacher/uploads/package-readiness-binding?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
 
   return (
     <Card>
@@ -47,6 +48,11 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
         <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{packageHandoffEndpoint}</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
           The handoff preview binds the quarantined source to a candidate package identity and lists the evidence still required before a durable reviewed-evidence record or package writer can exist. It is not a package assembly or approval action.
+        </p>
+        <p className="mt-4 text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live package readiness binding contract</p>
+        <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{packageReadinessEndpoint}</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          This joins the real quarantine, review packet, and assembly-preflight identities with explicit blocked checks for package, delivery, release, QR, local, and hosted lanes. It remains metadata-only and requires tenant-scoped teacher authorization.
         </p>
       </div>
 

@@ -8,6 +8,8 @@ const panel = readFileSync(resolve(root, "apps/web/src/features/evidence/Publish
 const route = readFileSync(resolve(root, "apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx"), "utf8");
 const liveRoute = readFileSync(resolve(root, "apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts"), "utf8");
 const bridge = readFileSync(resolve(root, "apps/web/src/features/evidence/PublisherQuarantineHandoffBridgePanel.tsx"), "utf8");
+const uploadPanel = readFileSync(resolve(root, "apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx"), "utf8");
+const metadataPanel = readFileSync(resolve(root, "apps/web/src/features/content-intake/QuarantineMetadataReviewPanel.tsx"), "utf8");
 const index = readFileSync(resolve(root, "packages/content-model/src/index.ts"), "utf8");
 
 for (const [source, markers, label] of [
@@ -17,6 +19,9 @@ for (const [source, markers, label] of [
   [route, ["PublisherPilotPackageReadinessBindingPanel", "samplePublisherPilotPackageReadinessBinding"], "handoff route integration"],
   [liveRoute, ["Package readiness binding requires", "createReviewOnlyPublisherPilotPackageReadinessBinding", "readQuarantinePackageReviewPacket", "raw payloads"], "live readiness route"],
   [bridge, ["Live package readiness binding", "/api/teacher/uploads/package-readiness-binding", "Package assembly: blocked"], "live bridge integration"],
+  [bridge, ["Refresh live readiness", "setRefreshToken"], "live readiness refresh"],
+  [uploadPanel, ["Open live package readiness workspace"], "publisher intake handoff link"],
+  [metadataPanel, ["Live package readiness binding contract", "/api/teacher/uploads/package-readiness-binding"], "metadata review contract"],
   [index, ["./publisherPilotPackageReadinessBinding"], "content-model export"],
 ]) {
   for (const marker of markers) if (!source.includes(marker)) throw new Error(`Missing ${label} marker: ${marker}`);
@@ -30,7 +35,7 @@ for (const forbidden of [
   "download=",
   "window.open",
 ]) {
-  if (model.includes(forbidden) || sample.includes(forbidden) || panel.includes(forbidden) || liveRoute.includes(forbidden) || bridge.includes(forbidden)) throw new Error(`Forbidden readiness binding behavior: ${forbidden}`);
+  if (model.includes(forbidden) || sample.includes(forbidden) || panel.includes(forbidden) || liveRoute.includes(forbidden) || bridge.includes(forbidden) || uploadPanel.includes(forbidden) || metadataPanel.includes(forbidden)) throw new Error(`Forbidden readiness binding behavior: ${forbidden}`);
 }
 
 console.log("PASS publisher pilot readiness binding joins review, assembly, delivery, release, and hosted opt-in lineage without enabling writes or student use.");

@@ -6,6 +6,8 @@
 - Derived the binding from quarantine handoff, durable review packet, and
   assembly preflight records.
 - Added the live binding summary to the quarantine handoff bridge.
+- Added an explicit live-readiness refresh action after intake or review changes.
+- Added a direct live-readiness contract link to the publisher intake review surface.
 - Kept downstream package, delivery, QR, hosted, and student checks explicitly
   blocked when their records are absent.
 

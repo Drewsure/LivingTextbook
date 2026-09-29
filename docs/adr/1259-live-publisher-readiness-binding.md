@@ -23,3 +23,7 @@ codes, select hosted persistence, or promote a source.
 The first saleable pilot now has one workflow for both a sample package review
 and a real submitted source. Missing downstream evidence is visible as a
 blocked check instead of being silently represented as ready.
+
+The live bridge also provides an explicit refresh action. Recording a review
+packet or changing the upstream review state must refresh the handoff,
+assembly-preflight, and readiness-binding observations together.

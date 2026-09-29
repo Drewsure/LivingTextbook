@@ -41,6 +41,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [preflightState, setPreflightState] = useState<"waiting" | "loading" | "ready" | "missing" | "error">("waiting");
   const [preflight, setPreflight] = useState<UploadQuarantinePackageAssemblyPreflight | null>(null);
   const [readinessBinding, setReadinessBinding] = useState<PublisherPilotPackageReadinessBinding | null>(null);
+  const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
     const query = new URLSearchParams({ tenantId, quarantineId });
@@ -100,7 +101,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       });
 
     return () => controller.abort();
-  }, [packageId, quarantineId, tenantId]);
+  }, [packageId, quarantineId, refreshToken, tenantId]);
 
   const handoff = payload?.handoff;
 
@@ -122,7 +123,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       }
       setPacketState("recorded");
       setPacketMessage(next.packet?.status === "blocked" ? "Review packet recorded; next gate remains blocked." : "Review packet recorded for the next gate.");
-      await loadPreflight();
+      setRefreshToken((current) => current + 1);
     } catch {
       setPacketState("error");
       setPacketMessage("The package review packet could not be recorded.");
@@ -139,7 +140,12 @@ export function PublisherQuarantineHandoffBridgePanel({
             This bridge reads the existing authorized metadata-only API and places one quarantined source beside the package preview. It never returns file bytes, filesystem paths, download links, or student-facing content.
           </p>
         </div>
-        <StatusPill label={state === "ready" ? "Metadata loaded" : state === "loading" ? "Loading" : "Review blocked"} tone="warning" />
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="button" onClick={() => setRefreshToken((current) => current + 1)} disabled={state === "loading"} className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-sm font-bold text-[var(--tenant-text)] disabled:cursor-not-allowed disabled:opacity-60">
+            Refresh live readiness
+          </button>
+          <StatusPill label={state === "ready" ? "Metadata loaded" : state === "loading" ? "Loading" : "Review blocked"} tone="warning" />
+        </div>
       </div>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
