@@ -1646,3 +1646,13 @@ printer, persistence activation, or student route. Run
 `node scripts/verify-upload-quarantine-package-handoff.mjs`,
 `node scripts/verify-publisher-pilot-package-preview.mjs`, web typecheck, and
 the production build after changing this flow.
+
+Isolated content-model verifier procedure: when a verifier transpiles
+TypeScript modules into a temporary CommonJS directory, compile every relative
+content-model dependency into that same directory before requiring the fixture.
+The package-owned tenant contract is currently required by local bundle
+manifest/runtime modules, so include `tenant.ts` as `tenant.js` in manifest,
+resolver, and readiness-assessment verifiers. This is a test-harness
+workaround for isolated runtime checks, not a production bundling rule. Run
+`npm run verify:local-bundle` and the full `npm run verify:foundation` after
+changing a content-model import graph.

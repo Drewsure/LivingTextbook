@@ -21,6 +21,11 @@ const modules = [
   "localBundleReadinessAssessment",
 ];
 
+const tenantSource = readFileSync(join(root, "packages", "content-model", "src", "tenant.ts"), "utf8");
+writeFileSync(join(output, "tenant.js"), ts.transpileModule(tenantSource, {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+}).outputText, "utf8");
+
 for (const moduleName of modules) {
   const source = readFileSync(join(root, "packages", "content-model", "src", `${moduleName}.ts`), "utf8");
   writeFileSync(join(output, `${moduleName}.js`), ts.transpileModule(source, {

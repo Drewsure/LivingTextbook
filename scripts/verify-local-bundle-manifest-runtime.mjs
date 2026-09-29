@@ -16,6 +16,10 @@ try {
   writeFileSync(join(output, "localBundleManifest.js"), ts.transpileModule(manifestSource, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText, "utf8");
+  const tenantSource = readFileSync(join(root, "packages", "content-model", "src", "tenant.ts"), "utf8");
+  writeFileSync(join(output, "tenant.js"), ts.transpileModule(tenantSource, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, "utf8");
   const evidenceSource = readFileSync(join(root, "packages", "content-model", "src", "localBundleAssetEvidence.ts"), "utf8");
   writeFileSync(join(output, "localBundleAssetEvidence.js"), ts.transpileModule(evidenceSource, {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },

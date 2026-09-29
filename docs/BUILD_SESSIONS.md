@@ -6853,3 +6853,12 @@ student-payload-blocked behavior.
 - Preserved known demo tenants and added a safe generic white-label fallback
   for review/error surfaces. No tenant activation, learner write, QR mutation,
   hosted persistence, or release approval was enabled.
+
+## Build session: Tenant-contract verifier repair
+
+- Updated the three isolated local-bundle runtime verifiers to transpile the
+  shared `tenant.ts` dependency beside their temporary CommonJS fixtures.
+- This keeps verifier execution aligned with the package-owned tenant contract
+  without changing runtime behavior or enabling any delivery side effect.
+- The local-bundle gate and full foundation suite pass, including the
+  production build and 89 active route checks.

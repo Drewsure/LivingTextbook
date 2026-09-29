@@ -12,6 +12,10 @@ const failures = [];
 
 try {
   writeFileSync(join(output, "package.json"), '{"type":"commonjs"}\n', "utf8");
+  const tenantSource = readFileSync(join(root, "packages", "content-model", "src", "tenant.ts"), "utf8");
+  writeFileSync(join(output, "tenant.js"), ts.transpileModule(tenantSource, {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
+  }).outputText, "utf8");
   for (const moduleName of ["localBundleManifest", "localBundleRuntime"]) {
     const source = readFileSync(join(root, "packages", "content-model", "src", `${moduleName}.ts`), "utf8");
     writeFileSync(join(output, `${moduleName}.js`), ts.transpileModule(source, {
