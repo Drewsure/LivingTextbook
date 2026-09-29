@@ -1,4 +1,4 @@
-import type { PilotDeliveryManifest, PilotDeliveryMode } from "./pilotDeliveryManifest";
+import { validatePilotDeliveryManifest, type PilotDeliveryManifest, type PilotDeliveryMode } from "./pilotDeliveryManifest.ts";
 
 export type PilotDeliveryReleaseReceiptStatus = "blocked" | "manual-release-approved";
 export type PilotDeliveryApprovalState = "pending" | "approved";
@@ -52,7 +52,9 @@ export function createPilotDeliveryReleaseReceipt(input: {
   const reviewerRole = input.reviewerRole ?? null;
   const reviewedAt = input.reviewedAt ?? null;
   const rollbackReference = input.rollbackReference ?? null;
+  const manifestErrors = validatePilotDeliveryManifest(input.manifest);
   const unresolvedRequirements = [
+    ...manifestErrors.map((error) => `Manifest: ${error}`),
     ...(input.manifest.status === "blocked" ? ["Pilot delivery manifest remains blocked."] : []),
     ...(releaseApproval !== "approved" ? ["Named release approval is not recorded."] : []),
     ...(qrPrintAuthorization !== "approved" ? ["QR print authorization is not recorded."] : []),
@@ -61,7 +63,7 @@ export function createPilotDeliveryReleaseReceipt(input: {
     ...(!reviewedAt ? ["A review timestamp is required."] : []),
     ...(!rollbackReference ? ["A rollback reference is required before handoff."] : []),
   ];
-  const approved = unresolvedRequirements.length === 0 && input.manifest.deliveryAllowed;
+  const approved = unresolvedRequirements.length === 0 && input.manifest.status === "ready-for-manual-release" && input.manifest.deliveryAllowed;
 
   return {
     receiptId: `${input.manifest.manifestId}:release-receipt`,

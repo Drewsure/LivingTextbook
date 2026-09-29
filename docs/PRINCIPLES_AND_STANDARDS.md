@@ -9035,3 +9035,18 @@ This standard is recorded in DR-1278 and the 2026-09-29 handoff build note.
   before its delivery-mode contract is complete.
 
 This standard is recorded in DR-1279 and the 2026-09-29 fail-closed build note.
+
+## 565. Release Receipts Must Validate Their Manifest
+
+- A release receipt may become `manual-release-approved` only when its source
+  manifest passes the complete manifest validator and is itself
+  `ready-for-manual-release` with delivery allowed.
+- Receipt approval must remain blocked when a caller supplies contradictory
+  status and permission flags, even if reviewer, rollback, release, and QR
+  fields are populated.
+- Manifest validation errors must remain visible as receipt requirements so a
+  reviewer can see which upstream contract failed.
+- This is an approval-integrity rule; it does not enable writes, package
+  assembly, QR printing, hosted persistence, or student activation by itself.
+
+This standard is recorded in DR-1280 and the 2026-09-29 receipt build note.

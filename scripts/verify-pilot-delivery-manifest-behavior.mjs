@@ -1,4 +1,5 @@
 import { createPilotDeliveryManifest } from "../packages/content-model/src/pilotDeliveryManifest.ts";
+import { createPilotDeliveryReleaseReceipt } from "../packages/content-model/src/pilotDeliveryReleaseReceipt.ts";
 
 const checksum = `sha256:${"a".repeat(64)}`;
 const preview = {
@@ -65,4 +66,22 @@ if (
   throw new Error("Hosted delivery should preserve its package-scoped opt-in packet when all gates are ready.");
 }
 
-console.log("PASS pilot delivery manifest fails closed for missing hosted packet identity and preserves closed-local/hosted readiness boundaries.");
+const forgedReadyManifest = { ...closedLocal, status: "blocked", deliveryAllowed: true };
+const forgedReceipt = createPilotDeliveryReleaseReceipt({
+  manifest: forgedReadyManifest,
+  reviewerId: "behavior-reviewer",
+  reviewerRole: "platform-admin",
+  reviewedAt: "2026-09-29T00:00:00.000Z",
+  releaseApproval: "approved",
+  qrPrintAuthorization: "approved",
+  rollbackReference: "behavior-package:rollback",
+});
+if (
+  forgedReceipt.status !== "blocked" ||
+  forgedReceipt.deliveryAllowed ||
+  !forgedReceipt.unresolvedRequirements.some((item) => item.includes("Manifest:"))
+) {
+  throw new Error("Release receipt approval must fail closed when manifest validation or readiness is unsafe.");
+}
+
+console.log("PASS pilot delivery manifest and release receipt fail closed for missing hosted identity or unsafe readiness flags.");
