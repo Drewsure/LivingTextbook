@@ -6862,3 +6862,13 @@ student-payload-blocked behavior.
   without changing runtime behavior or enabling any delivery side effect.
 - The local-bundle gate and full foundation suite pass, including the
   production build and 89 active route checks.
+
+## Build session: Package-owned runtime branding
+
+- Updated the dynamic local package runtime route to resolve tenant branding
+  from the verified package manifest, using the same safe fallback resolver as
+  the package front door, Memory Match, media, and teacher evidence routes.
+- Added a route guard against reintroducing a MiniStar/sample-publisher-only
+  tenant registry at the white-label package boundary.
+- The route remains read-only: no package writes, activation, QR mutation,
+  learner data, or hosted persistence was enabled.
