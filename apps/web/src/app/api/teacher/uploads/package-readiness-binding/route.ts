@@ -7,9 +7,11 @@ import {
   createReviewOnlyUploadQuarantineDeliveryManifestPreview,
   isUploadQuarantineSafeTenantId,
   createReviewOnlyUploadQuarantineReleaseReceiptPreview,
+  createReviewOnlyUploadQuarantinePackageIndexPreview,
   validatePublisherPilotPackageReadinessBindingRecord,
   validateUploadQuarantineDeliveryManifestPreview,
   validateUploadQuarantineReleaseReceiptPreview,
+  validateUploadQuarantinePackageIndexPreview,
   type PublisherPilotPackageReadinessBinding,
   type PublisherPilotPackageReadinessCheck,
   type UploadQuarantinePackageAssemblyPreflight,
@@ -18,6 +20,7 @@ import {
   type UploadQuarantineDeliveryManifestPreview,
   type UploadQuarantinePackageEvidenceReview,
   type UploadQuarantineReleaseReceiptPreview,
+  type UploadQuarantinePackageIndexPreview,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -44,6 +47,7 @@ type ReadinessResponse = {
   deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
+  packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   errors?: string[];
   privacy: string;
 };
@@ -125,6 +129,8 @@ export async function GET(request: Request) {
     ],
   });
   const releaseReceiptPreviewErrors = validateUploadQuarantineReleaseReceiptPreview(releaseReceiptPreview);
+  const packageIndexPreview = createReviewOnlyUploadQuarantinePackageIndexPreview({ deliveryManifestPreview, packageEvidenceReview });
+  const packageIndexPreviewErrors = validateUploadQuarantinePackageIndexPreview(packageIndexPreview);
   const checks: PublisherPilotPackageReadinessCheck[] = [
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("review-packet", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The package review packet is ready for the next gate." : "No durable package review packet has been recorded.", "Record and reconcile the immutable package review packet."),
@@ -170,7 +176,8 @@ export async function GET(request: Request) {
     deliveryModeDecision,
     packageEvidenceReview,
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors],
+    packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
     privacy: privacyMessage(),
   });
 }

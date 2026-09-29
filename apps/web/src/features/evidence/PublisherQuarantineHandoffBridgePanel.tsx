@@ -13,6 +13,7 @@ import type {
   UploadQuarantineDeliveryModeDecision,
   UploadQuarantinePackageEvidenceReview,
   UploadQuarantineReleaseReceiptPreview,
+  UploadQuarantinePackageIndexPreview,
   PublisherPilotPackageReadinessBinding,
 } from "@living-textbook/content-model";
 
@@ -38,6 +39,7 @@ type HandoffResponse = {
   deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
+  packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   errors?: string[];
   privacy?: string;
 };
@@ -62,6 +64,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [deliveryModeDecision, setDeliveryModeDecision] = useState<UploadQuarantineDeliveryModeDecision | null>(null);
   const [packageEvidenceReview, setPackageEvidenceReview] = useState<UploadQuarantinePackageEvidenceReview | null>(null);
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
+  const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -113,12 +116,13 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
         setPackageEvidenceReview(next.packageEvidenceReview ?? null);
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
+        setPackageIndexPreview(next.packageIndexPreview ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -127,6 +131,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setDeliveryModeDecision(null);
         setPackageEvidenceReview(null);
         setReleaseReceiptPreview(null);
+        setPackageIndexPreview(null);
       });
 
     return () => controller.abort();
@@ -296,6 +301,7 @@ export function PublisherQuarantineHandoffBridgePanel({
           {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
           {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
           {releaseReceiptPreview ? <LiveReleaseReceiptPreview preview={releaseReceiptPreview} /> : null}
+          {packageIndexPreview ? <LivePackageIndexPreview preview={packageIndexPreview} /> : null}
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
@@ -412,6 +418,38 @@ function LiveReleaseReceiptPreview({ preview }: { preview: UploadQuarantineRelea
         ))}
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Reviewer: not recorded · rollback: not recorded · release approval: pending · QR authorization: pending · delivery: blocked · student use: blocked · side effect: none</p>
+    </section>
+  );
+}
+
+function LivePackageIndexPreview({ preview }: { preview: UploadQuarantinePackageIndexPreview }) {
+  const reviewed = preview.entries.filter((entry) => entry.status === "reviewed").length;
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live package-index preview</p>
+          <h3 className="mt-1 text-base font-bold">Review the package lanes before routes or QR paths exist</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{reviewed}/{preview.entries.length} evidence lanes are reviewed. This inventory is bound to the live source checksum; it does not invent game routes, media paths, QR aliases, or local fallback files.</p>
+        </div>
+        <StatusPill label="Blocked" tone="warning" />
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Preview" value={preview.previewId} />
+        <Fact label="Package index" value={preview.packageIndexId} />
+        <Fact label="Source checksum" value={preview.sourceChecksumSha256} />
+        <Fact label="Delivery mode" value={preview.selectedMode} />
+      </dl>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {preview.entries.map((entry) => (
+          <div key={entry.entryId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+            <div className="flex items-center justify-between gap-2"><span className="text-sm font-semibold">{entry.label}</span><StatusPill label={entry.status} tone={entry.status === "reviewed" ? "success" : "warning"} /></div>
+            <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{entry.evidence}</p>
+            <p className="mt-2 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {entry.nextAction}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Game routes: none linked · media paths: none linked · QR aliases: none linked · local fallback: none linked · package assembly: blocked · student use: blocked · side effect: metadata-only</p>
     </section>
   );
 }

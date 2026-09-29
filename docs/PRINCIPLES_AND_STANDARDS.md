@@ -8852,3 +8852,16 @@ This standard is recorded in DR-1266 and ADR 1266.
   or activate student use.
 
 This standard is recorded in DR-1267 and ADR 1267.
+
+## 552. Live Package-Index Preview Standard
+
+- A real quarantine handoff must expose a tenant-, package-, and checksum-bound
+  inventory of content, game, audio, video, image, font, accessibility, rights,
+  QR, and local-delivery lanes before any package index is written.
+- The preview must report reviewed and open evidence lanes honestly. It must
+  keep game routes, media paths, QR aliases, and local fallback paths empty
+  until an approved manifest and release receipt create those artifacts.
+- The preview is metadata-only and cannot assemble a package, create routes,
+  mutate QR aliases, activate local or hosted delivery, or use student data.
+
+This standard is recorded in DR-1268 and ADR 1268.
