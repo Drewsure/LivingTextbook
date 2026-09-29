@@ -112,7 +112,8 @@ export function validateUploadQuarantinePackageReviewPacket(value: unknown): str
   if (!/^[a-f0-9]{64}$/.test(String(value.checksumSha256 ?? ""))) errors.push("Upload quarantine package review packet checksum must be lowercase SHA-256.");
   if (typeof value.payloadPresent !== "boolean") errors.push("Upload quarantine package review packet payloadPresent must be boolean.");
   for (const [field, label] of [["blockers", "blockers"], ["nextGate", "next gate"], ["includedRecords", "included records"]] as const) {
-    if (!Array.isArray(value[field]) || value[field].length === 0 || value[field].some((item) => !isNonEmptyString(item))) errors.push(`Upload quarantine package review packet ${label} must contain non-empty strings.`);
+    const allowsEmpty = field === "blockers" && value.status === "ready-for-next-gate";
+    if (!Array.isArray(value[field]) || (!allowsEmpty && value[field].length === 0) || value[field].some((item) => !isNonEmptyString(item))) errors.push(`Upload quarantine package review packet ${label} must contain non-empty strings.`);
   }
   if (value.status === "ready-for-next-gate" && Array.isArray(value.blockers) && value.blockers.length > 0) errors.push("A ready package review packet cannot contain blockers.");
   if (value.packageAssemblyAllowed !== false) errors.push("Upload quarantine package review packet package assembly must remain blocked.");

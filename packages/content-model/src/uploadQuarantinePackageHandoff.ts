@@ -111,7 +111,8 @@ export function validateUploadQuarantinePackageHandoffPreview(value: unknown): s
   if (!Number.isSafeInteger(value.sizeBytes) || Number(value.sizeBytes) <= 0) errors.push("Upload quarantine package handoff sizeBytes must be a positive safe integer.");
   if (!/^[a-f0-9]{64}$/.test(String(value.checksumSha256 ?? ""))) errors.push("Upload quarantine package handoff checksum must be a lowercase SHA-256 value.");
   for (const [field, label] of [["includedRecords", "included records"], ["requiredReview", "required review"], ["blockers", "blockers"], ["nextGate", "next gate"], ["blockedActions", "blocked actions"]] as const) {
-    if (!Array.isArray(value[field]) || value[field].length === 0 || value[field].some((item) => !isNonEmptyString(item))) {
+    const allowsEmpty = field === "blockers" && value.admissionDecision === "evidence-ready";
+    if (!Array.isArray(value[field]) || (!allowsEmpty && value[field].length === 0) || value[field].some((item) => !isNonEmptyString(item))) {
       errors.push(`Upload quarantine package handoff ${label} must contain non-empty strings.`);
     }
   }

@@ -26,5 +26,7 @@ assembly, promotion, QR printing, hosted persistence, or student-facing use.
 - A publisher review can progress after recording a missing adapter decision.
 - Earlier reviewer evidence remains auditable and immutable.
 - Release lineage always sees the highest valid packet revision.
+- An evidence-ready handoff or packet may carry zero blockers; blocked and
+  needs-review states continue to require actionable blockers.
 - The frozen Z.ai/Phaser source remains outside package promotion until its
   separate evidence and adjudication gates pass.

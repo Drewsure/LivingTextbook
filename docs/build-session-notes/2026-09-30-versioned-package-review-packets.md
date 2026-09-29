@@ -13,12 +13,19 @@ later adapter decision produces a new, linked review packet revision.
 - Preserved revision-one filename and packet identity for compatibility.
 - Reissued only blocked packets missing the promotion-adapter record.
 - Added structural verification and foundation composition coverage.
+- Added a production-preview publisher-intake rehearsal covering revision-one
+  blocking, adapter selection, revision-two supersession, highest-revision
+  readback, and continued release/QR/student-use blocking.
+- Updated handoff and packet validation so an evidence-ready state may have an
+  empty blocker list while blocked and needs-review states still require
+  actionable blockers.
 
 ## Verification
 
 ```powershell
 node scripts/verify-package-review-packet-revision.mjs
 npm run verify:foundation-composition
+npm run verify:publisher-intake-rehearsal
 npm run typecheck --workspace @living-textbook/web
 npm run build --workspace @living-textbook/web -- --webpack
 git diff --check

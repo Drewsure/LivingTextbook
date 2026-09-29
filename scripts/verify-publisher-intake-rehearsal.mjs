@@ -27,6 +27,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED: "true",
     LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
+    LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
@@ -89,7 +90,7 @@ try {
   assert(evidenceReviewResponse.status === 200 && evidenceReview.status === "recorded-review-only" && evidenceReview.evidenceReady === true, "complete evidence review must be recorded as metadata-only and evidence-ready");
 
   const evidenceHandoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
-  assert(evidenceHandoff.handoff?.admissionDecision === "evidence-ready", "complete evidence review must advance admission decision");
+  assert(evidenceHandoff.handoff?.admissionDecision === "needs-review", "complete evidence review must remain in review until the promotion adapter is selected");
   assert(evidenceHandoff.handoff?.blockers.some((blocker) => blocker.includes("Promotion adapter selection")), "promotion adapter selection must remain a separate deployment blocker");
 
   const deliveryModeResponse = await fetch(`${baseUrl}/api/teacher/uploads/delivery-mode-decision`, {
@@ -161,9 +162,42 @@ try {
   });
   const packet = await readJson(packetResponse);
   assert(packetResponse.status === 200 && packet.status === "recorded-review-only" && packet.packet?.status === "blocked" && packet.packet?.reviewDecision === "accepted-for-package-review" && !packet.packet?.blockers.some((blocker) => blocker.includes("human review decision must be recorded")), "review packet capture must remain review-only, source-decision-bound, and blocked only by downstream gates");
+  assert(packet.packet?.packetRevision === undefined && !packet.packet?.supersedesPacketId, "the first blocked packet must retain the canonical revision-one identity");
+
+  const promotionAdapterResponse = await fetch(`${baseUrl}/api/teacher/uploads/promotion-adapter-decision`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      selectedAdapter: "hybrid-package",
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Synthetic hybrid adapter selection for the controlled pilot rehearsal.",
+    }),
+  });
+  const promotionAdapter = await readJson(promotionAdapterResponse);
+  assert(promotionAdapterResponse.status === 200 && promotionAdapter.status === "recorded-review-only" && promotionAdapter.record?.selectedAdapter === "hybrid-package" && promotionAdapter.record?.promotionAllowed === false, "promotion adapter selection must be recorded as review-only and remain promotion-blocked");
+
+  const adapterBoundHandoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
+  assert(adapterBoundHandoff.handoff?.admissionDecision === "evidence-ready" && adapterBoundHandoff.handoff?.blockers?.length === 0, "complete evidence plus a checksum-bound adapter selection must advance the admission preview");
+
+  const revisedPacketResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({ tenantId: "sample-publisher", quarantineId, packageId: "sample-publisher-l1-u1-routines-package" }),
+  });
+  const revisedPacket = await readJson(revisedPacketResponse);
+  assert(revisedPacketResponse.status === 200 && revisedPacket.status === "recorded-review-only" && revisedPacket.packet?.packetRevision === 2, "a blocked packet with a newly reviewed adapter must receive an immutable revision-two packet");
+  assert(revisedPacket.packet?.supersedesPacketId === packet.packet?.packetId, "revision two must identify the blocked revision-one packet it supersedes");
+  assert(revisedPacket.packet?.includedRecords?.includes("upload_quarantine_promotion_adapter_decision"), "revision two must include the reviewed promotion adapter record");
+  assert(revisedPacket.packet?.packageAssemblyAllowed === false && revisedPacket.packet?.promotionAllowed === false && revisedPacket.packet?.studentFacingUseAllowed === false, "packet revisioning must not authorize assembly, promotion, or student use");
+
+  const packetReadback = await requestJson(`${baseUrl}/api/teacher/uploads/package-review-packet?${query}`, headers);
+  assert(packetReadback.packet?.packetRevision === 2 && packetReadback.packet?.packetId === revisedPacket.packet?.packetId, "packet reads must return the highest valid immutable revision");
 
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
-  assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "downstream packet blockers must flow into live readiness after source decision acceptance");
+  assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "passed"), "the immutable adapter-bound packet revision must close the package review check without authorizing release");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "passed"), "accepted source decision must close only its own live readiness gate");
   assert(secondBinding.deliveryModeDecision?.selectedMode === "hybrid", "hybrid delivery mode selection must flow into live readiness");
   assert(secondBinding.hostedPersistenceOptInPacket?.deliveryMode === "hybrid-registry-local-media", "hybrid delivery must derive the package-scoped hosted persistence preview");
@@ -176,15 +210,15 @@ try {
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
   assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
-  const allowedPassedChecks = new Set(["source-review-decision", "review-packet", "delivery-mode", "package-preview"]);
+  const allowedPassedChecks = new Set(["quarantine-review", "source-review-decision", "review-packet", "delivery-mode", "promotion-adapter", "package-preview"]);
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, secondBinding });
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, secondBinding });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 
-  console.log("PASS publisher intake rehearsal submits a source, follows live readiness, captures blocked review metadata and delivery mode, and never crosses the package-writer boundary.");
+  console.log("PASS publisher intake rehearsal submits a source, advances a blocked packet through an immutable adapter-bound revision, follows live readiness, and never crosses the package-writer boundary.");
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   if (previewOutput.trim()) console.error(previewOutput.trim());
