@@ -29,6 +29,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
     LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
+    LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
   stdio: ["ignore", "pipe", "pipe"],
@@ -214,7 +215,23 @@ try {
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, secondBinding });
+  const releaseAttemptResponse = await fetch(`${baseUrl}/api/teacher/delivery/release`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  const releaseAttempt = await readJson(releaseAttemptResponse);
+  assert(releaseAttemptResponse.status === 423 && releaseAttempt.status === "blocked" && releaseAttempt.releaseReceiptWritten !== true && releaseAttempt.studentFacingActivationAllowed !== true, "delivery release must remain disabled even after a complete review-only readiness rehearsal");
+
+  const metadataAttemptResponse = await fetch(`${baseUrl}/api/teacher/delivery/metadata`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({ manifest: {}, receipt: {}, operatorId: "publisher-intake-rehearsal", quarantineId, writtenAt: new Date().toISOString() }),
+  });
+  const metadataAttempt = await readJson(metadataAttemptResponse);
+  assert(metadataAttemptResponse.status === 423 && metadataAttempt.status === "blocked" && metadataAttempt.deliveryMetadataWritten !== true, "delivery metadata writes must remain disabled after a review-only readiness rehearsal");
+
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, secondBinding, releaseAttempt, metadataAttempt });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 

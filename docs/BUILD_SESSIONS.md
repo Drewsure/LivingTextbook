@@ -22,6 +22,20 @@ The background media capability slice now rejects multimedia plans that name a s
 
 The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
 
+The publisher delivery-writer rehearsal now follows the review-only intake path through its immutable adapter-bound packet revision and then attempts the release and delivery-metadata writer endpoints. Both must remain explicitly blocked, so review readiness cannot be mistaken for release approval or package assembly.
+
+## Build session: Publisher delivery-writer rehearsal
+
+- Extended the controlled publisher intake rehearsal through the adapter-bound
+  packet revision and live readiness binding.
+- Added endpoint-level negative evidence for delivery release and metadata
+  writes after review-only readiness is complete.
+- Preserved the human gates for release approval, QR print authorization,
+  rollback, package assembly, local delivery, hosted persistence, and student
+  activation.
+
+Evidence: `scripts/verify-publisher-intake-rehearsal.mjs`, `docs/adr/1283-publisher-delivery-writer-rehearsal.md`, and `docs/build-session-notes/2026-09-30-publisher-delivery-writer-rehearsal.md`.
+
 ## Build session: Live delivery manifest preview
 
 - Added a tenant- and package-bound metadata preview derived from the actual
