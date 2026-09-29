@@ -1,0 +1,108 @@
+export type UploadQuarantinePackageEvidenceLane = "content" | "game" | "audio" | "video" | "image" | "font" | "accessibility" | "rights";
+export type UploadQuarantinePackageEvidenceReviewStatus = "incomplete" | "reviewed-package-evidence";
+
+export const UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES: readonly UploadQuarantinePackageEvidenceLane[] = [
+  "content",
+  "game",
+  "audio",
+  "video",
+  "image",
+  "font",
+  "accessibility",
+  "rights",
+] as const;
+
+export interface UploadQuarantinePackageEvidenceReview {
+  recordVersion: 1;
+  reviewId: string;
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  sourceChecksumSha256: string;
+  reviewerId: string;
+  reviewerNote: string;
+  reviewedAt: string;
+  requiredLanes: UploadQuarantinePackageEvidenceLane[];
+  reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  status: UploadQuarantinePackageEvidenceReviewStatus;
+  blockers: string[];
+  nextSteps: string[];
+  packageAssemblyAllowed: false;
+  promotionAllowed: false;
+  qrPrintAllowed: false;
+  studentFacingUseAllowed: false;
+  mode: "review-only";
+  sideEffect: "none";
+}
+
+export function createUploadQuarantinePackageEvidenceReview(input: {
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  sourceChecksumSha256: string;
+  reviewerId: string;
+  reviewerNote: string;
+  reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  reviewedAt: string;
+}): UploadQuarantinePackageEvidenceReview {
+  const reviewedLanes = [...new Set(input.reviewedLanes)];
+  const missingLanes = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane));
+  const complete = missingLanes.length === 0;
+  return {
+    recordVersion: 1,
+    reviewId: `${input.packageId}:${input.quarantineId}:package-evidence-review`,
+    tenantId: input.tenantId,
+    quarantineId: input.quarantineId,
+    packageId: input.packageId,
+    sourceChecksumSha256: input.sourceChecksumSha256,
+    reviewerId: input.reviewerId,
+    reviewerNote: input.reviewerNote,
+    reviewedAt: input.reviewedAt,
+    requiredLanes: [...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES],
+    reviewedLanes,
+    status: complete ? "reviewed-package-evidence" : "incomplete",
+    blockers: complete ? [] : missingLanes.map((lane) => `${lane} evidence has not been reviewed.`),
+    nextSteps: [
+      ...(complete ? ["Keep package assembly, release, and QR authorization as separate gates."] : ["Review every content, game, audio, video, image, font, accessibility, and rights lane."]),
+      "Attach the final release receipt only after the reviewed package is assembled and rehearsed.",
+    ],
+    packageAssemblyAllowed: false,
+    promotionAllowed: false,
+    qrPrintAllowed: false,
+    studentFacingUseAllowed: false,
+    mode: "review-only",
+    sideEffect: "none",
+  };
+}
+
+export function validateUploadQuarantinePackageEvidenceReview(value: unknown): string[] {
+  const errors: string[] = [];
+  if (!isRecord(value)) return ["Upload quarantine package evidence review must be an object."];
+  if (value.recordVersion !== 1) errors.push("Upload quarantine package evidence review recordVersion must be 1.");
+  for (const field of ["reviewId", "tenantId", "quarantineId", "packageId", "sourceChecksumSha256", "reviewerId", "reviewerNote", "reviewedAt"] as const) {
+    if (!isNonEmptyString(value[field])) errors.push(`Upload quarantine package evidence review ${field} must be non-empty.`);
+  }
+  if (!/^q-[0-9a-f-]{36}$/.test(String(value.quarantineId ?? ""))) errors.push("Upload quarantine package evidence review quarantine identity is not opaque.");
+  if (!/^[a-f0-9]{64}$/.test(String(value.sourceChecksumSha256 ?? ""))) errors.push("Upload quarantine package evidence review checksum must be lowercase SHA-256.");
+  if (!isSafeIdentifier(value.reviewId) || !isSafeIdentifier(value.tenantId) || !isSafeIdentifier(value.quarantineId) || !isSafeIdentifier(value.packageId) || !isSafeReviewerId(value.reviewerId)) errors.push("Upload quarantine package evidence review identities must be bounded and safe.");
+  if (typeof value.reviewerNote === "string" && (value.reviewerNote.trim().length === 0 || value.reviewerNote.length > 2000)) errors.push("Upload quarantine package evidence review reviewerNote must be between 1 and 2000 characters.");
+  if (typeof value.reviewedAt === "string" && Number.isNaN(Date.parse(value.reviewedAt))) errors.push("Upload quarantine package evidence review reviewedAt must be a valid timestamp.");
+  for (const field of ["requiredLanes", "reviewedLanes"] as const) {
+    if (!Array.isArray(value[field]) || value[field].some((lane) => !UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(lane as UploadQuarantinePackageEvidenceLane))) errors.push(`Upload quarantine package evidence review ${field} contains an unsupported lane.`);
+    if (Array.isArray(value[field]) && new Set(value[field]).size !== value[field].length) errors.push(`Upload quarantine package evidence review ${field} must contain unique lanes.`);
+  }
+  if (JSON.stringify(value.requiredLanes) !== JSON.stringify([...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES])) errors.push("Upload quarantine package evidence review requiredLanes must use the canonical lane order.");
+  const reviewedLanes = Array.isArray(value.reviewedLanes) ? value.reviewedLanes as string[] : [];
+  const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane));
+  if (value.status !== (missing.length === 0 ? "reviewed-package-evidence" : "incomplete")) errors.push("Upload quarantine package evidence review status does not match reviewed lanes.");
+  if (!Array.isArray(value.blockers) || value.blockers.some((item) => !isNonEmptyString(item)) || (missing.length > 0 && value.blockers.length === 0) || (missing.length === 0 && value.blockers.length > 0)) errors.push("Upload quarantine package evidence review blockers must match lane completeness.");
+  if (!Array.isArray(value.nextSteps) || value.nextSteps.length === 0 || value.nextSteps.some((item) => !isNonEmptyString(item))) errors.push("Upload quarantine package evidence review nextSteps must contain non-empty strings.");
+  for (const field of ["packageAssemblyAllowed", "promotionAllowed", "qrPrintAllowed", "studentFacingUseAllowed"] as const) if (value[field] !== false) errors.push(`Upload quarantine package evidence review ${field} must remain false.`);
+  if (value.mode !== "review-only" || value.sideEffect !== "none") errors.push("Upload quarantine package evidence review must remain review-only and side-effect-free.");
+  return [...new Set(errors)];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> { return typeof value === "object" && value !== null && !Array.isArray(value); }
+function isNonEmptyString(value: unknown): value is string { return typeof value === "string" && value.trim().length > 0; }
+function isSafeIdentifier(value: unknown): value is string { return isNonEmptyString(value) && value.length <= 240 && /^[A-Za-z0-9][A-Za-z0-9._:@/-]*$/.test(value); }
+function isSafeReviewerId(value: unknown): value is string { return isNonEmptyString(value) && value.length <= 160 && /^[A-Za-z0-9][A-Za-z0-9._:@-]*$/.test(value); }

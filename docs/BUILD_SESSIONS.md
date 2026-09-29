@@ -54,6 +54,21 @@ Evidence: `packages/content-model/src/uploadQuarantineDeliveryManifestPreview.ts
   `apps/web/src/app/api/teacher/uploads/delivery-mode-decision/route.ts`, and
   `scripts/verify-delivery-mode-decision.mjs`.
 
+  ## Build session: Reviewed package evidence lanes
+
+  - Added an immutable, tenant-bound evidence sidecar for content, games,
+    audio, video, images, fonts, accessibility, and rights.
+  - Added a feature-gated authorized capture route and handoff panel, with no
+    raw payload, storage path, download, or provider capability.
+  - Propagated complete lane coverage into the live reviewed-package preview
+    while keeping assembly, promotion, release, QR, hosted persistence, and
+    student use independently blocked.
+  - Added focused verification and publisher rehearsal coverage.
+
+  Evidence: `packages/content-model/src/uploadQuarantinePackageEvidenceReview.ts`,
+  `apps/web/src/app/api/teacher/uploads/package-evidence-review/route.ts`, and
+  `scripts/verify-package-evidence-review.mjs`.
+
 ## Build session 0964: Full foundation verification baseline and controlled Z.ai handoff
 
 - Re-ran the complete `npm run verify:foundation` suite on `legacy-source-import`.

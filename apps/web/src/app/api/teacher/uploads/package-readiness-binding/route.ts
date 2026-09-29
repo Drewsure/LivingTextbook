@@ -14,6 +14,7 @@ import {
   type UploadQuarantinePackageHandoffPreview,
   type UploadQuarantinePackageReviewPacket,
   type UploadQuarantineDeliveryManifestPreview,
+  type UploadQuarantinePackageEvidenceReview,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -21,6 +22,7 @@ import {
   readQuarantinePackageReviewPacket,
   readQuarantineEvidenceReview,
   readQuarantineDeliveryModeDecision,
+  readQuarantinePackageEvidenceReview,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 
@@ -37,6 +39,7 @@ type ReadinessResponse = {
   binding?: PublisherPilotPackageReadinessBinding | null;
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
+  packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   errors?: string[];
   privacy: string;
 };
@@ -78,6 +81,8 @@ export async function GET(request: Request) {
   const packet = packetResult.record;
   const deliveryModeDecisionResult = await readQuarantineDeliveryModeDecision(tenantId, quarantineId);
   const deliveryModeDecision = deliveryModeDecisionResult.record;
+  const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
+  const packageEvidenceReview = packageEvidenceReviewResult.record;
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
@@ -99,7 +104,7 @@ export async function GET(request: Request) {
       check("source-evidence", "Source and evidence review", handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.admissionDecision === "evidence-ready" ? "The source evidence review is complete for this metadata handoff." : handoff.blockers.join(" ") || "Source evidence remains incomplete.", "Complete scan, rights, source, mapping, accessibility, and release evidence."),
       check("package-review", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The immutable package review packet is ready for the next gate." : "No durable package review packet is linked.", "Record and reconcile the package review packet."),
       check("delivery-mode", "Delivery mode selection", deliveryModeDecision ? "passed" : "open", deliveryModeDecision ? `The publisher selected ${deliveryModeDecision.selectedMode} for review-only planning.` : "No local, hosted, or hybrid delivery mode has been selected for this submission.", deliveryModeDecision ? "Keep the selected mode aligned with the final release and policy packet." : "Choose closed-local, hosted PWA, or hybrid delivery."),
-      check("package-preview", "Reviewed package preview", "blocked", "A reviewed multimedia/game package is not linked to this live quarantine submission.", "Attach reviewed content, games, audio, video, image, font, and rights evidence."),
+      check("package-preview", "Reviewed package preview", packageEvidenceReview?.status === "reviewed-package-evidence" ? "passed" : "blocked", packageEvidenceReview?.status === "reviewed-package-evidence" ? "Reviewed content, game, multimedia, accessibility, and rights evidence is linked to this quarantine." : "A reviewed multimedia/game package is not linked to this live quarantine submission.", "Record complete content, game, audio, video, image, font, accessibility, and rights evidence."),
       check("release-receipt", "Manual release receipt", "blocked", "No approved delivery manifest or named release receipt is linked.", "Complete release, rollback, school-policy, and operator review."),
       check("qr-print", "QR print authorization", "blocked", "Production QR printing remains blocked for this live submission.", "Validate stable aliases, local fallback, release checksum, and print authorization."),
     ],
@@ -109,7 +114,7 @@ export async function GET(request: Request) {
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("review-packet", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The package review packet is ready for the next gate." : "No durable package review packet has been recorded.", "Record and reconcile the immutable package review packet."),
     check("assembly-preflight", "Assembly preflight", preflight?.status === "ready-for-manual-assembly" ? "passed" : preflight ? "blocked" : "open", preflight ? preflight.blockers.join(" ") || "Assembly preflight is ready for manual review." : "Assembly preflight cannot run until a package review packet exists.", "Resolve preflight blockers before a package writer can be considered."),
-    check("package-preview", "Content, game, and media preview", "blocked", "No reviewed publisher package preview is attached to this live source yet.", "Attach the reviewed content, game, audio, video, image, and font evidence."),
+    check("package-preview", "Content, game, and media preview", packageEvidenceReview?.status === "reviewed-package-evidence" ? "passed" : "blocked", packageEvidenceReview?.status === "reviewed-package-evidence" ? "Complete reviewed package evidence is attached to this live source; release remains separately blocked." : "No reviewed publisher package preview is attached to this live source yet.", "Record complete content, game, audio, video, image, font, accessibility, and rights evidence."),
     check("readiness-reconciliation", "Readiness reconciliation", "blocked", "No complete source, verifier, audio, media-rights, publish, and assignment reconciliation is attached to this live source.", "Reconcile every release-blocking readiness lane."),
     check("delivery-manifest", "Delivery manifest", "blocked", "No delivery manifest is linked to this live quarantine handoff.", "Choose closed-local, hosted, or hybrid delivery and close its gates."),
     check("release-receipt", "Manual release receipt", "blocked", "No named release approval, QR print authorization, or rollback receipt is linked.", "Complete human release review after package evidence passes."),
@@ -148,7 +153,8 @@ export async function GET(request: Request) {
     binding: bindingErrors.length === 0 ? binding : null,
     deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
     deliveryModeDecision,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
+    packageEvidenceReview,
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
     privacy: privacyMessage(),
   });
 }

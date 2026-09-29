@@ -8783,3 +8783,24 @@ This standard is recorded in DR-1262 and ADR 1262.
   not make those decisions on behalf of a tenant.
 
 This standard is recorded in DR-1263 and ADR 1263.
+
+## 548. Reviewed Package Evidence Lane Standard
+
+- A real quarantine handoff must be able to record which package evidence
+  lanes were reviewed: textbook content, game pathways and scoring, learner
+  audio, video/poster/captions, images and diagrams, fonts, accessibility, and
+  publisher rights.
+- The lane record is tenant-, package-, quarantine-, and source-checksum-bound
+  metadata. It must never contain raw payload bytes, file downloads, storage
+  paths, learner records, or provider credentials.
+- Complete lane coverage may mark the live `package-preview` check as
+  reviewed-package evidence, but it must not authorize assembly, promotion,
+  QR printing, release, hosted persistence, or student-facing use.
+- The capture route is disabled by default behind
+  `LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED=true`. Identical replays
+  are idempotent and conflicting replacements fail closed.
+- A package is not saleable merely because its evidence lanes are complete;
+  package assembly, release receipt, QR print authorization, local delivery,
+  and hosted-policy gates remain separate closure requirements.
+
+This standard is recorded in DR-1264 and ADR 1264.

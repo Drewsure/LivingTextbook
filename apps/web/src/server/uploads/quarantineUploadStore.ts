@@ -19,6 +19,10 @@ import {
   validateUploadQuarantineDeliveryModeDecision,
   type UploadQuarantineDeliveryMode,
   type UploadQuarantineDeliveryModeDecision,
+  createUploadQuarantinePackageEvidenceReview,
+  validateUploadQuarantinePackageEvidenceReview,
+  type UploadQuarantinePackageEvidenceLane,
+  type UploadQuarantinePackageEvidenceReview,
   type UploadQuarantinePackageReviewPacket,
   validateUploadQuarantinePackageReviewPacket,
 } from "@living-textbook/content-model";
@@ -94,6 +98,25 @@ export type QuarantineDeliveryModeDecisionWriteResult = {
 
 export type QuarantineDeliveryModeDecisionReadResult = {
   record: UploadQuarantineDeliveryModeDecision | null;
+  errors: string[];
+};
+
+export type QuarantinePackageEvidenceReviewWrite = Omit<UploadQuarantinePackageEvidenceReview, "recordVersion" | "reviewId" | "sourceChecksumSha256" | "requiredLanes" | "status" | "blockers" | "nextSteps" | "packageAssemblyAllowed" | "promotionAllowed" | "qrPrintAllowed" | "studentFacingUseAllowed" | "mode" | "sideEffect"> & {
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+};
+
+export type QuarantinePackageEvidenceReviewWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantinePackageEvidenceReview;
+  errors: string[];
+};
+
+export type QuarantinePackageEvidenceReviewReadResult = {
+  record: UploadQuarantinePackageEvidenceReview | null;
   errors: string[];
 };
 
@@ -334,6 +357,49 @@ export async function writeQuarantineEvidenceReview(input: QuarantineEvidenceRev
     return { status: "accepted", idempotent: false, record, errors: [] };
   } catch {
     return { status: "blocked", idempotent: false, errors: ["Evidence review metadata could not be written inside the quarantine custody boundary."] };
+  }
+}
+
+export async function readQuarantinePackageEvidenceReview(tenantId: string, quarantineId: string): Promise<QuarantinePackageEvidenceReviewReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) return { record: null, errors: ["The package evidence review identity did not pass tenant and quarantine boundary checks."] };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const reviewPath = resolve(recordDirectory, "package-evidence-review.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, reviewPath);
+    assertQuarantineFilesystemPath(reviewPath, root);
+    const value = JSON.parse(await readFile(reviewPath, "utf8")) as unknown;
+    const errors = validateUploadQuarantinePackageEvidenceReview(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored package evidence review failed validation and was withheld."] };
+    const record = value as UploadQuarantinePackageEvidenceReview;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored package evidence review failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantinePackageEvidenceReview(input: QuarantinePackageEvidenceReviewWrite): Promise<QuarantinePackageEvidenceReviewWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED !== "true") return { status: "blocked", idempotent: false, errors: ["Package evidence review writes are disabled. Enable the explicit local package-evidence gate before recording a review."] };
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for package evidence review capture."] };
+  const record = createUploadQuarantinePackageEvidenceReview({ ...input, sourceChecksumSha256: summary.record.checksumSha256, reviewedAt: input.reviewedAt });
+  const root = getQuarantineRoot();
+  const tenantDirectory = resolve(root, input.tenantId);
+  const recordDirectory = resolve(tenantDirectory, input.quarantineId);
+  const reviewPath = resolve(recordDirectory, "package-evidence-review.json");
+  assertQuarantineFilesystemPath(recordDirectory, root);
+  assertInside(recordDirectory, reviewPath);
+  assertQuarantineFilesystemPath(reviewPath, root);
+  try {
+    await writeFile(reviewPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    const existing = await readQuarantinePackageEvidenceReview(input.tenantId, input.quarantineId);
+    if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
+    return { status: "conflict", idempotent: false, errors: ["A different immutable package evidence review is already bound to this quarantine record."] };
   }
 }
 

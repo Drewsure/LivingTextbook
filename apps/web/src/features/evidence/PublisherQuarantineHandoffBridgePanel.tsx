@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { QuarantineEvidenceReviewCapture } from "@/features/content-intake/QuarantineEvidenceReviewCapture";
 import { DeliveryModeDecisionCapture } from "@/features/content-intake/DeliveryModeDecisionCapture";
+import { PackageEvidenceReviewCapture } from "@/features/content-intake/PackageEvidenceReviewCapture";
 import type {
   UploadQuarantinePackageAssemblyPreflight,
   UploadQuarantinePackageHandoffPreview,
   UploadQuarantinePackageReviewPacket,
   UploadQuarantineDeliveryManifestPreview,
   UploadQuarantineDeliveryModeDecision,
+  UploadQuarantinePackageEvidenceReview,
   PublisherPilotPackageReadinessBinding,
 } from "@living-textbook/content-model";
 
@@ -20,6 +22,7 @@ interface PublisherQuarantineHandoffBridgePanelProps {
   packageReviewPacketsEnabled?: boolean;
   evidenceReviewsEnabled?: boolean;
   deliveryModeDecisionsEnabled?: boolean;
+  packageEvidenceReviewsEnabled?: boolean;
 }
 
 type HandoffResponse = {
@@ -32,6 +35,7 @@ type HandoffResponse = {
   binding?: PublisherPilotPackageReadinessBinding | null;
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null;
+  packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   errors?: string[];
   privacy?: string;
 };
@@ -43,6 +47,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   packageReviewPacketsEnabled = false,
   evidenceReviewsEnabled = false,
   deliveryModeDecisionsEnabled = false,
+  packageEvidenceReviewsEnabled = false,
 }: PublisherQuarantineHandoffBridgePanelProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [payload, setPayload] = useState<HandoffResponse | null>(null);
@@ -53,6 +58,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [readinessBinding, setReadinessBinding] = useState<PublisherPilotPackageReadinessBinding | null>(null);
   const [deliveryManifestPreview, setDeliveryManifestPreview] = useState<UploadQuarantineDeliveryManifestPreview | null>(null);
   const [deliveryModeDecision, setDeliveryModeDecision] = useState<UploadQuarantineDeliveryModeDecision | null>(null);
+  const [packageEvidenceReview, setPackageEvidenceReview] = useState<UploadQuarantinePackageEvidenceReview | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -104,16 +110,18 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
+        setPackageEvidenceReview(next.packageEvidenceReview ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         setReadinessBinding(null);
         setDeliveryManifestPreview(null);
         setDeliveryModeDecision(null);
+        setPackageEvidenceReview(null);
       });
 
     return () => controller.abort();
@@ -220,6 +228,14 @@ export function PublisherQuarantineHandoffBridgePanel({
             packageId={handoff.packageId}
             enabled={deliveryModeDecisionsEnabled}
             decision={deliveryModeDecision}
+            onRecorded={() => setRefreshToken((current) => current + 1)}
+          />
+          <PackageEvidenceReviewCapture
+            tenantId={tenantId}
+            quarantineId={quarantineId}
+            packageId={handoff.packageId}
+            enabled={packageEvidenceReviewsEnabled}
+            review={packageEvidenceReview}
             onRecorded={() => setRefreshToken((current) => current + 1)}
           />
           <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">

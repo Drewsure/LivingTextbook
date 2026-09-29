@@ -1899,6 +1899,7 @@ export * from "./uploadQuarantineReviewDecision";
 export * from "./uploadQuarantineEvidenceReview";
 export * from "./uploadQuarantineDeliveryManifestPreview";
 export * from "./uploadQuarantineDeliveryModeDecision";
+export * from "./uploadQuarantinePackageEvidenceReview";
 export * from "./uploadQuarantinePackageReviewPacket";
 export * from "./uploadQuarantinePackageAssemblyPreflight";
 export * from "./evidenceAttachmentStorageHandoff";

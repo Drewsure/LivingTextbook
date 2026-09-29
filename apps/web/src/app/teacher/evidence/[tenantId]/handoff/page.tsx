@@ -60,6 +60,7 @@ export default async function TeacherEvidencePacketHandoffPage({
             packageReviewPacketsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED === "true"}
             evidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED === "true"}
             deliveryModeDecisionsEnabled={process.env.LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED === "true"}
+        packageEvidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED === "true"}
           />
         ) : null}
         <PackageReadinessReconciliationPanel

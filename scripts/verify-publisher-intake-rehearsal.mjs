@@ -26,6 +26,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED: "true",
     LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED: "true",
+    LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
@@ -105,6 +106,21 @@ try {
   const deliveryMode = await readJson(deliveryModeResponse);
   assert(deliveryModeResponse.status === 200 && deliveryMode.status === "recorded-review-only" && deliveryMode.record?.persistenceActivationAllowed === false, "delivery mode selection must be review-only and activation-blocked");
 
+  const packageEvidenceResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-evidence-review`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
+      reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
+    }),
+  });
+  const packageEvidence = await readJson(packageEvidenceResponse);
+  assert(packageEvidenceResponse.status === 200 && packageEvidence.status === "recorded-review-only" && packageEvidence.reviewedPackageEvidence === true, "complete package evidence must be recorded as review-only metadata");
+
   const reviewDecisionResponse = await fetch(`${baseUrl}/api/teacher/uploads/review-decision`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -133,13 +149,18 @@ try {
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "blocked packet state must flow into live readiness");
   assert(secondBinding.deliveryModeDecision?.selectedMode === "closed-local", "delivery mode selection must flow into live readiness");
+  assert(secondBinding.packageEvidenceReview?.status === "reviewed-package-evidence", "complete package evidence must flow into live readiness");
+  assert(secondBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must close only the reviewed package preview check");
   assert(secondBinding.deliveryManifestPreview?.selectedMode === "closed-local", "delivery mode selection must flow into live delivery manifest preview");
+  assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must flow into the delivery manifest preview");
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
   assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
-  assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || check.checkId === "review-packet"), "downstream readiness must not be inferred from packet capture");
+  const allowedPassedChecks = new Set(["review-packet", "delivery-mode", "package-preview"]);
+  assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
+  assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, reviewDecision, packet, secondBinding });
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, secondBinding });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 
