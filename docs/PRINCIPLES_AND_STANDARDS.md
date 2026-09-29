@@ -8694,3 +8694,19 @@ This standard is recorded in DR-1258 and ADR 1258.
   remains a candidate design.
 
 This standard is recorded in DR-1259 and ADR 1259.
+
+## 544. Publisher Intake Rehearsal Standard
+
+- Every first-pilot intake rehearsal must use synthetic source content, an
+  ephemeral custody root, and an explicit review-only authorization token.
+- The rehearsal must follow the real intake, handoff, live readiness, and
+  review-packet routes rather than a test-only shortcut.
+- A review-only packet without a human decision must remain blocked for package
+  assembly, QR printing, hosted persistence, promotion, and student use.
+- Rehearsal evidence must prove tenant, package, quarantine, and checksum
+  lineage while excluding payload bytes, filesystem paths, credentials,
+  learner records, download URLs, and activation flags.
+- This rehearsal is a release-candidate check, not a replacement for human
+  adjudication or a production upload authorization.
+
+This standard is recorded in DR-1260 and ADR 1260.

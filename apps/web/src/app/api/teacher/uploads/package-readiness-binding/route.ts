@@ -41,7 +41,7 @@ export async function GET(request: Request) {
   const requestedPackageId = readBoundedQueryParam(url, "packageId");
   if (tenantId === undefined || quarantineId === undefined) return json({ status: "rejected", binding: null, errors: ["Package readiness binding query exceeds bounded identifier limits."], privacy: privacyMessage() }, 400);
   if (!tenantId || !quarantineId || !isUploadQuarantineSafeTenantId(tenantId)) return json({ status: "rejected", binding: null, errors: ["Package readiness binding requires a safe tenantId and quarantineId."], privacy: privacyMessage() }, 400);
-  if (!hasTeacherOperationsReadAuthorization(request, tenantId)) return json({ status: "unauthorized", binding: null, errors: ["Tenant-scoped teacher or service authorization is required for package readiness binding reads."], privacy: privacyMessage() }, 401);
+  if (!hasReviewAuthorization(request, tenantId)) return json({ status: "unauthorized", binding: null, errors: ["Tenant-scoped teacher or service authorization is required for package readiness binding reads."], privacy: privacyMessage() }, 401);
 
   const intake = await readQuarantineUploadRecords(tenantId, quarantineId);
   const summary = intake.records[0];
@@ -134,6 +134,12 @@ function check(
 function derivePackageId(tenantId: string, unitKey?: string): string {
   const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
   return `${identity}-package`;
+}
+
+function hasReviewAuthorization(request: Request, tenantId: string): boolean {
+  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
+  if (configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`) return true;
+  return hasTeacherOperationsReadAuthorization(request, tenantId);
 }
 
 function privacyMessage(): string {
