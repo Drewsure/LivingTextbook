@@ -16,6 +16,7 @@ import {
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath, validateDurableBackupPath } from "../persistence/backupPathPolicy";
 import { validateQuarantineFilesystemPath } from "../uploads/quarantinePathPolicy";
+import { validateLocalPilotPackageRouteFallbacks } from "./localPilotPackageRouteMap";
 
 export interface LocalPilotPackageAssemblyInput {
   manifest: PilotDeliveryManifest;
@@ -176,6 +177,18 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
   for (const fallbackPath of input.manifest.localFallbackPaths) {
     if (!isSafeInternalPath(fallbackPath)) errors.push("Approved QR fallback paths must remain safe internal application paths.");
   }
+  errors.push(...validateLocalPilotPackageRouteFallbacks({
+    tenantId: input.manifest.tenantId,
+    packageId: input.manifest.packageId,
+    version: input.manifest.version,
+    routes: input.bundleManifest.routes.map((route) => ({
+      qrId: route.qr_id,
+      unitId: route.unit_id,
+      targetType: route.target_type,
+      localFallbackPath: route.local_fallback_path,
+    })),
+    printedFallbackPaths: input.manifest.localFallbackPaths,
+  }));
   if (input.manifest.mode !== "closed-local" && input.manifest.mode !== "hybrid") errors.push("Local pilot package assembly supports only closed-local or hybrid delivery modes.");
   const gates = input.manifest.gates;
   if (!gates.sourceReview || !gates.packageReadiness || !gates.multimediaRights || !gates.gameAudio || !gates.qrRegistry || !gates.qrPrintAuthorization || !gates.localBundle || !gates.teacherPolicy || !gates.releaseApproval) {

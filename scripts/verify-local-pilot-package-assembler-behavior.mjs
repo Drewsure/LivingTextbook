@@ -45,14 +45,14 @@ try {
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
     assert(qrManifest.entries.length === 1, "QR print manifest must contain the approved route count");
     assert(qrManifest.entries[0].encodedUrl === "https://pilot.example.test/q/tenant-one/unit-one", "QR print URL must use the configured safe base URL");
-    assert(qrManifest.entries[0].fallbackPath === "/launch/unit-1", "QR print entry must preserve the local fallback path");
+    assert(qrManifest.entries[0].fallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "QR print entry must use the resolved package-local fallback path");
     assert(qrManifest.entries[0].svg.includes("<svg"), "QR print manifest must contain generated SVG evidence");
     const qrHtml = readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.html"), "utf8");
     assert(qrHtml.includes("https://pilot.example.test/q/tenant-one/unit-one") && qrHtml.includes("<svg"), "printable QR HTML must contain the approved alias and SVG");
     const runtime = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(runtime.status === "available", "assembled local package must be readable through the runtime reader");
     if (runtime.status === "available") {
-      assert(runtime.summary.routes[0]?.localFallbackPath === "/launch/unit-1", "runtime reader must preserve the QR local fallback path");
+      assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
       const routeMap = createLocalPilotPackageRouteMap(runtime.summary, "unit-1");
@@ -62,7 +62,7 @@ try {
         assert(routeMap.routeMap.frontDoorPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "route map must derive the local front-door path");
         assert(routeMap.routeMap.memoryMatchPath === "/local/package/tenant-one/package-one/1.0.0/memory/unit-1", "route map must derive the local Memory Match path");
         assert(routeMap.routeMap.teacherEvidencePath === "/local/package/tenant-one/package-one/1.0.0/teacher/unit-1", "route map must derive the teacher evidence path");
-        assert(routeMap.routeMap.localFallbackPath === "/launch/unit-1", "route map must preserve the printed QR fallback");
+        assert(routeMap.routeMap.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "route map must preserve the printed package-local QR fallback");
       }
       const missingUnit = createLocalPilotPackageRouteMap(runtime.summary, "unit-missing");
       assert(missingUnit.status === "blocked" && missingUnit.errors.some((error) => error.includes("no unit-launch route")), "route map must block an unregistered unit");
@@ -87,6 +87,12 @@ try {
     assert(unsafeIdentity.status === "blocked", "runtime reader must reject traversal identities");
     const second = await assembleLocalPilotPackage(input);
     assert(second.status === "accepted" && second.idempotent === true, "exact local package replay must be idempotent");
+
+    const unsafeFallbackInput = JSON.parse(JSON.stringify(input));
+    unsafeFallbackInput.manifest.localFallbackPaths[0] = "/launch/unit-1";
+    unsafeFallbackInput.bundleManifest.routes[0].local_fallback_path = "/launch/unit-1";
+    const unsafeFallback = await assembleLocalPilotPackage(unsafeFallbackInput);
+    assert(unsafeFallback.status === "blocked" && unsafeFallback.errors.some((error) => error.includes("must fall back to /local/package/tenant-one/package-one/1.0.0/front-door/unit-1")), "closed-local assembly must reject a generic fallback that bypasses the package-scoped resolver");
 
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED = "false";
     const disabledRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
@@ -204,7 +210,7 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     gameRoutePaths: ["/games/flashcards"],
     mediaKinds: ["audio"],
     qrAliasPaths: ["/q/tenant-one/unit-one"],
-    localFallbackPaths: ["/launch/unit-1"],
+    localFallbackPaths: ["/local/package/tenant-one/package-one/1.0.0/front-door/unit-1"],
     hostedPersistence: "not-selected",
     hostedPersistenceDecisionPacketId: null,
     gates: {
@@ -253,7 +259,7 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
       mode: "offline-ready",
       version: "1.0.0",
       cache_name: "living-textbook-bundle-one-v1.0.0",
-      allowed_route_prefixes: ["/launch"],
+      allowed_route_prefixes: ["/local/package"],
       precache_asset_kinds: ["audio"],
       student_data_mode: "excluded",
       background_sync: false,
@@ -274,7 +280,7 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
       unit_id: "unit-1",
       target_type: "unit-launch",
       target_id: "unit-1",
-      local_fallback_path: "/launch/unit-1",
+      local_fallback_path: "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1",
     }],
   };
   return {

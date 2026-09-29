@@ -18,9 +18,54 @@ export interface LocalPilotPackageRouteMap {
   localFallbackPath: string;
 }
 
+export interface LocalPilotPackageRouteDeclaration {
+  qrId: string;
+  unitId: string;
+  targetType: string;
+  localFallbackPath: string;
+}
+
 export type LocalPilotPackageRouteMapResult =
   | { status: "blocked"; routeMap: null; errors: string[] }
   | { status: "available"; routeMap: LocalPilotPackageRouteMap; errors: [] };
+
+/**
+ * Validates the route that will be printed into a closed-local package.
+ * The writer only supports the unit-launch resolver until additional
+ * package-scoped target resolvers have their own route contracts.
+ */
+export function validateLocalPilotPackageRouteFallbacks(input: {
+  tenantId: string;
+  packageId: string;
+  version: string;
+  routes: LocalPilotPackageRouteDeclaration[];
+  printedFallbackPaths: string[];
+}): string[] {
+  const errors: string[] = [];
+  if (input.routes.length !== input.printedFallbackPaths.length) {
+    errors.push("Local package route declarations and printed QR fallback paths must remain aligned.");
+  }
+
+  input.routes.forEach((route, index) => {
+    if (route.targetType !== "unit-launch") {
+      errors.push(`Local package route ${route.qrId || index + 1} uses unsupported target type ${route.targetType}; no package-scoped resolver is approved.`);
+      return;
+    }
+    if (!isSafeSegment(route.unitId)) {
+      errors.push(`Local package route ${route.qrId || index + 1} requires a safe unit id for package-scoped resolution.`);
+      return;
+    }
+    const expectedPath = getLocalPilotPackageFrontDoorPath(input.tenantId, input.packageId, input.version, route.unitId);
+    if (route.localFallbackPath !== expectedPath) {
+      errors.push(`Local package route ${route.qrId || index + 1} must fall back to ${expectedPath}.`);
+    }
+    if (input.printedFallbackPaths[index] !== route.localFallbackPath) {
+      errors.push(`Printed QR fallback ${index + 1} must exactly match local package route ${route.qrId || index + 1}.`);
+    }
+  });
+
+  return [...new Set(errors)];
+}
 
 /**
  * Derives every local companion handoff from the approved runtime identity.

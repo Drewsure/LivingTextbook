@@ -6829,3 +6829,15 @@ student-payload-blocked behavior.
   evidence pages, so all local package views use the same package/unit launch
   code. Kept media-kind capability labels separate from playlist identifiers;
   media routes must resolve from declared playlist content.
+
+## Build session: Closed-local QR fallback resolution
+
+- Added a fail-closed route contract requiring closed-local `unit-launch` QR
+  fallbacks to equal the installed package's tenant/package/version/unit
+  front-door path.
+- Bound the delivery manifest, local bundle route, and printable QR artifact to
+  the same effective fallback; generic `/launch/...` paths are rejected until
+  an explicit package resolver exists.
+- Added ADR 1286, DR-1001, and negative behavior coverage. No QR print
+  authorization, package activation, learner write, or hosted persistence was
+  enabled.
