@@ -1,6 +1,7 @@
 import { Card, StatusPill } from "@living-textbook/ui";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleDeploymentDecisionGuide } from "@/data/sampleDeploymentDecisionGuide";
+import { sampleLocalCompanionReleaseContinuity, sampleLocalCompanionReleaseContinuityErrors } from "@/data/sampleLocalCompanionReleaseContinuity";
 import {
   samplePersistenceAdapterPlans,
   samplePersistenceAdapterWarnings,
@@ -20,6 +21,7 @@ import { sampleSchoolLaunchPolicyGate } from "@/data/sampleSchoolLaunchPolicyGat
 import { sampleTeacherDryRunRehearsal } from "@/data/sampleTeacherDryRunRehearsal";
 import { whiteLabelPilotReadiness } from "@/data/whiteLabelPilotReadiness";
 import { DeploymentDecisionGuidePanel } from "@/features/deployment/DeploymentDecisionGuidePanel";
+import { LocalCompanionReleaseContinuityPanel } from "@/features/deployment/LocalCompanionReleaseContinuityPanel";
 import { ClassroomLaunchGatePanel } from "@/features/pilot/ClassroomLaunchGatePanel";
 import { PackagePublishGatePanel } from "@/features/pilot/PackagePublishGatePanel";
 import { PilotEvidencePacketPanel } from "@/features/pilot/PilotEvidencePacketPanel";
@@ -131,6 +133,10 @@ export default function TeacherPilotPage() {
           validationErrors={sampleBrowserPrivacyTenantEvidencePacketErrors}
         />
         <DeploymentDecisionGuidePanel guide={sampleDeploymentDecisionGuide} />
+        <LocalCompanionReleaseContinuityPanel
+          packet={sampleLocalCompanionReleaseContinuity}
+          errors={sampleLocalCompanionReleaseContinuityErrors}
+        />
         <PilotDeploymentDecisionPanel
           decision={samplePilotDeploymentDecision}
           guide={sampleDeploymentDecisionGuide}

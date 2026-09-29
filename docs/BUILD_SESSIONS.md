@@ -6884,3 +6884,5 @@ student-payload-blocked behavior.
 - Kept installation, update/recovery execution, export, package writes, route
   mutation, hosted persistence, and student promotion blocked. Added ADR 1288,
   DR-1004, and a focused verifier.
+- Surfaced the same continuity packet on the publisher-facing pilot command
+  view so deployment continuity is visible in the main saleability review.
