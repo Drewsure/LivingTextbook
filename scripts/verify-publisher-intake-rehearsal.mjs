@@ -64,6 +64,7 @@ try {
   const firstBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(firstBinding.status === "review-only" && firstBinding.binding?.status === "blocked", "live readiness must begin blocked");
   assert(firstBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "blocked"), "missing package preview must be explicit");
+  assert(firstBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "open"), "missing source review decision must be an explicit open gate");
   assert(firstBinding.binding?.packageAssemblyAllowed === false && firstBinding.binding?.studentFacingUseAllowed === false, "live readiness must block assembly and student use");
 
   const evidenceReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/evidence-review`, {
@@ -163,6 +164,7 @@ try {
 
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "downstream packet blockers must flow into live readiness after source decision acceptance");
+  assert(secondBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "passed"), "accepted source decision must close only its own live readiness gate");
   assert(secondBinding.deliveryModeDecision?.selectedMode === "closed-local", "delivery mode selection must flow into live readiness");
   assert(secondBinding.packageEvidenceReview?.status === "reviewed-package-evidence", "complete package evidence must flow into live readiness");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must close only the reviewed package preview check");
@@ -171,7 +173,7 @@ try {
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
   assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
-  const allowedPassedChecks = new Set(["review-packet", "delivery-mode", "package-preview"]);
+  const allowedPassedChecks = new Set(["source-review-decision", "review-packet", "delivery-mode", "package-preview"]);
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 

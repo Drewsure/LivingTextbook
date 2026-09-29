@@ -7,7 +7,7 @@ const page = readFileSync("apps/web/src/app/teacher/evidence/[tenantId]/handoff/
 const store = readFileSync("apps/web/src/server/uploads/quarantineUploadStore.ts", "utf8");
 
 for (const [source, markers, label] of [
-  [route, ["readQuarantineReviewDecision", "reviewDecision", "reviewDecisionResult.errors"], "live readiness route"],
+  [route, ["readQuarantineReviewDecision", "reviewDecision", "reviewDecisionResult.errors", 'check("source-review-decision"'], "live readiness route"],
   [panel, ["Live package review decision", "accepted-for-package-review", "not recorded", "not release approval"], "live handoff panel"],
   [capture, ["/api/teacher/uploads/review-decision", "Record source review decision", "REVIEW_DECISIONS_ENABLED", "immutable decision"], "decision capture"],
   [page, ["reviewDecisionsEnabled", "LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED"], "handoff gate wiring"],

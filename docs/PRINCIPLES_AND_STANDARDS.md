@@ -8929,3 +8929,15 @@ This standard is recorded in DR-1271 and ADR 1271.
   checksum lineage.
 
 This standard is recorded in DR-1272 and ADR 1272.
+
+## 557. Source Decision Readiness Gate Standard
+
+- Live readiness must expose the source review decision as its own named gate,
+  separate from quarantine evidence, package evidence, packet, delivery,
+  release, QR, local, and hosted checks.
+- Missing source decisions are `open`; `changes-required` decisions are
+  `blocked`; only `accepted-for-package-review` is `passed`.
+- A passed source-decision check closes only that check. It must not infer
+  package assembly, release approval, QR printing, persistence, or student use.
+
+This standard is recorded in DR-1273 and ADR 1273.
