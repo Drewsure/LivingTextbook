@@ -5,11 +5,13 @@ Status: Accepted
 
 ## Decision
 
-The closed-local companion derives its front door, Memory Match handoff,
-teacher evidence view, and media route paths from one approved package runtime
-identity and one registered unit route. The route map is a reusable server-side
-contract consumed by local package pages; individual pages must not reconstruct
-package paths independently.
+The closed-local companion derives its front door, Memory Match handoff, and
+teacher evidence view from one approved package runtime identity and one
+registered unit route. The route map is a reusable server-side contract
+consumed by local package pages; individual pages must not reconstruct package
+paths independently. Media playlist routes remain separately bound to declared
+playlist content; a media kind such as `audio` is never treated as a playlist
+identifier.
 
 The route map preserves the QR-recorded local fallback path, derives a stable
 local launch code, and rejects missing unit registrations or unsafe unit
@@ -21,8 +23,9 @@ write progress, mutate a QR alias, or enable hosted persistence.
 The first saleable white-label pilot needs a publisher-readable chain from
 printed QR identity to the reviewed unit, the first activity, the canonical
 game handoff, and teacher evidence. Shared path construction prevents a local
-companion from drifting between front-door, game, media, and reporting routes as
-the package evolves.
+companion from drifting between front-door, game, and reporting routes as the
+package evolves, while keeping playlist identity separate from broad media
+capability metadata.
 
 ## Verification
 

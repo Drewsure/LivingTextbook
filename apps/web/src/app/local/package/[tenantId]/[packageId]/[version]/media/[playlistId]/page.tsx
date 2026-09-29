@@ -7,6 +7,7 @@ import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readLocalPilotPackageContent, readLocalPilotPackageRuntime } from "@/server/delivery/localPilotPackageRuntimeReader";
+import { createLocalPilotPackageRouteMap } from "@/server/delivery/localPilotPackageRouteMap";
 
 const tenants = {
   ministar: ministarTenant,
@@ -23,8 +24,8 @@ export default async function LocalPilotPackageMediaPage({
   if (!tenant) notFound();
 
   const contentResult = await readLocalPilotPackageContent({ tenantId, packageId, version });
+  const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
   if (contentResult.status !== "available") {
-    const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
     return (
       <AppShell tenant={tenant} compact>
         <LocalPilotPackageRuntimePanel result={runtimeResult} tenantDisplayName={tenant.displayName} />
@@ -43,7 +44,18 @@ export default async function LocalPilotPackageMediaPage({
   const unit = contentResult.contentPackage.units.find((candidate) => getUnitKey(candidate.unitMeta) === playlist.unitKey);
   if (!unit) notFound();
 
-  const launchCode = getLocalPilotPackageLaunchCode(tenantId, packageId, version, playlist.unitKey);
+  if (runtimeResult.status !== "available") {
+    return (
+      <AppShell tenant={tenant} compact>
+        <LocalPilotPackageRuntimePanel result={runtimeResult} tenantDisplayName={tenant.displayName} />
+      </AppShell>
+    );
+  }
+  const routeMap = createLocalPilotPackageRouteMap(runtimeResult.summary, playlist.unitKey);
+  if (routeMap.status !== "available") notFound();
+  if (routeMap.routeMap.launchCode !== getLocalPilotPackageLaunchCode(tenantId, packageId, version, playlist.unitKey)) notFound();
+
+  const { launchCode } = routeMap.routeMap;
   const launchSession = createLaunchSession({
     launchCode,
     tenantId,

@@ -2,7 +2,6 @@ import {
   getLocalPilotPackageFrontDoorPath,
   getLocalPilotPackageLaunchCode,
   getLocalPilotPackageMemoryMatchPath,
-  getLocalPilotPackageMediaRoutePath,
   getLocalPilotPackageTeacherEvidencePath,
 } from "../../features/routes/routeContracts";
 import type { LocalPilotPackageRuntimeSummary } from "./localPilotPackageRuntimeReader";
@@ -16,7 +15,6 @@ export interface LocalPilotPackageRouteMap {
   frontDoorPath: string;
   memoryMatchPath: string;
   teacherEvidencePath: string;
-  mediaPaths: string[];
   localFallbackPath: string;
 }
 
@@ -60,7 +58,6 @@ export function createLocalPilotPackageRouteMap(
       frontDoorPath: getLocalPilotPackageFrontDoorPath(summary.tenantId, summary.packageId, summary.version, unitId),
       memoryMatchPath: getLocalPilotPackageMemoryMatchPath(summary.tenantId, summary.packageId, summary.version, unitId),
       teacherEvidencePath: getLocalPilotPackageTeacherEvidencePath(summary.tenantId, summary.packageId, summary.version, unitId),
-      mediaPaths: summary.mediaKinds.map((playlistId) => getLocalPilotPackageMediaRoutePath(summary.tenantId, summary.packageId, summary.version, playlistId)),
       localFallbackPath: packageRoute.localFallbackPath,
     },
     errors: [],
