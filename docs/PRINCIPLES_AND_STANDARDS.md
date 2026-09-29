@@ -8388,3 +8388,25 @@ session log, and ADR 1242.
 
 This standard is recorded in the decision register entry DR-1243, the build
 session log, and ADR 1243.
+
+## 529. Local Package Content Read Standard
+
+- Student-facing content reads from a local package are a separate, explicit
+  gate from metadata and navigation reads. They require
+  `LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED=true` and a configured
+  package root; the default remains blocked.
+- The reader must first validate the complete local runtime metadata, then
+  resolve only the declared `content_package_path` inside the package
+  directory. It must validate the canonical `ContentPackage`, tenant and
+  package identities, approved content review status, and the absence of
+  learner records or progression state.
+- The content API may return approved curriculum, audio, media, and assist
+  language references needed by the local student runtime. It must not return
+  learner records, write files, activate hosted persistence, mutate QR aliases,
+  or change release state.
+- A green content read proves that the approved package contains usable
+  student-facing content. It is not a substitute for the teacher/publisher
+  release decision or a live progress persistence decision.
+
+This standard is recorded in the decision register entry DR-1244, the build
+session log, and ADR 1244.

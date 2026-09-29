@@ -6550,3 +6550,17 @@ student-payload-blocked behavior.
   the route.
 - Added ADR 1243, DR-1243, and a foundation verifier. The route is a practical
   rehearsal surface; it does not by itself make the pilot saleable.
+
+## Build session: Local package content read
+
+- Added a separate, disabled-by-default content reader and API route for the
+  assembled local package.
+- The reader first validates package metadata, then resolves only the declared
+  content path inside the package boundary and validates the canonical content
+  model, tenant/package identity, approved review state, and learner-data
+  exclusion.
+- Kept package writes, QR mutation, student activation, hosted persistence,
+  release changes, and learner records outside the content lane.
+- Added ADR 1244, DR-1244, and a foundation verifier. The next integration
+  step is binding this safe content lane to a local game route after real
+  publisher content and device evidence are available.

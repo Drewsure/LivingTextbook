@@ -5,7 +5,9 @@ import {
   validatePilotDeliveryManifest,
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
+  validateContentPackage,
   type LocalBundleManifest,
+  type ContentPackage,
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
   type PilotDeliveryReleaseReceipt,
@@ -36,6 +38,7 @@ export interface LocalPilotPackageRuntimeSummary {
   routes: LocalPilotPackageRuntimeRoute[];
   gameRoutePaths: string[];
   mediaKinds: string[];
+  contentPackagePath: string;
   qrPrintArtifactReady: boolean;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
   learnerRecordsIncluded: false;
@@ -44,6 +47,10 @@ export interface LocalPilotPackageRuntimeSummary {
 export type LocalPilotPackageRuntimeReadResult =
   | { status: "blocked" | "not-found"; summary: null; errors: string[] }
   | { status: "available"; summary: LocalPilotPackageRuntimeSummary; errors: [] };
+
+export type LocalPilotPackageContentReadResult =
+  | { status: "blocked" | "not-found"; contentPackage: null; errors: string[] }
+  | { status: "available"; contentPackage: ContentPackage; errors: [] };
 
 export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageRuntimeReadResult> {
   const identityErrors = validateIdentity(identity);
@@ -98,6 +105,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         })),
         gameRoutePaths: packageIndex.gameRoutePaths.slice(),
         mediaKinds: packageIndex.mediaKinds.slice(),
+        contentPackagePath: bundle.content_package_path,
         qrPrintArtifactReady: true,
         hostedPersistence: packageIndex.hostedPersistence,
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
@@ -106,6 +114,38 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
     };
   } catch {
     return { status: "not-found", summary: null, errors: ["The local pilot package metadata could not be read from the configured package root."] };
+  }
+}
+
+export async function readLocalPilotPackageContent(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageContentReadResult> {
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED !== "true") {
+    return { status: "blocked", contentPackage: null, errors: ["Local pilot package content reads are disabled. Enable the explicit local-package content read gate before serving student content."] };
+  }
+
+  const runtime = await readLocalPilotPackageRuntime(identity);
+  if (runtime.status !== "available") return { status: runtime.status, contentPackage: null, errors: runtime.errors };
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) return { status: "blocked", contentPackage: null, errors: ["Local pilot package content reads require an explicit package root."] };
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const contentPath = resolve(directory, runtime.summary.contentPackagePath);
+  const boundaryErrors = validateDurableBackupFilesystemPath(contentPath, directory);
+  if (boundaryErrors.length > 0) return { status: "blocked", contentPackage: null, errors: boundaryErrors };
+
+  try {
+    const value = JSON.parse(await readFile(contentPath, "utf8")) as unknown;
+    if (!isRecord(value)) return { status: "blocked", contentPackage: null, errors: ["Local pilot package content must be an object record."] };
+    const contentPackage = value as ContentPackage;
+    const errors = validateContentPackage(contentPackage);
+    if (contentPackage.meta?.tenantId !== identity.tenantId) errors.push("Local pilot package content tenant does not match the runtime identity.");
+    if (contentPackage.meta?.packageId !== identity.packageId) errors.push("Local pilot package content package does not match the runtime identity.");
+    if (contentPackage.meta?.reviewStatus !== "approved") errors.push("Local pilot package content must have approved review status before student-facing reads.");
+    if (containsLearnerState(value)) errors.push("Local pilot package content must not contain learner records or progression state.");
+    if (errors.length > 0) return { status: "blocked", contentPackage: null, errors: [...new Set(errors)] };
+    return { status: "available", contentPackage, errors: [] };
+  } catch {
+    return { status: "not-found", contentPackage: null, errors: ["The approved local pilot content package could not be read from the configured package root."] };
   }
 }
 
@@ -145,4 +185,11 @@ function isSafeSegment(value: string): boolean {
 
 function isRecord(value: unknown): value is Record<string, any> {
   return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function containsLearnerState(value: unknown): boolean {
+  if (Array.isArray(value)) return value.some(containsLearnerState);
+  if (!isRecord(value)) return false;
+  const forbiddenKeys = new Set(["learnerRecords", "studentRecords", "progressionState", "studentProgression", "rawLearnerAudio"]);
+  return Object.entries(value).some(([key, nested]) => forbiddenKeys.has(key) || containsLearnerState(nested));
 }
