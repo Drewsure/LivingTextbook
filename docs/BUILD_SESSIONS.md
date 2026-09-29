@@ -6899,3 +6899,14 @@ student-payload-blocked behavior.
   and student-use gates unchanged.
 - Added ADR 1289 and DR-1005. This is a presentation/review boundary change,
   not a release or upload authorization.
+
+## Build session: Tenant-scoped evidence review empty state
+
+- Extended the evidence review route through the shared white-label tenant
+  resolver so an unprovisioned publisher can reach its branded review shell.
+- Added an explicit empty evidence packet state for new tenants; sample
+  publisher evidence, assembly gates, and reviewer signature lanes are shown
+  only for the tenant that owns those records.
+- Added a live route check for the unprovisioned white-label evidence path.
+- Kept evidence storage, export, approval, package assembly, QR promotion,
+  playlist creation, assignment, and student use blocked.

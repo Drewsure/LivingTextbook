@@ -27,6 +27,33 @@ export interface EvidencePacketReviewIndex {
   standingRules: string[];
 }
 
+export function createEmptyEvidencePacketReviewIndex(tenantId: string, tenantName: string): EvidencePacketReviewIndex {
+  return {
+    indexId: `${tenantId}-evidence-packet-review-index`,
+    tenantId,
+    label: `${tenantName} evidence packet command center`,
+    summary:
+      "This tenant has a review shell, but no source or package evidence has been admitted yet. Provide a controlled source package before any evidence packet can be assembled.",
+    reviewStatus: "blocked",
+    storageContractRecords: [
+      "evidence_packet",
+      "upload_intake_asset",
+      "upload_review_decision",
+      "upload_promotion_gate",
+      "release_control_packet",
+    ],
+    standingRules: [
+      "No live evidence upload",
+      "No signed approval capture",
+      "No approve or publish action",
+      "No upload-to-assignment shortcut",
+      "No local folder activation",
+      "No student-facing use from evidence packets alone",
+    ],
+    sources: [],
+  };
+}
+
 export const samplePublisherEvidencePacketReviewIndex: EvidencePacketReviewIndex = {
   indexId: "sample-publisher-evidence-packet-review-index",
   tenantId: "sample-publisher",

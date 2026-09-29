@@ -48,6 +48,7 @@ const teacherUploadWorkspace = readSource("../apps/web/src/features/content-inta
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
 const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
+const tenantEvidencePacketEmptyStatePanel = readSource("../apps/web/src/features/evidence/TenantEvidencePacketEmptyStatePanel.tsx");
 const teacherEvidencePacketHandoffRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
 const teacherMediaAssetRoute = readSource("../apps/web/src/app/teacher/assets/media/[assetId]/page.tsx");
@@ -855,10 +856,17 @@ requireText(teacherUploadRoute, "sampleUploadTargetMappingPlan", "Teacher upload
 requireText(teacherUploadRoute, "sampleUploadEvidencePacketFlow", "Teacher upload route must pass the upload evidence packet flow.");
 requireText(teacherEvidencePacketRoute, "EvidencePacketReviewIndexPanel", "Teacher evidence packet route must render the review index panel.");
 requireText(teacherEvidencePacketRoute, "samplePublisherEvidencePacketReviewIndex", "Teacher evidence packet route must pass the sample publisher evidence review index.");
+requireText(teacherEvidencePacketRoute, "resolveTenantConfig", "Teacher evidence packet route must resolve a shared white-label tenant.");
+requireText(teacherEvidencePacketRoute, "createEmptyEvidencePacketReviewIndex", "Teacher evidence packet route must provide an empty state for unprovisioned tenants.");
+requireText(teacherEvidencePacketRoute, "TenantEvidencePacketEmptyStatePanel", "Teacher evidence packet route must keep unprovisioned tenants separate from sample evidence.");
+requireText(teacherEvidencePacketRoute, "hasSampleEvidence", "Teacher evidence packet route must gate populated evidence by tenant identity.");
 requireText(teacherEvidencePacketRoute, "EvidencePacketAssemblyGatePanel", "Teacher evidence packet route must render the assembly gate panel.");
 requireText(teacherEvidencePacketRoute, "sampleEvidencePacketAssemblyGate", "Teacher evidence packet route must pass the sample evidence packet assembly gate.");
 requireText(teacherEvidencePacketRoute, "ReviewerIdentitySignatureGatePanel", "Teacher evidence packet route must render the reviewer identity and signature gate panel.");
 requireText(teacherEvidencePacketRoute, "sampleReviewerIdentitySignatureGate", "Teacher evidence packet route must pass the sample reviewer identity and signature gate.");
+requireText(tenantEvidencePacketEmptyStatePanel, "No evidence packet exists yet", "Empty tenant evidence state must explain that no packet exists.");
+requireText(tenantEvidencePacketEmptyStatePanel, "No sample-publisher records are shown", "Empty tenant evidence state must protect sample-publisher records.");
+requireText(tenantEvidencePacketEmptyStatePanel, "Open tenant upload workspace", "Empty tenant evidence state must link to the tenant upload workspace.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
