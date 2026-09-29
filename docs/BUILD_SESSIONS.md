@@ -6524,3 +6524,17 @@ student-payload-blocked behavior.
   student activation, hosted persistence, and learner-record boundaries.
 - Added ADR 1241 and DR-1241. Production print remains blocked for the
   sample until real release and rollback evidence exists.
+
+## Build session: Local package runtime readiness
+
+- Added a disabled-by-default read-only runtime reader for the assembled local
+  pilot package and a bounded metadata-only status endpoint.
+- The reader validates the package index, delivery manifest, release receipt,
+  local bundle manifest, assembly record, QR print manifest, and cross-record
+  identities before returning the local route map, game paths, media kinds, and
+  QR readiness.
+- Kept raw publisher payload bytes, learner records, file writes, QR alias
+  mutation, student activation, and hosted persistence outside the reader.
+- Added ADR 1242, DR-1242, and a standing foundation verifier. A green reader
+  result proves package readability only; the real publisher pilot remains
+  dependent on release, rights, accessibility, rollback, and policy evidence.

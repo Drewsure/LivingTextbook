@@ -1,0 +1,148 @@
+import { readFile } from "node:fs/promises";
+import { join, relative, resolve } from "node:path";
+import {
+  validateLocalBundleManifest,
+  validatePilotDeliveryManifest,
+  validatePilotDeliveryPackageIndex,
+  validatePilotDeliveryReleaseReceipt,
+  type LocalBundleManifest,
+  type PilotDeliveryManifest,
+  type PilotDeliveryPackageIndex,
+  type PilotDeliveryReleaseReceipt,
+} from "@living-textbook/content-model";
+import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
+
+export interface LocalPilotPackageRuntimeIdentity {
+  tenantId: string;
+  packageId: string;
+  version: string;
+}
+
+export interface LocalPilotPackageRuntimeRoute {
+  qrId: string;
+  unitId: string;
+  targetType: string;
+  targetId: string;
+  localFallbackPath: string;
+}
+
+export interface LocalPilotPackageRuntimeSummary {
+  tenantId: string;
+  packageId: string;
+  version: string;
+  bundleId: string;
+  mode: PilotDeliveryManifest["mode"];
+  relativeDirectory: string;
+  routes: LocalPilotPackageRuntimeRoute[];
+  gameRoutePaths: string[];
+  mediaKinds: string[];
+  qrPrintArtifactReady: boolean;
+  hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
+  learnerRecordsIncluded: false;
+}
+
+export type LocalPilotPackageRuntimeReadResult =
+  | { status: "blocked" | "not-found"; summary: null; errors: string[] }
+  | { status: "available"; summary: LocalPilotPackageRuntimeSummary; errors: [] };
+
+export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageRuntimeReadResult> {
+  const identityErrors = validateIdentity(identity);
+  if (identityErrors.length > 0) return { status: "blocked", summary: null, errors: identityErrors };
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED !== "true") {
+    return { status: "blocked", summary: null, errors: ["Local pilot package runtime reads are disabled. Enable the explicit local-package read gate before reading a package."] };
+  }
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) return { status: "blocked", summary: null, errors: ["Local pilot package runtime reads require an explicit package root."] };
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const boundaryErrors = validateDurableBackupFilesystemPath(directory, root);
+  if (boundaryErrors.length > 0) return { status: "blocked", summary: null, errors: boundaryErrors };
+
+  try {
+    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue] = await Promise.all([
+      readJson(join(directory, "metadata/delivery-package.json")),
+      readJson(join(directory, "metadata/delivery-manifest.json")),
+      readJson(join(directory, "metadata/release-receipt.json")),
+      readJson(join(directory, "metadata/local-bundle-manifest.json")),
+      readJson(join(directory, "metadata/assembly-record.json")),
+      readJson(join(directory, "metadata/qr-print-sheet.json")),
+    ]);
+    const packageIndexErrors = validatePilotDeliveryPackageIndex(packageIndexValue);
+    const manifestErrors = validatePilotDeliveryManifest(manifestValue);
+    const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
+    const bundleValidation = validateLocalBundleManifest(bundleValue);
+    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue);
+    const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...bundleValidation.errors, ...bindingErrors];
+    if (errors.length > 0) return { status: "blocked", summary: null, errors: [...new Set(errors)] };
+
+    const manifest = manifestValue as PilotDeliveryManifest;
+    const packageIndex = packageIndexValue as PilotDeliveryPackageIndex;
+    const bundle = bundleValue as LocalBundleManifest;
+    const assembly = assemblyValue as Record<string, unknown>;
+    return {
+      status: "available",
+      summary: {
+        tenantId: identity.tenantId,
+        packageId: identity.packageId,
+        version: identity.version,
+        bundleId: bundle.bundle_id,
+        mode: manifest.mode,
+        relativeDirectory: relative(root, directory).replaceAll("\\", "/"),
+        routes: bundle.routes.map((route) => ({
+          qrId: route.qr_id,
+          unitId: route.unit_id,
+          targetType: route.target_type,
+          targetId: route.target_id,
+          localFallbackPath: route.local_fallback_path,
+        })),
+        gameRoutePaths: packageIndex.gameRoutePaths.slice(),
+        mediaKinds: packageIndex.mediaKinds.slice(),
+        qrPrintArtifactReady: true,
+        hostedPersistence: packageIndex.hostedPersistence,
+        learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
+      },
+      errors: [],
+    };
+  } catch {
+    return { status: "not-found", summary: null, errors: ["The local pilot package metadata could not be read from the configured package root."] };
+  }
+}
+
+function validateIdentity(identity: LocalPilotPackageRuntimeIdentity): string[] {
+  const errors: string[] = [];
+  for (const [label, value] of Object.entries(identity)) {
+    if (!isSafeSegment(value)) errors.push("Local package runtime " + label + " must be a bounded filesystem-safe identity.");
+  }
+  return errors;
+}
+
+function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown): string[] {
+  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue)) {
+    return ["Local package runtime metadata must contain object records only."];
+  }
+  const errors: string[] = [];
+  for (const field of ["tenantId", "packageId", "version"] as const) {
+    if (packageIndexValue[field] !== manifestValue[field] || packageIndexValue[field] !== receiptValue[field] || packageIndexValue[field] !== assemblyValue[field]) errors.push("Local package runtime identity does not match across metadata records.");
+  }
+  if (manifestValue.tenantId !== bundleValue.tenant_id || manifestValue.version !== bundleValue.version) errors.push("Local package runtime bundle identity does not match the delivery manifest.");
+  if (manifestValue.manifestId !== receiptValue.manifestId || manifestValue.sourceAssemblyChecksum !== receiptValue.sourceAssemblyChecksum) errors.push("Local package runtime receipt binding does not match the delivery manifest.");
+  if (assemblyValue.bundleId !== bundleValue.bundle_id || assemblyValue.manifestId !== manifestValue.manifestId || assemblyValue.receiptId !== receiptValue.receiptId) errors.push("Local package runtime assembly binding does not match the package metadata.");
+  if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
+  if (qrPrintValue.artifactVersion !== 1 || qrPrintValue.printAuthorized !== true || qrPrintValue.sideEffect !== "local-package-assembly" || !Array.isArray(qrPrintValue.entries) || qrPrintValue.entries.length === 0) errors.push("Local package runtime QR print artifact is incomplete or unauthorized.");
+  if (qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version) errors.push("Local package runtime QR print artifact does not match the package version.");
+  if (manifestValue.status !== "ready-for-manual-release" || receiptValue.status !== "manual-release-approved" || packageIndexValue.releaseStatus !== "manual-release-approved") errors.push("Local package runtime requires approved release metadata.");
+  return [...new Set(errors)];
+}
+
+async function readJson(path: string): Promise<unknown> {
+  return JSON.parse(await readFile(path, "utf8")) as unknown;
+}
+
+function isSafeSegment(value: string): boolean {
+  return typeof value === "string" && value.length > 0 && value.length <= 160 && /^[A-Za-z0-9._-]+$/.test(value);
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}

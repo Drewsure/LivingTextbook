@@ -8347,3 +8347,24 @@ session log, and ADR 1240.
 
 This standard is recorded in the decision register entry DR-1241, the build
 session log, and ADR 1241.
+
+## 527. Local Package Runtime Readiness Standard
+
+- The local package runtime reader is a separate read-side contract from the
+  package assembler. It is disabled by default and requires
+  `LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED=true` plus a configured package
+  root before it can inspect a package.
+- The reader may inspect only the approved metadata records: package index,
+  delivery manifest, release receipt, local bundle manifest, assembly record,
+  and QR print manifest. It must validate their shared tenant, package,
+  version, checksum, release, and QR identities before reporting availability.
+- The runtime summary may expose approved route paths, game routes, media
+  kinds, package identity, and QR print readiness. It must not return raw
+  publisher payload bytes or learner records.
+- The reader and status endpoint are permanently read-only: they do not write
+  files, mutate QR aliases, activate students, enable hosted persistence, or
+  change release decisions. A green read result means the local runtime can
+  read the package; it is not production launch approval.
+
+This standard is recorded in the decision register entry DR-1242, the build
+session log, and ADR 1242.

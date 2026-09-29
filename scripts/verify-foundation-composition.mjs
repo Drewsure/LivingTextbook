@@ -11,6 +11,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integr
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-package-assembler.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-package-runtime-reader.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-curated-pathway-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
