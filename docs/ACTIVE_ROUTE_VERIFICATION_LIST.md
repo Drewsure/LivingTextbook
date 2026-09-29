@@ -21,6 +21,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/deployment`
 - `http://127.0.0.1:3000/teacher/pilot`
 - `http://127.0.0.1:3000/teacher/pilot/requirements/sample-publisher`
+- `http://127.0.0.1:3000/teacher/pilot/requirements/white-label-review`
 - `http://127.0.0.1:3000/teacher/game-readiness`
 - `http://127.0.0.1:3000/teacher/release-readiness`
 - `http://127.0.0.1:3000/teacher/prototypes/sample-publisher`

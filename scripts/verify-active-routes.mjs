@@ -443,6 +443,17 @@ expectedTextByPath.set("/teacher/pilot/requirements/sample-publisher", [
   "/teacher/entitlements",
   "/teacher/game-readiness",
 ]);
+expectedTextByPath.set("/teacher/pilot/requirements/white-label-review", [
+  "Tenant pilot requirements",
+  "No pilot requirements packet exists yet",
+  "Awaiting publisher intake",
+  "Open source and media intake",
+  "Open source review",
+  "Open media library review",
+  "Open evidence packet review",
+  "Review-only boundary",
+  "No live capture",
+]);
 expectedTextByPath.get("/teacher/entitlements")?.push(
   "Package adoption readiness",
   "School and tenant approval before premium activation",

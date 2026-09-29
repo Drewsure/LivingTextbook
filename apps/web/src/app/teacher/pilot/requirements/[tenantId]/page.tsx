@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { getPartnerPilotRequirementsIntake } from "@/data/samplePartnerPilotRequirementsIntake";
 import { PartnerPilotRequirementsIntakePanel } from "@/features/pilot/PartnerPilotRequirementsIntakePanel";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { TenantPilotRequirementsEmptyStatePanel } from "@/features/pilot/TenantPilotRequirementsEmptyStatePanel";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherPilotRequirementsPage({
   params,
@@ -11,11 +11,10 @@ export default async function TeacherPilotRequirementsPage({
   params: Promise<{ tenantId: string }>;
 }) {
   const { tenantId } = await params;
-  const tenant =
-    tenantId === samplePublisherTenant.id ? samplePublisherTenant : tenantId === ministarTenant.id ? ministarTenant : null;
+  const tenant = resolveTenantConfig(tenantId);
   const intake = getPartnerPilotRequirementsIntake(tenantId);
 
-  if (!tenant || !intake) {
+  if (!tenant) {
     notFound();
   }
 
@@ -42,7 +41,11 @@ export default async function TeacherPilotRequirementsPage({
           </div>
         </section>
 
-        <PartnerPilotRequirementsIntakePanel intake={intake} />
+        {intake ? (
+          <PartnerPilotRequirementsIntakePanel intake={intake} />
+        ) : (
+          <TenantPilotRequirementsEmptyStatePanel tenant={tenant} />
+        )}
       </div>
     </AppShell>
   );

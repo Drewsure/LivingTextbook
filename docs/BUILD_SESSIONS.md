@@ -6943,3 +6943,14 @@ student-payload-blocked behavior.
 - Added active route coverage for the unprovisioned handoff path.
 - Kept export, signing, package assembly, QR printing, playlist creation,
   assignments, and student use blocked.
+
+## Build session: Tenant-scoped pilot requirements empty state
+
+- Extended the partner pilot requirements route through the shared white-label
+  tenant resolver instead of requiring a prebuilt Sample Publisher intake.
+- Added an explicit empty requirements packet state for a new tenant, with links
+  to tenant-scoped source, media, upload, and evidence review surfaces only.
+- Kept Sample Publisher requirements, evidence traces, meeting agenda, follow-up
+  packet, and demo links visible only for the tenant that owns those records.
+- Kept upload, extraction, storage, package creation, policy acceptance, QR
+  printing, persistence, and student launch blocked.
