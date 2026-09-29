@@ -10,6 +10,7 @@ const reviewLanes = [
 export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }) {
   const reviewEndpoint = `/api/teacher/uploads/review?tenantId=${encodeURIComponent(tenantId)}`;
   const evidencePreviewEndpoint = `/api/teacher/uploads/evidence-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}`;
+  const packageHandoffEndpoint = `/api/teacher/uploads/package-handoff-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
 
   return (
     <Card>
@@ -41,6 +42,11 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
         <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{evidencePreviewEndpoint}</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
           An authorized reviewer can bind one returned quarantine record to an evidence-only admission preview. The preview preserves pending scan, rights, source-review, accessibility, mapping, and release gates; it cannot promote or publish the record.
+        </p>
+        <p className="mt-4 text-xs font-semibold uppercase text-[var(--tenant-muted)]">Candidate package handoff preview contract</p>
+        <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{packageHandoffEndpoint}</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          The handoff preview binds the quarantined source to a candidate package identity and lists the evidence still required before a durable reviewed-evidence record or package writer can exist. It is not a package assembly or approval action.
         </p>
       </div>
 

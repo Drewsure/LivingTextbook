@@ -1573,3 +1573,15 @@ release states. It is a binding and review aid only; it does not write an
 evidence packet, change status, expose payload bytes, or authorize package
 assembly. Run `npm run verify:upload-quarantine-intake` and
 `npm run verify:upload-quarantine-review` after changing this binding.
+
+Package-handoff preview procedure: after evidence preview exists, use the
+tenant-scoped `/api/teacher/uploads/package-handoff-preview` route with the
+opaque quarantine id and, when known, the candidate package id. Confirm that
+the response carries the expected tenant, source, unit, package, admission,
+evidence-packet, checksum, and payload-presence identities. Treat the response
+as a review packet only: it does not create durable evidence, select a storage
+provider, assemble package JSON, promote the upload, create routes, playlists,
+games, assignments, QR aliases, or permit student use. Run
+`node scripts/verify-upload-quarantine-package-handoff.mjs` and
+`npm run verify:upload-quarantine-admission` after changing the route, model,
+or intake links.

@@ -212,6 +212,12 @@ function IntakeResult({
               >
                 Open evidence packet preview
               </a>
+              <a
+                className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+                href={`/api/teacher/uploads/package-handoff-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
+              >
+                Open package handoff preview
+              </a>
             </div>
           ) : null}
         </>

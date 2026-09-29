@@ -8018,3 +8018,24 @@ This standard is recorded in
 `docs/decision-register/DR-1226-controlled-publisher-quarantine-intake.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1226-controlled-publisher-quarantine-intake.md`.
+
+## 513. Quarantine Package Handoff Preview Standard
+
+- A publisher intake may expose a candidate package-handoff preview only after
+  the real quarantine record and admission identity have been validated.
+- The preview must preserve tenant, source, unit, candidate package,
+  admission, evidence-packet, checksum, and payload-presence lineage in one
+  deterministic review contract.
+- A package-handoff preview is not a durable reviewed-evidence record. It must
+  keep evidence writes, storage selection, package assembly, promotion, route,
+  playlist, game, assignment, QR, and student-facing actions blocked.
+- The preview must state the remaining human review and storage-provider gates
+  so a publisher can understand the next step without mistaking a preview for
+  approval or release.
+- Run the package-handoff verifier together with the quarantine intake,
+  review, admission, persistence, and foundation gates after changes.
+
+This standard is recorded in
+`docs/decision-register/DR-1228-quarantine-package-handoff-preview.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1228-quarantine-package-handoff-preview.md`.

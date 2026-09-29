@@ -1891,6 +1891,7 @@ export * from "./uploadQuarantineIntake";
 export * from "./uploadQuarantineReview";
 export * from "./uploadQuarantineAdmission";
 export * from "./uploadQuarantineAdmissionHandoff";
+export * from "./uploadQuarantinePackageHandoff";
 export * from "./evidenceAttachmentStorageHandoff";
 export * from "./evidenceAttachmentStorageReconciliation";
 export * from "./canonicalGameIntegration";

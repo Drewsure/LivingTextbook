@@ -6346,3 +6346,17 @@ student-payload-blocked behavior.
 - Kept scan, rights, source review, accessibility, target mapping, release,
   package assembly, promotion, and student use blocked.
 - Added ADR 1227 and DR-1227.
+
+## Build session: Quarantine package handoff preview
+
+- Added a tenant-authorized package-handoff preview for a real quarantine
+  record, using the existing admission contract and deterministic candidate
+  package identity.
+- Linked the controlled intake result and metadata review surface to the new
+  handoff route so a publisher can follow source -> evidence -> candidate
+  package lineage without opening a live writer.
+- Preserved pending scan, rights, source review, target mapping,
+  accessibility, release-control, storage selection, evidence write, package
+  assembly, promotion, and student-use gates.
+- Added ADR 1228, DR-1228, and a focused verifier included in the foundation
+  command.
