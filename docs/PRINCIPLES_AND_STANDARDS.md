@@ -8172,3 +8172,26 @@ This standard is recorded in
 `docs/decision-register/DR-1234-saleable-pilot-acceptance-matrix.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1234-saleable-pilot-acceptance-matrix.md`.
+
+## 520. Pilot Delivery Manifest Standard
+
+- The package-to-delivery boundary must use one tenant- and package-scoped
+  manifest that joins source review, package readiness, multimedia rights,
+  game audio, QR registry, QR print authorization, local bundle, hosted
+  persistence, teacher policy, and release approval.
+- A delivery manifest may be `blocked` or `ready-for-manual-release`; it may
+  never silently imply that a package writer, QR printer, persistence adapter,
+  or student route has run.
+- QR printing and student activation are independent decisions. A package can
+  be ready for manual handoff while either remains blocked if its relevant
+  authorization is absent.
+- The manifest must preserve target-language-only progression, white-label
+  tenant identity, source checksum identity, opt-in hosted persistence, and
+  local fallback requirements.
+- The manifest is the handoff to a future manual package writer. Its creation
+  must be side-effect-free and must not expose raw publisher media.
+
+This standard is recorded in
+`docs/decision-register/DR-1235-pilot-delivery-manifest.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1235-pilot-delivery-manifest.md`.

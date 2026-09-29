@@ -6423,3 +6423,13 @@ student-payload-blocked behavior.
   rights/media evidence, delivery choice, policy decision, and release-control
   approval are present.
 - Added ADR 1234 and DR-1234.
+
+## Build session: Pilot delivery manifest
+
+- Added a shared delivery manifest contract joining package, QR, multimedia,
+  game-audio, local, hosted-persistence, teacher-policy, and release gates.
+- Added the first sample manifest and handoff-route panel; it remains blocked
+  because the sample evidence is intentionally incomplete.
+- Kept manifest creation side-effect-free: no package writer, QR mutation,
+  persistence activation, raw media exposure, or student-facing activation.
+- Added the focused delivery-manifest verifier, ADR 1235, and DR-1235.
