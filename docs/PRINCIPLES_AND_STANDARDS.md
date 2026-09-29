@@ -8819,3 +8819,21 @@ This standard is recorded in DR-1264 and ADR 1264.
   safety and saleable-pilot acceptance evidence.
 
 This standard is recorded in DR-1265 and ADR 1265.
+
+## 550. Live Release and QR Closure Visibility Standard
+
+- A real quarantine handoff must show the future delivery manifest, release
+  receipt, and package-index identities together with the source checksum and
+  selected delivery mode. These are traceable preview identities, not released
+  artifacts.
+- The handoff must show the closure order explicitly: reviewed evidence,
+  package assembly, recovery and rollback receipt, stable QR alias registration,
+  and human print authorization. Each step remains independently reviewable.
+- A complete evidence packet or selected delivery mode never authorizes
+  release. Until the separate release and print gates exist, delivery,
+  package assembly, QR printing, hosted persistence, and student-facing use
+  must remain blocked and side-effect-free.
+- The UI must distinguish a future identity from a written artifact so a
+  publisher can understand what remains before a package becomes saleable.
+
+This standard is recorded in DR-1266 and ADR 1266.

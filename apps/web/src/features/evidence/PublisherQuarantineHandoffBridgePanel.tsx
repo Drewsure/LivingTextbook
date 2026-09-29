@@ -346,6 +346,8 @@ function LiveDeliveryManifestPreview({ preview }: { preview: UploadQuarantineDel
       <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Fact label="Preview" value={preview.previewId} />
         <Fact label="Manifest" value={preview.manifestId} />
+        <Fact label="Release receipt" value={preview.releaseReceiptId} />
+        <Fact label="Package index" value={preview.packageIndexId} />
         <Fact label="Mode" value={preview.selectedMode} />
         <Fact label="Source checksum" value={preview.sourceChecksumSha256} />
       </dl>
@@ -357,6 +359,19 @@ function LiveDeliveryManifestPreview({ preview }: { preview: UploadQuarantineDel
             <p className="mt-2 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {check.nextAction}</p>
           </div>
         ))}
+      </div>
+      <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h4 className="text-sm font-bold">Release closure order</h4>
+          <StatusPill label="Review only" tone="warning" />
+        </div>
+        <ol className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)] sm:grid-cols-2">
+          <li><span className="font-semibold">1. Evidence:</span> confirm the reviewed package lanes and source checksum.</li>
+          <li><span className="font-semibold">2. Assembly:</span> create the package manifest and verify its contents.</li>
+          <li><span className="font-semibold">3. Recovery:</span> record the release receipt and rollback path.</li>
+          <li><span className="font-semibold">4. QR:</span> register the stable alias, then obtain human print authorization.</li>
+        </ol>
+        <p className="mt-3 text-xs leading-5 text-[var(--tenant-muted)]">These identities are previews only. A selected delivery mode and complete evidence do not authorize release, QR printing, hosted persistence, or student use.</p>
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Delivery: blocked · package assembly: blocked · QR printing: blocked · hosted persistence: blocked · student use: blocked · side effect: none</p>
     </section>

@@ -11,6 +11,10 @@ const required = [
   [route, "deliveryManifestPreview"],
   [route, "validateUploadQuarantineDeliveryManifestPreview"],
   [panel, "Live delivery manifest preview"],
+  [panel, "Release receipt"],
+  [panel, "Package index"],
+  [panel, "Release closure order"],
+  [panel, "QR printing: blocked"],
   [panel, "package assembly: blocked"],
 ];
 for (const [source, marker] of required) if (!source.includes(marker)) throw new Error(`Missing live delivery manifest preview marker: ${marker}`);
