@@ -5,9 +5,11 @@ import type {
   UploadQuarantineReviewDecisionRecord,
   UploadQuarantineReviewSummary,
   UploadQuarantineDeliveryModeDecision,
+  UploadQuarantinePromotionAdapterDecision,
 } from "@living-textbook/content-model";
 import {
   readQuarantineDeliveryModeDecision,
+  readQuarantinePromotionAdapterDecision,
   readQuarantinePackageEvidenceReview,
   readQuarantinePackageReviewPacket,
   readQuarantineReviewDecision,
@@ -20,16 +22,18 @@ export type PilotDeliveryReleaseLineageRecords = {
   packageEvidenceReview: UploadQuarantinePackageEvidenceReview | null;
   packageReviewPacket: UploadQuarantinePackageReviewPacket | null;
   deliveryModeDecision: UploadQuarantineDeliveryModeDecision | null;
+  promotionAdapterDecision: UploadQuarantinePromotionAdapterDecision | null;
   errors: string[];
 };
 
 export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryManifest, quarantineId: string): Promise<string[]> {
-  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult] = await Promise.all([
+  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult, promotionAdapterResult] = await Promise.all([
     readQuarantineUploadRecords(manifest.tenantId, quarantineId),
     readQuarantineReviewDecision(manifest.tenantId, quarantineId),
     readQuarantinePackageEvidenceReview(manifest.tenantId, quarantineId),
     readQuarantinePackageReviewPacket(manifest.tenantId, quarantineId),
     readQuarantineDeliveryModeDecision(manifest.tenantId, quarantineId),
+    readQuarantinePromotionAdapterDecision(manifest.tenantId, quarantineId),
   ]);
 
   return validatePilotDeliveryReleaseLineage({
@@ -40,7 +44,8 @@ export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryMan
     packageEvidenceReview: packageEvidenceResult.record,
     packageReviewPacket: packetResult.record,
     deliveryModeDecision: deliveryModeResult.record,
-    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors],
+    promotionAdapterDecision: promotionAdapterResult.record,
+    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors, ...promotionAdapterResult.errors],
   });
 }
 
@@ -75,6 +80,15 @@ export function validatePilotDeliveryReleaseLineage(records: PilotDeliveryReleas
   const deliveryModeDecision = records.deliveryModeDecision;
   if (!deliveryModeDecision || deliveryModeDecision.selectedMode !== manifest.mode) errors.push("The selected delivery mode must match the delivery manifest before delivery release.");
   else if (deliveryModeDecision.tenantId !== manifest.tenantId || deliveryModeDecision.quarantineId !== quarantineId || deliveryModeDecision.packageId !== manifest.packageId) errors.push("Delivery mode decision identity does not match the delivery manifest lineage.");
+
+  const promotionAdapterDecision = records.promotionAdapterDecision;
+  const expectedAdapter = manifest.mode === "closed-local" ? "closed-local-package" : manifest.mode === "hosted-pwa" ? "hosted-pwa-package" : manifest.mode === "hybrid" ? "hybrid-package" : null;
+  if (!promotionAdapterDecision || promotionAdapterDecision.status !== "selected-review-only") errors.push("A review-only promotion adapter selection is required before delivery release.");
+  else {
+    if (promotionAdapterDecision.tenantId !== manifest.tenantId || promotionAdapterDecision.quarantineId !== quarantineId || promotionAdapterDecision.packageId !== manifest.packageId) errors.push("Promotion adapter decision identity does not match the delivery manifest lineage.");
+    if (summary && promotionAdapterDecision.sourceChecksumSha256 !== summary.record.checksumSha256) errors.push("Promotion adapter decision checksum does not match the quarantined source checksum.");
+    if (expectedAdapter && promotionAdapterDecision.selectedAdapter !== expectedAdapter) errors.push("Promotion adapter decision does not match the delivery manifest mode.");
+  }
 
   return [...new Set(errors)];
 }

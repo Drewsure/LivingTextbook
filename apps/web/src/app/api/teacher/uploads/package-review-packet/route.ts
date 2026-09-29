@@ -10,6 +10,7 @@ import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonReque
 import {
   readQuarantinePackageReviewPacket,
   readQuarantineEvidenceReview,
+  readQuarantinePromotionAdapterDecision,
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
   writeQuarantinePackageReviewPacket,
@@ -71,6 +72,7 @@ export async function POST(request: Request) {
   const packageId = body.packageId || derivePackageId(body.tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(body.tenantId, body.quarantineId);
+  const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(body.tenantId, body.quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
     ...(evidenceReview.record ?? {
       scanStatus: "pending" as const,
@@ -81,14 +83,14 @@ export async function POST(request: Request) {
       releaseApproved: false,
     }),
     evidencePacketId,
-  });
+  }, promotionAdapterDecision.record);
   const handoff = createUploadQuarantinePackageHandoffPreview({
     summary,
     admission,
     sourceId: `quarantine-record:${summary.quarantineId}`,
     packageId,
   });
-  const packet = createUploadQuarantinePackageReviewPacket({ handoff, reviewDecision, capturedAt: new Date().toISOString() });
+  const packet = createUploadQuarantinePackageReviewPacket({ handoff, reviewDecision, promotionAdapterDecision: promotionAdapterDecision.record, capturedAt: new Date().toISOString() });
   const result = await writeQuarantinePackageReviewPacket(packet);
   if (result.status === "conflict") return json({ status: result.status, packet: null, idempotent: false, errors: result.errors, privacy: privacyMessage() }, 409);
   if (result.status === "blocked") return json({ status: result.status, packet: null, idempotent: false, errors: result.errors, privacy: privacyMessage() }, 423);

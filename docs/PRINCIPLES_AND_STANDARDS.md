@@ -9050,3 +9050,18 @@ This standard is recorded in DR-1279 and the 2026-09-29 fail-closed build note.
   assembly, QR printing, hosted persistence, or student activation by itself.
 
 This standard is recorded in DR-1280 and the 2026-09-29 receipt build note.
+
+## 566. Promotion Adapter Selection Must Be Explicit and Review-Only
+
+- A publisher package review packet must carry a tenant-, quarantine-,
+  package-, and checksum-bound promotion-adapter selection before it can enter
+  the next gate.
+- The supported choices are closed-local package, hosted PWA package, and
+  hybrid package; the selected adapter must match the eventual delivery
+  manifest mode.
+- The sidecar is planning evidence only. It must never select a provider,
+  assemble a package, print QR codes, activate persistence, or enable students.
+- Missing, invalid, stale, or mode-mismatched adapter decisions must fail closed
+  in admission, readiness, and delivery release lineage.
+
+This standard is recorded in DR-1281 and ADR 1281.

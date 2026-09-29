@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
 import { QuarantineEvidenceReviewCapture } from "@/features/content-intake/QuarantineEvidenceReviewCapture";
 import { DeliveryModeDecisionCapture } from "@/features/content-intake/DeliveryModeDecisionCapture";
+import { PromotionAdapterDecisionCapture } from "@/features/content-intake/PromotionAdapterDecisionCapture";
 import { PackageEvidenceReviewCapture } from "@/features/content-intake/PackageEvidenceReviewCapture";
 import { QuarantineReviewDecisionCapture } from "@/features/content-intake/QuarantineReviewDecisionCapture";
 import type {
@@ -12,6 +13,7 @@ import type {
   UploadQuarantinePackageReviewPacket,
   UploadQuarantineDeliveryManifestPreview,
   UploadQuarantineDeliveryModeDecision,
+  UploadQuarantinePromotionAdapterDecision,
   UploadQuarantinePackageEvidenceReview,
   UploadQuarantineReleaseReceiptPreview,
   UploadQuarantinePackageIndexPreview,
@@ -27,6 +29,7 @@ interface PublisherQuarantineHandoffBridgePanelProps {
   packageReviewPacketsEnabled?: boolean;
   evidenceReviewsEnabled?: boolean;
   deliveryModeDecisionsEnabled?: boolean;
+  promotionAdapterDecisionsEnabled?: boolean;
   packageEvidenceReviewsEnabled?: boolean;
   reviewDecisionsEnabled?: boolean;
 }
@@ -41,6 +44,7 @@ type HandoffResponse = {
   binding?: PublisherPilotPackageReadinessBinding | null;
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null;
+  promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
@@ -57,6 +61,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   packageReviewPacketsEnabled = false,
   evidenceReviewsEnabled = false,
   deliveryModeDecisionsEnabled = false,
+  promotionAdapterDecisionsEnabled = false,
   packageEvidenceReviewsEnabled = false,
   reviewDecisionsEnabled = false,
 }: PublisherQuarantineHandoffBridgePanelProps) {
@@ -69,6 +74,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [readinessBinding, setReadinessBinding] = useState<PublisherPilotPackageReadinessBinding | null>(null);
   const [deliveryManifestPreview, setDeliveryManifestPreview] = useState<UploadQuarantineDeliveryManifestPreview | null>(null);
   const [deliveryModeDecision, setDeliveryModeDecision] = useState<UploadQuarantineDeliveryModeDecision | null>(null);
+  const [promotionAdapterDecision, setPromotionAdapterDecision] = useState<UploadQuarantinePromotionAdapterDecision | null>(null);
   const [packageEvidenceReview, setPackageEvidenceReview] = useState<UploadQuarantinePackageEvidenceReview | null>(null);
   const [reviewDecision, setReviewDecision] = useState<UploadQuarantineReviewDecisionRecord | null>(null);
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
@@ -125,10 +131,11 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
+        setPromotionAdapterDecision(next.promotionAdapterDecision ?? null);
         setPackageEvidenceReview(next.packageEvidenceReview ?? null);
         setReviewDecision(next.reviewDecision ?? null);
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
@@ -140,6 +147,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReadinessBinding(null);
         setDeliveryManifestPreview(null);
         setDeliveryModeDecision(null);
+        setPromotionAdapterDecision(null);
         setPackageEvidenceReview(null);
         setReviewDecision(null);
         setReleaseReceiptPreview(null);
@@ -256,6 +264,14 @@ export function PublisherQuarantineHandoffBridgePanel({
             packageId={handoff.packageId}
             enabled={deliveryModeDecisionsEnabled}
             decision={deliveryModeDecision}
+            onRecorded={() => setRefreshToken((current) => current + 1)}
+          />
+          <PromotionAdapterDecisionCapture
+            tenantId={tenantId}
+            quarantineId={quarantineId}
+            packageId={handoff.packageId}
+            enabled={promotionAdapterDecisionsEnabled}
+            decision={promotionAdapterDecision}
             onRecorded={() => setRefreshToken((current) => current + 1)}
           />
           <PackageEvidenceReviewCapture

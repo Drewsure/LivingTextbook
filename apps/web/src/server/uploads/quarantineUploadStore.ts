@@ -19,6 +19,10 @@ import {
   validateUploadQuarantineDeliveryModeDecision,
   type UploadQuarantineDeliveryMode,
   type UploadQuarantineDeliveryModeDecision,
+  createUploadQuarantinePromotionAdapterDecision,
+  validateUploadQuarantinePromotionAdapterDecision,
+  type UploadQuarantinePromotionAdapter,
+  type UploadQuarantinePromotionAdapterDecision,
   createUploadQuarantinePackageEvidenceReview,
   validateUploadQuarantinePackageEvidenceReview,
   type UploadQuarantinePackageEvidenceLane,
@@ -98,6 +102,25 @@ export type QuarantineDeliveryModeDecisionWriteResult = {
 
 export type QuarantineDeliveryModeDecisionReadResult = {
   record: UploadQuarantineDeliveryModeDecision | null;
+  errors: string[];
+};
+
+export type QuarantinePromotionAdapterDecisionWrite = Omit<UploadQuarantinePromotionAdapterDecision, "recordVersion" | "decisionId" | "sourceChecksumSha256" | "reviewedAt" | "status" | "packageAssemblyAllowed" | "promotionAllowed" | "qrPrintAllowed" | "studentFacingUseAllowed" | "hostedPersistenceActivated" | "blockers" | "nextSteps" | "mode" | "sideEffect"> & {
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  selectedAdapter: UploadQuarantinePromotionAdapter;
+};
+
+export type QuarantinePromotionAdapterDecisionWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantinePromotionAdapterDecision;
+  errors: string[];
+};
+
+export type QuarantinePromotionAdapterDecisionReadResult = {
+  record: UploadQuarantinePromotionAdapterDecision | null;
   errors: string[];
 };
 
@@ -335,6 +358,48 @@ export async function writeQuarantineDeliveryModeDecision(input: QuarantineDeliv
     return { status: "accepted", idempotent: false, record, errors: [] };
   } catch {
     return { status: "blocked", idempotent: false, errors: ["Delivery mode decision metadata could not be written inside the quarantine custody boundary."] };
+  }
+}
+
+export async function readQuarantinePromotionAdapterDecision(tenantId: string, quarantineId: string): Promise<QuarantinePromotionAdapterDecisionReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) return { record: null, errors: ["The promotion adapter decision identity did not pass tenant and quarantine boundary checks."] };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const decisionPath = resolve(recordDirectory, "promotion-adapter-decision.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, decisionPath);
+    assertQuarantineFilesystemPath(decisionPath, root);
+    const value = JSON.parse(await readFile(decisionPath, "utf8")) as unknown;
+    const errors = validateUploadQuarantinePromotionAdapterDecision(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored promotion adapter decision failed validation and was withheld."] };
+    const record = value as UploadQuarantinePromotionAdapterDecision;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored promotion adapter decision failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantinePromotionAdapterDecision(input: QuarantinePromotionAdapterDecisionWrite): Promise<QuarantinePromotionAdapterDecisionWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED !== "true") return { status: "blocked", idempotent: false, errors: ["Promotion adapter decision writes are disabled. Enable the explicit local promotion-adapter decision gate before recording a review-only selection."] };
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for promotion adapter decision capture."] };
+  const record = createUploadQuarantinePromotionAdapterDecision({ ...input, sourceChecksumSha256: summary.record.checksumSha256, reviewedAt: new Date().toISOString() });
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, input.tenantId, input.quarantineId);
+  const decisionPath = resolve(recordDirectory, "promotion-adapter-decision.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, decisionPath);
+    assertQuarantineFilesystemPath(decisionPath, root);
+    const existing = await readQuarantinePromotionAdapterDecision(input.tenantId, input.quarantineId);
+    if (existing.record) return stableJson(existing.record) === stableJson(record) ? { status: "accepted", idempotent: true, record: existing.record, errors: existing.errors } : { status: "conflict", idempotent: false, errors: ["A different promotion adapter decision already exists for this quarantine record."] };
+    await writeFile(decisionPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    return { status: "blocked", idempotent: false, errors: ["Promotion adapter decision metadata could not be written inside the quarantine custody boundary."] };
   }
 }
 

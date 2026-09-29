@@ -188,10 +188,13 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-live-release-lin
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-delivery-mode-decision.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-promotion-adapter-decision.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-evidence-review.mjs", import.meta.url))], {
   stdio: "inherit",
 });
-execFileSync(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./verify-pilot-delivery-manifest-behavior.mjs", import.meta.url))], {
+execFileSync(process.execPath, ["--experimental-strip-types", "--experimental-specifier-resolution=node", fileURLToPath(new URL("./verify-pilot-delivery-manifest-behavior.mjs", import.meta.url))], {
   stdio: "inherit",
 });
 

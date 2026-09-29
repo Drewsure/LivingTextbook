@@ -1,3 +1,6 @@
+// The extension is required by the direct strip-types verification harness;
+// the temporary CommonJS harness normalizes it after compilation.
+// @ts-ignore TS5097: the runtime verification harness supplies the sibling extension.
 import { validatePilotDeliveryManifest, type PilotDeliveryManifest, type PilotDeliveryMode } from "./pilotDeliveryManifest.ts";
 
 export type PilotDeliveryReleaseReceiptStatus = "blocked" | "manual-release-approved";

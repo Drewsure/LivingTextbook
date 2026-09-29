@@ -1,5 +1,6 @@
 import type { UploadQuarantinePackageHandoffPreview } from "./uploadQuarantinePackageHandoff";
 import type { UploadQuarantineReviewDecisionRecord } from "./uploadQuarantineReviewDecision";
+import type { UploadQuarantinePromotionAdapterDecision } from "./uploadQuarantinePromotionAdapterDecision";
 import { isUploadQuarantineSafeTenantId } from "./uploadQuarantineIntake";
 
 export type UploadQuarantinePackageReviewPacketStatus = "blocked" | "ready-for-next-gate";
@@ -34,9 +35,10 @@ export interface UploadQuarantinePackageReviewPacket {
 export function createUploadQuarantinePackageReviewPacket(input: {
   handoff: UploadQuarantinePackageHandoffPreview;
   reviewDecision?: UploadQuarantineReviewDecisionRecord;
+  promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
   capturedAt: string;
 }): UploadQuarantinePackageReviewPacket {
-  const { handoff, reviewDecision } = input;
+  const { handoff, reviewDecision, promotionAdapterDecision } = input;
   const blockers = [...handoff.blockers];
   if (!reviewDecision) blockers.push("A human review decision must be recorded before this packet can enter the next gate.");
   if (reviewDecision?.decision === "changes-required") blockers.push("The recorded review decision requires changes before package review can continue.");
@@ -67,6 +69,7 @@ export function createUploadQuarantinePackageReviewPacket(input: {
       "upload_quarantine_admission_preview",
       "upload_quarantine_package_handoff_preview",
       ...(reviewDecision ? ["upload_quarantine_review_decision"] : []),
+      ...(promotionAdapterDecision ? ["upload_quarantine_promotion_adapter_decision"] : []),
     ],
     capturedAt: input.capturedAt,
     storageMode: "local-quarantine-package-review-metadata",

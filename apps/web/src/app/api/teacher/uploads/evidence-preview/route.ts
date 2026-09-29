@@ -5,7 +5,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantineEvidenceReview, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantineEvidenceReview, readQuarantinePromotionAdapterDecision, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,6 +43,7 @@ export async function GET(request: Request) {
   }
 
   const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
+  const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(tenantId, quarantineId);
   const preview = deriveUploadQuarantineAdmissionPreview(summary.record, {
     ...(evidenceReview.record ?? {
       scanStatus: "pending" as const,
@@ -53,7 +54,7 @@ export async function GET(request: Request) {
       releaseApproved: false,
     }),
     evidencePacketId: `evidence-packet:${summary.quarantineId}`,
-  });
+  }, promotionAdapterDecision.record);
 
   return json({
     status: "review-only",
@@ -67,7 +68,8 @@ export async function GET(request: Request) {
     promotionAllowed: false,
     studentFacingUseAllowed: false,
     evidenceReview: evidenceReview.record,
-    errors: [...result.errors, ...evidenceReview.errors],
+    promotionAdapterDecision: promotionAdapterDecision.record,
+    errors: [...result.errors, ...evidenceReview.errors, ...promotionAdapterDecision.errors],
     privacy: privacyMessage(),
   });
 }

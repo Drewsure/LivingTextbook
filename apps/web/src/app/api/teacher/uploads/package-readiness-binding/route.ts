@@ -24,6 +24,7 @@ import {
   type UploadQuarantinePackageIndexPreview,
   type UploadQuarantineReviewDecisionRecord,
   type HostedPersistenceOptInDecisionPacket,
+  type UploadQuarantinePromotionAdapterDecision,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -32,6 +33,7 @@ import {
   readQuarantineEvidenceReview,
   readQuarantineDeliveryModeDecision,
   readQuarantinePackageEvidenceReview,
+  readQuarantinePromotionAdapterDecision,
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
@@ -49,6 +51,7 @@ type ReadinessResponse = {
   binding?: PublisherPilotPackageReadinessBinding | null;
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
+  promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
@@ -74,6 +77,7 @@ export async function GET(request: Request) {
   const packageId = requestedPackageId || derivePackageId(tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
+  const promotionAdapterDecisionResult = await readQuarantinePromotionAdapterDecision(tenantId, quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
     ...(evidenceReview.record ?? {
       scanStatus: "pending" as const,
@@ -84,7 +88,7 @@ export async function GET(request: Request) {
       releaseApproved: false,
     }),
     evidencePacketId,
-  });
+  }, promotionAdapterDecisionResult.record);
   const handoff = createUploadQuarantinePackageHandoffPreview({
     summary,
     admission,
@@ -138,6 +142,7 @@ export async function GET(request: Request) {
       check("source-evidence", "Source and evidence review", handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.admissionDecision === "evidence-ready" ? "The source evidence review is complete for this metadata handoff." : handoff.blockers.join(" ") || "Source evidence remains incomplete.", "Complete scan, rights, source, mapping, accessibility, and release evidence."),
       check("package-review", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The immutable package review packet is ready for the next gate." : "No durable package review packet is linked.", "Record and reconcile the package review packet."),
       check("delivery-mode", "Delivery mode selection", deliveryModeDecision ? "passed" : "open", deliveryModeDecision ? `The publisher selected ${deliveryModeDecision.selectedMode} for review-only planning.` : "No local, hosted, or hybrid delivery mode has been selected for this submission.", deliveryModeDecision ? "Keep the selected mode aligned with the final release and policy packet." : "Choose closed-local, hosted PWA, or hybrid delivery."),
+    check("promotion-adapter", "Promotion adapter selection", promotionAdapterDecisionResult.record ? "passed" : "open", promotionAdapterDecisionResult.record ? `The ${promotionAdapterDecisionResult.record.selectedAdapter} pathway is recorded for review-only planning.` : "No reviewed package adapter has been selected for this submission.", promotionAdapterDecisionResult.record ? "Keep the adapter aligned with the final manifest mode and package evidence." : "Select the closed-local, hosted PWA, or hybrid package adapter."),
       check("package-preview", "Reviewed package preview", packageEvidenceReview?.status === "reviewed-package-evidence" ? "passed" : "blocked", packageEvidenceReview?.status === "reviewed-package-evidence" ? "Reviewed content, game, multimedia, accessibility, and rights evidence is linked to this quarantine." : "A reviewed multimedia/game package is not linked to this live quarantine submission.", "Record complete content, game, audio, video, image, font, accessibility, and rights evidence."),
       check("release-receipt", "Manual release receipt", "blocked", "No approved delivery manifest or named release receipt is linked.", "Complete release, rollback, school-policy, and operator review."),
       check("qr-print", "QR print authorization", "blocked", "Production QR printing remains blocked for this live submission.", "Validate stable aliases, local fallback, release checksum, and print authorization."),
@@ -202,12 +207,13 @@ export async function GET(request: Request) {
     binding: bindingErrors.length === 0 ? binding : null,
     deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
     deliveryModeDecision,
+    promotionAdapterDecision: promotionAdapterDecisionResult.record,
     packageEvidenceReview,
     reviewDecision,
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
     privacy: privacyMessage(),
   });
 }

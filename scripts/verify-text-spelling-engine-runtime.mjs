@@ -39,6 +39,13 @@ try {
     process.exit(1);
   }
 
+  // The source model is executed directly by one ESM harness and compiled to
+  // CommonJS by this harness. Normalize the direct `.ts` import in the emitted
+  // file so both verification paths exercise the same validator.
+  const compiledReceiptPath = join(output, "packages", "content-model", "src", "pilotDeliveryReleaseReceipt.js");
+  const compiledReceipt = readFileSync(compiledReceiptPath, "utf8");
+  writeFileSync(compiledReceiptPath, compiledReceipt.replaceAll("pilotDeliveryManifest.ts", "pilotDeliveryManifest.js"), "utf8");
+
   const engine = require(join(output, "apps", "web", "src", "features", "game-shell", "text-spelling", "textSpellingEngineAdapter.js"));
   const fillInBlankSource = readFileSync(
     join(root, "apps", "web", "src", "features", "game-shell", "text-spelling", "FillInBlankPracticeGame.tsx"),

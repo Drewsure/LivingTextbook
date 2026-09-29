@@ -3,6 +3,7 @@ import {
   type UploadQuarantineChannel,
   type UploadQuarantineIntakeRecord,
 } from "./uploadQuarantineIntake";
+import type { UploadQuarantinePromotionAdapterDecision } from "./uploadQuarantinePromotionAdapterDecision";
 
 export type UploadQuarantineEvidenceDecision = "blocked" | "needs-review" | "evidence-ready";
 export type UploadQuarantineScanStatus = "pending" | "passed" | "failed";
@@ -48,6 +49,7 @@ const requiredBlockedActions = [
 export function deriveUploadQuarantineAdmissionPreview(
   intake: UploadQuarantineIntakeRecord,
   evidence: UploadQuarantineEvidenceInput,
+  promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null,
 ): UploadQuarantineAdmissionPreview {
   const validationErrors = validateUploadQuarantineEvidenceInput(intake, evidence);
   if (validationErrors.length > 0) {
@@ -61,9 +63,15 @@ export function deriveUploadQuarantineAdmissionPreview(
     ...(evidence.targetMappingReviewed ? [] : ["Target mapping review is required."]),
     ...(evidence.accessibilityReviewed ? [] : ["Accessibility review is required."]),
     ...(evidence.releaseApproved ? [] : ["Release-control approval is required."]),
-    "Promotion adapter selection is still a separate deployment gate.",
+    ...(promotionAdapterDecision?.status === "selected-review-only"
+      && promotionAdapterDecision.tenantId === intake.tenantId
+      && promotionAdapterDecision.quarantineId === intake.intakeId
+      && promotionAdapterDecision.sourceChecksumSha256 === intake.checksumSha256
+      && promotionAdapterDecision.packageId.length > 0
+      ? []
+      : ["Promotion adapter selection is still a separate deployment gate."]),
   ];
-  const evidenceComplete = blockers.length === 1;
+  const evidenceComplete = blockers.length === 0;
 
   return {
     admissionId: `${intake.intakeId}:${evidence.evidencePacketId}`,
@@ -82,6 +90,7 @@ export function deriveUploadQuarantineAdmissionPreview(
       "Target mapping review",
       "Accessibility review",
       "Release-control decision",
+      "Promotion adapter selection",
     ],
     blockers: [...new Set(blockers)],
     allowedPreviewActions: [

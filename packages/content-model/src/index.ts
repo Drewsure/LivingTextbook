@@ -1901,6 +1901,7 @@ export * from "./uploadQuarantineDeliveryManifestPreview";
 export * from "./uploadQuarantineReleaseReceiptPreview";
 export * from "./uploadQuarantinePackageIndexPreview";
 export * from "./uploadQuarantineDeliveryModeDecision";
+export * from "./uploadQuarantinePromotionAdapterDecision";
 export * from "./uploadQuarantinePackageEvidenceReview";
 export * from "./uploadQuarantinePackageReviewPacket";
 export * from "./uploadQuarantinePackageAssemblyPreflight";
