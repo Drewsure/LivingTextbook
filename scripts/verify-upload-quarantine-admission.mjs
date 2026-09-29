@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 
+await import("./verify-upload-quarantine-review-decision.mjs");
 await import("./verify-upload-quarantine-package-handoff.mjs");
 
 const admission = readSource("../packages/content-model/src/uploadQuarantineAdmission.ts");

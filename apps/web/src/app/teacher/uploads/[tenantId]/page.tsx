@@ -39,6 +39,7 @@ export default async function TeacherUploadWorkspacePage({
         evidenceFlow={sampleUploadEvidencePacketFlow}
         quarantineAdmissionPreviews={sampleUploadQuarantineAdmissionPreviews}
         quarantineUploadsEnabled={process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true"}
+        reviewDecisionsEnabled={process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED === "true"}
       />
     </AppShell>
   );

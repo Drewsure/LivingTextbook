@@ -8,6 +8,7 @@ interface ControlledQuarantineUploadPanelProps {
   tenantId: string;
   channelPlan: UploadChannelReadinessPlan;
   enabled: boolean;
+  reviewDecisionsEnabled: boolean;
 }
 
 interface IntakeResponse {
@@ -31,6 +32,7 @@ export function ControlledQuarantineUploadPanel({
   tenantId,
   channelPlan,
   enabled,
+  reviewDecisionsEnabled,
 }: ControlledQuarantineUploadPanelProps) {
   const [channelId, setChannelId] = useState(channelPlan.channels[0]?.channelId ?? "");
   const [unitKey, setUnitKey] = useState("");
@@ -169,7 +171,7 @@ export function ControlledQuarantineUploadPanel({
         </div>
       </form>
 
-      {response ? <IntakeResult tenantId={tenantId} state={state} response={response} /> : null}
+      {response ? <IntakeResult tenantId={tenantId} state={state} response={response} reviewDecisionsEnabled={reviewDecisionsEnabled} /> : null}
     </Card>
   );
 }
@@ -178,10 +180,12 @@ function IntakeResult({
   tenantId,
   state,
   response,
+  reviewDecisionsEnabled,
 }: {
   tenantId: string;
   state: "accepted" | "error" | "idle" | "submitting";
   response: IntakeResponse;
+  reviewDecisionsEnabled: boolean;
 }) {
   const accepted = state === "accepted" && response.status === "accepted-quarantine";
   return (
@@ -220,6 +224,19 @@ function IntakeResult({
               </a>
             </div>
           ) : null}
+          {response.quarantineId ? (
+            reviewDecisionsEnabled ? (
+              <ReviewDecisionCapture
+                tenantId={tenantId}
+                quarantineId={response.quarantineId}
+                unitKey={response.record?.unitKey}
+              />
+            ) : (
+              <p className="mt-4 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                Teacher review decision capture remains disabled until the operator explicitly enables <code>LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED=true</code>.
+              </p>
+            )
+          ) : null}
         </>
       ) : null}
       <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
@@ -227,6 +244,119 @@ function IntakeResult({
           <li key={`${index}-${error}`}>{error}</li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+const reviewFieldOptions = [
+  "Tenant and publisher source identity",
+  "Candidate textbook unit and package mapping",
+  "Filename, MIME type, size, and checksum",
+  "Intended asset channel and classroom use",
+] as const;
+
+function ReviewDecisionCapture({
+  tenantId,
+  quarantineId,
+  unitKey,
+}: {
+  tenantId: string;
+  quarantineId: string;
+  unitKey?: string;
+}) {
+  const [reviewerId, setReviewerId] = useState("");
+  const [decision, setDecision] = useState<"accepted-for-package-review" | "changes-required">("accepted-for-package-review");
+  const [reviewerNote, setReviewerNote] = useState("");
+  const [reviewedFields, setReviewedFields] = useState<string[]>([]);
+  const [state, setState] = useState<"idle" | "submitting" | "recorded" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  function toggleField(field: string) {
+    setReviewedFields((current) => current.includes(field) ? current.filter((item) => item !== field) : [...current, field]);
+  }
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setState("submitting");
+    setMessage("");
+    const packageId = `${(unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120)}-package`;
+    try {
+      const result = await fetch("/api/teacher/uploads/review-decision", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tenantId,
+          quarantineId,
+          packageId,
+          reviewerId,
+          decision,
+          reviewerNote,
+          reviewedFields,
+          unresolvedBlockers: [
+            "Security scan, rights, source approval, accessibility, and release-control remain separate gates.",
+            "Evidence attachment storage and package assembly remain blocked.",
+          ],
+        }),
+      });
+      const payload = (await result.json()) as { errors?: string[] };
+      if (!result.ok) throw new Error(payload.errors?.[0] ?? "The review decision could not be recorded.");
+      setState("recorded");
+      setMessage("Immutable review decision recorded. Package release remains blocked.");
+    } catch (error) {
+      setState("error");
+      setMessage(error instanceof Error ? error.message : "The review decision could not be recorded.");
+    }
+  }
+
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Teacher review decision</p>
+          <h3 className="mt-1 text-base font-bold">Record review for package review</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+            This creates one immutable local metadata record. It is not release approval, evidence attachment storage, package assembly, or student activation.
+          </p>
+        </div>
+        <StatusPill label={state === "recorded" ? "Recorded" : "Human action"} tone={state === "recorded" ? "success" : "warning"} />
+      </div>
+      <form className="mt-4 grid gap-4" onSubmit={submit}>
+        <div className="grid gap-4 md:grid-cols-2">
+          <label className="grid gap-2 text-sm font-semibold text-[var(--tenant-text)]">
+            Reviewer ID
+            <input className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 font-normal" value={reviewerId} onChange={(event) => setReviewerId(event.target.value)} maxLength={160} required placeholder="teacher-or-operator-id" />
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-[var(--tenant-text)]">
+            Review outcome
+            <select className="min-h-11 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 font-normal" value={decision} onChange={(event) => setDecision(event.target.value as typeof decision)}>
+              <option value="accepted-for-package-review">Accept for package review</option>
+              <option value="changes-required">Changes required</option>
+            </select>
+          </label>
+        </div>
+        <fieldset className="grid gap-2">
+          <legend className="text-sm font-semibold text-[var(--tenant-text)]">Fields reviewed</legend>
+          <div className="grid gap-2 md:grid-cols-2">
+            {reviewFieldOptions.map((field) => (
+              <label key={field} className="flex items-start gap-2 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                <input type="checkbox" checked={reviewedFields.includes(field)} onChange={() => toggleField(field)} className="mt-1" />
+                <span>{field}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <label className="grid gap-2 text-sm font-semibold text-[var(--tenant-text)]">
+          Reviewer note
+          <textarea className="min-h-24 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-3 py-2 font-normal" value={reviewerNote} onChange={(event) => setReviewerNote(event.target.value)} maxLength={2000} required placeholder="Record what the next reviewer must know." />
+        </label>
+        <div className="flex flex-wrap items-center gap-3">
+          <button type="submit" disabled={state === "submitting" || reviewedFields.length !== reviewFieldOptions.length} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-60">
+            {state === "submitting" ? "Recording review decision..." : "Record review decision"}
+          </button>
+          <span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">{message || `Review identity: ${quarantineId}`}</span>
+        </div>
+      </form>
     </section>
   );
 }

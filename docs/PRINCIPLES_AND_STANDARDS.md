@@ -8039,3 +8039,27 @@ This standard is recorded in
 `docs/decision-register/DR-1228-quarantine-package-handoff-preview.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1228-quarantine-package-handoff-preview.md`.
+
+## 514. Quarantine Review Decision Record Standard
+
+- A teacher review decision may be recorded only after a validated quarantine
+  record exists and the operator explicitly enables the local review-decision
+  gate.
+- The record must be tenant-scoped, immutable, idempotent for retries, and
+  metadata-only. It must preserve source, unit, candidate package, reviewer,
+  reviewed fields, outcome, note, server timestamp, evidence identity, and
+  unresolved blockers.
+- “Accepted for package review” is not release approval. Review decisions must
+  keep evidence attachment writes, storage activation, package assembly,
+  promotion, routes, playlists, games, assignments, QR aliases, and student
+  use blocked.
+- No review decision may mutate the original quarantine intake record or expose
+  raw payload bytes, filesystem paths, download URLs, learner records, or
+  credentials.
+- Run the review-decision, quarantine admission, persistence, privacy, and
+  foundation gates after changes to the local review checkpoint.
+
+This standard is recorded in
+`docs/decision-register/DR-1229-quarantine-review-decision-record.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1229-quarantine-review-decision-record.md`.

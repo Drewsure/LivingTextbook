@@ -9,6 +9,9 @@ import {
   type UploadQuarantineReviewSummary,
   isUploadQuarantineSafeTenantId,
   validateUploadQuarantineIntakeRecord,
+  createUploadQuarantineReviewDecisionRecord,
+  validateUploadQuarantineReviewDecisionRecord,
+  type UploadQuarantineReviewDecisionRecord,
 } from "@living-textbook/content-model";
 import { validateQuarantineFilesystemPath } from "./quarantinePathPolicy";
 
@@ -30,6 +33,20 @@ export type QuarantineUploadWriteResult = {
 
 export type QuarantineUploadReadResult = {
   records: UploadQuarantineReviewSummary[];
+  errors: string[];
+};
+
+export type QuarantineReviewDecisionWrite = Omit<UploadQuarantineReviewDecisionRecord, "recordVersion" | "storageMode" | "approvalCaptured" | "evidenceAttachmentWriteAllowed" | "packageAssemblyAllowed" | "promotionAllowed" | "studentFacingUseAllowed" | "mode" | "sideEffect">;
+
+export type QuarantineReviewDecisionWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantineReviewDecisionRecord;
+  errors: string[];
+};
+
+export type QuarantineReviewDecisionReadResult = {
+  record: UploadQuarantineReviewDecisionRecord | null;
   errors: string[];
 };
 
@@ -122,6 +139,57 @@ export async function readQuarantineUploadRecords(tenantId: string, quarantineId
   return { records, errors };
 }
 
+export async function readQuarantineReviewDecision(tenantId: string, quarantineId: string): Promise<QuarantineReviewDecisionReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) {
+    return { record: null, errors: ["The review decision identity did not pass tenant and quarantine boundary checks."] };
+  }
+  const root = getQuarantineRoot();
+  const tenantDirectory = resolve(root, tenantId);
+  const recordDirectory = resolve(tenantDirectory, quarantineId);
+  const decisionPath = resolve(recordDirectory, "review-decision.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, decisionPath);
+    assertQuarantineFilesystemPath(decisionPath, root);
+    const value = JSON.parse(await readFile(decisionPath, "utf8")) as unknown;
+    const errors = validateUploadQuarantineReviewDecisionRecord(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored review decision failed validation and was withheld."] };
+    const record = value as UploadQuarantineReviewDecisionRecord;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored review decision failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantineReviewDecision(input: QuarantineReviewDecisionWrite): Promise<QuarantineReviewDecisionWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED !== "true") {
+    return { status: "blocked", idempotent: false, errors: ["Review decision writes are disabled. Enable the explicit local review-decision gate before recording a teacher decision."] };
+  }
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for review decision capture."] };
+  const record = createUploadQuarantineReviewDecisionRecord({
+    ...input,
+    unitKey: summary.record.unitKey,
+  });
+  const root = getQuarantineRoot();
+  const tenantDirectory = resolve(root, input.tenantId);
+  const recordDirectory = resolve(tenantDirectory, input.quarantineId);
+  const decisionPath = resolve(recordDirectory, "review-decision.json");
+  assertQuarantineFilesystemPath(recordDirectory, root);
+  assertInside(recordDirectory, decisionPath);
+  assertQuarantineFilesystemPath(decisionPath, root);
+  try {
+    await writeFile(decisionPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    const existing = await readQuarantineReviewDecision(input.tenantId, input.quarantineId);
+    if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
+    return { status: "conflict", idempotent: false, errors: ["A different immutable review decision is already bound to this quarantine record."] };
+  }
+}
+
 async function readChildDirectories(directory: string): Promise<string[]> {
   try {
     const entries = await readdir(directory, { withFileTypes: true });
@@ -183,4 +251,10 @@ function assertInside(parent: string, child: string): void {
   if (relativePath.startsWith("..") || relativePath.includes(".." + "/") || relativePath.includes(".." + "\\") || resolve(parent) === resolve(child)) {
     throw new Error("Quarantine path escaped its configured boundary.");
   }
+}
+
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (!value || typeof value !== "object") return JSON.stringify(value);
+  return `{${Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`).join(",")}}`;
 }

@@ -33,6 +33,7 @@ interface TeacherUploadWorkspacePanelProps {
   evidenceFlow: EvidencePacketFlow;
   quarantineAdmissionPreviews: UploadQuarantineAdmissionPreview[];
   quarantineUploadsEnabled: boolean;
+  reviewDecisionsEnabled: boolean;
 }
 
 const guardrails = [
@@ -56,6 +57,7 @@ export function TeacherUploadWorkspacePanel({
   evidenceFlow,
   quarantineAdmissionPreviews,
   quarantineUploadsEnabled,
+  reviewDecisionsEnabled,
 }: TeacherUploadWorkspacePanelProps) {
   const blockedReviewItems = reviewQueue.items.filter((item) => item.status !== "ready-preview").length;
   const blockedPromotionLanes = promotionPlan.lanes.filter((lane) => lane.status === "blocked-preview").length;
@@ -91,6 +93,7 @@ export function TeacherUploadWorkspacePanel({
         tenantId={tenantId}
         channelPlan={channelPlan}
         enabled={quarantineUploadsEnabled}
+        reviewDecisionsEnabled={reviewDecisionsEnabled}
       />
 
       <Card>

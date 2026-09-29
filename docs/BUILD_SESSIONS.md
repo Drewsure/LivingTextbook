@@ -6360,3 +6360,16 @@ student-payload-blocked behavior.
   assembly, promotion, and student-use gates.
 - Added ADR 1228, DR-1228, and a focused verifier included in the foundation
   command.
+
+## Build session: Quarantine review decision record
+
+- Added an explicit teacher review-decision control after quarantine intake and
+  package-handoff preview.
+- Added an immutable local metadata record with tenant, source, unit, package,
+  reviewer, reviewed-field, outcome, note, timestamp, and unresolved-blocker
+  lineage.
+- Kept the decision separate from release approval, evidence attachment
+  storage, package assembly, promotion, routes, playlists, games, assignments,
+  QR aliases, and student use.
+- Added ADR 1229, DR-1229, and a focused verifier included through the
+  quarantine admission gate.

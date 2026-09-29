@@ -1585,3 +1585,17 @@ games, assignments, QR aliases, or permit student use. Run
 `node scripts/verify-upload-quarantine-package-handoff.mjs` and
 `npm run verify:upload-quarantine-admission` after changing the route, model,
 or intake links.
+
+Review-decision procedure: enable
+`LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED=true` only for an authorized local
+pilot after the quarantine custody root is provisioned. In the successful
+intake result, use the teacher review decision control to record a reviewer id,
+outcome, all reviewed fields, and a bounded note. The API writes one immutable
+`review-decision.json` metadata record beside the quarantine record; a retry of
+the same decision is idempotent and a different second decision is rejected.
+This record is not release approval and must not be used as evidence attachment
+storage, package assembly, promotion, route, playlist, game, assignment, QR,
+or student-use authorization. Run
+`node scripts/verify-upload-quarantine-review-decision.mjs`,
+`npm run verify:upload-quarantine-admission`, and the full foundation gate after
+changing this procedure.
