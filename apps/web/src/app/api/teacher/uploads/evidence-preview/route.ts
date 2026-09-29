@@ -5,7 +5,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantineEvidenceReview, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,13 +42,16 @@ export async function GET(request: Request) {
     }, 404);
   }
 
+  const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
   const preview = deriveUploadQuarantineAdmissionPreview(summary.record, {
-    scanStatus: "pending",
-    rightsStatus: "unknown",
-    sourceReviewStatus: "unreviewed",
-    targetMappingReviewed: false,
-    accessibilityReviewed: false,
-    releaseApproved: false,
+    ...(evidenceReview.record ?? {
+      scanStatus: "pending" as const,
+      rightsStatus: "unknown" as const,
+      sourceReviewStatus: "unreviewed" as const,
+      targetMappingReviewed: false,
+      accessibilityReviewed: false,
+      releaseApproved: false,
+    }),
     evidencePacketId: `evidence-packet:${summary.quarantineId}`,
   });
 
@@ -63,7 +66,8 @@ export async function GET(request: Request) {
     downloadUrlIncluded: false,
     promotionAllowed: false,
     studentFacingUseAllowed: false,
-    errors: result.errors,
+    evidenceReview: evidenceReview.record,
+    errors: [...result.errors, ...evidenceReview.errors],
     privacy: privacyMessage(),
   });
 }

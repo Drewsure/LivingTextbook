@@ -8710,3 +8710,28 @@ This standard is recorded in DR-1259 and ADR 1259.
   adjudication or a production upload authorization.
 
 This standard is recorded in DR-1260 and ADR 1260.
+
+## 545. Quarantine Evidence Adjudication Standard
+
+- A publisher source or media asset must have a separate, tenant-scoped,
+  metadata-only evidence review record for scan status, rights basis, source
+  review, target mapping, accessibility, reviewer identity, and release
+  recommendation before the pilot can describe that evidence as complete.
+- Evidence review records are immutable sidecars beside the quarantined source.
+  They may reference bounded identifiers and reviewer notes, but must never
+  copy raw payload bytes, expose filesystem paths, store credentials, or mutate
+  the original quarantine record.
+- Evidence capture is disabled unless the operator explicitly enables
+  `LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED=true`. When disabled, the review
+  route and teacher panel remain unavailable or inert rather than implying
+  that evidence was accepted.
+- A complete evidence review may change the admission preview from pending to
+  evidence-ready, but it does not authorize package assembly, promotion,
+  route or playlist writes, QR printing, hosted persistence, or student use.
+  Promotion-adapter selection, release approval, and delivery remain separate
+  gates.
+- Repeated identical submissions are idempotent; conflicting attempts fail
+  closed. Every future package route must consume the validated evidence
+  sidecar rather than inventing evidence from UI state or sample data.
+
+This standard is recorded in DR-1261 and ADR 1261.

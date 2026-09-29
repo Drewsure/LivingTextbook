@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
+import { QuarantineEvidenceReviewCapture } from "@/features/content-intake/QuarantineEvidenceReviewCapture";
 import type {
   UploadQuarantinePackageAssemblyPreflight,
   UploadQuarantinePackageHandoffPreview,
@@ -14,6 +15,7 @@ interface PublisherQuarantineHandoffBridgePanelProps {
   quarantineId: string;
   packageId?: string;
   packageReviewPacketsEnabled?: boolean;
+  evidenceReviewsEnabled?: boolean;
 }
 
 type HandoffResponse = {
@@ -33,6 +35,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   quarantineId,
   packageId,
   packageReviewPacketsEnabled = false,
+  evidenceReviewsEnabled = false,
 }: PublisherQuarantineHandoffBridgePanelProps) {
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [payload, setPayload] = useState<HandoffResponse | null>(null);
@@ -189,6 +192,15 @@ export function PublisherQuarantineHandoffBridgePanel({
           <p className="mt-4 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             This screen is a bridge into review evidence only. It does not create a package, write evidence, print production QR codes, activate persistence, or promote the quarantined payload.
           </p>
+          <div className="mt-4">
+            <QuarantineEvidenceReviewCapture
+              tenantId={tenantId}
+              quarantineId={quarantineId}
+              packageId={handoff.packageId}
+              enabled={evidenceReviewsEnabled}
+              onRecorded={() => setRefreshToken((current) => current + 1)}
+            />
+          </div>
           <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>

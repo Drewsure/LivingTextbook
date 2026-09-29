@@ -22,6 +22,8 @@ const preview = spawn(previewCommand, previewArgs, {
   env: {
     ...process.env,
     LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED: "true",
+    LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED: "true",
+    LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
@@ -62,6 +64,48 @@ try {
   assert(firstBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "blocked"), "missing package preview must be explicit");
   assert(firstBinding.binding?.packageAssemblyAllowed === false && firstBinding.binding?.studentFacingUseAllowed === false, "live readiness must block assembly and student use");
 
+  const evidenceReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/evidence-review`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Synthetic evidence review for the controlled pilot rehearsal.",
+      reviewedFields: ["Security scan evidence", "Publisher rights evidence", "Source and unit mapping", "Accessibility and transcript evidence", "Package readiness evidence", "Release-control evidence"],
+      scanStatus: "passed",
+      rightsStatus: "partner-provided",
+      sourceReviewStatus: "approved",
+      targetMappingReviewed: true,
+      accessibilityReviewed: true,
+      releaseApproved: true,
+    }),
+  });
+  const evidenceReview = await readJson(evidenceReviewResponse);
+  assert(evidenceReviewResponse.status === 200 && evidenceReview.status === "recorded-review-only" && evidenceReview.evidenceReady === true, "complete evidence review must be recorded as metadata-only and evidence-ready");
+
+  const evidenceHandoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
+  assert(evidenceHandoff.handoff?.admissionDecision === "evidence-ready", "complete evidence review must advance admission decision");
+  assert(evidenceHandoff.handoff?.blockers.some((blocker) => blocker.includes("Promotion adapter selection")), "promotion adapter selection must remain a separate deployment blocker");
+
+  const reviewDecisionResponse = await fetch(`${baseUrl}/api/teacher/uploads/review-decision`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: "sample-publisher",
+      quarantineId,
+      packageId: "sample-publisher-l1-u1-routines-package",
+      reviewerId: "publisher-intake-reviewer",
+      decision: "accepted-for-package-review",
+      reviewerNote: "Synthetic source review decision for the controlled pilot rehearsal.",
+      reviewedFields: ["Tenant and publisher source identity", "Candidate textbook unit and package mapping", "Filename, MIME type, size, and checksum", "Intended asset channel and classroom use"],
+      unresolvedBlockers: ["Promotion adapter selection remains a separate gate.", "Package assembly remains separately authorized."],
+    }),
+  });
+  const reviewDecision = await readJson(reviewDecisionResponse);
+  assert(reviewDecisionResponse.status === 200 && reviewDecision.status === "recorded-review-only" && reviewDecision.approvalCaptured === false, "source review decision must remain review-only");
+
   const packetResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -75,7 +119,7 @@ try {
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || check.checkId === "review-packet"), "downstream readiness must not be inferred from packet capture");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, packet, secondBinding });
+  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, reviewDecision, packet, secondBinding });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 

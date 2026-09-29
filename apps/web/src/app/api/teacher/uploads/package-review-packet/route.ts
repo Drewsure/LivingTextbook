@@ -9,6 +9,7 @@ import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teac
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import {
   readQuarantinePackageReviewPacket,
+  readQuarantineEvidenceReview,
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
   writeQuarantinePackageReviewPacket,
@@ -64,13 +65,16 @@ export async function POST(request: Request) {
   if (!summary || summary.quarantineId !== body.quarantineId) return json({ status: "not-found", packet: null, errors: ["The quarantine record was not available for package review packet capture."], privacy: privacyMessage() }, 404);
   const packageId = body.packageId || derivePackageId(body.tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
+  const evidenceReview = await readQuarantineEvidenceReview(body.tenantId, body.quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
-    scanStatus: "pending",
-    rightsStatus: "unknown",
-    sourceReviewStatus: "unreviewed",
-    targetMappingReviewed: false,
-    accessibilityReviewed: false,
-    releaseApproved: false,
+    ...(evidenceReview.record ?? {
+      scanStatus: "pending" as const,
+      rightsStatus: "unknown" as const,
+      sourceReviewStatus: "unreviewed" as const,
+      targetMappingReviewed: false,
+      accessibilityReviewed: false,
+      releaseApproved: false,
+    }),
     evidencePacketId,
   });
   const handoff = createUploadQuarantinePackageHandoffPreview({

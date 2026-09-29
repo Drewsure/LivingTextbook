@@ -12,6 +12,9 @@ import {
   createUploadQuarantineReviewDecisionRecord,
   validateUploadQuarantineReviewDecisionRecord,
   type UploadQuarantineReviewDecisionRecord,
+  createUploadQuarantineEvidenceReviewRecord,
+  validateUploadQuarantineEvidenceReviewRecord,
+  type UploadQuarantineEvidenceReviewRecord,
   type UploadQuarantinePackageReviewPacket,
   validateUploadQuarantinePackageReviewPacket,
 } from "@living-textbook/content-model";
@@ -49,6 +52,25 @@ export type QuarantineReviewDecisionWriteResult = {
 
 export type QuarantineReviewDecisionReadResult = {
   record: UploadQuarantineReviewDecisionRecord | null;
+  errors: string[];
+};
+
+export type QuarantineEvidenceReviewWrite = Omit<UploadQuarantineEvidenceReviewRecord, "recordVersion" | "reviewId" | "tenantId" | "quarantineId" | "storageMode" | "packageAssemblyAllowed" | "promotionAllowed" | "studentFacingUseAllowed" | "mode" | "sideEffect" | "status" | "unresolvedBlockers"> & {
+  tenantId: string;
+  quarantineId: string;
+  sourceId: string;
+  packageId: string;
+};
+
+export type QuarantineEvidenceReviewWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: UploadQuarantineEvidenceReviewRecord;
+  errors: string[];
+};
+
+export type QuarantineEvidenceReviewReadResult = {
+  record: UploadQuarantineEvidenceReviewRecord | null;
   errors: string[];
 };
 
@@ -203,6 +225,50 @@ export async function writeQuarantineReviewDecision(input: QuarantineReviewDecis
     const existing = await readQuarantineReviewDecision(input.tenantId, input.quarantineId);
     if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
     return { status: "conflict", idempotent: false, errors: ["A different immutable review decision is already bound to this quarantine record."] };
+  }
+}
+
+export async function readQuarantineEvidenceReview(tenantId: string, quarantineId: string): Promise<QuarantineEvidenceReviewReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) {
+    return { record: null, errors: ["The evidence review identity did not pass tenant and quarantine boundary checks."] };
+  }
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const evidencePath = resolve(recordDirectory, "evidence-review.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, evidencePath);
+    assertQuarantineFilesystemPath(evidencePath, root);
+    const value = JSON.parse(await readFile(evidencePath, "utf8")) as unknown;
+    const errors = validateUploadQuarantineEvidenceReviewRecord(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored evidence review failed validation and was withheld."] };
+    const record = value as UploadQuarantineEvidenceReviewRecord;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored evidence review failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantineEvidenceReview(input: QuarantineEvidenceReviewWrite): Promise<QuarantineEvidenceReviewWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED !== "true") return { status: "blocked", idempotent: false, errors: ["Evidence review writes are disabled. Enable the explicit local evidence-review gate before recording adjudication metadata."] };
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for evidence review capture."] };
+  const record = createUploadQuarantineEvidenceReviewRecord({ intake: summary.record, ...input });
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, input.tenantId, input.quarantineId);
+  const evidencePath = resolve(recordDirectory, "evidence-review.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, evidencePath);
+    assertQuarantineFilesystemPath(evidencePath, root);
+    const existing = await readQuarantineEvidenceReview(input.tenantId, input.quarantineId);
+    if (existing.record) return stableJson(existing.record) === stableJson(record) ? { status: "accepted", idempotent: true, record: existing.record, errors: existing.errors } : { status: "conflict", idempotent: false, errors: ["A different evidence review already exists for this quarantine record."] };
+    await writeFile(evidencePath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    return { status: "blocked", idempotent: false, errors: ["Evidence review metadata could not be written inside the quarantine custody boundary."] };
   }
 }
 

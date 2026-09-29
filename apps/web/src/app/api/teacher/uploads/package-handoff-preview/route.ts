@@ -6,7 +6,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantineEvidenceReview, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,13 +46,17 @@ export async function GET(request: Request) {
 
   const packageId = requestedPackageId || derivePackageId(tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
-  const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
-    scanStatus: "pending",
-    rightsStatus: "unknown",
-    sourceReviewStatus: "unreviewed",
+  const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
+  const evidence = evidenceReview.record ?? {
+    scanStatus: "pending" as const,
+    rightsStatus: "unknown" as const,
+    sourceReviewStatus: "unreviewed" as const,
     targetMappingReviewed: false,
     accessibilityReviewed: false,
     releaseApproved: false,
+  };
+  const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
+    ...evidence,
     evidencePacketId,
   });
   const handoff = createUploadQuarantinePackageHandoffPreview({
@@ -75,7 +79,8 @@ export async function GET(request: Request) {
     packageAssemblyAllowed: false,
     promotionAllowed: false,
     studentFacingUseAllowed: false,
-    errors: result.errors,
+    evidenceReview: evidenceReview.record,
+    errors: [...result.errors, ...evidenceReview.errors],
     privacy: privacyMessage(),
   });
 }

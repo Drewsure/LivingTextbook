@@ -16,6 +16,7 @@ import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teac
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import {
   readQuarantinePackageReviewPacket,
+  readQuarantineEvidenceReview,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 
@@ -49,13 +50,16 @@ export async function GET(request: Request) {
 
   const packageId = requestedPackageId || derivePackageId(tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
+  const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
-    scanStatus: "pending",
-    rightsStatus: "unknown",
-    sourceReviewStatus: "unreviewed",
-    targetMappingReviewed: false,
-    accessibilityReviewed: false,
-    releaseApproved: false,
+    ...(evidenceReview.record ?? {
+      scanStatus: "pending" as const,
+      rightsStatus: "unknown" as const,
+      sourceReviewStatus: "unreviewed" as const,
+      targetMappingReviewed: false,
+      accessibilityReviewed: false,
+      releaseApproved: false,
+    }),
     evidencePacketId,
   });
   const handoff = createUploadQuarantinePackageHandoffPreview({
