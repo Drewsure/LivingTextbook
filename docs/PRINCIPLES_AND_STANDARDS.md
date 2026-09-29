@@ -8674,3 +8674,23 @@ This standard is recorded in DR-1257 and ADR 1257.
   publisher, teacher, or platform operator to understand the remaining work.
 
 This standard is recorded in DR-1258 and ADR 1258.
+
+## 543. Live Publisher Readiness Binding Standard
+
+- The publisher handoff must be able to derive a readiness binding from the
+  actual tenant-scoped quarantine submission, not only from sample package
+  data. The live response may expose bounded metadata and identity only.
+- Live quarantine review, package review packet, and assembly preflight records
+  must preserve the same tenant, package, quarantine, packet, and checksum
+  lineage used by the static pilot binding.
+- Missing downstream package preview, reconciliation, delivery, release,
+  package-index, or hosted-opt-in records are explicit blocked checks. The
+  system must not invent readiness from a missing record.
+- The live endpoint remains read-only and must never return payload bytes,
+  filesystem paths, credentials, learner records, download URLs, package files,
+  or activation capability.
+- The UI must distinguish “derived from this submitted source” from the static
+  saleable-package preview, so operators know which evidence is real and which
+  remains a candidate design.
+
+This standard is recorded in DR-1259 and ADR 1259.

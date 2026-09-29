@@ -6,6 +6,7 @@ import type {
   UploadQuarantinePackageAssemblyPreflight,
   UploadQuarantinePackageHandoffPreview,
   UploadQuarantinePackageReviewPacket,
+  PublisherPilotPackageReadinessBinding,
 } from "@living-textbook/content-model";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
@@ -22,6 +23,7 @@ type HandoffResponse = {
   handoff?: UploadQuarantinePackageHandoffPreview | null;
   packet?: UploadQuarantinePackageReviewPacket | null;
   preflight?: UploadQuarantinePackageAssemblyPreflight | null;
+  binding?: PublisherPilotPackageReadinessBinding | null;
   errors?: string[];
   privacy?: string;
 };
@@ -38,6 +40,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [packetMessage, setPacketMessage] = useState("");
   const [preflightState, setPreflightState] = useState<"waiting" | "loading" | "ready" | "missing" | "error">("waiting");
   const [preflight, setPreflight] = useState<UploadQuarantinePackageAssemblyPreflight | null>(null);
+  const [readinessBinding, setReadinessBinding] = useState<PublisherPilotPackageReadinessBinding | null>(null);
 
   async function loadPreflight(signal?: AbortSignal) {
     const query = new URLSearchParams({ tenantId, quarantineId });
@@ -81,6 +84,20 @@ export function PublisherQuarantineHandoffBridgePanel({
       });
 
     void loadPreflight(controller.signal);
+
+    fetch(`/api/teacher/uploads/package-readiness-binding?${query.toString()}`, {
+      credentials: "same-origin",
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null };
+        setReadinessBinding(next.binding ?? null);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setReadinessBinding(null);
+      });
 
     return () => controller.abort();
   }, [packageId, quarantineId, tenantId]);
@@ -216,6 +233,7 @@ export function PublisherQuarantineHandoffBridgePanel({
               </p>
             )}
           </section>
+          {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
@@ -228,6 +246,32 @@ export function PublisherQuarantineHandoffBridgePanel({
 
       {payload?.privacy ? <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">{payload.privacy}</p> : null}
     </Card>
+  );
+}
+
+function LiveReadinessSummary({ binding }: { binding: PublisherPilotPackageReadinessBinding }) {
+  const passed = binding.checks.filter((check) => check.status === "passed").length;
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live package readiness binding</p>
+          <h3 className="mt-1 text-base font-bold">One status derived from this quarantine submission</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{passed}/{binding.checks.length} checks passed. This is a metadata-only view and does not create or release a package.</p>
+        </div>
+        <StatusPill label={binding.status} tone="warning" />
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Binding" value={binding.bindingId} />
+        <Fact label="Package" value={binding.packageId} />
+        <Fact label="Source checksum" value={binding.sourceChecksumSha256} />
+        <Fact label="Hosted opt-in" value={binding.hostedPersistenceDecisionPacketId ?? "Not selected"} />
+      </dl>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {binding.checks.map((check) => <div key={check.checkId} className="flex items-center justify-between gap-2 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div>)}
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Package assembly: blocked · promotion: blocked · student use: blocked · side effect: none</p>
+    </section>
   );
 }
 
