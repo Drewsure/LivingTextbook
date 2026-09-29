@@ -3,8 +3,11 @@ import { mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 import {
   validatePilotDeliveryManifest,
+  createPilotDeliveryPackageIndex,
+  validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
   type PilotDeliveryManifest,
+  type PilotDeliveryPackageIndex,
   type PilotDeliveryReleaseReceipt,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath, validateDurableBackupPath } from "@/server/persistence/backupPathPolicy";
@@ -34,27 +37,6 @@ export type PilotDeliveryHandoffRecord = {
   writtenAt: string;
   files: string[];
   payloadBytesIncluded: false;
-  sideEffect: "metadata-only";
-};
-
-export type PilotDeliveryPackageIndex = {
-  indexVersion: 1;
-  tenantId: string;
-  packageId: string;
-  version: string;
-  manifestId: string;
-  receiptId: string;
-  sourceAssemblyChecksum: string;
-  mode: PilotDeliveryManifest["mode"];
-  contentPackagePath: string;
-  gameRoutePaths: string[];
-  mediaKinds: string[];
-  qrAliasPaths: string[];
-  localFallbackPaths: string[];
-  hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
-  releaseStatus: "manual-release-approved";
-  rawPayloadIncluded: false;
-  learnerRecordsIncluded: false;
   sideEffect: "metadata-only";
 };
 
@@ -90,26 +72,7 @@ export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWri
     const filesystemErrors = validateDurableBackupFilesystemPath(parent, root);
     if (filesystemErrors.length > 0) return blocked(filesystemErrors);
 
-    const packageIndex: PilotDeliveryPackageIndex = {
-      indexVersion: 1,
-      tenantId: input.manifest.tenantId,
-      packageId: input.manifest.packageId,
-      version: input.manifest.version,
-      manifestId: input.manifest.manifestId,
-      receiptId: input.receipt.receiptId,
-      sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
-      mode: input.manifest.mode,
-      contentPackagePath: input.manifest.contentPackagePath,
-      gameRoutePaths: input.manifest.gameRoutePaths.slice(),
-      mediaKinds: input.manifest.mediaKinds.slice(),
-      qrAliasPaths: input.manifest.qrAliasPaths.slice(),
-      localFallbackPaths: input.manifest.localFallbackPaths.slice(),
-      hostedPersistence: input.manifest.hostedPersistence,
-      releaseStatus: "manual-release-approved",
-      rawPayloadIncluded: false,
-      learnerRecordsIncluded: false,
-      sideEffect: "metadata-only",
-    } as const;
+    const packageIndex = createPilotDeliveryPackageIndex({ manifest: input.manifest, receipt: input.receipt });
     const record: PilotDeliveryHandoffRecord = {
       recordVersion: 1,
       tenantId: input.manifest.tenantId,
@@ -187,7 +150,7 @@ export async function readPilotDeliveryMetadata(input: { tenantId: string; packa
       readJson(join(directory, "release-receipt.json")),
       readJson(join(directory, "handoff-record.json")),
     ]);
-    const packageIndexErrors = validatePackageIndex(packageIndexValue);
+    const packageIndexErrors = validatePilotDeliveryPackageIndex(packageIndexValue);
     const manifestErrors = validatePilotDeliveryManifest(manifestValue);
     const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
     const recordErrors = validateHandoffRecord(recordValue);
@@ -227,18 +190,6 @@ async function readJson(path: string): Promise<unknown> {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
 }
 
-function validatePackageIndex(value: unknown): string[] {
-  if (!isRecord(value)) return ["Pilot delivery package index must be an object."];
-  const errors: string[] = [];
-  if (value.indexVersion !== 1 || value.rawPayloadIncluded !== false || value.learnerRecordsIncluded !== false || value.sideEffect !== "metadata-only" || value.releaseStatus !== "manual-release-approved") errors.push("Pilot delivery package index has an unsafe release or side-effect marker.");
-  for (const field of ["tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "contentPackagePath"] as const) if (!isNonEmptyString(value[field])) errors.push(`Pilot delivery package index ${field} must be non-empty.`);
-  if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery package index checksum is invalid.");
-  for (const field of ["gameRoutePaths", "mediaKinds", "qrAliasPaths", "localFallbackPaths"] as const) if (!Array.isArray(value[field]) || value[field].some((item) => !isNonEmptyString(item))) errors.push(`Pilot delivery package index ${field} must contain non-empty strings.`);
-  if (!["hosted-pwa", "closed-local", "hybrid"].includes(String(value.mode))) errors.push("Pilot delivery package index mode is unsupported.");
-  if (!["not-selected", "opt-in-pending", "opt-in-approved"].includes(String(value.hostedPersistence))) errors.push("Pilot delivery package index hosted persistence status is unsupported.");
-  return errors;
-}
-
 function validateHandoffRecord(value: unknown): string[] {
   if (!isRecord(value)) return ["Pilot delivery handoff record must be an object."];
   const errors: string[] = [];
@@ -259,7 +210,7 @@ function validateStoredBinding(packageIndex: unknown, manifest: unknown, receipt
   if (receipt.receiptId !== record.receiptId || receipt.receiptId !== packageIndex.receiptId) errors.push("Pilot delivery stored receipt identity does not match across records.");
   for (const field of ["mode", "contentPackagePath", "hostedPersistence"] as const) if (manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
   for (const field of ["gameRoutePaths", "mediaKinds", "qrAliasPaths", "localFallbackPaths"] as const) if (stableJson(manifest[field]) !== stableJson(packageIndex[field])) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
-  if (manifest.status !== "ready-for-manual-release" || receipt.status !== "manual-release-approved") errors.push("Pilot delivery stored records are not approved for handoff.");
+  if (manifest.status !== "ready-for-manual-release" || receipt.status !== "manual-release-approved" || packageIndex.releaseStatus !== "manual-release-approved") errors.push("Pilot delivery stored records are not approved for handoff.");
   return errors;
 }
 

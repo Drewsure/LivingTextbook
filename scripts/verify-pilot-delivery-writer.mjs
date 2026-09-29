@@ -4,6 +4,8 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const writer = readFileSync(resolve(root, "apps/web/src/server/delivery/pilotDeliveryMetadataWriter.ts"), "utf8");
 const route = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/metadata/route.ts"), "utf8");
+const model = readFileSync(resolve(root, "packages/content-model/src/pilotDeliveryPackageIndex.ts"), "utf8");
+const panel = readFileSync(resolve(root, "apps/web/src/features/evidence/PilotDeliveryPackageIndexPanel.tsx"), "utf8");
 
 for (const [source, marker, label] of [
   [writer, "writePilotDeliveryMetadata", "metadata writer"],
@@ -14,6 +16,9 @@ for (const [source, marker, label] of [
   [writer, "readPilotDeliveryMetadata", "post-write readback"],
   [writer, "PilotDeliveryPackageIndex", "publisher package index"],
   [writer, "delivery-package.json", "publisher package index file"],
+  [model, "export function validatePilotDeliveryPackageIndex", "shared package index validator"],
+  [model, "export function createPilotDeliveryPackageIndex", "shared package index factory"],
+  [panel, "PilotDeliveryPackageIndexPanel", "publisher package index review panel"],
   [writer, "validateStoredBinding", "stored identity reconciliation"],
   [writer, "staging-", "atomic staging directory"],
   [writer, "rename(staging, directory)", "atomic directory commit"],

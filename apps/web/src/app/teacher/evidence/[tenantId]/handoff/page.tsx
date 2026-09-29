@@ -18,6 +18,7 @@ import { PilotDeliveryManifestPanel } from "@/features/evidence/PilotDeliveryMan
 import { samplePilotDeliveryManifest, samplePilotDeliveryManifestErrors } from "@/data/samplePilotDeliveryManifest";
 import { samplePilotDeliveryReleaseReceipt, samplePilotDeliveryReleaseReceiptErrors } from "@/data/samplePilotDeliveryReleaseReceipt";
 import { PilotDeliveryReleaseReceiptPanel } from "@/features/evidence/PilotDeliveryReleaseReceiptPanel";
+import { PilotDeliveryPackageIndexPanel } from "@/features/evidence/PilotDeliveryPackageIndexPanel";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
@@ -47,6 +48,7 @@ export default async function TeacherEvidencePacketHandoffPage({
         <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
         <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
         <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
+        <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
         {query.quarantineId ? (
           <PublisherQuarantineHandoffBridgePanel
             tenantId={tenantId}

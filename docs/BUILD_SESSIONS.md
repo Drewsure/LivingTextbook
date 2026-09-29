@@ -6470,3 +6470,15 @@ student-payload-blocked behavior.
   joins the approved content path, curated games, media kinds, QR aliases,
   local fallback paths, and hosted-persistence status. Read-back now validates
   that index against the manifest, receipt, and handoff record.
+
+## Build session: Canonical publisher package index
+
+- Promoted `PilotDeliveryPackageIndex` and its validator into the shared
+  content-model package root.
+- Added the package index to the publisher evidence handoff surface so a
+  reviewer can inspect the exact package map before any writer or activation
+  action exists.
+- Kept review-only and manual-release-approved states distinct. The writer
+  accepts only the latter and still excludes payload bytes and learner records.
+- Added ADR 1238 and DR-1238. The next closure evidence is a real publisher
+  Unit 1 package with rights, media, game, QR, and delivery decisions.

@@ -8252,3 +8252,21 @@ This standard is recorded in
 `docs/decision-register/DR-1237-controlled-pilot-delivery-writer.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1237-controlled-pilot-delivery-writer.md`.
+
+## 523. Canonical Publisher Package Index Standard
+
+- `PilotDeliveryPackageIndex` is a shared content-model contract, not a
+  server-only convenience type. Reviewer panels, delivery writers, and future
+  local or hosted adapters must consume the public package-root export.
+- A review-only index may describe a candidate package before release approval.
+  A written handoff index must bind the approved manifest, approved receipt,
+  content package path, curated game routes, media kinds, QR aliases, local
+  fallback paths, and hosted-persistence status to the same source checksum.
+- The index must explicitly exclude raw payload bytes and learner records. It
+  is a navigation and identity map for a reviewed package, not a publication
+  or activation command.
+
+This standard is recorded in
+`docs/decision-register/DR-1238-canonical-publisher-package-index.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1238-canonical-publisher-package-index.md`.
