@@ -161,6 +161,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-white-label-rele
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-upload-quarantine-package-review-packet.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-upload-quarantine-package-assembly-preflight.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};

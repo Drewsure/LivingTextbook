@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Card, StatusPill } from "@living-textbook/ui";
-import type { UploadQuarantinePackageHandoffPreview, UploadQuarantinePackageReviewPacket } from "@living-textbook/content-model";
+import type {
+  UploadQuarantinePackageAssemblyPreflight,
+  UploadQuarantinePackageHandoffPreview,
+  UploadQuarantinePackageReviewPacket,
+} from "@living-textbook/content-model";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
@@ -17,6 +21,7 @@ type HandoffResponse = {
   quarantineId?: string;
   handoff?: UploadQuarantinePackageHandoffPreview | null;
   packet?: UploadQuarantinePackageReviewPacket | null;
+  preflight?: UploadQuarantinePackageAssemblyPreflight | null;
   errors?: string[];
   privacy?: string;
 };
@@ -31,6 +36,28 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [payload, setPayload] = useState<HandoffResponse | null>(null);
   const [packetState, setPacketState] = useState<"idle" | "submitting" | "recorded" | "blocked" | "error">("idle");
   const [packetMessage, setPacketMessage] = useState("");
+  const [preflightState, setPreflightState] = useState<"waiting" | "loading" | "ready" | "missing" | "error">("waiting");
+  const [preflight, setPreflight] = useState<UploadQuarantinePackageAssemblyPreflight | null>(null);
+
+  async function loadPreflight(signal?: AbortSignal) {
+    const query = new URLSearchParams({ tenantId, quarantineId });
+    if (packageId) query.set("packageId", packageId);
+
+    setPreflightState("loading");
+    try {
+      const response = await fetch(`/api/teacher/uploads/package-assembly-preflight?${query.toString()}`, {
+        credentials: "same-origin",
+        cache: "no-store",
+        signal,
+      });
+      const next = (await response.json()) as { preflight?: UploadQuarantinePackageAssemblyPreflight | null };
+      setPreflight(next.preflight ?? null);
+      setPreflightState(response.ok ? "ready" : response.status === 404 ? "missing" : "error");
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      setPreflightState("error");
+    }
+  }
 
   useEffect(() => {
     const controller = new AbortController();
@@ -52,6 +79,8 @@ export function PublisherQuarantineHandoffBridgePanel({
         setPayload({ errors: ["The quarantine handoff preview could not be loaded."] });
         setState("error");
       });
+
+    void loadPreflight(controller.signal);
 
     return () => controller.abort();
   }, [packageId, quarantineId, tenantId]);
@@ -76,6 +105,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       }
       setPacketState("recorded");
       setPacketMessage(next.packet?.status === "blocked" ? "Review packet recorded; next gate remains blocked." : "Review packet recorded for the next gate.");
+      await loadPreflight();
     } catch {
       setPacketState("error");
       setPacketMessage("The package review packet could not be recorded.");
@@ -156,6 +186,36 @@ export function PublisherQuarantineHandoffBridgePanel({
               </span>
             </div>
           </div>
+          <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Assembly preflight</p>
+                <h3 className="mt-1 text-base font-bold">Check the handoff before a package writer can run</h3>
+                <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                  This read-only check joins the durable review packet to the package writer&apos;s required manifest, release, QR, deployment, and policy inputs.
+                </p>
+              </div>
+              <StatusPill label={preflightState === "ready" ? preflight?.status ?? "Loaded" : preflightState === "missing" ? "Packet required" : preflightState === "loading" ? "Loading" : "Review gate"} tone="warning" />
+            </div>
+            {preflight ? (
+              <>
+                <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <Fact label="Preflight" value={preflight.preflightId} />
+                  <Fact label="Packet" value={preflight.packetId} />
+                  <Fact label="Assembly write" value={preflight.assemblyWriteAllowed ? "Unexpected" : "Blocked"} />
+                  <Fact label="Student use" value={preflight.studentFacingUseAllowed ? "Unexpected" : "Blocked"} />
+                </dl>
+                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <ListBlock title="Required package inputs" items={preflight.requiredInputs} />
+                  <ListBlock title="Assembly blockers" items={preflight.blockers} tone="warning" />
+                </div>
+              </>
+            ) : (
+              <p className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                Record the review packet snapshot before assembly preflight can be evaluated.
+              </p>
+            )}
+          </section>
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

@@ -6658,3 +6658,14 @@ student-payload-blocked behavior.
 - Added ADR 1250, DR-1250, and the standing package review packet standard. The
   next gate is evidence-provider selection and human completion of rights,
   accessibility, release, device, rollback, and school-policy evidence.
+
+## Build session: Package assembly preflight binding
+
+- Added a derived assembly preflight that consumes the durable package review
+  packet and names the manifest, release, QR, deployment, media, game, and
+  policy inputs still required by the package writer.
+- Added a bounded teacher API and handoff-panel view for the preflight. It is
+  read-only and remains safe when the review packet has not yet been recorded.
+- Kept assembly writes, route/playlist writes, local bundle writes, QR print
+  authorization, hosted persistence, and student use blocked. Added a contract
+  verifier and standards entry 535.

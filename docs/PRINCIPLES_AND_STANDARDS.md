@@ -8531,3 +8531,20 @@ acceptance matrix.
   false until separate gates authorize them.
 
 This standard is recorded in DR-1250 and ADR 1250.
+
+## 535. Local Package Assembly Preflight Standard
+
+- A package review packet must be checked against the package writer's required
+  inputs before any assembly request can be considered. The check must preserve
+  source checksum, tenant, quarantine, packet, and package identity.
+- Assembly preflight is derived, read-only evidence. It lists missing delivery,
+  release, QR, deployment, policy, multimedia, and game inputs without creating
+  a package, route, playlist, local bundle, QR artifact, or persistence record.
+- A preflight status of `ready-for-manual-assembly` is not permission to write.
+  The package writer still requires its own explicit write gate, approved asset
+  root, manual release receipt, and final operator identity.
+- Payload bytes, filesystem paths, download URLs, learner records, and provider
+  credentials must never cross this preflight boundary.
+
+This standard is recorded in the package assembly preflight verifier and the
+current pilot acceptance matrix.
