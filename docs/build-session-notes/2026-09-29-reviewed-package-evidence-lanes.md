@@ -15,6 +15,8 @@ real, tenant-bound evidence without enabling an unsafe package writer.
 - Kept assembly, promotion, release, QR print, hosted persistence, and student
   use independently blocked.
 - Added focused verifier coverage and publisher intake rehearsal assertions.
+- Made the live quarantine handoff render before static reference contracts so
+  operators cannot mistake sample release or QR states for publisher evidence.
 
 ## Human boundary
 

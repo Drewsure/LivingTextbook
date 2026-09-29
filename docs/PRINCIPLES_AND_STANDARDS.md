@@ -8804,3 +8804,18 @@ This standard is recorded in DR-1263 and ADR 1263.
   and hosted-policy gates remain separate closure requirements.
 
 This standard is recorded in DR-1264 and ADR 1264.
+
+## 549. Live Handoff Precedence Standard
+
+- When a teacher or publisher opens a handoff with a real quarantine identity,
+  the live tenant-scoped submission must appear before any static reference
+  package panels.
+- Static MiniStar or sample-publisher panels may remain available as contract
+  examples, but the UI must label them as reference-only and must never let
+  their readiness, release, QR, or hosted statuses stand in for the live
+  submission.
+- The live handoff must state which records are derived from the submitted
+  source and which are examples. This distinction is part of white-label
+  safety and saleable-pilot acceptance evidence.
+
+This standard is recorded in DR-1265 and ADR 1265.

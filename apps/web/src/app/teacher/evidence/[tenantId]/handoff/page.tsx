@@ -47,22 +47,29 @@ export default async function TeacherEvidencePacketHandoffPage({
   return (
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
+        {query.quarantineId ? (
+          <>
+            <section className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+              <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live publisher submission</p>
+              <h1 className="mt-1 text-xl font-bold">Review this quarantine before comparing pilot reference contracts</h1>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">The handoff below is derived from the submitted tenant and quarantine identity. The reference panels that follow are static contract examples only and never prove that this publisher package is assembled, released, or ready for QR printing.</p>
+            </section>
+            <PublisherQuarantineHandoffBridgePanel
+              tenantId={tenantId}
+              quarantineId={query.quarantineId}
+              packageId={query.packageId}
+              packageReviewPacketsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED === "true"}
+              evidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED === "true"}
+              deliveryModeDecisionsEnabled={process.env.LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED === "true"}
+              packageEvidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED === "true"}
+            />
+          </>
+        ) : null}
         <PublisherPilotPackageReadinessBindingPanel binding={samplePublisherPilotPackageReadinessBinding} validationErrors={samplePublisherPilotPackageReadinessBindingErrors} />
         <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
         <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
         <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
         <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
-        {query.quarantineId ? (
-          <PublisherQuarantineHandoffBridgePanel
-            tenantId={tenantId}
-            quarantineId={query.quarantineId}
-            packageId={query.packageId}
-            packageReviewPacketsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED === "true"}
-            evidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED === "true"}
-            deliveryModeDecisionsEnabled={process.env.LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED === "true"}
-        packageEvidenceReviewsEnabled={process.env.LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED === "true"}
-          />
-        ) : null}
         <PackageReadinessReconciliationPanel
           reconciliations={publisherReconciliations}
           evidenceFindings={publisherReconciliationFindings}
