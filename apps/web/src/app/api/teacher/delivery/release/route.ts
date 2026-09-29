@@ -7,6 +7,7 @@ import {
   type PilotDeliveryReviewerRole,
 } from "@living-textbook/content-model";
 import { writePilotDeliveryMetadata, type PilotDeliveryMetadataWriteInput } from "@/server/delivery/pilotDeliveryMetadataWriter";
+import { readPilotDeliveryReleaseLineage } from "@/server/delivery/pilotDeliveryReleaseLineage";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
@@ -14,6 +15,7 @@ export const dynamic = "force-dynamic";
 
 type PilotDeliveryReleaseRequest = {
   manifest: PilotDeliveryManifest;
+  quarantineId: string;
   reviewerId: string;
   reviewerRole: PilotDeliveryReviewerRole;
   reviewedAt: string;
@@ -38,6 +40,8 @@ export async function POST(request: Request) {
 
   const manifestErrors = validatePilotDeliveryManifest(bodyResult.value.manifest);
   if (manifestErrors.length > 0) return json({ status: "blocked", errors: manifestErrors, privacy: privacyMessage() }, 423);
+  const lineageErrors = await readPilotDeliveryReleaseLineage(bodyResult.value.manifest, bodyResult.value.quarantineId);
+  if (lineageErrors.length > 0) return json({ status: "blocked", errors: lineageErrors, releaseReceiptWritten: false, lineageBound: false, privacy: privacyMessage() }, 423);
 
   const receipt = createPilotDeliveryReleaseReceipt({
     manifest: bodyResult.value.manifest,
@@ -83,6 +87,7 @@ function isReleaseRequest(value: unknown): value is PilotDeliveryReleaseRequest 
   const manifest = candidate.manifest;
   return Boolean(manifest && typeof manifest === "object" && !Array.isArray(manifest))
     && typeof candidate.reviewerId === "string"
+    && typeof candidate.quarantineId === "string"
     && typeof candidate.reviewerRole === "string"
     && typeof candidate.reviewedAt === "string"
     && typeof candidate.rollbackReference === "string"

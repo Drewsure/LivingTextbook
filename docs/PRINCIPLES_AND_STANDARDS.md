@@ -8967,3 +8967,18 @@ This standard is recorded in DR-1274 and ADR 1274.
   that enforces assembly safety.
 
 This standard is recorded in DR-1275 and ADR 1275.
+
+## 560. Delivery Writes Require Live Quarantine Lineage
+
+- Controlled delivery release and metadata writes must require a bounded
+  quarantine identity in addition to their dedicated tokens and environment
+  gates.
+- The write boundary must reconcile that identity against the tenant-bound
+  intake checksum, accepted source-review decision, complete reviewed
+  multimedia/game evidence, ready package-review packet, and selected delivery
+  mode before creating release metadata.
+- A well-formed manifest is not sufficient evidence of publisher review.
+- Failed lineage checks remain metadata-free and must not enable package
+  assembly, QR printing, hosted persistence, or student activation.
+
+This standard is recorded in DR-1276 and ADR 1276.

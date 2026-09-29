@@ -182,6 +182,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-live-package-ind
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-live-review-decision-binding.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-live-release-lineage-boundary.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-delivery-mode-decision.mjs", import.meta.url))], {
   stdio: "inherit",
 });
