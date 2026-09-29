@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     return json({ status: "rejected", errors: ["Local package status requires bounded tenantId, packageId, and version query parameters."] }, 400);
   }
   const result = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
-  return json({ ...result, writesAllowed: false, learnerRecordsIncluded: false, hostedPersistenceActivated: false, qrAliasesMutated: false }, result.status === "blocked" ? 423 : result.status === "not-found" ? 404 : 200);
+  return json({ ...result, hostedPersistenceDecisionPacketId: result.status === "available" ? result.summary.hostedPersistenceDecisionPacketId : null, writesAllowed: false, learnerRecordsIncluded: false, hostedPersistenceActivated: false, qrAliasesMutated: false }, result.status === "blocked" ? 423 : result.status === "not-found" ? 404 : 200);
 }
 
 function json(body: unknown, status = 200) {

@@ -29,6 +29,10 @@ export function PilotDeliveryReleaseReceiptPanel({ receipt, validationErrors }: 
         <Fact label="QR print" value={receipt.qrPrintAuthorization} />
         <Fact label="Student activation" value={receipt.studentFacingActivationAllowed ? "Allowed" : "Blocked"} />
       </div>
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <Fact label="Hosted opt-in packet" value={receipt.hostedPersistenceDecisionPacketId ?? "Not applicable"} />
+        <Fact label="Hosted writes" value="Blocked pending separate opt-in" />
+      </div>
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <ListBlock title="Unresolved requirements" items={receipt.unresolvedRequirements} />
         <ListBlock title="Handoff instructions" items={receipt.handoffInstructions} />

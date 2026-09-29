@@ -19,6 +19,7 @@ for (const [source, marker, label] of [
   [route, "readBoundedQueryParam", "bounded runtime identity"],
   [route, "writesAllowed: false", "runtime write boundary"],
   [route, "hostedPersistenceActivated: false", "runtime hosted boundary"],
+  [route, "hostedPersistenceDecisionPacketId", "runtime hosted opt-in packet binding"],
   [route, "qrAliasesMutated: false", "runtime QR boundary"],
 ]) {
   if (!source.includes(marker)) throw new Error("Missing " + label + ": " + marker);

@@ -12,6 +12,7 @@ export interface PilotDeliveryReleaseReceipt {
   version: string;
   mode: PilotDeliveryMode;
   sourceAssemblyChecksum: string;
+  hostedPersistenceDecisionPacketId: string | null;
   status: PilotDeliveryReleaseReceiptStatus;
   reviewerId: string | null;
   reviewerRole: PilotDeliveryReviewerRole | null;
@@ -70,6 +71,7 @@ export function createPilotDeliveryReleaseReceipt(input: {
     version: input.manifest.version,
     mode: input.manifest.mode,
     sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
+    hostedPersistenceDecisionPacketId: input.manifest.hostedPersistenceDecisionPacketId,
     status: approved ? "manual-release-approved" : "blocked",
     reviewerId,
     reviewerRole,
@@ -99,6 +101,9 @@ export function validatePilotDeliveryReleaseReceipt(value: unknown): string[] {
   }
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery release receipt sourceAssemblyChecksum must be sha256:<64 hexadecimal characters>.");
   if (!["hosted-pwa", "closed-local", "hybrid"].includes(String(value.mode))) errors.push("Pilot delivery release receipt mode is unsupported.");
+  const modeUsesHosted = value.mode === "hosted-pwa" || value.mode === "hybrid";
+  if (modeUsesHosted && !isNonEmptyString(value.hostedPersistenceDecisionPacketId)) errors.push("Hosted or hybrid release receipts require a hosted persistence opt-in decision packet id.");
+  if (!modeUsesHosted && value.hostedPersistenceDecisionPacketId !== null) errors.push("Closed-local release receipts must not carry a hosted persistence opt-in decision packet id.");
   if (!["blocked", "manual-release-approved"].includes(String(value.status))) errors.push("Pilot delivery release receipt status is unsupported.");
   if (!["pending", "approved"].includes(String(value.releaseApproval))) errors.push("Pilot delivery release receipt releaseApproval is unsupported.");
   if (!["pending", "approved"].includes(String(value.qrPrintAuthorization))) errors.push("Pilot delivery release receipt qrPrintAuthorization is unsupported.");

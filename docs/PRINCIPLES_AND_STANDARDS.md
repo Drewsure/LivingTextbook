@@ -8625,3 +8625,32 @@ This standard is recorded in DR-1254 and ADR 1254.
   the separate human opt-in and release gates.
 
 This standard is recorded in DR-1255 and ADR 1255.
+
+## 540. Hosted Opt-In Packet Release Receipt Standard
+
+- The manual release receipt and metadata-only package index must preserve the
+  same hosted persistence opt-in packet identity as the delivery manifest.
+- A receipt or package index with a missing, mismatched, or cross-package
+  hosted packet identity must fail closed before package writing, QR print
+  handoff, or local runtime exposure.
+- Closed-local receipts and indexes must explicitly carry no hosted packet
+  identity. Local delivery remains a complete fallback, not an implicit hosted
+  enrollment.
+- The receipt binding remains evidence only. It does not authorize provider
+  credentials, learner records, hosted writes, or student activation.
+
+This standard is recorded in DR-1256 and ADR 1256.
+
+## 541. Hosted Opt-In Packet Assembly Lineage Standard
+
+- The metadata handoff record and any assembled local package record must
+  preserve the hosted persistence opt-in packet identity carried by the
+  manifest and release receipt.
+- A package writer or local runtime reader must fail closed when that identity
+  is missing, drifted, or cross-scoped. A matching review packet alone does not
+  substitute for matching hosted/local delivery lineage.
+- The lineage record is metadata-only and must not contain provider
+  credentials, learner records, raw publisher payload bytes, or an activation
+  capability.
+
+This standard is recorded in DR-1257 and ADR 1257.

@@ -55,6 +55,7 @@ interface AssemblyRecord {
   manifestId: string;
   receiptId: string;
   sourceAssemblyChecksum: string;
+  hostedPersistenceDecisionPacketId: string | null;
   quarantineId: string;
   reviewPacketId: string;
   operatorId: string;
@@ -347,7 +348,7 @@ async function reconcileExistingPackage(directory: string, relativeDirectory: st
 }
 
 function createAssemblyRecord(input: LocalPilotPackageAssemblyInput, files: string[], copiedAssetCount: number, qrPrintBaseUrl: string): AssemblyRecord {
-  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, quarantineId: input.reviewPacketBinding.quarantineId, reviewPacketId: input.reviewPacketBinding.packetId, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
+  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, hostedPersistenceDecisionPacketId: input.manifest.hostedPersistenceDecisionPacketId, quarantineId: input.reviewPacketBinding.quarantineId, reviewPacketId: input.reviewPacketBinding.packetId, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
 }
 
 function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, manifest: PilotDeliveryManifest): string[] {

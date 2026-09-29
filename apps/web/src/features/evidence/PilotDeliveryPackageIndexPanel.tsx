@@ -48,6 +48,7 @@ export function PilotDeliveryPackageIndexPanel({
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Fact label="Content package" value={index.contentPackagePath} />
         <Fact label="Hosted persistence" value={index.hostedPersistence} />
+        <Fact label="Hosted opt-in packet" value={index.hostedPersistenceDecisionPacketId ?? "Not applicable"} />
         <Fact label="Raw payload" value={index.rawPayloadIncluded ? "Included" : "Excluded"} />
         <Fact label="Learner records" value={index.learnerRecordsIncluded ? "Included" : "Excluded"} />
       </div>

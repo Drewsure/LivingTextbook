@@ -6714,3 +6714,19 @@ student-payload-blocked behavior.
   lane is selected for review.
 - Added ADR 1255, DR-1255, standards entry 539, and extended the delivery
   manifest verifier. Hosted activation and learner writes remain blocked.
+
+## Build session: Hosted opt-in packet release binding
+
+- Preserved the hosted opt-in decision packet identity in the manual release
+  receipt, package index, metadata writer, and local runtime reader.
+- Added fail-closed drift checks so a receipt or assembled package cannot lose
+  the publisher's hosted/local decision lineage before QR or classroom use.
+- Kept closed-local delivery explicitly provider-free. Added ADR 1256, DR-1256,
+  standards entry 540, and focused verifier coverage.
+
+## Build session: Hosted opt-in packet assembly lineage
+
+- Preserved the hosted/local decision packet identity in metadata handoff and
+  local assembly records, with runtime fail-closed checks for drift.
+- Kept the records metadata-only and learner-safe. Added ADR 1257, DR-1257,
+  standards entry 541, and assembler/runtime verifier coverage.

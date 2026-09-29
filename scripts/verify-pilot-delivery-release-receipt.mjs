@@ -12,6 +12,7 @@ for (const [source, marker, label] of [
   [model, "reviewerId", "reviewer identity"],
   [model, "qrPrintAuthorization", "QR authorization"],
   [model, "rollbackReference", "rollback reference"],
+  [model, "hostedPersistenceDecisionPacketId", "hosted opt-in packet binding"],
   [model, 'sideEffect: "none"', "side-effect boundary"],
   [sample, "createPilotDeliveryReleaseReceipt", "sample receipt"],
   [panel, "Manual release receipt", "visible receipt"],

@@ -33,6 +33,7 @@ export type PilotDeliveryHandoffRecord = {
   manifestId: string;
   receiptId: string;
   sourceAssemblyChecksum: string;
+  hostedPersistenceDecisionPacketId: string | null;
   operatorId: string;
   writtenAt: string;
   files: string[];
@@ -81,6 +82,7 @@ export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWri
       manifestId: input.manifest.manifestId,
       receiptId: input.receipt.receiptId,
       sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
+      hostedPersistenceDecisionPacketId: input.manifest.hostedPersistenceDecisionPacketId,
       operatorId: input.operatorId,
       writtenAt: input.writtenAt,
       files: ["delivery-package.json", "delivery-manifest.json", "release-receipt.json", "handoff-record.json"],
@@ -176,6 +178,7 @@ function validateWriteBinding(input: PilotDeliveryMetadataWriteInput): string[] 
   if (input.receipt.manifestId !== input.manifest.manifestId) errors.push("Pilot delivery writer receipt and manifest ids do not match.");
   if (input.receipt.tenantId !== input.manifest.tenantId || input.receipt.packageId !== input.manifest.packageId || input.receipt.version !== input.manifest.version) errors.push("Pilot delivery writer tenant, package, and version identities do not match.");
   if (input.receipt.sourceAssemblyChecksum !== input.manifest.sourceAssemblyChecksum) errors.push("Pilot delivery writer checksum does not match the approved manifest.");
+  if (input.receipt.hostedPersistenceDecisionPacketId !== input.manifest.hostedPersistenceDecisionPacketId) errors.push("Pilot delivery writer hosted opt-in packet identity does not match the approved manifest.");
   if (input.manifest.status !== "ready-for-manual-release" || !input.manifest.deliveryAllowed) errors.push("Pilot delivery writer requires a delivery manifest approved for manual release.");
   if (input.receipt.status !== "manual-release-approved" || !input.receipt.deliveryAllowed) errors.push("Pilot delivery writer requires an approved manual release receipt.");
   for (const [label, value] of [["tenant", input.manifest.tenantId], ["package", input.manifest.packageId], ["version", input.manifest.version]] as const) {
@@ -195,6 +198,7 @@ function validateHandoffRecord(value: unknown): string[] {
   const errors: string[] = [];
   if (value.recordVersion !== 1 || value.payloadBytesIncluded !== false || value.sideEffect !== "metadata-only") errors.push("Pilot delivery handoff record has an unsafe version or side-effect marker.");
   for (const field of ["tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "operatorId", "writtenAt"] as const) if (!isNonEmptyString(value[field])) errors.push(`Pilot delivery handoff record ${field} must be non-empty.`);
+  if (value.hostedPersistenceDecisionPacketId !== null && !isNonEmptyString(value.hostedPersistenceDecisionPacketId)) errors.push("Pilot delivery handoff record hosted opt-in packet identity must be null or non-empty.");
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery handoff record checksum is invalid.");
   if (!isIsoTimestamp(String(value.writtenAt ?? ""))) errors.push("Pilot delivery handoff record writtenAt must be a valid ISO timestamp.");
   if (!Array.isArray(value.files) || value.files.join(",") !== "delivery-package.json,delivery-manifest.json,release-receipt.json,handoff-record.json") errors.push("Pilot delivery handoff record file list is invalid.");
@@ -207,8 +211,10 @@ function validateStoredBinding(packageIndex: unknown, manifest: unknown, receipt
   for (const field of ["tenantId", "packageId", "version"] as const) if (manifest[field] !== receipt[field] || manifest[field] !== record[field] || manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored ${field} identity does not match across records.`);
   if (manifest.manifestId !== receipt.manifestId || manifest.manifestId !== record.manifestId || manifest.manifestId !== packageIndex.manifestId) errors.push("Pilot delivery stored manifest identity does not match across records.");
   if (manifest.sourceAssemblyChecksum !== receipt.sourceAssemblyChecksum || manifest.sourceAssemblyChecksum !== record.sourceAssemblyChecksum || manifest.sourceAssemblyChecksum !== packageIndex.sourceAssemblyChecksum) errors.push("Pilot delivery stored checksum does not match across records.");
+  if (manifest.hostedPersistenceDecisionPacketId !== receipt.hostedPersistenceDecisionPacketId || manifest.hostedPersistenceDecisionPacketId !== record.hostedPersistenceDecisionPacketId) errors.push("Pilot delivery stored hosted opt-in packet identity does not match across records.");
   if (receipt.receiptId !== record.receiptId || receipt.receiptId !== packageIndex.receiptId) errors.push("Pilot delivery stored receipt identity does not match across records.");
-  for (const field of ["mode", "contentPackagePath", "hostedPersistence"] as const) if (manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
+  for (const field of ["mode", "contentPackagePath", "hostedPersistence", "hostedPersistenceDecisionPacketId"] as const) if (manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
+  if (manifest.hostedPersistenceDecisionPacketId !== receipt.hostedPersistenceDecisionPacketId) errors.push("Pilot delivery stored receipt hosted opt-in packet identity does not match the manifest.");
   for (const field of ["gameRoutePaths", "mediaKinds", "qrAliasPaths", "localFallbackPaths"] as const) if (stableJson(manifest[field]) !== stableJson(packageIndex[field])) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
   if (manifest.status !== "ready-for-manual-release" || receipt.status !== "manual-release-approved" || packageIndex.releaseStatus !== "manual-release-approved") errors.push("Pilot delivery stored records are not approved for handoff.");
   return errors;
