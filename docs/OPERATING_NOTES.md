@@ -1632,3 +1632,17 @@ source assembly id, extraction preview id, and source checksum against the
 package-readiness record before replacing publisher evidence. Also compare the
 verifier, target-language audio, media-rights, publish, and assignment gate
 identities. Any mismatch is package drift and must block handoff review.
+
+Publisher quarantine handoff bridge procedure: after a real quarantine intake
+record is accepted, open the tenant-scoped evidence handoff workspace using its
+opaque quarantine id. The workspace calls the existing authorized
+`/api/teacher/uploads/package-handoff-preview` route and displays only bounded
+metadata, checksum, source/package/unit lineage, admission state, evidence
+identity, review requirements, and blockers. A package id is optional; when it
+is omitted, the server derives a deterministic candidate id from tenant and
+unit identity. A 401 is an expected boundary when no teacher/service session
+is present. Do not treat the bridge as an upload viewer, package writer, QR
+printer, persistence activation, or student route. Run
+`node scripts/verify-upload-quarantine-package-handoff.mjs`,
+`node scripts/verify-publisher-pilot-package-preview.mjs`, web typecheck, and
+the production build after changing this flow.

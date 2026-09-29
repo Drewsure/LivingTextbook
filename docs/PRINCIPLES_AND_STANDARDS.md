@@ -8125,3 +8125,29 @@ This standard is recorded in
 `docs/decision-register/DR-1232-publisher-readiness-identity-binding.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1232-publisher-readiness-identity-binding.md`.
+
+## 518. Publisher Quarantine Handoff Bridge Standard
+
+- A real publisher quarantine record must be able to reach the same evidence
+  handoff workspace as the sample pilot package through a tenant-scoped,
+  metadata-only bridge.
+- The bridge may show bounded file metadata, checksum, quarantine identity,
+  source identity, candidate package identity, unit mapping, admission state,
+  evidence packet identity, required review, and current blockers. It must not
+  return payload bytes, filesystem paths, download URLs, credentials, learner
+  records, or extracted content.
+- The candidate package id may be supplied by the reviewer or deterministically
+  derived by the server from the tenant and unit identity. Missing package id is
+  not a reason to break the safe preview path; it remains a review-only
+  candidate until mapping and release evidence are complete.
+- Opening the bridge must not write evidence, assemble a package, mutate a QR
+  alias, activate hosted persistence, promote a quarantine payload, or permit
+  student-facing use. The default sample handoff remains available when no
+  quarantine query is present.
+- Run the quarantine package-handoff verifier, web typecheck, production build,
+  route checks, and foundation composition gate after changing this bridge.
+
+This standard is recorded in
+`docs/decision-register/DR-1233-publisher-quarantine-handoff-bridge.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1233-publisher-quarantine-handoff-bridge.md`.

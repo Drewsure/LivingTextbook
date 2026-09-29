@@ -6398,3 +6398,15 @@ student-payload-blocked behavior.
   carries the reconciliation id, source assembly and extraction identities,
   source checksum, verifier/audio/media-rights evidence ids, publish gate, and
   assignment gate, with a validator that rejects identity drift.
+
+## Build session: Publisher quarantine handoff bridge
+
+- Added an optional tenant-scoped handoff workspace query that connects a real
+  quarantined publisher submission to the existing package preview route.
+- Reused the authorized metadata-only package-handoff API and made the
+  candidate package id optional so the server can derive a deterministic
+  review identity when intake has not supplied one.
+- Kept payload bytes, filesystem paths, download URLs, evidence writes,
+  package assembly, QR mutation, persistence activation, promotion, and student
+  use blocked.
+- Added ADR 1233 and DR-1233.

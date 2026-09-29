@@ -1,0 +1,131 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Card, StatusPill } from "@living-textbook/ui";
+import type { UploadQuarantinePackageHandoffPreview } from "@living-textbook/content-model";
+
+interface PublisherQuarantineHandoffBridgePanelProps {
+  tenantId: string;
+  quarantineId: string;
+  packageId?: string;
+}
+
+type HandoffResponse = {
+  status?: string;
+  tenantId?: string;
+  quarantineId?: string;
+  handoff?: UploadQuarantinePackageHandoffPreview | null;
+  errors?: string[];
+  privacy?: string;
+};
+
+export function PublisherQuarantineHandoffBridgePanel({
+  tenantId,
+  quarantineId,
+  packageId,
+}: PublisherQuarantineHandoffBridgePanelProps) {
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
+  const [payload, setPayload] = useState<HandoffResponse | null>(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const query = new URLSearchParams({ tenantId, quarantineId });
+    if (packageId) query.set("packageId", packageId);
+
+    fetch(`/api/teacher/uploads/package-handoff-preview?${query.toString()}`, {
+      credentials: "same-origin",
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const next = (await response.json()) as HandoffResponse;
+        setPayload(next);
+        setState(response.ok ? "ready" : "error");
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setPayload({ errors: ["The quarantine handoff preview could not be loaded."] });
+        setState("error");
+      });
+
+    return () => controller.abort();
+  }, [packageId, quarantineId, tenantId]);
+
+  const handoff = payload?.handoff;
+
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Live quarantine handoff bridge</p>
+          <h2 className="mt-1 text-lg font-bold">Review one publisher submission in package context</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+            This bridge reads the existing authorized metadata-only API and places one quarantined source beside the package preview. It never returns file bytes, filesystem paths, download links, or student-facing content.
+          </p>
+        </div>
+        <StatusPill label={state === "ready" ? "Metadata loaded" : state === "loading" ? "Loading" : "Review blocked"} tone="warning" />
+      </div>
+
+      <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Tenant" value={tenantId} />
+        <Fact label="Quarantine" value={quarantineId} />
+        <Fact label="Package request" value={packageId ?? "Derived by server"} />
+        <Fact label="Student use" value="Blocked" />
+      </dl>
+
+      {handoff ? (
+        <>
+          <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Safe handoff identity</p>
+                <h3 className="mt-1 text-base font-bold">Source is bound to a candidate package, not released</h3>
+              </div>
+              <StatusPill label={handoff.admissionDecision} tone="warning" />
+            </div>
+            <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <Fact label="Source" value={handoff.sourceId} />
+              <Fact label="Package" value={handoff.packageId} />
+              <Fact label="Unit" value={handoff.unitKey ?? "Unassigned"} />
+              <Fact label="Admission" value={handoff.admissionId} />
+              <Fact label="Evidence packet" value={handoff.evidencePacketId} />
+              <Fact label="Checksum" value={handoff.checksumSha256} />
+            </dl>
+          </section>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Fact label="File metadata" value={`${handoff.fileName} · ${handoff.mimeType}`} />
+            <Fact label="Payload present" value={handoff.payloadPresent ? "Yes, still quarantined" : "No"} />
+            <Fact label="Evidence write" value={handoff.writeAllowed ? "Unexpected" : "Blocked"} />
+            <Fact label="Side effect" value={handoff.sideEffect} />
+          </div>
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+            <ListBlock title="Required review" items={handoff.requiredReview} />
+            <ListBlock title="Current blockers" items={handoff.blockers} tone="warning" />
+          </div>
+          <p className="mt-4 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+            This screen is a bridge into review evidence only. It does not create a package, write evidence, print production QR codes, activate persistence, or promote the quarantined payload.
+          </p>
+        </>
+      ) : (
+        <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+          <p className="text-sm font-semibold">The handoff preview is not available.</p>
+          <ul className="mt-2 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {(payload?.errors ?? ["An authorized teacher or service session is required."]).map((error, index) => <li key={`${index}-${error}`}>{error}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {payload?.privacy ? <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">{payload.privacy}</p> : null}
+    </Card>
+  );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-lg border border-[var(--tenant-border)] p-3"><dt className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</dt><dd className="mt-1 break-words text-sm font-bold">{value}</dd></div>;
+}
+
+function ListBlock({ title, items, tone = "neutral" }: { title: string; items: string[]; tone?: "neutral" | "warning" }) {
+  return <section className="rounded-lg border border-[var(--tenant-border)] p-4"><div className="flex items-center justify-between gap-2"><h4 className="text-sm font-bold">{title}</h4><StatusPill label={String(items.length)} tone={tone} /></div><ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">{items.map((item, index) => <li key={`${title}-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">{item}</li>)}</ul></section>;
+}

@@ -13,13 +13,17 @@ import {
   samplePackageReadinessReconciliations,
 } from "@/data/samplePackageReadinessReconciliation";
 import { PackageReadinessReconciliationPanel } from "@/features/content-intake/PackageReadinessReconciliationPanel";
+import { PublisherQuarantineHandoffBridgePanel } from "@/features/evidence/PublisherQuarantineHandoffBridgePanel";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tenantId: string }>;
+  searchParams?: Promise<{ quarantineId?: string; packageId?: string }>;
 }) {
   const { tenantId } = await params;
+  const query = searchParams ? await searchParams : {};
 
   if (tenantId !== samplePublisherTenant.id) {
     notFound();
@@ -37,6 +41,13 @@ export default async function TeacherEvidencePacketHandoffPage({
     <AppShell tenant={samplePublisherTenant}>
       <div className="grid gap-5">
         <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
+        {query.quarantineId ? (
+          <PublisherQuarantineHandoffBridgePanel
+            tenantId={tenantId}
+            quarantineId={query.quarantineId}
+            packageId={query.packageId}
+          />
+        ) : null}
         <PackageReadinessReconciliationPanel
           reconciliations={publisherReconciliations}
           evidenceFindings={publisherReconciliationFindings}

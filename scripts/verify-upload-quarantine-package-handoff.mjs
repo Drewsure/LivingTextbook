@@ -43,7 +43,7 @@ for (const marker of [
 }
 
 for (const [source, marker, message] of [
-  [intakePanel, "Open package handoff preview", "Intake result must link to package handoff preview."],
+  [intakePanel, "Open package handoff workspace", "Intake result must link to package handoff workspace."],
   [reviewPanel, "Candidate package handoff preview contract", "Metadata review must describe package handoff preview."],
   [reviewPanel, "/api/teacher/uploads/package-handoff-preview", "Metadata review must expose package handoff endpoint."],
   [reviewPanel, "durable reviewed-evidence record", "Metadata review must distinguish preview from durable evidence."],

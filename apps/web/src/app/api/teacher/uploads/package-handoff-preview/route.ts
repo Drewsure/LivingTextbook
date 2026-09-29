@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   const tenantId = readBoundedQueryParam(url, "tenantId");
   const quarantineId = readBoundedQueryParam(url, "quarantineId");
   const requestedPackageId = readBoundedQueryParam(url, "packageId");
-  if (tenantId === undefined || quarantineId === undefined || requestedPackageId === undefined) {
+  if (tenantId === undefined || quarantineId === undefined) {
     return json({ status: "rejected", handoff: null, errors: ["Package handoff query exceeds bounded identifier limits."] }, 400);
   }
   if (!tenantId || !quarantineId || !isUploadQuarantineSafeTenantId(tenantId)) {

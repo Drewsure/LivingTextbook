@@ -8,6 +8,7 @@ const panel = readFileSync(resolve(root, "apps/web/src/features/evidence/Publish
 const printSheet = readFileSync(resolve(root, "apps/web/src/features/evidence/PublisherPilotQrPrintSheet.tsx"), "utf8");
 const printButton = readFileSync(resolve(root, "apps/web/src/features/evidence/PrintReviewSheetButton.tsx"), "utf8");
 const route = readFileSync(resolve(root, "apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx"), "utf8");
+const bridge = readFileSync(resolve(root, "apps/web/src/features/evidence/PublisherQuarantineHandoffBridgePanel.tsx"), "utf8");
 
 const required = [
   [model, "validatePublisherPilotPackagePreview", "shared package preview validator"],
@@ -28,11 +29,15 @@ const required = [
   [route, "PackageReadinessReconciliationPanel", "publisher package readiness reconciliation handoff"],
   [route, "samplePackageReadinessReconciliations", "publisher package readiness reconciliation data"],
   [route, "PublisherPilotPackagePreviewPanel", "handoff route integration"],
+  [route, "PublisherQuarantineHandoffBridgePanel", "live quarantine handoff integration"],
+  [bridge, "file bytes", "safe quarantine bridge boundary"],
+  [bridge, "student-facing content", "student-use boundary"],
+  [bridge, "package-handoff-preview", "live handoff API bridge"],
 ];
 for (const [source, marker, label] of required) {
   if (!source.includes(marker)) throw new Error(`Missing ${label}: ${marker}`);
 }
 for (const forbidden of ["download=", "window.open", "fetch(\"/api", "studentFacingAllowed: true", "printAllowed: true"]) {
-  if (model.includes(forbidden) || sample.includes(forbidden) || panel.includes(forbidden) || printSheet.includes(forbidden) || printButton.includes(forbidden)) throw new Error(`Forbidden package preview behavior: ${forbidden}`);
+  if (model.includes(forbidden) || sample.includes(forbidden) || panel.includes(forbidden) || bridge.includes(forbidden) || printSheet.includes(forbidden) || printButton.includes(forbidden)) throw new Error(`Forbidden package preview behavior: ${forbidden}`);
 }
 console.log("PASS publisher pilot package preview binds content, games, media, QR, local, and hosted lanes while keeping export, print, promotion, and activation blocked.");

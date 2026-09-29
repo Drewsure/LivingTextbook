@@ -218,9 +218,9 @@ function IntakeResult({
               </a>
               <a
                 className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
-                href={`/api/teacher/uploads/package-handoff-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
+                href={`/teacher/evidence/${encodeURIComponent(tenantId)}/handoff?quarantineId=${encodeURIComponent(response.quarantineId)}`}
               >
-                Open package handoff preview
+                Open package handoff workspace
               </a>
             </div>
           ) : null}
