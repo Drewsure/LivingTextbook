@@ -8480,3 +8480,24 @@ session log, and ADR 1246.
 
 This standard is recorded in the decision register entry DR-1247, the build
 session log, and ADR 1247.
+
+## 533. Local Package Teacher Evidence Standard
+
+- All local package student routes for one tenant, package, version, and unit
+  must share one stable launch/session identity. Front door, games, media, and
+  teacher evidence must be able to join their browser rehearsal events without
+  guessing or merging unrelated sessions.
+- The package-scoped teacher route must read the same validated local evidence
+  store used by the student routes and must re-check tenant, package, unit,
+  launch, and student-session identity before displaying it.
+- Teacher evidence may show progression, game, audio, media, and observation
+  signals and may record an explicit local observation receipt. It must remain
+  browser-rehearsal evidence: no hosted persistence, report export, release
+  promotion, QR mutation, or classroom activation may occur from this route.
+- A teacher-visible local report is a required part of the closed companion
+  experience. It is not proof that durable student reporting is ready; that
+  still requires a selected provider, school policy, retention, access, and
+  release evidence.
+
+This standard is recorded in the decision register entry DR-1248, the build
+session log, and ADR 1248.

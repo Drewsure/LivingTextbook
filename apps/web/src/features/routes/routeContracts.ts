@@ -753,6 +753,10 @@ export function getLocalPilotPackageRuntimePath(tenantId: TenantId, packageId: s
   return `/local/package/${encodeURIComponent(tenantId)}/${encodeURIComponent(packageId)}/${encodeURIComponent(version)}`;
 }
 
+export function getLocalPilotPackageLaunchCode(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
+  return `local-${tenantId}-${packageId}-${version}-${unitId}`;
+}
+
 export function getLocalPilotPackageMemoryMatchPath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/memory/${encodeURIComponent(unitId)}`;
 }
@@ -774,4 +778,8 @@ export function getLocalPilotPackageMediaPath(
 
 export function getLocalPilotPackageMediaRoutePath(tenantId: TenantId, packageId: string, version: string, playlistId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/media/${encodeURIComponent(playlistId)}`;
+}
+
+export function getLocalPilotPackageTeacherEvidencePath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
+  return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/teacher/${encodeURIComponent(unitId)}`;
 }

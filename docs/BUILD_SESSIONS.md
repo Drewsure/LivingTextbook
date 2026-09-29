@@ -6607,3 +6607,17 @@ student-payload-blocked behavior.
 - The pilot now has a production-shaped local content, game, audio, and
   multimedia path. Real publisher files, rights, device, rollback, and
   release evidence are still required before saleable approval.
+
+## Build session: Local package teacher evidence
+
+- Corrected local cross-route identity so the front door, Memory Match, and
+  multimedia route share one deterministic package/unit launch and student
+  session identity.
+- Added a package-scoped teacher evidence route that reuses the validated local
+  evidence panel. It can observe progression, game, audio, media, and explicit
+  teacher-review receipts from the same browser rehearsal record.
+- Kept the route browser-local and review-only; hosted persistence, export,
+  student activation, QR mutation, and release promotion remain blocked.
+- Added ADR 1248, DR-1248, and a foundation verifier. The local pilot now has
+  a coherent student-to-teacher rehearsal loop; real publisher evidence and
+  policy decisions remain required for saleable approval.

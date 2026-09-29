@@ -3,6 +3,7 @@ import { createLaunchSession, getInitialStudentProgression, getUnitKey } from "@
 import { AppShell } from "@/components/layout/AppShell";
 import { LocalPilotPackageRuntimePanel } from "@/features/deployment/LocalPilotPackageRuntimePanel";
 import { LocalPackageMediaFlow } from "@/features/multimedia/LocalPackageMediaFlow";
+import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readLocalPilotPackageContent, readLocalPilotPackageRuntime } from "@/server/delivery/localPilotPackageRuntimeReader";
@@ -42,7 +43,7 @@ export default async function LocalPilotPackageMediaPage({
   const unit = contentResult.contentPackage.units.find((candidate) => getUnitKey(candidate.unitMeta) === playlist.unitKey);
   if (!unit) notFound();
 
-  const launchCode = `local-${tenantId}-${packageId}-${version}-${playlist.unitKey}-media-${playlistId}`;
+  const launchCode = getLocalPilotPackageLaunchCode(tenantId, packageId, version, playlist.unitKey);
   const launchSession = createLaunchSession({
     launchCode,
     tenantId,

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import { completeEntryPractice, createLaunchSession, getInitialStudentProgression, getUnitKey } from "@living-textbook/content-model";
+import { createLaunchSession, getInitialStudentProgression, getUnitKey } from "@living-textbook/content-model";
 import { AppShell } from "@/components/layout/AppShell";
 import { LocalPilotPackageRuntimePanel } from "@/features/deployment/LocalPilotPackageRuntimePanel";
-import { MemoryMatchDemoFlow } from "@/features/game-shell/pairing/MemoryMatchDemoFlow";
 import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts";
+import { TeacherSessionLocalEvidencePanel } from "@/features/teacher/TeacherSessionLocalEvidencePanel";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readLocalPilotPackageContent, readLocalPilotPackageRuntime } from "@/server/delivery/localPilotPackageRuntimeReader";
@@ -13,7 +13,7 @@ const tenants = {
   "sample-publisher": samplePublisherTenant,
 } as const;
 
-export default async function LocalPackageMemoryMatchPage({
+export default async function LocalPilotPackageTeacherEvidencePage({
   params,
 }: {
   params: Promise<{ tenantId: string; packageId: string; version: string; unitId: string }>;
@@ -29,7 +29,7 @@ export default async function LocalPackageMemoryMatchPage({
       <AppShell tenant={tenant} compact>
         <LocalPilotPackageRuntimePanel result={runtimeResult} tenantDisplayName={tenant.displayName} />
         <section className="mx-auto mt-5 max-w-3xl rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
-          <p className="font-bold">Memory Match is waiting for the approved local content lane.</p>
+          <p className="font-bold">Teacher evidence is waiting for the approved local content lane.</p>
           <ul className="mt-2 grid gap-1">
             {contentResult.errors.map((error, index) => <li key={`${error}-${index}`}>{error}</li>)}
           </ul>
@@ -47,27 +47,25 @@ export default async function LocalPackageMemoryMatchPage({
     tenantId,
     curriculumId: contentResult.contentPackage.meta.curriculumId,
     unitKey: getUnitKey(unit.unitMeta),
-    entryMode: "flashcards",
-    recommendedNextModes: ["memory-match"],
     openedAt: "2026-09-29T00:00:00.000Z",
     accessMode: "teacher-qr",
+    entryMode: "flashcards",
+    recommendedNextModes: ["memory-match"],
   });
-  const progression = completeEntryPractice({
-    progression: getInitialStudentProgression({ studentSessionId: `${launchCode}:local-student`, launchSession }),
+  const progression = getInitialStudentProgression({
+    studentSessionId: `${launchCode}:local-student`,
     launchSession,
-    occurredAt: "2026-09-29T00:01:00.000Z",
   });
 
   return (
     <AppShell tenant={tenant} compact>
-      <MemoryMatchDemoFlow
-        tenant={tenant}
-        unit={unit}
-        launchSession={launchSession}
-        progression={progression}
-        packageId={packageId}
-        audioCues={contentResult.contentPackage.audioCues}
-        audioSupportPlan={contentResult.contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)}
+      <TeacherSessionLocalEvidencePanel
+        launchCode={launchSession.launchCode}
+        expectedTenantId={tenantId}
+        expectedPackageId={packageId}
+        expectedUnitKey={launchSession.unitKey}
+        expectedStudentSessionId={progression.studentSessionId}
+        targetLanguage={contentResult.contentPackage.audioSupportPlans?.find((plan) => plan.unitKey === launchSession.unitKey)?.targetLanguage ?? tenant.languageSettings?.targetLanguage ?? "en"}
       />
     </AppShell>
   );
