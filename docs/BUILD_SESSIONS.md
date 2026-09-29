@@ -22,6 +22,21 @@ The background media capability slice now rejects multimedia plans that name a s
 
 The game catalog learner-metadata slice now checks role, skill focus, summary, and explicit media capability fields before game-mode verification can pass.
 
+## Build session: Live delivery manifest preview
+
+- Added a tenant- and package-bound metadata preview derived from the actual
+  quarantine submission, evidence review, and package review packet.
+- Added live checks for source evidence, package review, delivery mode, reviewed
+  multimedia/game package, manual release receipt, and QR print authorization.
+- Mounted the preview in the teacher handoff bridge and added foundation
+  verification so the route cannot drift back to sample-only delivery claims.
+- Preserved the review-only boundary: manifest writes, package assembly, QR
+  printing, hosted persistence, and student use remain blocked.
+
+Evidence: `packages/content-model/src/uploadQuarantineDeliveryManifestPreview.ts`,
+`apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts`, and
+`scripts/verify-live-delivery-manifest-preview.mjs`.
+
 ## Build session 0964: Full foundation verification baseline and controlled Z.ai handoff
 
 - Re-ran the complete `npm run verify:foundation` suite on `legacy-source-import`.

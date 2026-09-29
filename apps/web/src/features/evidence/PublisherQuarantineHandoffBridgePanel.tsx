@@ -7,6 +7,7 @@ import type {
   UploadQuarantinePackageAssemblyPreflight,
   UploadQuarantinePackageHandoffPreview,
   UploadQuarantinePackageReviewPacket,
+  UploadQuarantineDeliveryManifestPreview,
   PublisherPilotPackageReadinessBinding,
 } from "@living-textbook/content-model";
 
@@ -26,6 +27,7 @@ type HandoffResponse = {
   packet?: UploadQuarantinePackageReviewPacket | null;
   preflight?: UploadQuarantinePackageAssemblyPreflight | null;
   binding?: PublisherPilotPackageReadinessBinding | null;
+  deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   errors?: string[];
   privacy?: string;
 };
@@ -44,6 +46,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [preflightState, setPreflightState] = useState<"waiting" | "loading" | "ready" | "missing" | "error">("waiting");
   const [preflight, setPreflight] = useState<UploadQuarantinePackageAssemblyPreflight | null>(null);
   const [readinessBinding, setReadinessBinding] = useState<PublisherPilotPackageReadinessBinding | null>(null);
+  const [deliveryManifestPreview, setDeliveryManifestPreview] = useState<UploadQuarantineDeliveryManifestPreview | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -95,12 +98,14 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null };
         setReadinessBinding(next.binding ?? null);
+        setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         setReadinessBinding(null);
+        setDeliveryManifestPreview(null);
       });
 
     return () => controller.abort();
@@ -252,6 +257,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             )}
           </section>
           {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
+          {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
@@ -289,6 +295,38 @@ function LiveReadinessSummary({ binding }: { binding: PublisherPilotPackageReadi
         {binding.checks.map((check) => <div key={check.checkId} className="flex items-center justify-between gap-2 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div>)}
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Package assembly: blocked · promotion: blocked · student use: blocked · side effect: none</p>
+    </section>
+  );
+}
+
+function LiveDeliveryManifestPreview({ preview }: { preview: UploadQuarantineDeliveryManifestPreview }) {
+  const passed = preview.checks.filter((check) => check.status === "passed").length;
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live delivery manifest preview</p>
+          <h3 className="mt-1 text-base font-bold">Delivery shape is visible before release approval</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{passed}/{preview.checks.length} checks passed. This preview binds the live source to the future manifest, receipt, and package index identities without writing any of them.</p>
+        </div>
+        <StatusPill label="Blocked" tone="warning" />
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Preview" value={preview.previewId} />
+        <Fact label="Manifest" value={preview.manifestId} />
+        <Fact label="Mode" value={preview.selectedMode} />
+        <Fact label="Source checksum" value={preview.sourceChecksumSha256} />
+      </dl>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {preview.checks.map((check) => (
+          <div key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+            <div className="flex items-center justify-between gap-2"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div>
+            <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{check.evidence}</p>
+            <p className="mt-2 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {check.nextAction}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Delivery: blocked · package assembly: blocked · QR printing: blocked · hosted persistence: blocked · student use: blocked · side effect: none</p>
     </section>
   );
 }

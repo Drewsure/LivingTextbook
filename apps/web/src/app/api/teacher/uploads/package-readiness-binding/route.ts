@@ -4,13 +4,16 @@ import {
   createUploadQuarantinePackageAssemblyPreflight,
   createUploadQuarantinePackageHandoffPreview,
   deriveUploadQuarantineAdmissionPreview,
+  createReviewOnlyUploadQuarantineDeliveryManifestPreview,
   isUploadQuarantineSafeTenantId,
   validatePublisherPilotPackageReadinessBindingRecord,
+  validateUploadQuarantineDeliveryManifestPreview,
   type PublisherPilotPackageReadinessBinding,
   type PublisherPilotPackageReadinessCheck,
   type UploadQuarantinePackageAssemblyPreflight,
   type UploadQuarantinePackageHandoffPreview,
   type UploadQuarantinePackageReviewPacket,
+  type UploadQuarantineDeliveryManifestPreview,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -31,6 +34,7 @@ type ReadinessResponse = {
   packet?: UploadQuarantinePackageReviewPacket | null;
   preflight?: UploadQuarantinePackageAssemblyPreflight | null;
   binding?: PublisherPilotPackageReadinessBinding | null;
+  deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   errors?: string[];
   privacy: string;
 };
@@ -79,6 +83,23 @@ export async function GET(request: Request) {
     ],
   }) : null;
   const reviewPacketId = packet?.packetId ?? `${packageId}:${quarantineId}:package-review-packet`;
+  const deliveryManifestPreview = createReviewOnlyUploadQuarantineDeliveryManifestPreview({
+    tenantId,
+    quarantineId,
+    packageId,
+    sourceChecksumSha256: summary.record.checksumSha256,
+    evidenceReviewId: evidenceReview.record?.reviewId ?? null,
+    packageReviewPacketId: packet?.packetId ?? null,
+    checks: [
+      check("source-evidence", "Source and evidence review", handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.admissionDecision === "evidence-ready" ? "The source evidence review is complete for this metadata handoff." : handoff.blockers.join(" ") || "Source evidence remains incomplete.", "Complete scan, rights, source, mapping, accessibility, and release evidence."),
+      check("package-review", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The immutable package review packet is ready for the next gate." : "No durable package review packet is linked.", "Record and reconcile the package review packet."),
+      check("delivery-mode", "Delivery mode selection", "open", "No local, hosted, or hybrid delivery mode has been selected for this submission.", "Choose closed-local, hosted PWA, or hybrid delivery."),
+      check("package-preview", "Reviewed package preview", "blocked", "A reviewed multimedia/game package is not linked to this live quarantine submission.", "Attach reviewed content, games, audio, video, image, font, and rights evidence."),
+      check("release-receipt", "Manual release receipt", "blocked", "No approved delivery manifest or named release receipt is linked.", "Complete release, rollback, school-policy, and operator review."),
+      check("qr-print", "QR print authorization", "blocked", "Production QR printing remains blocked for this live submission.", "Validate stable aliases, local fallback, release checksum, and print authorization."),
+    ],
+  });
+  const deliveryManifestPreviewErrors = validateUploadQuarantineDeliveryManifestPreview(deliveryManifestPreview);
   const checks: PublisherPilotPackageReadinessCheck[] = [
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("review-packet", "Package review packet", packet?.status === "ready-for-next-gate" ? "passed" : packet ? "blocked" : "open", packet ? packet.blockers.join(" ") || "The package review packet is ready for the next gate." : "No durable package review packet has been recorded.", "Record and reconcile the immutable package review packet."),
@@ -120,7 +141,8 @@ export async function GET(request: Request) {
     packet,
     preflight,
     binding: bindingErrors.length === 0 ? binding : null,
-    errors: [...intake.errors, ...packetResult.errors, ...bindingErrors],
+    deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
+    errors: [...intake.errors, ...packetResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors],
     privacy: privacyMessage(),
   });
 }

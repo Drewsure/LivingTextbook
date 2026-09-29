@@ -8735,3 +8735,27 @@ This standard is recorded in DR-1260 and ADR 1260.
   sidecar rather than inventing evidence from UI state or sample data.
 
 This standard is recorded in DR-1261 and ADR 1261.
+
+## 546. Live Delivery Manifest Preview Standard
+
+- Every real quarantine handoff must expose a tenant- and package-bound
+  delivery-manifest preview before a release manifest can be written. The
+  preview must carry the quarantine identity, source checksum, future
+  manifest/receipt/index identities, selected delivery mode, and current
+  evidence checks.
+- The preview is derived from the live quarantine, evidence review, and package
+  review packet. It must not borrow a MiniStar or sample-publisher manifest and
+  must not claim that a package, QR registry, release receipt, or hosted choice
+  exists when it does not.
+- A missing or incomplete source evidence review, package review packet,
+  delivery-mode choice, reviewed multimedia/game package, release receipt, or
+  QR authorization remains visible as an open or blocked check. The preview is
+  always `review-only` and blocked.
+- The preview must remain metadata-only and non-activating: no manifest write,
+  package assembly, QR print, hosted persistence, student use, payload bytes,
+  filesystem paths, credentials, or learner records may cross this boundary.
+- The live handoff UI must show the preview's checks and next actions beside
+  the quarantine and readiness identities so a publisher or operator can see
+  the exact next human decision before release work begins.
+
+This standard is recorded in DR-1262 and ADR 1262.
