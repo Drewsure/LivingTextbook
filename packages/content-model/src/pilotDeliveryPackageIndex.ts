@@ -16,6 +16,7 @@ export interface PilotDeliveryPackageIndex {
   qrAliasPaths: string[];
   localFallbackPaths: string[];
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
+  hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   releaseStatus: "review-only" | "manual-release-approved";
   rawPayloadIncluded: false;
   learnerRecordsIncluded: false;
@@ -44,6 +45,7 @@ export function createPilotDeliveryPackageIndex({
     qrAliasPaths: manifest.qrAliasPaths.slice(),
     localFallbackPaths: manifest.localFallbackPaths.slice(),
     hostedPersistence: manifest.hostedPersistence,
+    hostedPersistenceDecisionPacketId: manifest.hostedPersistenceDecisionPacketId,
     releaseStatus: manifest.status === "ready-for-manual-release" && receipt.status === "manual-release-approved"
       ? "manual-release-approved"
       : "review-only",
@@ -68,6 +70,9 @@ export function validatePilotDeliveryPackageIndex(value: unknown): string[] {
   }
   if (!["hosted-pwa", "closed-local", "hybrid"].includes(String(value.mode))) errors.push("Pilot delivery package index mode is unsupported.");
   if (!["not-selected", "opt-in-pending", "opt-in-approved"].includes(String(value.hostedPersistence))) errors.push("Pilot delivery package index hosted persistence status is unsupported.");
+  const modeUsesHosted = value.mode === "hosted-pwa" || value.mode === "hybrid";
+  if (modeUsesHosted && !isNonEmptyString(value.hostedPersistenceDecisionPacketId)) errors.push("Hosted or hybrid package indexes require a hosted persistence opt-in decision packet id.");
+  if (!modeUsesHosted && value.hostedPersistenceDecisionPacketId !== null) errors.push("Closed-local package indexes must not carry a hosted persistence opt-in decision packet id.");
   return [...new Set(errors)];
 }
 

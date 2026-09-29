@@ -32,6 +32,7 @@ export interface PilotDeliveryManifest {
   qrAliasPaths: string[];
   localFallbackPaths: string[];
   hostedPersistence: PilotDeliveryHostedPersistenceStatus;
+  hostedPersistenceDecisionPacketId: string | null;
   gates: PilotDeliveryGateSnapshot;
   unresolvedRequirements: string[];
   blockedActions: string[];
@@ -67,6 +68,7 @@ export function createPilotDeliveryManifest(input: {
   reconciliation: PackageReadinessReconciliation;
   mode: PilotDeliveryMode;
   gates: PilotDeliveryGateSnapshot;
+  hostedPersistenceDecisionPacketId?: string | null;
 }): PilotDeliveryManifest {
   const identityErrors = validatePilotDeliverySourceIdentity(input.preview, input.reconciliation);
   const unresolvedRequirements = [
@@ -81,6 +83,8 @@ export function createPilotDeliveryManifest(input: {
   ];
   const ready = unresolvedRequirements.length === 0;
   const modeUsesHosted = input.mode === "hosted-pwa" || input.mode === "hybrid";
+  const hostedPersistenceDecisionPacketId = modeUsesHosted ? (input.hostedPersistenceDecisionPacketId ?? null) : null;
+  if (modeUsesHosted && !hostedPersistenceDecisionPacketId) identityErrors.push("Hosted or hybrid delivery requires a package-scoped hosted persistence opt-in decision packet.");
   const contentPackagePath = input.preview.artifacts.find((artifact) => artifact.kind === "content-package")?.proposedPath ?? "";
 
   return {
@@ -97,6 +101,7 @@ export function createPilotDeliveryManifest(input: {
     qrAliasPaths: input.preview.qrPreviews.map((qr) => qr.aliasPath),
     localFallbackPaths: input.preview.qrPreviews.map((qr) => qr.fallbackPath),
     hostedPersistence: modeUsesHosted ? (input.gates.hostedPersistence ? "opt-in-approved" : "opt-in-pending") : "not-selected",
+    hostedPersistenceDecisionPacketId,
     gates: { ...input.gates },
     unresolvedRequirements: [...new Set(unresolvedRequirements)],
     blockedActions: [...blockedActions],
@@ -116,6 +121,9 @@ export function validatePilotDeliveryManifest(value: unknown): string[] {
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery manifest sourceAssemblyChecksum must be sha256:<64 hexadecimal characters>.");
   if (!isSafeRelativeOrInternalPath(value.contentPackagePath)) errors.push("Pilot delivery manifest contentPackagePath must be an internal package path.");
   if (!["hosted-pwa", "closed-local", "hybrid"].includes(String(value.mode))) errors.push("Pilot delivery manifest mode is unsupported.");
+  const modeUsesHosted = value.mode === "hosted-pwa" || value.mode === "hybrid";
+  if (modeUsesHosted && !isNonEmptyString(value.hostedPersistenceDecisionPacketId)) errors.push("Hosted or hybrid delivery requires a package-scoped hosted persistence opt-in decision packet id.");
+  if (!modeUsesHosted && value.hostedPersistenceDecisionPacketId !== null) errors.push("Closed-local delivery must not carry a hosted persistence opt-in decision packet id.");
   if (!["blocked", "ready-for-manual-release"].includes(String(value.status))) errors.push("Pilot delivery manifest status is unsupported.");
   if (value.sideEffect !== "none") errors.push("Pilot delivery manifest must be side-effect-free.");
   if (!isRecord(value.gates)) errors.push("Pilot delivery manifest gates must be an object.");

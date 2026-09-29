@@ -5,6 +5,7 @@ import {
 } from "@living-textbook/content-model";
 import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
 import { samplePublisherPilotPackagePreview } from "@/data/samplePublisherPilotPackagePreview";
+import { sampleHostedPersistenceOptInDecisionPacket } from "@/data/sampleHostedPersistenceOptInDecisionPacket";
 
 const reconciliation = samplePackageReadinessReconciliations.find(
   (candidate) => candidate.packageId === samplePublisherPilotPackagePreview.packageId,
@@ -16,6 +17,7 @@ export const samplePilotDeliveryManifest: PilotDeliveryManifest = createPilotDel
   preview: samplePublisherPilotPackagePreview,
   reconciliation,
   mode: "hosted-pwa",
+  hostedPersistenceDecisionPacketId: sampleHostedPersistenceOptInDecisionPacket.packetId,
   gates: {
     sourceReview: false,
     packageReadiness: false,

@@ -6704,3 +6704,13 @@ student-payload-blocked behavior.
 - Kept the local companion as the fallback and required a later opt-in and
   deployment gate before hosted persistence can become a saleable-pilot claim.
 - Added ADR 1254, DR-1254, standards entry 538, and a foundation verifier.
+
+## Build session: Hosted opt-in packet delivery binding
+
+- Bound hosted and hybrid pilot delivery manifests and package indexes to the
+  exact package-scoped hosted persistence opt-in decision packet.
+- Preserved the closed-local path as provider-free and independently usable;
+  local runtime summaries now retain the hosted packet identity when a hosted
+  lane is selected for review.
+- Added ADR 1255, DR-1255, standards entry 539, and extended the delivery
+  manifest verifier. Hosted activation and learner writes remain blocked.

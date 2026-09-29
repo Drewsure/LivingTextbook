@@ -8607,3 +8607,21 @@ This standard is recorded in DR-1253 and ADR 1253.
   can claim durable hosted reporting.
 
 This standard is recorded in DR-1254 and ADR 1254.
+
+## 539. Hosted Opt-In Packet Delivery Binding Standard
+
+- Every hosted or hybrid `PilotDeliveryManifest` and derived package index
+  must carry the exact package-scoped hosted persistence opt-in decision packet
+  identity. A boolean hosted gate is not sufficient evidence.
+- Closed-local delivery must carry no hosted opt-in packet identity and must
+  remain independently runnable through its approved local bundle and QR
+  fallback contracts.
+- A manifest can display a pending or approved hosted state only within its
+  governed release workflow. The packet identity must remain tenant/package
+  scoped and must agree with the delivery manifest's package and version
+  lineage before any release or runtime reader accepts it.
+- The binding is evidence, not activation. Provider credentials, learner
+  records, durable writes, and student-facing hosted activation remain behind
+  the separate human opt-in and release gates.
+
+This standard is recorded in DR-1255 and ADR 1255.

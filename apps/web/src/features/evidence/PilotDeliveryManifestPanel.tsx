@@ -24,6 +24,7 @@ export function PilotDeliveryManifestPanel({ manifest, validationErrors }: { man
         <Fact label="Package" value={manifest.packageId} />
         <Fact label="Version" value={manifest.version} />
         <Fact label="Hosted persistence" value={manifest.hostedPersistence} />
+        <Fact label="Opt-in packet" value={manifest.hostedPersistenceDecisionPacketId ?? "Not applicable"} />
       </dl>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

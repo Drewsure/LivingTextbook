@@ -53,6 +53,7 @@ export interface LocalPilotPackageRuntimeSummary {
   reviewPacketId: string;
   qrPrintArtifactReady: boolean;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
+  hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   learnerRecordsIncluded: false;
 }
 
@@ -130,6 +131,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         reviewPacketId: reviewPacketBinding.packetId,
         qrPrintArtifactReady: true,
         hostedPersistence: packageIndex.hostedPersistence,
+        hostedPersistenceDecisionPacketId: packageIndex.hostedPersistenceDecisionPacketId,
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
       },
       errors: [],
