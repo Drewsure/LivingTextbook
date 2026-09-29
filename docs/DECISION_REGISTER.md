@@ -9833,7 +9833,7 @@ process cache also invalidates when the resolved custody root changes. See ADR
 
 ## DR-1225: Persistence Provider Verification Command Surface
 
-Date: 2026-09-29  
+Date: 2026-09-29
 Status: Accepted
 
 The root verification surface now exposes provider configuration, provider
@@ -9844,3 +9844,18 @@ omitted. The commands remain review-only and do not select a provider, migrate
 data, enable durable writes, or activate hosted persistence.
 
 See ADR 1225.
+
+## DR-1226: Controlled Publisher Quarantine Intake
+
+Date: 2026-09-29
+Status: Accepted
+
+The first implementation-shaped publisher intake surface is an explicitly
+opt-in, tenant-scoped quarantine upload control. With the server flag unset,
+the teacher route remains input-free and review-only. When an operator enables
+the flag and provisions the quarantine custody root, the control accepts one
+source or media file, records safe metadata through the existing intake API,
+and leaves extraction, review approval, promotion, QR mutation, playlists,
+assignments, and student-facing use blocked. This provides a credible pilot
+intake boundary without pretending that a file picker is a production package
+writer. See ADR 1226.

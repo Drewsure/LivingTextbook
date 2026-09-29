@@ -12,6 +12,8 @@ import { sampleUploadQuarantineAdmissionPreviews } from "@/data/sampleUploadQuar
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
+export const dynamic = "force-dynamic";
+
 export default async function TeacherUploadWorkspacePage({
   params,
 }: {
@@ -36,6 +38,7 @@ export default async function TeacherUploadWorkspacePage({
         multimediaPlan={sampleMultimediaAssetReadinessPlan}
         evidenceFlow={sampleUploadEvidencePacketFlow}
         quarantineAdmissionPreviews={sampleUploadQuarantineAdmissionPreviews}
+        quarantineUploadsEnabled={process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true"}
       />
     </AppShell>
   );

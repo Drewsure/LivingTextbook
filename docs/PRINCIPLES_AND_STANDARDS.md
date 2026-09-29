@@ -7994,3 +7994,27 @@ This standard is recorded in
 
 This standard is recorded in
 `docs/decision-register/DR-1173-reproducible-route-verification.md`.
+
+## 512. Controlled Publisher Quarantine Intake Standard
+
+- The default teacher upload route remains input-free and review-only. A real
+  file picker may appear only when the operator explicitly enables
+  `LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED=true`.
+- Before enablement, the operator must provision an existing
+  `LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT`; tenant and quarantine records must
+  remain inside its custody boundary.
+- The first pilot intake accepts one tenant-scoped source or media file at a
+  time, preserves the selected channel and optional unit key, and returns only
+  safe quarantine metadata.
+- Intake never implies extraction, scan approval, rights approval, evidence
+  completeness, package promotion, game or playlist creation, QR mutation,
+  assignment, or student-facing use. Raw payloads, filesystem paths, and
+  download URLs stay out of the browser response.
+- Review, admission, storage selection, package release, and student launch
+  remain separate gates. Run the upload intake, review, admission, and preview
+  route verifiers after changes to this surface.
+
+This standard is recorded in
+`docs/decision-register/DR-1226-controlled-publisher-quarantine-intake.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1226-controlled-publisher-quarantine-intake.md`.

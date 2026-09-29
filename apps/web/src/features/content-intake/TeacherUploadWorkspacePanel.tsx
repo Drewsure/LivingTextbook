@@ -19,6 +19,7 @@ import { UploadReviewQueuePanel } from "./UploadReviewQueuePanel";
 import { UploadTargetMappingPanel } from "./UploadTargetMappingPanel";
 import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
 import { QuarantineAdmissionPreviewPanel } from "./QuarantineAdmissionPreviewPanel";
+import { ControlledQuarantineUploadPanel } from "./ControlledQuarantineUploadPanel";
 
 interface TeacherUploadWorkspacePanelProps {
   tenantId: string;
@@ -31,6 +32,7 @@ interface TeacherUploadWorkspacePanelProps {
   multimediaPlan: MultimediaAssetReadinessPlan;
   evidenceFlow: EvidencePacketFlow;
   quarantineAdmissionPreviews: UploadQuarantineAdmissionPreview[];
+  quarantineUploadsEnabled: boolean;
 }
 
 const guardrails = [
@@ -53,6 +55,7 @@ export function TeacherUploadWorkspacePanel({
   multimediaPlan,
   evidenceFlow,
   quarantineAdmissionPreviews,
+  quarantineUploadsEnabled,
 }: TeacherUploadWorkspacePanelProps) {
   const blockedReviewItems = reviewQueue.items.filter((item) => item.status !== "ready-preview").length;
   const blockedPromotionLanes = promotionPlan.lanes.filter((lane) => lane.status === "blocked-preview").length;
@@ -83,6 +86,12 @@ export function TeacherUploadWorkspacePanel({
           <WorkspaceMetric label="Evidence packets" value={String(evidenceFlow.packets.length)} tone="warning" />
         </div>
       </Card>
+
+      <ControlledQuarantineUploadPanel
+        tenantId={tenantId}
+        channelPlan={channelPlan}
+        enabled={quarantineUploadsEnabled}
+      />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

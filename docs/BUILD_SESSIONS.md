@@ -6322,3 +6322,15 @@ student-payload-blocked behavior.
   writes, and activation remain blocked pending human deployment and policy
   decisions.
 - Added ADR 1225 and DR-1225.
+
+## Build session: Controlled publisher quarantine intake
+
+- Added a tenant-scoped teacher control for one source or media file at a time.
+- Kept the default upload route input-free; the file picker appears only when
+  `LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED=true` is explicitly configured.
+- Reused the existing same-origin quarantine intake API, custody root,
+  checksum, channel, unit-key, and promotion-blocking contracts.
+- Kept raw payloads, filesystem paths, extraction, package promotion, QR
+  mutation, playlist/game creation, assignment, and student use out of the
+  browser response and workflow.
+- Added ADR 1226 and DR-1226.

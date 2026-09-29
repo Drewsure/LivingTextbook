@@ -1547,3 +1547,19 @@ gate runs the same checks. These commands prove configuration, comparison
 evidence, and activation boundaries only; they must continue to leave provider
 selection, migration, durable writes, and activation blocked until the human
 deployment and school-policy gates are accepted.
+
+Controlled publisher intake procedure: keep the teacher upload route input-free
+unless the operator explicitly sets
+`LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED=true` and provisions an existing
+`LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT`. When enabled for a pilot, accept one
+tenant-scoped source or media file at a time, preserve the declared channel and
+optional unit key, and send it only to quarantine review. The response may show
+safe metadata and a quarantine identifier, but must never expose a raw payload,
+filesystem path, download URL, extraction result, game, playlist, QR mutation,
+assignment, or student-facing route. Review and promotion remain separate gates.
+Run `npm run verify:upload-quarantine-intake`,
+`npm run verify:upload-quarantine-review`,
+`npm run verify:upload-quarantine-admission`, and
+`npm run verify:routes:preview` after changing this surface. This procedure is
+the first implementation-shaped publisher intake step; it does not activate
+package promotion or student use.

@@ -43,6 +43,7 @@ const multimediaAssetPanel = readSource("../apps/web/src/features/content-intake
 const mediaAssetWorkspacePanel = readSource("../apps/web/src/features/multimedia/MediaAssetWorkspacePanel.tsx");
 const contentEntryOptionPanel = readSource("../apps/web/src/features/content-intake/ContentEntryOptionScaffoldPanel.tsx");
 const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx");
+const controlledQuarantineUploadPanel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
@@ -817,6 +818,12 @@ requireText(templateRenderingFontProfilePanel, "Tenant font pack", "Template ren
 requireText(templateRenderingFontProfilePanel, "Language rendering rules", "Template rendering/font profile panel must show language rendering rules.");
 requireText(templateRenderingFontProfilePanel, "Readability checks", "Template rendering/font profile panel must show readability checks.");
 requireText(templateRenderingFontProfilePanel, "Required records before live rendering", "Template rendering/font profile panel must expose required records.");
+requireText(controlledQuarantineUploadPanel, "Quarantine upload is disabled by default", "Controlled quarantine upload panel must keep the default route input-free.");
+requireText(controlledQuarantineUploadPanel, "Send one source or media file to quarantine review", "Controlled quarantine upload panel must expose the opt-in intake purpose.");
+requireText(controlledQuarantineUploadPanel, "Record quarantine intake", "Controlled quarantine upload panel must expose the quarantine action.");
+requireText(controlledQuarantineUploadPanel, "credentials: \"same-origin\"", "Controlled quarantine upload panel must preserve same-origin credentials.");
+requireText(controlledQuarantineUploadPanel, "No extraction", "Controlled quarantine upload panel must block extraction and publication shortcuts.");
+requireText(controlledQuarantineUploadPanel, "Promotion blocked", "Controlled quarantine upload panel must show promotion remains blocked.");
 requireText(teacherIntake, "UploadChannelReadinessPanel", "Teacher intake route must render upload readiness.");
 requireText(teacherIntake, "ContentEntryOptionScaffoldPanel", "Teacher intake route must render content entry option scaffold.");
 requireText(teacherIntake, "TemplateRenderingFontProfilePanel", "Teacher intake route must render template rendering/font profile readiness.");

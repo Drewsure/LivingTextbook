@@ -4,6 +4,7 @@ const model = readSource("../packages/content-model/src/uploadQuarantineIntake.t
 const store = readSource("../apps/web/src/server/uploads/quarantineUploadStore.ts");
 const pathPolicy = readSource("../apps/web/src/server/uploads/quarantinePathPolicy.ts");
 const route = readSource("../apps/web/src/app/api/teacher/uploads/intake/route.ts");
+const panel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const failures = [];
 
 for (const marker of [
@@ -65,6 +66,32 @@ for (const marker of [
   "writeQuarantineUpload",
 ]) {
   requireText(route, marker, `Quarantine route missing marker: ${marker}.`);
+}
+
+for (const marker of [
+  "Controlled publisher intake",
+  "Quarantine upload is disabled by default",
+  "LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED=true",
+  "Send one source or media file to quarantine review",
+  "/api/teacher/uploads/intake",
+  "credentials: \"same-origin\"",
+  "accepted-quarantine",
+  "Record quarantine intake",
+  "No extraction",
+  "Promotion blocked",
+  "studentFacingUseAllowed",
+]) {
+  requireText(panel, marker, `Controlled quarantine upload panel missing marker: ${marker}.`);
+}
+
+for (const marker of ["if (!enabled)", "type=\"file\""]) {
+  requireText(panel, marker, `Controlled quarantine upload panel must keep the file picker behind the explicit enablement gate: ${marker}.`);
+}
+
+for (const forbidden of ["response.record?.path", "response.record?.downloadUrl", "rawPayload"]) {
+  if (panel.includes(forbidden)) {
+    failures.push(`Controlled quarantine upload panel must not expose raw storage or payload fields: ${forbidden}.`);
+  }
 }
 
 if (failures.length > 0) {
