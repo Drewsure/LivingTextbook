@@ -8270,3 +8270,23 @@ This standard is recorded in
 `docs/decision-register/DR-1238-canonical-publisher-package-index.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1238-canonical-publisher-package-index.md`.
+
+## 524. Controlled Manual Release Capture Standard
+
+- Manual release capture is an adult operator action, separate from package
+  preview and separate from student launch. It requires a dedicated delivery
+  token and `LIVING_TEXTBOBOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED=true`.
+- The release route must validate the complete manifest, named reviewer,
+  reviewer role, review timestamp, rollback reference, and explicit approved
+  release and QR decisions before invoking the metadata writer.
+- A successful release capture may write only the approved receipt and the
+  metadata-only delivery handoff. It must never copy raw publisher payloads,
+  mutate QR aliases, enable hosted persistence, or activate student routes.
+- A blocked or conflicting release must leave the custody root unchanged. The
+  response must state the remaining evidence without revealing payload bytes,
+  filesystem paths, credentials, or learner records.
+
+This standard is recorded in
+`docs/decision-register/DR-1239-controlled-manual-release-capture.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1239-controlled-manual-release-capture.md`.

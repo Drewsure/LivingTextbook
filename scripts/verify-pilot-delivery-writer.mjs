@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const writer = readFileSync(resolve(root, "apps/web/src/server/delivery/pilotDeliveryMetadataWriter.ts"), "utf8");
 const route = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/metadata/route.ts"), "utf8");
+const releaseRoute = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/release/route.ts"), "utf8");
 const model = readFileSync(resolve(root, "packages/content-model/src/pilotDeliveryPackageIndex.ts"), "utf8");
 const panel = readFileSync(resolve(root, "apps/web/src/features/evidence/PilotDeliveryPackageIndexPanel.tsx"), "utf8");
 
@@ -27,6 +28,11 @@ for (const [source, marker, label] of [
   [route, "readPilotDeliveryMetadata", "readback endpoint"],
   [route, "deliveryMetadataWritten: true", "metadata-only write result"],
   [route, "studentFacingActivationAllowed: false", "student activation boundary"],
+  [releaseRoute, "LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED", "explicit release receipt gate"],
+  [releaseRoute, "createPilotDeliveryReleaseReceipt", "manual release receipt creation"],
+  [releaseRoute, "writePilotDeliveryMetadata", "release-to-writer handoff"],
+  [releaseRoute, "packageAssemblyAllowed: false", "release assembly boundary"],
+  [releaseRoute, "studentFacingActivationAllowed: false", "release student boundary"],
 ]) {
   if (!source.includes(marker)) throw new Error(`Missing ${label}: ${marker}`);
 }

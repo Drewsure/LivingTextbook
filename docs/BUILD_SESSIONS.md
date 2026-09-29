@@ -6482,3 +6482,16 @@ student-payload-blocked behavior.
   accepts only the latter and still excludes payload bytes and learner records.
 - Added ADR 1238 and DR-1238. The next closure evidence is a real publisher
   Unit 1 package with rights, media, game, QR, and delivery decisions.
+
+## Build session: Controlled manual release capture
+
+- Added a disabled-by-default operator route that validates a complete delivery
+  manifest and creates the immutable manual release receipt before invoking the
+  custody-bound metadata writer.
+- Required a dedicated delivery token, an explicit release feature flag,
+  reviewer identity and role, review timestamp, rollback reference, and safe
+  operator identity.
+- Kept package assembly, QR mutation, hosted persistence, learner data, and
+  student activation blocked even after a successful metadata handoff.
+- Added ADR 1239 and DR-1239. The route is ready for a real publisher package
+  rehearsal but must not be enabled for the current blocked sample.
