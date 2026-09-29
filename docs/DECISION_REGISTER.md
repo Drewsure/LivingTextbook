@@ -9859,3 +9859,15 @@ and leaves extraction, review approval, promotion, QR mutation, playlists,
 assignments, and student-facing use blocked. This provides a credible pilot
 intake boundary without pretending that a file picker is a production package
 writer. See ADR 1226.
+
+## DR-1227: Quarantine Record To Evidence Preview Binding
+
+Date: 2026-09-29
+Status: Accepted
+
+An authorized reviewer may request a metadata-only evidence preview for one
+validated quarantine record. The route reuses the shared quarantine admission
+contract, binds the real tenant and opaque quarantine identity to an evidence
+packet identity, and derives the pending review blockers. It does not write
+evidence, mutate scan/rights/source state, expose payloads or paths, assemble a
+package, promote a route, or enable student use. See ADR 1227.

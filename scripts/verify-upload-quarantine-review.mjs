@@ -60,6 +60,9 @@ for (const marker of [
   "Authorized review contract",
   "Authorization is required",
   "does not create a file viewer, download link, or approval action",
+  "Evidence packet preview contract",
+  "/api/teacher/uploads/evidence-preview",
+  "bind one returned quarantine record to an evidence-only admission preview",
 ]) {
   requireText(panel, marker, `Quarantine review panel missing marker: ${marker}.`);
 }

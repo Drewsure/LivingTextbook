@@ -6334,3 +6334,15 @@ student-payload-blocked behavior.
   mutation, playlist/game creation, assignment, and student use out of the
   browser response and workflow.
 - Added ADR 1226 and DR-1226.
+
+## Build session: Quarantine record to evidence preview binding
+
+- Added an authorized, tenant-scoped evidence-preview route for one opaque
+  quarantine record.
+- Reused `deriveUploadQuarantineAdmissionPreview` so real intake metadata is
+  bound to the shared evidence/admission contract rather than a parallel shape.
+- Exposed metadata-review and evidence-preview links after successful intake,
+  preserving the active tenant identity in both paths.
+- Kept scan, rights, source review, accessibility, target mapping, release,
+  package assembly, promotion, and student use blocked.
+- Added ADR 1227 and DR-1227.

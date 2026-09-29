@@ -4,6 +4,7 @@ const model = readSource("../packages/content-model/src/uploadQuarantineIntake.t
 const store = readSource("../apps/web/src/server/uploads/quarantineUploadStore.ts");
 const pathPolicy = readSource("../apps/web/src/server/uploads/quarantinePathPolicy.ts");
 const route = readSource("../apps/web/src/app/api/teacher/uploads/intake/route.ts");
+const evidencePreviewRoute = readSource("../apps/web/src/app/api/teacher/uploads/evidence-preview/route.ts");
 const panel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const failures = [];
 
@@ -69,6 +70,21 @@ for (const marker of [
 }
 
 for (const marker of [
+  "deriveUploadQuarantineAdmissionPreview",
+  "readQuarantineUploadRecords",
+  "evidencePacketId: `evidence-packet:${summary.quarantineId}`",
+  "rawPayloadIncluded: false",
+  "filesystemPathIncluded: false",
+  "downloadUrlIncluded: false",
+  "promotionAllowed: false",
+  "studentFacingUseAllowed: false",
+  "review-only",
+  "quarantineId",
+]) {
+  requireText(evidencePreviewRoute, marker, `Quarantine evidence preview route missing marker: ${marker}.`);
+}
+
+for (const marker of [
   "Controlled publisher intake",
   "Quarantine upload is disabled by default",
   "LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED=true",
@@ -80,6 +96,7 @@ for (const marker of [
   "No extraction",
   "Promotion blocked",
   "studentFacingUseAllowed",
+  "Open evidence packet preview",
 ]) {
   requireText(panel, marker, `Controlled quarantine upload panel missing marker: ${marker}.`);
 }

@@ -1563,3 +1563,13 @@ Run `npm run verify:upload-quarantine-intake`,
 `npm run verify:routes:preview` after changing this surface. This procedure is
 the first implementation-shaped publisher intake step; it does not activate
 package promotion or student use.
+
+Evidence-preview procedure: after a quarantine intake record is returned, use
+the tenant-scoped metadata review route and the matching
+`/api/teacher/uploads/evidence-preview` route with its opaque quarantine id.
+The preview derives the existing admission contract from the real validated
+record, with pending scan, rights, source-review, accessibility, mapping, and
+release states. It is a binding and review aid only; it does not write an
+evidence packet, change status, expose payload bytes, or authorize package
+assembly. Run `npm run verify:upload-quarantine-intake` and
+`npm run verify:upload-quarantine-review` after changing this binding.

@@ -9,6 +9,7 @@ const reviewLanes = [
 
 export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }) {
   const reviewEndpoint = `/api/teacher/uploads/review?tenantId=${encodeURIComponent(tenantId)}`;
+  const evidencePreviewEndpoint = `/api/teacher/uploads/evidence-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}`;
 
   return (
     <Card>
@@ -35,6 +36,11 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
         <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{reviewEndpoint}</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
           Authorization is required. The endpoint returns validated metadata and bounded generic errors only; it does not create a file viewer, download link, or approval action.
+        </p>
+        <p className="mt-4 text-xs font-semibold uppercase text-[var(--tenant-muted)]">Evidence packet preview contract</p>
+        <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{evidencePreviewEndpoint}</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          An authorized reviewer can bind one returned quarantine record to an evidence-only admission preview. The preview preserves pending scan, rights, source-review, accessibility, mapping, and release gates; it cannot promote or publish the record.
         </p>
       </div>
 

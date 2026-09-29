@@ -169,12 +169,20 @@ export function ControlledQuarantineUploadPanel({
         </div>
       </form>
 
-      {response ? <IntakeResult state={state} response={response} /> : null}
+      {response ? <IntakeResult tenantId={tenantId} state={state} response={response} /> : null}
     </Card>
   );
 }
 
-function IntakeResult({ state, response }: { state: "accepted" | "error" | "idle" | "submitting"; response: IntakeResponse }) {
+function IntakeResult({
+  tenantId,
+  state,
+  response,
+}: {
+  tenantId: string;
+  state: "accepted" | "error" | "idle" | "submitting";
+  response: IntakeResponse;
+}) {
   const accepted = state === "accepted" && response.status === "accepted-quarantine";
   return (
     <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4" aria-live="polite">
@@ -183,12 +191,30 @@ function IntakeResult({ state, response }: { state: "accepted" | "error" | "idle
         <StatusPill label={accepted ? "Review required" : "No intake"} tone={accepted ? "warning" : "warning"} />
       </div>
       {accepted ? (
-        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Boundary label="Quarantine ID" value={response.quarantineId ?? "Recorded"} />
-          <Boundary label="Scan" value={response.record?.scanStatus ?? "Pending"} />
-          <Boundary label="Rights" value={response.record?.rightsStatus ?? "Unknown"} />
-          <Boundary label="Student use" value={response.record?.studentFacingUseAllowed ? "Blocked error" : "Blocked"} />
-        </dl>
+        <>
+          <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Boundary label="Quarantine ID" value={response.quarantineId ?? "Recorded"} />
+            <Boundary label="Scan" value={response.record?.scanStatus ?? "Pending"} />
+            <Boundary label="Rights" value={response.record?.rightsStatus ?? "Unknown"} />
+            <Boundary label="Student use" value={response.record?.studentFacingUseAllowed ? "Blocked error" : "Blocked"} />
+          </dl>
+          {response.quarantineId ? (
+            <div className="mt-4 flex flex-wrap gap-4 text-sm font-semibold">
+              <a
+                className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+                href={`/api/teacher/uploads/review?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
+              >
+                Open metadata review
+              </a>
+              <a
+                className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+                href={`/api/teacher/uploads/evidence-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
+              >
+                Open evidence packet preview
+              </a>
+            </div>
+          ) : null}
+        </>
       ) : null}
       <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
         {(response.errors ?? ["Promotion, route creation, and student-facing use remain blocked."]).map((error, index) => (
