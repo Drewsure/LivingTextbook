@@ -99,9 +99,9 @@ try {
       tenantId: "sample-publisher",
       quarantineId,
       packageId: "sample-publisher-l1-u1-routines-package",
-      selectedMode: "closed-local",
+      selectedMode: "hybrid",
       reviewerId: "publisher-intake-reviewer",
-      reviewerNote: "Synthetic closed-local choice for controlled pilot rehearsal.",
+      reviewerNote: "Synthetic hybrid choice for controlled pilot rehearsal.",
     }),
   });
   const deliveryMode = await readJson(deliveryModeResponse);
@@ -165,10 +165,13 @@ try {
   const secondBinding = await requestJson(`${baseUrl}/api/teacher/uploads/package-readiness-binding?${query}`, headers);
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "review-packet" && check.status === "blocked"), "downstream packet blockers must flow into live readiness after source decision acceptance");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "passed"), "accepted source decision must close only its own live readiness gate");
-  assert(secondBinding.deliveryModeDecision?.selectedMode === "closed-local", "delivery mode selection must flow into live readiness");
+  assert(secondBinding.deliveryModeDecision?.selectedMode === "hybrid", "hybrid delivery mode selection must flow into live readiness");
+  assert(secondBinding.hostedPersistenceOptInPacket?.deliveryMode === "hybrid-registry-local-media", "hybrid delivery must derive the package-scoped hosted persistence preview");
+  assert(secondBinding.hostedPersistenceOptInPacket?.reviewOnly === true && secondBinding.hostedPersistenceOptInPacket?.providerSelected === false && secondBinding.hostedPersistenceOptInPacket?.optInRecorded === false, "hosted persistence preview must remain review-only and unselected");
+  assert(secondBinding.hostedPersistenceOptInPacket?.writesAllowed === false && secondBinding.hostedPersistenceOptInPacket?.activationAllowed === false && secondBinding.hostedPersistenceOptInPacket?.learnerRecordsIncluded === false, "hosted persistence preview must block writes, activation, and learner records");
   assert(secondBinding.packageEvidenceReview?.status === "reviewed-package-evidence", "complete package evidence must flow into live readiness");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must close only the reviewed package preview check");
-  assert(secondBinding.deliveryManifestPreview?.selectedMode === "closed-local", "delivery mode selection must flow into live delivery manifest preview");
+  assert(secondBinding.deliveryManifestPreview?.selectedMode === "hybrid", "hybrid delivery mode selection must flow into live delivery manifest preview");
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must flow into the delivery manifest preview");
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
   assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");

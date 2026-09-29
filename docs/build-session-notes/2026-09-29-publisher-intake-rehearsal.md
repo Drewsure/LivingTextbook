@@ -24,10 +24,12 @@ server exits.
 ## Latest run
 
 `npm run verify:publisher-intake-rehearsal` passed on 2026-09-29. The run
-confirmed that complete synthetic package evidence closes only the source,
-package-review, delivery-mode, and package-preview checks. Delivery, release,
-QR printing, local assembly, hosted persistence, and student-facing activation
-remained blocked.
+selected hybrid delivery and confirmed that complete synthetic package evidence
+closes only the source, package-review, delivery-mode, and package-preview
+checks. The live handoff derived a package-scoped hosted persistence preview,
+but provider selection, opt-in, hosted writes, learner records, delivery,
+release, QR printing, local assembly, and student-facing activation remained
+blocked. The local fallback path remains part of the selected hybrid contract.
 
 ## Next slice
 
