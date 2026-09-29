@@ -8955,3 +8955,15 @@ This standard is recorded in DR-1273 and ADR 1273.
   create routes, print QR codes, activate persistence, or use students.
 
 This standard is recorded in DR-1274 and ADR 1274.
+
+## 559. Readiness View Evidence Parity Standard
+
+- The combined package-readiness binding must construct its embedded assembly
+  preflight with the same reviewed multimedia/game evidence blocker as the
+  standalone assembly-preflight route.
+- A package-review packet without a complete, checksum-bound package-evidence
+  sidecar remains blocked in every readiness view.
+- No dashboard or handoff may present a more advanced state than the route
+  that enforces assembly safety.
+
+This standard is recorded in DR-1275 and ADR 1275.

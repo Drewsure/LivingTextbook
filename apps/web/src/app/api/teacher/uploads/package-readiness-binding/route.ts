@@ -99,6 +99,7 @@ export async function GET(request: Request) {
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
+      ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
       "A manual release receipt and QR print authorization are not linked to this quarantine review packet.",
       "An approved local bundle or hosted deployment handoff is not linked to this quarantine review packet.",
