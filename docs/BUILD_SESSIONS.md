@@ -6825,3 +6825,7 @@ student-payload-blocked behavior.
 - Added behavior coverage for route identity, QR fallback preservation, missing
   units, and traversal-safe unit ids. No route activation, learner write, QR
   mutation, or hosted persistence was enabled. Added ADR 1285 and DR-1000.
+- Extended the shared identity map through local media playback and teacher
+  evidence pages, so all local package views use the same package/unit launch
+  code. Kept media-kind capability labels separate from playlist identifiers;
+  media routes must resolve from declared playlist content.
