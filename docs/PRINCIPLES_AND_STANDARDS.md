@@ -8548,3 +8548,21 @@ This standard is recorded in DR-1250 and ADR 1250.
 
 This standard is recorded in the package assembly preflight verifier and the
 current pilot acceptance matrix.
+
+## 536. Local Package Assembly Review-Binding Standard
+
+- The local package writer may accept a request only when it carries the
+  tenant-scoped quarantine identity and the exact durable package review packet
+  identity that was captured for that submission.
+- The durable packet must be `ready-for-next-gate`, must carry the accepted
+  human package-review decision, must match the delivery manifest tenant and
+  package identities, and must match its source assembly checksum.
+- A valid release receipt alone is insufficient. A delivery manifest or
+  package index cannot be substituted for publisher review lineage.
+- A failed, missing, stale, or mismatched packet must fail closed before any
+  asset copy, QR generation, local package write, or package activation.
+- Successful assembly remains separate from student activation, hosted
+  persistence, and production QR release. Those actions require their own
+  explicit gates and evidence.
+
+This standard is recorded in DR-1252 and ADR 1252.

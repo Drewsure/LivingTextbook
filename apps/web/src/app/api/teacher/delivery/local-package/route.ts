@@ -2,11 +2,15 @@ import { NextResponse } from "next/server";
 import { validateLocalBundleManifest, type LocalBundleManifest, type PilotDeliveryManifest, type PilotDeliveryPackageIndex, type PilotDeliveryReleaseReceipt } from "@living-textbook/content-model";
 import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput } from "@/server/delivery/localPilotPackageAssembler";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
+import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type LocalPackageRequest = LocalPilotPackageAssemblyInput;
+type LocalPackageRequest = LocalPilotPackageAssemblyInput & {
+  quarantineId: string;
+  reviewPacketId: string;
+};
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
@@ -14,16 +18,35 @@ export async function POST(request: Request) {
   if (!hasDeliveryToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery token is required."], privacy: privacyMessage() }, 401);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Local pilot package request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
-  if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, receipt, package index, bundle manifest, operator, and timestamp fields."], privacy: privacyMessage() }, 400);
-  const result = await assembleLocalPilotPackage(bodyResult.value);
-  return json({ ...result, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
+  if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, receipt, package index, bundle manifest, operator, timestamp, quarantine, and review packet fields."], privacy: privacyMessage() }, 400);
+
+  const packetResult = await readQuarantinePackageReviewPacket(bodyResult.value.manifest.tenantId, bodyResult.value.quarantineId);
+  const packet = packetResult.record;
+  const packetErrors = validateReviewPacketBinding(bodyResult.value, packet);
+  if (packetErrors.length > 0) {
+    return json({ status: "blocked", reviewPacketBound: false, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: packetErrors, packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, 423);
+  }
+
+  const { quarantineId: _quarantineId, reviewPacketId: _reviewPacketId, ...assemblyInput } = bodyResult.value;
+  const result = await assembleLocalPilotPackage(assemblyInput);
+  return json({ ...result, reviewPacketBound: true, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
 }
 
 function isLocalPackageRequest(value: unknown): value is LocalPackageRequest {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const candidate = value as Record<string, unknown>;
   return Boolean(candidate.manifest && typeof candidate.manifest === "object" && candidate.receipt && typeof candidate.receipt === "object" && candidate.packageIndex && typeof candidate.packageIndex === "object" && candidate.bundleManifest && typeof candidate.bundleManifest === "object")
-    && typeof candidate.operatorId === "string" && typeof candidate.writtenAt === "string" && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+    && typeof candidate.operatorId === "string" && typeof candidate.writtenAt === "string" && typeof candidate.quarantineId === "string" && typeof candidate.reviewPacketId === "string" && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+}
+
+function validateReviewPacketBinding(input: LocalPackageRequest, packet: Awaited<ReturnType<typeof readQuarantinePackageReviewPacket>>["record"]): string[] {
+  const errors = [...(packet ? [] : ["Local pilot package assembly requires a durable quarantine package review packet."])];
+  if (!packet) return [...new Set([...errors, "The review packet could not be read from the configured quarantine custody boundary."] )];
+  if (packet.packetId !== input.reviewPacketId) errors.push("The supplied review packet id does not match the durable quarantine review packet.");
+  if (packet.tenantId !== input.manifest.tenantId || packet.packageId !== input.manifest.packageId) errors.push("The durable review packet tenant and package identities do not match the approved delivery manifest.");
+  if (packet.status !== "ready-for-next-gate" || packet.reviewDecision !== "accepted-for-package-review") errors.push("The durable review packet is not accepted for package assembly.");
+  if (packet.checksumSha256 !== input.manifest.sourceAssemblyChecksum.replace(/^sha256:/, "")) errors.push("The durable review packet checksum does not match the approved delivery manifest.");
+  return [...new Set(errors)];
 }
 
 function hasDeliveryToken(request: Request): boolean {

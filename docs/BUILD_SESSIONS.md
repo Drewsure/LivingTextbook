@@ -6669,3 +6669,15 @@ student-payload-blocked behavior.
 - Kept assembly writes, route/playlist writes, local bundle writes, QR print
   authorization, hosted persistence, and student use blocked. Added a contract
   verifier and standards entry 535.
+
+## Build session: Local package writer review-packet binding
+
+- Updated the local package assembly endpoint to require the exact durable
+  quarantine package review packet for the requested tenant, quarantine record,
+  and package.
+- The endpoint now rejects missing, blocked, wrong-decision, mismatched-package,
+  and mismatched-checksum packets before the writer can copy assets or generate
+  QR artifacts.
+- Preserved the separate release, QR, local activation, hosted persistence,
+  and learner-record boundaries. Added the review-binding verifier and
+  standards entry 536.
