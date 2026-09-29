@@ -6511,3 +6511,16 @@ student-payload-blocked behavior.
   learner records.
 - Kept QR mutation, QR printing, hosted persistence, and student activation
   disabled. Added ADR 1240, DR-1240, and a standing foundation verifier.
+
+## Build session: Release-bound QR print artifact
+
+- Extended the approved local package assembler with a self-contained HTML QR
+  print sheet and machine-readable QR print manifest.
+- Required an explicit absolute HTTP/HTTPS print base URL and bound it into
+  the immutable assembly record.
+- Encoded only stable /q/ aliases, while recording printed identity, encoded
+  URL, local fallback, and SVG output for printer review.
+- Added replay read-back for the QR artifacts and retained all QR mutation,
+  student activation, hosted persistence, and learner-record boundaries.
+- Added ADR 1241 and DR-1241. Production print remains blocked for the
+  sample until real release and rollback evidence exists.

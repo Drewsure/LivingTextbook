@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
   if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, receipt, package index, bundle manifest, operator, and timestamp fields."], privacy: privacyMessage() }, 400);
   const result = await assembleLocalPilotPackage(bodyResult.value);
-  return json({ ...result, packageAssemblyAllowed: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
+  return json({ ...result, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
 }
 
 function isLocalPackageRequest(value: unknown): value is LocalPackageRequest {

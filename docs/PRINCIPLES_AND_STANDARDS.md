@@ -8324,3 +8324,26 @@ This standard is recorded in
 
 This standard is recorded in the decision register entry DR-1240, the build
 session log, and ADR 1240.
+
+## 526. Release-Bound QR Print Artifact Standard
+
+- A QR print artifact is part of an approved local package only after the
+  delivery manifest and release receipt both authorize QR printing. A browser
+  preview or a draft alias is never a production print authorization.
+- Assembly requires an explicit LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL. The
+  base URL must be absolute HTTP or HTTPS without credentials, query strings,
+  or fragments. The exact normalized base URL is bound into the assembly
+  record so a later replay cannot silently encode a different destination.
+- The printed symbol encodes the stable internal /q/ alias resolved against
+  that explicit base URL. The package also records the local fallback path,
+  printed QR identity, encoded URL, and SVG in a machine-readable manifest,
+  plus a self-contained HTML print sheet.
+- QR print artifact generation does not mutate the alias registry, activate a
+  student route, enable hosted persistence, or change a package release. It
+  is an output of release approval, not a release approval mechanism.
+- If a package already exists, the assembler must re-read the print manifest,
+  HTML, package metadata, and declared checksums before reporting an
+  idempotent replay. Missing or altered print output is a conflict.
+
+This standard is recorded in the decision register entry DR-1241, the build
+session log, and ADR 1241.
