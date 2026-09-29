@@ -6692,3 +6692,15 @@ student-payload-blocked behavior.
 - Kept runtime reads gated and learner-safe. Missing or drifted review lineage
   now makes the package unavailable rather than relying on release metadata
   alone. Added ADR 1253, DR-1253, and standards entry 537.
+
+## Build session: Hosted persistence opt-in decision packet
+
+- Added a package-scoped hosted/hybrid persistence decision contract that binds
+  review lineage, provider selection, policy, release, cost, and rollback
+  evidence into one explicit commercial handoff.
+- Added a teacher persistence workbench panel showing the human decisions and
+  unresolved checks without exposing provider activation, credentials, learner
+  records, or live writes.
+- Kept the local companion as the fallback and required a later opt-in and
+  deployment gate before hosted persistence can become a saleable-pilot claim.
+- Added ADR 1254, DR-1254, standards entry 538, and a foundation verifier.

@@ -8583,3 +8583,27 @@ This standard is recorded in DR-1252 and ADR 1252.
   progression authority.
 
 This standard is recorded in DR-1253 and ADR 1253.
+
+## 538. Hosted Persistence Opt-In Decision Standard
+
+- A hosted or hybrid persistence choice must be represented by one
+  package-scoped decision packet before provider implementation work begins.
+  The packet must bind the tenant, package, quarantined source, review packet,
+  source checksum, provider-selection preflight, policy record, release
+  decision, and rollback rehearsal identities.
+- The decision packet is an explicit commercial handoff, not a hidden toggle.
+  It must state the delivery mode, candidate provider, unresolved checks,
+  cost/usage owner, data policy owner, and next human decisions in one place.
+- Until a separate human opt-in decision is recorded and verified, the packet
+  must remain review-only with `providerSelected`, `optInRecorded`,
+  `writesAllowed`, `activationAllowed`, and `learnerRecordsIncluded` all
+  false. No provider credential or learner record may cross this boundary.
+- A packet marked ready for human opt-in is not provider activation. It only
+  proves that the evidence is complete enough for an authorized human to make
+  the next decision. Missing, open, blocked, or mismatched package lineage
+  must fail closed.
+- The hosted path must preserve the closed-local fallback and rehearse export,
+  deletion, provider loss, and return-to-local recovery before a saleable pilot
+  can claim durable hosted reporting.
+
+This standard is recorded in DR-1254 and ADR 1254.

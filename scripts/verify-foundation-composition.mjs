@@ -137,6 +137,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-prov
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-persistence-provider-selection-preflight-behavior.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-hosted-persistence-opt-in-decision-packet.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-deployment-decision-workbench.mjs", import.meta.url))], {
   stdio: "inherit",
 });

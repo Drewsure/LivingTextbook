@@ -69,6 +69,8 @@ import { samplePilotReviewDecisionImplementationReadiness, samplePilotReviewDeci
 import { PilotReviewDecisionImplementationReadinessPanel } from "@/features/persistence/PilotReviewDecisionImplementationReadinessPanel";
 import { samplePersistenceProviderSelectionPreflight, samplePersistenceProviderSelectionPreflightErrors } from "@/data/samplePersistenceProviderSelectionPreflight";
 import { PersistenceProviderSelectionPreflightPanel } from "@/features/persistence/PersistenceProviderSelectionPreflightPanel";
+import { HostedPersistenceOptInDecisionPacketPanel } from "@/features/persistence/HostedPersistenceOptInDecisionPacketPanel";
+import { sampleHostedPersistenceOptInDecisionPacket, sampleHostedPersistenceOptInDecisionPacketErrors } from "@/data/sampleHostedPersistenceOptInDecisionPacket";
 import { PersistenceRecoveryRehearsalPanel } from "@/features/persistence/PersistenceRecoveryRehearsalPanel";
 import { samplePersistenceRecoveryRehearsal, samplePersistenceRecoveryRehearsalErrors } from "@/data/samplePersistenceRecoveryRehearsal";
 import { sampleTeacherDraftPersistenceImplementationReadiness, sampleTeacherDraftPersistenceImplementationReadinessErrors } from "@/data/sampleTeacherDraftPersistenceImplementationReadiness";
@@ -144,6 +146,10 @@ export default function TeacherPersistencePage() {
         <PersistenceProviderSelectionPreflightPanel
           preflight={samplePersistenceProviderSelectionPreflight}
           errors={samplePersistenceProviderSelectionPreflightErrors}
+        />
+        <HostedPersistenceOptInDecisionPacketPanel
+          packet={sampleHostedPersistenceOptInDecisionPacket}
+          errors={sampleHostedPersistenceOptInDecisionPacketErrors}
         />
         <PersistenceRecoveryRehearsalPanel
           rehearsal={samplePersistenceRecoveryRehearsal}
