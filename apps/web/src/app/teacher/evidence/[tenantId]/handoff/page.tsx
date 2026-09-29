@@ -21,6 +21,8 @@ import { PilotDeliveryReleaseReceiptPanel } from "@/features/evidence/PilotDeliv
 import { PilotDeliveryPackageIndexPanel } from "@/features/evidence/PilotDeliveryPackageIndexPanel";
 import { PublisherPilotPackageReadinessBindingPanel } from "@/features/evidence/PublisherPilotPackageReadinessBindingPanel";
 import { samplePublisherPilotPackageReadinessBinding, samplePublisherPilotPackageReadinessBindingErrors } from "@/data/samplePublisherPilotPackageReadinessBinding";
+import { TenantEvidencePacketHandoffEmptyStatePanel } from "@/features/evidence/TenantEvidencePacketHandoffEmptyStatePanel";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
@@ -32,12 +34,12 @@ export default async function TeacherEvidencePacketHandoffPage({
   const { tenantId } = await params;
   const query = searchParams ? await searchParams : {};
 
-  if (tenantId !== samplePublisherTenant.id) {
-    notFound();
-  }
+  const tenant = resolveTenantConfig(tenantId);
+  if (!tenant) notFound();
+  const hasSampleHandoff = tenantId === samplePublisherTenant.id;
 
   const publisherReconciliations = samplePackageReadinessReconciliations.filter(
-    (reconciliation) => reconciliation.tenantId === samplePublisherTenant.id,
+    (reconciliation) => reconciliation.tenantId === tenantId,
   );
   const publisherReconciliationIds = new Set(publisherReconciliations.map((reconciliation) => reconciliation.reconciliationId));
   const publisherReconciliationFindings = samplePackageReadinessReconciliationErrors.filter((error) =>
@@ -45,7 +47,7 @@ export default async function TeacherEvidencePacketHandoffPage({
   );
 
   return (
-    <AppShell tenant={samplePublisherTenant}>
+    <AppShell tenant={tenant}>
       <div className="grid gap-5">
         {query.quarantineId ? (
           <>
@@ -67,19 +69,25 @@ export default async function TeacherEvidencePacketHandoffPage({
             />
           </>
         ) : null}
-        <PublisherPilotPackageReadinessBindingPanel binding={samplePublisherPilotPackageReadinessBinding} validationErrors={samplePublisherPilotPackageReadinessBindingErrors} />
-        <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
-        <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
-        <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
-        <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
-        <PackageReadinessReconciliationPanel
-          reconciliations={publisherReconciliations}
-          evidenceFindings={publisherReconciliationFindings}
-        />
-        <EvidencePacketHandoffPanel
-          handoffPackage={samplePublisherEvidencePacketHandoffPackage}
-          validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}
-        />
+        {hasSampleHandoff ? (
+          <>
+            <PublisherPilotPackageReadinessBindingPanel binding={samplePublisherPilotPackageReadinessBinding} validationErrors={samplePublisherPilotPackageReadinessBindingErrors} />
+            <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
+            <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
+            <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
+            <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
+            <PackageReadinessReconciliationPanel
+              reconciliations={publisherReconciliations}
+              evidenceFindings={publisherReconciliationFindings}
+            />
+            <EvidencePacketHandoffPanel
+              handoffPackage={samplePublisherEvidencePacketHandoffPackage}
+              validationErrors={samplePublisherEvidencePacketHandoffPackageErrors}
+            />
+          </>
+        ) : (
+          <TenantEvidencePacketHandoffEmptyStatePanel tenantId={tenant.id} tenantName={tenant.displayName} />
+        )}
       </div>
     </AppShell>
   );

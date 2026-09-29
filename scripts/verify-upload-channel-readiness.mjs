@@ -52,6 +52,7 @@ const tenantEvidencePacketEmptyStatePanel = readSource("../apps/web/src/features
 const teacherSourceReviewRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
 const teacherSourceReviewPanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const teacherEvidencePacketHandoffRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
+const tenantEvidencePacketHandoffEmptyStatePanel = readSource("../apps/web/src/features/evidence/TenantEvidencePacketHandoffEmptyStatePanel.tsx");
 const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
 const teacherMediaAssetRoute = readSource("../apps/web/src/app/teacher/assets/media/[assetId]/page.tsx");
 const teacherIntake = readSource("../apps/web/src/app/teacher/intake/page.tsx");
@@ -881,6 +882,12 @@ requireText(teacherMediaLibraryPanel, "Sample and MiniStar media records are not
 requireText(teacherMediaLibraryPanel, "Open tenant upload workspace", "Tenant media library must link back to tenant upload intake.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
+requireText(teacherEvidencePacketHandoffRoute, "resolveTenantConfig", "Teacher evidence packet handoff route must resolve a shared white-label tenant.");
+requireText(teacherEvidencePacketHandoffRoute, "TenantEvidencePacketHandoffEmptyStatePanel", "Teacher evidence packet handoff route must separate unprovisioned tenants from sample handoff data.");
+requireText(teacherEvidencePacketHandoffRoute, "hasSampleHandoff", "Teacher evidence packet handoff route must gate static handoff data by tenant identity.");
+requireText(tenantEvidencePacketHandoffEmptyStatePanel, "No handoff packet exists yet", "Empty tenant handoff state must explain that no packet exists.");
+requireText(tenantEvidencePacketHandoffEmptyStatePanel, "No sample package is shown", "Empty tenant handoff state must protect sample package data.");
+requireText(tenantEvidencePacketHandoffEmptyStatePanel, "Open tenant evidence review", "Empty tenant handoff state must link to tenant evidence review.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");
 requireText(teacherLabelledDiagramAssetRoute, "LabelledDiagramAssetWorkspacePanel", "Teacher Labelled Diagram asset route must render the workspace panel.");
 requireText(teacherLabelledDiagramAssetRoute, "sampleLabelledDiagramEvidencePacketFlow", "Teacher Labelled Diagram asset route must pass the evidence packet flow.");

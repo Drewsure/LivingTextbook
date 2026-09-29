@@ -119,6 +119,17 @@ expectedTextByPath.set("/teacher/media/white-label-review", [
   "Local folder activation blocked",
 ]);
 
+expectedTextByPath.set("/teacher/evidence/white-label-review/handoff", [
+  "Publisher handoff preview",
+  "No handoff packet exists yet",
+  "Handoff blocked",
+  "Required before handoff",
+  "Admit the publisher source through tenant quarantine review",
+  "Nothing is promoted here",
+  "No sample package is shown",
+  "Open tenant evidence review",
+]);
+
 const activeGameLearningAudioContractExpected = [
   "Learning audio contract",
   "Audio ready",

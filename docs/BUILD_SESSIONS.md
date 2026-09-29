@@ -6932,3 +6932,14 @@ student-payload-blocked behavior.
 - Added an active route check for the unprovisioned white-label media path.
 - Kept upload, transcode, playlist creation, media-only progress, local folder
   activation, and student-facing media use blocked.
+
+## Build session: Tenant-scoped evidence handoff empty state
+
+- Extended the evidence handoff route through the shared white-label tenant
+  resolver and kept the real quarantine handoff bridge available for a supplied
+  tenant-bound quarantine identity.
+- New tenants receive an empty handoff state instead of Sample Publisher's
+  package, delivery manifest, release receipt, QR, or storage evidence.
+- Added active route coverage for the unprovisioned handoff path.
+- Kept export, signing, package assembly, QR printing, playlist creation,
+  assignments, and student use blocked.
