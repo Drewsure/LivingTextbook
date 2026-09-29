@@ -18,6 +18,10 @@ blocked, production printing is not authorized, hosted persistence is opt-in
 review-only, and provider activation, package export, promotion, and student
 assignment remain blocked.
 
+The preview includes a locally generated QR review sheet. It may be printed
+for internal testing of alias payloads, but it is not a production textbook
+insert and cannot mutate QR records or bypass release control.
+
 ## Rationale
 
 Publishers need to see the complete product they are buying before the platform

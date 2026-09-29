@@ -13,3 +13,7 @@ provider, promote student content, or expose raw media. The next gate is to
 replace sample evidence with a recorded source review decision and publisher
 media/rights evidence, then rehearse package checksums, QR fallback, classroom
 launch, persistence choice, and rollback.
+
+The package preview now renders local QR SVG symbols for an internal browser
+print-sheet rehearsal. This is a review artifact only and does not change the
+production print decision.

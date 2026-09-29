@@ -4,6 +4,7 @@ import type {
   PublisherPilotPackagePreview,
   PublisherPilotQrPreview,
 } from "@living-textbook/content-model";
+import { PublisherPilotQrPrintSheet } from "./PublisherPilotQrPrintSheet";
 
 interface PublisherPilotPackagePreviewPanelProps {
   preview: PublisherPilotPackagePreview;
@@ -12,7 +13,7 @@ interface PublisherPilotPackagePreviewPanelProps {
 
 const artifactTone = { "preview-ready": "success", blocked: "warning" } as const;
 
-export function PublisherPilotPackagePreviewPanel({ preview, validationErrors }: PublisherPilotPackagePreviewPanelProps) {
+export async function PublisherPilotPackagePreviewPanel({ preview, validationErrors }: PublisherPilotPackagePreviewPanelProps) {
   const previewReady = preview.artifacts.filter((artifact) => artifact.status === "preview-ready").length;
   const blocked = preview.artifacts.filter((artifact) => artifact.status === "blocked").length;
 
@@ -88,6 +89,8 @@ export function PublisherPilotPackagePreviewPanel({ preview, validationErrors }:
           {preview.qrPreviews.map((qr) => <QrCard key={qr.printedQrId} qr={qr} />)}
         </div>
       </section>
+
+      <PublisherPilotQrPrintSheet qrs={preview.qrPreviews} />
 
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <ListBlock title="Game modes in this preview" items={preview.gameModes} />

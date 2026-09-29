@@ -6386,3 +6386,6 @@ student-payload-blocked behavior.
   paths while keeping production printing blocked.
 - Integrated the preview into the evidence handoff route and added a focused
   verifier to the foundation composition gate.
+- Added local QR SVG generation and a browser-print review sheet for stable
+  alias previews. The sheet is suitable for internal rehearsal only; it does
+  not mutate aliases or authorize production textbook printing.

@@ -8076,6 +8076,9 @@ This standard is recorded in
 - Every proposed artifact must name its source records, missing evidence,
   proposed path, and blocked write/student-use state. Every QR preview must
   resolve through a stable `/q/` alias and retain a safe local fallback.
+- A QR review sheet may render deterministic code symbols and use browser
+  printing for internal rehearsal, but it must label the sheet as review-only;
+  rendering or printing a preview never authorizes production textbook use.
 - Hosted persistence remains opt-in and provider-neutral. Package preview,
   QR preview, or local-bundle preview cannot activate persistence, print
   production QR codes, promote student content, or export raw media.

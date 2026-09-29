@@ -1611,3 +1611,11 @@ print production QR codes, activate persistence, promote student content, or
 export raw media from this route. Run
 `node scripts/verify-publisher-pilot-package-preview.mjs`, then the full
 foundation gate after changes to this slice.
+
+QR review-sheet procedure: on the evidence handoff route, use `Print review
+sheet` only for internal alias rehearsal. Confirm each symbol encodes the
+displayed stable `/q/` path and that the local fallback is shown beside it.
+Do not describe this sheet as production-ready or distribute it as a final
+textbook insert until durable alias persistence, rights/checksum evidence,
+release approval, local fallback, and rollback approval are closed. The QR
+encoder is local and produces no network call or route mutation.

@@ -99,8 +99,8 @@ export function validatePublisherPilotPackagePreview(preview: PublisherPilotPack
     if (typeof qr?.printedQrId !== "string" || !safeIdentifierPattern.test(qr.printedQrId)) errors.push("Publisher pilot QR id must be safe.");
     if (qrIds.has(qr.printedQrId)) errors.push(`Publisher pilot package preview contains duplicate QR ${qr.printedQrId}.`);
     qrIds.add(qr.printedQrId);
-    if (typeof qr?.aliasPath !== "string" || !qr.aliasPath.startsWith("/q/")) errors.push(`Publisher pilot QR ${qr.printedQrId} must use a stable /q/ alias path.`);
-    if (typeof qr?.fallbackPath !== "string" || !qr.fallbackPath.startsWith("/")) errors.push(`Publisher pilot QR ${qr.printedQrId} needs a safe fallback path.`);
+    if (typeof qr?.aliasPath !== "string" || !isSafeInternalQrPath(qr.aliasPath)) errors.push(`Publisher pilot QR ${qr.printedQrId} must use a safe stable /q/ alias path.`);
+    if (typeof qr?.fallbackPath !== "string" || !isSafeInternalPath(qr.fallbackPath)) errors.push(`Publisher pilot QR ${qr.printedQrId} needs a safe fallback path.`);
     if (!Array.isArray(qr?.deploymentTargets) || qr.deploymentTargets.length === 0) errors.push(`Publisher pilot QR ${qr.printedQrId} needs deployment targets.`);
     if (qr?.printAllowed !== false) errors.push(`Publisher pilot QR ${qr.printedQrId} must remain print-blocked until release gates pass.`);
   }
@@ -110,4 +110,20 @@ export function validatePublisherPilotPackagePreview(preview: PublisherPilotPack
   if (preview?.status === "blocked" && preview?.nextGates?.length === 0) errors.push("Blocked publisher pilot package preview must name next gates.");
 
   return [...new Set(errors)];
+}
+
+function isSafeInternalQrPath(value: string): boolean {
+  return value.startsWith("/q/")
+    && !value.startsWith("//")
+    && !value.includes("\\")
+    && !value.includes("..")
+    && !/^\/(?:\/|.*(?:https?:|file:|localhost|127\.0\.0\.1))/i.test(value);
+}
+
+function isSafeInternalPath(value: string): boolean {
+  return value.startsWith("/")
+    && !value.startsWith("//")
+    && !value.includes("\\")
+    && !value.includes("..")
+    && !/^\/(?:\/|.*(?:https?:|file:|localhost|127\.0\.0\.1))/i.test(value);
 }
