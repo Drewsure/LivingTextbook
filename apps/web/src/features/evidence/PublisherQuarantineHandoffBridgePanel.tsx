@@ -14,6 +14,7 @@ import type {
   UploadQuarantinePackageEvidenceReview,
   UploadQuarantineReleaseReceiptPreview,
   UploadQuarantinePackageIndexPreview,
+  UploadQuarantineReviewDecisionRecord,
   PublisherPilotPackageReadinessBinding,
 } from "@living-textbook/content-model";
 
@@ -38,6 +39,7 @@ type HandoffResponse = {
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
+  reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   errors?: string[];
@@ -63,6 +65,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [deliveryManifestPreview, setDeliveryManifestPreview] = useState<UploadQuarantineDeliveryManifestPreview | null>(null);
   const [deliveryModeDecision, setDeliveryModeDecision] = useState<UploadQuarantineDeliveryModeDecision | null>(null);
   const [packageEvidenceReview, setPackageEvidenceReview] = useState<UploadQuarantinePackageEvidenceReview | null>(null);
+  const [reviewDecision, setReviewDecision] = useState<UploadQuarantineReviewDecisionRecord | null>(null);
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
   const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
@@ -116,11 +119,12 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
         setPackageEvidenceReview(next.packageEvidenceReview ?? null);
+        setReviewDecision(next.reviewDecision ?? null);
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
         setPackageIndexPreview(next.packageIndexPreview ?? null);
       })
@@ -130,6 +134,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setDeliveryManifestPreview(null);
         setDeliveryModeDecision(null);
         setPackageEvidenceReview(null);
+        setReviewDecision(null);
         setReleaseReceiptPreview(null);
         setPackageIndexPreview(null);
       });
@@ -299,6 +304,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             )}
           </section>
           {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
+          <LiveReviewDecisionSummary decision={reviewDecision} />
           {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
           {releaseReceiptPreview ? <LiveReleaseReceiptPreview preview={releaseReceiptPreview} /> : null}
           {packageIndexPreview ? <LivePackageIndexPreview preview={packageIndexPreview} /> : null}
@@ -314,6 +320,45 @@ export function PublisherQuarantineHandoffBridgePanel({
 
       {payload?.privacy ? <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">{payload.privacy}</p> : null}
     </Card>
+  );
+}
+
+function LiveReviewDecisionSummary({ decision }: { decision: UploadQuarantineReviewDecisionRecord | null }) {
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live package review decision</p>
+          <h3 className="mt-1 text-base font-bold">Show the source decision before package gates advance</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            This is the immutable quarantine-scoped review decision, not release approval. It is shown as evidence only and cannot assemble, promote, or activate a package.
+          </p>
+          <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">Decision states: not recorded · accepted-for-package-review · changes-required.</p>
+        </div>
+        <StatusPill label={decision?.decision ?? "not recorded"} tone="warning" />
+      </div>
+      {decision ? (
+        <>
+          <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Fact label="Decision" value={decision.decision} />
+            <Fact label="Reviewer" value={decision.reviewerId} />
+            <Fact label="Decision ID" value={decision.decisionId} />
+            <Fact label="Captured" value={decision.capturedAt} />
+          </dl>
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <ListBlock title="Reviewed fields" items={decision.reviewedFields} />
+            <ListBlock title="Unresolved blockers" items={decision.unresolvedBlockers} tone="warning" />
+          </div>
+          <p className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-xs leading-5 text-[var(--tenant-muted)]">
+            Note: {decision.reviewerNote} · release approval: not recorded · package assembly: blocked · promotion: blocked · student use: blocked
+          </p>
+        </>
+      ) : (
+        <p className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+          No quarantine review decision is recorded yet. This remains not release approval, and package assembly, promotion, and student use stay blocked.
+        </p>
+      )}
+    </section>
   );
 }
 

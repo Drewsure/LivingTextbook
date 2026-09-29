@@ -8865,3 +8865,19 @@ This standard is recorded in DR-1267 and ADR 1267.
   mutate QR aliases, activate local or hosted delivery, or use student data.
 
 This standard is recorded in DR-1268 and ADR 1268.
+
+## 553. Live Review Decision Binding Standard
+
+- A live quarantine handoff must expose the immutable source review decision
+  bound to the same tenant and quarantine identity as the intake record.
+- The readiness response and teacher panel may show whether the decision is
+  `not recorded`, `accepted-for-package-review`, or `changes-required`, plus
+  bounded reviewer, timestamp, reviewed-field, note, and blocker metadata.
+- A source review decision is not release approval. It must never authorize
+  package assembly, promotion, QR printing, hosted persistence, or student use.
+- The live readiness route must read the existing validated decision sidecar;
+  it must not duplicate decision storage or infer approval from UI state.
+- Missing, invalid, or identity-mismatched decision records must remain absent
+  or blocked rather than being synthesized from sample or static package data.
+
+This standard is recorded in DR-1269 and ADR 1269.

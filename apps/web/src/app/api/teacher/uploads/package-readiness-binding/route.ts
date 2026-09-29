@@ -21,6 +21,7 @@ import {
   type UploadQuarantinePackageEvidenceReview,
   type UploadQuarantineReleaseReceiptPreview,
   type UploadQuarantinePackageIndexPreview,
+  type UploadQuarantineReviewDecisionRecord,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -29,6 +30,7 @@ import {
   readQuarantineEvidenceReview,
   readQuarantineDeliveryModeDecision,
   readQuarantinePackageEvidenceReview,
+  readQuarantineReviewDecision,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 
@@ -46,6 +48,7 @@ type ReadinessResponse = {
   deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null;
   deliveryModeDecision?: import("@living-textbook/content-model").UploadQuarantineDeliveryModeDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
+  reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   errors?: string[];
@@ -89,6 +92,8 @@ export async function GET(request: Request) {
   const packet = packetResult.record;
   const deliveryModeDecisionResult = await readQuarantineDeliveryModeDecision(tenantId, quarantineId);
   const deliveryModeDecision = deliveryModeDecisionResult.record;
+  const reviewDecisionResult = await readQuarantineReviewDecision(tenantId, quarantineId);
+  const reviewDecision = reviewDecisionResult.record;
   const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
   const packageEvidenceReview = packageEvidenceReviewResult.record;
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
@@ -175,9 +180,10 @@ export async function GET(request: Request) {
     deliveryManifestPreview: deliveryManifestPreviewErrors.length === 0 ? deliveryManifestPreview : null,
     deliveryModeDecision,
     packageEvidenceReview,
+    reviewDecision,
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
     privacy: privacyMessage(),
   });
 }
