@@ -17,12 +17,14 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
-  const { readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { readLocalPilotPackageContent, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
-  const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt });
+  const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
+  const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage });
   const environment = {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -51,6 +53,13 @@ try {
       assert(runtime.summary.routes[0]?.localFallbackPath === "/launch/unit-1", "runtime reader must preserve the QR local fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
+    }
+    const content = await readLocalPilotPackageContent({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(content.status === "available", "assembled reviewed content must pass the canonical content reader" + (content.status === "available" ? "" : `: ${content.errors.join(" | ")}`));
+    if (content.status === "available") {
+      assert(content.contentPackage.meta.tenantId === "tenant-one", "content reader must preserve tenant identity");
+      assert(content.contentPackage.meta.packageId === "package-one", "content reader must preserve package identity");
+      assert(content.contentPackage.meta.reviewStatus === "approved", "content reader must require approved package content");
     }
     const unsafeIdentity = await readLocalPilotPackageRuntime({ tenantId: "../tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(unsafeIdentity.status === "blocked", "runtime reader must reject traversal identities");
@@ -104,6 +113,7 @@ function compileSources() {
     "apps/web/src/server/persistence/backupPathPolicy.ts",
     "apps/web/src/server/uploads/quarantinePathPolicy.ts",
     "packages/content-model/src/index.ts",
+    "apps/web/src/data/samplePartnerPackage.ts",
   ], { cwd: root, encoding: "utf8" });
   if (compile.status !== 0) {
     process.stdout.write(compile.stdout);
@@ -139,10 +149,18 @@ function normalizeCompiledExtensions(directory) {
   }
 }
 
-function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt }) {
+function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage }) {
   mkdirSync(join(assetRoot, "content", "transcripts"), { recursive: true });
   mkdirSync(join(assetRoot, "media"), { recursive: true });
-  writeFileSync(join(assetRoot, "content", "package.json"), '{"tenant":"tenant-one","unit":"unit-1"}\n', "utf8");
+  const approvedContentRecord = JSON.parse(JSON.stringify(samplePartnerContentPackage));
+  for (const cue of approvedContentRecord.audioCues ?? []) delete cue.gameMode;
+  approvedContentRecord.multimediaPlans = [];
+  approvedContentRecord.meta.reviewStatus = "approved";
+  const approvedContent = JSON.stringify(approvedContentRecord)
+    .replaceAll("sample-publisher-l1-u1-routines-package", "package-one")
+    .replaceAll("sample-publisher", "tenant-one")
+    ;
+  writeFileSync(join(assetRoot, "content", "package.json"), approvedContent + "\n", "utf8");
   writeFileSync(join(assetRoot, "content", "transcripts", "greetings.en.txt"), "Hello, friend.\n", "utf8");
   writeFileSync(join(assetRoot, "media", "greetings.mp3"), "approved-audio-fixture\n", "utf8");
   const audioChecksum = "sha256-" + createHash("sha256").update(readFileSync(join(assetRoot, "media", "greetings.mp3"))).digest("hex");

@@ -38,6 +38,8 @@ The local pilot package assembly slice now executes the approved local-delivery 
   explicit local gate is enabled, and unsafe `file:` print bases are rejected.
 - Verified the assembled metadata can be read through the real local runtime
   reader while traversal identities remain blocked.
+- Verified a reviewed partner-style content package passes the canonical
+  content reader with tenant and package identity preserved before use.
 - Kept learner records, student activation, and hosted persistence outside the
   local package writer.
 
