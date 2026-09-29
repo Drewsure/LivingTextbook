@@ -316,9 +316,9 @@ requireText(teacherMediaLibraryPanel, "preview.assetOwnershipLabel", "Teacher me
 requireText(teacherMediaLibraryPanel, "Storage before live media tools", "Teacher media library panel must expose storage-before-live-media heading.");
 requireText(mediaRightsPlan, "MiniStar Greetings Chant", "Media rights plan must include the MiniStar chant rights record.");
 requireText(mediaRightsPlan, "MiniStar Hello Friends Video", "Media rights plan must include the MiniStar video rights record.");
-requireText(teacherMediaLibraryRoute, "findTenantConfig", "Teacher media library route must resolve tenant config before rendering.");
-requireText(teacherMediaLibraryRoute, "ministarTenant", "Teacher media library route must support MiniStar tenant branding.");
-requireText(teacherMediaLibraryRoute, "samplePublisherTenant", "Teacher media library route must support sample publisher branding.");
+requireText(teacherMediaLibraryRoute, "resolveTenantConfig", "Teacher media library route must resolve tenant config before rendering.");
+requireText(teacherMediaLibraryRoute, "createEmptyTeacherMediaLibraryPreview", "Teacher media library route must provide an empty tenant preview.");
+requireText(teacherMediaLibraryPanel, "Sample and MiniStar media records are not shown", "Teacher media library must protect tenant-specific media records.");
 
 const requiredEvidencePacketTexts = [
   "Evidence packet flow",
@@ -874,6 +874,11 @@ requireText(teacherSourceReviewRoute, "TeacherSourceReviewWorkspacePanel", "Teac
 requireText(teacherSourceReviewPanel, "No source records yet", "Tenant source review panel must explain the unprovisioned source state.");
 requireText(teacherSourceReviewPanel, "Sample tenant records are not shown", "Tenant source review panel must protect other tenant source records.");
 requireText(teacherSourceReviewPanel, "Open tenant upload workspace", "Tenant source review panel must link back to tenant upload intake.");
+requireText(teacherMediaLibraryRoute, "resolveTenantConfig", "Teacher media library route must resolve a shared white-label tenant.");
+requireText(teacherMediaLibraryRoute, "createEmptyTeacherMediaLibraryPreview", "Teacher media library route must provide an empty state for unprovisioned tenants.");
+requireText(teacherMediaLibraryPanel, "No media rights records have been admitted", "Tenant media library must explain the unprovisioned media state.");
+requireText(teacherMediaLibraryPanel, "Sample and MiniStar media records are not shown", "Tenant media library must protect other tenant media records.");
+requireText(teacherMediaLibraryPanel, "Open tenant upload workspace", "Tenant media library must link back to tenant upload intake.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");

@@ -64,9 +64,21 @@ export function TeacherMediaLibraryPanel({ preview, rightsRecords }: TeacherMedi
           <StatusPill label={String(rightsRecords.length)} tone="neutral" />
         </div>
         <div className="mt-4 grid gap-3">
-          {rightsRecords.map((record) => (
-            <MediaRecordCard key={record.mediaAssetId} record={record} />
-          ))}
+          {rightsRecords.length > 0 ? (
+            rightsRecords.map((record) => <MediaRecordCard key={record.mediaAssetId} record={record} />)
+          ) : (
+            <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+              <p className="text-sm leading-6 text-[var(--tenant-muted)]">
+                No media rights records have been admitted for this tenant. Sample and MiniStar media records are not shown here.
+              </p>
+              <a
+                href={`/teacher/uploads/${encodeURIComponent(preview.tenantId)}`}
+                className="mt-3 inline-flex rounded-lg border border-[var(--tenant-primary)] px-4 py-2 text-sm font-semibold text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+              >
+                Open tenant upload workspace
+              </a>
+            </div>
+          )}
         </div>
       </Card>
 

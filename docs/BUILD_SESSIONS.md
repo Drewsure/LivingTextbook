@@ -6921,3 +6921,14 @@ student-payload-blocked behavior.
 - Added the unprovisioned tenant source route to active browser verification.
 - Kept extraction, OCR, parser, AI import, draft creation, package release,
   playlist creation, assignment, and student use review-only and blocked.
+
+## Build session: Tenant-scoped media library empty state
+
+- Extended the teacher media library through the shared white-label tenant
+  resolver and added a safe empty preview for tenants without admitted media.
+- Rights records, assist-language audio records, reviewer bindings, and release
+  snapshots remain filtered by tenant; unknown tenants never inherit MiniStar
+  or Sample Publisher media.
+- Added an active route check for the unprovisioned white-label media path.
+- Kept upload, transcode, playlist creation, media-only progress, local folder
+  activation, and student-facing media use blocked.

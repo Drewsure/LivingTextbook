@@ -104,6 +104,21 @@ expectedTextByPath.set("/teacher/sources/white-label-review", [
   "No automatic PDF-to-game publish",
 ]);
 
+expectedTextByPath.set("/teacher/media/white-label-review", [
+  "Teacher media library",
+  "Media maintenance preview",
+  "No tenant media records yet",
+  "No media rights records have been admitted",
+  "Sample and MiniStar media records are not shown",
+  "Open tenant upload workspace",
+  "Upload still blocked",
+  "No live media upload",
+  "No media-only progress",
+  "No background music overriding learning audio",
+  "No required progress through video only",
+  "Local folder activation blocked",
+]);
+
 const activeGameLearningAudioContractExpected = [
   "Learning audio contract",
   "Audio ready",

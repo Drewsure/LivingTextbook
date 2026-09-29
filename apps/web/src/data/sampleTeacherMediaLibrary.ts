@@ -19,6 +19,33 @@ export interface TeacherMediaLibraryPreview {
   blockedActions: string[];
 }
 
+export function createEmptyTeacherMediaLibraryPreview(tenantId: string, tenantName: string): TeacherMediaLibraryPreview {
+  return {
+    tenantId,
+    label: `${tenantName} Teacher media library`,
+    summary:
+      "This tenant has a media review shell, but no audio, music, video, poster, playlist, or background-media records have been admitted yet.",
+    assetOwnershipLabel: "No tenant media records yet",
+    targetRecords: ["media_manifest", "media_playlist_binding", "background_media_policy_binding", "local_media_bundle_entry"],
+    stages: [
+      {
+        stageId: `${tenantId}-media-intake-block`,
+        label: "Upload still blocked",
+        status: "blocked",
+        detail: "Provide controlled source or media intake before rights, transcript, playlist, and local-bundle review can begin.",
+      },
+    ],
+    blockedActions: [
+      "No live media upload",
+      "No automatic transcode-to-publish",
+      "No media-only progress",
+      "No background music overriding learning audio",
+      "No required progress through video only",
+      "Local folder activation blocked",
+    ],
+  };
+}
+
 export const sampleTeacherMediaLibraryPreviews: TeacherMediaLibraryPreview[] = [
   {
     tenantId: "ministar",

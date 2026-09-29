@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import {
+  createEmptyTeacherMediaLibraryPreview,
   findTeacherMediaLibraryPreview,
   getTeacherMediaRightsRecords,
 } from "@/data/sampleTeacherMediaLibrary";
@@ -17,30 +18,21 @@ import { TeacherAssistLanguageAudioCatalogApprovalReconciliationPanel } from "@/
 import { TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReviewerGateBindingPanel";
 import { TeacherAssistLanguageAudioCatalogReleaseReviewBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseReviewBindingPanel";
 import { TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel } from "@/features/multimedia/TeacherAssistLanguageAudioCatalogReleaseDecisionSnapshotBindingPanel";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 import { sampleReviewerIdentitySignatureGate } from "@/data/sampleReviewerIdentitySignatureGate";
 import { sampleWhiteLabelReleaseReadiness } from "@/data/sampleWhiteLabelReleaseReadiness";
 import { sampleControlledPilotHumanReviewPacket } from "@/data/sampleControlledPilotHumanReviewPacket";
 import { samplePilotReviewDecisionSnapshots } from "@/data/samplePilotReviewDecisionSnapshots";
-import type { TenantConfig } from "@/features/tenant/types";
-
-function findTenantConfig(tenantId: string): TenantConfig | undefined {
-  return [ministarTenant, samplePublisherTenant].find((tenant) => tenant.id === tenantId);
-}
-
 export default async function TeacherMediaLibraryPage({
   params,
 }: {
   params: Promise<{ tenantId: string }>;
 }) {
   const { tenantId } = await params;
-  const preview = findTeacherMediaLibraryPreview(tenantId);
-  const tenant = findTenantConfig(tenantId);
+  const tenant = resolveTenantConfig(tenantId);
 
-  if (!preview || !tenant) {
-    notFound();
-  }
+  if (!tenant) notFound();
+  const preview = findTeacherMediaLibraryPreview(tenantId) ?? createEmptyTeacherMediaLibraryPreview(tenantId, tenant.displayName);
 
   const tenantCatalogRecords = sampleAssistLanguageAudioCatalogRecords.filter((record) => record.tenantId === tenantId);
   const approvalPackets = buildAssistLanguageAudioCatalogApprovalPackets(tenantCatalogRecords);
