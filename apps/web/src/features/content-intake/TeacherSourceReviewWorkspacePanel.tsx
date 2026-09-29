@@ -4,6 +4,7 @@ import type { SourceExtractionReviewPacket } from "@/data/sampleSourceExtraction
 import type { SourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { SourceExtractionReviewPacketPanel } from "./SourceExtractionReviewPacketPanel";
 import { SourceReviewQueuePanel } from "./SourceReviewQueuePanel";
+import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
 
 interface TeacherSourceReviewWorkspacePanelProps {
   tenantId: string;
@@ -110,6 +111,7 @@ export function TeacherSourceReviewWorkspacePanel({
       </Card>
 
       <SourceReviewQueuePanel queue={tenantQueue} />
+      <QuarantineMetadataReviewPanel tenantId={tenantId} />
       <SourceExtractionReviewPacketPanel packets={tenantPackets} previews={tenantPreviews} />
     </div>
   );

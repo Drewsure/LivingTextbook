@@ -6990,3 +6990,13 @@ student-payload-blocked behavior.
 - It now also exercises package assembly preflight, proving that reviewed
   multimedia/game evidence does not silently authorize delivery, QR printing,
   local assembly, hosted deployment, or student use.
+
+## Build session: Source-review quarantine bridge
+
+- Added the existing tenant-authorized quarantine metadata review contract to
+  the tenant source-review workspace.
+- A publisher now has a visible next stop from source review to validated
+  quarantine metadata, evidence preview, package handoff, and readiness
+  binding without opening raw files or creating a download path.
+- Kept source extraction, package promotion, QR printing, local assembly,
+  hosted persistence, and student use behind their existing independent gates.

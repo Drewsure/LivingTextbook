@@ -13,6 +13,7 @@ const packageReadinessData = readSource("../apps/web/src/data/samplePackageReadi
 const packageReadinessPanel = readSource("../apps/web/src/features/content-intake/PackageReadinessReconciliationPanel.tsx");
 const queuePanel = readSource("../apps/web/src/features/content-intake/SourceReviewQueuePanel.tsx");
 const sourceWorkspacePanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
+const quarantineMetadataPanel = readSource("../apps/web/src/features/content-intake/QuarantineMetadataReviewPanel.tsx");
 const extractionPacketPanel = readSource("../apps/web/src/features/content-intake/SourceExtractionReviewPacketPanel.tsx");
 const sourceWorkspaceRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
 const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
@@ -161,6 +162,8 @@ requireText(sourceWorkspacePanel, "No live extraction action", "Source review wo
 requireText(sourceWorkspacePanel, "Extraction stays evidence-first", "Source review workspace panel must preserve evidence-first extraction.");
 requireText(sourceWorkspacePanel, "SourceReviewQueuePanel", "Source review workspace panel must render the source review queue.");
 requireText(sourceWorkspacePanel, "SourceExtractionReviewPacketPanel", "Source review workspace panel must render extraction packet previews.");
+requireText(sourceWorkspacePanel, "QuarantineMetadataReviewPanel", "Source review workspace panel must expose the tenant quarantine metadata bridge.");
+requireText(quarantineMetadataPanel, "Authorized review contract", "Quarantine metadata panel must expose the authorized review contract.");
 requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source review route must render the workspace panel.");
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionReviewPackets", "Source review route must pass extraction review packets.");
