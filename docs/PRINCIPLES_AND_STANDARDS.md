@@ -8290,3 +8290,37 @@ This standard is recorded in
 `docs/decision-register/DR-1239-controlled-manual-release-capture.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1239-controlled-manual-release-capture.md`.
+## 525. Controlled Local Pilot Package Assembly Standard
+
+- The local package assembler is a separate release adapter from the
+  metadata-only delivery writer. It exists to make the first saleable
+  publisher handoff concrete, but it must remain disabled unless an operator
+  explicitly enables LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED=true,
+  configures a local package root, configures an approved asset root, and
+  presents the dedicated pilot delivery token.
+- Assembly accepts only an approved delivery manifest, an approved manual
+  release receipt, a matching canonical package index, and an offline-ready
+  local bundle manifest. Source review, package readiness, multimedia rights,
+  game audio, QR registry and print authorization, local bundle, teacher
+  policy, and release approval gates must all be true.
+- The assembler copies only the bundle content path and explicitly declared
+  asset, poster, and transcript paths. Every source must be a regular file
+  under the approved asset root, and realpath checks must reject symlinks or
+  junctions that escape that root. It must never recursively copy an unknown
+  directory or treat the quarantine root as an approved asset root.
+- The assembler stages the complete package, writes delivery and bundle
+  metadata plus route/game maps, verifies the read-back records and declared
+  asset checksums, then commits the directory atomically. A different or
+  incomplete package at the same tenant, package, and version is a conflict,
+  never an overwrite.
+- The local package may contain publisher content and approved media, but it
+  contains no learner records. Assembly does not mutate QR aliases, print
+  authorization, student activation, or hosted persistence. Those remain
+  separate release operations.
+- The current sample remains blocked until real publisher content, rights,
+  scans, accessibility evidence, approved asset placement, rollback evidence,
+  and human release decisions exist. A green assembler test is a safety
+  contract, not proof that the pilot is saleable.
+
+This standard is recorded in the decision register entry DR-1240, the build
+session log, and ADR 1240.

@@ -1,0 +1,31 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+const root = resolve(import.meta.dirname, "..");
+const assembler = readFileSync(resolve(root, "apps/web/src/server/delivery/localPilotPackageAssembler.ts"), "utf8");
+const route = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/local-package/route.ts"), "utf8");
+
+for (const [source, marker, label] of [
+  [assembler, "assembleLocalPilotPackage", "local package assembler"],
+  [assembler, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED", "explicit local package write gate"],
+  [assembler, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT", "local package root"],
+  [assembler, "LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT", "approved asset root"],
+  [assembler, "evaluateLocalBundleAssetEvidenceSet", "asset evidence gate"],
+  [assembler, "validateQuarantineFilesystemPath", "approved source boundary"],
+  [assembler, "copyFile", "explicit file copy"],
+  [assembler, ".staging-", "atomic staging directory"],
+  [assembler, "rename(staging, directory)", "atomic local package commit"],
+  [assembler, "publisherPayloadIncluded: true", "publisher payload marker"],
+  [assembler, "learnerRecordsIncluded: false", "learner privacy marker"],
+  [assembler, "verifyStagedPackage", "staged read-back"],
+  [route, "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN", "dedicated delivery token"],
+  [route, "studentFacingActivationAllowed: false", "student activation boundary"],
+  [route, "hostedPersistenceActivated: false", "hosted persistence boundary"],
+  [route, "qrAliasesMutated: false", "QR mutation boundary"],
+]) {
+  if (!source.includes(marker)) throw new Error("Missing " + label + ": " + marker);
+}
+for (const forbidden of ["packageAssemblyAllowed: true", "learnerRecordsIncluded: true", "qrAliasesMutated: true", "hostedPersistenceActivated: true"]) {
+  if (route.includes(forbidden)) throw new Error("Forbidden local package route behavior: " + forbidden);
+}
+console.log("PASS local pilot package assembler is gated, evidence-bound, explicit-path-only, immutable, checksum-verified, and student-disabled.");

@@ -6495,3 +6495,19 @@ student-payload-blocked behavior.
   student activation blocked even after a successful metadata handoff.
 - Added ADR 1239 and DR-1239. The route is ready for a real publisher package
   rehearsal but must not be enabled for the current blocked sample.
+
+## Build session: Controlled local pilot package assembly
+
+- Added a disabled-by-default local package assembler for the first saleable
+  white-label handoff.
+- Required approved delivery manifest, manual release receipt, canonical
+  package index, offline-ready local bundle, complete release gates, explicit
+  package root, and separate approved asset root.
+- Copied only declared content, asset, poster, and transcript files; rejected
+  unsafe paths, missing files, root escapes, failed evidence, and checksum
+  mismatches.
+- Added staged read-back verification and atomic commit with idempotent replay
+  and conflict protection. The package contains publisher payload and no
+  learner records.
+- Kept QR mutation, QR printing, hosted persistence, and student activation
+  disabled. Added ADR 1240, DR-1240, and a standing foundation verifier.
