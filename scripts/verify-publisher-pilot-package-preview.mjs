@@ -11,14 +11,17 @@ const route = readFileSync(resolve(root, "apps/web/src/app/teacher/evidence/[ten
 
 const required = [
   [model, "validatePublisherPilotPackagePreview", "shared package preview validator"],
+  [model, "validatePublisherPilotPackageReadinessBinding", "package readiness identity validator"],
   [model, "writeAllowed: false", "artifact write block"],
   [model, "studentFacingAllowed: false", "student promotion block"],
   [model, "printAllowed: false", "QR print block"],
   [sample, "sourceReviewDecision: \"not-recorded\"", "explicit review decision gate"],
   [sample, "hostedPersistence: \"opt-in-review-only\"", "opt-in hosted persistence"],
+  [sample, "sourceAssemblyChecksum: samplePublisherReadinessReconciliation.sourceAssemblyChecksum", "source checksum binding"],
   [sample, "No package archive export", "archive export block"],
   [panel, "Publisher package assembly preview", "visible package preview"],
   [panel, "QR print map", "visible QR map"],
+  [panel, "Evidence identity binding", "visible evidence identity binding"],
   [printSheet, "QRCode.toString", "local QR symbol generation"],
   [printButton, "Print review sheet", "review print control"],
   [printSheet, "Production textbook printing remains blocked", "production print boundary"],

@@ -8109,3 +8109,19 @@ This standard is recorded in
 `docs/decision-register/DR-1231-publisher-evidence-reconciliation-handoff.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1231-publisher-evidence-reconciliation-handoff.md`.
+
+## 517. Publisher Readiness Identity Binding Standard
+
+- A publisher package preview must carry the exact reconciliation id, source
+  assembly id, extraction preview id, source checksum, verifier evidence id,
+  target-language audio id, media-rights evidence id, publish gate id, and
+  assignment gate id that describe its package.
+- Tenant and package identity must match across the preview and reconciliation;
+  checksum or record drift is a hard handoff blocker.
+- The binding is an integrity check, not an approval. It cannot create storage,
+  promote content, mutate QR routes, activate persistence, or enable students.
+
+This standard is recorded in
+`docs/decision-register/DR-1232-publisher-readiness-identity-binding.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1232-publisher-readiness-identity-binding.md`.

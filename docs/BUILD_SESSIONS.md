@@ -6394,3 +6394,7 @@ student-payload-blocked behavior.
   target-language audio, media-rights, publish, assignment, and persistence
   lanes used by intake, preventing a package preview from appearing more
   complete than its evidence chain.
+- Added an explicit readiness binding to the package preview. The preview now
+  carries the reconciliation id, source assembly and extraction identities,
+  source checksum, verifier/audio/media-rights evidence ids, publish gate, and
+  assignment gate, with a validator that rejects identity drift.

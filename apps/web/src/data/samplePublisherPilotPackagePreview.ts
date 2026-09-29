@@ -1,7 +1,17 @@
 import {
   validatePublisherPilotPackagePreview,
+  validatePublisherPilotPackageReadinessBinding,
   type PublisherPilotPackagePreview,
 } from "@living-textbook/content-model";
+import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+
+const samplePublisherReadinessReconciliation = samplePackageReadinessReconciliations.find(
+  (reconciliation) => reconciliation.tenantId === "sample-publisher",
+);
+
+if (!samplePublisherReadinessReconciliation) {
+  throw new Error("Sample publisher package preview requires a package-readiness reconciliation.");
+}
 
 export const samplePublisherPilotPackagePreview: PublisherPilotPackagePreview = {
   previewId: "sample-publisher-l1-u1-pilot-package-preview",
@@ -15,6 +25,17 @@ export const samplePublisherPilotPackagePreview: PublisherPilotPackagePreview = 
   deploymentOptions: ["hosted-web", "closed-local", "hybrid"],
   gameModes: ["flashcards", "memory-match", "sentence-builder", "speak-it"],
   mediaKinds: ["audio", "video", "image"],
+  readinessBinding: {
+    reconciliationId: samplePublisherReadinessReconciliation.reconciliationId,
+    sourceAssemblyPacketId: samplePublisherReadinessReconciliation.sourceAssemblyPacketId,
+    sourceExtractionPreviewId: samplePublisherReadinessReconciliation.sourceExtractionPreviewId,
+    sourceAssemblyChecksum: samplePublisherReadinessReconciliation.sourceAssemblyChecksum,
+    verifierEvidencePacketId: samplePublisherReadinessReconciliation.verifierEvidencePacketId,
+    targetLanguageAudioApprovalId: samplePublisherReadinessReconciliation.targetLanguageAudioApprovalId,
+    mediaRightsEvidenceId: samplePublisherReadinessReconciliation.mediaRightsEvidenceId,
+    publishGateId: samplePublisherReadinessReconciliation.publishGateId,
+    assignmentRolloutGateId: samplePublisherReadinessReconciliation.assignmentRolloutGateId,
+  },
   artifacts: [
     {
       artifactId: "sample-publisher-content-package",
@@ -119,4 +140,7 @@ export const samplePublisherPilotPackagePreview: PublisherPilotPackagePreview = 
   ],
 };
 
-export const samplePublisherPilotPackagePreviewErrors = validatePublisherPilotPackagePreview(samplePublisherPilotPackagePreview);
+export const samplePublisherPilotPackagePreviewErrors = [
+  ...validatePublisherPilotPackagePreview(samplePublisherPilotPackagePreview),
+  ...validatePublisherPilotPackageReadinessBinding(samplePublisherPilotPackagePreview, samplePublisherReadinessReconciliation),
+];

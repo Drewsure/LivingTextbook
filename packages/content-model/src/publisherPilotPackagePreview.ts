@@ -1,3 +1,5 @@
+import type { PackageReadinessReconciliation } from "./packageReadinessReconciliation";
+
 export type PublisherPilotPackagePreviewStatus = "preview-ready" | "blocked";
 export type PublisherPilotPackageArtifactKind =
   | "content-package"
@@ -31,6 +33,18 @@ export interface PublisherPilotQrPreview {
   printAllowed: false;
 }
 
+export interface PublisherPilotReadinessBinding {
+  reconciliationId: string;
+  sourceAssemblyPacketId: string;
+  sourceExtractionPreviewId: string;
+  sourceAssemblyChecksum: string;
+  verifierEvidencePacketId: string;
+  targetLanguageAudioApprovalId: string;
+  mediaRightsEvidenceId: string;
+  publishGateId: string;
+  assignmentRolloutGateId: string;
+}
+
 export interface PublisherPilotPackagePreview {
   previewId: string;
   tenantId: string;
@@ -43,6 +57,7 @@ export interface PublisherPilotPackagePreview {
   deploymentOptions: Array<"hosted-web" | "closed-local" | "hybrid">;
   gameModes: string[];
   mediaKinds: Array<"audio" | "video" | "image">;
+  readinessBinding: PublisherPilotReadinessBinding;
   artifacts: PublisherPilotPackageArtifact[];
   qrPreviews: PublisherPilotQrPreview[];
   blockedActions: string[];
@@ -72,6 +87,25 @@ export function validatePublisherPilotPackagePreview(preview: PublisherPilotPack
     errors.push("Publisher pilot package preview has an unsupported source review decision.");
   }
   if (preview?.hostedPersistence !== "opt-in-review-only") errors.push("Publisher pilot package preview hosted persistence must remain opt-in review-only.");
+
+  const readinessBinding = preview?.readinessBinding;
+  for (const field of [
+    "reconciliationId",
+    "sourceAssemblyPacketId",
+    "sourceExtractionPreviewId",
+    "verifierEvidencePacketId",
+    "targetLanguageAudioApprovalId",
+    "mediaRightsEvidenceId",
+    "publishGateId",
+    "assignmentRolloutGateId",
+  ] as const) {
+    if (typeof readinessBinding?.[field] !== "string" || !safeIdentifierPattern.test(readinessBinding[field])) {
+      errors.push(`Publisher pilot readiness binding ${field} must be a bounded safe identifier.`);
+    }
+  }
+  if (typeof readinessBinding?.sourceAssemblyChecksum !== "string" || !/^sha256:[0-9a-f]{64}$/i.test(readinessBinding.sourceAssemblyChecksum)) {
+    errors.push("Publisher pilot readiness binding sourceAssemblyChecksum must use the sha256:<64 hexadecimal characters> format.");
+  }
 
   for (const field of ["deploymentOptions", "gameModes", "mediaKinds", "artifacts", "qrPreviews", "blockedActions", "nextGates"] as const) {
     if (!Array.isArray(preview?.[field])) errors.push(`Publisher pilot package preview ${field} must be an array.`);
@@ -109,6 +143,34 @@ export function validatePublisherPilotPackagePreview(preview: PublisherPilotPack
   for (const required of requiredBlockedActions) if (!blockedActions.includes(required)) errors.push(`Publisher pilot package preview must block ${required}.`);
   if (preview?.status === "blocked" && preview?.nextGates?.length === 0) errors.push("Blocked publisher pilot package preview must name next gates.");
 
+  return [...new Set(errors)];
+}
+
+export function validatePublisherPilotPackageReadinessBinding(
+  preview: PublisherPilotPackagePreview,
+  reconciliation: PackageReadinessReconciliation,
+): string[] {
+  const errors: string[] = [];
+  if (preview.tenantId !== reconciliation.tenantId) errors.push("Publisher pilot readiness binding tenant does not match reconciliation.");
+  if (preview.packageId !== reconciliation.packageId) errors.push("Publisher pilot readiness binding package does not match reconciliation.");
+
+  const bindings: Array<[keyof PublisherPilotReadinessBinding, string, string]> = [
+    ["reconciliationId", preview.readinessBinding.reconciliationId, reconciliation.reconciliationId],
+    ["sourceAssemblyPacketId", preview.readinessBinding.sourceAssemblyPacketId, reconciliation.sourceAssemblyPacketId],
+    ["sourceExtractionPreviewId", preview.readinessBinding.sourceExtractionPreviewId, reconciliation.sourceExtractionPreviewId],
+    ["sourceAssemblyChecksum", preview.readinessBinding.sourceAssemblyChecksum, reconciliation.sourceAssemblyChecksum],
+    ["verifierEvidencePacketId", preview.readinessBinding.verifierEvidencePacketId, reconciliation.verifierEvidencePacketId],
+    ["targetLanguageAudioApprovalId", preview.readinessBinding.targetLanguageAudioApprovalId, reconciliation.targetLanguageAudioApprovalId],
+    ["mediaRightsEvidenceId", preview.readinessBinding.mediaRightsEvidenceId, reconciliation.mediaRightsEvidenceId],
+    ["publishGateId", preview.readinessBinding.publishGateId, reconciliation.publishGateId],
+    ["assignmentRolloutGateId", preview.readinessBinding.assignmentRolloutGateId, reconciliation.assignmentRolloutGateId],
+  ];
+  for (const [field, previewValue, reconciliationValue] of bindings) {
+    if (previewValue !== reconciliationValue) errors.push(`Publisher pilot readiness binding ${String(field)} does not match reconciliation.`);
+  }
+  if (reconciliation.mode !== "review-only" || reconciliation.promotionAllowed !== false || reconciliation.studentFacingActivationAllowed !== false) {
+    errors.push("Publisher pilot readiness binding can only attach to a blocked review-only reconciliation.");
+  }
   return [...new Set(errors)];
 }
 

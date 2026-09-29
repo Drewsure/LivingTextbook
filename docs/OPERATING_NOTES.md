@@ -1626,3 +1626,9 @@ any pilot decision. The publisher package is not ready when source assembly,
 verifier evidence, target-language audio, media rights, publish, assignment, or
 persistence lanes are unresolved. Treat the reconciliation as a joined
 evidence view, not as an approval or storage write.
+
+Readiness identity procedure: verify the package preview's reconciliation id,
+source assembly id, extraction preview id, and source checksum against the
+package-readiness record before replacing publisher evidence. Also compare the
+verifier, target-language audio, media-rights, publish, and assignment gate
+identities. Any mismatch is package drift and must block handoff review.

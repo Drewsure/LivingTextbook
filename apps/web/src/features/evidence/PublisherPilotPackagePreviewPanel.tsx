@@ -40,6 +40,24 @@ export async function PublisherPilotPackagePreviewPanel({ preview, validationErr
         <Fact label="Source decision" value={preview.sourceReviewDecision} />
       </dl>
 
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Evidence identity binding</p>
+            <h3 className="mt-1 text-base font-bold">This preview is tied to one package-readiness reconciliation</h3>
+          </div>
+          <StatusPill label="Review-only" tone="warning" />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Fact label="Reconciliation" value={preview.readinessBinding.reconciliationId} />
+          <Fact label="Source assembly" value={preview.readinessBinding.sourceAssemblyPacketId} />
+          <Fact label="Source checksum" value={preview.readinessBinding.sourceAssemblyChecksum} />
+          <Fact label="Verifier evidence" value={preview.readinessBinding.verifierEvidencePacketId} />
+          <Fact label="Media rights evidence" value={preview.readinessBinding.mediaRightsEvidenceId} />
+          <Fact label="Publish gate" value={preview.readinessBinding.publishGateId} />
+        </dl>
+      </section>
+
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <Metric label="Artifacts" value={String(preview.artifacts.length)} />
         <Metric label="Preview-ready" value={String(previewReady)} tone="success" />
