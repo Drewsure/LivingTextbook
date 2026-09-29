@@ -55,6 +55,9 @@ interface FlashcardDemoFlowProps {
   assistLanguagePlan?: UnitAssistLanguagePlan;
   assignmentPlan?: TeacherAssignmentPlan;
   offerMap?: UnitGameOfferMap;
+  routeHrefForMode?: (mode: GameModeId, defaultHref: string) => string;
+  activityHubHref?: string;
+  collectionHref?: string;
 }
 
 export function FlashcardDemoFlow({
@@ -69,6 +72,9 @@ export function FlashcardDemoFlow({
   assistLanguagePlan,
   assignmentPlan,
   offerMap,
+  routeHrefForMode,
+  activityHubHref,
+  collectionHref,
 }: FlashcardDemoFlowProps) {
   const [currentProgression, setCurrentProgression] = useState<StudentProgressionState>(progression);
   const [sessionEvents, setSessionEvents] = useState<GameProgressEvent[]>([]);
@@ -261,7 +267,7 @@ export function FlashcardDemoFlow({
         tenant={tenant}
         earnedStarDust={currentProgression.earnedStarDust}
         catalog={starterRewardCatalog}
-        collectionHref={getCollectionPath(launchSession.launchCode)}
+        collectionHref={collectionHref ?? getCollectionPath(launchSession.launchCode)}
       />
       <RecommendedGameRoutesCard
         launchSession={launchSession}
@@ -271,6 +277,8 @@ export function FlashcardDemoFlow({
         audioSupportPlan={audioSupportPlan}
         targetLanguage={resolveTargetLanguage({ tenantTargetLanguage: tenant.languageSettings?.targetLanguage, unitLanguage: unit.unitMeta.textbookReference?.language })}
         offerMap={offerMap}
+        routeHrefForMode={routeHrefForMode}
+        activityHubHref={activityHubHref}
         onRouteGuidanceListened={handleRouteGuidanceListened}
         onRouteOpen={handleRouteOpen}
       />

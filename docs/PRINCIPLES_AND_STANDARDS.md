@@ -8431,3 +8431,28 @@ session log, and ADR 1244.
 
 This standard is recorded in the decision register entry DR-1245, the build
 session log, and ADR 1245.
+
+## 531. Local Package Front Door Standard
+
+- The package QR front door must be a separate, package-scoped route that
+  starts the teacher-QR learning contract with target-language flashcards.
+  It must read only the approved local content lane and must preserve the
+  package tenant, package, version, and unit identities.
+- The front door must reuse the canonical flashcard flow. Completion is
+  driven by target-language practice and the shared progression adapter;
+  assist-language controls may support comprehension but must never unlock
+  the next activity by themselves.
+- The first unlocked activity is the package-scoped Memory Match route. A
+  local front door may override route destinations through an explicit
+  routing seam, but it must not invent a second game engine, use sample
+  launch resolution, or expose an unrestricted template switcher.
+- The route may display reviewed rewards and package navigation, but it must
+  remain read-only: no package writes, learner records, QR alias mutation,
+  student activation, or hosted persistence activation are allowed.
+- A green front-door rehearsal proves that a local package can begin the
+  intended learning journey. It is not, by itself, saleable-pilot approval;
+  publisher evidence, rights, accessibility, device, rollback, and release
+  decisions remain required.
+
+This standard is recorded in the decision register entry DR-1246, the build
+session log, and ADR 1246.

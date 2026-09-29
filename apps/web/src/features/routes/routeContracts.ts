@@ -756,3 +756,7 @@ export function getLocalPilotPackageRuntimePath(tenantId: TenantId, packageId: s
 export function getLocalPilotPackageMemoryMatchPath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/memory/${encodeURIComponent(unitId)}`;
 }
+
+export function getLocalPilotPackageFrontDoorPath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
+  return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/front-door/${encodeURIComponent(unitId)}`;
+}

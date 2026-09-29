@@ -6577,3 +6577,16 @@ student-payload-blocked behavior.
   learner records, and release changes blocked.
 - Added ADR 1245, DR-1245, and a foundation verifier. The next local slice is
   the package front door and flashcard entry route before live pilot claims.
+
+## Build session: Local package front door
+
+- Added a package-scoped local front door that reads approved package content
+  through the gated content reader and reuses the canonical flashcard flow.
+- Preserved the target-language audio/progression trigger and kept assist
+  language support-only; assist content cannot unlock the next activity.
+- Added explicit local route overrides so Memory Match and the activity hub
+  stay within the package boundary instead of falling back to sample routes.
+- Kept learner records, package writes, QR alias mutation, hosted persistence,
+  and release changes blocked. Added ADR 1246, DR-1246, and a foundation
+  verifier. The first production-shaped onboarding chain is now ready for
+  real publisher package evidence, not yet saleable approval.
