@@ -8368,3 +8368,23 @@ session log, and ADR 1241.
 
 This standard is recorded in the decision register entry DR-1242, the build
 session log, and ADR 1242.
+
+## 528. Local Package Runtime Navigation Standard
+
+- An approved local package must have a human-facing, tenant-branded runtime
+  handoff in addition to its status API. The route is a read-only navigation
+  surface for the package identity, QR fallbacks, curated game paths, and
+  approved media kinds.
+- The runtime route must call the shared local package reader rather than
+  reading arbitrary files or inventing routes. It may link only to bounded
+  local application paths declared by the package.
+- The route must show blocked or not-found states clearly and must preserve the
+  package boundaries: no raw publisher payload display, learner records,
+  package writes, student activation, QR alias mutation, hosted persistence
+  activation, or release-state changes.
+- A readable runtime handoff proves that a released local package can be
+  navigated by a teacher or student. It does not itself approve the package,
+  print QR codes, or collect live learner progress.
+
+This standard is recorded in the decision register entry DR-1243, the build
+session log, and ADR 1243.

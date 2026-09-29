@@ -748,3 +748,7 @@ export function getPrintableWorksheetPath(launchCode: LaunchCode): string {
 export function getLocalCompanionPreviewPath(tenantId: TenantId): string {
   return `/local/${encodeURIComponent(tenantId)}`;
 }
+
+export function getLocalPilotPackageRuntimePath(tenantId: TenantId, packageId: string, version: string): string {
+  return `/local/package/${encodeURIComponent(tenantId)}/${encodeURIComponent(packageId)}/${encodeURIComponent(version)}`;
+}

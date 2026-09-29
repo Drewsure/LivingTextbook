@@ -6538,3 +6538,15 @@ student-payload-blocked behavior.
 - Added ADR 1242, DR-1242, and a standing foundation verifier. A green reader
   result proves package readability only; the real publisher pilot remains
   dependent on release, rights, accessibility, rollback, and policy evidence.
+
+## Build session: Local package runtime navigation
+
+- Added a tenant-branded parameterized route for an assembled local package.
+- The route presents only the verified package identity, release-bound QR
+  fallbacks, curated game paths, media inventory, and explicit runtime
+  boundaries. It links only to bounded package-declared local paths.
+- Kept package writes, payload display, learner records, student activation,
+  QR alias mutation, hosted persistence activation, and release changes out of
+  the route.
+- Added ADR 1243, DR-1243, and a foundation verifier. The route is a practical
+  rehearsal surface; it does not by itself make the pilot saleable.
