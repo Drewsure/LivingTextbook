@@ -752,3 +752,7 @@ export function getLocalCompanionPreviewPath(tenantId: TenantId): string {
 export function getLocalPilotPackageRuntimePath(tenantId: TenantId, packageId: string, version: string): string {
   return `/local/package/${encodeURIComponent(tenantId)}/${encodeURIComponent(packageId)}/${encodeURIComponent(version)}`;
 }
+
+export function getLocalPilotPackageMemoryMatchPath(tenantId: TenantId, packageId: string, version: string, unitId: string): string {
+  return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/memory/${encodeURIComponent(unitId)}`;
+}

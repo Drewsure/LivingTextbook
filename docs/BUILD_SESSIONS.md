@@ -6564,3 +6564,16 @@ student-payload-blocked behavior.
 - Added ADR 1244, DR-1244, and a foundation verifier. The next integration
   step is binding this safe content lane to a local game route after real
   publisher content and device evidence are available.
+
+## Build session: Local canonical Memory Match route
+
+- Added a package-scoped Memory Match route that reads approved local content
+  and reuses the existing canonical Memory Match pairing engine.
+- Constructed the package-bound launch session and completed-entry-practice
+  rehearsal state through shared content-model contracts; no sample resolver or
+  parallel scoring implementation was introduced.
+- Preserved target-language audio, deterministic replay, event validation, and
+  local evidence behavior while keeping hosted persistence, QR mutation,
+  learner records, and release changes blocked.
+- Added ADR 1245, DR-1245, and a foundation verifier. The next local slice is
+  the package front door and flashcard entry route before live pilot claims.

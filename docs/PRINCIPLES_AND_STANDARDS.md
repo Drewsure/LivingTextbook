@@ -8410,3 +8410,24 @@ session log, and ADR 1243.
 
 This standard is recorded in the decision register entry DR-1244, the build
 session log, and ADR 1244.
+
+## 530. Local Canonical Game Route Standard
+
+- The first local student game route must reuse a canonical game component,
+  not create a local-only copy of the engine. The initial route is Memory
+  Match because it exercises pairing, deterministic scoring, target-language
+  audio, event contracts, and progression handoff together.
+- The route must consume the approved local `ContentPackage` through the gated
+  content reader and construct the same launch-session and entry-practice
+  contracts used by the hosted route. It must not use the sample resolver or
+  invent a second scoring/event implementation.
+- Direct local game entry may be used for controlled rehearsal only after the
+  local entry-practice state is satisfied. Production QR onboarding still
+  begins at the package front door and must preserve teacher-led assignment
+  and student self-progression rules.
+- The local game route must preserve audio coverage, deterministic replay,
+  learner-data exclusion from the package, and the existing write/persistence
+  gates. A readable local game route is not production launch approval.
+
+This standard is recorded in the decision register entry DR-1245, the build
+session log, and ADR 1245.
