@@ -8982,3 +8982,15 @@ This standard is recorded in DR-1275 and ADR 1275.
   assembly, QR printing, hosted persistence, or student activation.
 
 This standard is recorded in DR-1276 and ADR 1276.
+
+## 561. Closed-Local Assembly Must Share Release Lineage
+
+- The closed-local package route must use the same live release-lineage
+  validator as controlled delivery release and metadata writes.
+- A ready packet alone is insufficient for local assembly; accepted source
+  review, complete package evidence, checksum identity, and matching delivery
+  mode must all be present first.
+- The explicit local-package write gate, approved asset root, immutable staging,
+  and QR authorization checks remain separate and required.
+
+This standard is recorded in DR-1277 and ADR 1277.

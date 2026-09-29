@@ -3,6 +3,7 @@ import { validateLocalBundleManifest, type LocalBundleManifest, type PilotDelive
 import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput, type LocalPilotPackageReviewBinding } from "@/server/delivery/localPilotPackageAssembler";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
+import { readPilotDeliveryReleaseLineage } from "@/server/delivery/pilotDeliveryReleaseLineage";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,6 +20,11 @@ export async function POST(request: Request) {
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Local pilot package request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
   if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, receipt, package index, bundle manifest, operator, timestamp, quarantine, and review packet fields."], privacy: privacyMessage() }, 400);
+
+  const lineageErrors = await readPilotDeliveryReleaseLineage(bodyResult.value.manifest, bodyResult.value.quarantineId);
+  if (lineageErrors.length > 0) {
+    return json({ status: "blocked", reviewPacketBound: false, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: lineageErrors, packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, lineageBound: false, privacy: privacyMessage() }, 423);
+  }
 
   const packetResult = await readQuarantinePackageReviewPacket(bodyResult.value.manifest.tenantId, bodyResult.value.quarantineId);
   const packet = packetResult.record;
