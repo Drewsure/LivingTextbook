@@ -9065,3 +9065,18 @@ This standard is recorded in DR-1280 and the 2026-09-29 receipt build note.
   in admission, readiness, and delivery release lineage.
 
 This standard is recorded in DR-1281 and ADR 1281.
+
+## 567. Blocked Review Packets Must Advance Through Immutable Revisions
+
+- A blocked package review packet must never be overwritten when a later
+  prerequisite becomes available.
+- The first packet keeps the existing filename and identity for compatibility;
+  later revisions use deterministic versioned sidecars and identify the packet
+  they supersede.
+- The reader must validate tenant, quarantine, and packet integrity for every
+  candidate and select the highest valid revision.
+- Automatic reissue may close only the recorded promotion-adapter prerequisite;
+  release, assembly, QR, hosted, policy, rollback, and student gates remain
+  separate.
+
+This standard is recorded in DR-1282 and ADR 1282.

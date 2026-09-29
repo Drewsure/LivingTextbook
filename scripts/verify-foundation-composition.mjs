@@ -191,6 +191,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-delivery-mode-de
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-promotion-adapter-decision.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-review-packet-revision.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-evidence-review.mjs", import.meta.url))], {
   stdio: "inherit",
 });

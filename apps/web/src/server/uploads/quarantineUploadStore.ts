@@ -475,17 +475,33 @@ export async function readQuarantinePackageReviewPacket(tenantId: string, quaran
   const root = getQuarantineRoot();
   const tenantDirectory = resolve(root, tenantId);
   const recordDirectory = resolve(tenantDirectory, quarantineId);
-  const packetPath = resolve(recordDirectory, "package-review-packet.json");
   try {
     assertQuarantineFilesystemPath(recordDirectory, root);
-    assertInside(recordDirectory, packetPath);
-    assertQuarantineFilesystemPath(packetPath, root);
-    const value = JSON.parse(await readFile(packetPath, "utf8")) as unknown;
-    const errors = validateUploadQuarantinePackageReviewPacket(value);
-    if (errors.length > 0) return { record: null, errors: ["A stored package review packet failed validation and was withheld."] };
-    const record = value as UploadQuarantinePackageReviewPacket;
-    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored package review packet failed tenant or identity binding and was withheld."] };
-    return { record, errors: [] };
+    const entries = await readdir(recordDirectory, { withFileTypes: true });
+    const packetNames = entries
+      .filter((entry) => entry.isFile() && (entry.name === "package-review-packet.json" || /^package-review-packet-v[2-9][0-9]*\.json$/.test(entry.name)))
+      .map((entry) => entry.name);
+    const candidates: UploadQuarantinePackageReviewPacket[] = [];
+    const errors: string[] = [];
+    for (const packetName of packetNames) {
+      const packetPath = resolve(recordDirectory, packetName);
+      assertInside(recordDirectory, packetPath);
+      assertQuarantineFilesystemPath(packetPath, root);
+      const value = JSON.parse(await readFile(packetPath, "utf8")) as unknown;
+      const validationErrors = validateUploadQuarantinePackageReviewPacket(value);
+      if (validationErrors.length > 0) {
+        errors.push("A stored package review packet failed validation and was withheld.");
+        continue;
+      }
+      const record = value as UploadQuarantinePackageReviewPacket;
+      if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) {
+        errors.push("A stored package review packet failed tenant or identity binding and was withheld.");
+        continue;
+      }
+      candidates.push(record);
+    }
+    candidates.sort((left, right) => (right.packetRevision ?? 1) - (left.packetRevision ?? 1));
+    return { record: candidates[0] ?? null, errors };
   } catch {
     return { record: null, errors: [] };
   }
@@ -504,7 +520,8 @@ export async function writeQuarantinePackageReviewPacket(input: QuarantinePackag
   const root = getQuarantineRoot();
   const tenantDirectory = resolve(root, input.tenantId);
   const recordDirectory = resolve(tenantDirectory, input.quarantineId);
-  const packetPath = resolve(recordDirectory, "package-review-packet.json");
+  const packetName = input.packetRevision && input.packetRevision > 1 ? `package-review-packet-v${input.packetRevision}.json` : "package-review-packet.json";
+  const packetPath = resolve(recordDirectory, packetName);
   assertQuarantineFilesystemPath(recordDirectory, root);
   assertInside(recordDirectory, packetPath);
   assertQuarantineFilesystemPath(packetPath, root);
@@ -514,7 +531,7 @@ export async function writeQuarantinePackageReviewPacket(input: QuarantinePackag
   } catch {
     const existing = await readQuarantinePackageReviewPacket(input.tenantId, input.quarantineId);
     if (existing.record && stableJson(existing.record) === stableJson(input)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
-    return { status: "conflict", idempotent: false, errors: ["A different immutable package review packet is already bound to this quarantine record."] };
+    return { status: "conflict", idempotent: false, errors: ["A different immutable package review packet revision is already bound to this quarantine record."] };
   }
 }
 

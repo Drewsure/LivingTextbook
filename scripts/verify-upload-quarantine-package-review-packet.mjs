@@ -19,6 +19,8 @@ for (const marker of [
   "studentFacingUseAllowed: false",
   "mode: \"review-only\"",
   "sideEffect: \"none\"",
+  "packetRevision",
+  "supersedesPacketId",
 ]) requireText(model, marker, `Package review packet model missing marker: ${marker}.`);
 
 requireText(index, "./uploadQuarantinePackageReviewPacket", "Content model must export the package review packet contract.");
@@ -28,6 +30,8 @@ for (const marker of [
   "writeQuarantinePackageReviewPacket",
   "package-review-packet.json",
   "flag: \"wx\"",
+  "package-review-packet-v",
+  "candidates.sort",
   "checksum does not match",
 ]) requireText(store, marker, `Package review packet store missing marker: ${marker}.`);
 
@@ -41,6 +45,7 @@ for (const marker of [
   "promotionAllowed: false",
   "studentFacingUseAllowed: false",
   "privacyMessage",
+  "shouldReissueForPromotionAdapter",
 ]) requireText(route, marker, `Package review packet route missing marker: ${marker}.`);
 
 for (const marker of [

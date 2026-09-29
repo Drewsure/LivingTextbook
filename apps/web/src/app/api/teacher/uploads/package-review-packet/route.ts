@@ -64,7 +64,13 @@ export async function POST(request: Request) {
   }
 
   const existing = await readQuarantinePackageReviewPacket(body.tenantId, body.quarantineId);
-  if (existing.record) return json({ status: "recorded-review-only", packet: existing.record, idempotent: true, errors: existing.errors, privacy: privacyMessage() });
+  const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(body.tenantId, body.quarantineId);
+  const shouldReissueForPromotionAdapter = Boolean(
+    existing.record?.status === "blocked"
+      && promotionAdapterDecision.record
+      && !existing.record.includedRecords.includes("upload_quarantine_promotion_adapter_decision"),
+  );
+  if (existing.record && !shouldReissueForPromotionAdapter) return json({ status: "recorded-review-only", packet: existing.record, idempotent: true, errors: existing.errors, privacy: privacyMessage() });
 
   const intake = await readQuarantineUploadRecords(body.tenantId, body.quarantineId);
   const summary = intake.records[0];
@@ -72,7 +78,6 @@ export async function POST(request: Request) {
   const packageId = body.packageId || derivePackageId(body.tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(body.tenantId, body.quarantineId);
-  const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(body.tenantId, body.quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
     ...(evidenceReview.record ?? {
       scanStatus: "pending" as const,
@@ -90,7 +95,14 @@ export async function POST(request: Request) {
     sourceId: `quarantine-record:${summary.quarantineId}`,
     packageId,
   });
-  const packet = createUploadQuarantinePackageReviewPacket({ handoff, reviewDecision, promotionAdapterDecision: promotionAdapterDecision.record, capturedAt: new Date().toISOString() });
+  const packet = createUploadQuarantinePackageReviewPacket({
+    handoff,
+    reviewDecision,
+    promotionAdapterDecision: promotionAdapterDecision.record,
+    packetRevision: shouldReissueForPromotionAdapter ? (existing.record?.packetRevision ?? 1) + 1 : 1,
+    ...(shouldReissueForPromotionAdapter && existing.record ? { supersedesPacketId: existing.record.packetId } : {}),
+    capturedAt: new Date().toISOString(),
+  });
   const result = await writeQuarantinePackageReviewPacket(packet);
   if (result.status === "conflict") return json({ status: result.status, packet: null, idempotent: false, errors: result.errors, privacy: privacyMessage() }, 409);
   if (result.status === "blocked") return json({ status: result.status, packet: null, idempotent: false, errors: result.errors, privacy: privacyMessage() }, 423);

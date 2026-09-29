@@ -8,6 +8,8 @@ export type UploadQuarantinePackageReviewPacketStatus = "blocked" | "ready-for-n
 export interface UploadQuarantinePackageReviewPacket {
   recordVersion: 1;
   packetId: string;
+  packetRevision?: number;
+  supersedesPacketId?: string;
   tenantId: string;
   quarantineId: string;
   sourceId: string;
@@ -36,15 +38,23 @@ export function createUploadQuarantinePackageReviewPacket(input: {
   handoff: UploadQuarantinePackageHandoffPreview;
   reviewDecision?: UploadQuarantineReviewDecisionRecord;
   promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
+  packetRevision?: number;
+  supersedesPacketId?: string;
   capturedAt: string;
 }): UploadQuarantinePackageReviewPacket {
   const { handoff, reviewDecision, promotionAdapterDecision } = input;
+  const packetRevision = input.packetRevision ?? 1;
+  if (!Number.isSafeInteger(packetRevision) || packetRevision < 1) throw new Error("Upload quarantine package review packet packetRevision must be a positive integer.");
+  if (packetRevision > 1 && !isNonEmptyString(input.supersedesPacketId)) throw new Error("A revised upload quarantine package review packet must identify the packet it supersedes.");
   const blockers = [...handoff.blockers];
   if (!reviewDecision) blockers.push("A human review decision must be recorded before this packet can enter the next gate.");
   if (reviewDecision?.decision === "changes-required") blockers.push("The recorded review decision requires changes before package review can continue.");
   const packet: UploadQuarantinePackageReviewPacket = {
     recordVersion: 1,
-    packetId: `${handoff.packageId}:${handoff.quarantineId}:package-review-packet`,
+    packetId: packetRevision === 1
+      ? `${handoff.packageId}:${handoff.quarantineId}:package-review-packet`
+      : `${handoff.packageId}:${handoff.quarantineId}:package-review-packet:v${packetRevision}`,
+    ...(packetRevision > 1 ? { packetRevision, supersedesPacketId: input.supersedesPacketId } : {}),
     tenantId: handoff.tenantId,
     quarantineId: handoff.quarantineId,
     sourceId: handoff.sourceId,
@@ -92,6 +102,8 @@ export function validateUploadQuarantinePackageReviewPacket(value: unknown): str
     if (!isNonEmptyString(value[field])) errors.push(`Upload quarantine package review packet ${field} must be non-empty.`);
   }
   if (value.unitKey !== undefined && !isNonEmptyString(value.unitKey)) errors.push("Upload quarantine package review packet unitKey must be non-empty when present.");
+  if (value.packetRevision !== undefined && (!Number.isSafeInteger(value.packetRevision) || Number(value.packetRevision) < 2)) errors.push("Upload quarantine package review packet packetRevision must be an integer greater than 1 when present.");
+  if (value.packetRevision !== undefined && !isNonEmptyString(value.supersedesPacketId)) errors.push("A revised upload quarantine package review packet must identify the packet it supersedes.");
   if (value.reviewDecisionId !== undefined && !isNonEmptyString(value.reviewDecisionId)) errors.push("Upload quarantine package review packet reviewDecisionId must be non-empty when present.");
   if (!isUploadQuarantineSafeTenantId(value.tenantId)) errors.push("Upload quarantine package review packet tenant identity is unsafe.");
   if (!/^q-[0-9a-f-]{36}$/.test(String(value.quarantineId ?? ""))) errors.push("Upload quarantine package review packet quarantine identity is not opaque.");
