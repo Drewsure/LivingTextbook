@@ -4,8 +4,7 @@ import { sampleSourceExtractionReviewPackets } from "@/data/sampleSourceExtracti
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
-import { ministarTenant } from "@/features/tenant/ministarTenant";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherSourceReviewWorkspacePage({
   params,
@@ -13,12 +12,9 @@ export default async function TeacherSourceReviewWorkspacePage({
   params: Promise<{ tenantId: string }>;
 }) {
   const { tenantId } = await params;
-  const tenant =
-    tenantId === samplePublisherTenant.id ? samplePublisherTenant : tenantId === ministarTenant.id ? ministarTenant : null;
+  const tenant = resolveTenantConfig(tenantId);
 
-  if (!tenant) {
-    notFound();
-  }
+  if (!tenant) notFound();
 
   return (
     <AppShell tenant={tenant}>

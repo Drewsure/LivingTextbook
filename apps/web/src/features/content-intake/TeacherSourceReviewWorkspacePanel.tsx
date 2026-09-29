@@ -66,6 +66,27 @@ export function TeacherSourceReviewWorkspacePanel({
         </div>
       </Card>
 
+      {tenantItems.length === 0 ? (
+        <Card>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-[var(--tenant-muted)]">Publisher source intake</p>
+              <h2 className="mt-1 text-2xl font-bold">No source records yet</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+                {tenantName} has a source review shell, but no source record has been admitted for this tenant. Sample tenant records are not shown here.
+              </p>
+            </div>
+            <StatusPill label="Awaiting publisher source" tone="warning" />
+          </div>
+          <a
+            href={`/teacher/uploads/${encodeURIComponent(tenantId)}`}
+            className="mt-4 inline-flex rounded-lg border border-[var(--tenant-primary)] px-4 py-2 text-sm font-semibold text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+          >
+            Open tenant upload workspace
+          </a>
+        </Card>
+      ) : null}
+
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>

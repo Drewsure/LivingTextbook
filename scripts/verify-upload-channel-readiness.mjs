@@ -49,6 +49,8 @@ const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tena
 const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
 const tenantEvidencePacketEmptyStatePanel = readSource("../apps/web/src/features/evidence/TenantEvidencePacketEmptyStatePanel.tsx");
+const teacherSourceReviewRoute = readSource("../apps/web/src/app/teacher/sources/[tenantId]/page.tsx");
+const teacherSourceReviewPanel = readSource("../apps/web/src/features/content-intake/TeacherSourceReviewWorkspacePanel.tsx");
 const teacherEvidencePacketHandoffRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/handoff/page.tsx");
 const teacherLabelledDiagramAssetRoute = readSource("../apps/web/src/app/teacher/assets/labelled-diagram/[assetId]/page.tsx");
 const teacherMediaAssetRoute = readSource("../apps/web/src/app/teacher/assets/media/[assetId]/page.tsx");
@@ -867,6 +869,11 @@ requireText(teacherEvidencePacketRoute, "sampleReviewerIdentitySignatureGate", "
 requireText(tenantEvidencePacketEmptyStatePanel, "No evidence packet exists yet", "Empty tenant evidence state must explain that no packet exists.");
 requireText(tenantEvidencePacketEmptyStatePanel, "No sample-publisher records are shown", "Empty tenant evidence state must protect sample-publisher records.");
 requireText(tenantEvidencePacketEmptyStatePanel, "Open tenant upload workspace", "Empty tenant evidence state must link to the tenant upload workspace.");
+requireText(teacherSourceReviewRoute, "resolveTenantConfig", "Teacher source review route must resolve a shared white-label tenant.");
+requireText(teacherSourceReviewRoute, "TeacherSourceReviewWorkspacePanel", "Teacher source review route must render the shared source review panel.");
+requireText(teacherSourceReviewPanel, "No source records yet", "Tenant source review panel must explain the unprovisioned source state.");
+requireText(teacherSourceReviewPanel, "Sample tenant records are not shown", "Tenant source review panel must protect other tenant source records.");
+requireText(teacherSourceReviewPanel, "Open tenant upload workspace", "Tenant source review panel must link back to tenant upload intake.");
 requireText(teacherEvidencePacketHandoffRoute, "EvidencePacketHandoffPanel", "Teacher evidence packet handoff route must render the handoff panel.");
 requireText(teacherEvidencePacketHandoffRoute, "samplePublisherEvidencePacketHandoffPackage", "Teacher evidence packet handoff route must pass the sample publisher handoff package.");
 requireText(teacherLabelledDiagramAssetRoute, "findLabelledDiagramAssetWorkspace", "Teacher Labelled Diagram asset route must resolve the workspace by id.");

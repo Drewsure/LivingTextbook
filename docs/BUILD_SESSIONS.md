@@ -6910,3 +6910,14 @@ student-payload-blocked behavior.
 - Added a live route check for the unprovisioned white-label evidence path.
 - Kept evidence storage, export, approval, package assembly, QR promotion,
   playlist creation, assignment, and student use blocked.
+
+## Build session: Tenant-scoped source review empty state
+
+- Extended the source review route through the shared white-label tenant
+  resolver, so a new publisher can move from upload intake to source review.
+- Added an explicit empty source state with a return link to tenant upload
+  intake; source records from MiniStar or the sample publisher are filtered
+  out rather than reused as placeholder content.
+- Added the unprovisioned tenant source route to active browser verification.
+- Kept extraction, OCR, parser, AI import, draft creation, package release,
+  playlist creation, assignment, and student use review-only and blocked.

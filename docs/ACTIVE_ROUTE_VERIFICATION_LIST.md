@@ -25,6 +25,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/release-readiness`
 - `http://127.0.0.1:3000/teacher/prototypes/sample-publisher`
 - `http://127.0.0.1:3000/teacher/sources/sample-publisher`
+- `http://127.0.0.1:3000/teacher/sources/white-label-review`
 - `http://127.0.0.1:3000/teacher/generator/sample-publisher`
 - `http://127.0.0.1:3000/teacher/dry-run/sample-publisher-first-handoff-teacher-dry-run`
 - `http://127.0.0.1:3000/teacher/launch-gate/starter-english-level-1-unit-1-2026.1-pilot-candidate-classroom-launch-gate`

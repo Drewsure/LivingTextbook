@@ -89,6 +89,21 @@ const expectedTextByPath = new Map([
   ["/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0", ["Edition QR resolver preview", "Printed QR id", "qr-sample-publisher-starter-l1-u1-hello", "The printed QR id stays constant", "Resolved target", "/enter/sample-publisher", "Guardrails", "Direct localhost target", "Direct media file target", "Unreviewed package swap", "Open resolved preview"]],
 ]);
 
+expectedTextByPath.set("/teacher/sources/white-label-review", [
+  "Teacher source review workspace",
+  "Review-only source intake",
+  "No source records yet",
+  "Awaiting publisher source",
+  "Sample tenant records are not shown",
+  "Open tenant upload workspace",
+  "No live extraction",
+  "No raw PDF as student payload",
+  "No unreviewed OCR assignment",
+  "No AI extraction direct assignment",
+  "No parser output as a route target",
+  "No automatic PDF-to-game publish",
+]);
+
 const activeGameLearningAudioContractExpected = [
   "Learning audio contract",
   "Audio ready",
