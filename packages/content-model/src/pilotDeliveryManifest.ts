@@ -71,6 +71,11 @@ export function createPilotDeliveryManifest(input: {
   hostedPersistenceDecisionPacketId?: string | null;
 }): PilotDeliveryManifest {
   const identityErrors = validatePilotDeliverySourceIdentity(input.preview, input.reconciliation);
+  const modeUsesHosted = input.mode === "hosted-pwa" || input.mode === "hybrid";
+  const hostedPersistenceDecisionPacketId = modeUsesHosted ? (input.hostedPersistenceDecisionPacketId ?? null) : null;
+  if (modeUsesHosted && !hostedPersistenceDecisionPacketId) {
+    identityErrors.push("Hosted or hybrid delivery requires a package-scoped hosted persistence opt-in decision packet.");
+  }
   const unresolvedRequirements = [
     ...identityErrors,
     ...gateLabels.filter(([gate]) => !input.gates[gate]).map(([, label]) => label),
@@ -82,9 +87,6 @@ export function createPilotDeliveryManifest(input: {
       .map((artifact) => `${artifact.label}: ${artifact.missingEvidence.join(", ")}`),
   ];
   const ready = unresolvedRequirements.length === 0;
-  const modeUsesHosted = input.mode === "hosted-pwa" || input.mode === "hybrid";
-  const hostedPersistenceDecisionPacketId = modeUsesHosted ? (input.hostedPersistenceDecisionPacketId ?? null) : null;
-  if (modeUsesHosted && !hostedPersistenceDecisionPacketId) identityErrors.push("Hosted or hybrid delivery requires a package-scoped hosted persistence opt-in decision packet.");
   const contentPackagePath = input.preview.artifacts.find((artifact) => artifact.kind === "content-package")?.proposedPath ?? "";
 
   return {

@@ -9021,3 +9021,17 @@ This standard is recorded in DR-1278 and ADR 1278.
   hosted route.
 
 This standard is recorded in DR-1278 and the 2026-09-29 handoff build note.
+
+## 564. Hosted Delivery Manifests Must Fail Closed
+
+- A hosted or hybrid delivery manifest is blocked unless it carries a
+  package-scoped hosted persistence opt-in decision packet identifier.
+- The packet identifier is an identity boundary, not proof of provider
+  approval, policy acceptance, credentials, learner records, or activation.
+- Closed-local delivery must remain valid without a hosted packet and must not
+  carry one accidentally.
+- Readiness must be calculated only after mode-specific identity requirements
+  are included in unresolved requirements; no manifest may be marked ready
+  before its delivery-mode contract is complete.
+
+This standard is recorded in DR-1279 and the 2026-09-29 fail-closed build note.
