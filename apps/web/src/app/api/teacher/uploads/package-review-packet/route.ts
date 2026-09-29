@@ -57,6 +57,11 @@ export async function POST(request: Request) {
   if (!hasReviewAuthorization(request, body.tenantId)) return json({ status: "unauthorized", packet: null, errors: ["Tenant-scoped teacher or service authorization is required for package review packet writes."], privacy: privacyMessage() }, 401);
   if (process.env.LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED !== "true") return json({ status: "blocked", packet: null, errors: ["Package review packet writes are disabled. Enable the explicit local packet gate before recording a review packet."], privacy: privacyMessage() }, 423);
 
+  const reviewDecision = (await readQuarantineReviewDecision(body.tenantId, body.quarantineId)).record;
+  if (!reviewDecision || reviewDecision.decision !== "accepted-for-package-review") {
+    return json({ status: "blocked", packet: null, errors: [reviewDecision?.decision === "changes-required" ? "The source review decision requires changes before a package review packet can be recorded." : "An accepted-for-package-review source decision is required before a package review packet can be recorded."], privacy: privacyMessage() }, 423);
+  }
+
   const existing = await readQuarantinePackageReviewPacket(body.tenantId, body.quarantineId);
   if (existing.record) return json({ status: "recorded-review-only", packet: existing.record, idempotent: true, errors: existing.errors, privacy: privacyMessage() });
 
@@ -83,7 +88,6 @@ export async function POST(request: Request) {
     sourceId: `quarantine-record:${summary.quarantineId}`,
     packageId,
   });
-  const reviewDecision = (await readQuarantineReviewDecision(body.tenantId, body.quarantineId)).record ?? undefined;
   const packet = createUploadQuarantinePackageReviewPacket({ handoff, reviewDecision, capturedAt: new Date().toISOString() });
   const result = await writeQuarantinePackageReviewPacket(packet);
   if (result.status === "conflict") return json({ status: result.status, packet: null, idempotent: false, errors: result.errors, privacy: privacyMessage() }, 409);

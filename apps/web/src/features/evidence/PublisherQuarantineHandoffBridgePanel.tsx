@@ -148,6 +148,11 @@ export function PublisherQuarantineHandoffBridgePanel({
   const handoff = payload?.handoff;
 
   async function recordReviewPacket() {
+    if (reviewDecision?.decision !== "accepted-for-package-review") {
+      setPacketState("blocked");
+      setPacketMessage(reviewDecision?.decision === "changes-required" ? "Changes are required before the package review packet can be recorded." : "Record an accepted-for-package-review source decision first.");
+      return;
+    }
     setPacketState("submitting");
     setPacketMessage("");
     try {
@@ -276,11 +281,11 @@ export function PublisherQuarantineHandoffBridgePanel({
               <StatusPill label={packetState === "recorded" ? "Recorded" : packageReviewPacketsEnabled ? "Operator gate" : "Disabled"} tone={packetState === "recorded" ? "success" : "warning"} />
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              <button type="button" onClick={recordReviewPacket} disabled={!packageReviewPacketsEnabled || packetState === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="button" onClick={recordReviewPacket} disabled={!packageReviewPacketsEnabled || reviewDecision?.decision !== "accepted-for-package-review" || packetState === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
                 {packetState === "submitting" ? "Recording packet..." : "Record review packet snapshot"}
               </button>
               <span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">
-                {packetMessage || (packageReviewPacketsEnabled ? "Explicit local packet gate is enabled." : "Enable LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true to record this local metadata snapshot.")}
+                {packetMessage || (!packageReviewPacketsEnabled ? "Enable LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true to record this local metadata snapshot." : reviewDecision?.decision !== "accepted-for-package-review" ? "An accepted-for-package-review source decision is required first." : "Explicit local packet gate is enabled.")}
               </span>
             </div>
           </div>

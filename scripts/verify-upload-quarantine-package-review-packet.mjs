@@ -35,6 +35,7 @@ for (const marker of [
   "createUploadQuarantinePackageHandoffPreview",
   "createUploadQuarantinePackageReviewPacket",
   "readQuarantineReviewDecision",
+  "accepted-for-package-review",
   "recorded-review-only",
   "packageAssemblyAllowed: false",
   "promotionAllowed: false",
@@ -44,6 +45,7 @@ for (const marker of [
 
 for (const marker of [
   "Record review packet snapshot",
+  "accepted-for-package-review source decision is required first",
   "LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true",
   "/api/teacher/uploads/package-review-packet",
   "bounded metadata",

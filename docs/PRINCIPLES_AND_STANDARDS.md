@@ -8898,3 +8898,19 @@ This standard is recorded in DR-1269 and ADR 1269.
   reviewer can bypass the release-control workflow.
 
 This standard is recorded in DR-1270 and ADR 1270.
+
+## 555. Source Decision Precedence Standard
+
+- A durable package-review packet may be captured only after the same
+  quarantine has an immutable `accepted-for-package-review` source decision.
+- `not recorded` and `changes-required` must stop packet capture with an
+  explicit explanation; they must not create a stranded immutable packet.
+- The teacher handoff must apply the same rule in its disabled state and in
+  its button handler, while the server remains the authoritative guard.
+- This sequencing rule preserves a clean lineage from source review to package
+  evidence, assembly preflight, release receipt, QR authorization, and local
+  or hosted delivery.
+- The source decision still does not authorize package assembly, promotion,
+  QR printing, hosted persistence, or student use.
+
+This standard is recorded in DR-1271 and ADR 1271.
