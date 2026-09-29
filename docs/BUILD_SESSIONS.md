@@ -6448,3 +6448,16 @@ student-payload-blocked behavior.
   verifier. The next release slice can implement a controlled package writer
   only after this receipt, tenant authorization, custody snapshot, and post-
   write verification are all present.
+
+## Build session: Controlled pilot delivery writer
+
+- Added the first real writer boundary for approved pilot delivery metadata.
+- The writer requires a dedicated operator token, explicit feature flag,
+  explicit custody root, approved manifest, approved receipt, matching
+  tenant/package/version/checksum identities, and a bounded operator id.
+- It writes only immutable `delivery-manifest.json`, `release-receipt.json`,
+  and `handoff-record.json` metadata. It does not copy raw publisher payloads,
+  mutate QR aliases, activate students, enable hosted persistence, or overwrite
+  a prior release.
+- Added the authenticated API route and focused verifier. The feature remains
+  disabled by default; the current blocked sample cannot write anything.

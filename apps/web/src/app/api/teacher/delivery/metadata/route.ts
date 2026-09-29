@@ -1,0 +1,45 @@
+import { NextResponse } from "next/server";
+import type { PilotDeliveryMetadataWriteInput } from "@/server/delivery/pilotDeliveryMetadataWriter";
+import { writePilotDeliveryMetadata } from "@/server/delivery/pilotDeliveryMetadataWriter";
+import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+export async function POST(request: Request) {
+  const origin = validateSameOriginMutation(request);
+  if (!origin.valid && !hasWriterToken(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
+  if (!hasWriterToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery writer token is required."], privacy: privacyMessage() }, 401);
+
+  const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Pilot delivery metadata request");
+  if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
+  if (!isWriterInput(bodyResult.value)) return json({ status: "rejected", errors: ["Pilot delivery metadata requires manifest, receipt, operatorId, and writtenAt."], privacy: privacyMessage() }, 400);
+  if (process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED !== "true") return json({ status: "blocked", errors: ["Pilot delivery metadata writes are disabled. Enable the explicit local delivery-write gate before materializing a package handoff."], privacy: privacyMessage() }, 423);
+
+  const result = await writePilotDeliveryMetadata(bodyResult.value);
+  if (result.status === "conflict") return json({ ...result, privacy: privacyMessage() }, 409);
+  if (result.status === "blocked") return json({ ...result, privacy: privacyMessage() }, 423);
+  return json({ ...result, packageAssemblyAllowed: true, rawPayloadIncluded: false, studentFacingActivationAllowed: false, privacy: privacyMessage() });
+}
+
+function isWriterInput(value: unknown): value is PilotDeliveryMetadataWriteInput {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return Boolean(candidate.manifest && typeof candidate.manifest === "object")
+    && Boolean(candidate.receipt && typeof candidate.receipt === "object")
+    && typeof candidate.operatorId === "string"
+    && typeof candidate.writtenAt === "string";
+}
+
+function hasWriterToken(request: Request): boolean {
+  const configuredToken = process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN?.trim();
+  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
+}
+
+function privacyMessage(): string {
+  return "The controlled writer stores only delivery metadata and review records inside the configured custody root; it never accepts raw publisher payload bytes or learner records.";
+}
+
+function json(body: unknown, status = 200) {
+  return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
+}

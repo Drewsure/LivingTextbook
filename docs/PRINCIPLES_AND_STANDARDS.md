@@ -8218,3 +8218,25 @@ This standard is recorded in
 `docs/decision-register/DR-1236-pilot-delivery-release-receipt.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1236-pilot-delivery-release-receipt.md`.
+
+## 522. Controlled Pilot Delivery Writer Standard
+
+- The first operational writer may materialize only delivery metadata and
+  review records until a complete publisher asset-copy contract is approved.
+  It must never treat a receipt as permission to copy arbitrary filesystem
+  paths or expose raw publisher payloads.
+- Writer execution requires all of: an approved delivery manifest, an approved
+  manual release receipt, matching tenant/package/version/checksum identities,
+  a dedicated operator token, `LIVING_TEXTBOBOOK_PILOT_DELIVERY_WRITES_ENABLED=true`,
+  and an explicit custody root that passes filesystem boundary checks.
+- Writes are immutable and idempotent. A different record for the same tenant,
+  package, and version is a conflict, not an overwrite. The writer stores no
+  learner records and never activates a student-facing route.
+- Hosted persistence, QR alias mutation, media copying, and local bundle
+  activation remain separate release operations. A metadata writer cannot
+  silently perform any of them.
+
+This standard is recorded in
+`docs/decision-register/DR-1237-controlled-pilot-delivery-writer.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1237-controlled-pilot-delivery-writer.md`.
