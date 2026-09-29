@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 const files = {
   model: readFileSync(new URL("../packages/content-model/src/uploadQuarantineDeliveryModeDecision.ts", import.meta.url), "utf8"),
   store: readFileSync(new URL("../apps/web/src/server/uploads/quarantineUploadStore.ts", import.meta.url), "utf8"),
+  packageIdentity: readFileSync(new URL("../apps/web/src/server/uploads/quarantinePackageIdentity.ts", import.meta.url), "utf8"),
   route: readFileSync(new URL("../apps/web/src/app/api/teacher/uploads/delivery-mode-decision/route.ts", import.meta.url), "utf8"),
   panel: readFileSync(new URL("../apps/web/src/features/content-intake/DeliveryModeDecisionCapture.tsx", import.meta.url), "utf8"),
   liveRoute: readFileSync(new URL("../apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts", import.meta.url), "utf8"),
@@ -16,8 +17,9 @@ const required = [
   ["store sidecar", files.store, "delivery-mode-decision.json"],
   ["store feature gate", files.store, "LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED"],
   ["store writer", files.store, "writeQuarantineDeliveryModeDecision"],
+  ["package identity helper", files.packageIdentity, "export function deriveQuarantinePackageId"],
   ["route response", files.route, '"recorded-review-only"'],
-  ["route package derivation", files.route, "derivePackageId"],
+  ["route package derivation", files.route, "deriveQuarantinePackageId"],
   ["panel decision language", files.panel, "Choose the pilot shape without activating it"],
   ["panel activation language", files.panel, "No provider or learner write was enabled."],
   ["live route reader", files.liveRoute, "readQuarantineDeliveryModeDecision"],

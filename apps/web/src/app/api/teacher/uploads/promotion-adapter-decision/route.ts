@@ -3,6 +3,7 @@ import { isUploadQuarantineSafeTenantId, type UploadQuarantinePromotionAdapter }
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePromotionAdapterDecision, readQuarantineUploadRecords, writeQuarantinePromotionAdapterDecision } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,7 +39,7 @@ export async function POST(request: Request) {
   const intake = await readQuarantineUploadRecords(bodyResult.value.tenantId, bodyResult.value.quarantineId);
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== bodyResult.value.quarantineId) return json({ status: "not-found", record: null, errors: ["The requested quarantine record was not available for promotion adapter decision."], privacy: privacyMessage() }, 404);
-  const packageId = bodyResult.value.packageId || derivePackageId(bodyResult.value.tenantId, summary.record.unitKey);
+  const packageId = bodyResult.value.packageId || deriveQuarantinePackageId(bodyResult.value.tenantId, summary.record.unitKey);
   const result = await writeQuarantinePromotionAdapterDecision({ ...bodyResult.value, packageId });
   const status = result.status === "accepted" ? 200 : result.status === "conflict" ? 409 : 423;
   return json({ status: result.status === "accepted" ? "recorded-review-only" : result.status, record: result.record ?? null, idempotent: result.idempotent, selectionRecorded: result.status === "accepted", packageAssemblyAllowed: false, promotionAllowed: false, qrPrintAllowed: false, studentFacingUseAllowed: false, hostedPersistenceActivated: false, errors: result.errors, privacy: privacyMessage() }, status);
@@ -56,7 +57,6 @@ function isPromotionAdapterDecisionRequest(value: unknown): value is PromotionAd
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId); }
-function derivePackageId(tenantId: string, unitKey?: string): string { return `${(unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120)}-package`; }
 function hasUploadApiToken(request: Request): boolean { const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim(); return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`); }
 function privacyMessage(): string { return "Promotion adapter selection stores bounded review metadata only; it does not authorize package assembly, select a provider, print QR codes, activate persistence, or enable student use."; }
 function json(body: unknown, status = 200) { return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } }); }

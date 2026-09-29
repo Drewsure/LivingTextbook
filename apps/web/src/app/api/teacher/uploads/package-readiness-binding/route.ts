@@ -37,6 +37,7 @@ import {
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -74,7 +75,7 @@ export async function GET(request: Request) {
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== quarantineId) return json({ status: "not-found", tenantId, quarantineId, binding: null, errors: ["The requested quarantine record was not available for package readiness binding."], privacy: privacyMessage() }, 404);
 
-  const packageId = requestedPackageId || derivePackageId(tenantId, summary.record.unitKey);
+  const packageId = requestedPackageId || deriveQuarantinePackageId(tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
   const promotionAdapterDecisionResult = await readQuarantinePromotionAdapterDecision(tenantId, quarantineId);
@@ -226,11 +227,6 @@ function check(
   nextAction: string,
 ): PublisherPilotPackageReadinessCheck {
   return { checkId, label, status, evidence, nextAction };
-}
-
-function derivePackageId(tenantId: string, unitKey?: string): string {
-  const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
-  return `${identity}-package`;
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean {

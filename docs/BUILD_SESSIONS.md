@@ -7004,3 +7004,12 @@ student-payload-blocked behavior.
   source review and verifies metadata, evidence, and package-handoff links.
 - Kept source extraction, package promotion, QR printing, local assembly,
   hosted persistence, and student use behind their existing independent gates.
+
+## Build session: Shared quarantine package identity
+
+- Centralized deterministic candidate package identity derivation across
+  evidence, package, delivery-mode, readiness, promotion, and handoff APIs.
+- Kept explicit package ids as valid overrides while making unit-key-derived
+  ids identical across every review-only route.
+- Added verifier coverage so future route additions cannot silently fork
+  package lineage.

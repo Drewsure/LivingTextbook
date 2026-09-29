@@ -7,6 +7,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineUploadRecords, writeQuarantinePackageEvidenceReview } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
   const intake = await readQuarantineUploadRecords(bodyResult.value.tenantId, bodyResult.value.quarantineId);
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== bodyResult.value.quarantineId) return json({ status: "not-found", record: null, errors: ["The requested quarantine record was not available for package evidence review."], privacy: privacyMessage() }, 404);
-  const packageId = bodyResult.value.packageId || derivePackageId(bodyResult.value.tenantId, summary.record.unitKey);
+  const packageId = bodyResult.value.packageId || deriveQuarantinePackageId(bodyResult.value.tenantId, summary.record.unitKey);
   const result = await writeQuarantinePackageEvidenceReview({ ...bodyResult.value, packageId, reviewedAt: new Date().toISOString() });
   const status = result.status === "accepted" ? 200 : result.status === "conflict" ? 409 : 423;
   return json({ status: result.status === "accepted" ? "recorded-review-only" : result.status, record: result.record ?? null, idempotent: result.idempotent, reviewedPackageEvidence: result.record?.status === "reviewed-package-evidence", packageAssemblyAllowed: false, promotionAllowed: false, qrPrintAllowed: false, studentFacingUseAllowed: false, errors: result.errors, privacy: privacyMessage() }, status);
@@ -65,10 +66,6 @@ function isPackageEvidenceReviewRequest(value: unknown): value is PackageEvidenc
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId); }
-function derivePackageId(tenantId: string, unitKey?: string): string {
-  const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
-  return `${identity}-package`;
-}
 function hasUploadApiToken(request: Request): boolean {
   const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
   return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);

@@ -8,6 +8,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantineEvidenceReview, readQuarantineUploadRecords, writeQuarantineEvidenceReview } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
   if (!isEvidenceReviewRequest(bodyResult.value)) return json({ status: "rejected", record: null, errors: ["Evidence review requires tenant, quarantine, reviewer, note, reviewed fields, scan, rights, source, mapping, accessibility, and release evidence fields."], privacy: privacyMessage() }, 400);
   if (!isUploadQuarantineSafeTenantId(bodyResult.value.tenantId)) return json({ status: "rejected", record: null, errors: ["Evidence review tenant identity is unsafe."], privacy: privacyMessage() }, 400);
   if (!hasReviewAuthorization(request, bodyResult.value.tenantId)) return json({ status: "unauthorized", record: null, errors: ["Tenant-scoped teacher or service authorization is required for evidence review writes."], privacy: privacyMessage() }, 401);
-  const packageId = bodyResult.value.packageId || derivePackageId(bodyResult.value.tenantId, (await readQuarantineUploadRecords(bodyResult.value.tenantId, bodyResult.value.quarantineId)).records[0]?.record.unitKey);
+  const packageId = bodyResult.value.packageId || deriveQuarantinePackageId(bodyResult.value.tenantId, (await readQuarantineUploadRecords(bodyResult.value.tenantId, bodyResult.value.quarantineId)).records[0]?.record.unitKey);
   const result = await writeQuarantineEvidenceReview({ ...bodyResult.value, packageId, sourceId: `quarantine-record:${bodyResult.value.quarantineId}`, evidencePacketId: `evidence-packet:${bodyResult.value.quarantineId}`, capturedAt: new Date().toISOString() });
   const status = result.status === "accepted" ? 200 : result.status === "conflict" ? 409 : 423;
   return json({ status: result.status === "accepted" ? "recorded-review-only" : result.status, record: result.record ?? null, idempotent: result.idempotent, evidenceReady: result.record?.status === "evidence-ready", packageAssemblyAllowed: false, promotionAllowed: false, studentFacingUseAllowed: false, errors: result.errors, privacy: privacyMessage() }, status);
@@ -68,11 +69,6 @@ function isEvidenceReviewRequest(value: unknown): value is EvidenceReviewRequest
     && typeof candidate.targetMappingReviewed === "boolean"
     && typeof candidate.accessibilityReviewed === "boolean"
     && typeof candidate.releaseApproved === "boolean";
-}
-
-function derivePackageId(tenantId: string, unitKey?: string): string {
-  const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
-  return `${identity}-package`;
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId); }

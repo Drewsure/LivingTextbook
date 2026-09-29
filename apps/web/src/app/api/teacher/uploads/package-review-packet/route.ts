@@ -15,6 +15,7 @@ import {
   readQuarantineUploadRecords,
   writeQuarantinePackageReviewPacket,
 } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -75,7 +76,7 @@ export async function POST(request: Request) {
   const intake = await readQuarantineUploadRecords(body.tenantId, body.quarantineId);
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== body.quarantineId) return json({ status: "not-found", packet: null, errors: ["The quarantine record was not available for package review packet capture."], privacy: privacyMessage() }, 404);
-  const packageId = body.packageId || derivePackageId(body.tenantId, summary.record.unitKey);
+  const packageId = body.packageId || deriveQuarantinePackageId(body.tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(body.tenantId, body.quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
@@ -124,11 +125,6 @@ function isPacketRequest(value: unknown): value is PacketRequest {
   return typeof candidate.tenantId === "string"
     && typeof candidate.quarantineId === "string"
     && (candidate.packageId === undefined || (typeof candidate.packageId === "string" && /^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,199}$/.test(candidate.packageId)));
-}
-
-function derivePackageId(tenantId: string, unitKey?: string): string {
-  const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
-  return `${identity}-package`;
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean {

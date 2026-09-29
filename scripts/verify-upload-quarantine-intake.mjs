@@ -6,6 +6,16 @@ const pathPolicy = readSource("../apps/web/src/server/uploads/quarantinePathPoli
 const route = readSource("../apps/web/src/app/api/teacher/uploads/intake/route.ts");
 const evidencePreviewRoute = readSource("../apps/web/src/app/api/teacher/uploads/evidence-preview/route.ts");
 const panel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
+const packageIdentity = readSource("../apps/web/src/server/uploads/quarantinePackageIdentity.ts");
+const packageIdentityRoutes = [
+  "../apps/web/src/app/api/teacher/uploads/delivery-mode-decision/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/evidence-review/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/package-evidence-review/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/package-handoff-preview/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/package-review-packet/route.ts",
+  "../apps/web/src/app/api/teacher/uploads/promotion-adapter-decision/route.ts",
+].map(readSource);
 const failures = [];
 
 for (const marker of [
@@ -108,6 +118,15 @@ for (const marker of ["if (!enabled)", "type=\"file\""]) {
 for (const forbidden of ["response.record?.path", "response.record?.downloadUrl", "rawPayload"]) {
   if (panel.includes(forbidden)) {
     failures.push(`Controlled quarantine upload panel must not expose raw storage or payload fields: ${forbidden}.`);
+  }
+}
+
+requireText(packageIdentity, "export function deriveQuarantinePackageId", "Quarantine package identity must expose one shared derivation function.");
+requireText(packageIdentity, "-package", "Quarantine package identity must preserve the canonical package suffix.");
+for (const [index, routeSource] of packageIdentityRoutes.entries()) {
+  requireText(routeSource, "deriveQuarantinePackageId", `Upload review route ${index + 1} must use the shared package identity helper.`);
+  if (routeSource.includes("function derivePackageId")) {
+    failures.push(`Upload review route ${index + 1} must not define a private package identity helper.`);
   }
 }
 

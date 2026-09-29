@@ -7,6 +7,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import { readQuarantineEvidenceReview, readQuarantinePromotionAdapterDecision, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,7 +45,7 @@ export async function GET(request: Request) {
     }, 404);
   }
 
-  const packageId = requestedPackageId || derivePackageId(tenantId, summary.record.unitKey);
+  const packageId = requestedPackageId || deriveQuarantinePackageId(tenantId, summary.record.unitKey);
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(tenantId, quarantineId);
   const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(tenantId, quarantineId);
@@ -85,11 +86,6 @@ export async function GET(request: Request) {
     errors: [...result.errors, ...evidenceReview.errors, ...promotionAdapterDecision.errors],
     privacy: privacyMessage(),
   });
-}
-
-function derivePackageId(tenantId: string, unitKey?: string): string {
-  const identity = (unitKey || `${tenantId}:unassigned`).replace(/[^A-Za-z0-9._:-]+/g, "-").slice(0, 120);
-  return `${identity}-package`;
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean {
