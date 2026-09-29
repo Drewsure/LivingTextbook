@@ -6814,3 +6814,14 @@ student-payload-blocked behavior.
   local assembly records, with runtime fail-closed checks for drift.
 - Kept the records metadata-only and learner-safe. Added ADR 1257, DR-1257,
   standards entry 541, and assembler/runtime verifier coverage.
+
+## Build session: Identity-bound local package route map
+
+- Added a reusable local package route map that derives front-door, Memory
+  Match, teacher evidence, media, and stable launch-code paths from the approved
+  package runtime identity and registered unit route.
+- Updated local package front-door and Memory Match pages to consume the shared
+  map instead of reconstructing package handoffs independently.
+- Added behavior coverage for route identity, QR fallback preservation, missing
+  units, and traversal-safe unit ids. No route activation, learner write, QR
+  mutation, or hosted persistence was enabled. Added ADR 1285 and DR-1000.

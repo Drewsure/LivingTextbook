@@ -18,6 +18,7 @@ try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
   const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
   const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage });
@@ -54,6 +55,19 @@ try {
       assert(runtime.summary.routes[0]?.localFallbackPath === "/launch/unit-1", "runtime reader must preserve the QR local fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
+      const routeMap = createLocalPilotPackageRouteMap(runtime.summary, "unit-1");
+      assert(routeMap.status === "available", "approved runtime must produce a package-scoped route map");
+      if (routeMap.status === "available") {
+        assert(routeMap.routeMap.launchCode === "local-tenant-one-package-one-1.0.0-unit-1", "route map must derive a stable local launch code");
+        assert(routeMap.routeMap.frontDoorPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "route map must derive the local front-door path");
+        assert(routeMap.routeMap.memoryMatchPath === "/local/package/tenant-one/package-one/1.0.0/memory/unit-1", "route map must derive the local Memory Match path");
+        assert(routeMap.routeMap.teacherEvidencePath === "/local/package/tenant-one/package-one/1.0.0/teacher/unit-1", "route map must derive the teacher evidence path");
+        assert(routeMap.routeMap.localFallbackPath === "/launch/unit-1", "route map must preserve the printed QR fallback");
+      }
+      const missingUnit = createLocalPilotPackageRouteMap(runtime.summary, "unit-missing");
+      assert(missingUnit.status === "blocked" && missingUnit.errors.some((error) => error.includes("no unit-launch route")), "route map must block an unregistered unit");
+      const unsafeUnit = createLocalPilotPackageRouteMap(runtime.summary, "../unit-1");
+      assert(unsafeUnit.status === "blocked" && unsafeUnit.errors.some((error) => error.includes("safe unit id")), "route map must reject traversal unit ids");
     }
     const content = await readLocalPilotPackageContent({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(content.status === "available", "assembled reviewed content must pass the canonical content reader" + (content.status === "available" ? "" : `: ${content.errors.join(" | ")}`));
@@ -98,7 +112,7 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log("PASS local pilot package assembly and runtime reading prove approved QR print output, local fallback mapping, content/audio/transcript access, idempotence, privacy, and fail-closed write/read/base-URL gates.");
+  console.log("PASS local pilot package assembly and runtime reading prove approved QR print output, identity-bound front-door/Memory Match/teacher route mapping, local fallback mapping, content/audio/transcript access, idempotence, privacy, and fail-closed write/read/base-URL gates.");
 }
 
 function compileSources() {
@@ -118,6 +132,8 @@ function compileSources() {
     "--outDir", compiledRoot,
     "apps/web/src/server/delivery/localPilotPackageAssembler.ts",
     "apps/web/src/server/delivery/localPilotPackageRuntimeReader.ts",
+    "apps/web/src/server/delivery/localPilotPackageRouteMap.ts",
+    "apps/web/src/features/routes/routeContracts.ts",
     "apps/web/src/server/persistence/backupPathPolicy.ts",
     "apps/web/src/server/uploads/quarantinePathPolicy.ts",
     "packages/content-model/src/index.ts",

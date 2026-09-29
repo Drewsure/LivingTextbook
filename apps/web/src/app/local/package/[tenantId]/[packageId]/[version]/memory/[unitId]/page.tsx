@@ -2,11 +2,12 @@ import { notFound } from "next/navigation";
 import { completeEntryPractice, createLaunchSession, getInitialStudentProgression, getUnitKey } from "@living-textbook/content-model";
 import { AppShell } from "@/components/layout/AppShell";
 import { LocalPilotPackageRuntimePanel } from "@/features/deployment/LocalPilotPackageRuntimePanel";
-import { MemoryMatchDemoFlow } from "@/features/game-shell/pairing/MemoryMatchDemoFlow";
 import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts";
+import { MemoryMatchDemoFlow } from "@/features/game-shell/pairing/MemoryMatchDemoFlow";
 import { ministarTenant } from "@/features/tenant/ministarTenant";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readLocalPilotPackageContent, readLocalPilotPackageRuntime } from "@/server/delivery/localPilotPackageRuntimeReader";
+import { createLocalPilotPackageRouteMap } from "@/server/delivery/localPilotPackageRouteMap";
 
 const tenants = {
   ministar: ministarTenant,
@@ -23,8 +24,8 @@ export default async function LocalPackageMemoryMatchPage({
   if (!tenant) notFound();
 
   const contentResult = await readLocalPilotPackageContent({ tenantId, packageId, version });
+  const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
   if (contentResult.status !== "available") {
-    const runtimeResult = await readLocalPilotPackageRuntime({ tenantId, packageId, version });
     return (
       <AppShell tenant={tenant} compact>
         <LocalPilotPackageRuntimePanel result={runtimeResult} tenantDisplayName={tenant.displayName} />
@@ -41,7 +42,18 @@ export default async function LocalPackageMemoryMatchPage({
   const unit = contentResult.contentPackage.units.find((candidate) => getUnitKey(candidate.unitMeta) === unitId);
   if (!unit) notFound();
 
-  const launchCode = getLocalPilotPackageLaunchCode(tenantId, packageId, version, unitId);
+  if (runtimeResult.status !== "available") {
+    return (
+      <AppShell tenant={tenant} compact>
+        <LocalPilotPackageRuntimePanel result={runtimeResult} tenantDisplayName={tenant.displayName} />
+      </AppShell>
+    );
+  }
+  const routeMap = createLocalPilotPackageRouteMap(runtimeResult.summary, unitId);
+  if (routeMap.status !== "available") notFound();
+  if (routeMap.routeMap.launchCode !== getLocalPilotPackageLaunchCode(tenantId, packageId, version, unitId)) notFound();
+
+  const { launchCode } = routeMap.routeMap;
   const launchSession = createLaunchSession({
     launchCode,
     tenantId,
