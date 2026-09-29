@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import {
+  createReviewOnlyHostedPersistenceOptInDecisionPacket,
   createReviewOnlyPublisherPilotPackageReadinessBinding,
   createUploadQuarantinePackageAssemblyPreflight,
   createUploadQuarantinePackageHandoffPreview,
@@ -22,6 +23,7 @@ import {
   type UploadQuarantineReleaseReceiptPreview,
   type UploadQuarantinePackageIndexPreview,
   type UploadQuarantineReviewDecisionRecord,
+  type HostedPersistenceOptInDecisionPacket,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
@@ -51,6 +53,7 @@ type ReadinessResponse = {
   reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
+  hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
   errors?: string[];
   privacy: string;
 };
@@ -96,6 +99,23 @@ export async function GET(request: Request) {
   const reviewDecision = reviewDecisionResult.record;
   const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
   const packageEvidenceReview = packageEvidenceReviewResult.record;
+  const hostedDeliveryMode = deliveryModeDecision?.selectedMode === "hosted-pwa"
+    ? "hosted-managed"
+    : deliveryModeDecision?.selectedMode === "hybrid"
+      ? "hybrid-registry-local-media"
+      : null;
+  const hostedPersistenceOptInPacket = hostedDeliveryMode
+    ? createReviewOnlyHostedPersistenceOptInDecisionPacket({
+      tenantId,
+      packageId,
+      quarantineId,
+      reviewPacketId: packet?.packetId ?? `${packageId}:${quarantineId}:package-review-packet`,
+      sourceChecksumSha256: summary.record.checksumSha256,
+      deliveryMode: hostedDeliveryMode,
+      packageReviewLineageStatus: packet?.status === "ready-for-next-gate" && packageEvidenceReview?.status === "reviewed-package-evidence" ? "passed" : "blocked",
+      packageReviewLineageEvidence: packet?.status === "ready-for-next-gate" && packageEvidenceReview?.status === "reviewed-package-evidence" ? "The live package review packet and complete package evidence are present for this checksum." : "The live package review packet or complete package evidence is not ready for hosted review.",
+    })
+    : null;
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
@@ -147,7 +167,7 @@ export async function GET(request: Request) {
     check("delivery-manifest", "Delivery manifest", "blocked", "No delivery manifest is linked to this live quarantine handoff.", "Choose closed-local, hosted, or hybrid delivery and close its gates."),
     check("release-receipt", "Manual release receipt", "blocked", "No named release approval, QR print authorization, or rollback receipt is linked.", "Complete human release review after package evidence passes."),
     check("package-index", "Metadata-only package index", "blocked", "No delivery package index is linked to this live source.", "Create the metadata-only index from one approved manifest and receipt."),
-    check("hosted-opt-in", "Hosted persistence opt-in", "blocked", "Hosted persistence is not selected or approved for this live source.", "Keep closed-local fallback available; record a separate opt-in only when the publisher chooses hosted reporting."),
+    check("hosted-opt-in", "Hosted persistence opt-in", hostedPersistenceOptInPacket ? "blocked" : "open", hostedPersistenceOptInPacket ? "A package-scoped hosted opt-in preview is present, but provider, policy, cost, release, rollback, and human opt-in decisions remain incomplete." : "Hosted persistence is not selected for this live source.", "Keep closed-local fallback available; record a separate opt-in only when the publisher chooses hosted reporting."),
   ];
   const binding = createReviewOnlyPublisherPilotPackageReadinessBinding({
     bindingId: `${packageId}:${quarantineId}:publisher-readiness-binding`,
@@ -162,6 +182,7 @@ export async function GET(request: Request) {
     deliveryManifestId: `${packageId}:delivery-manifest`,
     deliveryReleaseReceiptId: `${packageId}:delivery-manifest:release-receipt`,
     deliveryPackageIndexId: `${packageId}:delivery-manifest:package-index`,
+    hostedPersistenceDecisionPacketId: hostedPersistenceOptInPacket?.packetId ?? null,
     sourceChecksumSha256: handoff.checksumSha256,
     checks,
     nextGates: [
@@ -185,6 +206,7 @@ export async function GET(request: Request) {
     reviewDecision,
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
+    hostedPersistenceOptInPacket,
     errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors],
     privacy: privacyMessage(),
   });

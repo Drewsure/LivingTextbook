@@ -43,6 +43,72 @@ export interface HostedPersistenceOptInDecisionPacket {
   sideEffect: "none";
 }
 
+export function createReviewOnlyHostedPersistenceOptInDecisionPacket(input: {
+  tenantId: string;
+  packageId: string;
+  quarantineId: string;
+  reviewPacketId: string;
+  sourceChecksumSha256: string;
+  deliveryMode: HostedPersistenceOptInDeliveryMode;
+  packageReviewLineageStatus: HostedPersistenceOptInCheckStatus;
+  packageReviewLineageEvidence: string;
+}): HostedPersistenceOptInDecisionPacket {
+  const packetId = `${input.packageId}:${input.quarantineId}:hosted-persistence-opt-in`;
+  const checks: HostedPersistenceOptInDecisionCheck[] = [
+    { checkId: "package-review-lineage", label: "Reviewed package lineage", owner: "platform", status: input.packageReviewLineageStatus, evidence: input.packageReviewLineageEvidence, nextAction: "Keep the packet, source checksum, package evidence, and tenant identity bound together." },
+    { checkId: "provider-selection", label: "Provider and deployment choice", owner: "joint", status: "blocked", evidence: "No provider-specific hosted implementation is selected for this live package.", nextAction: "Record a named provider only after capability, privacy, and cost review." },
+    { checkId: "policy-retention", label: "School policy, retention, and deletion", owner: "tenant", status: "open", evidence: "School data scope, retention duration, deletion owner, and export policy are not recorded in the live packet.", nextAction: "Approve the tenant policy and deletion responsibility." },
+    { checkId: "release-deployment", label: "Release and deployment approval", owner: "joint", status: "blocked", evidence: "Hosted release and deployment continuity remain separate review-only gates.", nextAction: "Complete release, environment, QR, and rollback evidence." },
+    { checkId: "cost-usage", label: "Provider cost and usage limits", owner: "joint", status: "open", evidence: "A pilot budget, usage ceiling, and escalation owner are not recorded.", nextAction: "Set a cost ceiling and usage policy for this tenant." },
+    { checkId: "rollback-export", label: "Hosted/local export and rollback", owner: "platform", status: "open", evidence: "A matching hosted export, deletion, provider-loss, and return-to-local rehearsal is not attached.", nextAction: "Complete the hosted/local recovery rehearsal." },
+    { checkId: "write-boundary", label: "Learner-write boundary", owner: "platform", status: "passed", evidence: "This preview contains no provider credential, learner record, write capability, or activation control.", nextAction: "Keep hosted writes disabled until a separate human opt-in and provider approval are recorded." },
+  ];
+  const packet: HostedPersistenceOptInDecisionPacket = {
+    recordVersion: 1,
+    packetId,
+    tenantId: input.tenantId,
+    packageId: input.packageId,
+    quarantineId: input.quarantineId,
+    reviewPacketId: input.reviewPacketId,
+    sourceChecksumSha256: input.sourceChecksumSha256,
+    providerSelectionPreflightId: `${packetId}:provider-selection-preflight`,
+    persistenceActivationPreflightId: `${packetId}:persistence-activation-preflight`,
+    policyRecordId: `${packetId}:policy-not-recorded`,
+    releaseDecisionId: `${packetId}:release-not-recorded`,
+    rollbackRehearsalId: `${packetId}:rollback-not-rehearsed`,
+    deliveryMode: input.deliveryMode,
+    providerCandidateId: "hosted-provider-not-selected",
+    status: "blocked",
+    summary: "A package-scoped, review-only hosted persistence preview derived from the live publisher intake lineage.",
+    decision: "not-recorded",
+    reviewOnly: true,
+    providerSelected: false,
+    optInRecorded: false,
+    writesAllowed: false,
+    activationAllowed: false,
+    learnerRecordsIncluded: false,
+    checks,
+    blockedReasons: [
+      "Human hosted-persistence opt-in has not been recorded for this tenant and package.",
+      "Provider selection, school policy, cost limits, release approval, and rollback evidence remain incomplete.",
+    ],
+    requiredDecisions: [
+      "Select a hosted provider or retain closed-local delivery.",
+      "Accept school data, retention, deletion, export, and cost policy.",
+      "Approve release ownership and hosted/local rollback rehearsal.",
+    ],
+    nextSteps: [
+      "Complete the publisher and school decision packet without enabling writes.",
+      "Create provider-specific implementation work only after the decision gates pass.",
+      "Run a controlled teacher/student rehearsal before any learner record is retained.",
+    ],
+    sideEffect: "none",
+  };
+  const errors = validateHostedPersistenceOptInDecisionPacket(packet);
+  if (errors.length > 0) throw new Error(errors.join(" "));
+  return packet;
+}
+
 const REQUIRED_CHECKS = [
   "package-review-lineage",
   "provider-selection",

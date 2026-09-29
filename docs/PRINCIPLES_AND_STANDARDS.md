@@ -8994,3 +8994,17 @@ This standard is recorded in DR-1276 and ADR 1276.
   and QR authorization checks remain separate and required.
 
 This standard is recorded in DR-1277 and ADR 1277.
+
+## 562. Hosted Opt-In Preview Must Be Live-Lineage Bound
+
+- When hosted or hybrid delivery is selected for a live quarantine, readiness
+  must expose a package-scoped hosted persistence opt-in preview using the real
+  tenant, package, quarantine, review-packet, and source-checksum identities.
+- The preview must name provider, school policy, cost, release, rollback, and
+  human opt-in decisions separately; a packet ID alone is not approval.
+- The derived preview remains blocked, review-only, credential-free, and
+  learner-record-free. It must never enable hosted writes or student activation.
+- Closed-local delivery remains available as the fallback path when hosted
+  persistence is not selected or approved.
+
+This standard is recorded in DR-1278 and ADR 1278.
