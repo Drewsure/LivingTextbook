@@ -8151,3 +8151,24 @@ This standard is recorded in
 `docs/decision-register/DR-1233-publisher-quarantine-handoff-bridge.md`,
 `docs/BUILD_SESSIONS.md`, and
 `docs/adr/1233-publisher-quarantine-handoff-bridge.md`.
+
+## 519. Saleable Pilot Acceptance Matrix Standard
+
+- The first saleable white-label pilot must be measured against an explicit
+  acceptance matrix covering publisher intake, reviewed package delivery, QR
+  printing, teacher onboarding, student progression, local delivery, hosted
+  persistence, white-label separation, and outside-game integration.
+- A demo route, preview panel, typecheck, production build, or foundation gate
+  may prove structural readiness but cannot by itself prove that a publisher
+  has received a saleable package or that real learner data may be collected.
+- Every matrix row must name current evidence, current status, closure evidence,
+  and any human decision required. Unknown evidence is incomplete evidence.
+- The matrix must remain tenant- and package-scoped and must preserve the
+  default review-only, target-language progression, child-safety, privacy,
+  rollback, and Z.ai/Phaser isolation rules.
+
+This standard is recorded in
+`docs/PILOT_ACCEPTANCE_MATRIX.md`,
+`docs/decision-register/DR-1234-saleable-pilot-acceptance-matrix.md`,
+`docs/BUILD_SESSIONS.md`, and
+`docs/adr/1234-saleable-pilot-acceptance-matrix.md`.

@@ -6410,3 +6410,16 @@ student-payload-blocked behavior.
   package assembly, QR mutation, persistence activation, promotion, and student
   use blocked.
 - Added ADR 1233 and DR-1233.
+
+## Build session: Saleable pilot acceptance matrix
+
+- Added a requirement-level acceptance matrix for the first saleable
+  white-label pilot.
+- Mapped publisher intake, reviewed package delivery, QR printing, teacher
+  onboarding, student progression, local delivery, opt-in hosted persistence,
+  white-label separation, and frozen external-game integration to current
+  evidence and closure conditions.
+- Recorded that the platform remains review-only until a real publisher source,
+  rights/media evidence, delivery choice, policy decision, and release-control
+  approval are present.
+- Added ADR 1234 and DR-1234.
