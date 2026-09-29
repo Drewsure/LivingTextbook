@@ -8566,3 +8566,20 @@ current pilot acceptance matrix.
   explicit gates and evidence.
 
 This standard is recorded in DR-1252 and ADR 1252.
+
+## 537. Local Package Review Lineage Runtime Standard
+
+- An assembled local package must carry an immutable review-packet binding
+  record beside its manifest, release receipt, bundle manifest, route map, and
+  QR print artifact.
+- The binding must preserve tenant, quarantine, packet, package, and source
+  checksum identity. A local runtime must validate it before exposing package
+  routes, content, or media.
+- Missing, malformed, stale, or drifted review lineage makes the local package
+  unavailable; runtime readers must fail closed rather than infer approval from
+  a release receipt alone.
+- The binding proves publisher review lineage only. It does not grant hosted
+  persistence, learner activation, QR mutation, report export, or support-only
+  progression authority.
+
+This standard is recorded in DR-1253 and ADR 1253.

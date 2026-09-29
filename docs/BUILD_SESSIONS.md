@@ -6681,3 +6681,14 @@ student-payload-blocked behavior.
 - Preserved the separate release, QR, local activation, hosted persistence,
   and learner-record boundaries. Added the review-binding verifier and
   standards entry 536.
+
+## Build session: Local package review lineage runtime binding
+
+- Added an immutable `package-review-binding.json` artifact to assembled local
+  packages and carried the packet/quarantine identity into the assembly record.
+- Updated the local package runtime reader to validate that binding before
+  exposing package routes, content, or media, preserving tenant and checksum
+  identity at the final local delivery boundary.
+- Kept runtime reads gated and learner-safe. Missing or drifted review lineage
+  now makes the package unavailable rather than relying on release metadata
+  alone. Added ADR 1253, DR-1253, and standards entry 537.

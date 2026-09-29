@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { validateLocalBundleManifest, type LocalBundleManifest, type PilotDeliveryManifest, type PilotDeliveryPackageIndex, type PilotDeliveryReleaseReceipt } from "@living-textbook/content-model";
-import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput } from "@/server/delivery/localPilotPackageAssembler";
+import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput, type LocalPilotPackageReviewBinding } from "@/server/delivery/localPilotPackageAssembler";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 
@@ -22,13 +22,25 @@ export async function POST(request: Request) {
 
   const packetResult = await readQuarantinePackageReviewPacket(bodyResult.value.manifest.tenantId, bodyResult.value.quarantineId);
   const packet = packetResult.record;
+  if (!packet) {
+    return json({ status: "blocked", reviewPacketBound: false, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: ["The durable review packet could not be read from the configured quarantine custody boundary."], packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, 423);
+  }
   const packetErrors = validateReviewPacketBinding(bodyResult.value, packet);
   if (packetErrors.length > 0) {
     return json({ status: "blocked", reviewPacketBound: false, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: packetErrors, packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, 423);
   }
 
   const { quarantineId: _quarantineId, reviewPacketId: _reviewPacketId, ...assemblyInput } = bodyResult.value;
-  const result = await assembleLocalPilotPackage(assemblyInput);
+  const reviewPacketBinding: LocalPilotPackageReviewBinding = {
+    recordVersion: 1,
+    tenantId: packet.tenantId,
+    quarantineId: packet.quarantineId,
+    packetId: packet.packetId,
+    packageId: packet.packageId,
+    sourceChecksumSha256: packet.checksumSha256,
+    status: "ready-for-next-gate",
+  };
+  const result = await assembleLocalPilotPackage({ ...assemblyInput, reviewPacketBinding });
   return json({ ...result, reviewPacketBound: true, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
 }
 

@@ -22,8 +22,19 @@ export interface LocalPilotPackageAssemblyInput {
   receipt: PilotDeliveryReleaseReceipt;
   packageIndex: PilotDeliveryPackageIndex;
   bundleManifest: LocalBundleManifest;
+  reviewPacketBinding: LocalPilotPackageReviewBinding;
   operatorId: string;
   writtenAt: string;
+}
+
+export interface LocalPilotPackageReviewBinding {
+  recordVersion: 1;
+  tenantId: string;
+  quarantineId: string;
+  packetId: string;
+  packageId: string;
+  sourceChecksumSha256: string;
+  status: "ready-for-next-gate";
 }
 
 export interface LocalPilotPackageAssemblyResult {
@@ -44,6 +55,8 @@ interface AssemblyRecord {
   manifestId: string;
   receiptId: string;
   sourceAssemblyChecksum: string;
+  quarantineId: string;
+  reviewPacketId: string;
   operatorId: string;
   writtenAt: string;
   qrPrintBaseUrl: string;
@@ -63,6 +76,7 @@ const generatedFiles = [
   "metadata/game-map.json",
   "metadata/qr-print-sheet.json",
   "metadata/qr-print-sheet.html",
+  "metadata/package-review-binding.json",
   "metadata/assembly-record.json",
 ] as const;
 
@@ -121,6 +135,7 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
       await writeJsonFile(join(staging, "metadata/game-map.json"), { gameRoutePaths: input.packageIndex.gameRoutePaths, sideEffect: "local-package-assembly" });
       await writeJsonFile(join(staging, "metadata/qr-print-sheet.json"), qrPrintSheet.manifest);
       await writeFile(join(staging, "metadata/qr-print-sheet.html"), qrPrintSheet.html, { encoding: "utf8", flag: "wx" });
+      await writeJsonFile(join(staging, "metadata/package-review-binding.json"), input.reviewPacketBinding);
       await writeJsonFile(join(staging, "metadata/assembly-record.json"), record);
       await verifyStagedPackage(staging, input, record, sourceFiles, qrPrintSheet);
       try {
@@ -148,6 +163,7 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
     ...validateLocalBundleManifest(input.bundleManifest).errors,
   ];
   errors.push(...evaluateLocalBundleAssetEvidenceSet(input.bundleManifest.assets).blockers);
+  errors.push(...validateReviewPacketBinding(input.reviewPacketBinding, input.manifest));
   if (input.manifest.status !== "ready-for-manual-release" || !input.manifest.deliveryAllowed) errors.push("Local pilot package assembly requires an approved delivery manifest.");
   if (input.receipt.status !== "manual-release-approved" || !input.receipt.deliveryAllowed) errors.push("Local pilot package assembly requires an approved manual release receipt.");
   if (input.packageIndex.releaseStatus !== "manual-release-approved") errors.push("Local pilot package assembly requires a manually approved package index.");
@@ -287,10 +303,12 @@ async function verifyStagedPackage(staging: string, input: LocalPilotPackageAsse
   const manifest = JSON.parse(await readFile(join(staging, "metadata/delivery-manifest.json"), "utf8")) as unknown;
   const receipt = JSON.parse(await readFile(join(staging, "metadata/release-receipt.json"), "utf8")) as unknown;
   const bundle = JSON.parse(await readFile(join(staging, "metadata/local-bundle-manifest.json"), "utf8")) as unknown;
+  const reviewPacketBinding = JSON.parse(await readFile(join(staging, "metadata/package-review-binding.json"), "utf8")) as LocalPilotPackageReviewBinding;
   const qrPrintManifest = JSON.parse(await readFile(join(staging, "metadata/qr-print-sheet.json"), "utf8")) as QrPrintManifest;
   const qrPrintHtml = await readFile(join(staging, "metadata/qr-print-sheet.html"), "utf8");
-  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validateLocalBundleManifest(bundle).errors];
+  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validateLocalBundleManifest(bundle).errors, ...validateReviewPacketBinding(reviewPacketBinding, input.manifest)];
   if (stableJson(packageIndex) !== stableJson(input.packageIndex) || stableJson(manifest) !== stableJson(input.manifest) || stableJson(receipt) !== stableJson(input.receipt) || stableJson(bundle) !== stableJson(input.bundleManifest)) errors.push("Local package metadata read-back does not match the approved inputs.");
+  if (stableJson(reviewPacketBinding) !== stableJson(input.reviewPacketBinding)) errors.push("Local package review packet binding read-back does not match the approved packet.");
   const storedRecord = JSON.parse(await readFile(join(staging, "metadata/assembly-record.json"), "utf8")) as AssemblyRecord;
   errors.push(...validateAssemblyRecord(storedRecord, record));
   const printBaseUrl = readPrintBaseUrl();
@@ -329,7 +347,19 @@ async function reconcileExistingPackage(directory: string, relativeDirectory: st
 }
 
 function createAssemblyRecord(input: LocalPilotPackageAssemblyInput, files: string[], copiedAssetCount: number, qrPrintBaseUrl: string): AssemblyRecord {
-  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
+  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, quarantineId: input.reviewPacketBinding.quarantineId, reviewPacketId: input.reviewPacketBinding.packetId, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
+}
+
+function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, manifest: PilotDeliveryManifest): string[] {
+  const errors: string[] = [];
+  if (!binding || binding.recordVersion !== 1) errors.push("Local pilot package assembly requires a versioned review packet binding.");
+  if (!isNonEmptyString(binding?.tenantId) || binding.tenantId !== manifest.tenantId) errors.push("Local package review binding tenant does not match the delivery manifest.");
+  if (!isSafeSegment(binding?.quarantineId ?? "")) errors.push("Local package review binding quarantine identity is unsafe.");
+  if (!isNonEmptyString(binding?.packetId)) errors.push("Local package review binding packet identity is required.");
+  if (!isNonEmptyString(binding?.packageId) || binding.packageId !== manifest.packageId) errors.push("Local package review binding package does not match the delivery manifest.");
+  if (!/^sha256:[0-9a-f]{64}$/i.test(manifest.sourceAssemblyChecksum) || binding?.sourceChecksumSha256 !== manifest.sourceAssemblyChecksum.replace(/^sha256:/, "")) errors.push("Local package review binding checksum does not match the delivery manifest.");
+  if (binding?.status !== "ready-for-next-gate") errors.push("Local package assembly requires a review packet ready for the next gate.");
+  return [...new Set(errors)];
 }
 
 function validateAssemblyRecord(value: AssemblyRecord, expected: AssemblyRecord): string[] {
@@ -354,6 +384,7 @@ function blocked(errors: string[]): LocalPilotPackageAssemblyResult {
 
 function safeSegment(value: string): string { return value.replaceAll(/[^A-Za-z0-9._-]+/g, "-").slice(0, 160) || "unknown"; }
 function isSafeSegment(value: string): boolean { return typeof value === "string" && value.length > 0 && value.length <= 160 && /^[A-Za-z0-9._-]+$/.test(value); }
+function isNonEmptyString(value: unknown): value is string { return typeof value === "string" && value.trim().length > 0; }
 function isIsoTimestamp(value: string): boolean { return typeof value === "string" && !Number.isNaN(Date.parse(value)); }
 function isSafeRelativePath(value: string): boolean { return Boolean(value) && !value.includes("\\") && !value.startsWith("/") && !/^[A-Za-z]:/.test(value) && !value.split("/").some((segment) => segment === "" || segment === "." || segment === ".."); }
 function isSafeQrAliasPath(value: string): boolean { return isSafeInternalPath(value) && value.startsWith("/q/"); }
