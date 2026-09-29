@@ -40,6 +40,7 @@ This list names the routes that should be checked after foundation changes. It i
 - `http://127.0.0.1:3000/teacher/maintenance/sample-publisher`
 - `http://127.0.0.1:3000/teacher/release-control/sample-publisher`
 - `http://127.0.0.1:3000/teacher/uploads/sample-publisher`
+- `http://127.0.0.1:3000/teacher/uploads/white-label-review`
 - `http://127.0.0.1:3000/teacher/evidence/sample-publisher`
 - `http://127.0.0.1:3000/teacher/evidence/white-label-review`
 - `http://127.0.0.1:3000/teacher/evidence/sample-publisher/handoff`

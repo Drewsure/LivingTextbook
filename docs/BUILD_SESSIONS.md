@@ -6966,3 +6966,13 @@ student-payload-blocked behavior.
   review links.
 - Kept file admission, package assembly, QR printing, persistence, local
   activation, and student launch blocked.
+
+## Build session: Tenant-safe publisher upload boundary
+
+- Separated the populated Sample Publisher upload review records from the
+  generic white-label upload route.
+- New tenants retain the real opt-in quarantine intake and platform channel
+  policy for PDF/text, Labelled Diagram images, audio/music, and video, but see
+  no sample queue, sample evidence flow, or MiniStar asset records.
+- Kept quarantine intake disabled by default and kept scan, rights, mapping,
+  package, QR, persistence, local delivery, and student-use gates closed.

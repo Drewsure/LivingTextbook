@@ -10,6 +10,7 @@ import { sampleUploadReviewQueue } from "@/data/sampleUploadReviewQueue";
 import { sampleUploadTargetMappingPlan } from "@/data/sampleUploadTargetMapping";
 import { sampleUploadQuarantineAdmissionPreviews } from "@/data/sampleUploadQuarantineAdmission";
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
+import { TenantUploadWorkspaceEmptyStatePanel } from "@/features/content-intake/TenantUploadWorkspaceEmptyStatePanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export const dynamic = "force-dynamic";
@@ -24,22 +25,36 @@ export default async function TeacherUploadWorkspacePage({
   const tenant = resolveTenantConfig(tenantId);
   if (!tenant) notFound();
 
+  const hasSamplePreview = tenantId === "sample-publisher";
+  const quarantineUploadsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true";
+  const reviewDecisionsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED === "true";
+
   return (
     <AppShell tenant={tenant}>
-      <TeacherUploadWorkspacePanel
-        tenantId={tenantId}
-        channelPlan={sampleUploadChannelReadinessPlan}
-        filePolicyPlan={sampleUploadFilePolicyPlan}
-        targetMappingPlan={sampleUploadTargetMappingPlan}
-        reviewQueue={sampleUploadReviewQueue}
-        promotionPlan={sampleUploadPromotionReadinessPlan}
-        labelledDiagramPlan={sampleLabelledDiagramAssetReadinessPlan}
-        multimediaPlan={sampleMultimediaAssetReadinessPlan}
-        evidenceFlow={sampleUploadEvidencePacketFlow}
-        quarantineAdmissionPreviews={sampleUploadQuarantineAdmissionPreviews}
-        quarantineUploadsEnabled={process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true"}
-        reviewDecisionsEnabled={process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED === "true"}
-      />
+      {hasSamplePreview ? (
+        <TeacherUploadWorkspacePanel
+          tenantId={tenantId}
+          channelPlan={sampleUploadChannelReadinessPlan}
+          filePolicyPlan={sampleUploadFilePolicyPlan}
+          targetMappingPlan={sampleUploadTargetMappingPlan}
+          reviewQueue={sampleUploadReviewQueue}
+          promotionPlan={sampleUploadPromotionReadinessPlan}
+          labelledDiagramPlan={sampleLabelledDiagramAssetReadinessPlan}
+          multimediaPlan={sampleMultimediaAssetReadinessPlan}
+          evidenceFlow={sampleUploadEvidencePacketFlow}
+          quarantineAdmissionPreviews={sampleUploadQuarantineAdmissionPreviews}
+          quarantineUploadsEnabled={quarantineUploadsEnabled}
+          reviewDecisionsEnabled={reviewDecisionsEnabled}
+        />
+      ) : (
+        <TenantUploadWorkspaceEmptyStatePanel
+          tenantId={tenantId}
+          tenantName={tenant.displayName}
+          channelPlan={sampleUploadChannelReadinessPlan}
+          quarantineUploadsEnabled={quarantineUploadsEnabled}
+          reviewDecisionsEnabled={reviewDecisionsEnabled}
+        />
+      )}
     </AppShell>
   );
 }

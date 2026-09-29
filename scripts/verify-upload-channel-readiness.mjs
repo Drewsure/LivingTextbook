@@ -45,6 +45,7 @@ const contentEntryOptionPanel = readSource("../apps/web/src/features/content-int
 const templateRenderingFontProfilePanel = readSource("../apps/web/src/features/content-intake/TemplateRenderingFontProfilePanel.tsx");
 const controlledQuarantineUploadPanel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const teacherUploadWorkspace = readSource("../apps/web/src/features/content-intake/TeacherUploadWorkspacePanel.tsx");
+const tenantUploadWorkspaceEmptyStatePanel = readSource("../apps/web/src/features/content-intake/TenantUploadWorkspaceEmptyStatePanel.tsx");
 const teacherUploadRoute = readSource("../apps/web/src/app/teacher/uploads/[tenantId]/page.tsx");
 const tenantResolver = readSource("../apps/web/src/features/tenant/tenantResolver.ts");
 const teacherEvidencePacketRoute = readSource("../apps/web/src/app/teacher/evidence/[tenantId]/page.tsx");
@@ -849,6 +850,12 @@ requireText(teacherUploadRoute, "resolveTenantConfig", "Teacher upload route mus
 requireText(teacherUploadRoute, "tenantId", "Teacher upload route must preserve the requested tenant id.");
 requireText(teacherUploadRoute, "AppShell tenant={tenant}", "Teacher upload route must render the resolved tenant shell.");
 requireAbsent(teacherUploadRoute, "samplePublisherTenant", "Teacher upload route must not hard-code the sample publisher tenant.");
+requireText(teacherUploadRoute, "hasSamplePreview", "Teacher upload route must explicitly separate populated reference preview from generic tenants.");
+requireText(teacherUploadRoute, "TenantUploadWorkspaceEmptyStatePanel", "Teacher upload route must render a tenant-safe empty workspace for unprovisioned tenants.");
+requireText(tenantUploadWorkspaceEmptyStatePanel, "No publisher files have been admitted yet", "Tenant upload empty state must explain that no tenant files exist.");
+requireText(tenantUploadWorkspaceEmptyStatePanel, "No tenant records", "Tenant upload empty state must show the tenant record boundary.");
+requireText(tenantUploadWorkspaceEmptyStatePanel, "No Sample Publisher or MiniStar", "Tenant upload empty state must protect reference tenant records.");
+requireText(tenantUploadWorkspaceEmptyStatePanel, "ControlledQuarantineUploadPanel", "Tenant upload empty state must preserve the opt-in quarantine intake contract.");
 requireText(tenantResolver, "export function resolveTenantConfig", "Shared tenant resolver must expose the white-label tenant boundary.");
 requireText(tenantResolver, "createGenericWhiteLabelTenant", "Shared tenant resolver must provide a safe generic tenant shell.");
 requireText(tenantResolver, "isSafeTenantId", "Shared tenant resolver must validate tenant ids before rendering review surfaces.");
