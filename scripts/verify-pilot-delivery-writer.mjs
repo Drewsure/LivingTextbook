@@ -12,6 +12,8 @@ for (const [source, marker, label] of [
   [writer, "validateDurableBackupFilesystemPath", "filesystem custody validation"],
   [writer, "writeJsonFile", "immutable staged write"],
   [writer, "readPilotDeliveryMetadata", "post-write readback"],
+  [writer, "PilotDeliveryPackageIndex", "publisher package index"],
+  [writer, "delivery-package.json", "publisher package index file"],
   [writer, "validateStoredBinding", "stored identity reconciliation"],
   [writer, "staging-", "atomic staging directory"],
   [writer, "rename(staging, directory)", "atomic directory commit"],

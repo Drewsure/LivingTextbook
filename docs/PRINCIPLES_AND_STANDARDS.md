@@ -8235,9 +8235,15 @@ This standard is recorded in
   not an overwrite. The writer stores no learner records and never activates a
   student-facing route.
 - Every accepted write must have a read-back verification path that validates
-  the manifest, receipt, handoff record, identity binding, checksum binding,
+  the publisher package index, manifest, receipt, handoff record, identity binding, checksum binding,
   metadata-only marker, and approved release state. A successful filesystem
   write without successful read-back is not a delivered pilot package.
+- The handoff must include a publisher-facing `delivery-package.json` index.
+  It binds the approved content package path, curated game route paths, media
+  kinds, QR aliases, local fallback paths, and hosted-persistence status to the
+  exact manifest, receipt, version, and source checksum. The index is a map of
+  the reviewed package, not permission to copy payload bytes or activate
+  learners.
 - Hosted persistence, QR alias mutation, media copying, and local bundle
   activation remain separate release operations. A metadata writer cannot
   silently perform any of them.

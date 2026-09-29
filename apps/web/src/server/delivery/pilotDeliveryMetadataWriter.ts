@@ -37,9 +37,30 @@ export type PilotDeliveryHandoffRecord = {
   sideEffect: "metadata-only";
 };
 
+export type PilotDeliveryPackageIndex = {
+  indexVersion: 1;
+  tenantId: string;
+  packageId: string;
+  version: string;
+  manifestId: string;
+  receiptId: string;
+  sourceAssemblyChecksum: string;
+  mode: PilotDeliveryManifest["mode"];
+  contentPackagePath: string;
+  gameRoutePaths: string[];
+  mediaKinds: string[];
+  qrAliasPaths: string[];
+  localFallbackPaths: string[];
+  hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
+  releaseStatus: "manual-release-approved";
+  rawPayloadIncluded: false;
+  learnerRecordsIncluded: false;
+  sideEffect: "metadata-only";
+};
+
 export type PilotDeliveryMetadataReadResult =
-  | { status: "available"; relativeDirectory: string; manifest: PilotDeliveryManifest; receipt: PilotDeliveryReleaseReceipt; handoffRecord: PilotDeliveryHandoffRecord; errors: string[] }
-  | { status: "not-found" | "blocked"; relativeDirectory: string | null; manifest: null; receipt: null; handoffRecord: null; errors: string[] };
+  | { status: "available"; relativeDirectory: string; manifest: PilotDeliveryManifest; receipt: PilotDeliveryReleaseReceipt; packageIndex: PilotDeliveryPackageIndex; handoffRecord: PilotDeliveryHandoffRecord; errors: string[] }
+  | { status: "not-found" | "blocked"; relativeDirectory: string | null; manifest: null; receipt: null; packageIndex: null; handoffRecord: null; errors: string[] };
 
 export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWriteInput): Promise<PilotDeliveryMetadataWriteResult> {
   const validationErrors = [
@@ -69,6 +90,26 @@ export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWri
     const filesystemErrors = validateDurableBackupFilesystemPath(parent, root);
     if (filesystemErrors.length > 0) return blocked(filesystemErrors);
 
+    const packageIndex: PilotDeliveryPackageIndex = {
+      indexVersion: 1,
+      tenantId: input.manifest.tenantId,
+      packageId: input.manifest.packageId,
+      version: input.manifest.version,
+      manifestId: input.manifest.manifestId,
+      receiptId: input.receipt.receiptId,
+      sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
+      mode: input.manifest.mode,
+      contentPackagePath: input.manifest.contentPackagePath,
+      gameRoutePaths: input.manifest.gameRoutePaths.slice(),
+      mediaKinds: input.manifest.mediaKinds.slice(),
+      qrAliasPaths: input.manifest.qrAliasPaths.slice(),
+      localFallbackPaths: input.manifest.localFallbackPaths.slice(),
+      hostedPersistence: input.manifest.hostedPersistence,
+      releaseStatus: "manual-release-approved",
+      rawPayloadIncluded: false,
+      learnerRecordsIncluded: false,
+      sideEffect: "metadata-only",
+    } as const;
     const record: PilotDeliveryHandoffRecord = {
       recordVersion: 1,
       tenantId: input.manifest.tenantId,
@@ -79,7 +120,7 @@ export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWri
       sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
       operatorId: input.operatorId,
       writtenAt: input.writtenAt,
-      files: ["delivery-manifest.json", "release-receipt.json", "handoff-record.json"],
+      files: ["delivery-package.json", "delivery-manifest.json", "release-receipt.json", "handoff-record.json"],
       payloadBytesIncluded: false,
       sideEffect: "metadata-only",
     } as const;
@@ -96,6 +137,7 @@ export async function writePilotDeliveryMetadata(input: PilotDeliveryMetadataWri
         await rm(staging, { recursive: true, force: true }).catch(() => undefined);
         return blocked(stagingErrors);
       }
+      await writeJsonFile(join(staging, "delivery-package.json"), packageIndex);
       await writeJsonFile(join(staging, "delivery-manifest.json"), input.manifest);
       await writeJsonFile(join(staging, "release-receipt.json"), input.receipt);
       await writeJsonFile(join(staging, "handoff-record.json"), record);
@@ -128,38 +170,41 @@ async function reconcileExistingDelivery(directory: string, relativeDirectory: s
 
 export async function readPilotDeliveryMetadata(input: { tenantId: string; packageId: string; version: string }): Promise<PilotDeliveryMetadataReadResult> {
   const identityErrors = [input.tenantId, input.packageId, input.version].flatMap((value) => isSafeSegment(value) ? [] : ["Pilot delivery metadata read requires safe tenant, package, and version path segments."]);
-  if (identityErrors.length > 0) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, handoffRecord: null, errors: identityErrors };
+  if (identityErrors.length > 0) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, packageIndex: null, handoffRecord: null, errors: identityErrors };
   const configuredRoot = process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT?.trim();
-  if (!configuredRoot) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, handoffRecord: null, errors: ["Pilot delivery metadata reads require an explicit custody root."] };
+  if (!configuredRoot) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, packageIndex: null, handoffRecord: null, errors: ["Pilot delivery metadata reads require an explicit custody root."] };
   const root = resolve(configuredRoot);
   const directory = resolve(root, input.tenantId, input.packageId, input.version);
   const pathErrors = [
     ...validateDurableBackupPath(directory, root),
     ...validateDurableBackupFilesystemPath(directory, root),
   ];
-  if (pathErrors.length > 0) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, handoffRecord: null, errors: [...new Set(pathErrors)] };
+  if (pathErrors.length > 0) return { status: "blocked", relativeDirectory: null, manifest: null, receipt: null, packageIndex: null, handoffRecord: null, errors: [...new Set(pathErrors)] };
   try {
-    const [manifestValue, receiptValue, recordValue] = await Promise.all([
+    const [packageIndexValue, manifestValue, receiptValue, recordValue] = await Promise.all([
+      readJson(join(directory, "delivery-package.json")),
       readJson(join(directory, "delivery-manifest.json")),
       readJson(join(directory, "release-receipt.json")),
       readJson(join(directory, "handoff-record.json")),
     ]);
+    const packageIndexErrors = validatePackageIndex(packageIndexValue);
     const manifestErrors = validatePilotDeliveryManifest(manifestValue);
     const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
     const recordErrors = validateHandoffRecord(recordValue);
-    const bindingErrors = validateStoredBinding(manifestValue, receiptValue, recordValue);
-    const errors = [...manifestErrors, ...receiptErrors, ...recordErrors, ...bindingErrors];
-    if (errors.length > 0) return { status: "blocked", relativeDirectory: relative(root, directory).replaceAll("\\", "/"), manifest: null, receipt: null, handoffRecord: null, errors: [...new Set(errors)] };
+    const bindingErrors = validateStoredBinding(packageIndexValue, manifestValue, receiptValue, recordValue);
+    const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...recordErrors, ...bindingErrors];
+    if (errors.length > 0) return { status: "blocked", relativeDirectory: relative(root, directory).replaceAll("\\", "/"), manifest: null, receipt: null, packageIndex: null, handoffRecord: null, errors: [...new Set(errors)] };
     return {
       status: "available",
       relativeDirectory: relative(root, directory).replaceAll("\\", "/"),
       manifest: manifestValue as PilotDeliveryManifest,
       receipt: receiptValue as PilotDeliveryReleaseReceipt,
+      packageIndex: packageIndexValue as PilotDeliveryPackageIndex,
       handoffRecord: recordValue as PilotDeliveryHandoffRecord,
       errors: [],
     };
   } catch {
-    return { status: "not-found", relativeDirectory: relative(root, directory).replaceAll("\\", "/"), manifest: null, receipt: null, handoffRecord: null, errors: ["Pilot delivery metadata was not found in the configured custody root."] };
+    return { status: "not-found", relativeDirectory: relative(root, directory).replaceAll("\\", "/"), manifest: null, receipt: null, packageIndex: null, handoffRecord: null, errors: ["Pilot delivery metadata was not found in the configured custody root."] };
   }
 }
 
@@ -182,6 +227,18 @@ async function readJson(path: string): Promise<unknown> {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
 }
 
+function validatePackageIndex(value: unknown): string[] {
+  if (!isRecord(value)) return ["Pilot delivery package index must be an object."];
+  const errors: string[] = [];
+  if (value.indexVersion !== 1 || value.rawPayloadIncluded !== false || value.learnerRecordsIncluded !== false || value.sideEffect !== "metadata-only" || value.releaseStatus !== "manual-release-approved") errors.push("Pilot delivery package index has an unsafe release or side-effect marker.");
+  for (const field of ["tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "contentPackagePath"] as const) if (!isNonEmptyString(value[field])) errors.push(`Pilot delivery package index ${field} must be non-empty.`);
+  if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery package index checksum is invalid.");
+  for (const field of ["gameRoutePaths", "mediaKinds", "qrAliasPaths", "localFallbackPaths"] as const) if (!Array.isArray(value[field]) || value[field].some((item) => !isNonEmptyString(item))) errors.push(`Pilot delivery package index ${field} must contain non-empty strings.`);
+  if (!["hosted-pwa", "closed-local", "hybrid"].includes(String(value.mode))) errors.push("Pilot delivery package index mode is unsupported.");
+  if (!["not-selected", "opt-in-pending", "opt-in-approved"].includes(String(value.hostedPersistence))) errors.push("Pilot delivery package index hosted persistence status is unsupported.");
+  return errors;
+}
+
 function validateHandoffRecord(value: unknown): string[] {
   if (!isRecord(value)) return ["Pilot delivery handoff record must be an object."];
   const errors: string[] = [];
@@ -189,17 +246,19 @@ function validateHandoffRecord(value: unknown): string[] {
   for (const field of ["tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "operatorId", "writtenAt"] as const) if (!isNonEmptyString(value[field])) errors.push(`Pilot delivery handoff record ${field} must be non-empty.`);
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot delivery handoff record checksum is invalid.");
   if (!isIsoTimestamp(String(value.writtenAt ?? ""))) errors.push("Pilot delivery handoff record writtenAt must be a valid ISO timestamp.");
-  if (!Array.isArray(value.files) || value.files.join(",") !== "delivery-manifest.json,release-receipt.json,handoff-record.json") errors.push("Pilot delivery handoff record file list is invalid.");
+  if (!Array.isArray(value.files) || value.files.join(",") !== "delivery-package.json,delivery-manifest.json,release-receipt.json,handoff-record.json") errors.push("Pilot delivery handoff record file list is invalid.");
   return errors;
 }
 
-function validateStoredBinding(manifest: unknown, receipt: unknown, record: unknown): string[] {
-  if (!isRecord(manifest) || !isRecord(receipt) || !isRecord(record)) return ["Pilot delivery stored metadata must contain manifest, receipt, and handoff records."];
+function validateStoredBinding(packageIndex: unknown, manifest: unknown, receipt: unknown, record: unknown): string[] {
+  if (!isRecord(packageIndex) || !isRecord(manifest) || !isRecord(receipt) || !isRecord(record)) return ["Pilot delivery stored metadata must contain package index, manifest, receipt, and handoff records."];
   const errors: string[] = [];
-  for (const field of ["tenantId", "packageId", "version"] as const) if (manifest[field] !== receipt[field] || manifest[field] !== record[field]) errors.push(`Pilot delivery stored ${field} identity does not match across records.`);
-  if (manifest.manifestId !== receipt.manifestId || manifest.manifestId !== record.manifestId) errors.push("Pilot delivery stored manifest identity does not match across records.");
-  if (manifest.sourceAssemblyChecksum !== receipt.sourceAssemblyChecksum || manifest.sourceAssemblyChecksum !== record.sourceAssemblyChecksum) errors.push("Pilot delivery stored checksum does not match across records.");
-  if (receipt.receiptId !== record.receiptId) errors.push("Pilot delivery stored receipt identity does not match across records.");
+  for (const field of ["tenantId", "packageId", "version"] as const) if (manifest[field] !== receipt[field] || manifest[field] !== record[field] || manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored ${field} identity does not match across records.`);
+  if (manifest.manifestId !== receipt.manifestId || manifest.manifestId !== record.manifestId || manifest.manifestId !== packageIndex.manifestId) errors.push("Pilot delivery stored manifest identity does not match across records.");
+  if (manifest.sourceAssemblyChecksum !== receipt.sourceAssemblyChecksum || manifest.sourceAssemblyChecksum !== record.sourceAssemblyChecksum || manifest.sourceAssemblyChecksum !== packageIndex.sourceAssemblyChecksum) errors.push("Pilot delivery stored checksum does not match across records.");
+  if (receipt.receiptId !== record.receiptId || receipt.receiptId !== packageIndex.receiptId) errors.push("Pilot delivery stored receipt identity does not match across records.");
+  for (const field of ["mode", "contentPackagePath", "hostedPersistence"] as const) if (manifest[field] !== packageIndex[field]) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
+  for (const field of ["gameRoutePaths", "mediaKinds", "qrAliasPaths", "localFallbackPaths"] as const) if (stableJson(manifest[field]) !== stableJson(packageIndex[field])) errors.push(`Pilot delivery stored package index ${field} does not match the manifest.`);
   if (manifest.status !== "ready-for-manual-release" || receipt.status !== "manual-release-approved") errors.push("Pilot delivery stored records are not approved for handoff.");
   return errors;
 }

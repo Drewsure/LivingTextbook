@@ -4,8 +4,8 @@
 
 Add an explicitly gated, authenticated writer for the first operational pilot
 handoff. The initial writer materializes only the approved delivery manifest,
-manual release receipt, and immutable handoff metadata inside a configured
-custody root.
+manual release receipt, a publisher-facing `delivery-package.json` index, and
+immutable handoff metadata inside a configured custody root.
 
 ## Safety boundary
 
@@ -18,9 +18,10 @@ overwrites an existing release. Files are written to a private staging
 directory and committed as one completed custody directory so an interrupted
 write cannot look like a delivered package.
 
-Every write has an authenticated read-back path that validates all three
+Every write has an authenticated read-back path that validates all four
 records and their tenant/package/version/checksum bindings before the handoff
-can be treated as present.
+can be treated as present. The package index describes reviewed routes and
+media references; it does not include payload bytes or activate learners.
 
 ## Deferred operations
 
