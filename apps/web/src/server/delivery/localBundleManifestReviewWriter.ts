@@ -134,9 +134,10 @@ async function readManifestReviewLineage(input: LocalBundleManifestReviewWriteIn
   const errors = [...packetResult.errors, ...sourceResult.errors];
   if (!packet) errors.push("A durable package review packet is required before a bundle manifest can be reviewed.");
   if (!source) errors.push("Durable publisher source preflight evidence is required before a bundle manifest can be reviewed.");
-  if (packet && (packet.packetId !== input.reviewPacketId || packet.tenantId !== input.tenantId || packet.packageId !== input.packageId || packet.status !== "ready-for-next-gate")) errors.push("The supplied package review packet does not match the exact bundle-manifest review identity or is not ready for the next gate.");
-  if (source && (source.tenantId !== input.tenantId || source.quarantineId !== input.quarantineId || source.packageId !== input.packageId || source.status !== "attached")) errors.push("The durable source preflight evidence does not match the exact bundle-manifest review identity.");
+  if (packet && (packet.packetId !== input.reviewPacketId || packet.tenantId !== input.tenantId || packet.packageId !== input.packageId || packet.status !== "ready-for-next-gate" || packet.reviewDecision !== "accepted-for-package-review")) errors.push("The supplied package review packet does not match the exact bundle-manifest review identity or is not accepted for the next gate.");
+  if (source && (source.tenantId !== input.tenantId || source.quarantineId !== input.quarantineId || source.packageId !== input.packageId || source.version !== input.manifest.version || source.status !== "attached")) errors.push("The durable source preflight evidence does not match the exact bundle-manifest review identity.");
   if (packet && source && packet.sourcePreflightEvidenceId !== source.evidenceId) errors.push("The package review packet and source preflight evidence identities do not match.");
+  if (packet && source && packet.checksumSha256 !== source.sourceChecksumSha256.replace(/^sha256:/i, "").toLowerCase()) errors.push("The package review packet checksum does not match the durable source preflight evidence.");
   return { sourcePreflightEvidenceId: source?.evidenceId ?? null, errors: [...new Set(errors)] };
 }
 

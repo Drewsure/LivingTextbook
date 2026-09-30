@@ -254,6 +254,7 @@ export async function GET(request: Request) {
     qrRegistryPresent: false,
     packageIndexPresent: false,
     bundleManifestPresent: false,
+    reviewedBundleManifestPresent: false,
     reviewPacketBound: packet?.status === "ready-for-next-gate",
     operatorAndWriteTimePresent: false,
   });

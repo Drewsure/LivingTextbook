@@ -35,6 +35,7 @@ const requiredInputIds = [
   "approved-qr-registry",
   "delivery-package-index",
   "offline-bundle-manifest",
+  "reviewed-bundle-manifest",
   "review-packet-binding",
   "operator-and-write-time",
 ] as const;
@@ -58,6 +59,7 @@ export function createPublisherDeliveryAssemblyRequestPreview(input: {
   qrRegistryPresent: boolean;
   packageIndexPresent: boolean;
   bundleManifestPresent: boolean;
+  reviewedBundleManifestPresent: boolean;
   reviewPacketBound: boolean;
   operatorAndWriteTimePresent: boolean;
 }): PublisherDeliveryAssemblyRequestPreview {
@@ -75,6 +77,7 @@ export function createPublisherDeliveryAssemblyRequestPreview(input: {
     entry("approved-qr-registry", "Approved QR registry", input.qrRegistryPresent, "The stable QR alias registry is linked to the approved release.", "Reconcile stable aliases, local fallbacks, and print authorization."),
     entry("delivery-package-index", "Delivery package index", input.packageIndexPresent, "The package index is linked to the approved manifest and receipt.", "Create and read back the metadata-only package index after release approval."),
     entry("offline-bundle-manifest", "Offline bundle manifest", input.bundleManifestPresent, "The offline-ready bundle manifest is present for closed-local assembly.", "Provide the tenant-owned bundle manifest and verify its asset paths and checksums."),
+    entry("reviewed-bundle-manifest", "Reviewed bundle manifest custody record", input.reviewedBundleManifestPresent, "The exact tenant/package/version bundle manifest has been reviewed and persisted against the package review packet and source preflight evidence.", "Capture the immutable reviewed bundle-manifest record before package assembly."),
     entry("review-packet-binding", "Quarantine review packet binding", input.reviewPacketBound, "The immutable review packet matches tenant, package, quarantine, and source checksum.", "Record an accepted package review packet and bind it to the exact source checksum."),
     entry("operator-and-write-time", "Operator and write timestamp", input.operatorAndWriteTimePresent, "A bounded operator identity and write timestamp are present.", "Provide the authorized operator identity and an auditable write timestamp."),
   ];

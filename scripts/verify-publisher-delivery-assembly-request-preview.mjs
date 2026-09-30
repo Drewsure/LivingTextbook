@@ -15,11 +15,11 @@ try {
     tenantId: "publisher-a", quarantineId: "q-00000000-0000-4000-8000-000000000001", packageId: "publisher-a-l1-u1-package",
     sourceChecksumSha256: "a".repeat(64), selectedMode: "closed-local", sourcePreflightEvidencePresent: true, deliveryManifestPresent: false,
     releaseReceiptPresent: false, qrRegistryPresent: false, packageIndexPresent: false, bundleManifestPresent: false,
-    reviewPacketBound: true, operatorAndWriteTimePresent: false,
+    reviewedBundleManifestPresent: false, reviewPacketBound: true, operatorAndWriteTimePresent: false,
   });
   const errors = model.validatePublisherDeliveryAssemblyRequestPreview(preview);
   if (errors.length > 0) failures.push(`valid assembly preview was rejected: ${errors.join(" ")}`);
-  if (preview.inputs.length !== 8) failures.push("assembly preview must expose eight writer inputs including source preflight lineage");
+  if (preview.inputs.length !== 9) failures.push("assembly preview must expose nine writer inputs including source preflight lineage and reviewed bundle-manifest custody");
   if (preview.inputs.filter((input) => input.status === "present").length !== 2) failures.push("assembly preview must preserve source preflight and review-packet lineage inputs");
   if (preview.packageAssemblyAllowed || preview.qrPrintArtifactIncluded || preview.studentFacingActivationAllowed || preview.hostedPersistenceActivated) failures.push("assembly preview must keep all protected actions blocked");
   const tampered = { ...preview, inputs: preview.inputs.slice(0, 6) };
@@ -34,4 +34,4 @@ for (const marker of ["PublisherDeliveryAssemblyRequestPreviewPanel", "assemblyR
 for (const marker of ["Local package assembly request preview", "Exact writer inputs", "Protected actions"]) if (!panel.includes(marker)) failures.push(`assembly preview panel is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("assembly preview panel must remain read-only");
 if (failures.length > 0) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
-console.log("PASS publisher delivery assembly request preview enumerates eight writer inputs, including source preflight lineage, and remains blocked, review-only, and side-effect-free.");
+console.log("PASS publisher delivery assembly request preview enumerates nine writer inputs, including source preflight lineage and reviewed bundle-manifest custody, and remains blocked, review-only, and side-effect-free.");

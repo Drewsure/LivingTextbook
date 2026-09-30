@@ -10412,3 +10412,12 @@ does not have to resend an untrusted client copy of the manifest. The record is
 immutable metadata evidence only: package assembly, promotion, QR printing,
 hosted persistence, learner records, and student activation remain false and
 separately gated. See ADR 1360.
+
+## DR-1361: Show Reviewed Bundle Custody as a Separate Assembly Input
+
+The publisher delivery assembly preview now distinguishes the tenant-owned
+offline bundle manifest from the immutable reviewed bundle-manifest custody
+record. The review record is a separate required input and remains blocked until
+it is bound to the package review packet and source preflight evidence. This
+prevents a draft manifest from appearing equivalent to reviewed delivery
+evidence. See ADR 1361.

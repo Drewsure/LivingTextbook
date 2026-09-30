@@ -9594,3 +9594,14 @@ This standard is recorded in DR-1359 and ADR 1359.
   release by itself.
 
 This standard is recorded in DR-1360 and ADR 1360.
+
+## 604. Assembly Previews Must Distinguish Drafts From Reviewed Custody
+
+- A draft/offline bundle manifest and its durable reviewed custody record are
+  separate assembly inputs.
+- The publisher handoff must show the reviewed-record input independently so a
+  complete-looking manifest cannot be mistaken for an approved review artifact.
+- Missing reviewed custody remains a blocker and must not be hidden by a live
+  preview, QR route, or package writer request.
+
+This standard is recorded in DR-1361 and ADR 1361.

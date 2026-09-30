@@ -10,7 +10,7 @@ const configuration = readFileSync(resolve(root, "apps/web/src/server/delivery/p
 
 for (const [source, markers, label] of [
   [model, ["LocalBundleManifestReviewRecord", "manifestChecksumSha256", "reviewed-for-assembly", "packageAssemblyAllowed: false", "learnerRecordsIncluded: false"], "review record model"],
-  [writer, ["LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT", "LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED", "readQuarantinePackageReviewPacket", "readQuarantineSourcePreflightEvidence", "createHash(\"sha256\")", "bundle-manifest-review.json", "rename(staging, path)", "validateDurableBackupFilesystemPath"], "review record custody writer"],
+  [writer, ["LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT", "LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED", "readQuarantinePackageReviewPacket", "readQuarantineSourcePreflightEvidence", "accepted-for-package-review", "source.version !== input.manifest.version", "packet.checksumSha256 !== source.sourceChecksumSha256", "createHash(\"sha256\")", "bundle-manifest-review.json", "rename(staging, path)", "validateDurableBackupFilesystemPath"], "review record custody writer"],
   [route, ["Local bundle manifest review request", "hasPilotDeliveryApiToken", "validateSameOriginMutation", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false"], "review record route"],
   [preflight, ["bundleManifestReviewId", "readLocalBundleManifestReview", "reviewed.record.quarantineId", "reviewed.record.reviewPacketId"], "durable request hydration"],
   [configuration, ["LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT", "LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED"], "deployment configuration"],

@@ -7717,3 +7717,11 @@ The record remains review-only metadata evidence. Its write gate is disabled by
 default and it cannot authorize assembly, promotion, QR printing, hosted
 persistence, learner records, or student-facing activation. Recorded ADR 1360 /
 DR-1360.
+
+## Build session: Separate draft and reviewed bundle-manifest inputs
+
+Updated the publisher delivery assembly preview to enumerate nine required
+inputs. The offline bundle manifest remains the content/configuration input;
+the durable reviewed bundle-manifest custody record is now shown as its own
+required evidence input. The live preview stays blocked and read-only until the
+reviewed record is captured. Recorded ADR 1361 / DR-1361.
