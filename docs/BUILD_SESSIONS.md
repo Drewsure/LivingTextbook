@@ -7333,3 +7333,19 @@ The journey is derived from existing metadata only. Package assembly, promotion,
 QR printing, persistence activation, and student use remain blocked. Added the
 focused `verify:publisher-submission-live-review-journey` check and recorded
 ADR 1326 / DR-1325.
+
+## Build session: Live publisher handoff browser rehearsal
+
+Extended the real publisher-intake rehearsal beyond API responses. After a
+synthetic tenant submission is admitted, the rehearsal now loads the exact
+tenant-bound handoff URL and verifies that the browser route preserves the
+opaque quarantine identity and discloses its reference-only boundary. It
+loads the same route again after source, package-evidence, packet, delivery,
+and adapter records advance, proving the route remains reachable while
+release and student use stay blocked.
+
+This is a browser-route observation, not a release approval. The client-side
+live journey remains derived from protected metadata, while the server-rendered
+page is checked only for its safe identity and boundary markers. Added the
+focused assertions to `verify:publisher-intake-rehearsal` and recorded ADR
+1327 / DR-1326.

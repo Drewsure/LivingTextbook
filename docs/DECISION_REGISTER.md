@@ -10086,3 +10086,14 @@ review, delivery, release/QR, and teacher rehearsal.
 All package assembly, promotion, QR printing, persistence activation, and
 student use remain blocked. The journey is a projection of review metadata,
 not a release decision. See ADR 1326.
+
+## DR-1326: Live Publisher Handoff Browser Rehearsal
+
+The publisher-intake rehearsal now loads the real tenant-bound handoff route
+after quarantine intake and after review-only evidence progression. It checks
+that the route preserves the quarantine identity and declares its reference-
+only, non-assembly boundary while the live journey remains client-derived
+from protected metadata.
+
+This adds browser-route evidence without enabling package assembly, promotion,
+QR printing, hosted persistence, or student-facing use. See ADR 1327.

@@ -9097,3 +9097,16 @@ This standard is recorded in DR-1282 and ADR 1282.
   be inferred as approved by a publisher package journey.
 
 This standard is recorded in DR-1325 and ADR 1326.
+
+## 569. Live Publisher Handoff Must Be Browser-Rehearsed
+
+- The real tenant-bound handoff route must be loaded in the publisher-intake
+  rehearsal after quarantine intake and after review-only evidence progression.
+- The browser check must preserve tenant and opaque quarantine identity and
+  display the reference-only, non-assembly boundary.
+- Raw HTML must not be treated as proof of client-hydrated gate state; the
+  live journey contract and protected metadata responses remain authoritative.
+- Browser-route reachability must never be used to infer package assembly,
+  promotion, QR printing, hosted persistence, or student-facing use.
+
+This standard is recorded in DR-1326 and ADR 1327.

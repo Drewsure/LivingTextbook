@@ -107,6 +107,12 @@ try {
   assert(firstBinding.binding?.checks.some((check) => check.checkId === "source-review-decision" && check.status === "open"), "missing source review decision must be an explicit open gate");
   assert(firstBinding.binding?.packageAssemblyAllowed === false && firstBinding.binding?.studentFacingUseAllowed === false, "live readiness must block assembly and student use");
 
+  const earlyHandoffPage = await fetch(`${baseUrl}/teacher/evidence/${rehearsalTenantId}/handoff?${query}`, { cache: "no-store" });
+  const earlyHandoffHtml = await earlyHandoffPage.text();
+  assert(earlyHandoffPage.status === 200, "a submitted publisher must reach the live handoff review page");
+  assert(earlyHandoffHtml.includes("Live publisher submission") && earlyHandoffHtml.includes(quarantineId), "live handoff page must preserve the submitted quarantine identity");
+  assert(earlyHandoffHtml.includes("The handoff below is derived from the submitted tenant and quarantine identity") && earlyHandoffHtml.includes("never prove that this publisher package is assembled"), "live handoff page must disclose its tenant-bound, reference-only review boundary");
+
   const evidenceReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/evidence-review`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -262,6 +268,12 @@ try {
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 
+  const advancedHandoffPage = await fetch(`${baseUrl}/teacher/evidence/${rehearsalTenantId}/handoff?${query}`, { cache: "no-store" });
+  const advancedHandoffHtml = await advancedHandoffPage.text();
+  assert(advancedHandoffPage.status === 200, "the advanced publisher review state must remain browser-reachable");
+  assert(advancedHandoffHtml.includes("Live publisher submission") && advancedHandoffHtml.includes(quarantineId), "advanced live handoff must retain the same submitted quarantine identity");
+  assert(secondBinding.binding?.status === "blocked" && secondBinding.binding?.studentFacingUseAllowed === false, "advanced live readiness must remain blocked even when review evidence is complete");
+
   const releaseAttemptResponse = await fetch(`${baseUrl}/api/teacher/delivery/release`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -278,7 +290,7 @@ try {
   const metadataAttempt = await readJson(metadataAttemptResponse);
   assert(metadataAttemptResponse.status === 423 && metadataAttempt.status === "blocked" && metadataAttempt.deliveryMetadataWritten !== true, "delivery metadata writes must remain disabled after a review-only readiness rehearsal");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, assemblyPreflight, secondBinding, releaseAttempt, metadataAttempt });
+  const serialized = JSON.stringify({ handoff, firstBinding, earlyHandoffHtml, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, assemblyPreflight, secondBinding, advancedHandoffHtml, releaseAttempt, metadataAttempt });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 
