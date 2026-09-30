@@ -9342,3 +9342,16 @@ This standard is recorded in DR-1329 and ADR 1330.
   hosted persistence, QR alias mutation, or release promotion.
 
 This standard is recorded in DR-1342 and ADR 1343.
+
+## 587. QR Registration Must Follow Durable Release Custody
+
+- QR alias registration must require the same accepted quarantine lineage as
+  controlled delivery release.
+- The released delivery metadata must already exist in custody before aliases
+  are registered.
+- The submitted manifest and receipt must match the stored release records by
+  canonical identity.
+- QR registration remains immutable and cannot mutate routes, activate
+  students, or substitute for local package assembly.
+
+This standard is recorded in DR-1343 and ADR 1344.

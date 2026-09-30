@@ -10247,3 +10247,12 @@ from presenting request-shaped approval records without the preceding durable
 release and registry writes. The route remains review-packet-bound, gated,
 idempotent, student-disabled, and unable to activate hosted persistence. See
 ADR 1343.
+
+## DR-1343: Bind QR Registration To Released Delivery Custody
+
+The QR registry API must require the accepted quarantine review lineage and a
+durable delivery metadata record before it can persist approved aliases. Its
+submitted manifest and release receipt must match the stored delivery record by
+canonical identity. The registry remains immutable, route-mutation-disabled,
+and student-disabled. This establishes the ordered operator path of release,
+QR registration, and then local package assembly. See ADR 1344.

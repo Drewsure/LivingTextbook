@@ -7524,3 +7524,15 @@ custody roots and compares each submitted object to the stored record.
 The response exposes only a bounded `custodyBound` status. Assembly remains
 explicitly gated, review-packet-bound, checksum-bound, idempotent, and
 student-disabled. Added regression coverage and recorded ADR 1343 / DR-1342.
+
+## Build session: Bind QR registration to the released package
+
+The QR registry API now requires the same accepted quarantine lineage used by
+delivery release and reads the durable delivery metadata before registering
+aliases. The submitted manifest and release receipt must match that stored
+record by canonical identity. This makes the operator sequence explicit:
+release metadata, QR registry, then local package assembly.
+
+QR registration remains immutable, review-bound, route-mutation-disabled, and
+student-disabled. Added the boundary verifier coverage and recorded ADR 1344 /
+DR-1343.
