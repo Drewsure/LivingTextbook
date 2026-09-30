@@ -20,6 +20,7 @@ import { UploadTargetMappingPanel } from "./UploadTargetMappingPanel";
 import { QuarantineMetadataReviewPanel } from "./QuarantineMetadataReviewPanel";
 import { QuarantineAdmissionPreviewPanel } from "./QuarantineAdmissionPreviewPanel";
 import { ControlledQuarantineUploadPanel } from "./ControlledQuarantineUploadPanel";
+import { PublisherSourcePreflightEvidenceCapturePanel } from "./PublisherSourcePreflightEvidenceCapturePanel";
 
 interface TeacherUploadWorkspacePanelProps {
   tenantId: string;
@@ -98,6 +99,7 @@ export function TeacherUploadWorkspacePanel({
         enabled={quarantineUploadsEnabled}
         reviewDecisionsEnabled={reviewDecisionsEnabled}
       />
+      <PublisherSourcePreflightEvidenceCapturePanel tenantId={tenantId} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">

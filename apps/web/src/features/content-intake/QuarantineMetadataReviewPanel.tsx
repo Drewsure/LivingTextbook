@@ -13,6 +13,7 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
   const packageHandoffEndpoint = `/api/teacher/uploads/package-handoff-preview?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
   const packageReadinessEndpoint = `/api/teacher/uploads/package-readiness-binding?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
   const sourcePackageEvidenceBindingEndpoint = `/api/teacher/uploads/source-package-evidence-binding?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}&packageId={packageId}`;
+  const sourcePreflightEvidenceEndpoint = `/api/teacher/uploads/source-preflight-evidence?tenantId=${encodeURIComponent(tenantId)}&quarantineId={quarantineId}`;
 
   return (
     <Card>
@@ -59,6 +60,11 @@ export function QuarantineMetadataReviewPanel({ tenantId }: { tenantId: string }
         <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{sourcePackageEvidenceBindingEndpoint}</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
           This is the live read-only bridge from a quarantined publisher source to extraction, sentence, audio, multimedia, game, and release evidence. It exposes bounded identities and missing gates only; it never returns payload bytes or enables package assembly, QR printing, or student access.
+        </p>
+        <p className="mt-4 text-xs font-semibold uppercase text-[var(--tenant-muted)]">Publisher source preflight evidence contract</p>
+        <p className="mt-2 break-all font-mono text-sm text-[var(--tenant-text)]">{sourcePreflightEvidenceEndpoint}</p>
+        <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+          This tenant-scoped read returns the immutable preflight sidecar when one has been attached. The companion workspace control accepts only the local JSON report and remains disabled by the explicit server gate until custody and authorization are configured.
         </p>
       </div>
 

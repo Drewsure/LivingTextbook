@@ -9485,3 +9485,18 @@ This standard is recorded in DR-1352 and ADR 1352.
   learner records, or student launch.
 
 This standard is recorded in DR-1353 and ADR 1353.
+
+## 597. Publisher Source Evidence Needs An Operator-Shaped Capture Path
+
+- A local publisher preflight report must be attachable from the tenant-scoped
+  teacher review workspace; an API-only seam is not sufficient for the pilot.
+- The capture control may send only the JSON evidence report and may preview
+  only bounded identity, inventory, and count fields before submission.
+- The explicit server-side evidence gate remains disabled by default, and a
+  successful attachment still cannot approve, assemble, promote, print QR
+  codes, activate hosted persistence, create learner records, or start
+  students.
+- The control must preserve the same tenant, quarantine, package, checksum,
+  and review-only contracts as the server route.
+
+This standard is recorded in DR-1354 and ADR 1354.

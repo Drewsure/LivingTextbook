@@ -82,3 +82,8 @@ evidence. Attaching the report is not approval: package assembly, asset
 promotion, QR printing, hosted persistence, and student use remain blocked by
 their own later gates.
 
+The teacher upload workspace also provides a controlled capture panel for this
+JSON report. It previews report identity and counts locally, then submits only
+the evidence object to the tenant-scoped route. It does not send the source
+folder or its textbook, image, audio, video, font, or background-media files.
+

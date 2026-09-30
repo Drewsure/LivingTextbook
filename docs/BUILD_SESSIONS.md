@@ -7633,3 +7633,12 @@ record; repeated identical writes are idempotent and conflicting writes fail
 closed. The live source-package and package-readiness bridges now read the
 sidecar and expose only its report and aggregate fingerprints. No payload bytes
 are copied and no protected action is unlocked. Recorded ADR 1353 / DR-1353.
+
+## Build session: Publisher source preflight capture workspace
+
+Added a teacher-facing capture control for the local publisher preflight JSON.
+It previews only bounded report identity and counts, submits metadata through
+the tenant-scoped evidence route, and surfaces immutable review results without
+uploading textbook or multimedia payloads. The server gate remains disabled by
+default and all package, QR, persistence, learner, and student actions remain
+separate. Recorded ADR 1354 / DR-1354.

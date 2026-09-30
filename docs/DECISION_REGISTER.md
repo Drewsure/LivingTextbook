@@ -10339,3 +10339,12 @@ quarantined intake checksum and its report remains blocked, complete, and
 review-only. The write gate is disabled by default and the sidecar never
 authorizes package assembly, promotion, QR printing, persistence activation,
 student use, or learner data. See ADR 1353.
+
+## DR-1354: Publisher Source Preflight Capture Workspace
+
+The teacher upload workspace now provides a tenant-scoped operator control for
+selecting the local publisher preflight JSON and sending only its bounded
+metadata to the quarantine evidence route. The control previews report identity
+and counts, while the server-side write gate remains disabled by default and
+all assembly, promotion, QR, persistence, learner, and student actions remain
+blocked. See ADR 1354.

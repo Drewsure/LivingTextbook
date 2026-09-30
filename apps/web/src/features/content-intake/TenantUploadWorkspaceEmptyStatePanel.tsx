@@ -2,6 +2,7 @@ import { Card, StatusPill } from "@living-textbook/ui";
 import type { UploadChannelReadinessPlan } from "@/data/sampleUploadChannelReadiness";
 import { ControlledQuarantineUploadPanel } from "./ControlledQuarantineUploadPanel";
 import { UploadChannelReadinessPanel } from "./UploadChannelReadinessPanel";
+import { PublisherSourcePreflightEvidenceCapturePanel } from "./PublisherSourcePreflightEvidenceCapturePanel";
 
 interface TenantUploadWorkspaceEmptyStatePanelProps {
   tenantId: string;
@@ -50,6 +51,7 @@ export function TenantUploadWorkspaceEmptyStatePanel({
         enabled={quarantineUploadsEnabled}
         reviewDecisionsEnabled={reviewDecisionsEnabled}
       />
+      <PublisherSourcePreflightEvidenceCapturePanel tenantId={tenantId} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
