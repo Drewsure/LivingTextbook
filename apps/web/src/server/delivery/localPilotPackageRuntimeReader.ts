@@ -6,6 +6,7 @@ import {
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrPrintArtifact,
+  validatePilotQrAliasRegistryRecord,
   validateContentPackage,
   validateTenantConfig,
   type LocalBundleManifest,
@@ -13,6 +14,7 @@ import {
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
   type PilotDeliveryReleaseReceipt,
+  type PilotQrAliasRegistryRecord,
   type TenantConfig,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
@@ -56,6 +58,7 @@ export interface LocalPilotPackageRuntimeSummary {
   quarantineId: string;
   reviewPacketId: string;
   qrPrintArtifactReady: boolean;
+  qrAliasRegistryReady: boolean;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
   hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   learnerRecordsIncluded: false;
@@ -90,20 +93,21 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
   if (boundaryErrors.length > 0) return { status: "blocked", summary: null, errors: boundaryErrors };
 
   try {
-    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, reviewPacketBindingValue] = await Promise.all([
+    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue] = await Promise.all([
       readJson(join(directory, "metadata/delivery-package.json")),
       readJson(join(directory, "metadata/delivery-manifest.json")),
       readJson(join(directory, "metadata/release-receipt.json")),
       readJson(join(directory, "metadata/local-bundle-manifest.json")),
       readJson(join(directory, "metadata/assembly-record.json")),
       readJson(join(directory, "metadata/qr-print-sheet.json")),
+      readJson(join(directory, "metadata/qr-alias-registry.json")),
       readJson(join(directory, "metadata/package-review-binding.json")),
     ]);
     const packageIndexErrors = validatePilotDeliveryPackageIndex(packageIndexValue);
     const manifestErrors = validatePilotDeliveryManifest(manifestValue);
     const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
     const bundleValidation = validateLocalBundleManifest(bundleValue);
-    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, reviewPacketBindingValue);
+    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue);
     const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...bundleValidation.errors, ...bindingErrors];
     if (errors.length > 0) return { status: "blocked", summary: null, errors: [...new Set(errors)] };
 
@@ -139,6 +143,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         quarantineId: reviewPacketBinding.quarantineId,
         reviewPacketId: reviewPacketBinding.packetId,
         qrPrintArtifactReady: true,
+        qrAliasRegistryReady: true,
         hostedPersistence: packageIndex.hostedPersistence,
         hostedPersistenceDecisionPacketId: packageIndex.hostedPersistenceDecisionPacketId,
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
@@ -244,8 +249,8 @@ function validateIdentity(identity: LocalPilotPackageRuntimeIdentity): string[] 
   return errors;
 }
 
-function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, reviewPacketBindingValue: unknown): string[] {
-  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(reviewPacketBindingValue)) {
+function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, qrRegistryValue: unknown, reviewPacketBindingValue: unknown): string[] {
+  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue) || !isRecord(reviewPacketBindingValue)) {
     return ["Local package runtime metadata must contain object records only."];
   }
   const errors: string[] = [];
@@ -263,7 +268,13 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (assemblyValue.quarantineId !== reviewPacketBindingValue.quarantineId || assemblyValue.reviewPacketId !== reviewPacketBindingValue.packetId) errors.push("Local package runtime assembly record does not preserve review packet identity.");
   if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
   errors.push(...validatePilotQrPrintArtifact(qrPrintValue));
+  errors.push(...validatePilotQrAliasRegistryRecord(qrRegistryValue));
   if (qrPrintValue.tenantId !== manifestValue.tenantId || qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version || qrPrintValue.manifestId !== manifestValue.manifestId || qrPrintValue.receiptId !== receiptValue.receiptId || qrPrintValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR print artifact does not match the approved delivery identity.");
+  if (qrRegistryValue.tenantId !== manifestValue.tenantId || qrRegistryValue.packageId !== manifestValue.packageId || qrRegistryValue.version !== manifestValue.version || qrRegistryValue.manifestId !== manifestValue.manifestId || qrRegistryValue.receiptId !== receiptValue.receiptId || qrRegistryValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR alias registry record does not match the approved delivery identity.");
+  const manifestAliases = Array.isArray(manifestValue.qrAliasPaths) ? manifestValue.qrAliasPaths : [];
+  const manifestFallbacks = Array.isArray(manifestValue.localFallbackPaths) ? manifestValue.localFallbackPaths : [];
+  const registryEntries = Array.isArray(qrRegistryValue.entries) ? qrRegistryValue.entries : [];
+  if (registryEntries.map((entry) => entry?.aliasPath).join("|") !== manifestAliases.join("|") || registryEntries.map((entry) => entry?.fallbackPath).join("|") !== manifestFallbacks.join("|")) errors.push("Local package runtime QR alias registry paths do not match the approved delivery manifest.");
   if (manifestValue.status !== "ready-for-manual-release" || receiptValue.status !== "manual-release-approved" || packageIndexValue.releaseStatus !== "manual-release-approved") errors.push("Local package runtime requires approved release metadata.");
   return [...new Set(errors)];
 }

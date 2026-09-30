@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   if (!hasDeliveryToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery token is required."], privacy: privacyMessage() }, 401);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Local pilot package request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
-  if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, receipt, package index, bundle manifest, operator, timestamp, quarantine, and review packet fields."], privacy: privacyMessage() }, 400);
+  if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, approved QR registry record, receipt, package index, bundle manifest, operator, timestamp, quarantine, and review packet fields."], privacy: privacyMessage() }, 400);
 
   const lineageErrors = await readPilotDeliveryReleaseLineage(bodyResult.value.manifest, bodyResult.value.quarantineId);
   if (lineageErrors.length > 0) {
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 function isLocalPackageRequest(value: unknown): value is LocalPackageRequest {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const candidate = value as Record<string, unknown>;
-  return Boolean(candidate.manifest && typeof candidate.manifest === "object" && candidate.receipt && typeof candidate.receipt === "object" && candidate.packageIndex && typeof candidate.packageIndex === "object" && candidate.bundleManifest && typeof candidate.bundleManifest === "object")
+  return Boolean(candidate.manifest && typeof candidate.manifest === "object" && candidate.receipt && typeof candidate.receipt === "object" && candidate.qrRegistryRecord && typeof candidate.qrRegistryRecord === "object" && candidate.packageIndex && typeof candidate.packageIndex === "object" && candidate.bundleManifest && typeof candidate.bundleManifest === "object")
     && typeof candidate.operatorId === "string" && typeof candidate.writtenAt === "string" && typeof candidate.quarantineId === "string" && typeof candidate.reviewPacketId === "string" && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
 }
 

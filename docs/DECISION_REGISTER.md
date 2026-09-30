@@ -24,6 +24,14 @@ mutates routes or activates students, and remains disabled unless an explicit
 custody root and write gate are configured. See
 `docs/decision-register/DR-1306-durable-qr-alias-registry-seam.md`.
 
+## DR-1307: QR Registry Bound Local Package
+
+Closed-local and hybrid package assembly must carry the exact approved QR alias
+registry record beside the QR print artifact. Assembly and runtime validate the
+record against release lineage and fail closed on missing or drifting alias or
+fallback metadata. See
+`docs/decision-register/DR-1307-qr-registry-bound-local-package.md`.
+
 ## DR-1133: Quarantine-First Upload Intake
 
 Publisher source documents and media may enter only through an explicitly

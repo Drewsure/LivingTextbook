@@ -7088,3 +7088,15 @@ student-payload-blocked behavior.
   unsafe reference identifiers, and activation drift.
 - Recorded the traceability decision in ADR 1304 and DR-1020. Frozen Z.ai/
   Phaser source remains isolated.
+
+## Build session: QR registry bound local package
+
+- Required closed-local and hybrid package assembly to receive the exact
+  registered QR alias record that matches the approved manifest and receipt.
+- Stored the registry record beside the generated QR print sheet in the
+  immutable package metadata, with staged read-back validation before commit.
+- Extended the local package runtime to fail closed when the registry artifact
+  is missing, malformed, or mismatched, and to expose registry readiness next
+  to QR print artifact readiness.
+- Kept stable-route mutation, hosted persistence, student activation, and
+  learner-record writes disabled.

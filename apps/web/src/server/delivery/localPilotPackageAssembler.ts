@@ -9,12 +9,14 @@ import {
   validatePilotDeliveryManifest,
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
+  validatePilotQrAliasRegistryRecord,
   createPilotQrPrintArtifactId,
   type PilotQrPrintArtifact,
   type LocalBundleManifest,
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
   type PilotDeliveryReleaseReceipt,
+  type PilotQrAliasRegistryRecord,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath, validateDurableBackupPath } from "../persistence/backupPathPolicy";
 import { validateQuarantineFilesystemPath } from "../uploads/quarantinePathPolicy";
@@ -23,6 +25,7 @@ import { validateLocalPilotPackageRouteFallbacks } from "./localPilotPackageRout
 export interface LocalPilotPackageAssemblyInput {
   manifest: PilotDeliveryManifest;
   receipt: PilotDeliveryReleaseReceipt;
+  qrRegistryRecord: PilotQrAliasRegistryRecord;
   packageIndex: PilotDeliveryPackageIndex;
   bundleManifest: LocalBundleManifest;
   reviewPacketBinding: LocalPilotPackageReviewBinding;
@@ -80,6 +83,7 @@ const generatedFiles = [
   "metadata/game-map.json",
   "metadata/qr-print-sheet.json",
   "metadata/qr-print-sheet.html",
+  "metadata/qr-alias-registry.json",
   "metadata/package-review-binding.json",
   "metadata/assembly-record.json",
 ] as const;
@@ -139,6 +143,7 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
       await writeJsonFile(join(staging, "metadata/game-map.json"), { gameRoutePaths: input.packageIndex.gameRoutePaths, sideEffect: "local-package-assembly" });
       await writeJsonFile(join(staging, "metadata/qr-print-sheet.json"), qrPrintSheet.manifest);
       await writeFile(join(staging, "metadata/qr-print-sheet.html"), qrPrintSheet.html, { encoding: "utf8", flag: "wx" });
+      await writeJsonFile(join(staging, "metadata/qr-alias-registry.json"), input.qrRegistryRecord);
       await writeJsonFile(join(staging, "metadata/package-review-binding.json"), input.reviewPacketBinding);
       await writeJsonFile(join(staging, "metadata/assembly-record.json"), record);
       await verifyStagedPackage(staging, input, record, sourceFiles, qrPrintSheet);
@@ -163,6 +168,7 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
   const errors = [
     ...validatePilotDeliveryManifest(input.manifest),
     ...validatePilotDeliveryReleaseReceipt(input.receipt),
+    ...validatePilotQrAliasRegistryRecord(input.qrRegistryRecord),
     ...validatePilotDeliveryPackageIndex(input.packageIndex),
     ...validateLocalBundleManifest(input.bundleManifest).errors,
   ];
@@ -170,6 +176,7 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
   errors.push(...validateReviewPacketBinding(input.reviewPacketBinding, input.manifest));
   if (input.manifest.status !== "ready-for-manual-release" || !input.manifest.deliveryAllowed) errors.push("Local pilot package assembly requires an approved delivery manifest.");
   if (input.receipt.status !== "manual-release-approved" || !input.receipt.deliveryAllowed) errors.push("Local pilot package assembly requires an approved manual release receipt.");
+  if (input.qrRegistryRecord.manifestId !== input.manifest.manifestId || input.qrRegistryRecord.receiptId !== input.receipt.receiptId || input.qrRegistryRecord.tenantId !== input.manifest.tenantId || input.qrRegistryRecord.packageId !== input.manifest.packageId || input.qrRegistryRecord.version !== input.manifest.version || input.qrRegistryRecord.sourceAssemblyChecksum !== input.manifest.sourceAssemblyChecksum) errors.push("Local pilot package assembly QR alias registry record does not match the approved delivery lineage.");
   if (input.packageIndex.releaseStatus !== "manual-release-approved") errors.push("Local pilot package assembly requires a manually approved package index.");
   if (!input.manifest.qrPrintAllowed || !input.receipt.qrPrintAllowed) errors.push("Local pilot package assembly requires explicit QR print authorization.");
   if (input.manifest.qrAliasPaths.length === 0 || input.manifest.qrAliasPaths.length !== input.manifest.localFallbackPaths.length) errors.push("Approved QR aliases and local fallback paths must be non-empty and aligned.");
@@ -325,10 +332,12 @@ async function verifyStagedPackage(staging: string, input: LocalPilotPackageAsse
   const bundle = JSON.parse(await readFile(join(staging, "metadata/local-bundle-manifest.json"), "utf8")) as unknown;
   const reviewPacketBinding = JSON.parse(await readFile(join(staging, "metadata/package-review-binding.json"), "utf8")) as LocalPilotPackageReviewBinding;
   const qrPrintManifest = JSON.parse(await readFile(join(staging, "metadata/qr-print-sheet.json"), "utf8")) as QrPrintManifest;
+  const qrRegistryRecord = JSON.parse(await readFile(join(staging, "metadata/qr-alias-registry.json"), "utf8")) as PilotQrAliasRegistryRecord;
   const qrPrintHtml = await readFile(join(staging, "metadata/qr-print-sheet.html"), "utf8");
-  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validateLocalBundleManifest(bundle).errors, ...validateReviewPacketBinding(reviewPacketBinding, input.manifest)];
+  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validatePilotQrAliasRegistryRecord(qrRegistryRecord), ...validateLocalBundleManifest(bundle).errors, ...validateReviewPacketBinding(reviewPacketBinding, input.manifest)];
   if (stableJson(packageIndex) !== stableJson(input.packageIndex) || stableJson(manifest) !== stableJson(input.manifest) || stableJson(receipt) !== stableJson(input.receipt) || stableJson(bundle) !== stableJson(input.bundleManifest)) errors.push("Local package metadata read-back does not match the approved inputs.");
   if (stableJson(reviewPacketBinding) !== stableJson(input.reviewPacketBinding)) errors.push("Local package review packet binding read-back does not match the approved packet.");
+  if (stableJson(qrRegistryRecord) !== stableJson(input.qrRegistryRecord)) errors.push("Local package QR alias registry record read-back does not match the approved registry record.");
   const storedRecord = JSON.parse(await readFile(join(staging, "metadata/assembly-record.json"), "utf8")) as AssemblyRecord;
   errors.push(...validateAssemblyRecord(storedRecord, record));
   const printBaseUrl = readPrintBaseUrl();

@@ -20,6 +20,8 @@ for (const [source, marker, label] of [
   [assembler, "verifyStagedPackage", "staged read-back"],
   [assembler, "LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL", "explicit QR print base URL"],
   [assembler, "qr-print-sheet.html", "static QR print sheet"],
+  [assembler, "qr-alias-registry.json", "QR alias registry artifact"],
+  [assembler, "validatePilotQrAliasRegistryRecord", "QR alias registry validation"],
   [assembler, "QRCode.toString", "QR symbol generation"],
   [assembler, "printAuthorized: true", "release-bound print authorization"],
   [assembler, "reviewPacketBinding", "review packet binding input"],

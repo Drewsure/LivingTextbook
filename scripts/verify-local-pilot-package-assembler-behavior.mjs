@@ -19,9 +19,9 @@ try {
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
   const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
-  const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
+  const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
-  const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage });
+  const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord, samplePartnerContentPackage });
   const environment = {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED: "true",
@@ -41,6 +41,7 @@ try {
     assert(existsSync(join(assembledDirectory, "metadata/qr-print-sheet.json")), "assembler must write a QR print manifest");
     assert(existsSync(join(assembledDirectory, "metadata/qr-print-sheet.html")), "assembler must write a printable QR sheet");
     assert(existsSync(join(assembledDirectory, "metadata/assembly-record.json")), "assembler must write an assembly record");
+    assert(existsSync(join(assembledDirectory, "metadata/qr-alias-registry.json")), "assembler must write the approved QR alias registry record");
     const qrManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.json"), "utf8"));
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
     assert(typeof qrManifest.artifactId === "string" && qrManifest.artifactId.includes("manifest-one"), "QR print manifest must preserve deterministic artifact identity");
@@ -57,6 +58,7 @@ try {
       assert(runtime.summary.tenantConfig.id === "tenant-one" && runtime.summary.tenantConfig.displayName === "Tenant One Textbook", "runtime reader must expose package-owned white-label tenant configuration");
       assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
+      assert(runtime.summary.qrAliasRegistryReady === true, "runtime reader must expose the verified QR alias registry state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
       const routeMap = createLocalPilotPackageRouteMap(runtime.summary, "unit-1");
       assert(routeMap.status === "available", "approved runtime must produce a package-scoped route map");
@@ -197,7 +199,7 @@ function normalizeCompiledExtensions(directory) {
   }
 }
 
-function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, samplePartnerContentPackage }) {
+function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord, samplePartnerContentPackage }) {
   mkdirSync(join(assetRoot, "content", "transcripts"), { recursive: true });
   mkdirSync(join(assetRoot, "media"), { recursive: true });
   const approvedContentRecord = JSON.parse(JSON.stringify(samplePartnerContentPackage));
@@ -260,6 +262,25 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     rollbackReference: "rollback-one",
   });
   const packageIndex = createPilotDeliveryPackageIndex({ manifest, receipt });
+  const qrRegistryRecord = createPilotQrAliasRegistryRecord({
+    manifest,
+    receipt,
+    entries: [{
+      aliasId: "alias-unit-1",
+      printedQrId: "qr-unit-1",
+      tenantId: "tenant-one",
+      packageId: "package-one",
+      version: "1.0.0",
+      aliasPath: "/q/tenant-one/unit-one",
+      fallbackPath: "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1",
+      targetLabel: "Unit 1 launch",
+      deploymentTargets: ["local-bundle"],
+      status: "draft-only",
+      rollbackEvidenceId: "rollback-one",
+    }],
+    registeredBy: "operator-one",
+    registeredAt: "2026-09-30T00:00:00.000Z",
+  });
   const bundleManifest = {
     bundle_id: "bundle-one",
     tenant_id: "tenant-one",
@@ -325,6 +346,7 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
   return {
     manifest,
     receipt,
+    qrRegistryRecord,
     packageIndex,
     bundleManifest,
     reviewPacketBinding: {
