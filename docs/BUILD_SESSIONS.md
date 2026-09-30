@@ -7285,3 +7285,16 @@ from the tenant, with a safe English/no-assist fallback for unconfigured
 white-label tenants. No manifest action accepts files or enables student use.
 
 Recorded ADR 1322 / DR-1321.
+
+## Build session: Publisher submission review handoff
+
+Connected the publisher submission manifest to a review-only handoff bridge.
+Each manifest asset now receives one named evidence lane with the intake,
+tenant evidence index, and evidence handoff routes. The bridge makes the
+publisher's next review work visible without accepting files or bypassing
+quarantine.
+
+Promotion, evidence export, signed approval, QR printing, persistence
+activation, and student-facing use remain blocked. Added the focused
+`verify:publisher-submission-review-handoff` check and recorded ADR 1323 /
+DR-1322.

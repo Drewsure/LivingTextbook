@@ -14,6 +14,11 @@ import { TenantUploadWorkspaceEmptyStatePanel } from "@/features/content-intake/
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 import { createPublisherSubmissionManifestTemplate } from "@/data/publisherSubmissionManifest";
 import { PublisherSubmissionManifestPanel } from "@/features/content-intake/PublisherSubmissionManifestPanel";
+import { PublisherSubmissionReviewHandoffPanel } from "@/features/content-intake/PublisherSubmissionReviewHandoffPanel";
+import {
+  createPublisherSubmissionReviewHandoffPreview,
+  validatePublisherSubmissionReviewHandoffPreview,
+} from "@/data/publisherSubmissionReviewHandoff";
 
 export const dynamic = "force-dynamic";
 
@@ -37,10 +42,13 @@ export default async function TeacherUploadWorkspacePage({
     targetLanguage: languageSettings.targetLanguage,
     supportLanguages: languageSettings.assistLanguages ?? [],
   });
+  const submissionReviewHandoff = createPublisherSubmissionReviewHandoffPreview(submissionManifest, tenant.id);
+  const submissionReviewHandoffErrors = validatePublisherSubmissionReviewHandoffPreview(submissionReviewHandoff, submissionManifest);
 
   return (
     <AppShell tenant={tenant}>
       <PublisherSubmissionManifestPanel manifest={submissionManifest} />
+      <PublisherSubmissionReviewHandoffPanel handoff={submissionReviewHandoff} validationErrors={submissionReviewHandoffErrors} />
       {hasSamplePreview ? (
         <TeacherUploadWorkspacePanel
           tenantId={tenantId}

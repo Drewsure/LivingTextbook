@@ -1992,3 +1992,4 @@ export * from "./localCompanionReleaseContinuity";
 export * from "./localPilotPackageHandoff";
 export * from "./localPilotPackageIntegrity";
 export * from "./publisherSubmissionManifest";
+export * from "./publisherSubmissionReviewHandoff";

@@ -10054,3 +10054,10 @@ rights/accessibility requirements, and package identity. It is metadata only:
 no file picker, promotion, QR mutation, package assembly, persistence
 activation, or student-facing route can be triggered by the manifest itself.
 See ADR 1322.
+
+## DR-1322: Publisher Submission Review Handoff
+
+The publisher submission manifest now derives a tenant/package-scoped review
+handoff with one evidence lane per asset. Intake, evidence index, and evidence
+handoff routes are linked while file promotion, evidence export, signatures,
+QR printing, and student use remain blocked. See ADR 1323.

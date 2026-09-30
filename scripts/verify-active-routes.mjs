@@ -2847,6 +2847,8 @@ expectedTextByPath.get("/teacher/deployment")?.push(
 for (const path of ["/teacher/uploads/sample-publisher", "/teacher/uploads/white-label-review"]) {
   expectedTextByPath.get(path)?.push(
     "Publisher submission manifest",
+    "Publisher review handoff",
+    "Every submission item has a named evidence lane",
     "Everything required for one reviewed unit package",
     "Promotion blocked",
     "Student use blocked",
