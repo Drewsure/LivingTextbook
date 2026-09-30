@@ -9235,3 +9235,18 @@ This standard is recorded in DR-1334 and ADR 1335.
   separate package, release, delivery, QR, persistence, and student gates pass.
 
 This standard is recorded in DR-1335 and ADR 1336.
+
+## 579. Publisher Handoffs Must Show Provenance And Readiness Together
+
+- The publisher handoff review must show source provenance and package
+  readiness from the same tenant-scoped quarantine identity.
+- Combining views for review convenience must not combine authorities: source
+  review, package evidence, release, QR, delivery, persistence, and student
+  gates remain distinct.
+- A source-evidence failure must remain visible even when a package-readiness
+  preview exists, and a package-readiness failure must remain visible even when
+  source evidence is present.
+- The combined surface must continue to exclude raw source payloads, learner
+  records, credentials, and activation capability.
+
+This standard is recorded in DR-1336 and ADR 1337.

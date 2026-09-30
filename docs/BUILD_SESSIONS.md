@@ -7454,3 +7454,8 @@ that binding when a quarantine identity is present. It renders the returned
 bounded identities and eight evidence lanes in the review workspace while
 keeping approval, package assembly, QR printing, persistence activation, and
 student access unavailable.
+
+The live publisher quarantine handoff bridge now refreshes the same source
+evidence binding beside package readiness, delivery, release, and persistence
+previews. This keeps provenance and package status on one review surface while
+preserving the separate human gates and all protected-action blockers.

@@ -24,6 +24,7 @@ import type {
   PublisherDeliveryClosurePacket,
   PublisherDeliveryAssemblyRequestPreview,
   PublisherDeliveryHandoffRecord,
+  PublisherSourceToPackageEvidenceBridge,
 } from "@living-textbook/content-model";
 import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney, validatePublisherDeliveryHandoffRecord } from "@living-textbook/content-model";
 import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
@@ -64,6 +65,7 @@ type HandoffResponse = {
   deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
+  sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null;
   errors?: string[];
   privacy?: string;
 };
@@ -98,6 +100,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [deliveryClosurePacket, setDeliveryClosurePacket] = useState<PublisherDeliveryClosurePacket | null>(null);
   const [assemblyRequestPreview, setAssemblyRequestPreview] = useState<PublisherDeliveryAssemblyRequestPreview | null>(null);
   const [deliveryHandoffRecord, setDeliveryHandoffRecord] = useState<PublisherDeliveryHandoffRecord | null>(null);
+  const [sourcePackageEvidenceBinding, setSourcePackageEvidenceBinding] = useState<PublisherSourceToPackageEvidenceBridge | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -179,6 +182,20 @@ export function PublisherQuarantineHandoffBridgePanel({
         setDeliveryClosurePacket(null);
         setAssemblyRequestPreview(null);
         setDeliveryHandoffRecord(null);
+      });
+
+    fetch(`/api/teacher/uploads/source-package-evidence-binding?${query.toString()}`, {
+      credentials: "same-origin",
+      cache: "no-store",
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const next = (await response.json()) as { bridge?: PublisherSourceToPackageEvidenceBridge | null };
+        setSourcePackageEvidenceBinding(next.bridge ?? null);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setSourcePackageEvidenceBinding(null);
       });
 
     return () => controller.abort();
@@ -272,6 +289,8 @@ export function PublisherQuarantineHandoffBridgePanel({
         <Fact label="Package request" value={packageId ?? "Derived by server"} />
         <Fact label="Student use" value="Blocked" />
       </dl>
+
+      {sourcePackageEvidenceBinding ? <LiveSourceEvidenceSummary bridge={sourcePackageEvidenceBinding} /> : null}
 
       {handoff ? (
         <>
@@ -487,6 +506,37 @@ function LiveReadinessSummary({ binding }: { binding: PublisherPilotPackageReadi
         {binding.checks.map((check) => <div key={check.checkId} className="flex items-center justify-between gap-2 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3"><span className="text-sm font-semibold">{check.label}</span><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div>)}
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Package assembly: blocked · promotion: blocked · student use: blocked · side effect: none</p>
+    </section>
+  );
+}
+
+function LiveSourceEvidenceSummary({ bridge }: { bridge: PublisherSourceToPackageEvidenceBridge }) {
+  const present = bridge.evidenceLanes.filter((lane) => lane.status === "present").length;
+  return (
+    <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live source evidence binding</p>
+          <h3 className="mt-1 text-base font-bold">Provenance is bound before package readiness</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{present}/{bridge.evidenceLanes.length} evidence lanes are present for this quarantined source. This view is metadata-only and does not approve or assemble the package.</p>
+        </div>
+        <StatusPill label="Review-only" tone="warning" />
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Unit" value={bridge.unitKey} />
+        <Fact label="Source review" value={bridge.sourceReviewId} />
+        <Fact label="Extraction" value={bridge.extractionPreviewId} />
+        <Fact label="Open gaps" value={String(bridge.missingEvidence.length)} />
+      </dl>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {bridge.evidenceLanes.map((lane) => (
+          <div key={lane.laneId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+            <div className="flex items-center justify-between gap-2"><span className="text-sm font-semibold">{lane.label}</span><StatusPill label={lane.status} tone={lane.status === "present" ? "success" : "warning"} /></div>
+            <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">{lane.nextAction}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Source payload bytes: excluded · package assembly: blocked · QR printing: blocked · student use: blocked</p>
     </section>
   );
 }

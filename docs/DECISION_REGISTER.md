@@ -10189,3 +10189,11 @@ quarantine identity. The panel requests the existing tenant-authorized GET
 projection and displays bounded lane evidence without introducing another
 upload path or mutating any review, package, release, QR, persistence, or
 student state. See ADR 1336.
+
+## DR-1336: Bind Source Evidence Into Publisher Handoff Review
+
+The live publisher quarantine handoff bridge now refreshes the source-to-
+package evidence projection alongside package readiness and delivery previews.
+This makes source provenance part of the same review conversation without
+merging it into release approval or enabling any protected action. See ADR
+1337.
