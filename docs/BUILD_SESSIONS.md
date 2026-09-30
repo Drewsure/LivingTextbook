@@ -26,6 +26,18 @@ The publisher delivery-writer rehearsal now follows the review-only intake path 
 
 The local pilot package assembly slice now executes the approved local-delivery writer and reads the resulting package through the runtime reader in a temporary custody root. It proves QR SVG and printable HTML generation, stable local fallback mapping, atomic read-back, exact replay idempotence, privacy markers, and fail-closed write/read/base-URL gates without creating learner records.
 
+## Build session: QR print authorization preflight
+
+- Added a tenant- and package-bound preflight that reconciles the delivery
+  manifest, release receipt, QR registry preview, checksum, alias set, fallback
+  paths, and rollback evidence.
+- Exposed the preflight in the publisher handoff so a reviewer can see whether
+  the package is ready for a separate human authorization decision.
+- Kept authorization pending and all print, registry, route, package-swap, and
+  student-activation side effects disabled.
+- Added a standing ADR, decision-register entry, acceptance-matrix update, and
+  foundation composition verifier.
+
 ## Build session: Local pilot package and QR print behavior
 
 - Added a behavior-level rehearsal for the real local package assembler rather

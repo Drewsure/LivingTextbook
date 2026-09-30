@@ -6,6 +6,15 @@ Require matching audio for each canonical term and sentence. Distinct cue IDs re
 
 This register is a standing gate for platform decisions. It exists to keep the Living Textbook build saleable, maintainable, and tenant-ready while still moving fast enough to remain cost efficient.
 
+## DR-1305: QR Print Authorization Preflight
+
+Future QR printing must pass a side-effect-free preflight that reconciles the
+delivery manifest, release receipt, QR registry preview, checksum, alias set,
+fallback paths, and rollback evidence. It may prepare a human authorization
+decision but cannot authorize printing, write a registry, mutate routes, swap a
+package, or activate students. See
+`docs/decision-register/DR-1305-qr-print-authorization-preflight.md`.
+
 ## DR-1133: Quarantine-First Upload Intake
 
 Publisher source documents and media may enter only through an explicitly

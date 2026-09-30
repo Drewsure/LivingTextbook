@@ -25,6 +25,8 @@ import { TenantEvidencePacketHandoffEmptyStatePanel } from "@/features/evidence/
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 import { samplePilotQrAliasRegistry, samplePilotQrAliasRegistryErrors } from "@/data/samplePilotQrAliasRegistry";
 import { PilotQrAliasRegistryPreviewPanel } from "@/features/evidence/PilotQrAliasRegistryPreviewPanel";
+import { PilotQrPrintAuthorizationPreflightPanel } from "@/features/evidence/PilotQrPrintAuthorizationPreflightPanel";
+import { samplePilotQrPrintAuthorizationPreflight, samplePilotQrPrintAuthorizationPreflightErrors } from "@/data/samplePilotQrPrintAuthorizationPreflight";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
@@ -77,6 +79,7 @@ export default async function TeacherEvidencePacketHandoffPage({
             <PublisherPilotPackagePreviewPanel preview={samplePublisherPilotPackagePreview} validationErrors={samplePublisherPilotPackagePreviewErrors} />
             <PilotDeliveryManifestPanel manifest={samplePilotDeliveryManifest} validationErrors={samplePilotDeliveryManifestErrors} />
             <PilotQrAliasRegistryPreviewPanel registry={samplePilotQrAliasRegistry} validationErrors={samplePilotQrAliasRegistryErrors} />
+            <PilotQrPrintAuthorizationPreflightPanel preflight={samplePilotQrPrintAuthorizationPreflight} validationErrors={samplePilotQrPrintAuthorizationPreflightErrors} />
             <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
             <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
             <PackageReadinessReconciliationPanel
