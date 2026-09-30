@@ -221,6 +221,7 @@ export async function GET(request: Request) {
     sourceChecksumSha256: handoff.checksumSha256,
     selectedMode: deliveryManifestPreview.selectedMode,
     sourceReviewPassed: reviewDecision?.decision === "accepted-for-package-review",
+    sentenceApprovalPassed: sentenceApproval?.decision === "approved",
     packageEvidencePassed: packageEvidenceReview?.status === "reviewed-package-evidence",
     reviewPacketPassed: packet?.status === "ready-for-next-gate",
     assemblyPreflightPassed: preflight?.status === "ready-for-manual-assembly",

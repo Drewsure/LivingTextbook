@@ -32,6 +32,7 @@ export interface PublisherDeliveryClosurePacket {
 
 const requiredCheckIds = [
   "source-review",
+  "sentence-approval",
   "package-evidence",
   "review-packet",
   "assembly-preflight",
@@ -58,6 +59,7 @@ export function createPublisherDeliveryClosurePacket(input: {
   sourceChecksumSha256: string;
   selectedMode: PublisherDeliveryClosurePacket["selectedMode"];
   sourceReviewPassed: boolean;
+  sentenceApprovalPassed: boolean;
   packageEvidencePassed: boolean;
   reviewPacketPassed: boolean;
   assemblyPreflightPassed: boolean;
@@ -76,6 +78,7 @@ export function createPublisherDeliveryClosurePacket(input: {
   });
   const checks = [
     check("source-review", "Source review", input.sourceReviewPassed, input.sourceReviewPassed ? "The source review decision is accepted for package review." : "The source review decision is not accepted for package release.", "Record an accepted source review decision against this quarantine."),
+    check("sentence-approval", "English sentence approval", input.sentenceApprovalPassed, input.sentenceApprovalPassed ? "Exactly two approved English target sentences are bound to this package checksum." : "The checksum-bound approval for the two English target sentences is missing or mismatched.", "Approve exactly two distinct English target sentences before release review."),
     check("package-evidence", "Content, game, and multimedia evidence", input.packageEvidencePassed, input.packageEvidencePassed ? "The reviewed content, game, audio, video, image, font, accessibility, and rights lanes are recorded." : "One or more content, game, audio, media, accessibility, or rights lanes remain incomplete.", "Complete and bind every reviewed package evidence lane."),
     check("review-packet", "Immutable review packet", input.reviewPacketPassed, input.reviewPacketPassed ? "The package review packet is ready for the next gate." : "The package review packet is missing or blocked.", "Record and reconcile the immutable package review packet."),
     check("assembly-preflight", "Package assembly preflight", input.assemblyPreflightPassed, input.assemblyPreflightPassed ? "Assembly inputs are reconciled for human release review." : "Package assembly preflight still has blockers or missing inputs.", "Resolve the preflight blockers without treating preflight as approval."),

@@ -5,7 +5,8 @@
 The publisher readiness API will derive a closure packet from the live
 quarantine evidence. It is the canonical operator-facing summary for the
 eventual release decision and binds nine checks to one tenant, package,
-quarantine, source, and checksum identity.
+quarantine, source, and checksum identity, including the exact English
+sentence-approval gate.
 
 ## Boundary
 

@@ -7494,6 +7494,12 @@ use remain blocked, and Japanese/support text cannot satisfy this English
 target-language gate. Added focused contract and behavior checks and recorded
 ADR 1341 / DR-1340.
 
+The publisher delivery closure packet now carries a separate English
+sentence-approval check. Its operator-facing summary cannot report a complete
+handoff while that exact tenant, package, quarantine, and checksum-bound gate
+is missing. The closure packet remains blocked and review-only. Updated its
+contract verifier and recorded the change in ADR 1330 / DR-1329.
+
 ## Build session: Enforce sentence approval at delivery gates
 
 The checksum-bound English sentence sidecar is now required by the package

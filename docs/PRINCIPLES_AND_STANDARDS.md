@@ -9318,3 +9318,14 @@ This standard is recorded in DR-1340 and ADR 1341.
   QR printing, persistence activation, or student-facing use by itself.
 
 This standard is recorded in DR-1341 and ADR 1342.
+
+## 585. Closure Packets Must Expose Every Release-Critical Gate
+
+- The eventual human release operator must see English sentence approval as a
+  distinct closure check, not only as an internal preflight condition.
+- Closure summaries must remain blocked when any required content, delivery,
+  QR, rollback, policy, or persistence gate is missing.
+- Adding a closure check must not authorize release, package assembly, QR
+  printing, hosted persistence, or student use.
+
+This standard is recorded in DR-1329 and ADR 1330.
