@@ -10075,3 +10075,14 @@ The intake workspace now shows a controlled sample journey from publisher
 manifest through evidence, quarantine, package review, delivery/QR, and
 teacher rehearsal. It binds existing package identities but remains synthetic,
 review-only, and release-blocked. See ADR 1325.
+
+## DR-1325: Live Publisher Submission Review Journey
+
+The authorized quarantine handoff now derives one live, tenant-bound review
+journey from the submitted source and current evidence records. It makes the
+next action visible across source review, multimedia/game evidence, package
+review, delivery, release/QR, and teacher rehearsal.
+
+All package assembly, promotion, QR printing, persistence activation, and
+student use remain blocked. The journey is a projection of review metadata,
+not a release decision. See ADR 1326.

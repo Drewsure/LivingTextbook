@@ -22,6 +22,8 @@ import type {
   HostedPersistenceOptInDecisionPacket,
   UploadQuarantineReleasePreflight,
 } from "@living-textbook/content-model";
+import { createPublisherSubmissionLiveReviewJourney, validatePublisherSubmissionLiveReviewJourney } from "@living-textbook/content-model";
+import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
@@ -164,6 +166,25 @@ export function PublisherQuarantineHandoffBridgePanel({
   }, [packageId, quarantineId, refreshToken, tenantId]);
 
   const handoff = payload?.handoff;
+  const liveReviewJourney = handoff
+    ? createPublisherSubmissionLiveReviewJourney({
+        tenantId,
+        quarantineId,
+        packageId: handoff.packageId,
+        sourceId: handoff.sourceId,
+        unitKey: handoff.unitKey ?? null,
+        checksumSha256: handoff.checksumSha256,
+        sourceReviewDecision: reviewDecision?.decision ?? null,
+        packageEvidenceReviewed: packageEvidenceReview?.status === "reviewed-package-evidence",
+        reviewPacketRecorded: Boolean(payload?.packet),
+        deliveryModeSelected: Boolean(deliveryModeDecision),
+        promotionAdapterSelected: Boolean(promotionAdapterDecision),
+        releaseBlockers: releasePreflight?.unresolvedRequirements ?? [],
+      })
+    : null;
+  const liveReviewJourneyErrors = liveReviewJourney
+    ? validatePublisherSubmissionLiveReviewJourney(liveReviewJourney)
+    : [];
 
   async function recordReviewPacket() {
     if (reviewDecision?.decision !== "accepted-for-package-review") {
@@ -254,6 +275,7 @@ export function PublisherQuarantineHandoffBridgePanel({
           <p className="mt-4 rounded-lg border border-[var(--tenant-border)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
             This screen is a bridge into review evidence only. It does not create a package, write evidence, print production QR codes, activate persistence, or promote the quarantined payload.
           </p>
+          {liveReviewJourney ? <div className="mt-5"><LivePublisherSubmissionReviewJourneyPanel journey={liveReviewJourney} validationErrors={liveReviewJourneyErrors} /></div> : null}
           <div className="mt-4">
             <QuarantineEvidenceReviewCapture
               tenantId={tenantId}

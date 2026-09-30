@@ -9080,3 +9080,20 @@ This standard is recorded in DR-1281 and ADR 1281.
   separate.
 
 This standard is recorded in DR-1282 and ADR 1282.
+
+## 568. Live Publisher Review Journeys Must Be Derived, Not Assumed
+
+- Once a real source enters tenant-scoped quarantine, the handoff must expose
+  one live review journey derived from the submitted identity and current
+  metadata records.
+- The journey must distinguish source admission, source decision, package
+  evidence, immutable packet capture, delivery choice, promotion adapter,
+  release/QR review, and teacher rehearsal.
+- A passed evidence gate must never imply package assembly, promotion, QR
+  printing, hosted persistence activation, or student-facing use.
+- The live journey must preserve tenant, quarantine, package, unit, and
+  checksum identity and remain safe when any record is missing or stale.
+- Frozen external game source remains a separate integration gate and cannot
+  be inferred as approved by a publisher package journey.
+
+This standard is recorded in DR-1325 and ADR 1326.

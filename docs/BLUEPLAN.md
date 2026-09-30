@@ -499,10 +499,17 @@ The earlier decision list has been resolved into the current foundation:
 6. The AI Authoring Studio is validated against static JSON first. Live model
    dispatch and billing remain optional, policy-controlled package features.
 
-The current next gate is a complete isolated Phaser candidate return package.
-It must pass the evidence and wrapper checks before any source is copied into
-the canonical apps or exposed to students. See
-`docs/FOUNDATION_TO_ZAI_INTAKE_GATE.md` and ADR 0720.
+The current product gate is a real publisher submission through the live,
+tenant-bound review journey. The platform now maps an admitted quarantine
+record through source decision, multimedia/game evidence, package packet,
+delivery choice, promotion adapter, release/QR review, and teacher rehearsal.
+All protected actions remain blocked until the publisher and school provide
+the required evidence and human decisions.
+
+The isolated Phaser candidate return package remains a separate integration
+gate. It must contain `evidence/return-package.json` and pass the evidence and
+wrapper checks before any source is copied into the canonical apps or exposed
+to students. See `docs/FOUNDATION_TO_ZAI_INTAKE_GATE.md` and ADR 0720.
 
 ## 17. Codex Role
 
@@ -546,10 +553,10 @@ AI generation or promote external Phaser source until the payload schema,
 verification rules, event evidence, scoring ownership, audio coverage,
 identity, accessibility, and tenant boundaries are proven.
 
-The immediate controlled handoff remains the isolated Memory Match candidate
-return package requested in
-`docs/agent-briefs/ZAI_MEMORY_MATCH_EVIDENCE_REQUEST.md`. No package is present
-until the external builder returns the required evidence folder, so the frozen
-Phaser snapshot remains review-only and outside the canonical application.
+The immediate operational handoff is the first real publisher Unit 1 source
+submission and its rights/media policy. Once admitted, the live review journey
+at the tenant evidence handoff becomes the authoritative next-action surface.
+The frozen Phaser snapshot remains review-only and outside the canonical
+application until its separate evidence return package is complete.
 
 This gives the platform a controlled first win and creates the contract that future AI agents, including Z.ai, must obey.

@@ -7320,3 +7320,16 @@ review, and teacher rehearsal gates in one readable sequence.
 The journey is synthetic and review-only. It cannot assemble or promote files,
 print QR codes, activate persistence, or start students. Added the focused
 journey verifier and recorded ADR 1325 / DR-1324.
+
+## Build session: Live publisher submission review journey
+
+Added a shared live-review journey contract and mounted it in the authorized
+quarantine handoff. A real publisher submission now receives one tenant-bound
+sequence covering source admission, source decision, multimedia/game evidence,
+package review packet, delivery mode, promotion adapter, release/QR review, and
+teacher-led student rehearsal.
+
+The journey is derived from existing metadata only. Package assembly, promotion,
+QR printing, persistence activation, and student use remain blocked. Added the
+focused `verify:publisher-submission-live-review-journey` check and recorded
+ADR 1326 / DR-1325.
