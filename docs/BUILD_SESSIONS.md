@@ -7737,3 +7737,14 @@ marks the reviewed-manifest input present only after that exact check passes.
 No manifest body, filesystem path, payload bytes, write capability, QR print,
 promotion, hosted persistence, learner record, or student activation was
 added. Recorded ADR 1362 / DR-1362.
+
+## Build session: Canonicalize the reviewed-custody summary contract
+
+Moved the bounded reviewed bundle-manifest custody summary into the shared
+content-model package and switched both the package-readiness route and live
+handoff panel to that public contract. This keeps white-label tenant adapters
+aligned on one status, identity, checksum, and privacy shape.
+
+The shared summary contains no manifest body, filesystem path, payload bytes,
+credentials, learner records, or activation capability. Recorded ADR 1363 /
+DR-1363.

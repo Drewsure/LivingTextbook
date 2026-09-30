@@ -27,6 +27,7 @@ import type {
   PublisherDeliveryAssemblyRequestPreview,
   PublisherDeliveryHandoffRecord,
   PublisherSourceToPackageEvidenceBridge,
+  LocalBundleManifestReviewSummary,
 } from "@living-textbook/content-model";
 import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney, validatePublisherDeliveryHandoffRecord } from "@living-textbook/content-model";
 import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
@@ -74,26 +75,7 @@ type HandoffResponse = {
   privacy?: string;
 };
 
-type ReviewedBundleManifestCustodySummary = {
-  status: "available" | "not-found" | "blocked";
-  tenantId: string;
-  packageId: string;
-  version: string | null;
-  recordId: string | null;
-  reviewPacketId: string | null;
-  sourcePreflightEvidenceId: string | null;
-  manifestChecksumSha256: string | null;
-  reviewerId: string | null;
-  reviewedAt: string | null;
-  errors: string[];
-  packageAssemblyAllowed: false;
-  promotionAllowed: false;
-  qrPrintAllowed: false;
-  hostedPersistenceActivationAllowed: false;
-  studentFacingUseAllowed: false;
-  mode: "review-only";
-  sideEffect: "none";
-};
+type ReviewedBundleManifestCustodySummary = LocalBundleManifestReviewSummary;
 
 export function PublisherQuarantineHandoffBridgePanel({
   tenantId,

@@ -10431,3 +10431,11 @@ before marking that assembly input present. It returns only bounded custody
 metadata, never the manifest body or filesystem path. The signal remains
 review-only: package assembly, promotion, QR printing, hosted persistence,
 student use, and learner records stay blocked. See ADR 1362.
+
+## DR-1363: Canonical Shared Reviewed-Custody Summary
+
+The bounded reviewed bundle-manifest custody summary is now defined and
+exported from the shared content-model package. The server readiness route and
+operator handoff panel consume the same contract, preventing tenant adapters or
+future delivery surfaces from inventing divergent status and privacy fields.
+The shared summary remains metadata-only and activation-blocked. See ADR 1363.

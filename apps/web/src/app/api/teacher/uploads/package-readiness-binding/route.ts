@@ -40,6 +40,7 @@ import {
   validatePublisherSourceToPackageEvidenceBridge,
   type PublisherDeliveryHandoffRecord,
   type PublisherSourceToPackageEvidenceBridge,
+  type LocalBundleManifestReviewSummary,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
@@ -88,26 +89,7 @@ type ReadinessResponse = {
   privacy: string;
 };
 
-type ReviewedBundleManifestCustodySummary = {
-  status: "available" | "not-found" | "blocked";
-  tenantId: string;
-  packageId: string;
-  version: string | null;
-  recordId: string | null;
-  reviewPacketId: string | null;
-  sourcePreflightEvidenceId: string | null;
-  manifestChecksumSha256: string | null;
-  reviewerId: string | null;
-  reviewedAt: string | null;
-  errors: string[];
-  packageAssemblyAllowed: false;
-  promotionAllowed: false;
-  qrPrintAllowed: false;
-  hostedPersistenceActivationAllowed: false;
-  studentFacingUseAllowed: false;
-  mode: "review-only";
-  sideEffect: "none";
-};
+type ReviewedBundleManifestCustodySummary = LocalBundleManifestReviewSummary;
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

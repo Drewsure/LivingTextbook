@@ -9622,3 +9622,15 @@ This standard is recorded in DR-1361 and ADR 1361.
   hosted persistence, student use, and learner-record writes remain blocked.
 
 This standard is recorded in DR-1362 and ADR 1362.
+
+## 606. Custody Summaries Must Use Shared Contracts
+
+- Operator-facing custody summaries belong in the shared content-model package,
+  not in a route or UI file only.
+- Server and client layers must consume the same summary type and validation
+  rules so every white-label tenant sees the same bounded evidence semantics.
+- Shared summaries may contain identity, status, reviewer, timestamp, and
+  checksum metadata only; they must never become a transport for the manifest
+  body, filesystem paths, payload bytes, credentials, or learner records.
+
+This standard is recorded in DR-1363 and ADR 1363.
