@@ -1999,3 +1999,4 @@ export * from "./publisherSubmissionLiveReviewJourney";
 export * from "./publisherDeliveryOperatorHandoff";
 export * from "./publisherDeliveryClosurePacket";
 export * from "./publisherDeliveryAssemblyRequestPreview";
+export * from "./publisherDeliveryHandoffRecord";

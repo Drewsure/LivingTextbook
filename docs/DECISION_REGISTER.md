@@ -10142,3 +10142,15 @@ review packet binding, and operator timestamp.
 This is an operator-facing evidence projection only. It remains blocked and
 cannot write packages, create QR output, activate persistence, or start
 students. See ADR 1331.
+
+## DR-1331: Publisher Delivery Handoff Evidence Record
+
+The live publisher handoff now derives one versioned evidence record that binds
+source review, package review, delivery, release, package index, assembly
+request, QR registry, and fallback route identities. It names the expected
+metadata files but includes none before approval, and keeps rollback missing
+until a human release decision exists.
+
+The record is blocked, review-only, and metadata-only. It cannot deliver files,
+include payload bytes or learner records, create QR output, activate
+persistence, or enable student-facing use. See ADR 1332.

@@ -7399,3 +7399,16 @@ manifest, review-packet binding, and authorized operator/write timestamp.
 The preview stays blocked and side-effect-free. It cannot execute the writer,
 copy publisher files, create QR output, activate persistence, or start
 students. Added the focused verifier and recorded ADR 1331 / DR-1330.
+
+## Build session: Publisher delivery handoff evidence record
+
+Added a versioned handoff evidence record to the live publisher bridge. It
+binds eight evidence identities across source review, package review, delivery,
+release, package indexing, assembly inputs, QR registry, and the closed-local
+fallback route. It also names the four expected metadata files while reporting
+that no files are included before approval.
+
+This record remains blocked, review-only, and metadata-only. It cannot deliver
+files, include raw payload bytes or learner records, create QR output, activate
+persistence, or enable student-facing use. Added the focused verifier and
+recorded ADR 1332 / DR-1331.

@@ -9167,3 +9167,18 @@ This standard is recorded in DR-1329 and ADR 1330.
   activate persistence, or start students.
 
 This standard is recorded in DR-1330 and ADR 1331.
+
+## 574. Publisher Handoffs Must Be Versioned Evidence Records
+
+- The eventual publisher handoff must bind source, review packet, delivery,
+  release, package index, assembly, QR, and fallback identities in one
+  versioned record.
+- Expected delivery metadata files must be named separately from included
+  files; a review preview must report that no files are delivered.
+- Rollback remains an explicit required field and cannot be inferred from a
+  route or preview identity.
+- The handoff record must exclude raw payload bytes and learner records and
+  keep package assembly, release writes, QR printing, persistence activation,
+  and student use blocked until separate approved gates exist.
+
+This standard is recorded in DR-1331 and ADR 1332.

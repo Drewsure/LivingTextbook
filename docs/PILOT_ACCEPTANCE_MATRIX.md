@@ -82,3 +82,12 @@ updated whenever a requirement changes or a closure record is accepted.
 
 The operational path for completing the remaining human gates is documented in
 `docs/PILOT_EXECUTION_RUNBOOK.md`.
+
+## Current Handoff Evidence Boundary
+
+The live publisher handoff now exposes a versioned metadata-only handoff
+record. It binds eight evidence identities and names the expected delivery
+metadata files, but includes no files until release approval. This strengthens
+inspection and auditability without changing the acceptance status: package
+assembly, QR printing, persistence activation, and student-facing use remain
+blocked.

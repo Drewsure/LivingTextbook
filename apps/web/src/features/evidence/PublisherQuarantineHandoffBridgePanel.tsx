@@ -23,12 +23,14 @@ import type {
   UploadQuarantineReleasePreflight,
   PublisherDeliveryClosurePacket,
   PublisherDeliveryAssemblyRequestPreview,
+  PublisherDeliveryHandoffRecord,
 } from "@living-textbook/content-model";
-import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney } from "@living-textbook/content-model";
+import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney, validatePublisherDeliveryHandoffRecord } from "@living-textbook/content-model";
 import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
 import { PublisherDeliveryOperatorHandoffPanel } from "@/features/evidence/PublisherDeliveryOperatorHandoffPanel";
 import { PublisherDeliveryClosurePacketPanel } from "@/features/evidence/PublisherDeliveryClosurePacketPanel";
 import { PublisherDeliveryAssemblyRequestPreviewPanel } from "@/features/evidence/PublisherDeliveryAssemblyRequestPreviewPanel";
+import { PublisherDeliveryHandoffRecordPanel } from "@/features/evidence/PublisherDeliveryHandoffRecordPanel";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
@@ -61,6 +63,7 @@ type HandoffResponse = {
   releasePreflight?: UploadQuarantineReleasePreflight | null;
   deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
+  deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
   errors?: string[];
   privacy?: string;
 };
@@ -94,6 +97,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [releasePreflight, setReleasePreflight] = useState<UploadQuarantineReleasePreflight | null>(null);
   const [deliveryClosurePacket, setDeliveryClosurePacket] = useState<PublisherDeliveryClosurePacket | null>(null);
   const [assemblyRequestPreview, setAssemblyRequestPreview] = useState<PublisherDeliveryAssemblyRequestPreview | null>(null);
+  const [deliveryHandoffRecord, setDeliveryHandoffRecord] = useState<PublisherDeliveryHandoffRecord | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -145,7 +149,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
@@ -158,6 +162,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReleasePreflight(next.releasePreflight ?? null);
         setDeliveryClosurePacket(next.deliveryClosurePacket ?? null);
         setAssemblyRequestPreview(next.assemblyRequestPreview ?? null);
+        setDeliveryHandoffRecord(next.deliveryHandoffRecord ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -173,6 +178,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReleasePreflight(null);
         setDeliveryClosurePacket(null);
         setAssemblyRequestPreview(null);
+        setDeliveryHandoffRecord(null);
       });
 
     return () => controller.abort();
@@ -210,6 +216,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       })
     : null;
   const operatorHandoffErrors = operatorHandoff ? validatePublisherDeliveryOperatorHandoff(operatorHandoff) : [];
+  const deliveryHandoffRecordErrors = deliveryHandoffRecord ? validatePublisherDeliveryHandoffRecord(deliveryHandoffRecord) : [];
 
   async function recordReviewPacket() {
     if (reviewDecision?.decision !== "accepted-for-package-review") {
@@ -304,6 +311,7 @@ export function PublisherQuarantineHandoffBridgePanel({
           {operatorHandoff ? <div className="mt-5"><PublisherDeliveryOperatorHandoffPanel plan={operatorHandoff} validationErrors={operatorHandoffErrors} /></div> : null}
           {deliveryClosurePacket ? <div className="mt-5"><PublisherDeliveryClosurePacketPanel packet={deliveryClosurePacket} /></div> : null}
           {assemblyRequestPreview ? <div className="mt-5"><PublisherDeliveryAssemblyRequestPreviewPanel preview={assemblyRequestPreview} /></div> : null}
+          {deliveryHandoffRecord ? <div className="mt-5"><PublisherDeliveryHandoffRecordPanel record={deliveryHandoffRecord} validationErrors={deliveryHandoffRecordErrors} /></div> : null}
           <div className="mt-4">
             <QuarantineEvidenceReviewCapture
               tenantId={tenantId}
