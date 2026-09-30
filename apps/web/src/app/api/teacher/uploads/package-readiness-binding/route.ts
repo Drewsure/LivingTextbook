@@ -180,6 +180,7 @@ export async function GET(request: Request) {
   const preflight = packet ? createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
+      ...(sourcePreflightEvidence && sourcePreflightEvidence.packageId === packageId && sourcePreflightEvidence.sourceChecksumSha256 === sourceChecksum ? [] : ["Durable publisher source preflight evidence is not linked to this package review lineage."]),
       ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
       ...(sentenceApproval?.decision === "approved" ? [] : ["Exactly two approved English target sentences are not bound to this package checksum."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
@@ -247,6 +248,7 @@ export async function GET(request: Request) {
     packageId,
     sourceChecksumSha256: handoff.checksumSha256,
     selectedMode: deliveryManifestPreview.selectedMode,
+    sourcePreflightEvidencePresent: Boolean(sourcePreflightEvidence && sourcePreflightEvidence.packageId === packageId && sourcePreflightEvidence.sourceChecksumSha256 === sourceChecksum),
     deliveryManifestPresent: false,
     releaseReceiptPresent: false,
     qrRegistryPresent: false,

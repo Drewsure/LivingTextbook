@@ -13,14 +13,14 @@ try {
   const model = await import(`file://${output}`);
   const preview = model.createPublisherDeliveryAssemblyRequestPreview({
     tenantId: "publisher-a", quarantineId: "q-00000000-0000-4000-8000-000000000001", packageId: "publisher-a-l1-u1-package",
-    sourceChecksumSha256: "a".repeat(64), selectedMode: "closed-local", deliveryManifestPresent: false,
+    sourceChecksumSha256: "a".repeat(64), selectedMode: "closed-local", sourcePreflightEvidencePresent: true, deliveryManifestPresent: false,
     releaseReceiptPresent: false, qrRegistryPresent: false, packageIndexPresent: false, bundleManifestPresent: false,
     reviewPacketBound: true, operatorAndWriteTimePresent: false,
   });
   const errors = model.validatePublisherDeliveryAssemblyRequestPreview(preview);
   if (errors.length > 0) failures.push(`valid assembly preview was rejected: ${errors.join(" ")}`);
-  if (preview.inputs.length !== 7) failures.push("assembly preview must expose seven writer inputs");
-  if (preview.inputs.filter((input) => input.status === "present").length !== 1) failures.push("assembly preview must preserve the one reconciled review-packet input");
+  if (preview.inputs.length !== 8) failures.push("assembly preview must expose eight writer inputs including source preflight lineage");
+  if (preview.inputs.filter((input) => input.status === "present").length !== 2) failures.push("assembly preview must preserve source preflight and review-packet lineage inputs");
   if (preview.packageAssemblyAllowed || preview.qrPrintArtifactIncluded || preview.studentFacingActivationAllowed || preview.hostedPersistenceActivated) failures.push("assembly preview must keep all protected actions blocked");
   const tampered = { ...preview, inputs: preview.inputs.slice(0, 6) };
   if (!model.validatePublisherDeliveryAssemblyRequestPreview(tampered).some((error) => error.includes("all required writer inputs"))) failures.push("missing writer inputs must be rejected");
@@ -29,9 +29,9 @@ try {
 const route = readFileSync(join(root, "apps", "web", "src", "app", "api", "teacher", "uploads", "package-readiness-binding", "route.ts"), "utf8");
 const bridge = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherQuarantineHandoffBridgePanel.tsx"), "utf8");
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherDeliveryAssemblyRequestPreviewPanel.tsx"), "utf8");
-for (const marker of ["createPublisherDeliveryAssemblyRequestPreview", "assemblyRequestPreview", "validatePublisherDeliveryAssemblyRequestPreview"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
+for (const marker of ["createPublisherDeliveryAssemblyRequestPreview", "sourcePreflightEvidencePresent", "assemblyRequestPreview", "validatePublisherDeliveryAssemblyRequestPreview"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
 for (const marker of ["PublisherDeliveryAssemblyRequestPreviewPanel", "assemblyRequestPreview"]) if (!bridge.includes(marker)) failures.push(`live handoff bridge is missing marker: ${marker}`);
 for (const marker of ["Local package assembly request preview", "Exact writer inputs", "Protected actions"]) if (!panel.includes(marker)) failures.push(`assembly preview panel is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("assembly preview panel must remain read-only");
 if (failures.length > 0) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
-console.log("PASS publisher delivery assembly request preview enumerates seven writer inputs and remains blocked, review-only, and side-effect-free.");
+console.log("PASS publisher delivery assembly request preview enumerates eight writer inputs, including source preflight lineage, and remains blocked, review-only, and side-effect-free.");

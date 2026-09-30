@@ -29,6 +29,10 @@ A handoff package should include:
 - cost impact for major decisions,
 - notes on what not to overpromise.
 
+The local-package assembly request must also carry the durable publisher source
+preflight evidence as an explicit input. A package review packet or delivery
+manifest without matching source-preflight lineage is not a complete handoff.
+
 ## Product Rules
 
 - Do not promise full commercial readiness from the handoff panel.

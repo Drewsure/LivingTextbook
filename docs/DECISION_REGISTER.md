@@ -10371,3 +10371,13 @@ into the immutable package metadata. This prevents provenance from being lost
 after packet review. The change strengthens identity validation only; release
 writes, QR route mutation, hosted persistence, learner records, and student
 activation remain separately gated. See ADR 1356.
+
+## DR-1357: Source Preflight Is an Explicit Assembly Input
+
+The publisher delivery assembly request preview now lists durable source
+preflight evidence as its own required input. The readiness route marks the
+input present only when tenant, quarantine, package, and source checksum
+identity match, and assembly preflight reports missing lineage as a blocker.
+The preview remains blocked and read-only; it cannot invoke the writer, copy
+files, generate QR output, activate persistence, create learner records, or
+start students. See ADR 1357.

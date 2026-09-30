@@ -7667,3 +7667,14 @@ This strengthens provenance only. It does not authorize release writes, QR
 route mutation, hosted persistence, learner records, or student activation.
 Added focused release-lineage and local-package regression coverage and
 recorded ADR 1356 / DR-1356.
+
+## Build session: Make source preflight an explicit assembly input
+
+Expanded the publisher delivery assembly request preview from seven to eight
+required writer inputs. Durable source preflight evidence is now shown as a
+first-class input and is marked present only when the package, quarantine, and
+source checksum match. The package readiness preflight reports missing source
+lineage as a blocker as well.
+
+The preview remains blocked, review-only, and side-effect-free. Recorded ADR
+1357 / DR-1357.

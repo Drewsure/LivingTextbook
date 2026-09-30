@@ -29,6 +29,7 @@ export interface PublisherDeliveryAssemblyRequestPreview {
 }
 
 const requiredInputIds = [
+  "source-preflight-evidence",
   "approved-delivery-manifest",
   "manual-release-receipt",
   "approved-qr-registry",
@@ -51,6 +52,7 @@ export function createPublisherDeliveryAssemblyRequestPreview(input: {
   packageId: string;
   sourceChecksumSha256: string;
   selectedMode: PublisherDeliveryAssemblyRequestPreview["selectedMode"];
+  sourcePreflightEvidencePresent: boolean;
   deliveryManifestPresent: boolean;
   releaseReceiptPresent: boolean;
   qrRegistryPresent: boolean;
@@ -67,6 +69,7 @@ export function createPublisherDeliveryAssemblyRequestPreview(input: {
     nextAction,
   });
   const inputs = [
+    entry("source-preflight-evidence", "Publisher source preflight evidence", input.sourcePreflightEvidencePresent, "The durable publisher source inventory and aggregate fingerprints are linked to the exact quarantine and checksum.", "Attach and reconcile the complete publisher source preflight evidence before package assembly."),
     entry("approved-delivery-manifest", "Approved delivery manifest", input.deliveryManifestPresent, "An approved manifest identity is linked to the assembly request.", "Link the approved tenant/package/version manifest and source checksum."),
     entry("manual-release-receipt", "Manual release receipt", input.releaseReceiptPresent, "A named release receipt is linked to the exact delivery identity.", "Record the named release approval and rollback reference."),
     entry("approved-qr-registry", "Approved QR registry", input.qrRegistryPresent, "The stable QR alias registry is linked to the approved release.", "Reconcile stable aliases, local fallbacks, and print authorization."),

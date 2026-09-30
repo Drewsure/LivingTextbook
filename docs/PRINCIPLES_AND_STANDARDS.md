@@ -9530,3 +9530,17 @@ This standard is recorded in DR-1355 and ADR 1355.
   activation.
 
 This standard is recorded in DR-1356 and ADR 1356.
+
+## 600. Source Preflight Is An Explicit Assembly Input
+
+- The assembly request preview must list durable publisher source preflight
+  evidence as a distinct required input rather than treating it as an implied
+  upstream condition.
+- The input is present only when tenant, quarantine, package, and source
+  checksum identity match the package under review.
+- Missing or stale source preflight lineage must remain an assembly blocker.
+- The preview remains blocked and read-only; it must not invoke a writer, copy
+  files, create QR output, activate persistence, create learner records, or
+  start students.
+
+This standard is recorded in DR-1357 and ADR 1357.
