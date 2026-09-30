@@ -10181,3 +10181,11 @@ quarantine identity is available. This keeps the review journey navigable
 without creating another upload control or treating a JSON read as an approval
 step. The binding remains bounded, read-only, and blocked from package,
 delivery, QR, persistence, and student actions. See ADR 1335.
+
+## DR-1335: Render Live Evidence Binding In Source Review
+
+The source review workspace now renders a teacher-facing load panel for a real
+quarantine identity. The panel requests the existing tenant-authorized GET
+projection and displays bounded lane evidence without introducing another
+upload path or mutating any review, package, release, QR, persistence, or
+student state. See ADR 1336.

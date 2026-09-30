@@ -9221,3 +9221,17 @@ This standard is recorded in DR-1333 and ADR 1334.
   actions so a publisher can understand what still requires human review.
 
 This standard is recorded in DR-1334 and ADR 1335.
+
+## 578. Live Evidence Must Be Usable Without Becoming Authority
+
+- When a real quarantine identity is available, the teacher source-review
+  workspace should expose a clear, explicit action to load its live evidence
+  binding.
+- The panel may render bounded identities, evidence lanes, gaps, and privacy
+  boundaries, but it must not infer approval or replace the canonical gate.
+- Authorization failures must remain visible and bounded; the UI must not retry
+  with secrets, expose payload bytes, or silently fall back to sample data.
+- Any next action shown by the panel must remain a human review action until
+  separate package, release, delivery, QR, persistence, and student gates pass.
+
+This standard is recorded in DR-1335 and ADR 1336.

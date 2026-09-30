@@ -7448,3 +7448,9 @@ connects the controlled intake workflow to the bounded bridge without adding a
 second upload action or implying that the binding itself is approval. The
 binding remains GET-only, evidence-only, and blocked from package assembly,
 QR output, persistence activation, and student use.
+
+The source review workspace now also provides a teacher-facing load panel for
+that binding when a quarantine identity is present. It renders the returned
+bounded identities and eight evidence lanes in the review workspace while
+keeping approval, package assembly, QR printing, persistence activation, and
+student access unavailable.

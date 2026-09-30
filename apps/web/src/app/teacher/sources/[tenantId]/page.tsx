@@ -9,6 +9,7 @@ import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/Tea
 import { MinistarSourceDerivedUnitReviewPanel } from "@/features/content-intake/MinistarSourceDerivedUnitReviewPanel";
 import { MinistarUnitAuthoringProposalPanel } from "@/features/content-intake/MinistarUnitAuthoringProposalPanel";
 import { PublisherSourceToPackageEvidenceBridgePanel } from "@/features/content-intake/PublisherSourceToPackageEvidenceBridgePanel";
+import { LiveSourcePackageEvidenceBindingPanel } from "@/features/content-intake/LiveSourcePackageEvidenceBindingPanel";
 import { sampleMinistarSourceToPackageEvidenceBridge } from "@/data/sampleMinistarSourceToPackageEvidenceBridge";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
@@ -35,6 +36,9 @@ export default async function TeacherSourceReviewWorkspacePage({
         extractionPreviews={sampleSourceExtractionPreviews}
         quarantineId={query.quarantineId}
       />
+      {query.quarantineId ? (
+        <LiveSourcePackageEvidenceBindingPanel tenantId={tenantId} quarantineId={query.quarantineId} />
+      ) : null}
       {tenantId === "ministar" ? (
         <>
           <MinistarSourceDerivedUnitReviewPanel review={sampleMinistarSourceDerivedUnitReview} />
