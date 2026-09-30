@@ -20,6 +20,7 @@ import type {
   UploadQuarantineReviewDecisionRecord,
   PublisherPilotPackageReadinessBinding,
   HostedPersistenceOptInDecisionPacket,
+  UploadQuarantineReleasePreflight,
 } from "@living-textbook/content-model";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
@@ -50,6 +51,7 @@ type HandoffResponse = {
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
+  releasePreflight?: UploadQuarantineReleasePreflight | null;
   errors?: string[];
   privacy?: string;
 };
@@ -80,6 +82,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
   const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
   const [hostedPersistenceOptInPacket, setHostedPersistenceOptInPacket] = useState<HostedPersistenceOptInDecisionPacket | null>(null);
+  const [releasePreflight, setReleasePreflight] = useState<UploadQuarantineReleasePreflight | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -131,7 +134,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
@@ -141,6 +144,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
         setPackageIndexPreview(next.packageIndexPreview ?? null);
         setHostedPersistenceOptInPacket(next.hostedPersistenceOptInPacket ?? null);
+        setReleasePreflight(next.releasePreflight ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -153,6 +157,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setReleaseReceiptPreview(null);
         setPackageIndexPreview(null);
         setHostedPersistenceOptInPacket(null);
+        setReleasePreflight(null);
       });
 
     return () => controller.abort();
@@ -347,6 +352,7 @@ export function PublisherQuarantineHandoffBridgePanel({
           {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
           {releaseReceiptPreview ? <LiveReleaseReceiptPreview preview={releaseReceiptPreview} /> : null}
           {packageIndexPreview ? <LivePackageIndexPreview preview={packageIndexPreview} /> : null}
+          {releasePreflight ? <LiveReleasePreflightPreview preflight={releasePreflight} /> : null}
         </>
       ) : (
         <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
@@ -561,6 +567,34 @@ function LivePackageIndexPreview({ preview }: { preview: UploadQuarantinePackage
         ))}
       </div>
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Game routes: none linked · media paths: none linked · QR aliases: none linked · local fallback: none linked · package assembly: blocked · student use: blocked · side effect: metadata-only</p>
+    </section>
+  );
+}
+
+function LiveReleasePreflightPreview({ preflight }: { preflight: UploadQuarantineReleasePreflight }) {
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Live release preflight</p>
+          <h3 className="mt-1 text-base font-bold">Reconcile the live submission before a future operator decision</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            This record binds the live manifest, receipt, and package-index previews to one tenant, quarantine, package, delivery mode, and source checksum. It remains a review-only identity check.
+          </p>
+        </div>
+        <StatusPill label="Blocked" tone="warning" />
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Preflight" value={preflight.preflightId} />
+        <Fact label="Tenant" value={preflight.tenantId} />
+        <Fact label="Quarantine" value={preflight.quarantineId} />
+        <Fact label="Checksum" value={preflight.sourceChecksumSha256} />
+      </dl>
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <ListBlock title="Open requirements" items={preflight.unresolvedRequirements} tone="warning" />
+        <ListBlock title="Protected actions" items={preflight.blockedActions} tone="warning" />
+      </div>
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Release write: blocked · package assembly: blocked · QR print: blocked · student use: blocked · side effect: none</p>
     </section>
   );
 }

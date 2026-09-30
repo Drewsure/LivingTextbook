@@ -30,6 +30,9 @@ const releaseControlPage = readSource("../apps/web/src/app/teacher/release-contr
 const deliveryReleasePreflight = readSource("../packages/content-model/src/pilotDeliveryReleasePreflight.ts");
 const deliveryReleasePreflightSample = readSource("../apps/web/src/data/samplePilotDeliveryReleasePreflight.ts");
 const deliveryReleasePreflightPanel = readSource("../apps/web/src/features/evidence/PilotDeliveryReleasePreflightPanel.tsx");
+const liveReleasePreflight = readSource("../packages/content-model/src/uploadQuarantineReleasePreflight.ts");
+const liveReleasePreflightPanel = readSource("../apps/web/src/features/evidence/PublisherQuarantineHandoffBridgePanel.tsx");
+const liveReadinessRoute = readSource("../apps/web/src/app/api/teacher/uploads/package-readiness-binding/route.ts");
 const schoolPolicyTextPack = readSource("../apps/web/src/data/sampleSchoolPolicyTextPack.ts");
 const schoolPolicyTextPackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyTextPackPanel.tsx");
 const schoolPolicyAcceptanceRecordPreview = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptanceRecordPreview.ts");
@@ -383,6 +386,12 @@ requireText(deliveryReleasePreflightSample, "samplePilotQrAliasRegistry", "Deliv
 requireText(deliveryReleasePreflightPanel, "Manifest, receipt, and QR identity binding", "Delivery release preflight panel must be visible.");
 requireText(deliveryReleasePreflightPanel, "No release write", "Delivery release preflight panel must expose the release-write block.");
 requireText(releaseControlPage, "PilotDeliveryReleasePreflightPanel", "Release-control page must show delivery release preflight.");
+requireText(liveReleasePreflight, "createUploadQuarantineReleasePreflight", "Live release control must reconcile quarantine release previews.");
+requireText(liveReleasePreflight, "releaseWriteAllowed: false", "Live release preflight must block release writes.");
+requireText(liveReleasePreflight, "qrPrintAllowed: false", "Live release preflight must block QR printing.");
+requireText(liveReadinessRoute, "createUploadQuarantineReleasePreflight", "Live readiness route must derive the release preflight.");
+requireText(liveReadinessRoute, "releasePreflight", "Live readiness route must return the release preflight.");
+requireText(liveReleasePreflightPanel, "Live release preflight", "Live quarantine handoff must show the release preflight.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");
