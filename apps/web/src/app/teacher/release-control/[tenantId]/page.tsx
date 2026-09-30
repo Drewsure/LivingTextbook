@@ -35,6 +35,8 @@ import { buildSampleControlledPilotHumanReviewNextGateHandoff, validateSampleCon
 import { ControlledPilotHumanReviewNextGateHandoffPanel } from "@/features/pilot/ControlledPilotHumanReviewNextGateHandoffPanel";
 import { samplePilotDeliveryReleasePreflight, samplePilotDeliveryReleasePreflightErrors } from "@/data/samplePilotDeliveryReleasePreflight";
 import { PilotDeliveryReleasePreflightPanel } from "@/features/evidence/PilotDeliveryReleasePreflightPanel";
+import { TenantReleaseControlEmptyStatePanel } from "@/features/pilot/TenantReleaseControlEmptyStatePanel";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -84,9 +86,18 @@ const releaseSourceRoutes = [
 
 export default async function TeacherReleaseControlPage({ params }: TeacherReleaseControlPageProps) {
   const { tenantId } = await params;
+  const tenant = resolveTenantConfig(tenantId);
+
+  if (!tenant) {
+    notFound();
+  }
 
   if (tenantId !== samplePublisherTenant.id) {
-    notFound();
+    return (
+      <AppShell tenant={tenant}>
+        <TenantReleaseControlEmptyStatePanel tenant={tenant} />
+      </AppShell>
+    );
   }
 
   const partnerLaunch = resolveSampleLaunchContext("partner-demo-unit-1");
@@ -118,7 +129,7 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
     : ["Controlled-pilot next-gate handoff is not configured for this tenant/package."];
 
   return (
-    <AppShell tenant={samplePublisherTenant}>
+    <AppShell tenant={tenant}>
       <div className="grid gap-5">
         <Card>
           <div className="flex flex-wrap items-start justify-between gap-4">

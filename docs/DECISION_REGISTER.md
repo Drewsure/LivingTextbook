@@ -10021,3 +10021,11 @@ The tenant-scoped private library now resolves its own shell and presents an
 empty governed state for new tenants instead of rejecting them or showing
 Sample Publisher content. Public community sharing, cross-tenant remixing,
 student-data copying, and unreviewed assignment remain blocked. See ADR 1316.
+
+## DR-1316: Tenant-Empty Release-Control Boundary
+
+The tenant-scoped release-control route now provides a governed empty state for
+new publishers and reserves the reference release room for Sample Publisher's
+own identity. Package promotion, QR writes/printing, persistence activation,
+local release, assignment activation, and student-ready state remain blocked.
+See ADR 1317.

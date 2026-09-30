@@ -386,6 +386,12 @@ requireText(deliveryReleasePreflightSample, "samplePilotQrAliasRegistry", "Deliv
 requireText(deliveryReleasePreflightPanel, "Manifest, receipt, and QR identity binding", "Delivery release preflight panel must be visible.");
 requireText(deliveryReleasePreflightPanel, "No release write", "Delivery release preflight panel must expose the release-write block.");
 requireText(releaseControlPage, "PilotDeliveryReleasePreflightPanel", "Release-control page must show delivery release preflight.");
+requireText(releaseControlPage, "TenantReleaseControlEmptyStatePanel", "Release-control page must expose a tenant-empty state.");
+requireText(releaseControlPage, "resolveTenantConfig", "Release-control page must resolve its tenant shell.");
+requireText(releaseControlPage, "tenantId !== samplePublisherTenant.id", "Release-control page must isolate the sample reference package path.");
+const releaseControlEmptyPanel = readSource("../apps/web/src/features/pilot/TenantReleaseControlEmptyStatePanel.tsx");
+requireText(releaseControlEmptyPanel, "No release candidate exists", "Release-control empty state must explain missing tenant package evidence.");
+requireText(releaseControlEmptyPanel, "No package promotion", "Release-control empty state must keep promotion blocked.");
 requireText(liveReleasePreflight, "createUploadQuarantineReleasePreflight", "Live release control must reconcile quarantine release previews.");
 requireText(liveReleasePreflight, "releaseWriteAllowed: false", "Live release preflight must block release writes.");
 requireText(liveReleasePreflight, "qrPrintAllowed: false", "Live release preflight must block QR printing.");

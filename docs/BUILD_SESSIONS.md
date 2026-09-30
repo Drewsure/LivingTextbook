@@ -7208,3 +7208,13 @@ student-payload-blocked behavior.
 - Preserved private-first sharing, source lineage, and student-data separation
   rules while keeping public community sharing blocked.
 - Extended the tenant-library verifier to protect the empty-state boundary.
+
+## Build session: tenant-empty release-control boundary
+
+- Added a tenant-scoped empty release-control state for publishers without a
+  release candidate.
+- Preserved the Sample Publisher reference release room only for its own
+  tenant identity.
+- Kept package promotion, QR writes/printing, persistence activation, local
+  release, assignment activation, and student-ready state blocked.
+- Extended release-control verification to protect the tenant split.
