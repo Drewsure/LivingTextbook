@@ -11,7 +11,7 @@ const requiredMarkers = [
   ["packages/content-model/src/teacherDraftPersistencePreflight.ts", ["TeacherDraftPersistenceAdmissionPreflight", "writeAllowed", "provider-neutral"]],
   ["apps/web/src/data/sampleTeacherDraftPersistencePreflight.ts", ["sampleTeacherDraftPersistencePreflight", "ownerIdentityBound"]],
   ["apps/web/src/features/content-intake/TeacherDraftPersistenceAdmissionPanel.tsx", ["Tenant-owned storage preflight", "Blocked actions"]],
-  ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftPersistenceAdmissionPanel"]],
+  ["apps/web/src/app/teacher/authoring/[draftId]/page.tsx", ["TeacherDraftPersistenceAdmissionPanel", "resolveTenantConfig", "draft.tenantId", "<AppShell tenant={tenant}>"]],
   ["packages/content-model/src/teacherDraftOwnerPolicyBinding.ts", ["TeacherDraftOwnerPolicyBinding", "authorizationScope", "schoolPolicyAccepted"]],
   ["apps/web/src/data/sampleTeacherDraftOwnerPolicyBinding.ts", ["sampleTeacherDraftOwnerPolicyBinding", "No owner authorization inferred from policy evidence"]],
   ["apps/web/src/features/content-intake/TeacherDraftOwnerPolicyBindingPanel.tsx", ["Authorization is not acceptance", "Policy not accepted"]],
@@ -31,6 +31,11 @@ for (const [relativePath, markers] of requiredMarkers) {
   for (const marker of markers) {
     if (!source.includes(marker)) throw new Error(`${relativePath} is missing marker: ${marker}`);
   }
+}
+
+const authoringRoute = readFileSync(join(root, "apps/web/src/app/teacher/authoring/[draftId]/page.tsx"), "utf8");
+if (authoringRoute.includes("samplePublisherTenant")) {
+  throw new Error("Teacher authoring route must not hard-code the Sample Publisher tenant shell.");
 }
 
 const behavior = spawnSync(process.execPath, [join(root, "scripts/verify-teacher-draft-persistence-implementation-readiness-behavior.mjs")], { encoding: "utf8" });

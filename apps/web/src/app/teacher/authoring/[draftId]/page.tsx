@@ -8,7 +8,7 @@ import { sampleTeacherDraftOwnerPolicyBinding, sampleTeacherDraftOwnerPolicyBind
 import { TeacherDraftOwnerPolicyBindingPanel } from "@/features/content-intake/TeacherDraftOwnerPolicyBindingPanel";
 import { sampleTeacherDraftAcceptanceReadiness, sampleTeacherDraftAcceptanceReadinessErrors } from "@/data/sampleTeacherDraftAcceptanceReadiness";
 import { TeacherDraftAcceptanceReadinessPanel } from "@/features/content-intake/TeacherDraftAcceptanceReadinessPanel";
-import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherDraftPackagePage({
   params,
@@ -22,8 +22,14 @@ export default async function TeacherDraftPackagePage({
     notFound();
   }
 
+  const tenant = resolveTenantConfig(draft.tenantId);
+
+  if (!tenant) {
+    notFound();
+  }
+
   return (
-    <AppShell tenant={samplePublisherTenant}>
+    <AppShell tenant={tenant}>
       <div className="grid gap-5">
         <TeacherDraftPersistenceAdmissionPanel preflight={sampleTeacherDraftPersistencePreflight} errors={sampleTeacherDraftPersistencePreflightErrors} />
         <TeacherDraftOwnerPolicyBindingPanel binding={sampleTeacherDraftOwnerPolicyBinding} errors={sampleTeacherDraftOwnerPolicyBindingErrors} />

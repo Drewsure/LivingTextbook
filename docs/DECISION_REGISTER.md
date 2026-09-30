@@ -10006,3 +10006,11 @@ student payload, route, assignment, QR target, media playlist, local bundle, or
 release package. Teacher approval, English audio, hiragana-only Japanese
 support, media rights, accessibility, package integrity, and release evidence
 remain open. See ADR 1314.
+
+## DR-1314: Tenant-Bound Teacher Authoring Shell
+
+The dynamic teacher authoring route now resolves its shell from the draft's
+tenant identity and fails closed for an unknown tenant. It no longer hard-codes
+the Sample Publisher shell for MiniStar or future publisher drafts. Existing
+review-only persistence, approval, audio, rights, and assignment gates remain
+unchanged. See ADR 1315.

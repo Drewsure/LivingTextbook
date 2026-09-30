@@ -7190,3 +7190,12 @@ student-payload-blocked behavior.
 - Added a focused invariant verifier at
   `scripts/verify-ministar-authoring-proposal.mjs` so exactly-two-sentence,
   eight-term, review-only behavior cannot drift silently.
+
+## Build session: tenant-bound teacher authoring shell
+
+- Removed the hard-coded Sample Publisher shell from the dynamic teacher draft
+  route.
+- The route now resolves the shell from the draft's own tenant identity and
+  fails closed when that tenant cannot be resolved.
+- Extended source-to-draft verification so cross-tenant branding cannot be
+  reintroduced silently.
