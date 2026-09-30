@@ -33,3 +33,7 @@ The platform should support local/closed deployment, but the first pilot should 
 - `/teacher/intake` shows local deployment preflight before local bundle manifests.
 - Hosted PWA remains the recommended first pilot path.
 - Local companion blockers are visible and not hidden as polish tasks.
+- `/teacher/deployment` exposes a read-only operator configuration preflight
+  for the exact tenant, with no secret values or activation side effects.
+- Custody roots are existing absolute server paths, never browser-visible
+  relative paths.

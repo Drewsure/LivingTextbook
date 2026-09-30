@@ -1,4 +1,5 @@
 import { existsSync, statSync } from "node:fs";
+import { isAbsolute } from "node:path";
 
 export type PilotDeploymentMode = "hosted-pwa" | "closed-local" | "hybrid";
 export type PilotDeploymentConfigurationCheckStatus = "ready" | "blocked" | "manual" | "optional";
@@ -180,7 +181,7 @@ function addDirectoryCheck(
   const configuredPath = process.env[environmentName]?.trim();
   let isDirectory = false;
   try {
-    isDirectory = Boolean(configuredPath && existsSync(configuredPath) && statSync(configuredPath).isDirectory());
+    isDirectory = Boolean(configuredPath && isAbsolute(configuredPath) && existsSync(configuredPath) && statSync(configuredPath).isDirectory());
   } catch {
     isDirectory = false;
   }
@@ -189,8 +190,8 @@ function addDirectoryCheck(
     label,
     status: isDirectory ? "ready" : "blocked",
     requiredFor,
-    evidence: isDirectory ? "A configured directory exists; its path is not exposed in the review payload." : `A configured directory is required for ${environmentName}.`,
-    nextAction: isDirectory ? "Keep the directory outside client-visible configuration." : `Configure ${environmentName} as an existing server-side directory.`,
+    evidence: isDirectory ? "An absolute configured directory exists; its path is not exposed in the review payload." : `An existing absolute directory is required for ${environmentName}.`,
+    nextAction: isDirectory ? "Keep the directory outside client-visible configuration." : `Configure ${environmentName} as an existing absolute server-side directory.`,
   });
 }
 

@@ -71,6 +71,11 @@ try {
     process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS = "other-publisher";
     const wrongTenant = configuration.readPilotDeploymentConfiguration("sample-publisher", "hosted-pwa");
     assert(wrongTenant.status === "blocked" && wrongTenant.blockers.some((value) => value.includes("Pilot delivery tenant allowlist")), "wrong tenant must remain blocked");
+
+    process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS = "sample-publisher";
+    process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT = ".\\relative-delivery-root";
+    const relativeRoot = configuration.readPilotDeploymentConfiguration("sample-publisher", "hosted-pwa");
+    assert(relativeRoot.status === "blocked" && relativeRoot.blockers.some((value) => value.includes("Pilot delivery metadata root")), "relative custody roots must remain blocked");
   } finally {
     for (const [name, value] of originals) restoreEnvironment(name, value);
   }
