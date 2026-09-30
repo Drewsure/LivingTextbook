@@ -8,6 +8,7 @@ import {
 } from "@living-textbook/content-model";
 import { writePilotDeliveryMetadata, type PilotDeliveryMetadataWriteInput } from "@/server/delivery/pilotDeliveryMetadataWriter";
 import { readPilotDeliveryReleaseLineage } from "@/server/delivery/pilotDeliveryReleaseLineage";
+import { hasPilotDeliveryApiCredential, hasPilotDeliveryApiToken } from "@/server/delivery/pilotDeliveryAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
@@ -26,8 +27,7 @@ type PilotDeliveryReleaseRequest = {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasReleaseToken(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
-  if (!hasReleaseToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery release token is required."], privacy: privacyMessage() }, 401);
+  if (!origin.valid && !hasPilotDeliveryApiCredential(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
   if (process.env.LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED !== "true") {
     return json({ status: "blocked", errors: ["Pilot delivery release receipt writes are disabled. Enable the explicit release gate before capturing a manual release."], privacy: privacyMessage() }, 423);
   }
@@ -37,6 +37,7 @@ export async function POST(request: Request) {
   if (!isReleaseRequest(bodyResult.value)) {
     return json({ status: "rejected", errors: ["Pilot delivery release requires manifest, reviewer, rollback, operator, and timestamp fields."], privacy: privacyMessage() }, 400);
   }
+  if (!hasPilotDeliveryApiToken(request, bodyResult.value.manifest.tenantId)) return json({ status: "unauthorized", errors: ["The pilot delivery credential is not authorized for this tenant."], privacy: privacyMessage() }, 401);
 
   const manifestErrors = validatePilotDeliveryManifest(bodyResult.value.manifest);
   if (manifestErrors.length > 0) return json({ status: "blocked", errors: manifestErrors, privacy: privacyMessage() }, 423);
@@ -93,11 +94,6 @@ function isReleaseRequest(value: unknown): value is PilotDeliveryReleaseRequest 
     && typeof candidate.rollbackReference === "string"
     && typeof candidate.operatorId === "string"
     && typeof candidate.writtenAt === "string";
-}
-
-function hasReleaseToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
 }
 
 function privacyMessage(): string {

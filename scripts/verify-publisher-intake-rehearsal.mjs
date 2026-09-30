@@ -34,6 +34,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS: rehearsalTenantId,
     LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN: token,
+    LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS: rehearsalTenantId,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
   stdio: ["ignore", "pipe", "pipe"],
@@ -87,6 +88,9 @@ try {
   const crossTenantReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/review?tenantId=other-publisher&quarantineId=${encodeURIComponent(quarantineId)}`, { headers, cache: "no-store" });
   const crossTenantReview = await readJson(crossTenantReviewResponse);
   assert([401, 403].includes(crossTenantReviewResponse.status) && crossTenantReview.status === "unauthorized", "the quarantine service token must not authorize review reads for another tenant");
+  const crossTenantMetadataResponse = await fetch(`${baseUrl}/api/teacher/delivery/metadata?tenantId=other-publisher&packageId=other-package&version=1.0.0`, { headers, cache: "no-store" });
+  const crossTenantMetadata = await readJson(crossTenantMetadataResponse);
+  assert(crossTenantMetadataResponse.status === 401 && crossTenantMetadata.status === "unauthorized", "the pilot delivery credential must not authorize metadata reads for another tenant");
   const submittedSourceReviewPage = await fetch(`${baseUrl}/teacher/sources/${rehearsalTenantId}?quarantineId=${encodeURIComponent(quarantineId)}`, { cache: "no-store" });
   const submittedSourceReviewHtml = await submittedSourceReviewPage.text();
   assert(submittedSourceReviewPage.status === 200, "the submitted publisher source must return to the tenant source review workspace");

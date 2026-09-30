@@ -24,7 +24,7 @@ for (const [source, marker, label] of [
   [writer, "staging-", "atomic staging directory"],
   [writer, "rename(staging, directory)", "atomic directory commit"],
   [writer, "payloadBytesIncluded: false", "payload privacy boundary"],
-  [route, "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN", "dedicated writer authorization"],
+  [route, "hasPilotDeliveryApiToken", "tenant-bound writer authorization"],
   [route, "readPilotDeliveryMetadata", "readback endpoint"],
   [route, "deliveryMetadataWritten: true", "metadata-only write result"],
   [route, "studentFacingActivationAllowed: false", "student activation boundary"],

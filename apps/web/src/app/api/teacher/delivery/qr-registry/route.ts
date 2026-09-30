@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createPilotQrAliasRegistryRecord, type PilotDeliveryManifest, type PilotDeliveryReleaseReceipt, type PilotQrAliasRegistryEntry } from "@living-textbook/content-model";
 import { writePilotQrAliasRegistry } from "@/server/delivery/pilotQrAliasRegistryWriter";
+import { hasPilotDeliveryApiCredential, hasPilotDeliveryApiToken } from "@/server/delivery/pilotDeliveryAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
@@ -16,11 +17,11 @@ type QrRegistryRequest = {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasWriterToken(request)) return json({ status: "forbidden", errors: origin.errors, privacy: privacyMessage() }, origin.status);
-  if (!hasWriterToken(request)) return json({ status: "unauthorized", errors: ["A dedicated QR registry writer token is required."], privacy: privacyMessage() }, 401);
+  if (!origin.valid && !hasPilotDeliveryApiCredential(request)) return json({ status: "forbidden", errors: origin.errors, privacy: privacyMessage() }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Pilot QR alias registry request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors, privacy: privacyMessage() }, bodyResult.status);
   if (!isRequest(bodyResult.value)) return json({ status: "rejected", errors: ["QR registry requires manifest, receipt, entries, registeredBy, and registeredAt."], privacy: privacyMessage() }, 400);
+  if (typeof bodyResult.value.manifest.tenantId !== "string" || !hasPilotDeliveryApiToken(request, bodyResult.value.manifest.tenantId)) return json({ status: "unauthorized", errors: ["The pilot delivery credential is not authorized for this tenant."], privacy: privacyMessage() }, 401);
 
   let record;
   try {
@@ -42,11 +43,6 @@ function isRequest(value: unknown): value is QrRegistryRequest {
     && Array.isArray(candidate.entries)
     && typeof candidate.registeredBy === "string"
     && typeof candidate.registeredAt === "string";
-}
-
-function hasWriterToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
 }
 
 function privacyMessage(): string {

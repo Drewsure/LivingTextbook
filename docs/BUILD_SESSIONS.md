@@ -7230,3 +7230,14 @@ student-payload-blocked behavior.
   through review-only intake while a different tenant is rejected.
 - Kept package promotion, QR printing, hosted persistence activation, and
   student-facing use blocked.
+
+## Build session: tenant-bound pilot delivery credential
+
+- Bound the controlled delivery credential to an explicit tenant allowlist
+  across delivery metadata, QR registry, release receipt, and local package
+  assembly routes.
+- Preserved a separate credential-only origin bypass while requiring the
+  tenant-bound authorization check before any tenant-scoped delivery action.
+- Extended the publisher rehearsal with a cross-tenant delivery metadata probe.
+- Kept production release, QR printing, hosted persistence activation, and
+  student-facing activation behind their existing independent gates.

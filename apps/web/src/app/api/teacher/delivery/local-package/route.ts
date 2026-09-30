@@ -4,6 +4,7 @@ import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput, type Lo
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 import { readPilotDeliveryReleaseLineage } from "@/server/delivery/pilotDeliveryReleaseLineage";
+import { hasPilotDeliveryApiCredential, hasPilotDeliveryApiToken } from "@/server/delivery/pilotDeliveryAuthorization";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,11 +16,11 @@ type LocalPackageRequest = LocalPilotPackageAssemblyInput & {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasDeliveryToken(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
-  if (!hasDeliveryToken(request)) return json({ status: "unauthorized", errors: ["A dedicated pilot delivery token is required."], privacy: privacyMessage() }, 401);
+  if (!origin.valid && !hasPilotDeliveryApiCredential(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Local pilot package request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
   if (!isLocalPackageRequest(bodyResult.value)) return json({ status: "rejected", errors: ["Local pilot package assembly requires manifest, approved QR registry record, receipt, package index, bundle manifest, operator, timestamp, quarantine, and review packet fields."], privacy: privacyMessage() }, 400);
+  if (!hasPilotDeliveryApiToken(request, bodyResult.value.manifest.tenantId)) return json({ status: "unauthorized", errors: ["The pilot delivery credential is not authorized for this tenant."], privacy: privacyMessage() }, 401);
 
   const lineageErrors = await readPilotDeliveryReleaseLineage(bodyResult.value.manifest, bodyResult.value.quarantineId);
   if (lineageErrors.length > 0) {
@@ -65,11 +66,6 @@ function validateReviewPacketBinding(input: LocalPackageRequest, packet: Awaited
   if (packet.status !== "ready-for-next-gate" || packet.reviewDecision !== "accepted-for-package-review") errors.push("The durable review packet is not accepted for package assembly.");
   if (packet.checksumSha256 !== input.manifest.sourceAssemblyChecksum.replace(/^sha256:/, "")) errors.push("The durable review packet checksum does not match the approved delivery manifest.");
   return [...new Set(errors)];
-}
-
-function hasDeliveryToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === "Bearer " + configuredToken);
 }
 
 function privacyMessage(): string { return "Local assembly copies only explicitly approved publisher files into an immutable local package; it never activates students, mutates QR aliases, enables hosted persistence, or stores learner records."; }

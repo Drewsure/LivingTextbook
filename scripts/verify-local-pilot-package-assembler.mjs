@@ -33,7 +33,7 @@ for (const [source, marker, label] of [
   [assembler, "quarantineId", "quarantine identity preservation"],
   [assembler, "reviewPacketId", "review packet identity preservation"],
   [assembler, "hostedPersistenceDecisionPacketId", "hosted opt-in packet identity preservation"],
-  [route, "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN", "dedicated delivery token"],
+  [route, "hasPilotDeliveryApiToken", "tenant-bound delivery token"],
   [route, "readQuarantinePackageReviewPacket", "durable review packet binding"],
   [route, "readPilotDeliveryReleaseLineage", "live release lineage binding"],
   [route, "validateReviewPacketBinding", "review packet validation"],
