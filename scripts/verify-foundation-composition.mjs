@@ -104,6 +104,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-qr-print-preview
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-qr-print-authorization-preflight.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-qr-alias-registry-writer-behavior.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-deployment-decision.mjs", import.meta.url))], {
   stdio: "inherit",
 });

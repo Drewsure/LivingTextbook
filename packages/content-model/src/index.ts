@@ -1982,6 +1982,7 @@ export * from "./localBundleRuntime";
 export * from "./localBundleReadinessAssessment";
 export * from "./qrAliasRuntime";
 export * from "./pilotQrAliasRegistry";
+export * from "./pilotQrAliasRegistryRecord";
 export * from "./pilotQrPrintAuthorizationPreflight";
 export * from "./pilotQrPrintArtifact";
 export * from "./pilotDeliveryReleasePreflight";

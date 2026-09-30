@@ -15,6 +15,15 @@ decision but cannot authorize printing, write a registry, mutate routes, swap a
 package, or activate students. See
 `docs/decision-register/DR-1305-qr-print-authorization-preflight.md`.
 
+## DR-1306: Durable QR Alias Registry Seam
+
+The first durable QR registry path is a guarded, tenant-scoped metadata-only
+writer. It is idempotent for exact replay, rejects immutable conflicts, and
+fails closed on path, identity, checksum, or stored-record drift. It never
+mutates routes or activates students, and remains disabled unless an explicit
+custody root and write gate are configured. See
+`docs/decision-register/DR-1306-durable-qr-alias-registry-seam.md`.
+
 ## DR-1133: Quarantine-First Upload Intake
 
 Publisher source documents and media may enter only through an explicitly

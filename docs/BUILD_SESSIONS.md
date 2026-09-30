@@ -7043,6 +7043,21 @@ student-payload-blocked behavior.
   target, fallback, deployment targets, and rollback evidence.
 - Kept durable registry writes, route mutation, production printing, and
   student activation blocked until the human release gates close.
+
+## Build session: Guarded durable QR alias registry writer
+
+- Added a typed registered-record contract bound to the approved delivery
+  manifest, release receipt, source checksum, tenant, package, and version.
+- Added a provider-neutral custody writer with explicit enablement, atomic
+  file commit, exact replay idempotence, immutable conflict detection, and
+  fail-closed reads.
+- Added a metadata-only teacher delivery API seam with bearer-token and
+  same-origin request checks; the API never accepts publisher payload bytes or
+  learner records.
+- Kept route mutation and student-facing activation explicitly false. The
+  writer does not make production print or pilot release live by itself.
+- Added behavior verification for disabled-by-default operation, approval
+  binding, path safety, idempotence, conflict, tamper rejection, and privacy.
 ## Release preflight identity binding
 
 - Added a review-only preflight that reconciles the delivery manifest, release receipt, and QR alias registry preview by tenant, package, version, and source assembly checksum.
