@@ -2003,3 +2003,4 @@ export * from "./publisherDeliveryClosurePacket";
 export * from "./publisherDeliveryAssemblyRequestPreview";
 export * from "./publisherDeliveryHandoffRecord";
 export * from "./publisherSourceToPackageEvidenceBridge";
+export * from "./approvedAssetPromotion";

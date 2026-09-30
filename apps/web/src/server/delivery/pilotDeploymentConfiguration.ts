@@ -51,6 +51,7 @@ const reviewGateEnvironments = [
   ["LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED", "Pilot delivery metadata gate", "all"],
   ["LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED", "Pilot release receipt gate", "all"],
   ["LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_WRITES_ENABLED", "QR registry write gate", "all"],
+  ["LIVING_TEXTBOOOK_APPROVED_ASSET_PROMOTION_WRITES_ENABLED", "Approved asset promotion gate", "all"],
 ] as const;
 
 const localReadGates = [

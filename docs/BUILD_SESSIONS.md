@@ -7550,3 +7550,14 @@ Missing, malformed, tampered, cross-tenant, and cross-package records fail
 closed. There is no browser writer, no learner-data creation, and no change to
 the non-durable rehearsal lane. Added deployment-preflight visibility and
 focused custody verification. Recorded ADR 1345 / DR-1344.
+
+## Build session: Approved asset promotion custody
+
+Added the first real server-side bridge from reviewed publisher quarantine to
+approved asset custody. The bridge is bound to accepted release lineage,
+durable delivery metadata, reviewed package evidence, exact channel/MIME/unit
+mapping, payload checksum verification, safe relative paths, and an explicit
+disabled-by-default write gate. It is immutable and idempotent, and remains
+unable to create learner records, mutate QR aliases, activate students, or
+enable hosted persistence. Package assembly consumption is intentionally left
+for the next integration slice. Recorded ADR 1346 / DR-1345.

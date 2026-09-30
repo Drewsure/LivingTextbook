@@ -9370,3 +9370,13 @@ This standard is recorded in DR-1343 and ADR 1344.
   it does not itself create learner records or turn on classroom launch.
 
 This standard is recorded in DR-1344 and ADR 1345.
+
+## 589. Reviewed Publisher Assets Must Cross An Explicit Promotion Boundary
+
+- Quarantine intake and review evidence must remain side-effect-free; neither browser code nor review packets may copy publisher bytes.
+- Promotion requires accepted release lineage, durable delivery custody, reviewed package evidence, exact channel/MIME/unit mapping, and checksum agreement with both intake metadata and payload bytes.
+- Destination paths must be safe relative paths under tenant/package/version custody, and promotion writes must remain disabled by default behind the explicit deployment gate.
+- Promotion records are immutable, replay-idempotent custody evidence. They must not create learner records, mutate QR aliases, activate student routes, or enable hosted persistence.
+- Package assembly may consume promoted assets only through a separately reviewed integration slice.
+
+This standard is recorded in DR-1345 and ADR 1346.
