@@ -1,7 +1,7 @@
 # DR-1331: Publisher Delivery Handoff Evidence Record
 
 The live publisher handoff now derives a versioned `PublisherDeliveryHandoffRecord`.
-It binds eight evidence identities: source review, package review packet,
+It binds nine evidence identities: source review, English sentence approval, package review packet,
 delivery manifest, release receipt, package index, assembly request, QR
 registry, and closed-local fallback route.
 

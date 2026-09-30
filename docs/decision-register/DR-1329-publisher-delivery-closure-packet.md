@@ -2,8 +2,8 @@
 
 The live publisher readiness response now derives one closure packet from the
 quarantine evidence and displays it in the authorized handoff bridge. The
-packet gives a future release operator one identity-bound view of the nine
-required closure checks and human inputs. The closure set now includes the
+packet gives a future release operator one identity-bound view of the ten
+required closure checks and human inputs. The closure set includes the
 checksum-bound approval for exactly two English target sentences, so the
 operator view cannot omit the canonical content gate.
 

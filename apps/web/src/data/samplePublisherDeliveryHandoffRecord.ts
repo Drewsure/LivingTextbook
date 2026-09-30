@@ -23,6 +23,7 @@ export const samplePublisherDeliveryHandoffRecord: PublisherDeliveryHandoffRecor
   sourceChecksumSha256: reconciliation.sourceAssemblyChecksum.replace(/^sha256:/, ""),
   selectedMode: "closed-local",
   sourceReviewPassed: false,
+  sentenceApprovalPassed: false,
   packageReviewPacketId: sampleHostedPersistenceOptInDecisionPacket.reviewPacketId,
   packageReviewPacketReady: false,
   deliveryManifestPreviewId: `${samplePilotDeliveryManifest.manifestId}:preview`,

@@ -3,7 +3,7 @@
 ## Decision
 
 Add a versioned `PublisherDeliveryHandoffRecord` to the live publisher
-handoff. It binds the source review, package review packet, delivery manifest,
+handoff. It binds the source review, English sentence approval, package review packet, delivery manifest,
 release receipt, package index, assembly request, QR registry, and fallback
 route identities into one inspectable record.
 
@@ -31,6 +31,6 @@ preview identity for a completed delivery.
 
 ## Verification
 
-`npm run verify:publisher-delivery-handoff-record` validates the eight evidence
+`npm run verify:publisher-delivery-handoff-record` validates the nine evidence
 references, metadata-only file boundary, fallback and rollback fields, and
 protected action flags.

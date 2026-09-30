@@ -18,6 +18,7 @@ try {
     sourceChecksumSha256: "a".repeat(64),
     selectedMode: "closed-local",
     sourceReviewPassed: true,
+    sentenceApprovalPassed: true,
     packageReviewPacketId: "publisher-a-l1-u1-package:q-00000000-0000-4000-8000-000000000001:package-review-packet",
     packageReviewPacketReady: true,
     deliveryManifestPreviewId: "publisher-a-l1-u1-package:delivery-manifest-preview",
@@ -28,7 +29,7 @@ try {
   });
   const errors = model.validatePublisherDeliveryHandoffRecord(record);
   if (errors.length > 0) failures.push(`valid handoff record was rejected: ${errors.join(" ")}`);
-  if (record.evidence.length !== 8) failures.push("handoff record must bind eight evidence references");
+  if (record.evidence.length !== 9) failures.push("handoff record must bind nine evidence references");
   if (record.includedMetadataFiles.length !== 0) failures.push("review-only handoff must include no files");
   if (record.rawPayloadIncluded || record.learnerRecordsIncluded || record.qrPrintArtifactCreated || record.packageAssemblyAllowed || record.releaseWriteAllowed || record.qrPrintAllowed || record.persistenceActivationAllowed || record.studentFacingUseAllowed) failures.push("handoff record must keep every protected action disabled");
   const tampered = { ...record, status: "delivered" };

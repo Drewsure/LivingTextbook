@@ -46,6 +46,7 @@ export interface PublisherDeliveryHandoffRecord {
 
 const expectedEvidenceIds = [
   "source-review",
+  "sentence-approval",
   "package-review-packet",
   "delivery-manifest",
   "release-receipt",
@@ -69,6 +70,7 @@ export function createPublisherDeliveryHandoffRecord(input: {
   sourceChecksumSha256: string;
   selectedMode: PublisherDeliveryHandoffRecord["selectedMode"];
   sourceReviewPassed: boolean;
+  sentenceApprovalPassed: boolean;
   packageReviewPacketId: string | null;
   packageReviewPacketReady: boolean;
   deliveryManifestPreviewId: string;
@@ -92,6 +94,7 @@ export function createPublisherDeliveryHandoffRecord(input: {
     reviewOnly: true,
     evidence: [
       evidence({ evidenceId: "source-review", label: "Source review decision", status: sourceReviewStatus, identity: `${input.quarantineId}:review-decision`, details: sourceReviewStatus === "present" ? "The accepted source decision is bound to this quarantine checksum." : "An accepted source decision is not yet bound to this handoff.", nextAction: "Record and reconcile the human source review decision." }),
+      evidence({ evidenceId: "sentence-approval", label: "English sentence approval", status: input.sentenceApprovalPassed ? "present" : "blocked", identity: `${input.packageId}:sentence-approval`, details: input.sentenceApprovalPassed ? "Exactly two approved English target sentences are bound to this package checksum." : "The checksum-bound approval for the two English target sentences is missing or mismatched.", nextAction: "Approve exactly two distinct English target sentences before release review." }),
       evidence({ evidenceId: "package-review-packet", label: "Package review packet", status: packageReviewStatus, identity: input.packageReviewPacketId ?? `${input.packageId}:package-review-packet`, details: packageReviewStatus === "present" ? "The immutable package review packet is ready for downstream reconciliation." : "The package review packet is missing or still has blockers.", nextAction: "Complete the reviewed content, game, media, rights, and accessibility evidence packet." }),
       evidence({ evidenceId: "delivery-manifest", label: "Delivery manifest preview", status: "preview-only", identity: input.deliveryManifestPreviewId, details: "The manifest identity is previewed, not written or approved.", nextAction: "Obtain a human-approved delivery manifest before assembly." }),
       evidence({ evidenceId: "release-receipt", label: "Release receipt preview", status: "blocked", identity: input.releaseReceiptPreviewId, details: "The receipt identity is reserved for review; no release approval is recorded.", nextAction: "Record named reviewer, rollback reference, policy decision, and release time." }),
@@ -125,7 +128,7 @@ export function validatePublisherDeliveryHandoffRecord(value: unknown): string[]
   if (!/^[a-f0-9]{64}$/.test(String(value.sourceChecksumSha256 ?? ""))) errors.push("Publisher delivery handoff checksum must be lowercase SHA-256.");
   if (!["unselected", "closed-local", "hosted-pwa", "hybrid"].includes(String(value.selectedMode))) errors.push("Publisher delivery handoff selectedMode is unsupported.");
   if (value.status !== "blocked" || value.reviewOnly !== true || value.mode !== "review-only" || value.sideEffect !== "none") errors.push("Publisher delivery handoff must remain blocked, review-only, and side-effect-free.");
-  if (!Array.isArray(value.evidence) || value.evidence.length !== expectedEvidenceIds.length) errors.push("Publisher delivery handoff must contain the eight required evidence references.");
+  if (!Array.isArray(value.evidence) || value.evidence.length !== expectedEvidenceIds.length) errors.push("Publisher delivery handoff must contain the nine required evidence references.");
   const seen = new Set<string>();
   for (const item of Array.isArray(value.evidence) ? value.evidence : []) {
     if (!isRecord(item)) { errors.push("Publisher delivery handoff evidence entries must be objects."); continue; }

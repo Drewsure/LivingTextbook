@@ -7380,8 +7380,8 @@ DR-1328.
 ## Build session: Publisher delivery closure packet
 
 Added a live, tenant-bound closure packet to the publisher readiness API and
-handoff bridge. It consolidates nine release checks: source review, package
-evidence, immutable review packet, assembly preflight, delivery mode, release
+handoff bridge. It consolidates ten release checks: source review, English
+sentence approval, package evidence, immutable review packet, assembly preflight, delivery mode, release
 receipt, QR authorization, package index/integrity, and rollback/policy.
 
 The packet is derived from quarantine metadata and remains blocked and
@@ -7403,7 +7403,7 @@ students. Added the focused verifier and recorded ADR 1331 / DR-1330.
 ## Build session: Publisher delivery handoff evidence record
 
 Added a versioned handoff evidence record to the live publisher bridge. It
-binds eight evidence identities across source review, package review, delivery,
+binds nine evidence identities across source review, English sentence approval, package review, delivery,
 release, package indexing, assembly inputs, QR registry, and the closed-local
 fallback route. It also names the four expected metadata files while reporting
 that no files are included before approval.
