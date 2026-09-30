@@ -19,6 +19,11 @@ import {
   createPublisherSubmissionReviewHandoffPreview,
   validatePublisherSubmissionReviewHandoffPreview,
 } from "@/data/publisherSubmissionReviewHandoff";
+import {
+  createPublisherSubmissionPackageEvidenceReconciliation,
+  validatePublisherSubmissionPackageEvidenceReconciliationPreview,
+} from "@/data/publisherSubmissionPackageEvidenceReconciliation";
+import { PublisherSubmissionPackageEvidenceReconciliationPanel } from "@/features/content-intake/PublisherSubmissionPackageEvidenceReconciliationPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -44,11 +49,14 @@ export default async function TeacherUploadWorkspacePage({
   });
   const submissionReviewHandoff = createPublisherSubmissionReviewHandoffPreview(submissionManifest, tenant.id);
   const submissionReviewHandoffErrors = validatePublisherSubmissionReviewHandoffPreview(submissionReviewHandoff, submissionManifest);
+  const packageEvidenceReconciliation = createPublisherSubmissionPackageEvidenceReconciliation(submissionManifest);
+  const packageEvidenceReconciliationErrors = validatePublisherSubmissionPackageEvidenceReconciliationPreview(packageEvidenceReconciliation, submissionManifest);
 
   return (
     <AppShell tenant={tenant}>
       <PublisherSubmissionManifestPanel manifest={submissionManifest} />
       <PublisherSubmissionReviewHandoffPanel handoff={submissionReviewHandoff} validationErrors={submissionReviewHandoffErrors} />
+      <PublisherSubmissionPackageEvidenceReconciliationPanel reconciliation={packageEvidenceReconciliation} validationErrors={packageEvidenceReconciliationErrors} />
       {hasSamplePreview ? (
         <TeacherUploadWorkspacePanel
           tenantId={tenantId}

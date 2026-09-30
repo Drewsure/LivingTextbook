@@ -2848,6 +2848,10 @@ for (const path of ["/teacher/uploads/sample-publisher", "/teacher/uploads/white
   expectedTextByPath.get(path)?.push(
     "Publisher submission manifest",
     "Publisher review handoff",
+    "Package evidence reconciliation",
+    "Manifest coverage against the canonical review packet",
+    "Assembly blocked",
+    "Unresolved requirements",
     "Every submission item has a named evidence lane",
     "Everything required for one reviewed unit package",
     "Promotion blocked",

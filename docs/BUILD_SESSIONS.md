@@ -7298,3 +7298,14 @@ Promotion, evidence export, signed approval, QR printing, persistence
 activation, and student-facing use remain blocked. Added the focused
 `verify:publisher-submission-review-handoff` check and recorded ADR 1323 /
 DR-1322.
+
+## Build session: Publisher submission package evidence reconciliation
+
+Connected the publisher manifest to the existing canonical package-evidence
+review contract. The new derived preview maps the manifest into content, game,
+audio, video, image, font, accessibility, and rights lanes, making missing
+game or multimedia evidence explicit before package review.
+
+The reconciliation remains blocked and side-effect-free. It cannot assemble or
+promote files, print QR codes, activate persistence, or start students. Added
+the focused reconciliation verifier and recorded ADR 1324 / DR-1323.

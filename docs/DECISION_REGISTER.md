@@ -10061,3 +10061,10 @@ The publisher submission manifest now derives a tenant/package-scoped review
 handoff with one evidence lane per asset. Intake, evidence index, and evidence
 handoff routes are linked while file promotion, evidence export, signatures,
 QR printing, and student use remain blocked. See ADR 1323.
+
+## DR-1323: Publisher Submission Package Evidence Reconciliation
+
+Publisher manifest coverage now reconciles into the canonical eight package
+evidence lanes, including the explicit game lane. Missing and review-pending
+evidence remain visible, while package assembly, promotion, QR printing,
+persistence activation, and student use stay blocked. See ADR 1324.
