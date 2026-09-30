@@ -67,6 +67,13 @@ branding, curated routes, approved content/media, QR aliases and fallbacks,
 print-sheet checksum, file checksums/byte counts, handoff receipt, and
 installer/update/recovery continuity evidence.
 
+The controlled write order is strict: first capture the approved delivery
+metadata and release receipt, then register the QR aliases against that durable
+release record, then assemble the closed-local package. The QR registry API
+requires the same quarantine review lineage and accepts only a manifest and
+receipt that match the stored release metadata. Local assembly then requires
+both durable records before it can run.
+
 Verified read lanes are:
 
 - `/api/local-package/handoff`
