@@ -9684,3 +9684,21 @@ This standard is recorded in DR-1365 and ADR 1365.
   activate hosted persistence or student use.
 
 This standard is recorded in DR-1366 and ADR 1366.
+
+## 610. Local Game URLs Must Never Self-Unlock
+
+- A closed-package QR front door is the only route allowed to establish entry
+  practice completion for a learner session.
+- Direct package game URLs must begin from the initial progression snapshot and
+  remain locked until the client accepts a validated package-scoped route
+  handoff from the front door.
+- Server-rendered route props must never call `completeEntryPractice` or any
+  equivalent unlock operation merely because a game URL was opened.
+- Package identity is required on the canonical game wrapper so the wrapper
+  can read and validate the exact tenant, package, launch, student-session, and
+  destination-route handoff.
+- Teacher review and route verification may still open the URL, but that
+  visibility must not create learner progress, game events, Star Dust, or
+  hosted persistence records.
+
+This standard is recorded in DR-1367 and ADR 1367.

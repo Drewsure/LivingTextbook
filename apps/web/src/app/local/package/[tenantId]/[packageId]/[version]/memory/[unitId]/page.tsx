@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { completeEntryPractice, createLaunchSession, getInitialStudentProgression, getUnitKey } from "@living-textbook/content-model";
+import { createLaunchSession, getInitialStudentProgression, getUnitKey } from "@living-textbook/content-model";
 import { AppShell } from "@/components/layout/AppShell";
 import { LocalPilotPackageRuntimePanel } from "@/features/deployment/LocalPilotPackageRuntimePanel";
 import { getLocalPilotPackageLaunchCode } from "@/features/routes/routeContracts";
@@ -58,10 +58,11 @@ export default async function LocalPackageMemoryMatchPage({
     openedAt: "2026-09-29T00:00:00.000Z",
     accessMode: "teacher-qr",
   });
-  const progression = completeEntryPractice({
-    progression: getInitialStudentProgression({ studentSessionId: `${launchCode}:local-student`, launchSession }),
+  // Direct package game URLs start locked. The client route shell accepts only
+  // the validated session handoff written by the front door after target-language practice.
+  const progression = getInitialStudentProgression({
+    studentSessionId: `${launchCode}:local-student`,
     launchSession,
-    occurredAt: "2026-09-29T00:01:00.000Z",
   });
 
   return (

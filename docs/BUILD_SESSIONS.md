@@ -7780,3 +7780,11 @@ accepted by the local package operator. It refuses overwrites, handles no
 credentials or payload bytes, and makes no server call. The generated file
 still passes through the existing preflight and assembly gates. Recorded ADR
 1366 / DR-1366.
+
+## Build session: Lock direct local game URLs behind the front-door handoff
+
+Removed server-side entry completion from the local package Memory Match route
+and passed its package identity into `PlayableGameRouteShell`. Direct game URLs
+now start locked; only the validated browser-session handoff written after
+target-language flashcard practice can establish the unlocked progression.
+Recorded ADR 1367 / DR-1367.

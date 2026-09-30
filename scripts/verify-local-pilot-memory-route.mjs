@@ -8,7 +8,6 @@ const contracts = readFileSync(resolve(root, "apps/web/src/features/routes/route
 for (const marker of [
   "readLocalPilotPackageContent",
   "MemoryMatchDemoFlow",
-  "completeEntryPractice",
   "createLaunchSession",
   "getInitialStudentProgression",
   "audioCues={contentResult.contentPackage.audioCues}",
@@ -22,4 +21,10 @@ for (const marker of ["getLocalPilotPackageMemoryMatchPath", "/memory/"]) {
 for (const forbidden of ["resolveSampleLaunchContext", "studentRecords", "fetch(", "fetch("]) {
   if (page.includes(forbidden)) throw new Error(`Local package Memory Match route must not use forbidden parallel path: ${forbidden}`);
 }
-console.log("PASS local package Memory Match route reuses the canonical game, audio, scoring, and entry-progression contracts.");
+for (const forbidden of ["completeEntryPractice(", "occurredAt: \"2026-09-29T00:01:00.000Z\""]) {
+  if (page.includes(forbidden)) throw new Error(`Local package Memory Match route must not self-unlock through: ${forbidden}`);
+}
+if (!page.includes("Direct package game URLs start locked")) {
+  throw new Error("Local package Memory Match route must document the direct-route lock boundary.");
+}
+console.log("PASS local package Memory Match route starts locked and accepts only the validated front-door handoff.");
