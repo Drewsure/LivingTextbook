@@ -9208,3 +9208,16 @@ This standard is recorded in DR-1332 and ADR 1333.
   metadata is returned.
 
 This standard is recorded in DR-1333 and ADR 1334.
+
+## 577. Live Review Links Must Follow the Evidence Journey
+
+- When a controlled quarantine record has a real identity, the teacher review
+  surfaces must expose the corresponding bounded evidence-binding route.
+- A link to a read-only binding is navigation only; it must not be presented as
+  approval, package readiness, QR readiness, or student readiness.
+- The review journey may add links, but it must not add a second upload path,
+  duplicate metadata authority, or bypass tenant authorization.
+- The binding route must remain explicit about missing evidence and protected
+  actions so a publisher can understand what still requires human review.
+
+This standard is recorded in DR-1334 and ADR 1335.

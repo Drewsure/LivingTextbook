@@ -7441,3 +7441,10 @@ The route is metadata-only and read-only. It does not return payload bytes,
 write review decisions, create extraction records, assemble packages, print QR
 codes, activate persistence, or enable students. Added the focused verifier and
 recorded ADR 1334 / DR-1333.
+
+The quarantine intake and metadata-review surfaces now expose the live binding
+route wherever an authorized reviewer has a real quarantine identity. This
+connects the controlled intake workflow to the bounded bridge without adding a
+second upload action or implying that the binding itself is approval. The
+binding remains GET-only, evidence-only, and blocked from package assembly,
+QR output, persistence activation, and student use.

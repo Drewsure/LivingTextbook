@@ -228,6 +228,12 @@ function IntakeResult({
               >
                 Open package handoff workspace
               </a>
+              <a
+                className="text-[var(--tenant-primary)] underline decoration-[var(--tenant-accent)] decoration-2 underline-offset-4"
+                href={`/api/teacher/uploads/source-package-evidence-binding?tenantId=${encodeURIComponent(tenantId)}&quarantineId=${encodeURIComponent(response.quarantineId)}`}
+              >
+                Open source-to-package evidence binding
+              </a>
             </div>
           ) : null}
           {response.quarantineId ? (

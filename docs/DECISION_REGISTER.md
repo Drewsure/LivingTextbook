@@ -10172,3 +10172,12 @@ quarantine reads, so a real publisher submission can receive the same bounded
 eight-lane evidence view as the MiniStar reference source. The route remains
 read-only and cannot return payloads, write evidence, assemble packages, print
 QR codes, activate persistence, or start students. See ADR 1334.
+
+## DR-1334: Surface Live Evidence Binding From Quarantine Review
+
+The controlled quarantine intake result and metadata-review contract now link
+to the tenant-authorized source-to-package evidence binding when a real
+quarantine identity is available. This keeps the review journey navigable
+without creating another upload control or treating a JSON read as an approval
+step. The binding remains bounded, read-only, and blocked from package,
+delivery, QR, persistence, and student actions. See ADR 1335.
