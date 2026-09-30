@@ -14,6 +14,8 @@ export interface LocalPilotPackageHandoff {
   qrPrintArtifactId: string;
   qrPrintHtmlChecksum: string;
   qrAliasRegistryRecordId: string;
+  integrityManifestId: string;
+  integrityFileCount: number;
   routeCount: number;
   gameRouteCount: number;
   mediaKinds: string[];
@@ -31,7 +33,7 @@ export function validateLocalPilotPackageHandoff(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Local pilot package handoff must be an object."];
   if (value.handoffVersion !== 1) errors.push("Local pilot package handoff handoffVersion must be 1.");
-  for (const field of ["handoffId", "tenantId", "packageId", "version", "bundleId", "manifestId", "receiptId", "qrPrintArtifactId", "qrPrintHtmlChecksum", "qrAliasRegistryRecordId", "sourceAssemblyChecksum"] as const) {
+  for (const field of ["handoffId", "tenantId", "packageId", "version", "bundleId", "manifestId", "receiptId", "qrPrintArtifactId", "qrPrintHtmlChecksum", "qrAliasRegistryRecordId", "integrityManifestId", "sourceAssemblyChecksum"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Local pilot package handoff ${field} must be non-empty.`);
   }
   if (!isSha256(value.sourceAssemblyChecksum) || !isSha256(value.qrPrintHtmlChecksum)) errors.push("Local pilot package handoff checksums must be sha256:<64 hexadecimal characters>.");
@@ -41,6 +43,7 @@ export function validateLocalPilotPackageHandoff(value: unknown): string[] {
   if ((value.mode === "hosted-pwa" || value.mode === "hybrid") && !isNonEmptyString(value.hostedPersistenceDecisionPacketId)) errors.push("Hosted or hybrid handoffs require a hosted persistence decision packet id.");
   if (!Number.isInteger(value.routeCount) || Number(value.routeCount) < 1) errors.push("Local pilot package handoff routeCount must be a positive integer.");
   if (!Number.isInteger(value.gameRouteCount) || Number(value.gameRouteCount) < 1) errors.push("Local pilot package handoff gameRouteCount must be a positive integer.");
+  if (!Number.isInteger(value.integrityFileCount) || Number(value.integrityFileCount) < 1) errors.push("Local pilot package handoff integrityFileCount must be a positive integer.");
   if (!Array.isArray(value.mediaKinds) || value.mediaKinds.some((item) => !isNonEmptyString(item))) errors.push("Local pilot package handoff mediaKinds must contain strings.");
   if (value.status !== "verified-local-package") errors.push("Local pilot package handoff status must be verified-local-package.");
   if (value.learnerRecordsIncluded !== false || value.writesAllowed !== false || value.hostedPersistenceActivated !== false || value.qrAliasesMutated !== false) errors.push("Local pilot package handoff must preserve all operational and learner-data boundaries.");

@@ -8,6 +8,7 @@ import {
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrPrintArtifact,
   validatePilotQrAliasRegistryRecord,
+  validateLocalPilotPackageIntegrity,
   validateLocalPilotPackageHandoff,
   validateContentPackage,
   validateTenantConfig,
@@ -19,6 +20,7 @@ import {
   type PilotQrAliasRegistryRecord,
   type TenantConfig,
   type LocalPilotPackageHandoff,
+  type LocalPilotPackageIntegrity,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
 
@@ -62,6 +64,8 @@ export interface LocalPilotPackageRuntimeSummary {
   reviewPacketId: string;
   qrPrintArtifactReady: boolean;
   qrAliasRegistryReady: boolean;
+  integrityManifestId: string;
+  integrityFileCount: number;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
   hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   learnerRecordsIncluded: false;
@@ -104,7 +108,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
   if (boundaryErrors.length > 0) return { status: "blocked", summary: null, errors: boundaryErrors };
 
   try {
-    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, qrPrintHtmlValue] = await Promise.all([
+    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, integrityValue, qrPrintHtmlValue] = await Promise.all([
       readJson(join(directory, "metadata/delivery-package.json")),
       readJson(join(directory, "metadata/delivery-manifest.json")),
       readJson(join(directory, "metadata/release-receipt.json")),
@@ -113,14 +117,17 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
       readJson(join(directory, "metadata/qr-print-sheet.json")),
       readJson(join(directory, "metadata/qr-alias-registry.json")),
       readJson(join(directory, "metadata/package-review-binding.json")),
+      readJson(join(directory, "metadata/package-integrity.json")),
       readFile(join(directory, "metadata/qr-print-sheet.html"), "utf8"),
     ]);
     const packageIndexErrors = validatePilotDeliveryPackageIndex(packageIndexValue);
     const manifestErrors = validatePilotDeliveryManifest(manifestValue);
     const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
     const bundleValidation = validateLocalBundleManifest(bundleValue);
-    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, qrPrintHtmlValue);
-    const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...bundleValidation.errors, ...bindingErrors];
+    const integrityErrors = validateLocalPilotPackageIntegrity(integrityValue);
+    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, integrityValue, qrPrintHtmlValue);
+    const integrityReadErrors = isRecord(integrityValue) ? await verifyPackageIntegrity(directory, integrityValue as LocalPilotPackageIntegrity) : [];
+    const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...bundleValidation.errors, ...integrityErrors, ...bindingErrors, ...integrityReadErrors];
     if (errors.length > 0) return { status: "blocked", summary: null, errors: [...new Set(errors)] };
 
     const manifest = manifestValue as PilotDeliveryManifest;
@@ -156,6 +163,8 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         reviewPacketId: reviewPacketBinding.packetId,
         qrPrintArtifactReady: true,
         qrAliasRegistryReady: true,
+        integrityManifestId: String((integrityValue as Record<string, unknown>).integrityManifestId ?? ""),
+        integrityFileCount: Number((integrityValue as Record<string, unknown>).fileCount ?? 0),
         hostedPersistence: packageIndex.hostedPersistence,
         hostedPersistenceDecisionPacketId: packageIndex.hostedPersistenceDecisionPacketId,
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
@@ -231,6 +240,8 @@ export async function readLocalPilotPackageHandoff(identity: LocalPilotPackageRu
       qrPrintArtifactId: String(qrPrintValue.artifactId ?? ""),
       qrPrintHtmlChecksum: String(qrPrintValue.htmlChecksum ?? ""),
       qrAliasRegistryRecordId: String(qrRegistryValue.recordId ?? ""),
+      integrityManifestId: runtime.summary.integrityManifestId,
+      integrityFileCount: runtime.summary.integrityFileCount,
       routeCount: runtime.summary.routes.length,
       gameRouteCount: runtime.summary.gameRoutePaths.length,
       mediaKinds: runtime.summary.mediaKinds.slice(),
@@ -349,8 +360,8 @@ function validateIdentity(identity: LocalPilotPackageRuntimeIdentity): string[] 
   return errors;
 }
 
-function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, qrRegistryValue: unknown, reviewPacketBindingValue: unknown, qrPrintHtmlValue: unknown): string[] {
-  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue) || !isRecord(reviewPacketBindingValue) || typeof qrPrintHtmlValue !== "string") {
+function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, qrRegistryValue: unknown, reviewPacketBindingValue: unknown, integrityValue: unknown, qrPrintHtmlValue: unknown): string[] {
+  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue) || !isRecord(reviewPacketBindingValue) || !isRecord(integrityValue) || typeof qrPrintHtmlValue !== "string") {
     return ["Local package runtime metadata must contain object records only."];
   }
   const errors: string[] = [];
@@ -367,6 +378,7 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (!isSafeSegment(String(reviewPacketBindingValue.quarantineId ?? "")) || !isNonEmptyString(reviewPacketBindingValue.packetId)) errors.push("Local package runtime review packet binding identity is unsafe or incomplete.");
   if (assemblyValue.quarantineId !== reviewPacketBindingValue.quarantineId || assemblyValue.reviewPacketId !== reviewPacketBindingValue.packetId) errors.push("Local package runtime assembly record does not preserve review packet identity.");
   if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
+  if (integrityValue.tenantId !== manifestValue.tenantId || integrityValue.packageId !== manifestValue.packageId || integrityValue.version !== manifestValue.version || integrityValue.bundleId !== bundleValue.bundle_id || integrityValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime integrity manifest does not match the approved delivery identity.");
   errors.push(...validatePilotQrPrintArtifact(qrPrintValue));
   errors.push(...validatePilotQrAliasRegistryRecord(qrRegistryValue));
   if (qrPrintValue.tenantId !== manifestValue.tenantId || qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version || qrPrintValue.manifestId !== manifestValue.manifestId || qrPrintValue.receiptId !== receiptValue.receiptId || qrPrintValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR print artifact does not match the approved delivery identity.");
@@ -378,6 +390,20 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (registryEntries.map((entry) => entry?.aliasPath).join("|") !== manifestAliases.join("|") || registryEntries.map((entry) => entry?.fallbackPath).join("|") !== manifestFallbacks.join("|")) errors.push("Local package runtime QR alias registry paths do not match the approved delivery manifest.");
   if (manifestValue.status !== "ready-for-manual-release" || receiptValue.status !== "manual-release-approved" || packageIndexValue.releaseStatus !== "manual-release-approved") errors.push("Local package runtime requires approved release metadata.");
   return [...new Set(errors)];
+}
+
+async function verifyPackageIntegrity(directory: string, integrity: LocalPilotPackageIntegrity): Promise<string[]> {
+  const errors: string[] = [];
+  for (const entry of integrity.files) {
+    try {
+      const bytes = await readFile(join(directory, entry.path));
+      const checksum = "sha256:" + createHash("sha256").update(bytes).digest("hex");
+      if (bytes.byteLength !== entry.bytes || checksum !== entry.checksum) errors.push("Local package integrity checksum mismatch for " + entry.path + ".");
+    } catch {
+      errors.push("Local package integrity file is missing: " + entry.path + ".");
+    }
+  }
+  return errors;
 }
 
 async function readJson(path: string): Promise<unknown> {

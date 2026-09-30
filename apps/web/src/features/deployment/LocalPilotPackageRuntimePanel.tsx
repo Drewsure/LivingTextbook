@@ -58,6 +58,7 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="Media kinds" value={summary.mediaKinds.join(", ") || "None"} />
           <RuntimeFact label="Hosted persistence" value={summary.hostedPersistence} />
           <RuntimeFact label="QR registry" value={summary.qrAliasRegistryReady ? "Verified" : "Blocked"} />
+          <RuntimeFact label="Integrity ledger" value={`${summary.integrityFileCount} files verified`} />
         </dl>
       </Card>
 

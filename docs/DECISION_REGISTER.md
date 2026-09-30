@@ -9964,3 +9964,12 @@ persistence remains opt-in review-only; and package export, production QR
 printing, promotion, and provider activation remain blocked until the named
 source, rights, game/audio, release, deployment, reporting, and rollback gates
 are closed. See ADR 1230.
+
+## DR-1310: Local Package Integrity Ledger
+
+Local closed-local and hybrid packages must carry a checksum-bound integrity
+ledger for copied source/media files and generated metadata. Runtime reads must
+verify every listed file before presenting the package as available. The ledger
+is metadata-only and does not authorize export, QR mutation, local activation,
+hosted persistence, or learner records. See
+`docs/decision-register/DR-1310-local-package-integrity-ledger.md`.

@@ -11,7 +11,10 @@ import {
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrAliasRegistryRecord,
   createPilotQrPrintArtifactId,
+  createLocalPilotPackageIntegrityManifestId,
+  validateLocalPilotPackageIntegrity,
   type PilotQrPrintArtifact,
+  type LocalPilotPackageIntegrity,
   type LocalBundleManifest,
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
@@ -85,6 +88,7 @@ const generatedFiles = [
   "metadata/qr-print-sheet.html",
   "metadata/qr-alias-registry.json",
   "metadata/package-review-binding.json",
+  "metadata/package-integrity.json",
   "metadata/assembly-record.json",
 ] as const;
 
@@ -146,6 +150,8 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
       await writeJsonFile(join(staging, "metadata/qr-alias-registry.json"), input.qrRegistryRecord);
       await writeJsonFile(join(staging, "metadata/package-review-binding.json"), input.reviewPacketBinding);
       await writeJsonFile(join(staging, "metadata/assembly-record.json"), record);
+      const integrity = await createPackageIntegrityManifest(staging, input, record.files);
+      await writeJsonFile(join(staging, "metadata/package-integrity.json"), integrity);
       await verifyStagedPackage(staging, input, record, sourceFiles, qrPrintSheet);
       try {
         await rename(staging, directory);
@@ -335,11 +341,14 @@ async function verifyStagedPackage(staging: string, input: LocalPilotPackageAsse
   const reviewPacketBinding = JSON.parse(await readFile(join(staging, "metadata/package-review-binding.json"), "utf8")) as LocalPilotPackageReviewBinding;
   const qrPrintManifest = JSON.parse(await readFile(join(staging, "metadata/qr-print-sheet.json"), "utf8")) as QrPrintManifest;
   const qrRegistryRecord = JSON.parse(await readFile(join(staging, "metadata/qr-alias-registry.json"), "utf8")) as PilotQrAliasRegistryRecord;
+  const integrity = JSON.parse(await readFile(join(staging, "metadata/package-integrity.json"), "utf8")) as LocalPilotPackageIntegrity;
   const qrPrintHtml = await readFile(join(staging, "metadata/qr-print-sheet.html"), "utf8");
-  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validatePilotQrAliasRegistryRecord(qrRegistryRecord), ...validateLocalBundleManifest(bundle).errors, ...validateReviewPacketBinding(reviewPacketBinding, input.manifest)];
+  const errors = [...validatePilotDeliveryPackageIndex(packageIndex), ...validatePilotDeliveryManifest(manifest), ...validatePilotDeliveryReleaseReceipt(receipt), ...validatePilotQrAliasRegistryRecord(qrRegistryRecord), ...validateLocalBundleManifest(bundle).errors, ...validateLocalPilotPackageIntegrity(integrity), ...validateReviewPacketBinding(reviewPacketBinding, input.manifest)];
   if (stableJson(packageIndex) !== stableJson(input.packageIndex) || stableJson(manifest) !== stableJson(input.manifest) || stableJson(receipt) !== stableJson(input.receipt) || stableJson(bundle) !== stableJson(input.bundleManifest)) errors.push("Local package metadata read-back does not match the approved inputs.");
   if (stableJson(reviewPacketBinding) !== stableJson(input.reviewPacketBinding)) errors.push("Local package review packet binding read-back does not match the approved packet.");
   if (stableJson(qrRegistryRecord) !== stableJson(input.qrRegistryRecord)) errors.push("Local package QR alias registry record read-back does not match the approved registry record.");
+  if (integrity.tenantId !== input.manifest.tenantId || integrity.packageId !== input.manifest.packageId || integrity.version !== input.manifest.version || integrity.bundleId !== input.bundleManifest.bundle_id || integrity.sourceAssemblyChecksum !== input.manifest.sourceAssemblyChecksum) errors.push("Local package integrity manifest does not match the approved delivery identity.");
+  if (integrity.files.some((file) => !record.files.includes(file.path)) || record.files.some((file) => file !== "metadata/package-integrity.json" && !integrity.files.some((entry) => entry.path === file))) errors.push("Local package integrity file list does not match the assembly record.");
   const storedRecord = JSON.parse(await readFile(join(staging, "metadata/assembly-record.json"), "utf8")) as AssemblyRecord;
   errors.push(...validateAssemblyRecord(storedRecord, record));
   const printBaseUrl = readPrintBaseUrl();
@@ -356,7 +365,46 @@ async function verifyStagedPackage(staging: string, input: LocalPilotPackageAsse
     const actual = "sha256-" + createHash("sha256").update(await readFile(join(staging, source.destinationPath))).digest("hex");
     if (actual !== expected) errors.push("Local package checksum mismatch for " + source.sourcePath + ".");
   }
+  errors.push(...await verifyPackageIntegrity(staging, integrity));
   if (errors.length > 0) throw new Error(errors.join(" "));
+}
+
+async function createPackageIntegrityManifest(staging: string, input: LocalPilotPackageAssemblyInput, files: string[]): Promise<LocalPilotPackageIntegrity> {
+  const entries = [];
+  for (const path of files.filter((candidate) => candidate !== "metadata/package-integrity.json")) {
+    const bytes = await readFile(join(staging, path));
+    entries.push({ path, checksum: "sha256:" + createHash("sha256").update(bytes).digest("hex"), bytes: bytes.byteLength });
+  }
+  const integrity: LocalPilotPackageIntegrity = {
+    integrityVersion: 1,
+    integrityManifestId: createLocalPilotPackageIntegrityManifestId({ packageId: input.manifest.packageId, version: input.manifest.version, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum }),
+    tenantId: input.manifest.tenantId,
+    packageId: input.manifest.packageId,
+    version: input.manifest.version,
+    bundleId: input.bundleManifest.bundle_id,
+    sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
+    files: entries,
+    fileCount: entries.length,
+    learnerRecordsIncluded: false,
+    sideEffect: "local-package-assembly",
+  };
+  const errors = validateLocalPilotPackageIntegrity(integrity);
+  if (errors.length > 0) throw new Error(errors.join(" "));
+  return integrity;
+}
+
+async function verifyPackageIntegrity(directory: string, integrity: LocalPilotPackageIntegrity): Promise<string[]> {
+  const errors: string[] = [];
+  for (const entry of integrity.files) {
+    try {
+      const bytes = await readFile(join(directory, entry.path));
+      const checksum = "sha256:" + createHash("sha256").update(bytes).digest("hex");
+      if (bytes.byteLength !== entry.bytes || checksum !== entry.checksum) errors.push("Local package integrity checksum mismatch for " + entry.path + ".");
+    } catch {
+      errors.push("Local package integrity file is missing: " + entry.path + ".");
+    }
+  }
+  return errors;
 }
 
 async function reconcileExistingPackage(directory: string, relativeDirectory: string, input: LocalPilotPackageAssemblyInput): Promise<LocalPilotPackageAssemblyResult> {

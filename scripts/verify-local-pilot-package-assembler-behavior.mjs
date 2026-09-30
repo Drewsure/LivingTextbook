@@ -44,6 +44,7 @@ try {
     assert(existsSync(join(assembledDirectory, "metadata/qr-print-sheet.html")), "assembler must write a printable QR sheet");
     assert(existsSync(join(assembledDirectory, "metadata/assembly-record.json")), "assembler must write an assembly record");
     assert(existsSync(join(assembledDirectory, "metadata/qr-alias-registry.json")), "assembler must write the approved QR alias registry record");
+    assert(existsSync(join(assembledDirectory, "metadata/package-integrity.json")), "assembler must write the package integrity manifest");
     const qrManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.json"), "utf8"));
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
     assert(typeof qrManifest.artifactId === "string" && qrManifest.artifactId.includes("manifest-one"), "QR print manifest must preserve deterministic artifact identity");
@@ -62,6 +63,8 @@ try {
     if (handoff.status === "available") {
       assert(handoff.handoff.qrPrintArtifactId === qrManifest.artifactId, "handoff receipt must bind the QR print artifact identity");
       assert(handoff.handoff.qrAliasRegistryRecordId === input.qrRegistryRecord.recordId, "handoff receipt must bind the QR registry identity");
+      assert(handoff.handoff.integrityFileCount >= 1, "handoff receipt must bind a non-empty integrity ledger");
+      assert(handoff.handoff.integrityManifestId.includes("package-integrity"), "handoff receipt must expose the integrity manifest identity");
       assert(handoff.handoff.learnerRecordsIncluded === false && handoff.handoff.writesAllowed === false, "handoff receipt must preserve learner-data and write boundaries");
     }
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED = "false";
@@ -79,6 +82,7 @@ try {
       assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.qrAliasRegistryReady === true, "runtime reader must expose the verified QR alias registry state");
+      assert(runtime.summary.integrityFileCount >= 1, "runtime reader must expose the verified integrity ledger state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
       const routeMap = createLocalPilotPackageRouteMap(runtime.summary, "unit-1");
       assert(routeMap.status === "available", "approved runtime must produce a package-scoped route map");

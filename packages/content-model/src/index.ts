@@ -1990,3 +1990,4 @@ export * from "./publisherPilotPackagePreview";
 export * from "./publisherPilotPackageReadinessBinding";
 export * from "./localCompanionReleaseContinuity";
 export * from "./localPilotPackageHandoff";
+export * from "./localPilotPackageIntegrity";

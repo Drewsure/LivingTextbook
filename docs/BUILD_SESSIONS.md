@@ -7125,3 +7125,16 @@ student-payload-blocked behavior.
 - Added behavior coverage for valid handoff reads and disabled-by-default
   handoff access. Package writes, QR mutation, production printing, hosted
   activation, and student launch remain separate gates.
+
+## Build session: Local package integrity ledger
+
+- Added a metadata-only checksum ledger for every copied publisher
+  content/media file and every generated package metadata file, excluding the
+  ledger itself to avoid a checksum cycle.
+- Extended staged assembly verification and runtime reads to fail closed on a
+  missing, malformed, drifting, or unexpected package file.
+- Bound the integrity manifest identity and file count into the local package
+  handoff receipt and runtime panel.
+- Kept package export, production QR printing, local activation, hosted
+  persistence, and learner-record writes behind their existing independent
+  gates.
