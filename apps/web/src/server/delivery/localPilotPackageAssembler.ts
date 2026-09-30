@@ -57,6 +57,16 @@ export interface LocalPilotPackageAssemblyResult {
   errors: string[];
 }
 
+export interface LocalPilotPackageAssemblyPreflightResult {
+  status: "ready-for-assembly" | "blocked";
+  executionReady: boolean;
+  relativeDirectory: string | null;
+  sourceFileCount: number;
+  errors: string[];
+  writeGateEnabled: boolean;
+  sideEffect: "none";
+}
+
 interface AssemblyRecord {
   recordVersion: 1;
   tenantId: string;
@@ -96,16 +106,11 @@ const generatedFiles = [
 ] as const;
 
 export async function assembleLocalPilotPackage(input: LocalPilotPackageAssemblyInput): Promise<LocalPilotPackageAssemblyResult> {
-  const validationErrors = validateAssemblyInput(input);
-  if (validationErrors.length > 0) return blocked(validationErrors);
-  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED !== "true") {
-    return blocked(["Local pilot package writes are disabled. Enable the explicit local-package write gate before assembling a publisher package."]);
-  }
+  const preflight = await preflightLocalPilotPackageAssembly(input);
+  if (!preflight.executionReady) return blocked(preflight.errors);
 
-  const packageRootValue = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
-  const approvedAssetRootValue = process.env.LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT?.trim();
-  if (!packageRootValue) return blocked(["Local pilot package assembly requires an explicit package root."]);
-  if (!approvedAssetRootValue) return blocked(["Local pilot package assembly requires an explicit approved asset root."]);
+  const packageRootValue = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT!.trim();
+  const approvedAssetRootValue = process.env.LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT!.trim();
   const printBaseUrlResult = readPrintBaseUrl();
   if (!printBaseUrlResult.valid) return blocked([printBaseUrlResult.error]);
 
@@ -174,6 +179,52 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
   } catch {
     return blocked(["Local pilot package could not be assembled inside the configured package root."]);
   }
+}
+
+/**
+ * Read-only writer preflight. This deliberately performs no mkdir, copy, QR
+ * generation, rename, or metadata write. The writer calls it again immediately
+ * before assembly so the operator preview and the mutation path share gates.
+ */
+export async function preflightLocalPilotPackageAssembly(input: LocalPilotPackageAssemblyInput): Promise<LocalPilotPackageAssemblyPreflightResult> {
+  const validationErrors = validateAssemblyInput(input);
+  const writeGateEnabled = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED === "true";
+  const packageRootValue = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  const approvedAssetRootValue = process.env.LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT?.trim();
+  const errors = [...validationErrors];
+  let relativeDirectory: string | null = null;
+  let sourceFileCount = 0;
+
+  if (!writeGateEnabled) errors.push("Local pilot package writes are disabled. Enable the explicit local-package write gate before assembling a publisher package.");
+  if (!packageRootValue) errors.push("Local pilot package assembly requires an explicit package root.");
+  if (!approvedAssetRootValue) errors.push("Local pilot package assembly requires an explicit approved asset root.");
+  const printBaseUrlResult = readPrintBaseUrl();
+  if (!printBaseUrlResult.valid) errors.push(printBaseUrlResult.error);
+
+  if (packageRootValue && approvedAssetRootValue && printBaseUrlResult.valid && validationErrors.length === 0) {
+    const packageRoot = resolve(packageRootValue);
+    const approvedAssetRoot = resolve(approvedAssetRootValue);
+    const directory = resolve(packageRoot, safeSegment(input.manifest.tenantId), safeSegment(input.manifest.packageId), safeSegment(input.manifest.version));
+    relativeDirectory = relative(packageRoot, directory).replaceAll("\\", "/");
+    errors.push(...validateDurableBackupPath(directory, packageRoot));
+    errors.push(...validateQuarantineFilesystemPath(join(approvedAssetRoot, "boundary-check"), approvedAssetRootValue));
+    const sourceRootResult = await resolveApprovedAssetSourceRoot(approvedAssetRoot, input);
+    errors.push(...sourceRootResult.errors);
+    const sourceFiles = buildSourceFilePlan(input.bundleManifest);
+    sourceFileCount = sourceFiles.length;
+    if (sourceRootResult.errors.length === 0) errors.push(...await validateSourceFilePlan(sourceFiles, sourceRootResult.root));
+  }
+
+  const uniqueErrors = [...new Set(errors)];
+  return {
+    status: uniqueErrors.length === 0 ? "ready-for-assembly" : "blocked",
+    executionReady: uniqueErrors.length === 0,
+    relativeDirectory,
+    sourceFileCount,
+    errors: uniqueErrors,
+    writeGateEnabled,
+    sideEffect: "none",
+  };
 }
 
 function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] {

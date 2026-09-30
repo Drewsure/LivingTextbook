@@ -7678,3 +7678,16 @@ lineage as a blocker as well.
 
 The preview remains blocked, review-only, and side-effect-free. Recorded ADR
 1357 / DR-1357.
+
+## Build session: Add read-only local package execution preflight
+
+Added a shared local package assembly preflight and exposed it through
+`POST /api/teacher/delivery/local-package/preflight`. It reconciles the durable
+review packet, release lineage, QR registry custody, approved asset source,
+bundle manifest, source file plan, print configuration, and local write gate.
+The response is bounded and side-effect-free, and the real writer now calls
+the same preflight immediately before assembly.
+
+This does not create a package, print QR codes, activate students, mutate QR
+aliases, enable hosted persistence, or store learner records. Recorded ADR
+1358 / DR-1358.

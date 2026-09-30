@@ -9544,3 +9544,19 @@ This standard is recorded in DR-1356 and ADR 1356.
   start students.
 
 This standard is recorded in DR-1357 and ADR 1357.
+
+## 601. Local Package Execution Readiness Must Be Read-Only Before Writing
+
+- The operator must be able to request a bounded execution preflight using the
+  same request shape and custody checks as the local package writer.
+- A `ready-for-assembly` result proves only that the writer's current gates
+  pass; it is not a release authorization and must not itself write a package.
+- The preflight must remain side-effect-free: no directory creation, file copy,
+  QR generation, staging rename, QR alias mutation, persistence activation,
+  learner record, or student launch.
+- The mutation route must call the same preflight immediately before writing so
+  the operator surface cannot drift from the protected writer boundary.
+- Responses must remain bounded and must not expose secrets, server filesystem
+  paths, raw publisher payloads, or asset bytes.
+
+This standard is recorded in DR-1358 and ADR 1358.

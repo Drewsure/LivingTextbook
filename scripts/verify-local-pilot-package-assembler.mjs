@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname, "..");
 const assembler = readFileSync(resolve(root, "apps/web/src/server/delivery/localPilotPackageAssembler.ts"), "utf8");
 const route = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/local-package/route.ts"), "utf8");
+const executionPreflight = readFileSync(resolve(root, "apps/web/src/server/delivery/localPackageExecutionPreflight.ts"), "utf8");
 
 for (const [source, marker, label] of [
   [assembler, "assembleLocalPilotPackage", "local package assembler"],
@@ -35,24 +36,24 @@ for (const [source, marker, label] of [
   [assembler, "reviewPacketId", "review packet identity preservation"],
   [assembler, "hostedPersistenceDecisionPacketId", "hosted opt-in packet identity preservation"],
   [route, "hasPilotDeliveryApiToken", "tenant-bound delivery token"],
-  [route, "readQuarantinePackageReviewPacket", "durable review packet binding"],
-  [route, "readPilotDeliveryReleaseLineage", "live release lineage binding"],
-  [route, "readPilotDeliveryMetadata", "durable delivery metadata binding"],
-  [route, "readPilotQrAliasRegistry", "durable QR registry binding"],
-  [route, "custodyBound: false", "blocked durable custody binding"],
-  [route, "sameJson", "canonical custody comparison"],
-  [route, "validateReviewPacketBinding", "review packet validation"],
-  [route, "reviewPacketId", "review packet identity"],
-  [route, "sourcePreflightEvidenceId", "source preflight evidence identity"],
-  [route, "quarantineId", "quarantine identity"],
-  [route, "reviewPacketBound: true", "successful review packet binding"],
-  [route, "reviewPacketBound: false", "blocked review packet binding"],
-  [route, "lineageBound: false", "blocked release lineage binding"],
-  [route, "accepted-for-package-review", "accepted review decision gate"],
-  [route, "qrPrintArtifactIncluded", "QR print artifact result"],
-  [route, "studentFacingActivationAllowed: false", "student activation boundary"],
-  [route, "hostedPersistenceActivated: false", "hosted persistence boundary"],
-  [route, "qrAliasesMutated: false", "QR mutation boundary"],
+  [executionPreflight, "readQuarantinePackageReviewPacket", "durable review packet binding"],
+  [executionPreflight, "readPilotDeliveryReleaseLineage", "live release lineage binding"],
+  [executionPreflight, "readPilotDeliveryMetadata", "durable delivery metadata binding"],
+  [executionPreflight, "readPilotQrAliasRegistry", "durable QR registry binding"],
+  [executionPreflight, "custodyBound: false", "blocked durable custody binding"],
+  [executionPreflight, "sameJson", "canonical custody comparison"],
+  [executionPreflight, "validateReviewPacketBinding", "review packet validation"],
+  [executionPreflight, "reviewPacketId", "review packet identity"],
+  [executionPreflight, "sourcePreflightEvidenceId", "source preflight evidence identity"],
+  [executionPreflight, "quarantineId", "quarantine identity"],
+  [executionPreflight, "reviewPacketBound: true", "successful review packet binding"],
+  [executionPreflight, "reviewPacketBound: false", "blocked review packet binding"],
+  [executionPreflight, "lineageBound: false", "blocked release lineage binding"],
+  [executionPreflight, "accepted-for-package-review", "accepted review decision gate"],
+  [executionPreflight, "qrPrintArtifactIncluded", "QR print artifact result"],
+  [executionPreflight, "studentFacingActivationAllowed: false", "student activation boundary"],
+  [executionPreflight, "hostedPersistenceActivated: false", "hosted persistence boundary"],
+  [executionPreflight, "qrAliasesMutated: false", "QR mutation boundary"],
 ]) {
   if (!source.includes(marker)) throw new Error("Missing " + label + ": " + marker);
 }

@@ -10381,3 +10381,14 @@ identity match, and assembly preflight reports missing lineage as a blocker.
 The preview remains blocked and read-only; it cannot invoke the writer, copy
 files, generate QR output, activate persistence, create learner records, or
 start students. See ADR 1357.
+
+## DR-1358: Read-Only Local Package Execution Preflight
+
+Added `POST /api/teacher/delivery/local-package/preflight` as a bounded,
+side-effect-free operator check for the closed-local package writer. It
+reconciles the same durable review lineage, QR custody, approved asset source,
+bundle, source-file, print, and explicit write-gate requirements as the writer
+and returns `ready-for-assembly` or blockers without copying files, generating
+QR output, activating students, mutating aliases, enabling hosted persistence,
+or storing learner records. The writer calls the shared preflight immediately
+before assembly. See ADR 1358.

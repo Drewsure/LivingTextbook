@@ -16,7 +16,7 @@ const failures = [];
 
 try {
   compileSources();
-  const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
+  const { assembleLocalPilotPackage, preflightLocalPilotPackageAssembly } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
   const { readLocalPilotPackageContent, readLocalPilotPackageHandoff, readLocalPilotPackageIntegrity, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
@@ -37,6 +37,9 @@ try {
   const previousEnvironment = new Map(Object.keys(environment).map((name) => [name, process.env[name]]));
   try {
     applyEnvironment(environment);
+    const readyPreflight = await preflightLocalPilotPackageAssembly(input);
+    assert(readyPreflight.status === "ready-for-assembly" && readyPreflight.executionReady === true, "approved local package must pass the read-only execution preflight before assembly");
+    assert(readyPreflight.sideEffect === "none" && readyPreflight.sourceFileCount === 3, "execution preflight must remain side-effect-free and enumerate the approved source file plan");
     const first = await assembleLocalPilotPackage(input);
     assert(first.status === "accepted" && first.idempotent === false, "approved local package must assemble once");
     assert(first.copiedAssetCount === 3, "assembler must copy content, media, and transcript evidence");
@@ -159,6 +162,8 @@ try {
     assert(disabledRead.status === "blocked" && disabledRead.errors.some((error) => error.includes("reads are disabled")), "local package reads must remain fail-closed by default");
 
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED = "false";
+    const disabledPreflight = await preflightLocalPilotPackageAssembly(input);
+    assert(disabledPreflight.status === "blocked" && disabledPreflight.executionReady === false && disabledPreflight.sideEffect === "none", "execution preflight must fail closed when local package writes are disabled");
     const disabled = await assembleLocalPilotPackage(input);
     assert(disabled.status === "blocked" && disabled.errors.some((error) => error.includes("writes are disabled")), "local package writes must remain fail-closed by default");
 

@@ -80,6 +80,13 @@ Verified read lanes are:
 - `/api/local-package/integrity`
 - `/api/local-package/qr-print`
 
+Before invoking the writer, the operator may submit the same bounded assembly
+request to `/api/teacher/delivery/local-package/preflight`. A
+`ready-for-assembly` response is a read-only readiness result, not release
+authorization. It performs no local write and does not print QR codes or
+activate students. The mutation route repeats the same preflight immediately
+before assembly.
+
 These are evidence/read lanes, not production print authorization or package
 export controls.
 
