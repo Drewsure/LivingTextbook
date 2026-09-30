@@ -9329,3 +9329,16 @@ This standard is recorded in DR-1341 and ADR 1342.
   printing, hosted persistence, or student use.
 
 This standard is recorded in DR-1329 and ADR 1330.
+
+## 586. Local Assembly Must Be Bound To Durable Custody
+
+- A local package writer must not treat client-supplied approval-looking
+  metadata as authoritative.
+- Delivery metadata and the QR alias registry must already exist in their
+  configured custody roots before local assembly can proceed.
+- Submitted manifest, receipt, package index, and QR registry data must match
+  the stored records by canonical identity; mismatches fail closed.
+- The custody check remains bounded and does not itself authorize student use,
+  hosted persistence, QR alias mutation, or release promotion.
+
+This standard is recorded in DR-1342 and ADR 1343.

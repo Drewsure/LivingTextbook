@@ -4,6 +4,8 @@ import { assembleLocalPilotPackage, type LocalPilotPackageAssemblyInput, type Lo
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 import { readPilotDeliveryReleaseLineage } from "@/server/delivery/pilotDeliveryReleaseLineage";
+import { readPilotDeliveryMetadata } from "@/server/delivery/pilotDeliveryMetadataWriter";
+import { readPilotQrAliasRegistry } from "@/server/delivery/pilotQrAliasRegistryWriter";
 import { hasPilotDeliveryApiCredential, hasPilotDeliveryApiToken } from "@/server/delivery/pilotDeliveryAuthorization";
 
 export const runtime = "nodejs";
@@ -37,6 +39,22 @@ export async function POST(request: Request) {
     return json({ status: "blocked", reviewPacketBound: false, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: packetErrors, packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, 423);
   }
 
+  const [storedDelivery, storedQrRegistry] = await Promise.all([
+    readPilotDeliveryMetadata({ tenantId: bodyResult.value.manifest.tenantId, packageId: bodyResult.value.manifest.packageId, version: bodyResult.value.manifest.version }),
+    readPilotQrAliasRegistry({ tenantId: bodyResult.value.manifest.tenantId, packageId: bodyResult.value.manifest.packageId, version: bodyResult.value.manifest.version }),
+  ]);
+  const custodyErrors = [
+    ...(storedDelivery.status === "available" ? [] : ["Approved delivery metadata must already exist in the configured custody root before local package assembly.", ...storedDelivery.errors]),
+    ...(storedQrRegistry.status === "available" ? [] : ["Approved QR alias registry metadata must already exist in the configured custody root before local package assembly.", ...storedQrRegistry.errors]),
+  ];
+  if (storedDelivery.status === "available" && !sameJson(storedDelivery.manifest, bodyResult.value.manifest)) custodyErrors.push("The supplied delivery manifest does not match the stored approved delivery metadata.");
+  if (storedDelivery.status === "available" && !sameJson(storedDelivery.receipt, bodyResult.value.receipt)) custodyErrors.push("The supplied release receipt does not match the stored approved delivery metadata.");
+  if (storedDelivery.status === "available" && !sameJson(storedDelivery.packageIndex, bodyResult.value.packageIndex)) custodyErrors.push("The supplied package index does not match the stored approved delivery metadata.");
+  if (storedQrRegistry.status === "available" && !sameJson(storedQrRegistry.record, bodyResult.value.qrRegistryRecord)) custodyErrors.push("The supplied QR registry record does not match the stored approved registry metadata.");
+  if (custodyErrors.length > 0) {
+    return json({ status: "blocked", reviewPacketBound: true, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, errors: [...new Set(custodyErrors)], packageAssemblyAllowed: false, qrPrintArtifactIncluded: false, studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, custodyBound: false, privacy: privacyMessage() }, 423);
+  }
+
   const { quarantineId: _quarantineId, reviewPacketId: _reviewPacketId, ...assemblyInput } = bodyResult.value;
   const reviewPacketBinding: LocalPilotPackageReviewBinding = {
     recordVersion: 1,
@@ -48,7 +66,7 @@ export async function POST(request: Request) {
     status: "ready-for-next-gate",
   };
   const result = await assembleLocalPilotPackage({ ...assemblyInput, reviewPacketBinding });
-  return json({ ...result, reviewPacketBound: true, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
+  return json({ ...result, reviewPacketBound: true, custodyBound: true, reviewPacketId: bodyResult.value.reviewPacketId, quarantineId: bodyResult.value.quarantineId, packageAssemblyAllowed: result.status === "accepted", qrPrintArtifactIncluded: result.status === "accepted", studentFacingActivationAllowed: false, hostedPersistenceActivated: false, qrAliasesMutated: false, learnerRecordsIncluded: false, privacy: privacyMessage() }, result.status === "conflict" ? 409 : result.status === "blocked" ? 423 : 200);
 }
 
 function isLocalPackageRequest(value: unknown): value is LocalPackageRequest {
@@ -70,3 +88,9 @@ function validateReviewPacketBinding(input: LocalPackageRequest, packet: Awaited
 
 function privacyMessage(): string { return "Local assembly copies only explicitly approved publisher files into an immutable local package; it never activates students, mutates QR aliases, enables hosted persistence, or stores learner records."; }
 function json(body: unknown, status = 200) { return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } }); }
+function sameJson(left: unknown, right: unknown): boolean { return stableJson(left) === stableJson(right); }
+function stableJson(value: unknown): string {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
+  if (!value || typeof value !== "object") return JSON.stringify(value);
+  return `{${Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, child]) => `${JSON.stringify(key)}:${stableJson(child)}`).join(",")}}`;
+}

@@ -10236,3 +10236,14 @@ show the sentence lane, but neither a package writer nor a release receipt may
 infer it from generic package evidence. The gate remains bounded and
 review-only until all other release, QR, rollback, policy, and deployment
 checks pass. See ADR 1342.
+
+## DR-1342: Bind Local Assembly To Durable Delivery Custody
+
+Local package assembly must read approved delivery metadata and the QR alias
+registry from their configured custody roots before invoking the local writer.
+The submitted manifest, release receipt, package index, and QR registry must
+match those stored records by canonical JSON identity. This prevents a caller
+from presenting request-shaped approval records without the preceding durable
+release and registry writes. The route remains review-packet-bound, gated,
+idempotent, student-disabled, and unable to activate hosted persistence. See
+ADR 1343.

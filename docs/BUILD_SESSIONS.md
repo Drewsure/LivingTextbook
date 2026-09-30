@@ -7512,3 +7512,15 @@ boolean; it does not return sentence payloads or enable writes. Release,
 metadata, local package assembly, QR printing, persistence activation, and
 student-facing use remain blocked unless their separate gates also pass.
 Added regression markers and recorded ADR 1342 / DR-1341.
+
+## Build session: Bind local assembly to durable delivery custody
+
+Hardened the local package assembly endpoint so client-supplied manifest,
+release receipt, package index, and QR registry objects cannot act as approval
+records by themselves. Before the writer runs, the route now requires the
+matching release metadata and QR registry to be readable from their explicit
+custody roots and compares each submitted object to the stored record.
+
+The response exposes only a bounded `custodyBound` status. Assembly remains
+explicitly gated, review-packet-bound, checksum-bound, idempotent, and
+student-disabled. Added regression coverage and recorded ADR 1343 / DR-1342.
