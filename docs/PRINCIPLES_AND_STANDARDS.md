@@ -9110,3 +9110,16 @@ This standard is recorded in DR-1325 and ADR 1326.
   promotion, QR printing, hosted persistence, or student-facing use.
 
 This standard is recorded in DR-1326 and ADR 1327.
+
+## 570. Live Publisher Next Actions Must Be Derived
+
+- The live publisher handoff must derive its next action from the first
+  unresolved gate, not from a fixed checklist paragraph.
+- Stable next-gate IDs must remain separate from human-readable action text so
+  automation and audit tools do not parse prose.
+- A changes-required source decision must return the operator to source review;
+  completed upstream evidence must not be repeated as the next action.
+- Derived next actions are review navigation only and cannot authorize package
+  assembly, promotion, QR printing, persistence activation, or student use.
+
+This standard is recorded in DR-1327 and ADR 1328.

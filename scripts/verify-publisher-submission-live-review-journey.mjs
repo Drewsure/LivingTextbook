@@ -28,9 +28,13 @@ try {
   const journey = model.createPublisherSubmissionLiveReviewJourney(input);
   if (model.validatePublisherSubmissionLiveReviewJourney(journey).length !== 0) failures.push("complete live review journey must satisfy the contract");
   if (journey.gates.length !== 8 || journey.gates.at(-1)?.status !== "blocked") failures.push("live review journey must retain all eight gates and block teacher rehearsal until release");
+  if (journey.nextGateIds[0] !== "release-and-qr" || !journey.nextGates[0]?.includes("Release and QR authorization")) failures.push("complete live review journey must identify release and QR as the next unresolved gate");
   if (journey.packageAssemblyAllowed || journey.promotionAllowed || journey.qrPrintAllowed || journey.persistenceActivationAllowed || journey.studentFacingUseAllowed) failures.push("live review journey must keep all protected actions blocked");
   const changed = model.createPublisherSubmissionLiveReviewJourney({ ...input, sourceReviewDecision: "changes-required" });
   if (changed.gates.find((gate) => gate.gateId === "source-review-decision")?.status !== "blocked") failures.push("changes-required source decisions must block the live journey");
+  if (changed.nextGateIds[0] !== "source-review-decision") failures.push("changes-required source decisions must become the first unresolved next gate");
+  const initial = model.createPublisherSubmissionLiveReviewJourney({ ...input, sourceReviewDecision: null, packageEvidenceReviewed: false, reviewPacketRecorded: false, deliveryModeSelected: false, promotionAdapterSelected: false });
+  if (initial.nextGateIds[0] !== "source-review-decision") failures.push("an unreviewed source must become the first unresolved next gate");
   const unsafe = { ...journey, checksumSha256: "https://example.test/source" };
   if (!model.validatePublisherSubmissionLiveReviewJourney(unsafe).some((error) => error.includes("checksum"))) failures.push("unsafe checksum identity must be rejected");
 } finally {

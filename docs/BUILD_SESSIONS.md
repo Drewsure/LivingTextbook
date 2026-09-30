@@ -7349,3 +7349,16 @@ live journey remains derived from protected metadata, while the server-rendered
 page is checked only for its safe identity and boundary markers. Added the
 focused assertions to `verify:publisher-intake-rehearsal` and recorded ADR
 1327 / DR-1326.
+
+## Build session: Derived live publisher next gate
+
+Replaced the live publisher journey's fixed summary paragraphs with a
+contract-derived unresolved-gate list. The journey now exposes stable
+`nextGateIds` plus gate-specific `nextGates`, so an operator is directed to
+the first incomplete source, evidence, packet, delivery, adapter, release, or
+rehearsal gate instead of being told to repeat work that has already passed.
+
+This is a navigation and audit improvement only. It does not authorize package
+assembly, promotion, QR printing, hosted persistence, or student use. Added
+the focused assertions to `verify:publisher-submission-live-review-journey`
+and recorded ADR 1328 / DR-1327.

@@ -35,6 +35,7 @@ export interface PublisherSubmissionLiveReviewJourney {
   reviewOnly: true;
   gates: PublisherSubmissionLiveReviewJourneyGate[];
   blockedActions: string[];
+  nextGateIds: string[];
   nextGates: string[];
   packageAssemblyAllowed: false;
   promotionAllowed: false;
@@ -136,6 +137,8 @@ export function createPublisherSubmissionLiveReviewJourney(
     },
   ];
 
+  const unresolvedGates = gates.filter((gate) => gate.status !== "passed");
+
   return {
     journeyId: `${input.packageId}:${input.quarantineId}:live-review-journey`,
     tenantId: input.tenantId,
@@ -154,11 +157,8 @@ export function createPublisherSubmissionLiveReviewJourney(
       "No persistence activation",
       "No student-facing use",
     ],
-    nextGates: [
-      "Complete source and package evidence review.",
-      "Record delivery and promotion adapter decisions.",
-      "Complete release, rollback, QR, and classroom rehearsal evidence.",
-    ],
+    nextGateIds: unresolvedGates.map((gate) => gate.gateId),
+    nextGates: unresolvedGates.map((gate) => `${gate.label}: ${gate.nextAction}`),
     packageAssemblyAllowed: false,
     promotionAllowed: false,
     qrPrintAllowed: false,
@@ -193,6 +193,11 @@ export function validatePublisherSubmissionLiveReviewJourney(
   for (const gateId of requiredGates) if (!gateIds.has(gateId)) errors.push(`Publisher submission live review journey is missing gate ${gateId}.`);
   if (!Array.isArray(value.blockedActions) || value.blockedActions.length === 0) errors.push("Publisher submission live review journey must include blocked actions.");
   if (!Array.isArray(value.nextGates) || value.nextGates.length === 0) errors.push("Publisher submission live review journey must include next gates.");
+  if (!Array.isArray(value.nextGateIds) || value.nextGateIds.length === 0) errors.push("Publisher submission live review journey must include unresolved next gate ids.");
+  const knownGateIds = new Set(gateIds);
+  const nextGateIds = Array.isArray(value.nextGateIds) ? value.nextGateIds : [];
+  if (nextGateIds.some((gateId) => typeof gateId !== "string" || !knownGateIds.has(gateId))) errors.push("Publisher submission live review journey next gate ids must reference known gates.");
+  if (new Set(nextGateIds).size !== nextGateIds.length) errors.push("Publisher submission live review journey next gate ids must be unique.");
   for (const field of ["packageAssemblyAllowed", "promotionAllowed", "qrPrintAllowed", "persistenceActivationAllowed", "studentFacingUseAllowed"] as const) if (value[field] !== false) errors.push(`${field} must remain false.`);
   return [...new Set(errors)];
 }
