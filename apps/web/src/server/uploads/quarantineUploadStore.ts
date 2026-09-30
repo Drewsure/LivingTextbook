@@ -26,6 +26,7 @@ import {
   createUploadQuarantinePackageEvidenceReview,
   validateUploadQuarantinePackageEvidenceReview,
   type UploadQuarantinePackageEvidenceLane,
+  type UploadQuarantinePackageEvidenceReference,
   type UploadQuarantinePackageEvidenceReview,
   type UploadQuarantinePackageReviewPacket,
   validateUploadQuarantinePackageReviewPacket,
@@ -129,6 +130,7 @@ export type QuarantinePackageEvidenceReviewWrite = Omit<UploadQuarantinePackageE
   quarantineId: string;
   packageId: string;
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  evidenceReferences: UploadQuarantinePackageEvidenceReference[];
 };
 
 export type QuarantinePackageEvidenceReviewWriteResult = {
@@ -458,6 +460,8 @@ export async function writeQuarantinePackageEvidenceReview(input: QuarantinePack
   assertQuarantineFilesystemPath(recordDirectory, root);
   assertInside(recordDirectory, reviewPath);
   assertQuarantineFilesystemPath(reviewPath, root);
+  const validationErrors = validateUploadQuarantinePackageEvidenceReview(record);
+  if (validationErrors.length > 0) return { status: "blocked", idempotent: false, errors: validationErrors };
   try {
     await writeFile(reviewPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
     return { status: "accepted", idempotent: false, record, errors: [] };

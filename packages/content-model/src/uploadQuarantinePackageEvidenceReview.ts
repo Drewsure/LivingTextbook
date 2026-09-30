@@ -1,6 +1,11 @@
 export type UploadQuarantinePackageEvidenceLane = "content" | "game" | "audio" | "video" | "image" | "font" | "accessibility" | "rights";
 export type UploadQuarantinePackageEvidenceReviewStatus = "incomplete" | "reviewed-package-evidence";
 
+export interface UploadQuarantinePackageEvidenceReference {
+  lane: UploadQuarantinePackageEvidenceLane;
+  referenceId: string;
+}
+
 export const UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES: readonly UploadQuarantinePackageEvidenceLane[] = [
   "content",
   "game",
@@ -24,6 +29,7 @@ export interface UploadQuarantinePackageEvidenceReview {
   reviewedAt: string;
   requiredLanes: UploadQuarantinePackageEvidenceLane[];
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  evidenceReferences: UploadQuarantinePackageEvidenceReference[];
   status: UploadQuarantinePackageEvidenceReviewStatus;
   blockers: string[];
   nextSteps: string[];
@@ -43,10 +49,17 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
   reviewerId: string;
   reviewerNote: string;
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  evidenceReferences: UploadQuarantinePackageEvidenceReference[];
   reviewedAt: string;
 }): UploadQuarantinePackageEvidenceReview {
   const reviewedLanes = [...new Set(input.reviewedLanes)];
-  const missingLanes = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane));
+  const evidenceReferences = [...input.evidenceReferences]
+    .filter((reference, index, references) => references.findIndex((candidate) => candidate.lane === reference.lane) === index)
+    .sort((left, right) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(left.lane) - UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(right.lane));
+  const missingLanes = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => {
+    const reference = evidenceReferences.find((candidate) => candidate.lane === lane);
+    return !reviewedLanes.includes(lane) || !reference?.referenceId.trim();
+  });
   const complete = missingLanes.length === 0;
   return {
     recordVersion: 1,
@@ -60,6 +73,7 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
     reviewedAt: input.reviewedAt,
     requiredLanes: [...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES],
     reviewedLanes,
+    evidenceReferences,
     status: complete ? "reviewed-package-evidence" : "incomplete",
     blockers: complete ? [] : missingLanes.map((lane) => `${lane} evidence has not been reviewed.`),
     nextSteps: [
@@ -93,7 +107,18 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
   }
   if (JSON.stringify(value.requiredLanes) !== JSON.stringify([...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES])) errors.push("Upload quarantine package evidence review requiredLanes must use the canonical lane order.");
   const reviewedLanes = Array.isArray(value.reviewedLanes) ? value.reviewedLanes as string[] : [];
-  const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane));
+  const evidenceReferences = Array.isArray(value.evidenceReferences) ? value.evidenceReferences : [];
+  if (!Array.isArray(value.evidenceReferences)) errors.push("Upload quarantine package evidence review evidenceReferences must be an array.");
+  const referenceLanes: string[] = [];
+  for (const reference of evidenceReferences) {
+    if (!isRecord(reference) || !UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(reference.lane as UploadQuarantinePackageEvidenceLane) || !isSafeIdentifier(reference.referenceId)) {
+      errors.push("Upload quarantine package evidence review evidenceReferences must contain safe lane and referenceId pairs.");
+      continue;
+    }
+    referenceLanes.push(String(reference.lane));
+  }
+  if (new Set(referenceLanes).size !== referenceLanes.length) errors.push("Upload quarantine package evidence review evidenceReferences must contain unique lanes.");
+  const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane) || !referenceLanes.includes(lane));
   if (value.status !== (missing.length === 0 ? "reviewed-package-evidence" : "incomplete")) errors.push("Upload quarantine package evidence review status does not match reviewed lanes.");
   if (!Array.isArray(value.blockers) || value.blockers.some((item) => !isNonEmptyString(item)) || (missing.length > 0 && value.blockers.length === 0) || (missing.length === 0 && value.blockers.length > 0)) errors.push("Upload quarantine package evidence review blockers must match lane completeness.");
   if (!Array.isArray(value.nextSteps) || value.nextSteps.length === 0 || value.nextSteps.some((item) => !isNonEmptyString(item))) errors.push("Upload quarantine package evidence review nextSteps must contain non-empty strings.");

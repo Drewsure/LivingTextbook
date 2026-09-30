@@ -140,6 +140,7 @@ try {
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
+      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence` })),
     }),
   });
   const blockedPackageEvidence = await readJson(blockedPackageEvidenceResponse);
@@ -172,6 +173,7 @@ try {
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
+      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence` })),
     }),
   });
   const packageEvidence = await readJson(packageEvidenceResponse);

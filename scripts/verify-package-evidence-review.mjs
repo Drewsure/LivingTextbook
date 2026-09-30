@@ -9,6 +9,8 @@ const liveRoute = readFileSync(new URL("../apps/web/src/app/api/teacher/uploads/
 const required = [
   ["canonical lanes", model, "UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES"],
   ["reviewed status", model, '"reviewed-package-evidence"'],
+  ["evidence references", model, "evidenceReferences"],
+  ["reference validation", model, "referenceId"],
   ["package block", model, "packageAssemblyAllowed: false"],
   ["QR block", model, "qrPrintAllowed: false"],
   ["sidecar path", store, "package-evidence-review.json"],
@@ -16,7 +18,9 @@ const required = [
   ["route response", route, '"recorded-review-only"'],
   ["source decision gate", route, "readQuarantineReviewDecision"],
   ["source decision blocker", route, "accepted-for-package-review source decision is required before package evidence can be recorded"],
+  ["reference request", route, "evidenceReferences"],
   ["metadata-only UI", panel, "without uploading files"],
+  ["reference inputs", panel, "evidence reference"],
   ["source decision UI gate", panel, "sourceDecision"],
   ["live reader", liveRoute, "readQuarantinePackageEvidenceReview"],
   ["live check", liveRoute, 'check("package-preview"'],

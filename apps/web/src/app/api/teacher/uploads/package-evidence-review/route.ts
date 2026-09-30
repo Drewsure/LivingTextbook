@@ -3,6 +3,7 @@ import {
   isUploadQuarantineSafeTenantId,
   UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES,
   type UploadQuarantinePackageEvidenceLane,
+  type UploadQuarantinePackageEvidenceReference,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
@@ -19,6 +20,7 @@ type PackageEvidenceReviewRequest = {
   reviewerId: string;
   reviewerNote: string;
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
+  evidenceReferences: UploadQuarantinePackageEvidenceReference[];
 };
 
 export async function GET(request: Request) {
@@ -37,7 +39,7 @@ export async function POST(request: Request) {
   if (!origin.valid && !hasUploadApiToken(request)) return json({ status: "forbidden", record: null, errors: origin.errors, privacy: privacyMessage() }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Quarantine package evidence review request");
   if (!bodyResult.ok) return json({ status: "rejected", record: null, errors: bodyResult.errors, privacy: privacyMessage() }, bodyResult.status);
-  if (!isPackageEvidenceReviewRequest(bodyResult.value)) return json({ status: "rejected", record: null, errors: ["Package evidence review requires tenant, quarantine, reviewer, note, and reviewed lane fields."], privacy: privacyMessage() }, 400);
+  if (!isPackageEvidenceReviewRequest(bodyResult.value)) return json({ status: "rejected", record: null, errors: ["Package evidence review requires tenant, quarantine, reviewer, note, reviewed lanes, and evidence references."], privacy: privacyMessage() }, 400);
   if (!isUploadQuarantineSafeTenantId(bodyResult.value.tenantId)) return json({ status: "rejected", record: null, errors: ["Package evidence review tenant identity is unsafe."], privacy: privacyMessage() }, 400);
   if (!hasReviewAuthorization(request, bodyResult.value.tenantId)) return json({ status: "unauthorized", record: null, errors: ["Tenant-scoped teacher or service authorization is required for package evidence review writes."], privacy: privacyMessage() }, 401);
   const reviewDecision = (await readQuarantineReviewDecision(bodyResult.value.tenantId, bodyResult.value.quarantineId)).record;
@@ -62,7 +64,9 @@ function isPackageEvidenceReviewRequest(value: unknown): value is PackageEvidenc
     && typeof candidate.reviewerId === "string"
     && typeof candidate.reviewerNote === "string"
     && Array.isArray(candidate.reviewedLanes)
-    && candidate.reviewedLanes.every((lane) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(lane as UploadQuarantinePackageEvidenceLane));
+    && candidate.reviewedLanes.every((lane) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(lane as UploadQuarantinePackageEvidenceLane))
+    && Array.isArray(candidate.evidenceReferences)
+    && candidate.evidenceReferences.every((reference) => Boolean(reference) && typeof reference === "object" && !Array.isArray(reference) && UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes((reference as { lane?: string }).lane as UploadQuarantinePackageEvidenceLane) && typeof (reference as { referenceId?: unknown }).referenceId === "string");
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId); }

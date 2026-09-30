@@ -7039,3 +7039,15 @@ student-payload-blocked behavior.
   and explicit default-state wording.
 - Recorded the boundary in ADR 1303 and DR-1019. No Z.ai/Phaser source was
   promoted or integrated.
+
+## Package evidence reference binding
+
+- Strengthened live publisher package-evidence review so a checked content,
+  game, audio, video, image, font, accessibility, or rights lane must point to
+  a bounded review-record identifier.
+- Kept the record metadata-only, tenant-bound, checksum-bound, immutable, and
+  false for assembly, promotion, QR printing, and student-facing use.
+- Added a behavior verifier for complete references, missing references,
+  unsafe reference identifiers, and activation drift.
+- Recorded the traceability decision in ADR 1304 and DR-1020. Frozen Z.ai/
+  Phaser source remains isolated.

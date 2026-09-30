@@ -200,6 +200,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-review-p
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-evidence-review.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-package-evidence-review-behavior.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, ["--experimental-strip-types", "--experimental-specifier-resolution=node", fileURLToPath(new URL("./verify-pilot-delivery-manifest-behavior.mjs", import.meta.url))], {
   stdio: "inherit",
 });
