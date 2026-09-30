@@ -22,6 +22,7 @@ const continuityPanel = readSource("../apps/web/src/features/deployment/Deployme
 const reviewRequestModel = readSource("../packages/content-model/src/localBundleManifestReviewRequestPreview.ts");
 const reviewRequestSample = readSource("../apps/web/src/data/sampleLocalBundleManifestReviewRequest.ts");
 const reviewRequestPanel = readSource("../apps/web/src/features/deployment/LocalBundleManifestReviewRequestPanel.tsx");
+const localPackageOperator = readSource("./run-local-package-operator.mjs");
 
 const failures = [];
 
@@ -132,6 +133,18 @@ const requiredReviewRequestMarkers = [
   "No student records",
 ];
 
+const requiredOperatorMarkers = [
+  "--request",
+  "--preflight",
+  "--assemble",
+  "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN",
+  "LIVING_TEXTBOOOK_OPERATOR_LOCAL_PACKAGE_WRITE_CONFIRMATION",
+  "/api/teacher/delivery/local-package/preflight",
+  "/api/teacher/delivery/local-package",
+  "No request was sent",
+  "performedWrite",
+];
+
 for (const marker of requiredGuideMarkers) {
   requireText(guide, marker, `Deployment decision guide missing marker: ${marker}`);
 }
@@ -164,6 +177,10 @@ for (const marker of requiredReviewRequestMarkers) {
   );
 }
 
+for (const marker of requiredOperatorMarkers) {
+  requireText(localPackageOperator, marker, `Local package operator missing marker: ${marker}`);
+}
+
 requireText(guidePanel, "Deployment decision guide", "Deployment guide panel must render its heading.");
 requireText(guidePanel, "Required evidence", "Deployment guide panel must render required evidence.");
 requireText(guidePanel, "Blocked actions", "Deployment guide panel must render blocked actions.");
@@ -178,6 +195,10 @@ requireText(principles, "Manifest Review Requests Must Be Explicit And Machine-B
 requireText(buildSessions, "Make manifest review custody handoff explicit", "Build sessions must record the manifest review request preview.");
 requireText(decisionRegister, "DR-1364", "Decision register must include DR-1364.");
 requireText(readSource("../docs/adr/1364-explicit-manifest-review-request-preview.md"), "ADR 1364", "ADR 1364 must exist.");
+requireText(principles, "Local Package Assembly Needs A Deliberate Operator Command", "Principles document must include the local package operator standard.");
+requireText(buildSessions, "Add the deliberate local package operator command", "Build sessions must record the local package operator command.");
+requireText(decisionRegister, "DR-1365", "Decision register must include DR-1365.");
+requireText(readSource("../docs/adr/1365-deliberate-local-package-operator-command.md"), "ADR 1365", "ADR 1365 must exist.");
 
 forbidText(deploymentPage, "input type=\"file\"", "Deployment workbench must not include live upload inputs.");
 forbidText(deploymentPage, "navigator.serviceWorker.register", "Deployment workbench must not register a service worker.");

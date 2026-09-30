@@ -7762,3 +7762,12 @@ No browser write permission was broadened. The preview makes no endpoint call,
 does not expose manifest bytes or credentials, and cannot assemble packages,
 promote assets, print QR codes, activate hosted persistence, create learner
 records, or start students. Recorded ADR 1364 / DR-1364.
+
+## Build session: Add the deliberate local package operator command
+
+Added `scripts/run-local-package-operator.mjs`. The command reads a bounded
+request JSON file, defaults to the side-effect-free preflight endpoint, and
+prints only bounded result metadata. Actual assembly requires both the
+tenant-scoped pilot delivery token and an explicit confirmation value. No new
+approval path or browser write permission was added. Recorded ADR 1365 /
+DR-1365.

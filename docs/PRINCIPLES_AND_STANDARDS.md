@@ -9653,3 +9653,19 @@ This standard is recorded in DR-1363 and ADR 1363.
   white-label delivery operators cannot invent tenant-specific request shapes.
 
 This standard is recorded in DR-1364 and ADR 1364.
+
+## 608. Local Package Assembly Needs A Deliberate Operator Command
+
+- The local package operator defaults to a read-only preflight against the
+  existing tenant-scoped delivery endpoint.
+- Assembly requires both the tenant-scoped pilot delivery API token and a
+  separate explicit operator confirmation. A request file, environment
+  variable, or browser preview alone cannot trigger package writes.
+- Operator output is bounded to status, readiness, write result, directory
+  identity, source count, and errors. It must never print request payloads,
+  manifest bodies, credentials, publisher bytes, or learner records.
+- The command must use the existing custody, checksum, QR, asset, release,
+  package, and student-safety gates; it is an invocation surface, not a new
+  approval path.
+
+This standard is recorded in DR-1365 and ADR 1365.

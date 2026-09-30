@@ -10455,3 +10455,17 @@ expose credentials, write custody, assemble a package, promote assets, print
 QR codes, activate hosted persistence, create learner records, or enable
 student use. Teacher browser authorization remains separate from the
 machine-authenticated custody operation. See ADR 1364.
+
+## DR-1365: Deliberate Local Package Operator Command
+
+Added `scripts/run-local-package-operator.mjs` as the reproducible handoff
+command for a real publisher package request. It defaults to the read-only
+local package preflight. Assembly requires the tenant-scoped pilot delivery API
+token and a separate `ASSEMBLE_LOCAL_PACKAGE` confirmation environment value
+before any request is sent to the assembly route.
+
+The command prints only bounded status metadata and never prints request
+payloads, manifest bodies, credentials, publisher bytes, or learner records.
+It reuses the existing custody and write gates; it does not create a shortcut
+around review, release, QR, asset, persistence, or student-safety policy. See
+ADR 1365.
