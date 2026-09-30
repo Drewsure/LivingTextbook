@@ -9355,3 +9355,18 @@ This standard is recorded in DR-1342 and ADR 1343.
   students, or substitute for local package assembly.
 
 This standard is recorded in DR-1343 and ADR 1344.
+
+## 588. Hosted Persistence Must Be Bound To Package-Scoped Activation Custody
+
+- Durable hosted progression and event writes must require a server-side
+  activation record for the exact tenant and package, in addition to the
+  deployment, school-policy, retention, release, and session gates.
+- The activation record must bind the hosted opt-in packet and release receipt
+  identities, name the approved provider, and explicitly preserve route
+  mutation and student-facing activation as false.
+- Missing, malformed, tampered, cross-tenant, or cross-package activation
+  records must fail closed; no browser route may create or edit the record.
+- The custody reader is evidence for a future human/provider activation step;
+  it does not itself create learner records or turn on classroom launch.
+
+This standard is recorded in DR-1344 and ADR 1345.

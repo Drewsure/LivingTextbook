@@ -16,6 +16,7 @@ import { readStudentSessionClaims } from "@/server/persistence/studentSessionCoo
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { resolveProgressEventTaxonomy } from "@/server/persistence/progressEventTaxonomyResolver";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { readHostedPersistenceActivation } from "@/server/persistence/hostedPersistenceActivationStore";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
@@ -51,6 +52,19 @@ export async function POST(request: Request) {
   if (body.policy.mode === "durable-managed") {
     const deployment = getPersistenceDeploymentGateSnapshot();
     if (!deployment.gate.ready) return json({ status: "blocked", provider: deployment.provider, durability: "durable-managed", errors: deployment.gate.blockedReasons }, 423);
+    const activation = await readHostedPersistenceActivation({
+      tenantId: body.expectedTenantId,
+      packageId: body.expectedPackageId,
+    });
+    if (activation.status !== "available") {
+      return json({
+        status: "blocked",
+        provider: "sqlite",
+        durability: "durable-managed",
+        errors: activation.errors,
+        activation: "package-scoped-custody-missing",
+      }, 423);
+    }
     if (!hasPersistenceWriteAuthorization(request, body.expectedTenantId, body.expectedPackageId, body.expectedLaunchCode, body.expectedStudentSessionId)) {
       return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable event stream writes require a matching signed student session or server-side persistence authorization."] }, 401);
     }

@@ -18,6 +18,7 @@ import {
 import { readStudentSessionClaims } from "@/server/persistence/studentSessionCookie";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { getPersistenceDeploymentGateSnapshot } from "@/server/persistence/persistenceDeploymentGate";
+import { readHostedPersistenceActivation } from "@/server/persistence/hostedPersistenceActivationStore";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 
 export const runtime = "nodejs";
@@ -53,6 +54,19 @@ export async function POST(request: Request) {
     const deployment = getPersistenceDeploymentGateSnapshot();
     if (!deployment.gate.ready) {
       return json({ status: "blocked", provider: deployment.provider, durability: "durable-managed", errors: deployment.gate.blockedReasons }, 423);
+    }
+    const activation = await readHostedPersistenceActivation({
+      tenantId: body.expectedTenantId,
+      packageId: body.expectedPackageId,
+    });
+    if (activation.status !== "available") {
+      return json({
+        status: "blocked",
+        provider: "sqlite",
+        durability: "durable-managed",
+        errors: activation.errors,
+        activation: "package-scoped-custody-missing",
+      }, 423);
     }
     if (!hasPersistenceWriteAuthorization(request, body)) {
       return json({ status: "unauthorized", provider: "sqlite", durability: "durable-managed", errors: ["Durable progression writes require a matching signed student session or server-side persistence authorization."] }, 401);

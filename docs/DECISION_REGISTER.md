@@ -10256,3 +10256,15 @@ submitted manifest and release receipt must match the stored delivery record by
 canonical identity. The registry remains immutable, route-mutation-disabled,
 and student-disabled. This establishes the ordered operator path of release,
 QR registration, and then local package assembly. See ADR 1344.
+
+## DR-1344: Package-Scoped Hosted Persistence Activation Custody
+
+Durable hosted progression and event writes require a server-side activation
+record bound to the exact tenant and package, in addition to the shared
+deployment, policy, release, and signed-session gates. The record names the
+approved provider, hosted opt-in packet, release receipt, operator, and
+activation timestamp while preserving route mutation and student-facing
+activation as false. Missing, malformed, tampered, cross-tenant, and
+cross-package records fail closed. There is no browser writer for this record;
+the custody reader is evidence for a future human/provider activation step.
+See ADR 1345.

@@ -38,6 +38,7 @@ const localPackageRootEnvironment = "LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT";
 const approvedAssetRootEnvironment = "LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT";
 const printBaseUrlEnvironment = "LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL";
 const persistenceProviderEnvironment = "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER";
+const hostedPersistenceActivationRootEnvironment = "LIVING_TEXTBOOOK_HOSTED_PERSISTENCE_ACTIVATION_ROOT";
 
 const reviewGateEnvironments = [
   ["LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED", "Quarantine intake gate", "all"],
@@ -105,6 +106,7 @@ export function readPilotDeploymentConfiguration(
   }
 
   if (mode === "hosted-pwa" || mode === "hybrid") {
+    addDirectoryCheck(checks, "hosted-persistence-activation-root", "Hosted persistence activation custody root", hostedPersistenceActivationRootEnvironment, mode);
     const persistenceProvider = process.env[persistenceProviderEnvironment]?.trim() || "process-memory";
     checks.push({
       checkId: "hosted-persistence-choice",

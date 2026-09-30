@@ -7536,3 +7536,17 @@ release metadata, QR registry, then local package assembly.
 QR registration remains immutable, review-bound, route-mutation-disabled, and
 student-disabled. Added the boundary verifier coverage and recorded ADR 1344 /
 DR-1343.
+
+## Build session: Hosted persistence package activation custody
+
+Durable hosted progression and event writes now require a server-side,
+tenant/package-scoped activation record in addition to the existing provider,
+school-policy, retention, release, and signed-session gates. The record binds
+the hosted opt-in packet and release receipt identities, names the approved
+provider and operator, and keeps route mutation and student-facing activation
+false.
+
+Missing, malformed, tampered, cross-tenant, and cross-package records fail
+closed. There is no browser writer, no learner-data creation, and no change to
+the non-durable rehearsal lane. Added deployment-preflight visibility and
+focused custody verification. Recorded ADR 1345 / DR-1344.

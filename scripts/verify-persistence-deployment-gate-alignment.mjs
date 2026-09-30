@@ -24,6 +24,7 @@ const status = read("apps/web/src/app/api/persistence/status/route.ts");
 const studentSession = read("apps/web/src/app/api/student/session/route.ts");
 const progression = read("apps/web/src/app/api/persistence/progression/route.ts");
 const events = read("apps/web/src/app/api/persistence/events/route.ts");
+const activationStore = read("apps/web/src/server/persistence/hostedPersistenceActivationStore.ts");
 
 requireFragments("shared deployment gate", gate, [
   "getDurableOperationsPolicySnapshot",
@@ -58,6 +59,15 @@ requireFragments("event route", events, [
   "if (!deployment.gate.ready)",
   'durability: "durable-managed"',
 ]);
+requireFragments("hosted persistence activation store", activationStore, [
+  "readHostedPersistenceActivation",
+  "LIVING_TEXTBOOOK_HOSTED_PERSISTENCE_ACTIVATION_ROOT",
+  "validateHostedPersistenceActivationBinding",
+  "No package-scoped hosted persistence activation record was found",
+]);
+for (const [label, source] of [["progression route", progression], ["event route", events]]) {
+  requireFragments(label, source, ["readHostedPersistenceActivation", "package-scoped-custody-missing"]);
+}
 
 for (const [label, source] of [
   ["progression route", progression],
