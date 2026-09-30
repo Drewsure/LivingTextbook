@@ -87,6 +87,13 @@ authorization. It performs no local write and does not print QR codes or
 activate students. The mutation route repeats the same preflight immediately
 before assembly.
 
+For the operator workflow, the preflight and writer also accept a bounded
+durable-records draft containing the tenant/package/version identity, review
+packet and quarantine ids, reviewed bundle manifest, operator id, and
+timestamp. The server derives the approved delivery records from exact
+tenant/package/version custody; it does not trust copied client records or
+perform wildcard lookups.
+
 These are evidence/read lanes, not production print authorization or package
 export controls.
 

@@ -54,9 +54,13 @@ for (const [source, marker, label] of [
   [executionPreflight, "studentFacingActivationAllowed: false", "student activation boundary"],
   [executionPreflight, "hostedPersistenceActivated: false", "hosted persistence boundary"],
   [executionPreflight, "qrAliasesMutated: false", "QR mutation boundary"],
+  [executionPreflight, "isLocalPackageRequestDraft", "durable-records request draft"],
+  [executionPreflight, "hydrateLocalPackageRequestDraft", "durable-records request hydration"],
+  [executionPreflight, "readPilotDeliveryMetadata({ tenantId: draft.tenantId, packageId, version })", "exact durable delivery lookup"],
 ]) {
   if (!source.includes(marker)) throw new Error("Missing " + label + ": " + marker);
 }
+if (executionPreflight.includes('packageId: "pending"')) throw new Error("Forbidden wildcard local package custody lookup");
 for (const forbidden of ["packageAssemblyAllowed: true", "learnerRecordsIncluded: true", "qrAliasesMutated: true", "hostedPersistenceActivated: true"]) {
   if (route.includes(forbidden)) throw new Error("Forbidden local package route behavior: " + forbidden);
 }

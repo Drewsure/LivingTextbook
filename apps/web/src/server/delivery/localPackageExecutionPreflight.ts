@@ -12,10 +12,20 @@ import { readPilotDeliveryMetadata } from "./pilotDeliveryMetadataWriter";
 import { readPilotQrAliasRegistry } from "./pilotQrAliasRegistryWriter";
 import { preflightLocalPilotPackageAssembly, type LocalPilotPackageAssemblyInput, type LocalPilotPackageAssemblyPreflightResult, type LocalPilotPackageReviewBinding } from "./localPilotPackageAssembler";
 
-export type LocalPackageRequest = LocalPilotPackageAssemblyInput & {
+export type LocalPackageRequest = Omit<LocalPilotPackageAssemblyInput, "reviewPacketBinding"> & {
   quarantineId: string;
   reviewPacketId: string;
 };
+
+export interface LocalPackageRequestDraft {
+  tenantId: string;
+  packageId: string;
+  quarantineId: string;
+  reviewPacketId: string;
+  bundleManifest: LocalBundleManifest;
+  operatorId: string;
+  writtenAt: string;
+}
 
 export interface LocalPackageExecutionPreflight {
   status: "ready-for-assembly" | "blocked";
@@ -55,6 +65,48 @@ export function isLocalPackageRequest(value: unknown): value is LocalPackageRequ
     && typeof candidate.quarantineId === "string"
     && typeof candidate.reviewPacketId === "string"
     && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+}
+
+export function isLocalPackageRequestDraft(value: unknown): value is LocalPackageRequestDraft {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.tenantId === "string"
+    && typeof candidate.packageId === "string"
+    && typeof candidate.quarantineId === "string"
+    && typeof candidate.reviewPacketId === "string"
+    && typeof candidate.operatorId === "string"
+    && typeof candidate.writtenAt === "string"
+    && Boolean(candidate.bundleManifest && typeof candidate.bundleManifest === "object")
+    && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+}
+
+export async function hydrateLocalPackageRequestDraft(draft: LocalPackageRequestDraft): Promise<{ input: LocalPackageRequest | null; errors: string[] }> {
+  const packageId = draft.packageId;
+  const version = draft.bundleManifest.version;
+  if (!packageId) return { input: null, errors: ["The local package request draft must provide a bounded package identity before delivery records can be derived."] };
+  const [delivery, qrRegistry] = await Promise.all([
+    readPilotDeliveryMetadata({ tenantId: draft.tenantId, packageId, version }),
+    readPilotQrAliasRegistry({ tenantId: draft.tenantId, packageId, version }),
+  ]);
+  const errors = [
+    ...(delivery.status === "available" ? [] : ["Approved delivery metadata could not be derived from durable custody.", ...delivery.errors]),
+    ...(qrRegistry.status === "available" ? [] : ["Approved QR alias registry metadata could not be derived from durable custody.", ...qrRegistry.errors]),
+  ];
+  if (errors.length > 0 || delivery.status !== "available" || qrRegistry.status !== "available") return { input: null, errors: unique(errors) };
+  return {
+    input: {
+      manifest: delivery.manifest,
+      receipt: delivery.receipt,
+      packageIndex: delivery.packageIndex,
+      qrRegistryRecord: qrRegistry.record,
+      bundleManifest: draft.bundleManifest,
+      operatorId: draft.operatorId,
+      writtenAt: draft.writtenAt,
+      quarantineId: draft.quarantineId,
+      reviewPacketId: draft.reviewPacketId,
+    },
+    errors: [],
+  };
 }
 
 export async function readLocalPackageExecutionPreflight(input: LocalPackageRequest): Promise<LocalPackageExecutionPreflightEnvelope> {

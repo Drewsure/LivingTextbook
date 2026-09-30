@@ -10392,3 +10392,12 @@ and returns `ready-for-assembly` or blockers without copying files, generating
 QR output, activating students, mutating aliases, enabling hosted persistence,
 or storing learner records. The writer calls the shared preflight immediately
 before assembly. See ADR 1358.
+
+## DR-1359: Durable-Records Local Package Request
+
+Local package preflight and assembly now accept a bounded durable-records draft
+as well as the full integration request. The server derives the exact approved
+delivery metadata, receipt, package index, and QR registry from the supplied
+tenant/package/version custody identity before applying the shared review,
+lineage, asset, bundle, print, and write-gate checks. Placeholder or wildcard
+custody reads are forbidden. See ADR 1359.

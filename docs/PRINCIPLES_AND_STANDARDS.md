@@ -9560,3 +9560,19 @@ This standard is recorded in DR-1357 and ADR 1357.
   paths, raw publisher payloads, or asset bytes.
 
 This standard is recorded in DR-1358 and ADR 1358.
+
+## 602. Delivery Requests Must Derive Approved Records From Custody
+
+- Local package preflight and assembly may accept a bounded draft containing
+  tenant/package/version identity, review lineage, bundle manifest, operator,
+  and timestamp instead of requiring copied delivery records.
+- The server must derive the exact manifest, release receipt, package index,
+  and QR registry from tenant/package/version-scoped custody.
+- Placeholder, wildcard, or inferred custody lookups are forbidden; missing
+  or mismatched records remain blocked.
+- The full integration request remains supported, but client-supplied copies
+  cannot override the durable records used for the review gate.
+- Derivation does not authorize writing, QR printing, student activation,
+  hosted persistence, or learner-record storage.
+
+This standard is recorded in DR-1359 and ADR 1359.

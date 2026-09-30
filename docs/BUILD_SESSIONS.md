@@ -7691,3 +7691,16 @@ the same preflight immediately before assembly.
 This does not create a package, print QR codes, activate students, mutate QR
 aliases, enable hosted persistence, or store learner records. Recorded ADR
 1358 / DR-1358.
+
+## Build session: Derive local package requests from durable custody
+
+Extended the local package preflight and writer to accept a bounded
+durable-records draft. The operator supplies the tenant/package identity,
+review lineage, reviewed bundle manifest, operator, and timestamp; the server
+derives the matching delivery manifest, release receipt, package index, and QR
+registry from exact tenant/package/version custody before applying all existing
+gates.
+
+Full integration requests remain supported. No wildcard custody reads, raw
+record echo, package write, QR print, alias mutation, persistence activation,
+learner record, or student activation was added. Recorded ADR 1359 / DR-1359.
