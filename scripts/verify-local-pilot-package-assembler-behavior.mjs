@@ -43,6 +43,8 @@ try {
     assert(existsSync(join(assembledDirectory, "metadata/assembly-record.json")), "assembler must write an assembly record");
     const qrManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.json"), "utf8"));
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
+    assert(typeof qrManifest.artifactId === "string" && qrManifest.artifactId.includes("manifest-one"), "QR print manifest must preserve deterministic artifact identity");
+    assert(qrManifest.sourceAssemblyChecksum === input.manifest.sourceAssemblyChecksum, "QR print manifest must preserve source checksum identity");
     assert(qrManifest.entries.length === 1, "QR print manifest must contain the approved route count");
     assert(qrManifest.entries[0].encodedUrl === "https://pilot.example.test/q/tenant-one/unit-one", "QR print URL must use the configured safe base URL");
     assert(qrManifest.entries[0].fallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "QR print entry must use the resolved package-local fallback path");
@@ -111,6 +113,16 @@ try {
     applyEnvironment({ ...environment, LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "file:///unsafe" });
     const unsafePrintUrl = await assembleLocalPilotPackage(input);
     assert(unsafePrintUrl.status === "blocked" && unsafePrintUrl.errors.some((error) => error.includes("http or https")), "QR printing must reject non-web base URLs");
+
+    applyEnvironment(environment);
+    const tamperedArtifact = join(assembledDirectory, "metadata/qr-print-sheet.json");
+    const originalArtifact = readFileSync(tamperedArtifact, "utf8");
+    const tampered = JSON.parse(originalArtifact);
+    tampered.sourceAssemblyChecksum = "sha256:" + "c".repeat(64);
+    writeFileSync(tamperedArtifact, JSON.stringify(tampered) + "\n", "utf8");
+    const tamperedRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(tamperedRead.status === "blocked" && tamperedRead.errors.some((error) => error.includes("QR print artifact does not match")), "runtime reader must reject QR artifact checksum drift");
+    writeFileSync(tamperedArtifact, originalArtifact, "utf8");
   } finally {
     for (const [name, value] of previousEnvironment) restoreEnvironment(name, value);
   }

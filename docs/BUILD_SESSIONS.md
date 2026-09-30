@@ -38,6 +38,16 @@ The local pilot package assembly slice now executes the approved local-delivery 
 - Added a standing ADR, decision-register entry, acceptance-matrix update, and
   foundation composition verifier.
 
+## Build session: QR print artifact integrity
+
+- Added a typed QR print artifact contract with deterministic artifact identity,
+  manifest/receipt lineage, source checksum, safe base URL, and per-SVG
+  checksums.
+- Bound the local package runtime to that contract so a stale or tampered QR
+  sheet is blocked even when the file is present.
+- Extended the local package rehearsal with checksum-drift rejection while
+  preserving exact replay idempotence and the existing single QR generator.
+
 ## Build session: Local pilot package and QR print behavior
 
 - Added a behavior-level rehearsal for the real local package assembler rather

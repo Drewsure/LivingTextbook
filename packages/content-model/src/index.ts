@@ -1983,6 +1983,7 @@ export * from "./localBundleReadinessAssessment";
 export * from "./qrAliasRuntime";
 export * from "./pilotQrAliasRegistry";
 export * from "./pilotQrPrintAuthorizationPreflight";
+export * from "./pilotQrPrintArtifact";
 export * from "./pilotDeliveryReleasePreflight";
 export * from "./publisherPilotPackagePreview";
 export * from "./publisherPilotPackageReadinessBinding";

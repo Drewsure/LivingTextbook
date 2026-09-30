@@ -5,6 +5,7 @@ import {
   validatePilotDeliveryManifest,
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
+  validatePilotQrPrintArtifact,
   validateContentPackage,
   validateTenantConfig,
   type LocalBundleManifest,
@@ -261,8 +262,8 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (!isSafeSegment(String(reviewPacketBindingValue.quarantineId ?? "")) || !isNonEmptyString(reviewPacketBindingValue.packetId)) errors.push("Local package runtime review packet binding identity is unsafe or incomplete.");
   if (assemblyValue.quarantineId !== reviewPacketBindingValue.quarantineId || assemblyValue.reviewPacketId !== reviewPacketBindingValue.packetId) errors.push("Local package runtime assembly record does not preserve review packet identity.");
   if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
-  if (qrPrintValue.artifactVersion !== 1 || qrPrintValue.printAuthorized !== true || qrPrintValue.sideEffect !== "local-package-assembly" || !Array.isArray(qrPrintValue.entries) || qrPrintValue.entries.length === 0) errors.push("Local package runtime QR print artifact is incomplete or unauthorized.");
-  if (qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version) errors.push("Local package runtime QR print artifact does not match the package version.");
+  errors.push(...validatePilotQrPrintArtifact(qrPrintValue));
+  if (qrPrintValue.tenantId !== manifestValue.tenantId || qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version || qrPrintValue.manifestId !== manifestValue.manifestId || qrPrintValue.receiptId !== receiptValue.receiptId || qrPrintValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR print artifact does not match the approved delivery identity.");
   if (manifestValue.status !== "ready-for-manual-release" || receiptValue.status !== "manual-release-approved" || packageIndexValue.releaseStatus !== "manual-release-approved") errors.push("Local package runtime requires approved release metadata.");
   return [...new Set(errors)];
 }

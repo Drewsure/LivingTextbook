@@ -9,6 +9,8 @@ import {
   validatePilotDeliveryManifest,
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
+  createPilotQrPrintArtifactId,
+  type PilotQrPrintArtifact,
   type LocalBundleManifest,
   type PilotDeliveryManifest,
   type PilotDeliveryPackageIndex,
@@ -257,15 +259,7 @@ interface QrPrintEntry {
   svg: string;
 }
 
-interface QrPrintManifest {
-  artifactVersion: 1;
-  packageId: string;
-  version: string;
-  baseUrl: string;
-  printAuthorized: true;
-  entries: QrPrintEntry[];
-  sideEffect: "local-package-assembly";
-}
+type QrPrintManifest = PilotQrPrintArtifact;
 
 interface QrPrintSheet {
   manifest: QrPrintManifest;
@@ -282,12 +276,23 @@ async function createQrPrintSheet(input: LocalPilotPackageAssemblyInput, baseUrl
       encodedUrl,
       fallbackPath: input.manifest.localFallbackPaths[index],
       svg,
+      svgChecksum: "sha256:" + createHash("sha256").update(svg).digest("hex"),
     };
   }));
   const manifest: QrPrintManifest = {
     artifactVersion: 1,
+    artifactId: createPilotQrPrintArtifactId({
+      packageId: input.manifest.packageId,
+      version: input.manifest.version,
+      manifestId: input.manifest.manifestId,
+      receiptId: input.receipt.receiptId,
+    }),
+    tenantId: input.manifest.tenantId,
     packageId: input.manifest.packageId,
     version: input.manifest.version,
+    manifestId: input.manifest.manifestId,
+    receiptId: input.receipt.receiptId,
+    sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
     baseUrl,
     printAuthorized: true,
     entries,

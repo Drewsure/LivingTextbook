@@ -7,3 +7,7 @@ readiness for a human decision but must keep print authorization pending and
 must not write a registry, mutate routes, swap a package, or activate students.
 
 See `docs/adr/1305-qr-print-authorization-preflight.md`.
+
+The generated local QR sheet must also pass the typed artifact-integrity
+contract in `docs/adr/1306-qr-print-artifact-integrity.md` before the runtime
+reports it ready.
