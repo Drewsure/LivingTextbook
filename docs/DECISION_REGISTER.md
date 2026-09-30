@@ -10276,3 +10276,13 @@ The controlled pilot needs a real server-side bridge between reviewed publisher 
 ## DR-1346: Package Assembly Promotion Binding
 
 Local package assembly must prefer the exact tenant/package/version approved asset directory created by the controlled promotion writer. A valid promotion record must bind delivery manifest and receipt identities before any publisher bytes are copied into the local package. The assembly record records whether package-scoped promotion custody or the compatibility flat-root path was used. Tampering, missing promotion metadata, and identity drift fail closed; student activation, hosted persistence, QR mutation, and learner records remain separate. See ADR 1347.
+
+## DR-1347: Bind Publisher Handoff To Asset Custody
+
+The publisher-facing local-package handoff must report the assembly's approved
+asset source scope and copied-asset count. The runtime validates these values
+against the immutable assembly record before returning a verified handoff
+receipt. Package-scoped promotion is the intended pilot path; the legacy
+flat-root scope remains explicitly labelled as compatibility-only. The receipt
+remains metadata-only and cannot expose raw publisher bytes, learner records,
+credentials, QR mutation, hosted activation, or student writes. See ADR 1348.

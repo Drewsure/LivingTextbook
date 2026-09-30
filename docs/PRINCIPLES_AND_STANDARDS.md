@@ -9390,3 +9390,17 @@ This standard is recorded in DR-1345 and ADR 1346.
 - Promotion custody does not replace independent release, QR, policy, hosted-persistence, student-activation, or learner-record gates.
 
 This standard is recorded in DR-1346 and ADR 1347.
+
+## 591. Publisher Handoff Receipts Must Carry Asset Custody
+
+- A verified local-package handoff must expose the approved asset source scope
+  and copied-asset count alongside the QR, release, and integrity identities.
+- The runtime must validate those fields against the immutable assembly record;
+  a handoff cannot infer asset custody from a generic package-ready flag.
+- Package-scoped promotion custody is the intended saleable-pilot path. The
+  legacy flat-root scope may remain visible only as a named compatibility
+  rehearsal path while migration is unfinished.
+- The receipt remains metadata-only: it must not expose raw payloads, learner
+  records, credentials, QR mutation, hosted activation, or student writes.
+
+This standard is recorded in DR-1347 and ADR 1348.

@@ -56,6 +56,8 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="Delivery mode" value={summary.mode} />
           <RuntimeFact label="Package directory" value={summary.relativeDirectory} />
           <RuntimeFact label="Media kinds" value={summary.mediaKinds.join(", ") || "None"} />
+          <RuntimeFact label="Asset custody" value={summary.approvedAssetSourceScope} />
+          <RuntimeFact label="Approved assets" value={`${summary.copiedAssetCount} copied`} />
           <RuntimeFact label="Hosted persistence" value={summary.hostedPersistence} />
           <RuntimeFact label="QR registry" value={summary.qrAliasRegistryReady ? "Verified" : "Blocked"} />
           <RuntimeFact label="Integrity ledger" value={`${summary.integrityFileCount} files verified`} />

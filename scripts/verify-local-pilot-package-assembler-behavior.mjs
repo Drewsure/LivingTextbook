@@ -69,6 +69,8 @@ try {
       assert(handoff.handoff.qrPrintArtifactId === qrManifest.artifactId, "handoff receipt must bind the QR print artifact identity");
       assert(handoff.handoff.qrAliasRegistryRecordId === input.qrRegistryRecord.recordId, "handoff receipt must bind the QR registry identity");
       assert(handoff.handoff.integrityFileCount >= 1, "handoff receipt must bind a non-empty integrity ledger");
+      assert(handoff.handoff.approvedAssetSourceScope === "package-scoped-promotion", "handoff receipt must bind package-scoped approved asset custody");
+      assert(handoff.handoff.copiedAssetCount >= 1, "handoff receipt must bind copied approved asset count");
       assert(handoff.handoff.integrityManifestId.includes("package-integrity"), "handoff receipt must expose the integrity manifest identity");
       assert(handoff.handoff.learnerRecordsIncluded === false && handoff.handoff.writesAllowed === false, "handoff receipt must preserve learner-data and write boundaries");
     }

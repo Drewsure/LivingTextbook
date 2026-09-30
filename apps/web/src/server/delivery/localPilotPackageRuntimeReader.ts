@@ -66,6 +66,8 @@ export interface LocalPilotPackageRuntimeSummary {
   qrAliasRegistryReady: boolean;
   integrityManifestId: string;
   integrityFileCount: number;
+  approvedAssetSourceScope: "package-scoped-promotion" | "legacy-flat-root";
+  copiedAssetCount: number;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
   hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   learnerRecordsIncluded: false;
@@ -169,6 +171,8 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         qrAliasRegistryReady: true,
         integrityManifestId: String((integrityValue as Record<string, unknown>).integrityManifestId ?? ""),
         integrityFileCount: Number((integrityValue as Record<string, unknown>).fileCount ?? 0),
+        approvedAssetSourceScope: assembly.approvedAssetSourceScope as "package-scoped-promotion" | "legacy-flat-root",
+        copiedAssetCount: Number(assembly.copiedAssetCount ?? 0),
         hostedPersistence: packageIndex.hostedPersistence,
         hostedPersistenceDecisionPacketId: packageIndex.hostedPersistenceDecisionPacketId,
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
@@ -246,6 +250,8 @@ export async function readLocalPilotPackageHandoff(identity: LocalPilotPackageRu
       qrAliasRegistryRecordId: String(qrRegistryValue.recordId ?? ""),
       integrityManifestId: runtime.summary.integrityManifestId,
       integrityFileCount: runtime.summary.integrityFileCount,
+      approvedAssetSourceScope: runtime.summary.approvedAssetSourceScope,
+      copiedAssetCount: runtime.summary.copiedAssetCount,
       routeCount: runtime.summary.routes.length,
       gameRouteCount: runtime.summary.gameRoutePaths.length,
       mediaKinds: runtime.summary.mediaKinds.slice(),
@@ -411,6 +417,7 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (!isSafeSegment(String(reviewPacketBindingValue.quarantineId ?? "")) || !isNonEmptyString(reviewPacketBindingValue.packetId)) errors.push("Local package runtime review packet binding identity is unsafe or incomplete.");
   if (assemblyValue.quarantineId !== reviewPacketBindingValue.quarantineId || assemblyValue.reviewPacketId !== reviewPacketBindingValue.packetId) errors.push("Local package runtime assembly record does not preserve review packet identity.");
   if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
+  if (!["package-scoped-promotion", "legacy-flat-root"].includes(String(assemblyValue.approvedAssetSourceScope)) || !Number.isInteger(assemblyValue.copiedAssetCount) || Number(assemblyValue.copiedAssetCount) < 1) errors.push("Local package runtime assembly record does not preserve approved asset custody scope and count.");
   if (integrityValue.tenantId !== manifestValue.tenantId || integrityValue.packageId !== manifestValue.packageId || integrityValue.version !== manifestValue.version || integrityValue.bundleId !== bundleValue.bundle_id || integrityValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime integrity manifest does not match the approved delivery identity.");
   errors.push(...validatePilotQrPrintArtifact(qrPrintValue));
   errors.push(...validatePilotQrAliasRegistryRecord(qrRegistryValue));

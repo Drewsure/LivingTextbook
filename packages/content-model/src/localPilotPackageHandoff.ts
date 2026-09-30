@@ -16,6 +16,8 @@ export interface LocalPilotPackageHandoff {
   qrAliasRegistryRecordId: string;
   integrityManifestId: string;
   integrityFileCount: number;
+  approvedAssetSourceScope: "package-scoped-promotion" | "legacy-flat-root";
+  copiedAssetCount: number;
   routeCount: number;
   gameRouteCount: number;
   mediaKinds: string[];
@@ -44,6 +46,8 @@ export function validateLocalPilotPackageHandoff(value: unknown): string[] {
   if (!Number.isInteger(value.routeCount) || Number(value.routeCount) < 1) errors.push("Local pilot package handoff routeCount must be a positive integer.");
   if (!Number.isInteger(value.gameRouteCount) || Number(value.gameRouteCount) < 1) errors.push("Local pilot package handoff gameRouteCount must be a positive integer.");
   if (!Number.isInteger(value.integrityFileCount) || Number(value.integrityFileCount) < 1) errors.push("Local pilot package handoff integrityFileCount must be a positive integer.");
+  if (!["package-scoped-promotion", "legacy-flat-root"].includes(String(value.approvedAssetSourceScope))) errors.push("Local pilot package handoff approved asset source scope is unsupported.");
+  if (!Number.isInteger(value.copiedAssetCount) || Number(value.copiedAssetCount) < 1) errors.push("Local pilot package handoff copiedAssetCount must be a positive integer.");
   if (!Array.isArray(value.mediaKinds) || value.mediaKinds.some((item) => !isNonEmptyString(item))) errors.push("Local pilot package handoff mediaKinds must contain strings.");
   if (value.status !== "verified-local-package") errors.push("Local pilot package handoff status must be verified-local-package.");
   if (value.learnerRecordsIncluded !== false || value.writesAllowed !== false || value.hostedPersistenceActivated !== false || value.qrAliasesMutated !== false) errors.push("Local pilot package handoff must preserve all operational and learner-data boundaries.");

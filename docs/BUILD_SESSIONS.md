@@ -7571,3 +7571,13 @@ transcripts are copied from the selected custody scope, and the assembly
 record records that scope. Tampered promotion metadata blocks assembly before
 package output is written. The flat approved-root path remains only as an
 explicit compatibility rehearsal fallback. Recorded ADR 1347 / DR-1346.
+
+## Build session: Publisher handoff asset custody binding
+
+The verified local-package handoff now carries the assembly's approved asset
+source scope and copied-asset count. The runtime validates those values from
+the immutable assembly record before returning the publisher handoff receipt,
+so a generic package-ready flag cannot conceal an unbound asset source. The
+package-scoped promotion path is the intended saleable-pilot path; the
+legacy flat-root path remains named compatibility evidence only. Recorded
+ADR 1348 / DR-1347.
