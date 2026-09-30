@@ -32,8 +32,8 @@ const page = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "so
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "content-intake", "PublisherSourceToPackageEvidenceBridgePanel.tsx"), "utf8");
 const sample = readFileSync(join(root, "apps", "web", "src", "data", "sampleMinistarSourceToPackageEvidenceBridge.ts"), "utf8");
 for (const marker of ["PublisherSourceToPackageEvidenceBridgePanel", "sampleMinistarSourceToPackageEvidenceBridge"]) if (!page.includes(marker)) failures.push(`source page is missing marker: ${marker}`);
-for (const marker of ["Checksum-bound lineage", "Draft creation blocked", "Student use blocked"]) if (!panel.includes(marker)) failures.push(`bridge panel is missing marker: ${marker}`);
-for (const marker of ["createPublisherSourceToPackageEvidenceBridge", "sampleMinistarSourceDerivedUnitReview", "sampleMinistarUnitAuthoringProposal"]) if (!sample.includes(marker)) failures.push(`sample bridge is missing marker: ${marker}`);
+for (const marker of ["Checksum-bound lineage", "Publisher source preflight", "Draft creation blocked", "Student use blocked"]) if (!panel.includes(marker)) failures.push(`bridge panel is missing marker: ${marker}`);
+for (const marker of ["createPublisherSourceToPackageEvidenceBridge", "sampleMinistarSourceDerivedUnitReview", "sampleMinistarUnitAuthoringProposal", "preflightReference"]) if (!sample.includes(marker)) failures.push(`sample bridge is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("bridge panel must remain read-only");
 if (failures.length) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
 console.log("PASS publisher source-to-package evidence bridge binds MiniStar source evidence and remains review-only.");

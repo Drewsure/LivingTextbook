@@ -10320,3 +10320,12 @@ values; a changed fingerprint is a new submission even when tenant, package,
 version, and filenames are unchanged. The fingerprints remain provenance
 evidence only and do not authorize any write, package, QR, persistence, or
 student action. See ADR 1351.
+
+## DR-1352: Source Preflight Evidence Bridge Reference
+
+The source-to-package evidence bridge may now carry a validated publisher
+preflight report reference and its two aggregate fingerprints. The MiniStar
+fixture shows the intended complete lineage; the live bridge remains blocked
+and reports a provenance gap until a real preflight record is durably attached
+and reconciled. No approval or protected action is inferred from the
+reference. See ADR 1352.

@@ -7614,3 +7614,12 @@ sorted observed inventory. Per-file checksums remain visible, while the two
 aggregate values make manifest edits and added/removed files detectable during
 later source-review reconciliation. The report remains blocked, local,
 review-only, and side-effect-free. Recorded ADR 1351.
+
+## Build session: Connect preflight fingerprints to source evidence
+
+The source-to-package evidence bridge can now carry the publisher preflight
+report identity plus its manifest and inventory fingerprints. The MiniStar
+reference shows the complete lineage; the live quarantine bridge remains
+honest when no durable preflight record exists and surfaces that as an open
+provenance gap. Added validation and read-only panel coverage. Recorded ADR
+1352.

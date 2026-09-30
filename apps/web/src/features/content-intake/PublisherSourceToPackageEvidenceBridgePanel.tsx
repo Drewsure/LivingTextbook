@@ -25,6 +25,16 @@ export function PublisherSourceToPackageEvidenceBridgePanel({ bridge }: { bridge
         <p className="mt-2 break-all font-mono text-xs text-[var(--tenant-muted)]">{bridge.sourceChecksum}</p>
         <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">The authored sentences are linked for review but are explicitly not represented as extracted source content.</p>
       </div>
+      <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Publisher source preflight</p>
+        {bridge.preflightReference ? (
+          <>
+            <p className="mt-2 break-words font-mono text-xs text-[var(--tenant-muted)]">{bridge.preflightReference.reportId}</p>
+            <p className="mt-2 break-all font-mono text-xs text-[var(--tenant-muted)]">Manifest: {bridge.preflightReference.manifestChecksumSha256}</p>
+            <p className="mt-1 break-all font-mono text-xs text-[var(--tenant-muted)]">Inventory: {bridge.preflightReference.inventoryChecksumSha256}</p>
+          </>
+        ) : <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">No publisher preflight report is linked to this source review yet.</p>}
+      </div>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {bridge.evidenceLanes.map((lane) => (
           <section key={lane.laneId} className="rounded-lg border border-[var(--tenant-border)] p-4">

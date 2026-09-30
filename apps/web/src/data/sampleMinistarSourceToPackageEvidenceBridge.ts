@@ -20,6 +20,12 @@ export const sampleMinistarSourceToPackageEvidenceBridge: PublisherSourceToPacka
   extractionPacketId: extractionPacket.packetId,
   authoringProposalId: sampleMinistarUnitAuthoringProposal.proposalId,
   sourceChecksum: sampleMinistarSourceDerivedUnitReview.sourceChecksum,
+  preflightReference: {
+    reportId: "ministar:source-package:v1:source-preflight",
+    manifestId: "ministar-master-docx-v1-source-manifest",
+    manifestChecksumSha256: "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    inventoryChecksumSha256: "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  },
   sourceTermsReviewed: false,
   sentenceApprovalRecorded: false,
   audioEvidenceReady: false,

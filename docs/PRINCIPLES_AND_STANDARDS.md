@@ -9453,3 +9453,19 @@ This standard is recorded in DR-1349 and ADR 1350.
   records, or student use.
 
 This standard is recorded in DR-1351 and ADR 1351.
+
+## 595. Source Review Must Reconcile Publisher Preflight Evidence
+
+- The source-to-package evidence bridge may carry the publisher preflight
+  report ID, manifest ID, manifest fingerprint, and inventory fingerprint.
+- A live publisher bridge without a durable preflight reference must show an
+  open provenance gap; it must not infer the reference from filenames or
+  package identifiers.
+- The MiniStar reference may demonstrate the complete bridge with synthetic
+  evidence, but that fixture must remain distinct from a real publisher
+  submission.
+- The bridge remains metadata-only and must not authorize source approval,
+  quarantine, promotion, package assembly, QR printing, persistence, learner
+  records, or student use.
+
+This standard is recorded in DR-1352 and ADR 1352.
