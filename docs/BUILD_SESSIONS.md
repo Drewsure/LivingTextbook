@@ -7430,3 +7430,14 @@ The bridge remains blocked, review-only, and side-effect-free. It cannot create
 a teacher draft, assemble or promote a package, print QR codes, activate
 persistence, or enable students. Added the focused verifier and recorded
 ADR 1333 / DR-1332.
+
+## Build session: Live source-to-package evidence binding
+
+Added a tenant-authorized GET route for the source-to-package evidence bridge.
+It derives bounded identities from a quarantined publisher submission and
+returns the same eight review lanes used by the MiniStar reference handoff.
+
+The route is metadata-only and read-only. It does not return payload bytes,
+write review decisions, create extraction records, assemble packages, print QR
+codes, activate persistence, or enable students. Added the focused verifier and
+recorded ADR 1334 / DR-1333.

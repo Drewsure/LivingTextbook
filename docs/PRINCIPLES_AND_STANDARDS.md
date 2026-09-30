@@ -9195,3 +9195,16 @@ This standard is recorded in DR-1331 and ADR 1332.
   persistence record, or student route.
 
 This standard is recorded in DR-1332 and ADR 1333.
+
+## 576. Live Evidence Bindings Must Be Metadata-Only
+
+- A tenant-authorized source evidence binding may derive review identities from
+  quarantine metadata, but it must not return source payload bytes or paths.
+- Live bindings must use the same evidence lanes as the reference review so a
+  white-label tenant does not receive a weaker safety contract.
+- A GET binding must not become an approval, extraction write, package write, QR
+  print action, persistence activation, or student route.
+- Authorization and tenant boundaries must be verified before any quarantine
+  metadata is returned.
+
+This standard is recorded in DR-1333 and ADR 1334.

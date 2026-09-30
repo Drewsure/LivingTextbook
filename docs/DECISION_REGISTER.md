@@ -10164,3 +10164,11 @@ proposal to the remaining audio, rights, game, and release evidence lanes.
 The bridge keeps extracted source text distinct from authored candidates and
 keeps draft creation, package assembly, QR printing, persistence activation,
 and student-facing use blocked. See ADR 1333.
+
+## DR-1333: Live Source-to-Package Evidence Binding
+
+The source-to-package evidence bridge is now exposed for tenant-authorized
+quarantine reads, so a real publisher submission can receive the same bounded
+eight-lane evidence view as the MiniStar reference source. The route remains
+read-only and cannot return payloads, write evidence, assemble packages, print
+QR codes, activate persistence, or start students. See ADR 1334.
