@@ -29,8 +29,8 @@ try {
 const route = readFileSync(join(root, "apps", "web", "src", "app", "api", "teacher", "uploads", "package-readiness-binding", "route.ts"), "utf8");
 const bridge = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherQuarantineHandoffBridgePanel.tsx"), "utf8");
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherDeliveryAssemblyRequestPreviewPanel.tsx"), "utf8");
-for (const marker of ["createPublisherDeliveryAssemblyRequestPreview", "sourcePreflightEvidencePresent", "assemblyRequestPreview", "validatePublisherDeliveryAssemblyRequestPreview"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
-for (const marker of ["PublisherDeliveryAssemblyRequestPreviewPanel", "assemblyRequestPreview"]) if (!bridge.includes(marker)) failures.push(`live handoff bridge is missing marker: ${marker}`);
+for (const marker of ["createPublisherDeliveryAssemblyRequestPreview", "sourcePreflightEvidencePresent", "reviewedBundleManifestPresent", "readLocalBundleManifestReview", "summarizeReviewedBundleManifest", "assemblyRequestPreview", "validatePublisherDeliveryAssemblyRequestPreview"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
+for (const marker of ["PublisherDeliveryAssemblyRequestPreviewPanel", "LiveReviewedBundleManifestSummary", "reviewedBundleManifest", "assemblyRequestPreview"]) if (!bridge.includes(marker)) failures.push(`live handoff bridge is missing marker: ${marker}`);
 for (const marker of ["Local package assembly request preview", "Exact writer inputs", "Protected actions"]) if (!panel.includes(marker)) failures.push(`assembly preview panel is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("assembly preview panel must remain read-only");
 if (failures.length > 0) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }

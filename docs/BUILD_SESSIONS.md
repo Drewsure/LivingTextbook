@@ -7725,3 +7725,15 @@ inputs. The offline bundle manifest remains the content/configuration input;
 the durable reviewed bundle-manifest custody record is now shown as its own
 required evidence input. The live preview stays blocked and read-only until the
 reviewed record is captured. Recorded ADR 1361 / DR-1361.
+
+## Build session: Bind reviewed bundle custody into live readiness
+
+The publisher package-readiness route now looks up the reviewed local
+bundle-manifest record from the exact source-preflight version and checks its
+tenant, package, quarantine, review-packet, and source-preflight identities.
+The handoff exposes bounded custody metadata only, and the assembly preview
+marks the reviewed-manifest input present only after that exact check passes.
+
+No manifest body, filesystem path, payload bytes, write capability, QR print,
+promotion, hosted persistence, learner record, or student activation was
+added. Recorded ADR 1362 / DR-1362.

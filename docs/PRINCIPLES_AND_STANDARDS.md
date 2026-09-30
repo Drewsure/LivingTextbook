@@ -9605,3 +9605,20 @@ This standard is recorded in DR-1360 and ADR 1360.
   preview, QR route, or package writer request.
 
 This standard is recorded in DR-1361 and ADR 1361.
+
+## 605. Live Readiness Must Read Reviewed Custody, Not Infer It
+
+- The publisher readiness route must look up reviewed bundle-manifest custody
+  using the exact source-preflight version and tenant/package/quarantine lineage.
+- The readiness response may expose bounded custody metadata such as status,
+  record identity, reviewer, timestamp, and checksum, but never the manifest
+  body, filesystem path, payload bytes, or credentials.
+- A custody record is `available` only when its tenant, package, quarantine,
+  review packet, and source-preflight evidence identities match the live
+  submission. Missing, stale, or mismatched custody remains blocked.
+- The assembly preview must consume this verified availability signal. A draft
+  manifest alone cannot satisfy the reviewed-custody input.
+- Availability is evidence, not permission: assembly, promotion, QR printing,
+  hosted persistence, student use, and learner-record writes remain blocked.
+
+This standard is recorded in DR-1362 and ADR 1362.

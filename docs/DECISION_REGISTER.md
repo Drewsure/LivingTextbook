@@ -10421,3 +10421,13 @@ record. The review record is a separate required input and remains blocked until
 it is bound to the package review packet and source preflight evidence. This
 prevents a draft manifest from appearing equivalent to reviewed delivery
 evidence. See ADR 1361.
+
+## DR-1362: Bind Reviewed Bundle Custody Into Live Readiness
+
+The live publisher package-readiness route now reads the exact reviewed local
+bundle-manifest custody record using the source-preflight version and validates
+tenant, package, quarantine, review-packet, and source-preflight identities
+before marking that assembly input present. It returns only bounded custody
+metadata, never the manifest body or filesystem path. The signal remains
+review-only: package assembly, promotion, QR printing, hosted persistence,
+student use, and learner records stay blocked. See ADR 1362.

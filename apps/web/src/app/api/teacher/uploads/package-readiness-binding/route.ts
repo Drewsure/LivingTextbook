@@ -56,6 +56,7 @@ import {
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
+import { readLocalBundleManifestReview, type LocalBundleManifestReviewReadResult } from "@/server/delivery/localBundleManifestReviewWriter";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -81,9 +82,31 @@ type ReadinessResponse = {
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
   sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null;
+  reviewedBundleManifest?: ReviewedBundleManifestCustodySummary | null;
   sentenceApproval?: import("@living-textbook/content-model").PublisherSentenceApprovalRecord | null;
   errors?: string[];
   privacy: string;
+};
+
+type ReviewedBundleManifestCustodySummary = {
+  status: "available" | "not-found" | "blocked";
+  tenantId: string;
+  packageId: string;
+  version: string | null;
+  recordId: string | null;
+  reviewPacketId: string | null;
+  sourcePreflightEvidenceId: string | null;
+  manifestChecksumSha256: string | null;
+  reviewerId: string | null;
+  reviewedAt: string | null;
+  errors: string[];
+  packageAssemblyAllowed: false;
+  promotionAllowed: false;
+  qrPrintAllowed: false;
+  hostedPersistenceActivationAllowed: false;
+  studentFacingUseAllowed: false;
+  mode: "review-only";
+  sideEffect: "none";
 };
 
 export async function GET(request: Request) {
@@ -131,6 +154,14 @@ export async function GET(request: Request) {
   const sentenceApprovalResult = await readQuarantineSentenceApproval(tenantId, quarantineId);
   const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(tenantId, quarantineId);
   const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
+  const reviewPacketId = packet?.packetId ?? `${packageId}:${quarantineId}:package-review-packet`;
+  const reviewedBundleManifestResult = sourcePreflightEvidence
+    ? await readLocalBundleManifestReview({ tenantId, packageId, version: sourcePreflightEvidence.version })
+    : null;
+  const reviewedBundleManifest = summarizeReviewedBundleManifest(
+    reviewedBundleManifestResult,
+    { tenantId, packageId, quarantineId, reviewPacketId, sourcePreflightEvidenceId: sourcePreflightEvidence?.evidenceId ?? null },
+  );
   const sentenceApproval = sentenceApprovalResult.record
     && sentenceApprovalResult.record.packageId === packageId
     && sentenceApprovalResult.record.sourceChecksumSha256 === summary.record.checksumSha256
@@ -188,7 +219,6 @@ export async function GET(request: Request) {
       "An approved local bundle or hosted deployment handoff is not linked to this quarantine review packet.",
     ],
   }) : null;
-  const reviewPacketId = packet?.packetId ?? `${packageId}:${quarantineId}:package-review-packet`;
   const deliveryManifestPreview = createReviewOnlyUploadQuarantineDeliveryManifestPreview({
     tenantId,
     quarantineId,
@@ -254,7 +284,7 @@ export async function GET(request: Request) {
     qrRegistryPresent: false,
     packageIndexPresent: false,
     bundleManifestPresent: false,
-    reviewedBundleManifestPresent: false,
+    reviewedBundleManifestPresent: reviewedBundleManifest.status === "available",
     reviewPacketBound: packet?.status === "ready-for-next-gate",
     operatorAndWriteTimePresent: false,
   });
@@ -333,10 +363,57 @@ export async function GET(request: Request) {
     assemblyRequestPreview: assemblyRequestPreviewErrors.length === 0 ? assemblyRequestPreview : null,
     deliveryHandoffRecord: deliveryHandoffRecordErrors.length === 0 ? deliveryHandoffRecord : null,
     sourcePackageEvidenceBinding: sourcePackageEvidenceBindingErrors.length === 0 ? sourcePackageEvidenceBinding : null,
+    reviewedBundleManifest,
     hostedPersistenceOptInPacket,
     errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...sentenceApprovalResult.errors, ...sourcePreflightEvidenceResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
     privacy: privacyMessage(),
   });
+}
+
+function summarizeReviewedBundleManifest(
+  result: LocalBundleManifestReviewReadResult | null,
+  context: { tenantId: string; packageId: string; quarantineId: string; reviewPacketId: string; sourcePreflightEvidenceId: string | null },
+): ReviewedBundleManifestCustodySummary {
+  const base = {
+    tenantId: context.tenantId,
+    packageId: context.packageId,
+    version: null as string | null,
+    recordId: null as string | null,
+    reviewPacketId: null as string | null,
+    sourcePreflightEvidenceId: null as string | null,
+    manifestChecksumSha256: null as string | null,
+    reviewerId: null as string | null,
+    reviewedAt: null as string | null,
+    packageAssemblyAllowed: false as const,
+    promotionAllowed: false as const,
+    qrPrintAllowed: false as const,
+    hostedPersistenceActivationAllowed: false as const,
+    studentFacingUseAllowed: false as const,
+    mode: "review-only" as const,
+    sideEffect: "none" as const,
+  };
+  if (!result) return { ...base, status: "blocked", errors: ["Durable source preflight evidence is required before reviewed bundle-manifest custody can be checked."] };
+  if (result.status !== "available" || !result.record) return { ...base, status: result.status, errors: [...result.errors] };
+  const record = result.record;
+  const identityErrors = [
+    record.tenantId === context.tenantId ? null : "Reviewed bundle manifest custody tenant does not match the live quarantine.",
+    record.packageId === context.packageId ? null : "Reviewed bundle manifest custody package does not match the live quarantine.",
+    record.quarantineId === context.quarantineId ? null : "Reviewed bundle manifest custody quarantine does not match the live quarantine.",
+    record.reviewPacketId === context.reviewPacketId ? null : "Reviewed bundle manifest custody packet does not match the live review packet.",
+    context.sourcePreflightEvidenceId && record.sourcePreflightEvidenceId === context.sourcePreflightEvidenceId ? null : "Reviewed bundle manifest custody source preflight evidence does not match the live source evidence.",
+  ].filter((error): error is string => Boolean(error));
+  return {
+    ...base,
+    status: identityErrors.length === 0 ? "available" : "blocked",
+    version: record.version,
+    recordId: record.recordId,
+    reviewPacketId: record.reviewPacketId,
+    sourcePreflightEvidenceId: record.sourcePreflightEvidenceId,
+    manifestChecksumSha256: record.manifestChecksumSha256,
+    reviewerId: record.reviewerId,
+    reviewedAt: record.reviewedAt,
+    errors: [...result.errors, ...identityErrors],
+  };
 }
 
 function check(

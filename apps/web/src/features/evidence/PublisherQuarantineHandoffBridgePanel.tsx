@@ -69,8 +69,30 @@ type HandoffResponse = {
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
   sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null;
+  reviewedBundleManifest?: ReviewedBundleManifestCustodySummary | null;
   errors?: string[];
   privacy?: string;
+};
+
+type ReviewedBundleManifestCustodySummary = {
+  status: "available" | "not-found" | "blocked";
+  tenantId: string;
+  packageId: string;
+  version: string | null;
+  recordId: string | null;
+  reviewPacketId: string | null;
+  sourcePreflightEvidenceId: string | null;
+  manifestChecksumSha256: string | null;
+  reviewerId: string | null;
+  reviewedAt: string | null;
+  errors: string[];
+  packageAssemblyAllowed: false;
+  promotionAllowed: false;
+  qrPrintAllowed: false;
+  hostedPersistenceActivationAllowed: false;
+  studentFacingUseAllowed: false;
+  mode: "review-only";
+  sideEffect: "none";
 };
 
 export function PublisherQuarantineHandoffBridgePanel({
@@ -105,6 +127,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [assemblyRequestPreview, setAssemblyRequestPreview] = useState<PublisherDeliveryAssemblyRequestPreview | null>(null);
   const [deliveryHandoffRecord, setDeliveryHandoffRecord] = useState<PublisherDeliveryHandoffRecord | null>(null);
   const [sourcePackageEvidenceBinding, setSourcePackageEvidenceBinding] = useState<PublisherSourceToPackageEvidenceBridge | null>(null);
+  const [reviewedBundleManifest, setReviewedBundleManifest] = useState<ReviewedBundleManifestCustodySummary | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -156,9 +179,10 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; sentenceApproval?: PublisherSentenceApprovalRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null; reviewedBundleManifest?: ReviewedBundleManifestCustodySummary | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; sentenceApproval?: PublisherSentenceApprovalRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
         setReadinessBinding(next.binding ?? null);
         setSourcePackageEvidenceBinding(next.sourcePackageEvidenceBinding ?? null);
+        setReviewedBundleManifest(next.reviewedBundleManifest ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
         setPromotionAdapterDecision(next.promotionAdapterDecision ?? null);
@@ -177,6 +201,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         if (error instanceof DOMException && error.name === "AbortError") return;
         setReadinessBinding(null);
         setSourcePackageEvidenceBinding(null);
+        setReviewedBundleManifest(null);
         setDeliveryManifestPreview(null);
         setDeliveryModeDecision(null);
         setPromotionAdapterDecision(null);
@@ -444,6 +469,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             )}
           </section>
           {readinessBinding ? <LiveReadinessSummary binding={readinessBinding} /> : null}
+          {reviewedBundleManifest ? <LiveReviewedBundleManifestSummary summary={reviewedBundleManifest} /> : null}
           {hostedPersistenceOptInPacket ? <LiveHostedPersistenceOptInPreview packet={hostedPersistenceOptInPacket} /> : null}
           <LiveReviewDecisionSummary decision={reviewDecision} />
           {deliveryManifestPreview ? <LiveDeliveryManifestPreview preview={deliveryManifestPreview} /> : null}
@@ -500,6 +526,41 @@ function LiveReviewDecisionSummary({ decision }: { decision: UploadQuarantineRev
           No quarantine review decision is recorded yet. This remains not release approval, and package assembly, promotion, and student use stay blocked.
         </p>
       )}
+    </section>
+  );
+}
+
+function LiveReviewedBundleManifestSummary({ summary }: { summary: ReviewedBundleManifestCustodySummary }) {
+  const available = summary.status === "available";
+  return (
+    <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Reviewed local bundle manifest custody</p>
+          <h3 className="mt-1 text-base font-bold">Assembly sees reviewed custody, not only a draft manifest</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+            {available
+              ? "The exact tenant, package, version, quarantine, review-packet, and source-preflight identities are linked. The record remains evidence only."
+              : "The exact reviewed bundle-manifest custody record is not available for this package lineage, so assembly remains blocked."}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <StatusPill label={available ? "Available" : summary.status} tone={available ? "success" : "warning"} />
+          <StatusPill label="Assembly blocked" tone="warning" />
+        </div>
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Fact label="Version" value={summary.version ?? "Not available"} />
+        <Fact label="Record" value={summary.recordId ?? "Not recorded"} />
+        <Fact label="Reviewer" value={summary.reviewerId ?? "Not recorded"} />
+        <Fact label="Reviewed" value={summary.reviewedAt ?? "Not recorded"} />
+        <Fact label="Manifest checksum" value={summary.manifestChecksumSha256 ?? "Not available"} />
+        <Fact label="Review packet" value={summary.reviewPacketId ?? "Not linked"} />
+        <Fact label="Source preflight" value={summary.sourcePreflightEvidenceId ?? "Not linked"} />
+        <Fact label="Student use" value={summary.studentFacingUseAllowed ? "Unexpected" : "Blocked"} />
+      </dl>
+      {summary.errors.length > 0 ? <div className="mt-4"><ListBlock title="Custody gaps" items={summary.errors} tone="warning" /></div> : null}
+      <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">Promotion: blocked · QR printing: blocked · hosted persistence: blocked · student use: blocked · side effect: none</p>
     </section>
   );
 }
