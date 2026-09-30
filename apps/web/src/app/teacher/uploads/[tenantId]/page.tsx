@@ -24,6 +24,11 @@ import {
   validatePublisherSubmissionPackageEvidenceReconciliationPreview,
 } from "@/data/publisherSubmissionPackageEvidenceReconciliation";
 import { PublisherSubmissionPackageEvidenceReconciliationPanel } from "@/features/content-intake/PublisherSubmissionPackageEvidenceReconciliationPanel";
+import {
+  createPublisherSubmissionPackageReviewJourney,
+  validatePublisherSubmissionPackageReviewJourneyPreview,
+} from "@/data/publisherSubmissionPackageReviewJourney";
+import { PublisherSubmissionPackageReviewJourneyPanel } from "@/features/content-intake/PublisherSubmissionPackageReviewJourneyPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -51,12 +56,15 @@ export default async function TeacherUploadWorkspacePage({
   const submissionReviewHandoffErrors = validatePublisherSubmissionReviewHandoffPreview(submissionReviewHandoff, submissionManifest);
   const packageEvidenceReconciliation = createPublisherSubmissionPackageEvidenceReconciliation(submissionManifest);
   const packageEvidenceReconciliationErrors = validatePublisherSubmissionPackageEvidenceReconciliationPreview(packageEvidenceReconciliation, submissionManifest);
+  const packageReviewJourney = createPublisherSubmissionPackageReviewJourney(submissionManifest, packageEvidenceReconciliation.reconciliationId);
+  const packageReviewJourneyErrors = validatePublisherSubmissionPackageReviewJourneyPreview(packageReviewJourney);
 
   return (
     <AppShell tenant={tenant}>
       <PublisherSubmissionManifestPanel manifest={submissionManifest} />
       <PublisherSubmissionReviewHandoffPanel handoff={submissionReviewHandoff} validationErrors={submissionReviewHandoffErrors} />
       <PublisherSubmissionPackageEvidenceReconciliationPanel reconciliation={packageEvidenceReconciliation} validationErrors={packageEvidenceReconciliationErrors} />
+      <PublisherSubmissionPackageReviewJourneyPanel journey={packageReviewJourney} validationErrors={packageReviewJourneyErrors} />
       {hasSamplePreview ? (
         <TeacherUploadWorkspacePanel
           tenantId={tenantId}

@@ -7309,3 +7309,14 @@ game or multimedia evidence explicit before package review.
 The reconciliation remains blocked and side-effect-free. It cannot assemble or
 promote files, print QR codes, activate persistence, or start students. Added
 the focused reconciliation verifier and recorded ADR 1324 / DR-1323.
+
+## Build session: Publisher submission package review journey
+
+Added a controlled sample journey to the intake workspace. It binds the
+manifest, canonical evidence reconciliation, opaque quarantine identity,
+evidence packet, package-review packet, package-evidence review, delivery/QR
+review, and teacher rehearsal gates in one readable sequence.
+
+The journey is synthetic and review-only. It cannot assemble or promote files,
+print QR codes, activate persistence, or start students. Added the focused
+journey verifier and recorded ADR 1325 / DR-1324.

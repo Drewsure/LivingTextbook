@@ -10068,3 +10068,10 @@ Publisher manifest coverage now reconciles into the canonical eight package
 evidence lanes, including the explicit game lane. Missing and review-pending
 evidence remain visible, while package assembly, promotion, QR printing,
 persistence activation, and student use stay blocked. See ADR 1324.
+
+## DR-1324: Publisher Submission Package Review Journey
+
+The intake workspace now shows a controlled sample journey from publisher
+manifest through evidence, quarantine, package review, delivery/QR, and
+teacher rehearsal. It binds existing package identities but remains synthetic,
+review-only, and release-blocked. See ADR 1325.
