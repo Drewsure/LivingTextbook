@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isUploadQuarantineSafeTenantId } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { hasUploadQuarantineApiCredential, hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import {
   readQuarantineReviewDecision,
@@ -49,7 +50,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasUploadApiToken(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
+  if (!origin.valid && !hasUploadQuarantineApiCredential(request)) return json({ status: "forbidden", errors: origin.errors }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Quarantine review decision request");
   if (!bodyResult.ok) return json({ status: "rejected", errors: bodyResult.errors }, bodyResult.status);
   const body = bodyResult.value;
@@ -108,14 +109,9 @@ function isReviewDecisionRequest(value: unknown): value is ReviewDecisionRequest
     && candidate.unresolvedBlockers.every((item) => typeof item === "string");
 }
 
-function hasReviewAuthorization(request: Request, tenantId: string): boolean {
-  return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId);
-}
+function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
 
-function hasUploadApiToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
-}
+
 
 function privacyMessage(): string {
   return "Review decision records contain bounded teacher review metadata only; they never include raw payloads, filesystem paths, credentials, learner records, or download URLs.";

@@ -4,6 +4,7 @@ import {
   isUploadQuarantineSafeTenantId,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
 
@@ -49,11 +50,7 @@ export async function GET(request: Request) {
   });
 }
 
-function hasReviewAuthorization(request: Request, tenantId: string): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  if (configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`) return true;
-  return hasTeacherOperationsReadAuthorization(request, tenantId);
-}
+function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
 
 function privacyMessage(): string {
   return "Package assembly preflight returns bounded readiness metadata only; it never assembles files, authorizes QR printing, activates persistence, exposes payloads, or enables student use.";

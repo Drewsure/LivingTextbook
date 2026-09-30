@@ -17,7 +17,7 @@ for (const [source, markers, label] of [
   [sample, ["samplePublisherPilotPackageReadinessBinding", "quarantine-review", "assembly-preflight", "hosted-opt-in", "createReviewOnlyPublisherPilotPackageReadinessBinding"], "sample binding"],
   [panel, ["Publisher package readiness binding", "One auditable status", "Blocked reasons", "Package assembly", "Student use"], "binding panel"],
   [route, ["PublisherPilotPackageReadinessBindingPanel", "samplePublisherPilotPackageReadinessBinding"], "handoff route integration"],
-  [liveRoute, ["Package readiness binding requires", "createReviewOnlyPublisherPilotPackageReadinessBinding", "readQuarantinePackageReviewPacket", "hasReviewAuthorization", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "raw payloads"], "live readiness route"],
+  [liveRoute, ["Package readiness binding requires", "createReviewOnlyPublisherPilotPackageReadinessBinding", "readQuarantinePackageReviewPacket", "hasReviewAuthorization", "hasUploadQuarantineApiToken", "raw payloads"], "live readiness route"],
   [bridge, ["Live package readiness binding", "/api/teacher/uploads/package-readiness-binding", "Package assembly: blocked"], "live bridge integration"],
   [bridge, ["Refresh live readiness", "setRefreshToken"], "live readiness refresh"],
   [uploadPanel, ["Open package handoff workspace"], "publisher intake handoff link"],

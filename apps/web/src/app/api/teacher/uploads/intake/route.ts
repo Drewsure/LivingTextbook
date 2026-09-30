@@ -5,6 +5,7 @@ import {
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { validateSameOriginMutation } from "@/server/persistence/requestBoundary";
+import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { writeQuarantineUpload } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
@@ -60,7 +61,7 @@ export async function POST(request: Request) {
   }
 
   const origin = validateSameOriginMutation(request);
-  const tokenAuthorized = hasConfiguredUploadToken(request);
+  const tokenAuthorized = hasUploadQuarantineApiToken(request, tenantId);
   if (!tokenAuthorized && !origin.valid) return json({ status: "unauthorized", errors: origin.errors }, origin.status);
   if (!tokenAuthorized && !hasTeacherOperationsReadAuthorization(request, tenantId)) {
     return json({ status: "unauthorized", errors: ["Tenant-scoped teacher or service authorization is required for quarantine intake."] }, 401);
@@ -91,11 +92,6 @@ export async function POST(request: Request) {
 
 function uploadsEnabled(): boolean {
   return process.env[UPLOAD_ENABLED_ENV] === "true";
-}
-
-function hasConfiguredUploadToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
 }
 
 function readFormText(formData: FormData, name: string, maxLength: number): string {

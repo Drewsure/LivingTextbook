@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { isUploadQuarantineSafeTenantId } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
 import { readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 
@@ -40,11 +41,7 @@ export async function GET(request: Request) {
   });
 }
 
-function hasReviewAuthorization(request: Request, tenantId: string): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  if (configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`) return true;
-  return hasTeacherOperationsReadAuthorization(request, tenantId);
-}
+function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
 
 function privacyMessage(): string {
   return "Quarantine review returns validated metadata and gate state only; it never returns raw payloads, filesystem paths, credentials, learner records, or download URLs.";

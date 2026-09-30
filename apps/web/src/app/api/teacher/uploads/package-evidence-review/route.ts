@@ -6,6 +6,7 @@ import {
   type UploadQuarantinePackageEvidenceReference,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { hasUploadQuarantineApiCredential, hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineUploadRecords, writeQuarantinePackageEvidenceReview } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
@@ -36,7 +37,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasUploadApiToken(request)) return json({ status: "forbidden", record: null, errors: origin.errors, privacy: privacyMessage() }, origin.status);
+  if (!origin.valid && !hasUploadQuarantineApiCredential(request)) return json({ status: "forbidden", record: null, errors: origin.errors, privacy: privacyMessage() }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Quarantine package evidence review request");
   if (!bodyResult.ok) return json({ status: "rejected", record: null, errors: bodyResult.errors, privacy: privacyMessage() }, bodyResult.status);
   if (!isPackageEvidenceReviewRequest(bodyResult.value)) return json({ status: "rejected", record: null, errors: ["Package evidence review requires tenant, quarantine, reviewer, note, reviewed lanes, and evidence references."], privacy: privacyMessage() }, 400);
@@ -69,10 +70,7 @@ function isPackageEvidenceReviewRequest(value: unknown): value is PackageEvidenc
     && candidate.evidenceReferences.every((reference) => Boolean(reference) && typeof reference === "object" && !Array.isArray(reference) && UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes((reference as { lane?: string }).lane as UploadQuarantinePackageEvidenceLane) && typeof (reference as { referenceId?: unknown }).referenceId === "string");
 }
 
-function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId); }
-function hasUploadApiToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
-}
+function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
+
 function privacyMessage(): string { return "Package evidence review stores bounded lane and reviewer metadata only; it does not upload assets, assemble a package, print QR codes, activate persistence, or authorize students."; }
 function json(body: unknown, status = 200) { return NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } }); }

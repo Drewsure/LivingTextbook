@@ -40,7 +40,7 @@ for (const marker of [
   "readQuarantineUploadRecords",
   "hasTeacherOperationsReadAuthorization",
   "isUploadQuarantineSafeTenantId",
-  "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN",
+  "hasUploadQuarantineApiToken",
   "rawPayloadsIncluded: false",
   "downloadUrlsIncluded: false",
   "promotionAllowed: false",

@@ -17,7 +17,7 @@ const liveSources = [
 const required = [
   [model, ["UploadQuarantineEvidenceReviewRecord", "evidence-ready", "local-quarantine-evidence-review-metadata", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false"], "evidence review model"],
   [store, ["readQuarantineEvidenceReview", "writeQuarantineEvidenceReview", "LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED", "evidence-review.json"], "evidence review custody adapter"],
-  [route, ["Quarantine evidence review request", "hasUploadApiToken", "recorded-review-only", "promotionAllowed: false"], "evidence review route"],
+  [route, ["Quarantine evidence review request", "hasUploadQuarantineApiToken", "recorded-review-only", "promotionAllowed: false"], "evidence review route"],
   [panel, ["Human evidence adjudication", "Record evidence review", "LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED", "assembly and student use remain blocked"], "evidence review panel"],
 ];
 for (const [source, markers, label] of required) for (const marker of markers) if (!source.includes(marker)) throw new Error(`Missing ${label} marker: ${marker}`);

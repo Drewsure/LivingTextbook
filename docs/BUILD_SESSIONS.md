@@ -7218,3 +7218,15 @@ student-payload-blocked behavior.
 - Kept package promotion, QR writes/printing, persistence activation, local
   release, assignment activation, and student-ready state blocked.
 - Extended release-control verification to protect the tenant split.
+
+## Build session: tenant-bound quarantine service credential
+
+- Bound the controlled upload/review service credential to an explicit tenant
+  allowlist instead of treating a deployment-wide bearer token as universal
+  tenant authority.
+- Applied the shared authorization rule across quarantine intake and review
+  routes while preserving same-origin, teacher-scoped authorization.
+- Added publisher rehearsal probes proving that the allowed tenant continues
+  through review-only intake while a different tenant is rejected.
+- Kept package promotion, QR printing, hosted persistence activation, and
+  student-facing use blocked.

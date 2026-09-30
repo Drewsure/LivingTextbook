@@ -32,6 +32,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
     LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
+    LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS: rehearsalTenantId,
     LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: quarantineRoot,
   },
@@ -63,6 +64,15 @@ try {
   const intakeStatus = await requestJson(`${baseUrl}/api/teacher/uploads/intake`);
   assert(intakeStatus.status === "review-only-quarantine-intake", "intake must expose the explicitly enabled review-only mode");
 
+  const crossTenantForm = new FormData();
+  crossTenantForm.set("tenantId", "other-publisher");
+  crossTenantForm.set("channelId", "source-pdf-text-upload");
+  crossTenantForm.set("unitKey", "other-publisher:publisher-textbook:L1:U1");
+  crossTenantForm.set("file", new Blob(["Cross-tenant authorization probe"], { type: "application/pdf" }), "other-publisher.pdf");
+  const crossTenantIntakeResponse = await fetch(`${baseUrl}/api/teacher/uploads/intake`, { method: "POST", headers, body: crossTenantForm });
+  const crossTenantIntake = await readJson(crossTenantIntakeResponse);
+  assert([401, 403].includes(crossTenantIntakeResponse.status), `the quarantine service token must not authorize intake for a tenant outside its explicit allowlist (status ${crossTenantIntakeResponse.status}; body ${JSON.stringify(crossTenantIntake)})`);
+
   const form = new FormData();
   form.set("tenantId", rehearsalTenantId);
   form.set("channelId", "source-pdf-text-upload");
@@ -74,6 +84,9 @@ try {
   assert(typeof intake.quarantineId === "string" && intake.record?.studentFacingUseAllowed === false, "quarantine intake must return an opaque id and block student use");
 
   const quarantineId = intake.quarantineId;
+  const crossTenantReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/review?tenantId=other-publisher&quarantineId=${encodeURIComponent(quarantineId)}`, { headers, cache: "no-store" });
+  const crossTenantReview = await readJson(crossTenantReviewResponse);
+  assert([401, 403].includes(crossTenantReviewResponse.status) && crossTenantReview.status === "unauthorized", "the quarantine service token must not authorize review reads for another tenant");
   const submittedSourceReviewPage = await fetch(`${baseUrl}/teacher/sources/${rehearsalTenantId}?quarantineId=${encodeURIComponent(quarantineId)}`, { cache: "no-store" });
   const submittedSourceReviewHtml = await submittedSourceReviewPage.text();
   assert(submittedSourceReviewPage.status === 200, "the submitted publisher source must return to the tenant source review workspace");

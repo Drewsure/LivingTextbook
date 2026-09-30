@@ -6,6 +6,7 @@ import {
   isUploadQuarantineSafeTenantId,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
+import { hasUploadQuarantineApiCredential, hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { PERSISTENCE_JSON_BODY_LIMIT_BYTES, readBoundedQueryParam, readJsonRequestBody, validateSameOriginMutation } from "@/server/persistence/requestBoundary";
 import {
   readQuarantinePackageReviewPacket,
@@ -50,7 +51,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const origin = validateSameOriginMutation(request);
-  if (!origin.valid && !hasUploadApiToken(request)) return json({ status: "forbidden", packet: null, errors: origin.errors }, origin.status);
+  if (!origin.valid && !hasUploadQuarantineApiCredential(request)) return json({ status: "forbidden", packet: null, errors: origin.errors }, origin.status);
   const bodyResult = await readJsonRequestBody<unknown>(request, PERSISTENCE_JSON_BODY_LIMIT_BYTES, "Package review packet request");
   if (!bodyResult.ok) return json({ status: "rejected", packet: null, errors: bodyResult.errors }, bodyResult.status);
   const body = bodyResult.value;
@@ -127,14 +128,9 @@ function isPacketRequest(value: unknown): value is PacketRequest {
     && (candidate.packageId === undefined || (typeof candidate.packageId === "string" && /^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,199}$/.test(candidate.packageId)));
 }
 
-function hasReviewAuthorization(request: Request, tenantId: string): boolean {
-  return hasUploadApiToken(request) || hasTeacherOperationsReadAuthorization(request, tenantId);
-}
+function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
 
-function hasUploadApiToken(request: Request): boolean {
-  const configuredToken = process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN?.trim();
-  return Boolean(configuredToken && request.headers.get("authorization") === `Bearer ${configuredToken}`);
-}
+
 
 function privacyMessage(): string {
   return "Package review packets contain bounded metadata only; they never include raw payloads, filesystem paths, credentials, learner records, or download URLs.";

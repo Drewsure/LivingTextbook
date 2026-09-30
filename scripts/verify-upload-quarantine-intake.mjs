@@ -4,6 +4,7 @@ const model = readSource("../packages/content-model/src/uploadQuarantineIntake.t
 const store = readSource("../apps/web/src/server/uploads/quarantineUploadStore.ts");
 const pathPolicy = readSource("../apps/web/src/server/uploads/quarantinePathPolicy.ts");
 const route = readSource("../apps/web/src/app/api/teacher/uploads/intake/route.ts");
+const authorization = readSource("../apps/web/src/server/uploads/uploadQuarantineAuthorization.ts");
 const evidencePreviewRoute = readSource("../apps/web/src/app/api/teacher/uploads/evidence-preview/route.ts");
 const panel = readSource("../apps/web/src/features/content-intake/ControlledQuarantineUploadPanel.tsx");
 const packageIdentity = readSource("../apps/web/src/server/uploads/quarantinePackageIdentity.ts");
@@ -65,7 +66,7 @@ for (const marker of [
 
 for (const marker of [
   "LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED",
-  "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN",
+  "hasUploadQuarantineApiToken",
   "multipart/form-data",
   "validateSameOriginMutation",
   "hasTeacherOperationsReadAuthorization",
@@ -77,6 +78,17 @@ for (const marker of [
   "writeQuarantineUpload",
 ]) {
   requireText(route, marker, `Quarantine route missing marker: ${marker}.`);
+}
+
+for (const marker of [
+  "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN",
+  "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS",
+  "hasUploadQuarantineApiToken",
+  "hasUploadQuarantineApiCredential",
+  "readAllowedTenants",
+  "service credential is intentionally not tenant authority",
+]) {
+  requireText(authorization, marker, `Quarantine authorization missing marker: ${marker}.`);
 }
 
 for (const marker of [
