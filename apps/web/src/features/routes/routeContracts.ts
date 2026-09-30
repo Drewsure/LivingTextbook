@@ -801,3 +801,8 @@ export function getLocalPilotPackageHandoffPath(tenantId: TenantId, packageId: s
   const query = new URLSearchParams({ tenantId, packageId, version });
   return `/api/local-package/handoff?${query.toString()}`;
 }
+
+export function getLocalPilotPackageIntegrityPath(tenantId: TenantId, packageId: string, version: string): string {
+  const query = new URLSearchParams({ tenantId, packageId, version });
+  return `/api/local-package/integrity?${query.toString()}`;
+}

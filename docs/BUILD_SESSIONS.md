@@ -7138,3 +7138,11 @@ student-payload-blocked behavior.
 - Kept package export, production QR printing, local activation, hosted
   persistence, and learner-record writes behind their existing independent
   gates.
+
+## Build session: Local package integrity read lane
+
+- Added a bounded metadata-only API for the verified package checksum ledger.
+- Required runtime integrity verification to pass before the ledger can be
+  read, and exposed the read identity from the local package runtime panel.
+- Kept raw payload access, archive/export, QR mutation, package activation,
+  hosted persistence, and learner-record writes outside this lane.

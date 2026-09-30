@@ -24,6 +24,8 @@ for (const [source, marker, label] of [
   [reader, "package-integrity.json", "package integrity manifest"],
   [reader, "validateLocalPilotPackageIntegrity", "package integrity validation"],
   [reader, "verifyPackageIntegrity", "package integrity verification"],
+  [reader, "readLocalPilotPackageIntegrity", "package integrity runtime reader"],
+  [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_INTEGRITY_READS_ENABLED", "explicit package integrity read gate"],
   [reader, "reviewPacketId", "review packet identity"],
   [reader, "quarantineId", "quarantine identity"],
   [reader, "reviewPacketBindingValue", "review packet runtime validation"],
@@ -42,6 +44,13 @@ for (const marker of ["readLocalPilotPackageQrPrintSheet", "readBoundedQueryPara
 const handoffRoute = readFileSync(resolve(root, "apps/web/src/app/api/local-package/handoff/route.ts"), "utf8");
 for (const marker of ["readLocalPilotPackageHandoff", "readBoundedQueryParam", "writesAllowed: false", "qrAliasesMutated: false"]) {
   if (!handoffRoute.includes(marker)) throw new Error(`Package handoff route is missing: ${marker}`);
+}
+const integrityRoute = readFileSync(resolve(root, "apps/web/src/app/api/local-package/integrity/route.ts"), "utf8");
+for (const marker of ["readLocalPilotPackageIntegrity", "readBoundedQueryParam", "writesAllowed: false", "exportAllowed: false"]) {
+  if (!integrityRoute.includes(marker)) throw new Error(`Package integrity route is missing: ${marker}`);
+}
+for (const forbidden of ["writesAllowed: true", "exportAllowed: true", "writeFile", "unlink", "mkdir"]) {
+  if (integrityRoute.includes(forbidden)) throw new Error(`Package integrity route exposes forbidden behavior: ${forbidden}`);
 }
 for (const forbidden of ["writesAllowed: true", "qrAliasesMutated: true", "writeFile", "unlink", "mkdir"]) {
   if (handoffRoute.includes(forbidden)) throw new Error(`Package handoff route exposes forbidden behavior: ${forbidden}`);

@@ -17,7 +17,7 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
-  const { readLocalPilotPackageContent, readLocalPilotPackageHandoff, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { readLocalPilotPackageContent, readLocalPilotPackageHandoff, readLocalPilotPackageIntegrity, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
@@ -29,6 +29,7 @@ try {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_MEDIA_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_INTEGRITY_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -45,6 +46,8 @@ try {
     assert(existsSync(join(assembledDirectory, "metadata/assembly-record.json")), "assembler must write an assembly record");
     assert(existsSync(join(assembledDirectory, "metadata/qr-alias-registry.json")), "assembler must write the approved QR alias registry record");
     assert(existsSync(join(assembledDirectory, "metadata/package-integrity.json")), "assembler must write the package integrity manifest");
+    const integrityManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/package-integrity.json"), "utf8"));
+    assert(integrityManifest.fileCount >= 1 && integrityManifest.files.length === integrityManifest.fileCount, "package integrity manifest must contain a complete file ledger");
     const qrManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.json"), "utf8"));
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
     assert(typeof qrManifest.artifactId === "string" && qrManifest.artifactId.includes("manifest-one"), "QR print manifest must preserve deterministic artifact identity");
@@ -67,6 +70,13 @@ try {
       assert(handoff.handoff.integrityManifestId.includes("package-integrity"), "handoff receipt must expose the integrity manifest identity");
       assert(handoff.handoff.learnerRecordsIncluded === false && handoff.handoff.writesAllowed === false, "handoff receipt must preserve learner-data and write boundaries");
     }
+    const integrity = await readLocalPilotPackageIntegrity({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(integrity.status === "available", "verified local package must expose a gated integrity ledger");
+    if (integrity.status === "available") assert(integrity.integrity.integrityManifestId === integrityManifest.integrityManifestId, "integrity read must preserve the verified manifest identity");
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_INTEGRITY_READS_ENABLED = "false";
+    const disabledIntegrity = await readLocalPilotPackageIntegrity({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(disabledIntegrity.status === "blocked" && disabledIntegrity.errors.some((error) => error.includes("integrity reads are disabled")), "integrity reads must remain disabled unless the explicit integrity-read gate is enabled");
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_INTEGRITY_READS_ENABLED = "true";
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED = "false";
     const disabledHandoff = await readLocalPilotPackageHandoff({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(disabledHandoff.status === "blocked" && disabledHandoff.errors.some((error) => error.includes("handoff reads are disabled")), "package handoff reads must remain disabled unless the explicit handoff-read gate is enabled");

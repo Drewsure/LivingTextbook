@@ -9973,3 +9973,12 @@ verify every listed file before presenting the package as available. The ledger
 is metadata-only and does not authorize export, QR mutation, local activation,
 hosted persistence, or learner records. See
 `docs/decision-register/DR-1310-local-package-integrity-ledger.md`.
+
+## DR-1311: Local Package Integrity Read Lane
+
+The verified local package exposes its checksum ledger through a separate,
+bounded, metadata-only API. It requires an explicit read gate and a successful
+runtime integrity verification. The lane remains separate from raw payload
+access, package export, QR mutation, activation, hosted persistence, and
+learner data. See
+`docs/decision-register/DR-1311-local-package-integrity-read-lane.md`.

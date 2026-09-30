@@ -83,6 +83,10 @@ export type LocalPilotPackageHandoffReadResult =
   | { status: "blocked" | "not-found"; handoff: null; errors: string[] }
   | { status: "available"; handoff: LocalPilotPackageHandoff; errors: [] };
 
+export type LocalPilotPackageIntegrityReadResult =
+  | { status: "blocked" | "not-found"; integrity: null; errors: string[] }
+  | { status: "available"; integrity: LocalPilotPackageIntegrity; errors: [] };
+
 export type LocalPilotPackageContentReadResult =
   | { status: "blocked" | "not-found"; contentPackage: null; errors: string[] }
   | { status: "available"; contentPackage: ContentPackage; errors: [] };
@@ -263,6 +267,35 @@ export async function readLocalPilotPackageHandoff(identity: LocalPilotPackageRu
     return { status: "available", handoff, errors: [] };
   } catch {
     return { status: "not-found", handoff: null, errors: ["The local pilot package handoff metadata could not be read from the configured package root."] };
+  }
+}
+
+export async function readLocalPilotPackageIntegrity(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageIntegrityReadResult> {
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_INTEGRITY_READS_ENABLED !== "true") {
+    return { status: "blocked", integrity: null, errors: ["Local pilot package integrity reads are disabled. Enable the explicit local-package integrity-read gate before serving a checksum ledger."] };
+  }
+
+  const runtime = await readLocalPilotPackageRuntime(identity);
+  if (runtime.status !== "available") return { status: runtime.status, integrity: null, errors: runtime.errors };
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) return { status: "blocked", integrity: null, errors: ["Local pilot package integrity reads require an explicit package root."] };
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const integrityPath = resolve(directory, "metadata/package-integrity.json");
+  const boundaryErrors = validateDurableBackupFilesystemPath(integrityPath, directory);
+  if (boundaryErrors.length > 0) return { status: "blocked", integrity: null, errors: boundaryErrors };
+
+  try {
+    const value = await readJson(integrityPath);
+    const errors = validateLocalPilotPackageIntegrity(value);
+    if (isRecord(value) && (value.tenantId !== identity.tenantId || value.packageId !== identity.packageId || value.version !== identity.version || value.integrityManifestId !== runtime.summary.integrityManifestId)) {
+      errors.push("Local pilot package integrity identity does not match the verified runtime package.");
+    }
+    if (errors.length > 0) return { status: "blocked", integrity: null, errors: [...new Set(errors)] };
+    return { status: "available", integrity: value as LocalPilotPackageIntegrity, errors: [] };
+  } catch {
+    return { status: "not-found", integrity: null, errors: ["The local pilot package integrity ledger could not be read from the configured package root."] };
   }
 }
 
