@@ -36,7 +36,10 @@ import {
   type PublisherDeliveryAssemblyRequestPreview,
   createPublisherDeliveryHandoffRecord,
   validatePublisherDeliveryHandoffRecord,
+  createPublisherSourceToPackageEvidenceBridge,
+  validatePublisherSourceToPackageEvidenceBridge,
   type PublisherDeliveryHandoffRecord,
+  type PublisherSourceToPackageEvidenceBridge,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
@@ -75,6 +78,7 @@ type ReadinessResponse = {
   deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
+  sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null;
   errors?: string[];
   privacy: string;
 };
@@ -119,6 +123,22 @@ export async function GET(request: Request) {
   const deliveryModeDecision = deliveryModeDecisionResult.record;
   const reviewDecisionResult = await readQuarantineReviewDecision(tenantId, quarantineId);
   const reviewDecision = reviewDecisionResult.record;
+  const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
+    ? summary.record.checksumSha256
+    : `sha256:${summary.record.checksumSha256}`;
+  const sourcePackageEvidenceBinding = createPublisherSourceToPackageEvidenceBridge({
+    tenantId,
+    unitKey: summary.record.unitKey || `${tenantId}:unassigned`,
+    sourceReviewId: reviewDecision?.decisionId ?? `source-review:${quarantineId}:pending`,
+    extractionPreviewId: `source-extraction-preview:${quarantineId}:review-only`,
+    extractionPacketId: `source-extraction-packet:${quarantineId}:review-only`,
+    authoringProposalId: `${packageId}:authoring-proposal:review-only`,
+    sourceChecksum,
+    sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
+    sentenceApprovalRecorded: false,
+    audioEvidenceReady: false,
+  });
+  const sourcePackageEvidenceBindingErrors = validatePublisherSourceToPackageEvidenceBridge(sourcePackageEvidenceBinding);
   const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
   const packageEvidenceReview = packageEvidenceReviewResult.record;
   const hostedDeliveryMode = deliveryModeDecision?.selectedMode === "hosted-pwa"
@@ -285,8 +305,9 @@ export async function GET(request: Request) {
     deliveryClosurePacket: deliveryClosurePacketErrors.length === 0 ? deliveryClosurePacket : null,
     assemblyRequestPreview: assemblyRequestPreviewErrors.length === 0 ? assemblyRequestPreview : null,
     deliveryHandoffRecord: deliveryHandoffRecordErrors.length === 0 ? deliveryHandoffRecord : null,
+    sourcePackageEvidenceBinding: sourcePackageEvidenceBindingErrors.length === 0 ? sourcePackageEvidenceBinding : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
     privacy: privacyMessage(),
   });
 }

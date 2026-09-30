@@ -15,6 +15,6 @@ if (route.includes("export async function POST") || route.includes("writeQuarant
 if (route.includes("payload.") || route.includes("readFile(")) failures.push("source-package binding must not return source payload bytes");
 for (const marker of ["Load live binding", "credentials: \"same-origin\"", "does not approve the source", "evidenceLanes.map"]) if (!panel.includes(marker)) failures.push(`live binding panel is missing marker: ${marker}`);
 for (const marker of ["LiveSourcePackageEvidenceBindingPanel", "query.quarantineId"]) if (!sourcePage.includes(marker)) failures.push(`source review workspace is missing marker: ${marker}`);
-for (const marker of ["source-package-evidence-binding", "LiveSourceEvidenceSummary", "Provenance is bound before package readiness", "sourcePackageEvidenceBinding"]) if (!handoffPanel.includes(marker)) failures.push(`publisher handoff bridge is missing marker: ${marker}`);
+for (const marker of ["LiveSourceEvidenceSummary", "Provenance is bound before package readiness", "sourcePackageEvidenceBinding", "package-readiness-binding"]) if (!handoffPanel.includes(marker)) failures.push(`publisher handoff bridge is missing marker: ${marker}`);
 if (failures.length) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
 console.log("PASS live source-package evidence binding is tenant-authorized, review-only, and side-effect-free.");

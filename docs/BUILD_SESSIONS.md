@@ -7466,3 +7466,9 @@ contract requires the canonical `sha256:<64 hex>` form. The live binding now
 normalizes that representation at the API boundary, and the rehearsal proves
 tenant isolation, checksum continuity, payload exclusion, and blocked package
 activation.
+
+Package readiness now returns the same source-evidence bridge in its
+tenant-authorized response, and the publisher handoff renders that returned
+object instead of making a second independent source-evidence read. The
+readiness verifier is registered in the npm foundation chain so provenance,
+package, delivery, and persistence checks cannot silently drift apart.

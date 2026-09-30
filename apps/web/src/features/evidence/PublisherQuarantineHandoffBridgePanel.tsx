@@ -152,8 +152,9 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
         setReadinessBinding(next.binding ?? null);
+        setSourcePackageEvidenceBinding(next.sourcePackageEvidenceBinding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
         setPromotionAdapterDecision(next.promotionAdapterDecision ?? null);
@@ -170,6 +171,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         setReadinessBinding(null);
+        setSourcePackageEvidenceBinding(null);
         setDeliveryManifestPreview(null);
         setDeliveryModeDecision(null);
         setPromotionAdapterDecision(null);
@@ -182,20 +184,6 @@ export function PublisherQuarantineHandoffBridgePanel({
         setDeliveryClosurePacket(null);
         setAssemblyRequestPreview(null);
         setDeliveryHandoffRecord(null);
-      });
-
-    fetch(`/api/teacher/uploads/source-package-evidence-binding?${query.toString()}`, {
-      credentials: "same-origin",
-      cache: "no-store",
-      signal: controller.signal,
-    })
-      .then(async (response) => {
-        const next = (await response.json()) as { bridge?: PublisherSourceToPackageEvidenceBridge | null };
-        setSourcePackageEvidenceBinding(next.bridge ?? null);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        setSourcePackageEvidenceBinding(null);
       });
 
     return () => controller.abort();

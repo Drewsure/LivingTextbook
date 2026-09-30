@@ -9263,3 +9263,16 @@ This standard is recorded in DR-1336 and ADR 1337.
   only a hand-built sample object.
 
 This standard is recorded in DR-1337 and ADR 1338.
+
+## 581. Readiness Projections Must Carry Their Source Lineage
+
+- A package-readiness response must carry the validated source-evidence bridge
+  for the same tenant, quarantine, package, and checksum identity.
+- A review surface should consume that response rather than opening a second
+  independent read that could drift or authorize differently.
+- Source evidence and package readiness remain separate gates even when they
+  share one response and one screen.
+- The focused lineage verifier must be included in the foundation command so
+  the contract cannot regress unnoticed.
+
+This standard is recorded in DR-1338 and ADR 1339.

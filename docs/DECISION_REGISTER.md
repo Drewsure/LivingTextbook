@@ -10205,3 +10205,10 @@ record, while the shared source-to-package evidence contract uses the explicit
 `sha256:<64 hex>` form. The live binding normalizes the value at the API
 boundary and the publisher intake rehearsal verifies that the checksum remains
 continuous without returning source payload data. See ADR 1338.
+
+## DR-1338: Make Package Readiness Carry Source Evidence
+
+The package-readiness binding now returns the validated source-to-package
+evidence bridge, and the publisher handoff consumes that response rather than
+performing a second source-evidence read. The focused package-readiness
+verifier is also registered in the foundation command. See ADR 1339.
