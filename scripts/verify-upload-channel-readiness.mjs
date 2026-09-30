@@ -844,7 +844,11 @@ requireText(teacherUploadWorkspace, "Teacher upload workspace", "Teacher upload 
 requireText(teacherUploadWorkspace, "UploadIntakeControlPreviewPanel", "Teacher upload workspace must render disabled intake controls.");
 requireText(teacherUploadWorkspace, "UploadFilePolicyPanel", "Teacher upload workspace must render upload file policy.");
 requireText(teacherUploadWorkspace, "UploadTargetMappingPanel", "Teacher upload workspace must render upload target mapping.");
-requireText(teacherUploadWorkspace, "No live file picker", "Teacher upload workspace must block live file picker use.");
+requireText(teacherUploadWorkspace, "No live file picker while the default quarantine gate is disabled", "Teacher upload workspace must explain that the default route has no live file picker while preserving the explicit opt-in path.");
+requireText(teacherUploadWorkspace, "An operator may explicitly expose a tenant-scoped file picker", "Teacher upload workspace must explain the guarded opt-in file-picker boundary.");
+requireText(controlledQuarantineUploadPanel, "type=\"file\"", "Controlled quarantine upload panel must retain the opt-in file picker for real quarantine intake.");
+requireText(controlledQuarantineUploadPanel, "/api/teacher/uploads/intake", "Controlled quarantine upload panel must post to the tenant-scoped quarantine intake route.");
+requireText(controlledQuarantineUploadPanel, "Promotion blocked", "Controlled quarantine upload panel must keep promotion visibly blocked after opt-in intake.");
 requireText(teacherUploadWorkspace, "EvidencePacketFlowPanel", "Teacher upload workspace must render evidence packet flow.");
 requireText(teacherUploadRoute, "resolveTenantConfig", "Teacher upload route must resolve a tenant through the shared white-label resolver.");
 requireText(teacherUploadRoute, "tenantId", "Teacher upload route must preserve the requested tenant id.");

@@ -37,7 +37,7 @@ interface TeacherUploadWorkspacePanelProps {
 }
 
 const guardrails = [
-  "No live file picker in the foundation preview.",
+  "No live file picker while the default quarantine gate is disabled.",
   "No uploaded file becomes student-facing from this workspace.",
   "No automatic PDF-to-game publish.",
   "No unreviewed Labelled Diagram image activation.",
@@ -72,6 +72,9 @@ export function TeacherUploadWorkspacePanel({
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
               This workspace collects the foundation upload decisions for tenant <span className="font-semibold">{tenantId}</span>.
               It shows where PDF/text sources, Labelled Diagram images, audio, music, video, and local-bundle media will land before any live storage or student-facing use is enabled.
+            </p>
+            <p className="mt-3 max-w-3xl rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+              The default state is review-only and input-free. An operator may explicitly expose a tenant-scoped file picker for quarantine intake after the server gate and custody root are provisioned; that path still cannot publish, print QR codes, or activate students.
             </p>
           </div>
           <StatusPill label="Preview only" tone="warning" />

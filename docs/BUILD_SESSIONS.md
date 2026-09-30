@@ -7026,3 +7026,16 @@ student-payload-blocked behavior.
 - Added a review-only preflight that reconciles the delivery manifest, release receipt, and QR alias registry preview by tenant, package, version, and source assembly checksum.
 - Kept release writes, production QR printing, and student activation hard-coded false in the preflight contract.
 - Mounted the preflight in the release-control workspace so a future human operator has one visible reconciliation record before any authenticated release boundary is considered.
+
+## Opt-in publisher file intake surface
+
+- Corrected the tenant upload workspace copy so it distinguishes the default
+  input-free foundation state from the explicitly enabled quarantine file
+  picker.
+- Preserved the real multipart intake path for PDFs, images, audio, music, and
+  video, while keeping quarantine custody, review, rights, package assembly,
+  QR printing, hosted persistence, and student use as separate gates.
+- Added verifier coverage for the guarded file input, same-origin intake route,
+  and explicit default-state wording.
+- Recorded the boundary in ADR 1303 and DR-1019. No Z.ai/Phaser source was
+  promoted or integrated.
