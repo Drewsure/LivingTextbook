@@ -9669,3 +9669,18 @@ This standard is recorded in DR-1364 and ADR 1364.
   approval path.
 
 This standard is recorded in DR-1365 and ADR 1365.
+
+## 609. Approved Identities Must Produce A Durable-Records Draft
+
+- Operators may generate a bounded local-package request draft from approved
+  tenant, package, version, quarantine, review-packet, reviewed-manifest, and
+  operator identities.
+- The draft generator must never accept or handle delivery credentials,
+  manifest payloads, publisher bytes, or learner records.
+- Draft creation must refuse to overwrite an existing request file and must
+  not call the server or assemble a package.
+- The resulting draft is only an input to the existing preflight and assembly
+  commands; it cannot approve evidence, release a package, print QR codes, or
+  activate hosted persistence or student use.
+
+This standard is recorded in DR-1366 and ADR 1366.

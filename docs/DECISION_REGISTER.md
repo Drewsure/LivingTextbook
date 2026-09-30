@@ -10469,3 +10469,15 @@ payloads, manifest bodies, credentials, publisher bytes, or learner records.
 It reuses the existing custody and write gates; it does not create a shortcut
 around review, release, QR, asset, persistence, or student-safety policy. See
 ADR 1365.
+
+## DR-1366: Durable-Records Request Draft Generator
+
+Added `scripts/create-local-package-request-draft.mjs` so a delivery operator
+can create the exact bounded durable-records draft from approved custody
+identities without copying a full bundle manifest. The generator refuses to
+overwrite an existing file, never handles credentials or publisher bytes, and
+never calls the server.
+
+The generated draft is still subject to the existing machine-authenticated
+preflight, custody, release, QR, asset, package, persistence, privacy, and
+student-safety gates. See ADR 1366.

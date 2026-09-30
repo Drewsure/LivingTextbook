@@ -23,6 +23,7 @@ const reviewRequestModel = readSource("../packages/content-model/src/localBundle
 const reviewRequestSample = readSource("../apps/web/src/data/sampleLocalBundleManifestReviewRequest.ts");
 const reviewRequestPanel = readSource("../apps/web/src/features/deployment/LocalBundleManifestReviewRequestPanel.tsx");
 const localPackageOperator = readSource("./run-local-package-operator.mjs");
+const localPackageDraftGenerator = readSource("./create-local-package-request-draft.mjs");
 
 const failures = [];
 
@@ -145,6 +146,19 @@ const requiredOperatorMarkers = [
   "performedWrite",
 ];
 
+const requiredDraftGeneratorMarkers = [
+  "--output",
+  "--tenant",
+  "--package",
+  "--version",
+  "--quarantine",
+  "--review-packet",
+  "--bundle-review-id",
+  "--operator",
+  "flag: \"wx\"",
+  "does not call the server",
+];
+
 for (const marker of requiredGuideMarkers) {
   requireText(guide, marker, `Deployment decision guide missing marker: ${marker}`);
 }
@@ -181,6 +195,10 @@ for (const marker of requiredOperatorMarkers) {
   requireText(localPackageOperator, marker, `Local package operator missing marker: ${marker}`);
 }
 
+for (const marker of requiredDraftGeneratorMarkers) {
+  requireText(localPackageDraftGenerator, marker, `Local package request draft generator missing marker: ${marker}`);
+}
+
 requireText(guidePanel, "Deployment decision guide", "Deployment guide panel must render its heading.");
 requireText(guidePanel, "Required evidence", "Deployment guide panel must render required evidence.");
 requireText(guidePanel, "Blocked actions", "Deployment guide panel must render blocked actions.");
@@ -199,6 +217,10 @@ requireText(principles, "Local Package Assembly Needs A Deliberate Operator Comm
 requireText(buildSessions, "Add the deliberate local package operator command", "Build sessions must record the local package operator command.");
 requireText(decisionRegister, "DR-1365", "Decision register must include DR-1365.");
 requireText(readSource("../docs/adr/1365-deliberate-local-package-operator-command.md"), "ADR 1365", "ADR 1365 must exist.");
+requireText(principles, "Approved Identities Must Produce A Durable-Records Draft", "Principles document must include the request draft standard.");
+requireText(buildSessions, "Add the durable-records request draft generator", "Build sessions must record the request draft generator.");
+requireText(decisionRegister, "DR-1366", "Decision register must include DR-1366.");
+requireText(readSource("../docs/adr/1366-durable-records-request-draft-generator.md"), "ADR 1366", "ADR 1366 must exist.");
 
 forbidText(deploymentPage, "input type=\"file\"", "Deployment workbench must not include live upload inputs.");
 forbidText(deploymentPage, "navigator.serviceWorker.register", "Deployment workbench must not register a service worker.");

@@ -7771,3 +7771,12 @@ prints only bounded result metadata. Actual assembly requires both the
 tenant-scoped pilot delivery token and an explicit confirmation value. No new
 approval path or browser write permission was added. Recorded ADR 1365 /
 DR-1365.
+
+## Build session: Add the durable-records request draft generator
+
+Added `scripts/create-local-package-request-draft.mjs` to turn approved
+tenant/package/version and review-custody identities into the bounded request
+accepted by the local package operator. It refuses overwrites, handles no
+credentials or payload bytes, and makes no server call. The generated file
+still passes through the existing preflight and assembly gates. Recorded ADR
+1366 / DR-1366.
