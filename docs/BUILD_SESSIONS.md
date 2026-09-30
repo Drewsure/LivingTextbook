@@ -7021,3 +7021,8 @@ student-payload-blocked behavior.
   target, fallback, deployment targets, and rollback evidence.
 - Kept durable registry writes, route mutation, production printing, and
   student activation blocked until the human release gates close.
+## Release preflight identity binding
+
+- Added a review-only preflight that reconciles the delivery manifest, release receipt, and QR alias registry preview by tenant, package, version, and source assembly checksum.
+- Kept release writes, production QR printing, and student activation hard-coded false in the preflight contract.
+- Mounted the preflight in the release-control workspace so a future human operator has one visible reconciliation record before any authenticated release boundary is considered.

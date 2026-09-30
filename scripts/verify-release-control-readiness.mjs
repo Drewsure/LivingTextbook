@@ -27,6 +27,9 @@ const releaseControlEvidence = readSource("../packages/content-model/src/release
 const mediaReleaseControlBinding = readSource("../packages/content-model/src/localBundleMediaReleaseControlBinding.ts");
 const mediaReleaseControlPanel = readSource("../apps/web/src/features/pilot/MediaReleaseControlBindingPanel.tsx");
 const releaseControlPage = readSource("../apps/web/src/app/teacher/release-control/[tenantId]/page.tsx");
+const deliveryReleasePreflight = readSource("../packages/content-model/src/pilotDeliveryReleasePreflight.ts");
+const deliveryReleasePreflightSample = readSource("../apps/web/src/data/samplePilotDeliveryReleasePreflight.ts");
+const deliveryReleasePreflightPanel = readSource("../apps/web/src/features/evidence/PilotDeliveryReleasePreflightPanel.tsx");
 const schoolPolicyTextPack = readSource("../apps/web/src/data/sampleSchoolPolicyTextPack.ts");
 const schoolPolicyTextPackPanel = readSource("../apps/web/src/features/pilot/SchoolPolicyTextPackPanel.tsx");
 const schoolPolicyAcceptanceRecordPreview = readSource("../apps/web/src/data/sampleSchoolPolicyAcceptanceRecordPreview.ts");
@@ -371,6 +374,15 @@ requireText(publisherMaintenance, "change-qr-edition-redirect", "Publisher maint
 requireText(publisherMaintenancePanel, "Maintenance guard active", "Publisher maintenance panel must expose guard status.");
 requireText(publisherMaintenancePanel, "Maintenance guard blocks", "Publisher maintenance panel must expose guard blocks.");
 requireText(publisherMaintenancePanel, "Maintenance guard warnings", "Publisher maintenance panel must expose guard warnings.");
+requireText(deliveryReleasePreflight, "createPilotDeliveryReleasePreflight", "Release-control readiness must include delivery release preflight creation.");
+requireText(deliveryReleasePreflight, "sourceAssemblyChecksum", "Delivery release preflight must bind the source assembly checksum.");
+requireText(deliveryReleasePreflight, "releaseWriteAllowed: false", "Delivery release preflight must block release writes.");
+requireText(deliveryReleasePreflight, "productionPrintAllowed: false", "Delivery release preflight must block production printing.");
+requireText(deliveryReleasePreflight, "studentFacingActivationAllowed: false", "Delivery release preflight must block student activation.");
+requireText(deliveryReleasePreflightSample, "samplePilotQrAliasRegistry", "Delivery release preflight sample must bind the QR registry preview.");
+requireText(deliveryReleasePreflightPanel, "Manifest, receipt, and QR identity binding", "Delivery release preflight panel must be visible.");
+requireText(deliveryReleasePreflightPanel, "No release write", "Delivery release preflight panel must expose the release-write block.");
+requireText(releaseControlPage, "PilotDeliveryReleasePreflightPanel", "Release-control page must show delivery release preflight.");
 requireText(backendSchema, "package_release_candidate", "Backend schema must include package release candidate record.");
 requireText(backendSchema, "package_publish_gate", "Backend schema must include package publish gate record.");
 requireText(backendSchema, "package_approval_ledger", "Backend schema must include package approval ledger record.");

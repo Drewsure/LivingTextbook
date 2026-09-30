@@ -23,6 +23,7 @@ export interface PilotQrAliasRegistryPreview {
   tenantId: string;
   packageId: string;
   version: string;
+  sourceAssemblyChecksum: string;
   manifestId: string;
   receiptId: string;
   status: "review-only";
@@ -74,6 +75,7 @@ export function createPilotQrAliasRegistryPreview(input: {
     tenantId: input.manifest.tenantId,
     packageId: input.manifest.packageId,
     version: input.manifest.version,
+    sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
     manifestId: input.manifest.manifestId,
     receiptId: input.receipt.receiptId,
     status: "review-only",
@@ -92,9 +94,10 @@ export function validatePilotQrAliasRegistryPreview(value: unknown): string[] {
   if (!isRecord(value)) return ["Pilot QR alias registry preview must be an object."];
   if (value.registryVersion !== 1) errors.push("Pilot QR alias registry preview registryVersion must be 1.");
   if (value.status !== "review-only") errors.push("Pilot QR alias registry preview must remain review-only.");
-  for (const field of ["previewId", "tenantId", "packageId", "version", "manifestId", "receiptId"] as const) {
+  for (const field of ["previewId", "tenantId", "packageId", "version", "sourceAssemblyChecksum", "manifestId", "receiptId"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Pilot QR alias registry preview ${field} must be non-empty.`);
   }
+  if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot QR alias registry preview sourceAssemblyChecksum must be sha256:<64 hexadecimal characters>.");
   if (!Array.isArray(value.entries) || value.entries.length === 0) {
     errors.push("Pilot QR alias registry preview must contain at least one alias entry.");
   } else {
@@ -150,4 +153,8 @@ function isSafeInternalPath(value: unknown): boolean {
     && !value.includes("\\")
     && !/^\/(?:\/|.*(?:localhost|127\.0\.0\.1))/i.test(value)
     && !/^file:/i.test(value);
+}
+
+function isSha256(value: unknown): boolean {
+  return typeof value === "string" && /^sha256:[0-9a-f]{64}$/i.test(value);
 }

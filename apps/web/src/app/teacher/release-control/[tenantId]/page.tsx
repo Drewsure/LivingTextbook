@@ -33,6 +33,8 @@ import { ControlledPilotHumanReviewAdjudicationPanel } from "@/features/pilot/Co
 import { buildSampleControlledPilotHumanReviewAdjudication, validateSampleControlledPilotHumanReviewAdjudication } from "@/data/sampleControlledPilotHumanReviewAdjudication";
 import { buildSampleControlledPilotHumanReviewNextGateHandoff, validateSampleControlledPilotHumanReviewNextGateHandoff } from "@/data/sampleControlledPilotHumanReviewNextGateHandoff";
 import { ControlledPilotHumanReviewNextGateHandoffPanel } from "@/features/pilot/ControlledPilotHumanReviewNextGateHandoffPanel";
+import { samplePilotDeliveryReleasePreflight, samplePilotDeliveryReleasePreflightErrors } from "@/data/samplePilotDeliveryReleasePreflight";
+import { PilotDeliveryReleasePreflightPanel } from "@/features/evidence/PilotDeliveryReleasePreflightPanel";
 
 interface TeacherReleaseControlPageProps {
   params: Promise<{
@@ -197,6 +199,7 @@ export default async function TeacherReleaseControlPage({ params }: TeacherRelea
         </Card>
 
         <PilotReleaseCandidatePanel gate={samplePackagePublishGate} ledger={samplePackageApprovalLedger} />
+        <PilotDeliveryReleasePreflightPanel preflight={samplePilotDeliveryReleasePreflight} errors={samplePilotDeliveryReleasePreflightErrors} />
         <PackagePublishGatePanel gate={samplePackagePublishGate} />
         <MediaReleaseControlBindingPanel
           binding={sampleLocalBundleMediaReleaseControlBinding}
