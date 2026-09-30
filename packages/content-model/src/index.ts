@@ -2000,3 +2000,4 @@ export * from "./publisherDeliveryOperatorHandoff";
 export * from "./publisherDeliveryClosurePacket";
 export * from "./publisherDeliveryAssemblyRequestPreview";
 export * from "./publisherDeliveryHandoffRecord";
+export * from "./publisherSourceToPackageEvidenceBridge";

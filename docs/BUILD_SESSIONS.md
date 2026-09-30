@@ -7417,3 +7417,16 @@ The same record is now mounted on the Sample Publisher reference handoff beside
 the manifest, QR, release-receipt, package-index, and reconciliation panels.
 This makes the intended publisher review conversation visible without treating
 reference data as a released package or enabling any new side effect.
+
+## Build session: Publisher source-to-package evidence bridge
+
+Added a generic evidence bridge for the supplied MiniStar Unit 1 DOCX. It binds
+the checksum-bound source review, extraction preview, extraction packet, and
+platform-authored sentence proposal to eight explicit lanes: provenance,
+extraction, source-term review, sentence approval, target-language audio,
+multimedia rights, game verification, and package release.
+
+The bridge remains blocked, review-only, and side-effect-free. It cannot create
+a teacher draft, assemble or promote a package, print QR codes, activate
+persistence, or enable students. Added the focused verifier and recorded
+ADR 1333 / DR-1332.

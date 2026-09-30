@@ -9182,3 +9182,16 @@ This standard is recorded in DR-1330 and ADR 1331.
   and student use blocked until separate approved gates exist.
 
 This standard is recorded in DR-1331 and ADR 1332.
+
+## 575. Source-to-Package Handoffs Must Preserve Provenance
+
+- A source-derived unit must retain its source review, extraction preview,
+  extraction packet, and checksum when it moves toward authoring review.
+- Platform-authored sentence candidates must be labelled as authored and may
+  never be presented as extracted textbook text.
+- Audio, support-language, media-rights, game-verification, and release lanes
+  must remain separate evidence decisions.
+- A complete-looking source bridge must not create a draft, package, QR code,
+  persistence record, or student route.
+
+This standard is recorded in DR-1332 and ADR 1333.

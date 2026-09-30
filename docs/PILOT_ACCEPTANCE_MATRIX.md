@@ -93,3 +93,11 @@ assembly, QR printing, persistence activation, and student-facing use remain
 blocked. The same record is visible on the Sample Publisher reference handoff,
 but that reference tenant remains a review example and does not prove real
 publisher release or saleability.
+
+## Source-Derived Unit Boundary
+
+MiniStar Unit 1 now has a source-to-package evidence bridge that binds the real
+DOCX-derived evidence to the proposed sentence packet and enumerates the
+remaining human evidence lanes. This is a stronger review handoff, not a
+package approval: teacher approval, audio, Japanese support, media rights,
+game verification, release, QR, and student-use gates remain blocked.

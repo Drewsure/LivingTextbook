@@ -8,6 +8,8 @@ import { sampleMinistarUnitAuthoringProposal } from "@/data/sampleMinistarUnitAu
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
 import { MinistarSourceDerivedUnitReviewPanel } from "@/features/content-intake/MinistarSourceDerivedUnitReviewPanel";
 import { MinistarUnitAuthoringProposalPanel } from "@/features/content-intake/MinistarUnitAuthoringProposalPanel";
+import { PublisherSourceToPackageEvidenceBridgePanel } from "@/features/content-intake/PublisherSourceToPackageEvidenceBridgePanel";
+import { sampleMinistarSourceToPackageEvidenceBridge } from "@/data/sampleMinistarSourceToPackageEvidenceBridge";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherSourceReviewWorkspacePage({
@@ -37,6 +39,7 @@ export default async function TeacherSourceReviewWorkspacePage({
         <>
           <MinistarSourceDerivedUnitReviewPanel review={sampleMinistarSourceDerivedUnitReview} />
           <MinistarUnitAuthoringProposalPanel proposal={sampleMinistarUnitAuthoringProposal} />
+          <PublisherSourceToPackageEvidenceBridgePanel bridge={sampleMinistarSourceToPackageEvidenceBridge} />
         </>
       ) : null}
     </AppShell>

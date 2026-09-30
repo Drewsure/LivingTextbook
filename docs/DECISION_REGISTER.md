@@ -10154,3 +10154,13 @@ until a human release decision exists.
 The record is blocked, review-only, and metadata-only. It cannot deliver files,
 include payload bytes or learner records, create QR output, activate
 persistence, or enable student-facing use. See ADR 1332.
+
+## DR-1332: Publisher Source-to-Package Evidence Bridge
+
+The MiniStar Unit 1 DOCX now has a generic review-only bridge binding its source
+review, extraction preview, extraction packet, and platform-authored sentence
+proposal to the remaining audio, rights, game, and release evidence lanes.
+
+The bridge keeps extracted source text distinct from authored candidates and
+keeps draft creation, package assembly, QR printing, persistence activation,
+and student-facing use blocked. See ADR 1333.
