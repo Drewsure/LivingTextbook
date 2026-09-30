@@ -10360,3 +10360,14 @@ review packet that could otherwise look complete. The sidecar and packet
 remain metadata-only, review-only, and unable to authorize assembly,
 promotion, QR printing, persistence activation, learner records, or student
 use. See ADR 1355.
+
+## DR-1356: Carry Preflight Lineage Through Delivery
+
+Delivery release lineage, QR registration, and local package assembly must
+preserve the durable publisher source preflight evidence identity. Release
+lineage validates the sidecar against tenant, quarantine, package, and source
+checksum, while the local package review binding carries the same evidence id
+into the immutable package metadata. This prevents provenance from being lost
+after packet review. The change strengthens identity validation only; release
+writes, QR route mutation, hosted persistence, learner records, and student
+activation remain separately gated. See ADR 1356.

@@ -31,6 +31,7 @@ for (const [source, marker, label] of [
   [reader, "reviewPacketId", "review packet identity"],
   [reader, "quarantineId", "quarantine identity"],
   [reader, "reviewPacketBindingValue", "review packet runtime validation"],
+  [reader, "sourcePreflightEvidenceId", "source preflight evidence identity"],
   [route, "readBoundedQueryParam", "bounded runtime identity"],
   [route, "writesAllowed: false", "runtime write boundary"],
   [route, "hostedPersistenceActivated: false", "runtime hosted boundary"],

@@ -61,6 +61,7 @@ export async function POST(request: Request) {
     tenantId: packet.tenantId,
     quarantineId: packet.quarantineId,
     packetId: packet.packetId,
+    sourcePreflightEvidenceId: packet.sourcePreflightEvidenceId ?? "",
     packageId: packet.packageId,
     sourceChecksumSha256: packet.checksumSha256,
     status: "ready-for-next-gate",

@@ -9515,3 +9515,18 @@ This standard is recorded in DR-1354 and ADR 1354.
   guidance cannot drift from the protected API boundary.
 
 This standard is recorded in DR-1355 and ADR 1355.
+
+## 599. Delivery Must Preserve Publisher Preflight Lineage
+
+- Delivery release lineage must read the durable publisher source preflight
+  sidecar and reconcile its tenant, quarantine, package, and source checksum.
+- The package review packet evidence identity must match the durable sidecar;
+  a packet status alone is not sufficient proof of source provenance.
+- Local package review bindings and read-only runtime metadata must carry and
+  validate `sourcePreflightEvidenceId` before QR/local handoff readiness can
+  be reported.
+- This identity binding strengthens auditability only. It must not authorize
+  release writes, QR mutation, hosted persistence, learner records, or student
+  activation.
+
+This standard is recorded in DR-1356 and ADR 1356.

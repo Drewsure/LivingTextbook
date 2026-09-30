@@ -430,6 +430,7 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
       tenantId: "tenant-one",
       quarantineId: "quarantine-one",
       packetId: "packet-one",
+      sourcePreflightEvidenceId: "quarantine-one:source-preflight:report-one",
       packageId: "package-one",
       sourceChecksumSha256: "b".repeat(64),
       status: "ready-for-next-gate",

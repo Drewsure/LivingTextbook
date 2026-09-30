@@ -46,6 +46,7 @@ interface LocalPilotPackageReviewBinding {
   tenantId: string;
   quarantineId: string;
   packetId: string;
+  sourcePreflightEvidenceId: string;
   packageId: string;
   sourceChecksumSha256: string;
   status: "ready-for-next-gate";
@@ -435,7 +436,7 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   if (assemblyValue.bundleId !== bundleValue.bundle_id || assemblyValue.manifestId !== manifestValue.manifestId || assemblyValue.receiptId !== receiptValue.receiptId) errors.push("Local package runtime assembly binding does not match the package metadata.");
   if (reviewPacketBindingValue.recordVersion !== 1 || reviewPacketBindingValue.status !== "ready-for-next-gate") errors.push("Local package runtime review packet binding is not ready for the next gate.");
   if (reviewPacketBindingValue.tenantId !== manifestValue.tenantId || reviewPacketBindingValue.packageId !== manifestValue.packageId || reviewPacketBindingValue.sourceChecksumSha256 !== String(manifestValue.sourceAssemblyChecksum).replace(/^sha256:/, "")) errors.push("Local package runtime review packet binding does not match the approved delivery identity.");
-  if (!isSafeSegment(String(reviewPacketBindingValue.quarantineId ?? "")) || !isNonEmptyString(reviewPacketBindingValue.packetId)) errors.push("Local package runtime review packet binding identity is unsafe or incomplete.");
+  if (!isSafeSegment(String(reviewPacketBindingValue.quarantineId ?? "")) || !isNonEmptyString(reviewPacketBindingValue.packetId) || !isNonEmptyString(reviewPacketBindingValue.sourcePreflightEvidenceId)) errors.push("Local package runtime review packet binding identity is unsafe or incomplete.");
   if (assemblyValue.quarantineId !== reviewPacketBindingValue.quarantineId || assemblyValue.reviewPacketId !== reviewPacketBindingValue.packetId) errors.push("Local package runtime assembly record does not preserve review packet identity.");
   if (assemblyValue.publisherPayloadIncluded !== true || assemblyValue.learnerRecordsIncluded !== false || assemblyValue.sideEffect !== "local-package-assembly") errors.push("Local package runtime assembly record has an unsafe privacy or side-effect marker.");
   if (!["package-scoped-promotion", "legacy-flat-root"].includes(String(assemblyValue.approvedAssetSourceScope)) || !Number.isInteger(assemblyValue.copiedAssetCount) || Number(assemblyValue.copiedAssetCount) < 1) errors.push("Local package runtime assembly record does not preserve approved asset custody scope and count.");

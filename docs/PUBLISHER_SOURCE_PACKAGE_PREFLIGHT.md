@@ -100,3 +100,8 @@ The sidecar remains metadata-only and review-only. Attaching it does not
 approve the source, promote assets, assemble a package, print QR codes, enable
 hosted persistence, create learner records, or start students.
 
+The same evidence identity must remain attached through later delivery
+release, QR registration, and local-package metadata. A packet or release
+record with no matching `sourcePreflightEvidenceId` is stale and must fail
+closed rather than becoming a pilot package.
+

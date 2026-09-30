@@ -42,6 +42,7 @@ export interface LocalPilotPackageReviewBinding {
   tenantId: string;
   quarantineId: string;
   packetId: string;
+  sourcePreflightEvidenceId: string;
   packageId: string;
   sourceChecksumSha256: string;
   status: "ready-for-next-gate";
@@ -467,6 +468,7 @@ function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, ma
   if (!isNonEmptyString(binding?.tenantId) || binding.tenantId !== manifest.tenantId) errors.push("Local package review binding tenant does not match the delivery manifest.");
   if (!isSafeSegment(binding?.quarantineId ?? "")) errors.push("Local package review binding quarantine identity is unsafe.");
   if (!isNonEmptyString(binding?.packetId)) errors.push("Local package review binding packet identity is required.");
+  if (!isNonEmptyString(binding?.sourcePreflightEvidenceId)) errors.push("Local package review binding source preflight evidence identity is required.");
   if (!isNonEmptyString(binding?.packageId) || binding.packageId !== manifest.packageId) errors.push("Local package review binding package does not match the delivery manifest.");
   if (!/^sha256:[0-9a-f]{64}$/i.test(manifest.sourceAssemblyChecksum) || binding?.sourceChecksumSha256 !== manifest.sourceAssemblyChecksum.replace(/^sha256:/, "")) errors.push("Local package review binding checksum does not match the delivery manifest.");
   if (binding?.status !== "ready-for-next-gate") errors.push("Local package assembly requires a review packet ready for the next gate.");

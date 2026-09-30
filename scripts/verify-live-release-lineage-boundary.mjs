@@ -8,7 +8,7 @@ const metadataRoute = readFileSync(resolve(root, "apps/web/src/app/api/teacher/d
 const qrRegistryRoute = readFileSync(resolve(root, "apps/web/src/app/api/teacher/delivery/qr-registry/route.ts"), "utf8");
 
 for (const [source, markers, label] of [
-  [lineage, ["readQuarantineReviewDecision", "readQuarantinePackageEvidenceReview", "readQuarantinePackageReviewPacket", "readQuarantineSentenceApproval", "accepted-for-package-review", "reviewed-package-evidence", "Exactly two approved English target sentences are required before delivery release.", "sourceAssemblyChecksum", "selectedMode"], "release lineage validator"],
+  [lineage, ["readQuarantineReviewDecision", "readQuarantinePackageEvidenceReview", "readQuarantinePackageReviewPacket", "readQuarantineSentenceApproval", "readQuarantineSourcePreflightEvidence", "sourcePreflightEvidence", "sourcePreflightEvidenceId", "accepted-for-package-review", "reviewed-package-evidence", "Exactly two approved English target sentences are required before delivery release.", "sourceAssemblyChecksum", "selectedMode"], "release lineage validator"],
   [releaseRoute, ["readPilotDeliveryReleaseLineage", "quarantineId", "lineageBound: false"], "release route lineage gate"],
   [metadataRoute, ["readPilotDeliveryReleaseLineage", "quarantineId", "lineageBound: false"], "metadata writer lineage gate"],
   [qrRegistryRoute, ["readPilotDeliveryReleaseLineage", "readPilotDeliveryMetadata", "deliveryMetadataBound: false", "quarantineId"], "QR registry lineage and custody gate"],

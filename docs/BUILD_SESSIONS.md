@@ -7655,3 +7655,15 @@ until the evidence is present.
 This remains review-only and metadata-only. It does not assemble or promote
 files, print QR codes, activate hosted persistence, create learner records, or
 start students. Added regression markers and recorded ADR 1355 / DR-1355.
+
+## Build session: Carry preflight lineage through delivery
+
+Extended the durable source-preflight identity through delivery release
+lineage and the local package review binding. Release and QR/local downstream
+gates now reject missing or mismatched source evidence, while the local
+package runtime preserves the evidence id in its immutable metadata binding.
+
+This strengthens provenance only. It does not authorize release writes, QR
+route mutation, hosted persistence, learner records, or student activation.
+Added focused release-lineage and local-package regression coverage and
+recorded ADR 1356 / DR-1356.

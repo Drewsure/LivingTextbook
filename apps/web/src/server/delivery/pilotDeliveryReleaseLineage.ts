@@ -7,6 +7,7 @@ import type {
   UploadQuarantineDeliveryModeDecision,
   UploadQuarantinePromotionAdapterDecision,
   PublisherSentenceApprovalRecord,
+  PublisherSourcePreflightEvidenceRecord,
 } from "@living-textbook/content-model";
 import {
   readQuarantineDeliveryModeDecision,
@@ -16,6 +17,7 @@ import {
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
   readQuarantineSentenceApproval,
+  readQuarantineSourcePreflightEvidence,
 } from "@/server/uploads/quarantineUploadStore";
 
 export type PilotDeliveryReleaseLineageRecords = {
@@ -26,11 +28,12 @@ export type PilotDeliveryReleaseLineageRecords = {
   deliveryModeDecision: UploadQuarantineDeliveryModeDecision | null;
   promotionAdapterDecision: UploadQuarantinePromotionAdapterDecision | null;
   sentenceApproval: PublisherSentenceApprovalRecord | null;
+  sourcePreflightEvidence: PublisherSourcePreflightEvidenceRecord | null;
   errors: string[];
 };
 
 export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryManifest, quarantineId: string): Promise<string[]> {
-  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult, promotionAdapterResult, sentenceApprovalResult] = await Promise.all([
+  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult, promotionAdapterResult, sentenceApprovalResult, sourcePreflightEvidenceResult] = await Promise.all([
     readQuarantineUploadRecords(manifest.tenantId, quarantineId),
     readQuarantineReviewDecision(manifest.tenantId, quarantineId),
     readQuarantinePackageEvidenceReview(manifest.tenantId, quarantineId),
@@ -38,6 +41,7 @@ export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryMan
     readQuarantineDeliveryModeDecision(manifest.tenantId, quarantineId),
     readQuarantinePromotionAdapterDecision(manifest.tenantId, quarantineId),
     readQuarantineSentenceApproval(manifest.tenantId, quarantineId),
+    readQuarantineSourcePreflightEvidence(manifest.tenantId, quarantineId),
   ]);
 
   return validatePilotDeliveryReleaseLineage({
@@ -50,7 +54,8 @@ export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryMan
     deliveryModeDecision: deliveryModeResult.record,
     promotionAdapterDecision: promotionAdapterResult.record,
     sentenceApproval: sentenceApprovalResult.record,
-    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors, ...promotionAdapterResult.errors, ...sentenceApprovalResult.errors],
+    sourcePreflightEvidence: sourcePreflightEvidenceResult.record,
+    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors, ...promotionAdapterResult.errors, ...sentenceApprovalResult.errors, ...sourcePreflightEvidenceResult.errors],
   });
 }
 
@@ -84,6 +89,15 @@ export function validatePilotDeliveryReleaseLineage(records: PilotDeliveryReleas
     if (packet.tenantId !== manifest.tenantId || packet.quarantineId !== quarantineId || packet.packageId !== manifest.packageId) errors.push("Package review packet identity does not match the delivery manifest lineage.");
     if (summary && packet.checksumSha256 !== summary.record.checksumSha256) errors.push("Package review packet checksum does not match the quarantined source checksum.");
     if (packet.reviewDecision !== "accepted-for-package-review") errors.push("Package review packet must preserve the accepted source review decision before delivery release.");
+    if (!packet.sourcePreflightEvidenceId) errors.push("Package review packet must preserve durable publisher source preflight evidence before delivery release.");
+  }
+
+  const sourcePreflightEvidence = records.sourcePreflightEvidence;
+  if (!sourcePreflightEvidence || sourcePreflightEvidence.status !== "attached") errors.push("Durable publisher source preflight evidence is required before delivery release.");
+  else {
+    if (sourcePreflightEvidence.tenantId !== manifest.tenantId || sourcePreflightEvidence.quarantineId !== quarantineId || sourcePreflightEvidence.packageId !== manifest.packageId) errors.push("Publisher source preflight evidence identity does not match the delivery manifest lineage.");
+    if (summary && sourcePreflightEvidence.sourceChecksumSha256 !== `sha256:${summary.record.checksumSha256}`) errors.push("Publisher source preflight evidence checksum does not match the quarantined source checksum.");
+    if (packet && packet.sourcePreflightEvidenceId !== sourcePreflightEvidence.evidenceId) errors.push("Package review packet source preflight evidence identity does not match the durable sidecar.");
   }
 
   const deliveryModeDecision = records.deliveryModeDecision;
