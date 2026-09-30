@@ -22,6 +22,7 @@ try {
   const { readLocalPilotPackageContent, readLocalPilotPackageHandoff, readLocalPilotPackageIntegrity, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
+  const { writeLocalBundleManifestReview, readLocalBundleManifestReview } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localBundleManifestReviewWriter.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
   const input = createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord, samplePartnerContentPackage });
   const environment = {
@@ -35,10 +36,37 @@ try {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
+    LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT: join(workspace, "quarantine"),
+    LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT: join(workspace, "bundle-manifest-reviews"),
+    LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED: "false",
   };
   const previousEnvironment = new Map(Object.keys(environment).map((name) => [name, process.env[name]]));
   try {
     applyEnvironment(environment);
+    const reviewQuarantineId = "q-123e4567-e89b-12d3-a456-426614174000";
+    createBundleManifestReviewCustody({ reviewQuarantineId, reviewRoot: environment.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT, bundleManifest: input.bundleManifest });
+    const reviewInput = {
+      tenantId: "tenant-one",
+      packageId: "package-one",
+      quarantineId: reviewQuarantineId,
+      reviewPacketId: "packet-one",
+      manifest: input.bundleManifest,
+      reviewerId: "reviewer-one",
+      reviewedAt: "2026-10-01T00:00:00.000Z",
+    };
+    const disabledManifestReview = await writeLocalBundleManifestReview(reviewInput);
+    assert(disabledManifestReview.status === "blocked" && disabledManifestReview.errors.some((error) => error.includes("writes are disabled")), "reviewed bundle manifest writes must remain disabled by default");
+    process.env.LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED = "true";
+    const firstManifestReview = await writeLocalBundleManifestReview(reviewInput);
+    assert(firstManifestReview.status === "accepted" && firstManifestReview.idempotent === false, "an approved reviewed bundle manifest must be written once");
+    const storedManifestReview = await readLocalBundleManifestReview({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(storedManifestReview.status === "available" && storedManifestReview.record?.recordId === "tenant-one:package-one:1.0.0:bundle-manifest-review", "reviewed bundle manifest must be readable by exact tenant/package/version custody");
+    const replayManifestReview = await writeLocalBundleManifestReview(reviewInput);
+    assert(replayManifestReview.status === "accepted" && replayManifestReview.idempotent === true, "exact reviewed bundle manifest replay must be idempotent");
+    const conflictingManifestReview = { ...reviewInput, manifest: { ...input.bundleManifest, created_at: "2026-10-02T00:00:00.000Z" } };
+    const conflictManifestReview = await writeLocalBundleManifestReview(conflictingManifestReview);
+    assert(conflictManifestReview.status === "conflict", "a different reviewed bundle manifest must not replace immutable custody");
+    process.env.LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED = "false";
     const readyPreflight = await preflightLocalPilotPackageAssembly(input);
     assert(readyPreflight.status === "ready-for-assembly" && readyPreflight.executionReady === true, "approved local package must pass the read-only execution preflight before assembly");
     assert(readyPreflight.sideEffect === "none" && readyPreflight.sourceFileCount === 3, "execution preflight must remain side-effect-free and enumerate the approved source file plan");
@@ -222,6 +250,8 @@ function compileSources() {
     "apps/web/src/server/delivery/localPilotPackageAssembler.ts",
     "apps/web/src/server/delivery/localPilotPackageRuntimeReader.ts",
     "apps/web/src/server/delivery/localPilotPackageRouteMap.ts",
+    "apps/web/src/server/delivery/localBundleManifestReviewWriter.ts",
+    "apps/web/src/server/uploads/quarantineUploadStore.ts",
     "apps/web/src/features/routes/routeContracts.ts",
     "apps/web/src/server/persistence/backupPathPolicy.ts",
     "apps/web/src/server/uploads/quarantinePathPolicy.ts",
@@ -445,6 +475,67 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     operatorId: "operator-one",
     writtenAt: "2026-09-30T00:00:00.000Z",
   };
+}
+
+function createBundleManifestReviewCustody({ reviewQuarantineId, reviewRoot, bundleManifest }) {
+  const recordDirectory = join(reviewRoot, "tenant-one", reviewQuarantineId);
+  mkdirSync(recordDirectory, { recursive: true });
+  const sourceEvidenceId = `${reviewQuarantineId}:source-preflight:report-one`;
+  writeFileSync(join(recordDirectory, "source-preflight-evidence.json"), JSON.stringify({
+    recordVersion: 1,
+    evidenceId: sourceEvidenceId,
+    tenantId: "tenant-one",
+    quarantineId: reviewQuarantineId,
+    packageId: "package-one",
+    reportId: "report-one",
+    manifestId: "manifest-one",
+    version: "1.0.0",
+    sourceAssetId: "source-one",
+    sourceRelativePath: "source/book.pdf",
+    sourceUnitKey: "unit-1",
+    sourceChecksumSha256: "sha256:" + "b".repeat(64),
+    manifestChecksumSha256: "sha256:" + "c".repeat(64),
+    inventoryChecksumSha256: "sha256:" + "d".repeat(64),
+    declaredAssetCount: 1,
+    verifiedAssetCount: 1,
+    capturedAt: "2026-09-30T00:00:00.000Z",
+    status: "attached",
+    storageMode: "quarantine-metadata-only",
+    reviewOnly: true,
+    packageAssemblyAllowed: false,
+    packagePromotionAllowed: false,
+    qrPrintAllowed: false,
+    hostedPersistenceActivationAllowed: false,
+    studentFacingUseAllowed: false,
+    mode: "review-only",
+    sideEffect: "none",
+  }, null, 2) + "\n", "utf8");
+  writeFileSync(join(recordDirectory, "package-review-packet.json"), JSON.stringify({
+    recordVersion: 1,
+    packetId: "packet-one",
+    tenantId: "tenant-one",
+    quarantineId: reviewQuarantineId,
+    sourceId: `quarantine-record:${reviewQuarantineId}`,
+    packageId: "package-one",
+    admissionId: "admission-one",
+    evidencePacketId: "evidence-one",
+    checksumSha256: "b".repeat(64),
+    payloadPresent: true,
+    reviewDecisionId: "decision-one",
+    sourcePreflightEvidenceId: sourceEvidenceId,
+    reviewDecision: "accepted-for-package-review",
+    status: "ready-for-next-gate",
+    blockers: [],
+    nextGate: ["Continue the separate package assembly gate."],
+    includedRecords: ["upload_quarantine_intake_record", "publisher_source_preflight_evidence"],
+    capturedAt: "2026-09-30T00:00:00.000Z",
+    storageMode: "local-quarantine-package-review-metadata",
+    packageAssemblyAllowed: false,
+    promotionAllowed: false,
+    studentFacingUseAllowed: false,
+    mode: "review-only",
+    sideEffect: "none",
+  }, null, 2) + "\n", "utf8");
 }
 
 function applyEnvironment(values) {

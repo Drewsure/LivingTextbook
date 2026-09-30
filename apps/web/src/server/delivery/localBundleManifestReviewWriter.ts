@@ -65,12 +65,15 @@ export async function writeLocalBundleManifestReview(input: LocalBundleManifestR
   if (!resolved.ok) return blocked(resolved.errors);
   const { root, directory, path, relativePath } = resolved;
   try {
-    await mkdir(directory, { recursive: true });
+    await mkdir(root, { recursive: true });
     const directoryErrors = [
       ...validateDurableBackupFilesystemPath(directory, root),
       ...validateDurableBackupFilesystemPath(joinBoundary(root), root),
     ];
     if (directoryErrors.length > 0) return blocked(directoryErrors);
+    await mkdir(directory, { recursive: true });
+    const createdDirectoryErrors = validateDurableBackupFilesystemPath(directory, root);
+    if (createdDirectoryErrors.length > 0) return blocked(createdDirectoryErrors);
     if (await pathExists(path)) {
       const existing = await readJson(path);
       const existingErrors = validateLocalBundleManifestReviewRecord(existing);
