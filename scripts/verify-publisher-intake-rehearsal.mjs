@@ -286,6 +286,7 @@ try {
   const assemblyPreflight = await requestJson(`${baseUrl}/api/teacher/uploads/package-assembly-preflight?${query}`, headers);
   assert(assemblyPreflight.status === "review-only" && assemblyPreflight.preflight?.status === "blocked", "package assembly preflight must remain review-only and blocked");
   assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("approved delivery manifest")), "assembly preflight must require an approved delivery manifest");
+  assert(assemblyPreflight.sentenceApprovalRecorded === true, "assembly preflight must report the checksum-bound English sentence approval lane");
   assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("manual release receipt")), "assembly preflight must require release and QR authorization");
   assert(assemblyPreflight.preflight?.blockers?.some((blocker) => blocker.includes("approved local bundle or hosted deployment handoff")), "assembly preflight must require an approved delivery handoff");
   assert(assemblyPreflight.preflight?.assemblyWriteAllowed === false && assemblyPreflight.preflight?.promotionAllowed === false && assemblyPreflight.preflight?.studentFacingUseAllowed === false, "assembly preflight must keep writes, promotion, and student use blocked");
@@ -305,7 +306,7 @@ try {
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "delivery-mode" && check.status === "passed"), "selected delivery mode must close only the mode-selection check");
   assert(secondBinding.deliveryManifestPreview?.deliveryAllowed === false && secondBinding.deliveryManifestPreview?.qrPrintAllowed === false, "delivery mode selection must not enable delivery or QR printing");
   assert(secondBinding.preflight?.assemblyWriteAllowed === false && secondBinding.preflight?.promotionAllowed === false, "preflight must remain write and promotion blocked");
-  const allowedPassedChecks = new Set(["quarantine-review", "source-review-decision", "review-packet", "delivery-mode", "promotion-adapter", "package-preview"]);
+  const allowedPassedChecks = new Set(["quarantine-review", "source-review-decision", "review-packet", "sentence-approval", "delivery-mode", "promotion-adapter", "package-preview"]);
   assert(secondBinding.binding?.checks.every((check) => check.status !== "passed" || allowedPassedChecks.has(check.checkId)), "downstream readiness must not be inferred beyond explicit review, delivery-mode, and package-evidence records");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "release-receipt" && check.status === "blocked") && secondBinding.binding?.checks.some((check) => check.checkId === "delivery-manifest" && check.status === "blocked"), "release and delivery checks must remain blocked after package evidence review");
 

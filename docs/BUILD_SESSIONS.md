@@ -7493,3 +7493,16 @@ assembly, promotion, QR printing, persistence activation, and student-facing
 use remain blocked, and Japanese/support text cannot satisfy this English
 target-language gate. Added focused contract and behavior checks and recorded
 ADR 1341 / DR-1340.
+
+## Build session: Enforce sentence approval at delivery gates
+
+The checksum-bound English sentence sidecar is now required by the package
+assembly preflight and the delivery release lineage validator. Both gates
+accept the record only when its tenant, quarantine, package, and source
+checksum match the exact package under review and its decision is approved.
+
+The preflight response exposes only a bounded `sentenceApprovalRecorded`
+boolean; it does not return sentence payloads or enable writes. Release,
+metadata, local package assembly, QR printing, persistence activation, and
+student-facing use remain blocked unless their separate gates also pass.
+Added regression markers and recorded ADR 1342 / DR-1341.

@@ -6,7 +6,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket, readQuarantineSentenceApproval } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,11 +27,17 @@ export async function GET(request: Request) {
 
   const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
   const packageEvidenceReview = packageEvidenceReviewResult.record;
+  const sentenceApprovalResult = await readQuarantineSentenceApproval(tenantId, quarantineId);
+  const sentenceApproval = sentenceApprovalResult.record;
+  const sentenceApprovalBound = sentenceApproval?.decision === "approved"
+    && sentenceApproval.packageId === packet.packageId
+    && sentenceApproval.sourceChecksumSha256 === packet.checksumSha256;
 
   const preflight = createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
       ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
+      ...(sentenceApprovalBound ? [] : ["Exactly two approved English target sentences are not bound to this package checksum."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
       "A manual release receipt and QR print authorization are not linked to this quarantine review packet.",
       "An approved local bundle or hosted deployment handoff is not linked to this quarantine review packet.",
@@ -42,10 +48,11 @@ export async function GET(request: Request) {
     tenantId,
     quarantineId,
     preflight,
+    sentenceApprovalRecorded: sentenceApprovalBound,
     assemblyWriteAllowed: false,
     promotionAllowed: false,
     studentFacingUseAllowed: false,
-    errors: [...packetResult.errors, ...packageEvidenceReviewResult.errors],
+    errors: [...packetResult.errors, ...packageEvidenceReviewResult.errors, ...sentenceApprovalResult.errors],
     privacy: privacyMessage(),
   });
 }

@@ -24,6 +24,8 @@ for (const marker of [
   "readQuarantinePackageEvidenceReview",
   "complete reviewed multimedia and game evidence sidecar is not linked",
   "readQuarantinePackageReviewPacket",
+  "readQuarantineSentenceApproval",
+  "Exactly two approved English target sentences are not bound to this package checksum",
   "An approved delivery manifest is not linked",
   "An approved delivery manifest is not linked",
   "assemblyWriteAllowed: false",

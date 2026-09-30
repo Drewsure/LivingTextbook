@@ -6,6 +6,7 @@ import type {
   UploadQuarantineReviewSummary,
   UploadQuarantineDeliveryModeDecision,
   UploadQuarantinePromotionAdapterDecision,
+  PublisherSentenceApprovalRecord,
 } from "@living-textbook/content-model";
 import {
   readQuarantineDeliveryModeDecision,
@@ -14,6 +15,7 @@ import {
   readQuarantinePackageReviewPacket,
   readQuarantineReviewDecision,
   readQuarantineUploadRecords,
+  readQuarantineSentenceApproval,
 } from "@/server/uploads/quarantineUploadStore";
 
 export type PilotDeliveryReleaseLineageRecords = {
@@ -23,17 +25,19 @@ export type PilotDeliveryReleaseLineageRecords = {
   packageReviewPacket: UploadQuarantinePackageReviewPacket | null;
   deliveryModeDecision: UploadQuarantineDeliveryModeDecision | null;
   promotionAdapterDecision: UploadQuarantinePromotionAdapterDecision | null;
+  sentenceApproval: PublisherSentenceApprovalRecord | null;
   errors: string[];
 };
 
 export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryManifest, quarantineId: string): Promise<string[]> {
-  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult, promotionAdapterResult] = await Promise.all([
+  const [intake, reviewDecisionResult, packageEvidenceResult, packetResult, deliveryModeResult, promotionAdapterResult, sentenceApprovalResult] = await Promise.all([
     readQuarantineUploadRecords(manifest.tenantId, quarantineId),
     readQuarantineReviewDecision(manifest.tenantId, quarantineId),
     readQuarantinePackageEvidenceReview(manifest.tenantId, quarantineId),
     readQuarantinePackageReviewPacket(manifest.tenantId, quarantineId),
     readQuarantineDeliveryModeDecision(manifest.tenantId, quarantineId),
     readQuarantinePromotionAdapterDecision(manifest.tenantId, quarantineId),
+    readQuarantineSentenceApproval(manifest.tenantId, quarantineId),
   ]);
 
   return validatePilotDeliveryReleaseLineage({
@@ -45,7 +49,8 @@ export async function readPilotDeliveryReleaseLineage(manifest: PilotDeliveryMan
     packageReviewPacket: packetResult.record,
     deliveryModeDecision: deliveryModeResult.record,
     promotionAdapterDecision: promotionAdapterResult.record,
-    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors, ...promotionAdapterResult.errors],
+    sentenceApproval: sentenceApprovalResult.record,
+    errors: [...intake.errors, ...reviewDecisionResult.errors, ...packageEvidenceResult.errors, ...packetResult.errors, ...deliveryModeResult.errors, ...promotionAdapterResult.errors, ...sentenceApprovalResult.errors],
   });
 }
 
@@ -57,6 +62,10 @@ export function validatePilotDeliveryReleaseLineage(records: PilotDeliveryReleas
 
   if (!summary || summary.quarantineId !== quarantineId) errors.push("A tenant-bound quarantine intake record is required before delivery release.");
   if (expectedChecksum && manifest.sourceAssemblyChecksum !== expectedChecksum) errors.push("Delivery manifest sourceAssemblyChecksum does not match the quarantined source checksum.");
+
+  const sentenceApproval = records.sentenceApproval;
+  if (!sentenceApproval || sentenceApproval.decision !== "approved") errors.push("Exactly two approved English target sentences are required before delivery release.");
+  else if (sentenceApproval.tenantId !== manifest.tenantId || sentenceApproval.quarantineId !== quarantineId || sentenceApproval.packageId !== manifest.packageId || (summary && sentenceApproval.sourceChecksumSha256 !== summary.record.checksumSha256)) errors.push("English sentence approval identity does not match the delivery manifest lineage.");
 
   const reviewDecision = records.reviewDecision;
   if (!reviewDecision || reviewDecision.decision !== "accepted-for-package-review") errors.push("An accepted-for-package-review decision is required before delivery release.");

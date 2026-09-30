@@ -45,6 +45,7 @@ export function createUploadQuarantinePackageAssemblyPreflight(input: {
     status: blockers.length === 0 ? "ready-for-manual-assembly" : "blocked",
     requiredInputs: [
       "Approved publisher source and textbook unit mapping",
+      "Checksum-bound approval for exactly two English target sentences",
       "Reviewed content, game, audio, image, video, and font records",
       "Approved delivery manifest and release candidate",
       "Manual release receipt and QR print authorization",

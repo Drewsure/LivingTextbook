@@ -10227,3 +10227,12 @@ sentences in a checksum-bound, tenant-scoped immutable sidecar. This closes a
 real evidence gap without allowing package assembly, release, QR printing,
 persistence activation, or student use. Support-language content remains
 separate and cannot trigger progression. See ADR 1341.
+
+## DR-1341: Enforce English Sentence Approval At Delivery Gates
+
+The package assembly preflight and delivery release lineage must independently
+require the approved, checksum-bound English sentence sidecar. Readiness may
+show the sentence lane, but neither a package writer nor a release receipt may
+infer it from generic package evidence. The gate remains bounded and
+review-only until all other release, QR, rollback, policy, and deployment
+checks pass. See ADR 1342.

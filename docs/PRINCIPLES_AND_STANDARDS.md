@@ -9305,3 +9305,16 @@ This standard is recorded in DR-1339 and ADR 1340.
   controlled review process rather than overwrite history.
 
 This standard is recorded in DR-1340 and ADR 1341.
+
+## 584. Delivery Gates Must Recheck Canonical Sentence Evidence
+
+- Assembly preflight and release lineage must independently require the
+  checksum-bound approval for exactly two distinct English target sentences.
+- A readiness projection or generic package-evidence flag must not substitute
+  for the exact sentence sidecar.
+- The gate must match tenant, quarantine, package, and source checksum before
+  it can be considered present.
+- The sentence gate remains evidence-only and cannot authorize package writes,
+  QR printing, persistence activation, or student-facing use by itself.
+
+This standard is recorded in DR-1341 and ADR 1342.
