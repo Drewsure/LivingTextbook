@@ -9420,3 +9420,20 @@ This standard is recorded in DR-1347 and ADR 1348.
   runtime handoff.
 
 This standard is recorded in DR-1348 and ADR 1349.
+
+## 593. Publisher Source Folders Must Pass A Manifested Preflight
+
+- A publisher source folder must include an explicit manifest that maps every
+  textbook, image, audio, video, transcript, font, and background-media file
+  to a tenant package and unit before quarantine intake.
+- Preflight must inventory only declared files, reject unsafe paths, check
+  supported types and bounded sizes, and record SHA-256 checksums.
+- Missing, unsupported, invalid, symbolic-link, or unlisted files remain
+  blockers. A checksum is provenance evidence, not rights approval or release
+  approval.
+- The preflight report is review-only and side-effect-free. It must not copy
+  payloads, write quarantine, promote assets, assemble packages, print QR
+  codes, activate hosted persistence, create learner records, or start
+  students.
+
+This standard is recorded in DR-1349 and ADR 1350.

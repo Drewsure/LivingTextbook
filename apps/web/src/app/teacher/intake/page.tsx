@@ -132,6 +132,7 @@ import { TeacherAuthoringReadinessPanel } from "@/features/content-intake/Teache
 import { TemplateRenderingFontProfilePanel } from "@/features/content-intake/TemplateRenderingFontProfilePanel";
 import { UploadChannelReadinessPanel } from "@/features/content-intake/UploadChannelReadinessPanel";
 import { UploadPromotionReadinessPanel } from "@/features/content-intake/UploadPromotionReadinessPanel";
+import { PublisherSourcePackagePreflightPanel } from "@/features/content-intake/PublisherSourcePackagePreflightPanel";
 import { UploadReviewQueuePanel } from "@/features/content-intake/UploadReviewQueuePanel";
 import { UnitPackageReadinessPanel } from "@/features/content-intake/UnitPackageReadinessPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
@@ -209,6 +210,7 @@ import { TeacherAssistLanguageReviewPanel } from "@/features/teacher/TeacherAssi
 import { TeacherAssistLanguageAudioEvidencePanel } from "@/features/teacher/TeacherAssistLanguageAudioEvidencePanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { sampleJapaneseTargetTenantPreview } from "@/data/sampleTargetLanguageTenantPreview";
+import { samplePublisherSourcePackagePreflight } from "@/data/samplePublisherSourcePackagePreflight";
 
 export default function TeacherIntakePage() {
   return (
@@ -306,6 +308,7 @@ export default function TeacherIntakePage() {
         <TemplateRenderingFontProfilePanel plan={sampleTemplateRenderingFontProfilePlan} />
         <UploadReviewQueuePanel queue={sampleUploadReviewQueue} />
         <UploadPromotionReadinessPanel plan={sampleUploadPromotionReadinessPlan} />
+        <PublisherSourcePackagePreflightPanel report={samplePublisherSourcePackagePreflight} />
         <LabelledDiagramAssetReadinessPanel plan={sampleLabelledDiagramAssetReadinessPlan} />
         <MultimediaAssetReadinessPanel plan={sampleMultimediaAssetReadinessPlan} />
         <SourceReviewQueuePanel queue={sampleSourceReviewQueue} />

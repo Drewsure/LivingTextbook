@@ -7590,3 +7590,18 @@ route fallback, game route, integrity, privacy, and hosted-persistence checks
 in one publisher-facing handoff surface. It also makes the safe operator
 actions explicit while retaining the export, learner-data, QR mutation,
 hosted-activation, and student-launch blockers. Recorded ADR 1349 / DR-1348.
+
+## Build session: Publisher source-directory preflight
+
+Added the first concrete publisher handoff command for the saleable
+white-label pilot. A publisher source folder now has an explicit manifest
+contract for textbook, image, audio, video, transcript, font, and game
+background assets. The preflight inventories declared files, computes
+SHA-256 checksums, detects supported types and bounded sizes, and blocks
+missing, invalid, symbolic-link, or unlisted files.
+
+The report remains metadata-only and review-only. It cannot write quarantine,
+promote assets, assemble a package, print or mutate QR aliases, activate
+hosted persistence, create learner records, or start students. Added a
+teacher-intake evidence panel, self-test, package command, and ADR 1350 /
+DR-1349.

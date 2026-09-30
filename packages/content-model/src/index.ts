@@ -1993,6 +1993,7 @@ export * from "./publisherPilotPackageReadinessBinding";
 export * from "./localCompanionReleaseContinuity";
 export * from "./localPilotPackageHandoff";
 export * from "./localPilotPackageOperatorChecklist";
+export * from "./publisherSourcePackagePreflight";
 export * from "./localPilotPackageIntegrity";
 export * from "./publisherSubmissionManifest";
 export * from "./publisherSubmissionReviewHandoff";
