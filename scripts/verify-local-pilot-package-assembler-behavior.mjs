@@ -17,7 +17,7 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
-  const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
@@ -27,6 +27,7 @@ try {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_MEDIA_READS_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -52,6 +53,13 @@ try {
     assert(qrManifest.entries[0].svg.includes("<svg"), "QR print manifest must contain generated SVG evidence");
     const qrHtml = readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.html"), "utf8");
     assert(qrHtml.includes("https://pilot.example.test/q/tenant-one/unit-one") && qrHtml.includes("<svg"), "printable QR HTML must contain the approved alias and SVG");
+    assert(typeof qrManifest.htmlChecksum === "string" && qrManifest.htmlChecksum === "sha256:" + createHash("sha256").update(qrHtml).digest("hex"), "QR print manifest must bind the printable HTML checksum");
+    const printSheet = await readLocalPilotPackageQrPrintSheet({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(printSheet.status === "available" && printSheet.html === qrHtml, "verified QR print sheet must be readable only through the gated runtime reader");
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED = "false";
+    const disabledPrintSheet = await readLocalPilotPackageQrPrintSheet({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(disabledPrintSheet.status === "blocked" && disabledPrintSheet.errors.some((error) => error.includes("print reads are disabled")), "QR print sheet reads must remain disabled unless the explicit print-read gate is enabled");
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED = "true";
     const runtime = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(runtime.status === "available", "assembled local package must be readable through the runtime reader");
     if (runtime.status === "available") {
@@ -125,6 +133,12 @@ try {
     const tamperedRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(tamperedRead.status === "blocked" && tamperedRead.errors.some((error) => error.includes("QR print artifact does not match")), "runtime reader must reject QR artifact checksum drift");
     writeFileSync(tamperedArtifact, originalArtifact, "utf8");
+    const tamperedHtmlPath = join(assembledDirectory, "metadata/qr-print-sheet.html");
+    const originalHtml = readFileSync(tamperedHtmlPath, "utf8");
+    writeFileSync(tamperedHtmlPath, originalHtml.replace("Living Textbook QR print sheet", "Tampered QR print sheet"), "utf8");
+    const tamperedHtmlRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(tamperedHtmlRead.status === "blocked" && tamperedHtmlRead.errors.some((error) => error.includes("HTML checksum")), "runtime reader must reject QR print HTML checksum drift");
+    writeFileSync(tamperedHtmlPath, originalHtml, "utf8");
   } finally {
     for (const [name, value] of previousEnvironment) restoreEnvironment(name, value);
   }

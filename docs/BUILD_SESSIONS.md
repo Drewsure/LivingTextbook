@@ -7100,3 +7100,16 @@ student-payload-blocked behavior.
   to QR print artifact readiness.
 - Kept stable-route mutation, hosted persistence, student activation, and
   learner-record writes disabled.
+
+## Build session: Verified QR print-sheet read lane
+
+- Added an HTML checksum to the structured QR print artifact so the printable
+  sheet and its manifest cannot drift apart inside a local package.
+- Extended local runtime validation to read the exact approved QR sheet only
+  after package identity, release metadata, QR registry, and explicit print
+  read gates pass.
+- Added a bounded `/api/local-package/qr-print` response with a restrictive
+  content policy and a visible runtime handoff link for the verified sheet.
+- Added behavior coverage for successful gated reads and tampered HTML
+  rejection. Production print authorization, route mutation, student use,
+  hosted persistence, and learner-record writes remain disabled.

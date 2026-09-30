@@ -15,6 +15,9 @@ for (const [source, marker, label] of [
   [reader, "qrAliasRegistryReady: true", "QR alias registry readiness"],
   [reader, "validatePilotQrAliasRegistryRecord", "QR alias registry runtime validation"],
   [reader, "qr-alias-registry.json", "QR alias registry runtime artifact"],
+  [reader, "readLocalPilotPackageQrPrintSheet", "QR print sheet runtime reader"],
+  [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED", "explicit QR print read gate"],
+  [reader, "htmlChecksum", "QR print HTML checksum binding"],
   [reader, "package-review-binding.json", "review packet binding artifact"],
   [reader, "reviewPacketId", "review packet identity"],
   [reader, "quarantineId", "quarantine identity"],
@@ -26,6 +29,13 @@ for (const [source, marker, label] of [
   [route, "qrAliasesMutated: false", "runtime QR boundary"],
 ]) {
   if (!source.includes(marker)) throw new Error("Missing " + label + ": " + marker);
+}
+const printRoute = readFileSync(resolve(root, "apps/web/src/app/api/local-package/qr-print/route.ts"), "utf8");
+for (const marker of ["readLocalPilotPackageQrPrintSheet", "readBoundedQueryParam", "Content-Security-Policy", "writesAllowed: false", "qrAliasesMutated: false"]) {
+  if (!printRoute.includes(marker)) throw new Error(`QR print route is missing: ${marker}`);
+}
+for (const forbidden of ["writesAllowed: true", "qrAliasesMutated: true", "writeFile", "unlink", "mkdir"]) {
+  if (printRoute.includes(forbidden)) throw new Error(`QR print route exposes forbidden behavior: ${forbidden}`);
 }
 for (const forbidden of ["writesAllowed: true", "learnerRecordsIncluded: true", "hostedPersistenceActivated: true", "qrAliasesMutated: true"]) {
   if (route.includes(forbidden)) throw new Error("Forbidden local runtime behavior: " + forbidden);

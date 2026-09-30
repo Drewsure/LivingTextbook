@@ -791,3 +791,8 @@ export function getLocalPilotPackageTeacherEvidencePath(tenantId: TenantId, pack
 export function getLocalPilotPackageQrReviewPath(tenantId: TenantId, packageId: string, version: string, qrId: string): string {
   return `${getLocalPilotPackageRuntimePath(tenantId, packageId, version)}/qr/${encodeURIComponent(qrId)}`;
 }
+
+export function getLocalPilotPackageQrPrintPath(tenantId: TenantId, packageId: string, version: string): string {
+  const query = new URLSearchParams({ tenantId, packageId, version });
+  return `/api/local-package/qr-print?${query.toString()}`;
+}

@@ -301,6 +301,7 @@ async function createQrPrintSheet(input: LocalPilotPackageAssemblyInput, baseUrl
     receiptId: input.receipt.receiptId,
     sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
     baseUrl,
+    htmlChecksum: "sha256:pending",
     printAuthorized: true,
     entries,
     sideEffect: "local-package-assembly",
@@ -318,6 +319,7 @@ async function createQrPrintSheet(input: LocalPilotPackageAssemblyInput, baseUrl
     htmlEscape(input.manifest.packageId + " QR print sheet " + input.manifest.version) +
     "</title><style>body{font-family:Arial,sans-serif;margin:24px;color:#111}h1{font-size:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.qr-card{break-inside:avoid;border:1px solid #bbb;padding:18px}.qr{text-align:center;background:#fff;padding:8px}.qr svg{max-width:260px;width:100%;height:auto}.url,.fallback{font:12px monospace;overflow-wrap:anywhere}@media print{body{margin:10mm}.grid{gap:10mm}.qr-card{border-color:#888}}</style></head><body><h1>Living Textbook QR print sheet</h1><p>Package: " +
     htmlEscape(input.manifest.packageId) + " | Version: " + htmlEscape(input.manifest.version) + "</p><div class=\"grid\">" + htmlEntries + "</div></body></html>";
+  manifest.htmlChecksum = "sha256:" + createHash("sha256").update(html).digest("hex");
   return { manifest, html };
 }
 

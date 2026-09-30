@@ -3,6 +3,7 @@ import type {
   LocalPilotPackageRuntimeReadResult,
   LocalPilotPackageRuntimeSummary,
 } from "@/server/delivery/localPilotPackageRuntimeReader";
+import { getLocalPilotPackageQrPrintPath } from "@/features/routes/routeContracts";
 
 interface LocalPilotPackageRuntimePanelProps {
   result: LocalPilotPackageRuntimeReadResult;
@@ -56,6 +57,7 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="Package directory" value={summary.relativeDirectory} />
           <RuntimeFact label="Media kinds" value={summary.mediaKinds.join(", ") || "None"} />
           <RuntimeFact label="Hosted persistence" value={summary.hostedPersistence} />
+          <RuntimeFact label="QR registry" value={summary.qrAliasRegistryReady ? "Verified" : "Blocked"} />
         </dl>
       </Card>
 
@@ -70,6 +72,14 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           </div>
           <StatusPill label={summary.qrPrintArtifactReady ? "Print artifact verified" : "Print artifact blocked"} tone={summary.qrPrintArtifactReady ? "success" : "warning"} />
         </div>
+        {summary.qrPrintArtifactReady && summary.qrAliasRegistryReady ? (
+          <a
+            href={getLocalPilotPackageQrPrintPath(summary.tenantId, summary.packageId, summary.version)}
+            className="mt-4 inline-flex w-fit rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-3 text-sm font-bold text-[var(--tenant-text)] underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open verified QR print sheet
+          </a>
+        ) : null}
         <div className="mt-5 grid gap-3 lg:grid-cols-2">
           {summary.routes.map((route) => (
             <section key={route.qrId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

@@ -32,6 +32,15 @@ record against release lineage and fail closed on missing or drifting alias or
 fallback metadata. See
 `docs/decision-register/DR-1307-qr-registry-bound-local-package.md`.
 
+## DR-1308: Verified QR Print Sheet Read Lane
+
+The assembled QR print artifact must carry an HTML checksum, and the local
+runtime must validate it before serving the exact print sheet through a
+separate bounded read gate. Artifact retrieval remains distinct from human
+production-print authorization, QR route mutation, hosted persistence, and
+student activation. See
+`docs/decision-register/DR-1308-verified-qr-print-sheet-read-lane.md`.
+
 ## DR-1133: Quarantine-First Upload Intake
 
 Publisher source documents and media may enter only through an explicitly

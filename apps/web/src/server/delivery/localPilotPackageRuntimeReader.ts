@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { join, relative, resolve } from "node:path";
 import {
   validateLocalBundleManifest,
@@ -68,6 +69,10 @@ export type LocalPilotPackageRuntimeReadResult =
   | { status: "blocked" | "not-found"; summary: null; errors: string[] }
   | { status: "available"; summary: LocalPilotPackageRuntimeSummary; errors: [] };
 
+export type LocalPilotPackageQrPrintReadResult =
+  | { status: "blocked" | "not-found"; html: null; errors: string[] }
+  | { status: "available"; html: string; errors: [] };
+
 export type LocalPilotPackageContentReadResult =
   | { status: "blocked" | "not-found"; contentPackage: null; errors: string[] }
   | { status: "available"; contentPackage: ContentPackage; errors: [] };
@@ -93,7 +98,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
   if (boundaryErrors.length > 0) return { status: "blocked", summary: null, errors: boundaryErrors };
 
   try {
-    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue] = await Promise.all([
+    const [packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, qrPrintHtmlValue] = await Promise.all([
       readJson(join(directory, "metadata/delivery-package.json")),
       readJson(join(directory, "metadata/delivery-manifest.json")),
       readJson(join(directory, "metadata/release-receipt.json")),
@@ -102,12 +107,13 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
       readJson(join(directory, "metadata/qr-print-sheet.json")),
       readJson(join(directory, "metadata/qr-alias-registry.json")),
       readJson(join(directory, "metadata/package-review-binding.json")),
+      readFile(join(directory, "metadata/qr-print-sheet.html"), "utf8"),
     ]);
     const packageIndexErrors = validatePilotDeliveryPackageIndex(packageIndexValue);
     const manifestErrors = validatePilotDeliveryManifest(manifestValue);
     const receiptErrors = validatePilotDeliveryReleaseReceipt(receiptValue);
     const bundleValidation = validateLocalBundleManifest(bundleValue);
-    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue);
+    const bindingErrors = validateBinding(packageIndexValue, manifestValue, receiptValue, bundleValue, assemblyValue, qrPrintValue, qrRegistryValue, reviewPacketBindingValue, qrPrintHtmlValue);
     const errors = [...packageIndexErrors, ...manifestErrors, ...receiptErrors, ...bundleValidation.errors, ...bindingErrors];
     if (errors.length > 0) return { status: "blocked", summary: null, errors: [...new Set(errors)] };
 
@@ -152,6 +158,31 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
     };
   } catch {
     return { status: "not-found", summary: null, errors: ["The local pilot package metadata could not be read from the configured package root."] };
+  }
+}
+
+export async function readLocalPilotPackageQrPrintSheet(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageQrPrintReadResult> {
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED !== "true") {
+    return { status: "blocked", html: null, errors: ["Local pilot package QR print reads are disabled. Enable the explicit local-package print-read gate before serving a print sheet."] };
+  }
+
+  const runtime = await readLocalPilotPackageRuntime(identity);
+  if (runtime.status !== "available") return { status: runtime.status, html: null, errors: runtime.errors };
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) return { status: "blocked", html: null, errors: ["Local pilot package QR print reads require an explicit package root."] };
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const printPath = resolve(directory, "metadata/qr-print-sheet.html");
+  const boundaryErrors = validateDurableBackupFilesystemPath(printPath, directory);
+  if (boundaryErrors.length > 0) return { status: "blocked", html: null, errors: boundaryErrors };
+
+  try {
+    const html = await readFile(printPath, "utf8");
+    if (!html.trim()) return { status: "blocked", html: null, errors: ["The verified local package QR print sheet is empty."] };
+    return { status: "available", html, errors: [] };
+  } catch {
+    return { status: "not-found", html: null, errors: ["The verified local package QR print sheet could not be read from the configured package root."] };
   }
 }
 
@@ -249,8 +280,8 @@ function validateIdentity(identity: LocalPilotPackageRuntimeIdentity): string[] 
   return errors;
 }
 
-function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, qrRegistryValue: unknown, reviewPacketBindingValue: unknown): string[] {
-  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue) || !isRecord(reviewPacketBindingValue)) {
+function validateBinding(packageIndexValue: unknown, manifestValue: unknown, receiptValue: unknown, bundleValue: unknown, assemblyValue: unknown, qrPrintValue: unknown, qrRegistryValue: unknown, reviewPacketBindingValue: unknown, qrPrintHtmlValue: unknown): string[] {
+  if (!isRecord(packageIndexValue) || !isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(bundleValue) || !isRecord(assemblyValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue) || !isRecord(reviewPacketBindingValue) || typeof qrPrintHtmlValue !== "string") {
     return ["Local package runtime metadata must contain object records only."];
   }
   const errors: string[] = [];
@@ -271,6 +302,7 @@ function validateBinding(packageIndexValue: unknown, manifestValue: unknown, rec
   errors.push(...validatePilotQrAliasRegistryRecord(qrRegistryValue));
   if (qrPrintValue.tenantId !== manifestValue.tenantId || qrPrintValue.packageId !== manifestValue.packageId || qrPrintValue.version !== manifestValue.version || qrPrintValue.manifestId !== manifestValue.manifestId || qrPrintValue.receiptId !== receiptValue.receiptId || qrPrintValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR print artifact does not match the approved delivery identity.");
   if (qrRegistryValue.tenantId !== manifestValue.tenantId || qrRegistryValue.packageId !== manifestValue.packageId || qrRegistryValue.version !== manifestValue.version || qrRegistryValue.manifestId !== manifestValue.manifestId || qrRegistryValue.receiptId !== receiptValue.receiptId || qrRegistryValue.sourceAssemblyChecksum !== manifestValue.sourceAssemblyChecksum) errors.push("Local package runtime QR alias registry record does not match the approved delivery identity.");
+  if (qrPrintValue.htmlChecksum !== "sha256:" + createHash("sha256").update(qrPrintHtmlValue).digest("hex")) errors.push("Local package runtime QR print sheet HTML checksum does not match its approved print artifact.");
   const manifestAliases = Array.isArray(manifestValue.qrAliasPaths) ? manifestValue.qrAliasPaths : [];
   const manifestFallbacks = Array.isArray(manifestValue.localFallbackPaths) ? manifestValue.localFallbackPaths : [];
   const registryEntries = Array.isArray(qrRegistryValue.entries) ? qrRegistryValue.entries : [];

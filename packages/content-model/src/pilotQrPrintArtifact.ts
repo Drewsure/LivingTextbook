@@ -16,6 +16,7 @@ export interface PilotQrPrintArtifact {
   receiptId: string;
   sourceAssemblyChecksum: string;
   baseUrl: string;
+  htmlChecksum: string;
   printAuthorized: true;
   entries: PilotQrPrintArtifactEntry[];
   sideEffect: "local-package-assembly";
@@ -29,10 +30,11 @@ export function validatePilotQrPrintArtifact(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Pilot QR print artifact must be an object."];
   if (value.artifactVersion !== 1) errors.push("Pilot QR print artifact artifactVersion must be 1.");
-  for (const field of ["artifactId", "tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "baseUrl"] as const) {
+  for (const field of ["artifactId", "tenantId", "packageId", "version", "manifestId", "receiptId", "sourceAssemblyChecksum", "baseUrl", "htmlChecksum"] as const) {
     if (!isNonEmptyString(value[field])) errors.push(`Pilot QR print artifact ${field} must be non-empty.`);
   }
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot QR print artifact sourceAssemblyChecksum must be sha256:<64 hexadecimal characters>.");
+  if (!isSha256(value.htmlChecksum)) errors.push("Pilot QR print artifact htmlChecksum must be sha256:<64 hexadecimal characters>.");
   if (!isHttpUrl(value.baseUrl)) errors.push("Pilot QR print artifact baseUrl must be an absolute http or https URL without credentials, query, or fragment.");
   if (value.printAuthorized !== true) errors.push("Pilot QR print artifact must preserve explicit print authorization.");
   if (value.sideEffect !== "local-package-assembly") errors.push("Pilot QR print artifact sideEffect must be local-package-assembly.");
