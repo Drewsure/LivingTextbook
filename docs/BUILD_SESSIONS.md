@@ -7388,3 +7388,14 @@ The packet is derived from quarantine metadata and remains blocked and
 side-effect-free. It does not become an approval, write a receipt, assemble a
 package, print QR codes, activate persistence, or assign students. Added the
 focused closure-packet verifier and recorded ADR 1330 / DR-1329.
+
+## Build session: Publisher delivery assembly request preview
+
+Added a review-only assembly request preview to the live publisher handoff.
+It names the seven exact inputs required by the closed-local package writer:
+approved manifest, release receipt, QR registry, package index, offline bundle
+manifest, review-packet binding, and authorized operator/write timestamp.
+
+The preview stays blocked and side-effect-free. It cannot execute the writer,
+copy publisher files, create QR output, activate persistence, or start
+students. Added the focused verifier and recorded ADR 1331 / DR-1330.

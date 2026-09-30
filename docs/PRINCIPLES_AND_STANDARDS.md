@@ -9153,3 +9153,17 @@ This standard is recorded in DR-1328 and ADR 1329.
   recovery, support, print authorization, and teacher rehearsal.
 
 This standard is recorded in DR-1329 and ADR 1330.
+
+## 573. Assembly Inputs Must Be Explicit Before a Writer Exists
+
+- A publisher delivery handoff must name every identity-bound input required
+  by the eventual package writer before any assembly command is considered.
+- The preview must cover the manifest, release receipt, QR registry, package
+  index, offline bundle manifest, immutable review binding, and operator
+  timestamp.
+- Missing inputs must remain visible as blockers; the preview must not infer
+  approval from a complete-looking list.
+- The preview remains read-only and cannot copy files, create QR output,
+  activate persistence, or start students.
+
+This standard is recorded in DR-1330 and ADR 1331.

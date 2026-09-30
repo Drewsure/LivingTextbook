@@ -31,6 +31,9 @@ import {
   type UploadQuarantinePromotionAdapterDecision,
   type UploadQuarantineReleasePreflight,
   type PublisherDeliveryClosurePacket,
+  createPublisherDeliveryAssemblyRequestPreview,
+  validatePublisherDeliveryAssemblyRequestPreview,
+  type PublisherDeliveryAssemblyRequestPreview,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
@@ -67,6 +70,7 @@ type ReadinessResponse = {
   hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
   releasePreflight?: UploadQuarantineReleasePreflight | null;
   deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
+  assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   errors?: string[];
   privacy: string;
 };
@@ -192,6 +196,21 @@ export async function GET(request: Request) {
     rollbackAndPolicyPassed: false,
   });
   const deliveryClosurePacketErrors = validatePublisherDeliveryClosurePacket(deliveryClosurePacket);
+  const assemblyRequestPreview = createPublisherDeliveryAssemblyRequestPreview({
+    tenantId,
+    quarantineId,
+    packageId,
+    sourceChecksumSha256: handoff.checksumSha256,
+    selectedMode: deliveryManifestPreview.selectedMode,
+    deliveryManifestPresent: false,
+    releaseReceiptPresent: false,
+    qrRegistryPresent: false,
+    packageIndexPresent: false,
+    bundleManifestPresent: false,
+    reviewPacketBound: packet?.status === "ready-for-next-gate",
+    operatorAndWriteTimePresent: false,
+  });
+  const assemblyRequestPreviewErrors = validatePublisherDeliveryAssemblyRequestPreview(assemblyRequestPreview);
   const checks: PublisherPilotPackageReadinessCheck[] = [
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("source-review-decision", "Source review decision", reviewDecision?.decision === "accepted-for-package-review" ? "passed" : reviewDecision ? "blocked" : "open", reviewDecision?.decision === "accepted-for-package-review" ? "An immutable source decision accepted this quarantine for package review." : reviewDecision?.decision === "changes-required" ? "The recorded source decision requires changes before package review can continue." : "No immutable source review decision is recorded for this quarantine.", "Record an accepted-for-package-review decision before downstream package evidence and packet gates."),
@@ -244,8 +263,9 @@ export async function GET(request: Request) {
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
     releasePreflight: releasePreflightErrors.length === 0 ? releasePreflight : null,
     deliveryClosurePacket: deliveryClosurePacketErrors.length === 0 ? deliveryClosurePacket : null,
+    assemblyRequestPreview: assemblyRequestPreviewErrors.length === 0 ? assemblyRequestPreview : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors],
     privacy: privacyMessage(),
   });
 }
