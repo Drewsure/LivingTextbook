@@ -21,6 +21,8 @@ for (const marker of [
   "sideEffect: \"none\"",
   "packetRevision",
   "supersedesPacketId",
+  "sourcePreflightEvidenceId",
+  "publisher_source_preflight_evidence",
 ]) requireText(model, marker, `Package review packet model missing marker: ${marker}.`);
 
 requireText(index, "./uploadQuarantinePackageReviewPacket", "Content model must export the package review packet contract.");
@@ -46,6 +48,9 @@ for (const marker of [
   "studentFacingUseAllowed: false",
   "privacyMessage",
   "shouldReissueForPromotionAdapter",
+  "readQuarantineSourcePreflightEvidence",
+  "sourcePreflightEvidence",
+  "shouldReissueForSourcePreflight",
 ]) requireText(route, marker, `Package review packet route missing marker: ${marker}.`);
 
 for (const marker of [
@@ -55,6 +60,9 @@ for (const marker of [
   "/api/teacher/uploads/package-review-packet",
   "bounded metadata",
   "never authorizes assembly",
+  "sourcePreflightAttached",
+  "Preflight lineage",
+  "Attach the publisher source preflight evidence before recording the package review packet.",
 ]) requireText(panel, marker, `Package review packet panel missing marker: ${marker}.`);
 
 requireText(page, "packageReviewPacketsEnabled", "Package review packet workspace must expose the explicit operator gate.");

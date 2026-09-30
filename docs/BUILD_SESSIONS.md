@@ -7642,3 +7642,16 @@ the tenant-scoped evidence route, and surfaces immutable review results without
 uploading textbook or multimedia payloads. The server gate remains disabled by
 default and all package, QR, persistence, learner, and student actions remain
 separate. Recorded ADR 1354 / DR-1354.
+
+## Build session: Require preflight lineage for package review
+
+Hardened the package review packet boundary so a durable publisher source
+preflight evidence sidecar is required before the packet can be recorded.
+The API now rejects missing or mismatched lineage and reissues an existing
+blocked packet when the sidecar is attached later. The live handoff now shows
+`Preflight lineage` as attached or missing and keeps its packet action disabled
+until the evidence is present.
+
+This remains review-only and metadata-only. It does not assemble or promote
+files, print QR codes, activate hosted persistence, create learner records, or
+start students. Added regression markers and recorded ADR 1355 / DR-1355.

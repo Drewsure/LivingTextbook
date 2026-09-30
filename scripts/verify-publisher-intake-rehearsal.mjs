@@ -32,6 +32,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
     LIVING_TEXTBOOOK_SENTENCE_APPROVALS_ENABLED: "true",
     LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED: "true",
+    LIVING_TEXTBOOOK_SOURCE_PREFLIGHT_EVIDENCE_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS: rehearsalTenantId,
     LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN: token,
@@ -86,10 +87,55 @@ try {
   assert(typeof intake.quarantineId === "string" && intake.record?.studentFacingUseAllowed === false, "quarantine intake must return an opaque id and block student use");
 
   const quarantineId = intake.quarantineId;
+  const sourcePreflightReport = {
+    recordVersion: 1,
+    reportId: `${rehearsalTenantId}:${rehearsalPackageId}:source-preflight`,
+    manifestId: `${rehearsalPackageId}:publisher-source-manifest`,
+    manifestChecksumSha256: `sha256:${"b".repeat(64)}`,
+    inventoryChecksumSha256: `sha256:${"c".repeat(64)}`,
+    tenantId: rehearsalTenantId,
+    packageId: rehearsalPackageId,
+    version: "2026.10.01",
+    status: "blocked",
+    inventoryStatus: "complete",
+    files: [{
+      assetId: "unit-1-source",
+      kind: "textbook-source",
+      relativePath: "unit-1/source.pdf",
+      unitKey: rehearsalUnitKey,
+      required: true,
+      status: "verified",
+      sizeBytes: intake.record.sizeBytes,
+      checksumSha256: `sha256:${intake.record.checksumSha256}`,
+      detectedType: "application/pdf",
+      details: "Synthetic publisher preflight evidence for the controlled rehearsal.",
+    }],
+    counts: { declared: 1, verified: 1, missing: 0, unsupported: 0, invalid: 0, unlisted: 0 },
+    blockers: [],
+    warnings: [],
+    nextActions: ["Attach the preflight report to source review evidence."],
+    reviewOnly: true,
+    quarantineWriteAllowed: false,
+    packageAssemblyAllowed: false,
+    packagePromotionAllowed: false,
+    qrPrintAllowed: false,
+    hostedPersistenceActivationAllowed: false,
+    studentFacingUseAllowed: false,
+    mode: "review-only",
+    sideEffect: "none",
+  };
+  const sourcePreflightEvidenceResponse = await fetch(`${baseUrl}/api/teacher/uploads/source-preflight-evidence`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({ tenantId: rehearsalTenantId, quarantineId, packageId: rehearsalPackageId, report: sourcePreflightReport }),
+  });
+  const sourcePreflightEvidence = await readJson(sourcePreflightEvidenceResponse);
+  assert(sourcePreflightEvidenceResponse.status === 200 && sourcePreflightEvidence.status === "recorded-review-only" && sourcePreflightEvidence.record?.studentFacingUseAllowed === false, "complete publisher preflight evidence must attach as review-only metadata before package review");
   const sourceBinding = await requestJson(`${baseUrl}/api/teacher/uploads/source-package-evidence-binding?tenantId=${rehearsalTenantId}&quarantineId=${encodeURIComponent(quarantineId)}&packageId=${rehearsalPackageId}`, headers);
   assert(sourceBinding.status === "review-only" && sourceBinding.bridge?.tenantId === rehearsalTenantId, `fresh publisher source must reach the tenant-scoped source-package evidence binding: ${JSON.stringify(sourceBinding)}`);
   assert(sourceBinding.bridge?.sourceChecksum === `sha256:${intake.record.checksumSha256}`, "source-package evidence binding must preserve the intake checksum in canonical form");
   assert(sourceBinding.bridge?.packageAssemblyAllowed === false && sourceBinding.bridge?.studentFacingUseAllowed === false, "source-package evidence binding must remain protected-action blocked");
+  assert(sourceBinding.bridge?.preflightReference?.reportId === sourcePreflightReport.reportId, "source-package evidence binding must carry the durable preflight report reference");
   assert(!JSON.stringify(sourceBinding).includes("Publisher Unit 1 rehearsal source"), "source-package evidence binding must not expose raw source payload content");
   const crossTenantReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/review?tenantId=other-publisher&quarantineId=${encodeURIComponent(quarantineId)}`, { headers, cache: "no-store" });
   const crossTenantReview = await readJson(crossTenantReviewResponse);

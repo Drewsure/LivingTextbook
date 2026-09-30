@@ -13,6 +13,7 @@ import {
   readQuarantineEvidenceReview,
   readQuarantinePromotionAdapterDecision,
   readQuarantineReviewDecision,
+  readQuarantineSourcePreflightEvidence,
   readQuarantineUploadRecords,
   writeQuarantinePackageReviewPacket,
 } from "@/server/uploads/quarantineUploadStore";
@@ -67,17 +68,32 @@ export async function POST(request: Request) {
 
   const existing = await readQuarantinePackageReviewPacket(body.tenantId, body.quarantineId);
   const promotionAdapterDecision = await readQuarantinePromotionAdapterDecision(body.tenantId, body.quarantineId);
+  const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(body.tenantId, body.quarantineId);
+  const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
   const shouldReissueForPromotionAdapter = Boolean(
     existing.record?.status === "blocked"
       && promotionAdapterDecision.record
       && !existing.record.includedRecords.includes("upload_quarantine_promotion_adapter_decision"),
   );
-  if (existing.record && !shouldReissueForPromotionAdapter) return json({ status: "recorded-review-only", packet: existing.record, idempotent: true, errors: existing.errors, privacy: privacyMessage() });
+  const shouldReissueForSourcePreflight = Boolean(
+    existing.record?.status === "blocked"
+      && sourcePreflightEvidence
+      && !existing.record.includedRecords.includes("publisher_source_preflight_evidence"),
+  );
+  if (existing.record && !shouldReissueForPromotionAdapter && !shouldReissueForSourcePreflight) return json({ status: "recorded-review-only", packet: existing.record, idempotent: true, errors: [...existing.errors, ...sourcePreflightEvidenceResult.errors], privacy: privacyMessage() });
 
   const intake = await readQuarantineUploadRecords(body.tenantId, body.quarantineId);
   const summary = intake.records[0];
   if (!summary || summary.quarantineId !== body.quarantineId) return json({ status: "not-found", packet: null, errors: ["The quarantine record was not available for package review packet capture."], privacy: privacyMessage() }, 404);
   const packageId = body.packageId || deriveQuarantinePackageId(body.tenantId, summary.record.unitKey);
+  if (sourcePreflightEvidence && (
+    sourcePreflightEvidence.tenantId !== body.tenantId
+    || sourcePreflightEvidence.packageId !== packageId
+    || sourcePreflightEvidence.quarantineId !== body.quarantineId
+    || normalizeChecksum(sourcePreflightEvidence.sourceChecksumSha256) !== normalizeChecksum(summary.record.checksumSha256)
+  )) {
+    return json({ status: "rejected", packet: null, errors: ["The attached publisher source preflight evidence does not match the tenant, package, quarantine, or intake checksum."], privacy: privacyMessage() }, 409);
+  }
   const evidencePacketId = `evidence-packet:${summary.quarantineId}`;
   const evidenceReview = await readQuarantineEvidenceReview(body.tenantId, body.quarantineId);
   const admission = deriveUploadQuarantineAdmissionPreview(summary.record, {
@@ -101,8 +117,9 @@ export async function POST(request: Request) {
     handoff,
     reviewDecision,
     promotionAdapterDecision: promotionAdapterDecision.record,
-    packetRevision: shouldReissueForPromotionAdapter ? (existing.record?.packetRevision ?? 1) + 1 : 1,
-    ...(shouldReissueForPromotionAdapter && existing.record ? { supersedesPacketId: existing.record.packetId } : {}),
+    sourcePreflightEvidence,
+    packetRevision: shouldReissueForPromotionAdapter || shouldReissueForSourcePreflight ? (existing.record?.packetRevision ?? 1) + 1 : 1,
+    ...((shouldReissueForPromotionAdapter || shouldReissueForSourcePreflight) && existing.record ? { supersedesPacketId: existing.record.packetId } : {}),
     capturedAt: new Date().toISOString(),
   });
   const result = await writeQuarantinePackageReviewPacket(packet);
@@ -129,6 +146,8 @@ function isPacketRequest(value: unknown): value is PacketRequest {
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }
+
+function normalizeChecksum(value: string): string { return value.replace(/^sha256:/i, "").toLowerCase(); }
 
 
 

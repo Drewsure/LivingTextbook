@@ -10348,3 +10348,15 @@ metadata to the quarantine evidence route. The control previews report identity
 and counts, while the server-side write gate remains disabled by default and
 all assembly, promotion, QR, persistence, learner, and student actions remain
 blocked. See ADR 1354.
+
+## DR-1355: Require Preflight Lineage Before Package Review
+
+The durable publisher source preflight evidence sidecar is now a required
+input to the package review packet. The live handoff visibly reports whether
+the preflight lineage is attached and disables packet recording until the
+matching tenant, quarantine, package, and source checksum evidence is
+available. This closes the gap between a review-only source inventory and a
+review packet that could otherwise look complete. The sidecar and packet
+remain metadata-only, review-only, and unable to authorize assembly,
+promotion, QR printing, persistence activation, learner records, or student
+use. See ADR 1355.

@@ -87,3 +87,16 @@ JSON report. It previews report identity and counts locally, then submits only
 the evidence object to the tenant-scoped route. It does not send the source
 folder or its textbook, image, audio, video, font, or background-media files.
 
+## Required before package review
+
+The durable source preflight sidecar is now a required input to the package
+review packet. The handoff bridge shows a visible `Preflight lineage` status
+and keeps the packet action unavailable until the report is attached to the
+matching tenant, quarantine, package, and source checksum. This prevents a
+package review snapshot from appearing complete when the publisher's source
+inventory has not yet been reconciled.
+
+The sidecar remains metadata-only and review-only. Attaching it does not
+approve the source, promote assets, assemble a package, print QR codes, enable
+hosted persistence, create learner records, or start students.
+

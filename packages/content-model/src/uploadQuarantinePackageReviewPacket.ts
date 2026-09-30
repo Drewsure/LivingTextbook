@@ -1,6 +1,7 @@
 import type { UploadQuarantinePackageHandoffPreview } from "./uploadQuarantinePackageHandoff";
 import type { UploadQuarantineReviewDecisionRecord } from "./uploadQuarantineReviewDecision";
 import type { UploadQuarantinePromotionAdapterDecision } from "./uploadQuarantinePromotionAdapterDecision";
+import type { PublisherSourcePreflightEvidenceRecord } from "./publisherSourcePreflightEvidence";
 import { isUploadQuarantineSafeTenantId } from "./uploadQuarantineIntake";
 
 export type UploadQuarantinePackageReviewPacketStatus = "blocked" | "ready-for-next-gate";
@@ -20,6 +21,7 @@ export interface UploadQuarantinePackageReviewPacket {
   checksumSha256: string;
   payloadPresent: boolean;
   reviewDecisionId?: string;
+  sourcePreflightEvidenceId?: string;
   reviewDecision: UploadQuarantineReviewDecisionRecord["decision"] | "not-recorded";
   status: UploadQuarantinePackageReviewPacketStatus;
   blockers: string[];
@@ -38,17 +40,19 @@ export function createUploadQuarantinePackageReviewPacket(input: {
   handoff: UploadQuarantinePackageHandoffPreview;
   reviewDecision?: UploadQuarantineReviewDecisionRecord;
   promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
+  sourcePreflightEvidence?: PublisherSourcePreflightEvidenceRecord | null;
   packetRevision?: number;
   supersedesPacketId?: string;
   capturedAt: string;
 }): UploadQuarantinePackageReviewPacket {
-  const { handoff, reviewDecision, promotionAdapterDecision } = input;
+  const { handoff, reviewDecision, promotionAdapterDecision, sourcePreflightEvidence } = input;
   const packetRevision = input.packetRevision ?? 1;
   if (!Number.isSafeInteger(packetRevision) || packetRevision < 1) throw new Error("Upload quarantine package review packet packetRevision must be a positive integer.");
   if (packetRevision > 1 && !isNonEmptyString(input.supersedesPacketId)) throw new Error("A revised upload quarantine package review packet must identify the packet it supersedes.");
   const blockers = [...handoff.blockers];
   if (!reviewDecision) blockers.push("A human review decision must be recorded before this packet can enter the next gate.");
   if (reviewDecision?.decision === "changes-required") blockers.push("The recorded review decision requires changes before package review can continue.");
+  if (!sourcePreflightEvidence) blockers.push("A durable publisher source preflight evidence record is required before package review can continue.");
   const packet: UploadQuarantinePackageReviewPacket = {
     recordVersion: 1,
     packetId: packetRevision === 1
@@ -65,6 +69,7 @@ export function createUploadQuarantinePackageReviewPacket(input: {
     checksumSha256: handoff.checksumSha256,
     payloadPresent: handoff.payloadPresent,
     ...(reviewDecision ? { reviewDecisionId: reviewDecision.decisionId } : {}),
+    ...(sourcePreflightEvidence ? { sourcePreflightEvidenceId: sourcePreflightEvidence.evidenceId } : {}),
     reviewDecision: reviewDecision?.decision ?? "not-recorded",
     status: blockers.length === 0 ? "ready-for-next-gate" : "blocked",
     blockers: [...new Set(blockers)],
@@ -79,6 +84,7 @@ export function createUploadQuarantinePackageReviewPacket(input: {
       "upload_quarantine_admission_preview",
       "upload_quarantine_package_handoff_preview",
       ...(reviewDecision ? ["upload_quarantine_review_decision"] : []),
+      ...(sourcePreflightEvidence ? ["publisher_source_preflight_evidence"] : []),
       ...(promotionAdapterDecision ? ["upload_quarantine_promotion_adapter_decision"] : []),
     ],
     capturedAt: input.capturedAt,
@@ -105,6 +111,7 @@ export function validateUploadQuarantinePackageReviewPacket(value: unknown): str
   if (value.packetRevision !== undefined && (!Number.isSafeInteger(value.packetRevision) || Number(value.packetRevision) < 2)) errors.push("Upload quarantine package review packet packetRevision must be an integer greater than 1 when present.");
   if (value.packetRevision !== undefined && !isNonEmptyString(value.supersedesPacketId)) errors.push("A revised upload quarantine package review packet must identify the packet it supersedes.");
   if (value.reviewDecisionId !== undefined && !isNonEmptyString(value.reviewDecisionId)) errors.push("Upload quarantine package review packet reviewDecisionId must be non-empty when present.");
+  if (value.sourcePreflightEvidenceId !== undefined && !isNonEmptyString(value.sourcePreflightEvidenceId)) errors.push("Upload quarantine package review packet sourcePreflightEvidenceId must be non-empty when present.");
   if (!isUploadQuarantineSafeTenantId(value.tenantId)) errors.push("Upload quarantine package review packet tenant identity is unsafe.");
   if (!/^q-[0-9a-f-]{36}$/.test(String(value.quarantineId ?? ""))) errors.push("Upload quarantine package review packet quarantine identity is not opaque.");
   if (value.reviewDecision !== "not-recorded" && value.reviewDecision !== "accepted-for-package-review" && value.reviewDecision !== "changes-required") errors.push("Upload quarantine package review packet review decision is unsupported.");

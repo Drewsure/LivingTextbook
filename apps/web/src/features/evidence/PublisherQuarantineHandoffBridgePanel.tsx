@@ -228,11 +228,17 @@ export function PublisherQuarantineHandoffBridgePanel({
     : null;
   const operatorHandoffErrors = operatorHandoff ? validatePublisherDeliveryOperatorHandoff(operatorHandoff) : [];
   const deliveryHandoffRecordErrors = deliveryHandoffRecord ? validatePublisherDeliveryHandoffRecord(deliveryHandoffRecord) : [];
+  const sourcePreflightAttached = Boolean(sourcePackageEvidenceBinding?.preflightReference);
 
   async function recordReviewPacket() {
     if (reviewDecision?.decision !== "accepted-for-package-review") {
       setPacketState("blocked");
       setPacketMessage(reviewDecision?.decision === "changes-required" ? "Changes are required before the package review packet can be recorded." : "Record an accepted-for-package-review source decision first.");
+      return;
+    }
+    if (!sourcePreflightAttached) {
+      setPacketState("blocked");
+      setPacketMessage("Attach the publisher source preflight evidence before recording the package review packet.");
       return;
     }
     setPacketState("submitting");
@@ -387,12 +393,23 @@ export function PublisherQuarantineHandoffBridgePanel({
               </div>
               <StatusPill label={packetState === "recorded" ? "Recorded" : packageReviewPacketsEnabled ? "Operator gate" : "Disabled"} tone={packetState === "recorded" ? "success" : "warning"} />
             </div>
+            <div className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <span className="text-sm font-semibold">Preflight lineage</span>
+                <StatusPill label={sourcePreflightAttached ? "Attached" : "Missing"} tone={sourcePreflightAttached ? "success" : "warning"} />
+              </div>
+              <p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">
+                {sourcePreflightAttached
+                  ? "The durable publisher source preflight report is linked to this quarantine and package review."
+                  : "Attach the publisher source preflight evidence before recording the package review packet."}
+              </p>
+            </div>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-                <button type="button" onClick={recordReviewPacket} disabled={!packageReviewPacketsEnabled || reviewDecision?.decision !== "accepted-for-package-review" || packetState === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="button" onClick={recordReviewPacket} disabled={!packageReviewPacketsEnabled || !sourcePreflightAttached || reviewDecision?.decision !== "accepted-for-package-review" || packetState === "submitting"} className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[var(--tenant-primary)] px-4 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50">
                 {packetState === "submitting" ? "Recording packet..." : "Record review packet snapshot"}
               </button>
               <span className="text-sm text-[var(--tenant-muted)]" aria-live="polite">
-                {packetMessage || (!packageReviewPacketsEnabled ? "Enable LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true to record this local metadata snapshot." : reviewDecision?.decision !== "accepted-for-package-review" ? "An accepted-for-package-review source decision is required first." : "Explicit local packet gate is enabled.")}
+                {packetMessage || (!packageReviewPacketsEnabled ? "Enable LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED=true to record this local metadata snapshot." : !sourcePreflightAttached ? "Attach the publisher source preflight evidence before recording the package review packet." : reviewDecision?.decision !== "accepted-for-package-review" ? "An accepted-for-package-review source decision is required first." : "Explicit local packet gate is enabled.")}
               </span>
             </div>
           </div>

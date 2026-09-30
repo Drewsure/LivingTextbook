@@ -9500,3 +9500,18 @@ This standard is recorded in DR-1353 and ADR 1353.
   and review-only contracts as the server route.
 
 This standard is recorded in DR-1354 and ADR 1354.
+
+## 598. Package Review Requires Durable Publisher Preflight Lineage
+
+- A package review packet must not be recorded as complete until the durable
+  publisher source preflight evidence is attached to the matching tenant,
+  quarantine, package, and source checksum.
+- The teacher-facing handoff must show a visible preflight-lineage status and
+  keep the packet action unavailable when that evidence is missing.
+- The sidecar and packet remain metadata-only and review-only; neither one may
+  authorize package assembly, asset promotion, QR printing, hosted
+  persistence, learner records, or student use.
+- Server routes and client panels must enforce the same gate so operator
+  guidance cannot drift from the protected API boundary.
+
+This standard is recorded in DR-1355 and ADR 1355.

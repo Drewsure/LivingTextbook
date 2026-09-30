@@ -6,7 +6,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket, readQuarantineSentenceApproval } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket, readQuarantineSentenceApproval, readQuarantineSourcePreflightEvidence } from "@/server/uploads/quarantineUploadStore";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,6 +27,8 @@ export async function GET(request: Request) {
 
   const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
   const packageEvidenceReview = packageEvidenceReviewResult.record;
+  const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(tenantId, quarantineId);
+  const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
   const sentenceApprovalResult = await readQuarantineSentenceApproval(tenantId, quarantineId);
   const sentenceApproval = sentenceApprovalResult.record;
   const sentenceApprovalBound = sentenceApproval?.decision === "approved"
@@ -36,6 +38,7 @@ export async function GET(request: Request) {
   const preflight = createUploadQuarantinePackageAssemblyPreflight({
     packet,
     additionalBlockers: [
+      ...(sourcePreflightEvidence ? [] : ["A durable publisher source preflight evidence record is not linked to this package review packet."]),
       ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
       ...(sentenceApprovalBound ? [] : ["Exactly two approved English target sentences are not bound to this package checksum."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
@@ -52,7 +55,7 @@ export async function GET(request: Request) {
     assemblyWriteAllowed: false,
     promotionAllowed: false,
     studentFacingUseAllowed: false,
-    errors: [...packetResult.errors, ...packageEvidenceReviewResult.errors, ...sentenceApprovalResult.errors],
+    errors: [...packetResult.errors, ...sourcePreflightEvidenceResult.errors, ...packageEvidenceReviewResult.errors, ...sentenceApprovalResult.errors],
     privacy: privacyMessage(),
   });
 }
