@@ -9632,5 +9632,7 @@ This standard is recorded in DR-1362 and ADR 1362.
 - Shared summaries may contain identity, status, reviewer, timestamp, and
   checksum metadata only; they must never become a transport for the manifest
   body, filesystem paths, payload bytes, credentials, or learner records.
+- The server must validate the assembled summary before returning it; malformed
+  metadata cannot be presented as available evidence.
 
 This standard is recorded in DR-1363 and ADR 1363.

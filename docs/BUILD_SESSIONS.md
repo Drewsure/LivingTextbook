@@ -7748,3 +7748,5 @@ aligned on one status, identity, checksum, and privacy shape.
 The shared summary contains no manifest body, filesystem path, payload bytes,
 credentials, learner records, or activation capability. Recorded ADR 1363 /
 DR-1363.
+The readiness route validates the assembled summary before returning it, so a
+malformed custody record cannot be presented as available evidence.

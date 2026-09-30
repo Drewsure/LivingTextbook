@@ -10439,3 +10439,5 @@ exported from the shared content-model package. The server readiness route and
 operator handoff panel consume the same contract, preventing tenant adapters or
 future delivery surfaces from inventing divergent status and privacy fields.
 The shared summary remains metadata-only and activation-blocked. See ADR 1363.
+The readiness route also validates the assembled summary before returning it,
+so malformed custody metadata cannot be presented as available evidence.

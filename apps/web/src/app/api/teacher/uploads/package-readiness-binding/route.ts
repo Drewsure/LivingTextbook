@@ -41,6 +41,7 @@ import {
   type PublisherDeliveryHandoffRecord,
   type PublisherSourceToPackageEvidenceBridge,
   type LocalBundleManifestReviewSummary,
+  validateLocalBundleManifestReviewSummary,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
@@ -384,7 +385,7 @@ function summarizeReviewedBundleManifest(
     record.reviewPacketId === context.reviewPacketId ? null : "Reviewed bundle manifest custody packet does not match the live review packet.",
     context.sourcePreflightEvidenceId && record.sourcePreflightEvidenceId === context.sourcePreflightEvidenceId ? null : "Reviewed bundle manifest custody source preflight evidence does not match the live source evidence.",
   ].filter((error): error is string => Boolean(error));
-  return {
+  const summary: ReviewedBundleManifestCustodySummary = {
     ...base,
     status: identityErrors.length === 0 ? "available" : "blocked",
     version: record.version,
@@ -396,6 +397,10 @@ function summarizeReviewedBundleManifest(
     reviewedAt: record.reviewedAt,
     errors: [...result.errors, ...identityErrors],
   };
+  const contractErrors = validateLocalBundleManifestReviewSummary(summary);
+  return contractErrors.length > 0
+    ? { ...summary, status: "blocked", errors: [...new Set([...summary.errors, ...contractErrors])] }
+    : summary;
 }
 
 function check(
