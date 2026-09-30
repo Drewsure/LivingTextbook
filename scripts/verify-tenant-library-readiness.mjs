@@ -30,6 +30,7 @@ requireText(plan, "No student data copied", "School sharing must not copy studen
 requireText(panel, "Private tenant library", "Tenant library panel must expose its heading.");
 requireText(panel, "Public community decision", "Tenant library panel must expose public community decision.");
 requireText(routeData, "sample-publisher-teacher-private-library", "Teacher private library route data must exist.");
+requireText(routeData, "createEmptyTeacherPrivateLibraryPreview", "Teacher private library route data must provide a tenant-empty state.");
 requireText(routeData, "Public community library remains blocked", "Teacher private library route data must block public community sharing.");
 requireText(routeData, "Library sharing must not copy student data", "Teacher private library route data must block student data copies.");
 requireText(routePanel, "Teacher private library", "Teacher private library route panel must expose its heading.");
@@ -38,6 +39,12 @@ requireText(routeVerifier, "/teacher/library/sample-publisher", "Active route ve
 requireText(routeVerifier, "Private tenant library", "Active route verifier must check tenant library panel.");
 requireText(routeVerifier, "Teacher private drafts", "Active route verifier must check private drafts.");
 requireText(routeVerifier, "Tenant-approved package library", "Active route verifier must check tenant-approved library.");
+const libraryPage = readSource("../apps/web/src/app/teacher/library/[tenantId]/page.tsx");
+requireText(libraryPage, "resolveTenantConfig", "Teacher private library route must resolve its tenant shell.");
+requireText(libraryPage, "createEmptyTeacherPrivateLibraryPreview", "Teacher private library route must support new tenants without reference data.");
+if (libraryPage.includes("samplePublisherTenant")) {
+  failures.push("Teacher private library route must not hard-code the Sample Publisher tenant shell.");
+}
 requireText(docs, "Private teacher drafts inside one tenant", "Competitive matrix docs must preserve private library first path.");
 requireText(docs, "Public community sharing is not a v1 requirement", "Competitive matrix docs must preserve public community deferral.");
 

@@ -7199,3 +7199,12 @@ student-payload-blocked behavior.
   fails closed when that tenant cannot be resolved.
 - Extended source-to-draft verification so cross-tenant branding cannot be
   reintroduced silently.
+
+## Build session: tenant-empty private library boundary
+
+- Made the private library route resolve its tenant shell instead of forcing
+  Sample Publisher branding.
+- Added a governed empty state for new tenants with no imported library items.
+- Preserved private-first sharing, source lineage, and student-data separation
+  rules while keeping public community sharing blocked.
+- Extended the tenant-library verifier to protect the empty-state boundary.

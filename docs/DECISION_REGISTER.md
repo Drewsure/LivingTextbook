@@ -10014,3 +10014,10 @@ tenant identity and fails closed for an unknown tenant. It no longer hard-codes
 the Sample Publisher shell for MiniStar or future publisher drafts. Existing
 review-only persistence, approval, audio, rights, and assignment gates remain
 unchanged. See ADR 1315.
+
+## DR-1315: Tenant-Empty Private Library Boundary
+
+The tenant-scoped private library now resolves its own shell and presents an
+empty governed state for new tenants instead of rejecting them or showing
+Sample Publisher content. Public community sharing, cross-tenant remixing,
+student-data copying, and unreviewed assignment remain blocked. See ADR 1316.

@@ -115,3 +115,21 @@ export const sampleTeacherPrivateLibraryPreview: TeacherPrivateLibraryPreview = 
 export function findTeacherPrivateLibraryPreview(tenantId: string): TeacherPrivateLibraryPreview | undefined {
   return tenantId === sampleTeacherPrivateLibraryPreview.tenantId ? sampleTeacherPrivateLibraryPreview : undefined;
 }
+
+export function createEmptyTeacherPrivateLibraryPreview(tenantId: string, tenantName: string): TeacherPrivateLibraryPreview {
+  return {
+    libraryId: `${tenantId}-teacher-private-library-empty`,
+    tenantId,
+    label: `${tenantName} Teacher Library`,
+    summary:
+      "This tenant has no imported library items yet. New content remains private, review-only, and separate from every reference tenant until an approved package exists.",
+    publicCommunityDecision: "Public community sharing remains blocked until moderation, copyright, privacy, tenant isolation, quality review, and abuse reporting exist.",
+    items: [],
+    governanceWarnings: [
+      "Private drafts cannot be assigned directly to students.",
+      "Library sharing must not copy student data, report exports, recordings, or identities.",
+      "Copied resources must preserve source package, edition, version, media rights, and owner lineage.",
+      "This empty state contains no reference-tenant content and no student data.",
+    ],
+  };
+}
