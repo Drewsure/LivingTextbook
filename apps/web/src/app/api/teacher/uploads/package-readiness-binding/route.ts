@@ -51,6 +51,7 @@ import {
   readQuarantinePackageEvidenceReview,
   readQuarantinePromotionAdapterDecision,
   readQuarantineReviewDecision,
+  readQuarantineSentenceApproval,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
@@ -79,6 +80,7 @@ type ReadinessResponse = {
   assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null;
   deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null;
   sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null;
+  sentenceApproval?: import("@living-textbook/content-model").PublisherSentenceApprovalRecord | null;
   errors?: string[];
   privacy: string;
 };
@@ -125,6 +127,12 @@ export async function GET(request: Request) {
   const packageEvidenceReview = packageEvidenceReviewResult.record;
   const reviewDecisionResult = await readQuarantineReviewDecision(tenantId, quarantineId);
   const reviewDecision = reviewDecisionResult.record;
+  const sentenceApprovalResult = await readQuarantineSentenceApproval(tenantId, quarantineId);
+  const sentenceApproval = sentenceApprovalResult.record
+    && sentenceApprovalResult.record.packageId === packageId
+    && sentenceApprovalResult.record.sourceChecksumSha256 === summary.record.checksumSha256
+    ? sentenceApprovalResult.record
+    : null;
   const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
     ? summary.record.checksumSha256
     : `sha256:${summary.record.checksumSha256}`;
@@ -137,7 +145,7 @@ export async function GET(request: Request) {
     authoringProposalId: `${packageId}:authoring-proposal:review-only`,
     sourceChecksum,
     sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
-    sentenceApprovalRecorded: false,
+    sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: packageEvidenceReview?.reviewedLanes.includes("audio") ?? false,
     mediaRightsReady: packageEvidenceReview?.reviewedLanes.includes("rights") ?? false,
     gameVerificationReady: packageEvidenceReview?.reviewedLanes.includes("game") ?? false,
@@ -301,6 +309,7 @@ export async function GET(request: Request) {
     promotionAdapterDecision: promotionAdapterDecisionResult.record,
     packageEvidenceReview,
     reviewDecision,
+    sentenceApproval,
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
     releasePreflight: releasePreflightErrors.length === 0 ? releasePreflight : null,
@@ -309,7 +318,7 @@ export async function GET(request: Request) {
     deliveryHandoffRecord: deliveryHandoffRecordErrors.length === 0 ? deliveryHandoffRecord : null,
     sourcePackageEvidenceBinding: sourcePackageEvidenceBindingErrors.length === 0 ? sourcePackageEvidenceBinding : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...sentenceApprovalResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
     privacy: privacyMessage(),
   });
 }

@@ -9290,3 +9290,18 @@ This standard is recorded in DR-1338 and ADR 1339.
   package so progress cannot be represented as an all-or-nothing shortcut.
 
 This standard is recorded in DR-1339 and ADR 1340.
+
+## 583. Sentence Approval Must Be Exact And Target-Language Bound
+
+- A canonical publisher unit must record exactly two distinct English target
+  sentences before its sentence evidence lane can become present.
+- The approval record must bind the tenant, quarantine, proposal, source
+  checksum, reviewer, and decision in an immutable sidecar.
+- Japanese or another support language may be reviewed separately, but it can
+  never satisfy English sentence approval or trigger student progression.
+- Sentence approval is evidence only. It must not authorize package assembly,
+  promotion, QR printing, persistence activation, or student-facing use.
+- Conflicting second approvals must be rejected; reviewers must create a new
+  controlled review process rather than overwrite history.
+
+This standard is recorded in DR-1340 and ADR 1341.

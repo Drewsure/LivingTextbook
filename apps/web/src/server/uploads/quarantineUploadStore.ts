@@ -30,6 +30,10 @@ import {
   type UploadQuarantinePackageEvidenceReview,
   type UploadQuarantinePackageReviewPacket,
   validateUploadQuarantinePackageReviewPacket,
+  createPublisherSentenceApprovalRecord,
+  validatePublisherSentenceApprovalRecord,
+  type PublisherSentenceApprovalDecision,
+  type PublisherSentenceApprovalRecord,
 } from "@living-textbook/content-model";
 import { validateQuarantineFilesystemPath } from "./quarantinePathPolicy";
 
@@ -156,6 +160,30 @@ export type QuarantinePackageReviewPacketWriteResult = {
 
 export type QuarantinePackageReviewPacketReadResult = {
   record: UploadQuarantinePackageReviewPacket | null;
+  errors: string[];
+};
+
+export type QuarantineSentenceApprovalWrite = {
+  tenantId: string;
+  quarantineId: string;
+  packageId: string;
+  proposalId: string;
+  targetSentences: [string, string];
+  reviewerId: string;
+  reviewerNote: string;
+  decision: PublisherSentenceApprovalDecision;
+  capturedAt: string;
+};
+
+export type QuarantineSentenceApprovalWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: PublisherSentenceApprovalRecord;
+  errors: string[];
+};
+
+export type QuarantineSentenceApprovalReadResult = {
+  record: PublisherSentenceApprovalRecord | null;
   errors: string[];
 };
 
@@ -469,6 +497,52 @@ export async function writeQuarantinePackageEvidenceReview(input: QuarantinePack
     const existing = await readQuarantinePackageEvidenceReview(input.tenantId, input.quarantineId);
     if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
     return { status: "conflict", idempotent: false, errors: ["A different immutable package evidence review is already bound to this quarantine record."] };
+  }
+}
+
+export async function readQuarantineSentenceApproval(tenantId: string, quarantineId: string): Promise<QuarantineSentenceApprovalReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) return { record: null, errors: ["The sentence approval identity did not pass tenant and quarantine boundary checks."] };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const approvalPath = resolve(recordDirectory, "sentence-approval.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, approvalPath);
+    assertQuarantineFilesystemPath(approvalPath, root);
+    const value = JSON.parse(await readFile(approvalPath, "utf8")) as unknown;
+    const errors = validatePublisherSentenceApprovalRecord(value);
+    if (errors.length > 0) return { record: null, errors: ["A stored sentence approval failed validation and was withheld."] };
+    const record = value as PublisherSentenceApprovalRecord;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored sentence approval failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantineSentenceApproval(input: QuarantineSentenceApprovalWrite): Promise<QuarantineSentenceApprovalWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_SENTENCE_APPROVALS_ENABLED !== "true") return { status: "blocked", idempotent: false, errors: ["Sentence approval writes are disabled. Enable the explicit local sentence-approval gate before recording approval metadata."] };
+  const sourceDecision = await readQuarantineReviewDecision(input.tenantId, input.quarantineId);
+  if (sourceDecision.record?.decision !== "accepted-for-package-review") return { status: "blocked", idempotent: false, errors: ["An accepted-for-package-review source decision is required before sentence approval can be recorded."] };
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for sentence approval capture."] };
+  const record = createPublisherSentenceApprovalRecord({ ...input, sourceChecksumSha256: summary.record.checksumSha256 });
+  const validationErrors = validatePublisherSentenceApprovalRecord(record);
+  if (validationErrors.length > 0) return { status: "blocked", idempotent: false, errors: validationErrors };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, input.tenantId, input.quarantineId);
+  const approvalPath = resolve(recordDirectory, "sentence-approval.json");
+  assertQuarantineFilesystemPath(recordDirectory, root);
+  assertInside(recordDirectory, approvalPath);
+  assertQuarantineFilesystemPath(approvalPath, root);
+  try {
+    await writeFile(approvalPath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    const existing = await readQuarantineSentenceApproval(input.tenantId, input.quarantineId);
+    if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: [] };
+    return { status: "conflict", idempotent: false, errors: ["A different immutable sentence approval is already bound to this quarantine record."] };
   }
 }
 

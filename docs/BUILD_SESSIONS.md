@@ -7478,3 +7478,18 @@ package evidence record when those exact lanes are present. Sentence approval,
 Japanese support review, package release, QR printing, persistence activation,
 and student use remain independent gates; reviewed package evidence never
 silently unlocks them.
+
+## Build session: English sentence approval sidecar
+
+Added a tenant-scoped, immutable sentence approval record to the live publisher
+review path. A reviewer must provide exactly two distinct English target
+sentences, a bounded proposal identity, a source-bound checksum, and a review
+note after the source has been accepted for package review. The explicit local
+write gate is `LIVING_TEXTBOOOK_SENTENCE_APPROVALS_ENABLED=true`.
+
+The approval is surfaced in the publisher handoff and both live evidence
+projections. It can advance only the sentence-approval evidence lane. Package
+assembly, promotion, QR printing, persistence activation, and student-facing
+use remain blocked, and Japanese/support text cannot satisfy this English
+target-language gate. Added focused contract and behavior checks and recorded
+ADR 1341 / DR-1340.

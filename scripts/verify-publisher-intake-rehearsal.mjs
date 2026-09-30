@@ -30,6 +30,7 @@ const preview = spawn(previewCommand, previewArgs, {
     LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED: "true",
     LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED: "true",
+    LIVING_TEXTBOOOK_SENTENCE_APPROVALS_ENABLED: "true",
     LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED: "true",
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: token,
     LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS: rehearsalTenantId,
@@ -174,6 +175,23 @@ try {
   const blockedPackageEvidence = await readJson(blockedPackageEvidenceResponse);
   assert(blockedPackageEvidenceResponse.status === 423 && blockedPackageEvidence.status === "blocked", "package evidence must remain blocked until the source decision is accepted");
 
+  const blockedSentenceApprovalResponse = await fetch(`${baseUrl}/api/teacher/uploads/sentence-approval`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: rehearsalTenantId,
+      quarantineId,
+      packageId: rehearsalPackageId,
+      proposalId: `${rehearsalPackageId}:authoring-proposal:review-only`,
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "This must remain blocked before source review acceptance.",
+      decision: "approved",
+      targetSentences: ["Hello, teacher.", "Thank you, friend."],
+    }),
+  });
+  const blockedSentenceApproval = await readJson(blockedSentenceApprovalResponse);
+  assert(blockedSentenceApprovalResponse.status === 423 && blockedSentenceApproval.status === "blocked", "sentence approval must remain blocked until the source decision is accepted");
+
   const reviewDecisionResponse = await fetch(`${baseUrl}/api/teacher/uploads/review-decision`, {
     method: "POST",
     headers: { ...headers, "content-type": "application/json" },
@@ -206,6 +224,23 @@ try {
   });
   const packageEvidence = await readJson(packageEvidenceResponse);
   assert(packageEvidenceResponse.status === 200 && packageEvidence.status === "recorded-review-only" && packageEvidence.reviewedPackageEvidence === true, "complete package evidence must be recorded as review-only metadata");
+
+  const sentenceApprovalResponse = await fetch(`${baseUrl}/api/teacher/uploads/sentence-approval`, {
+    method: "POST",
+    headers: { ...headers, "content-type": "application/json" },
+    body: JSON.stringify({
+      tenantId: rehearsalTenantId,
+      quarantineId,
+      packageId: rehearsalPackageId,
+      proposalId: `${rehearsalPackageId}:authoring-proposal:review-only`,
+      reviewerId: "publisher-intake-reviewer",
+      reviewerNote: "Both English structures fit the reviewed vocabulary and level.",
+      decision: "approved",
+      targetSentences: ["Hello, teacher.", "Thank you, friend."],
+    }),
+  });
+  const sentenceApproval = await readJson(sentenceApprovalResponse);
+  assert(sentenceApprovalResponse.status === 200 && sentenceApproval.status === "recorded-review-only" && sentenceApproval.sentenceApprovalRecorded === true && sentenceApproval.record?.packageAssemblyAllowed === false, "approved English sentence targets must be recorded as review-only metadata");
 
   const packetResponse = await fetch(`${baseUrl}/api/teacher/uploads/package-review-packet`, {
     method: "POST",
@@ -263,6 +298,7 @@ try {
   assert(secondBinding.hostedPersistenceOptInPacket?.reviewOnly === true && secondBinding.hostedPersistenceOptInPacket?.providerSelected === false && secondBinding.hostedPersistenceOptInPacket?.optInRecorded === false, "hosted persistence preview must remain review-only and unselected");
   assert(secondBinding.hostedPersistenceOptInPacket?.writesAllowed === false && secondBinding.hostedPersistenceOptInPacket?.activationAllowed === false && secondBinding.hostedPersistenceOptInPacket?.learnerRecordsIncluded === false, "hosted persistence preview must block writes, activation, and learner records");
   assert(secondBinding.packageEvidenceReview?.status === "reviewed-package-evidence", "complete package evidence must flow into live readiness");
+  assert(secondBinding.sentenceApproval?.decision === "approved" && secondBinding.sourcePackageEvidenceBinding?.evidenceLanes?.some((lane) => lane.laneId === "sentence-approval" && lane.status === "present"), "approved English sentence targets must flow into live readiness without enabling release");
   assert(secondBinding.binding?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must close only the reviewed package preview check");
   assert(secondBinding.deliveryManifestPreview?.selectedMode === "hybrid", "hybrid delivery mode selection must flow into live delivery manifest preview");
   assert(secondBinding.deliveryManifestPreview?.checks.some((check) => check.checkId === "package-preview" && check.status === "passed"), "complete package evidence must flow into the delivery manifest preview");
@@ -295,11 +331,11 @@ try {
   const metadataAttempt = await readJson(metadataAttemptResponse);
   assert(metadataAttemptResponse.status === 423 && metadataAttempt.status === "blocked" && metadataAttempt.deliveryMetadataWritten !== true, "delivery metadata writes must remain disabled after a review-only readiness rehearsal");
 
-  const serialized = JSON.stringify({ handoff, firstBinding, earlyHandoffHtml, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, assemblyPreflight, secondBinding, advancedHandoffHtml, releaseAttempt, metadataAttempt });
+  const serialized = JSON.stringify({ handoff, firstBinding, earlyHandoffHtml, evidenceReview, evidenceHandoff, deliveryMode, packageEvidence, blockedSentenceApproval, sentenceApproval, reviewDecision, packet, promotionAdapter, revisedPacket, packetReadback, assemblyPreflight, secondBinding, advancedHandoffHtml, releaseAttempt, metadataAttempt });
   assert(!serialized.includes("Publisher Unit 1 rehearsal source"), "rehearsal responses must not return source payload bytes");
   assert(!serialized.includes("packageAssemblyAllowed:true") && !serialized.includes("studentFacingUseAllowed:true"), "rehearsal responses must not enable package or student use");
 
-  console.log("PASS publisher intake rehearsal submits a source, advances a blocked packet through an immutable adapter-bound revision, follows live readiness, and never crosses the package-writer boundary.");
+  console.log("PASS publisher intake rehearsal submits a source, records exact English sentence approval, advances a blocked packet through an immutable adapter-bound revision, follows live readiness, and never crosses the package-writer boundary.");
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   if (previewOutput.trim()) console.error(previewOutput.trim());

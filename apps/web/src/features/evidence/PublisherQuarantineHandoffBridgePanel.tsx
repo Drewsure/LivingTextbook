@@ -6,6 +6,7 @@ import { QuarantineEvidenceReviewCapture } from "@/features/content-intake/Quara
 import { DeliveryModeDecisionCapture } from "@/features/content-intake/DeliveryModeDecisionCapture";
 import { PromotionAdapterDecisionCapture } from "@/features/content-intake/PromotionAdapterDecisionCapture";
 import { PackageEvidenceReviewCapture } from "@/features/content-intake/PackageEvidenceReviewCapture";
+import { SentenceApprovalCapture } from "@/features/content-intake/SentenceApprovalCapture";
 import { QuarantineReviewDecisionCapture } from "@/features/content-intake/QuarantineReviewDecisionCapture";
 import type {
   UploadQuarantinePackageAssemblyPreflight,
@@ -18,6 +19,7 @@ import type {
   UploadQuarantineReleaseReceiptPreview,
   UploadQuarantinePackageIndexPreview,
   UploadQuarantineReviewDecisionRecord,
+  PublisherSentenceApprovalRecord,
   PublisherPilotPackageReadinessBinding,
   HostedPersistenceOptInDecisionPacket,
   UploadQuarantineReleasePreflight,
@@ -58,6 +60,7 @@ type HandoffResponse = {
   promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null;
   packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null;
   reviewDecision?: UploadQuarantineReviewDecisionRecord | null;
+  sentenceApproval?: PublisherSentenceApprovalRecord | null;
   releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null;
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
@@ -93,6 +96,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [promotionAdapterDecision, setPromotionAdapterDecision] = useState<UploadQuarantinePromotionAdapterDecision | null>(null);
   const [packageEvidenceReview, setPackageEvidenceReview] = useState<UploadQuarantinePackageEvidenceReview | null>(null);
   const [reviewDecision, setReviewDecision] = useState<UploadQuarantineReviewDecisionRecord | null>(null);
+  const [sentenceApproval, setSentenceApproval] = useState<PublisherSentenceApprovalRecord | null>(null);
   const [releaseReceiptPreview, setReleaseReceiptPreview] = useState<UploadQuarantineReleaseReceiptPreview | null>(null);
   const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
   const [hostedPersistenceOptInPacket, setHostedPersistenceOptInPacket] = useState<HostedPersistenceOptInDecisionPacket | null>(null);
@@ -152,7 +156,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; sourcePackageEvidenceBinding?: PublisherSourceToPackageEvidenceBridge | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; sentenceApproval?: PublisherSentenceApprovalRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null; assemblyRequestPreview?: PublisherDeliveryAssemblyRequestPreview | null; deliveryHandoffRecord?: PublisherDeliveryHandoffRecord | null };
         setReadinessBinding(next.binding ?? null);
         setSourcePackageEvidenceBinding(next.sourcePackageEvidenceBinding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
@@ -160,6 +164,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setPromotionAdapterDecision(next.promotionAdapterDecision ?? null);
         setPackageEvidenceReview(next.packageEvidenceReview ?? null);
         setReviewDecision(next.reviewDecision ?? null);
+        setSentenceApproval(next.sentenceApproval ?? null);
         setReleaseReceiptPreview(next.releaseReceiptPreview ?? null);
         setPackageIndexPreview(next.packageIndexPreview ?? null);
         setHostedPersistenceOptInPacket(next.hostedPersistenceOptInPacket ?? null);
@@ -177,6 +182,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setPromotionAdapterDecision(null);
         setPackageEvidenceReview(null);
         setReviewDecision(null);
+        setSentenceApproval(null);
         setReleaseReceiptPreview(null);
         setPackageIndexPreview(null);
         setHostedPersistenceOptInPacket(null);
@@ -350,6 +356,15 @@ export function PublisherQuarantineHandoffBridgePanel({
             packageId={handoff.packageId}
             enabled={packageEvidenceReviewsEnabled}
             review={packageEvidenceReview}
+            sourceDecision={reviewDecision}
+            onRecorded={() => setRefreshToken((current) => current + 1)}
+          />
+          <SentenceApprovalCapture
+            tenantId={tenantId}
+            quarantineId={quarantineId}
+            packageId={handoff.packageId}
+            enabled={packageEvidenceReviewsEnabled}
+            approval={sentenceApproval}
             sourceDecision={reviewDecision}
             onRecorded={() => setRefreshToken((current) => current + 1)}
           />

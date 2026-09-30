@@ -10219,3 +10219,11 @@ The source bridge now derives its audio, multimedia-rights, and game-verificatio
 lane status from the exact reviewed lanes on the package evidence record. The
 bridge remains blocked for sentence approval, support-language review, release,
 QR, persistence, and student use. See ADR 1340.
+
+## DR-1340: English Sentence Approval Sidecar
+
+The live publisher pilot now records exactly two distinct English target
+sentences in a checksum-bound, tenant-scoped immutable sidecar. This closes a
+real evidence gap without allowing package assembly, release, QR printing,
+persistence activation, or student use. Support-language content remains
+separate and cannot trigger progression. See ADR 1341.

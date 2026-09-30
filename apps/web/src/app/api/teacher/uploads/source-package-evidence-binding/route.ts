@@ -8,7 +8,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineSentenceApproval, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
@@ -40,6 +40,12 @@ export async function GET(request: Request) {
   const packageId = requestedPackageId || deriveQuarantinePackageId(tenantId, summary.record.unitKey);
   const reviewDecision = (await readQuarantineReviewDecision(tenantId, quarantineId)).record;
   const packageEvidenceReview = (await readQuarantinePackageEvidenceReview(tenantId, quarantineId)).record;
+  const sentenceApprovalRecord = (await readQuarantineSentenceApproval(tenantId, quarantineId)).record;
+  const sentenceApproval = sentenceApprovalRecord
+    && sentenceApprovalRecord.packageId === packageId
+    && sentenceApprovalRecord.sourceChecksumSha256 === summary.record.checksumSha256
+    ? sentenceApprovalRecord
+    : null;
   const reviewedLanes = packageEvidenceReview?.reviewedLanes ?? [];
   const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
     ? summary.record.checksumSha256
@@ -53,7 +59,7 @@ export async function GET(request: Request) {
     authoringProposalId: `${packageId}:authoring-proposal:review-only`,
     sourceChecksum,
     sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
-    sentenceApprovalRecorded: false,
+    sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: reviewedLanes.includes("audio"),
     mediaRightsReady: reviewedLanes.includes("rights"),
     gameVerificationReady: reviewedLanes.includes("game"),
