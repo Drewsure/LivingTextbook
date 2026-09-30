@@ -19,10 +19,12 @@ import { LocalCompanionReleaseContinuityPanel } from "@/features/deployment/Loca
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
 import { PilotDeploymentConfigurationPanel } from "@/features/deployment/PilotDeploymentConfigurationPanel";
+import { PilotOperatorGateSequencePanel } from "@/features/deployment/PilotOperatorGateSequencePanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
 import { readPilotDeploymentConfigurationMatrix } from "@/server/delivery/pilotDeploymentConfiguration";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
+import { readPilotOperatorGateSequence } from "@/server/delivery/pilotOperatorGateSequence";
 
 const deploymentLinks = [
   { href: "/teacher/intake", label: "Foundation control room" },
@@ -82,6 +84,13 @@ export default function TeacherDeploymentPage() {
         />
         <PilotDeploymentConfigurationPanel
           snapshots={readPilotDeploymentConfigurationMatrix(samplePublisherTenant.id)}
+        />
+        <PilotOperatorGateSequencePanel
+          snapshot={readPilotOperatorGateSequence(
+            samplePublisherTenant.id,
+            "sample-publisher-l1-u1-routines-package",
+            "hosted-pwa",
+          )}
         />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />

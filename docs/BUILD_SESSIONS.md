@@ -7255,3 +7255,18 @@ assemble a package, mutate QR routes, activate persistence, or start students.
 Unset environments remain blocked; process-memory remains a non-durable
 rehearsal option. Added `verify:pilot-deployment-configuration` to the
 deployment verification chain and recorded ADR 1320 / DR-1319.
+
+## Build session: Pilot operator gate sequence
+
+Added a tenant/package/mode-scoped, read-only operator sequence to the
+deployment workbench. It makes the next human gate explicit across server
+configuration, publisher source and rights, reviewed package evidence,
+delivery/persistence choice, QR fallback review, teacher rehearsal, and human
+release authorization.
+
+The sequence never accepts evidence, enables writes, mutates QR routes,
+activates persistence, or starts students. Its focused verifier protects the
+visible safety markers and keeps the current sample pilot honest while making
+the eventual publisher handoff executable.
+
+Recorded ADR 1321 / DR-1320.

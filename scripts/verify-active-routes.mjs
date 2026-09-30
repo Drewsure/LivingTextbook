@@ -2839,6 +2839,9 @@ expectedTextByPath.get("/teacher/deployment")?.push(
   "No storage provider selected",
   "Storage selection review packet",
   "Human policy review required",
+  "Pilot operator gate sequence",
+  "The next human action is explicit",
+  "Student activation allowed",
 );
 
 expectedTextByPath.get("/teacher/persistence")?.push(

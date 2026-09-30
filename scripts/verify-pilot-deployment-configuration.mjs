@@ -96,11 +96,23 @@ try {
 
 const page = readSource("apps/web/src/app/teacher/deployment/page.tsx");
 const panel = readSource("apps/web/src/features/deployment/PilotDeploymentConfigurationPanel.tsx");
+const sequence = readSource("apps/web/src/server/delivery/pilotOperatorGateSequence.ts");
+const sequencePanel = readSource("apps/web/src/features/deployment/PilotOperatorGateSequencePanel.tsx");
 if (!page.includes("PilotDeploymentConfigurationPanel") || !page.includes("readPilotDeploymentConfigurationMatrix")) failures.push("deployment page must mount the operator configuration preflight");
 for (const marker of ["Operator configuration preflight", "No secret values", "No side effects", "studentActivationAllowed", "writesEnabled"]) {
   if (!panel.includes(marker)) failures.push(`configuration panel is missing marker: ${marker}`);
 }
 if (page.includes("input type=\"file\"") || page.includes("fetch(") || panel.includes("navigator.mediaDevices.getUserMedia")) failures.push("configuration preflight must remain read-only and browser-side-effect-free");
+for (const marker of ["readPilotOperatorGateSequence", "sample-publisher-l1-u1-routines-package", "hosted-pwa"]) {
+  if (!page.includes(marker)) failures.push(`deployment page is missing operator sequence marker: ${marker}`);
+}
+for (const marker of ["Pilot operator gate sequence", "No side effects", "studentActivationAllowed", "writesEnabled"]) {
+  if (!sequencePanel.includes(marker)) failures.push(`operator sequence panel is missing marker: ${marker}`);
+}
+for (const marker of ["readPilotDeploymentConfiguration", "writesEnabled: false", "studentActivationAllowed: false", "sideEffect: \"none\""]) {
+  if (!sequence.includes(marker)) failures.push(`operator sequence contract is missing marker: ${marker}`);
+}
+if (sequence.includes("writeFileSync") || sequence.includes("mkdirSync") || sequence.includes("fetch(")) failures.push("operator sequence must remain side-effect-free");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

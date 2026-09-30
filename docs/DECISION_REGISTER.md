@@ -10029,3 +10029,15 @@ new publishers and reserves the reference release room for Sample Publisher's
 own identity. Package promotion, QR writes/printing, persistence activation,
 local release, assignment activation, and student-ready state remain blocked.
 See ADR 1317.
+
+## DR-1320: Pilot Operator Gate Sequence
+
+The deployment workbench now presents an ordered, read-only operator sequence
+bound to the exact tenant, package, and delivery mode. It exposes the next
+human gate and separates server configuration blockers from manual publisher,
+school, and shared review gates.
+
+The sequence cannot accept evidence, enable a write gate, mutate QR routes,
+activate persistence, or start students. `writesEnabled` and
+`studentActivationAllowed` remain false. This is an operational handoff aid,
+not a release approval. See ADR 1321.
