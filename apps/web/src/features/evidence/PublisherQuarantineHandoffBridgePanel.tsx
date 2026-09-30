@@ -22,8 +22,9 @@ import type {
   HostedPersistenceOptInDecisionPacket,
   UploadQuarantineReleasePreflight,
 } from "@living-textbook/content-model";
-import { createPublisherSubmissionLiveReviewJourney, validatePublisherSubmissionLiveReviewJourney } from "@living-textbook/content-model";
+import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney } from "@living-textbook/content-model";
 import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
+import { PublisherDeliveryOperatorHandoffPanel } from "@/features/evidence/PublisherDeliveryOperatorHandoffPanel";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
@@ -185,6 +186,18 @@ export function PublisherQuarantineHandoffBridgePanel({
   const liveReviewJourneyErrors = liveReviewJourney
     ? validatePublisherSubmissionLiveReviewJourney(liveReviewJourney)
     : [];
+  const operatorHandoff = liveReviewJourney
+    ? createPublisherDeliveryOperatorHandoff({
+        journey: liveReviewJourney,
+        packetRecorded: Boolean(payload?.packet),
+        assemblyPreflight: preflight,
+        deliveryManifestPreview,
+        releaseReceiptPreview,
+        packageIndexPreview,
+        releasePreflight,
+      })
+    : null;
+  const operatorHandoffErrors = operatorHandoff ? validatePublisherDeliveryOperatorHandoff(operatorHandoff) : [];
 
   async function recordReviewPacket() {
     if (reviewDecision?.decision !== "accepted-for-package-review") {
@@ -276,6 +289,7 @@ export function PublisherQuarantineHandoffBridgePanel({
             This screen is a bridge into review evidence only. It does not create a package, write evidence, print production QR codes, activate persistence, or promote the quarantined payload.
           </p>
           {liveReviewJourney ? <div className="mt-5"><LivePublisherSubmissionReviewJourneyPanel journey={liveReviewJourney} validationErrors={liveReviewJourneyErrors} /></div> : null}
+          {operatorHandoff ? <div className="mt-5"><PublisherDeliveryOperatorHandoffPanel plan={operatorHandoff} validationErrors={operatorHandoffErrors} /></div> : null}
           <div className="mt-4">
             <QuarantineEvidenceReviewCapture
               tenantId={tenantId}

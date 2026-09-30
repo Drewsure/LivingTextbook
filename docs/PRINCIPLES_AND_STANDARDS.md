@@ -9123,3 +9123,18 @@ This standard is recorded in DR-1326 and ADR 1327.
   assembly, promotion, QR printing, persistence activation, or student use.
 
 This standard is recorded in DR-1327 and ADR 1328.
+
+## 571. Publisher Delivery Sequences Must Be Explicit and Non-Destructive
+
+- A tenant-bound publisher handoff must present one ordered sequence from
+  source review through teacher rehearsal, using existing evidence identities.
+- Each step must expose status, evidence, next action, and protected actions;
+  the UI must not ask an operator to infer the release order from scattered
+  panels.
+- Package assembly, release receipt writes, QR printing, persistence
+  activation, and student use remain separate gates even when an earlier step
+  is complete.
+- An operator sequence is a review projection until the explicit release and
+  package-writer gates are implemented, authenticated, audited, and verified.
+
+This standard is recorded in DR-1328 and ADR 1329.

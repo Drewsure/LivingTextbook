@@ -7362,3 +7362,17 @@ This is a navigation and audit improvement only. It does not authorize package
 assembly, promotion, QR printing, hosted persistence, or student use. Added
 the focused assertions to `verify:publisher-submission-live-review-journey`
 and recorded ADR 1328 / DR-1327.
+
+## Build session: Publisher delivery operator handoff
+
+Added a shared operator handoff contract and mounted it in the live quarantine
+bridge. The contract turns the existing review records into one six-step,
+tenant-bound sequence: source/content review, packet capture, delivery and
+adapter selection, release/QR authorization, package assembly with integrity
+readback, and teacher-led rehearsal.
+
+The sequence is intentionally review-only. It exposes the current action and
+the protected actions at every step, but it cannot write a package, issue a
+release receipt, print QR codes, activate hosted persistence, or assign
+students. Added the focused operator-handoff verifier and recorded ADR 1329 /
+DR-1328.

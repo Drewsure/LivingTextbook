@@ -1996,3 +1996,4 @@ export * from "./publisherSubmissionReviewHandoff";
 export * from "./publisherSubmissionPackageEvidenceReconciliation";
 export * from "./publisherSubmissionPackageReviewJourney";
 export * from "./publisherSubmissionLiveReviewJourney";
+export * from "./publisherDeliveryOperatorHandoff";
