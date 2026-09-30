@@ -7376,3 +7376,15 @@ the protected actions at every step, but it cannot write a package, issue a
 release receipt, print QR codes, activate hosted persistence, or assign
 students. Added the focused operator-handoff verifier and recorded ADR 1329 /
 DR-1328.
+
+## Build session: Publisher delivery closure packet
+
+Added a live, tenant-bound closure packet to the publisher readiness API and
+handoff bridge. It consolidates nine release checks: source review, package
+evidence, immutable review packet, assembly preflight, delivery mode, release
+receipt, QR authorization, package index/integrity, and rollback/policy.
+
+The packet is derived from quarantine metadata and remains blocked and
+side-effect-free. It does not become an approval, write a receipt, assemble a
+package, print QR codes, activate persistence, or assign students. Added the
+focused closure-packet verifier and recorded ADR 1330 / DR-1329.

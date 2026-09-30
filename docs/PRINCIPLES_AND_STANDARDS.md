@@ -9138,3 +9138,18 @@ This standard is recorded in DR-1327 and ADR 1328.
   package-writer gates are implemented, authenticated, audited, and verified.
 
 This standard is recorded in DR-1328 and ADR 1329.
+
+## 572. Release Closure Must Have One Identity-Bound Packet
+
+- The eventual release operator must receive one closure packet bound to the
+  tenant, quarantine, package, source, and checksum identities.
+- The packet must enumerate source, content/game/media evidence, review
+  packet, assembly, delivery, release, QR, package-index/integrity, and
+  rollback/policy checks.
+- A closure packet is evidence, not approval. It must remain unable to write
+  receipts, assemble files, print QR codes, activate persistence, or assign
+  students until separate authenticated gates exist.
+- Human inputs must be explicit: owner, rights, delivery policy, retention,
+  recovery, support, print authorization, and teacher rehearsal.
+
+This standard is recorded in DR-1329 and ADR 1330.

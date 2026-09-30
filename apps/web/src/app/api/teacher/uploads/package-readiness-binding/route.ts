@@ -14,6 +14,8 @@ import {
   validateUploadQuarantineReleaseReceiptPreview,
   validateUploadQuarantinePackageIndexPreview,
   createUploadQuarantineReleasePreflight,
+  createPublisherDeliveryClosurePacket,
+  validatePublisherDeliveryClosurePacket,
   validateUploadQuarantineReleasePreflight,
   type PublisherPilotPackageReadinessBinding,
   type PublisherPilotPackageReadinessCheck,
@@ -28,6 +30,7 @@ import {
   type HostedPersistenceOptInDecisionPacket,
   type UploadQuarantinePromotionAdapterDecision,
   type UploadQuarantineReleasePreflight,
+  type PublisherDeliveryClosurePacket,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
@@ -63,6 +66,7 @@ type ReadinessResponse = {
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
   releasePreflight?: UploadQuarantineReleasePreflight | null;
+  deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
   errors?: string[];
   privacy: string;
 };
@@ -170,6 +174,24 @@ export async function GET(request: Request) {
   const packageIndexPreviewErrors = validateUploadQuarantinePackageIndexPreview(packageIndexPreview);
   const releasePreflight = createUploadQuarantineReleasePreflight({ deliveryManifestPreview, releaseReceiptPreview, packageIndexPreview });
   const releasePreflightErrors = validateUploadQuarantineReleasePreflight(releasePreflight);
+  const deliveryClosurePacket = createPublisherDeliveryClosurePacket({
+    tenantId,
+    quarantineId,
+    packageId,
+    sourceId: handoff.sourceId,
+    sourceChecksumSha256: handoff.checksumSha256,
+    selectedMode: deliveryManifestPreview.selectedMode,
+    sourceReviewPassed: reviewDecision?.decision === "accepted-for-package-review",
+    packageEvidencePassed: packageEvidenceReview?.status === "reviewed-package-evidence",
+    reviewPacketPassed: packet?.status === "ready-for-next-gate",
+    assemblyPreflightPassed: preflight?.status === "ready-for-manual-assembly",
+    deliveryModePassed: Boolean(deliveryModeDecision && promotionAdapterDecisionResult.record),
+    releaseReceiptPassed: false,
+    qrAuthorizationPassed: false,
+    packageIndexPassed: false,
+    rollbackAndPolicyPassed: false,
+  });
+  const deliveryClosurePacketErrors = validatePublisherDeliveryClosurePacket(deliveryClosurePacket);
   const checks: PublisherPilotPackageReadinessCheck[] = [
     check("quarantine-review", "Quarantine source review", handoff.blockers.length === 0 && handoff.admissionDecision === "evidence-ready" ? "passed" : "blocked", handoff.blockers.join(" ") || "The source handoff remains in review.", "Complete tenant, source, unit, rights, accessibility, and release review."),
     check("source-review-decision", "Source review decision", reviewDecision?.decision === "accepted-for-package-review" ? "passed" : reviewDecision ? "blocked" : "open", reviewDecision?.decision === "accepted-for-package-review" ? "An immutable source decision accepted this quarantine for package review." : reviewDecision?.decision === "changes-required" ? "The recorded source decision requires changes before package review can continue." : "No immutable source review decision is recorded for this quarantine.", "Record an accepted-for-package-review decision before downstream package evidence and packet gates."),
@@ -221,8 +243,9 @@ export async function GET(request: Request) {
     releaseReceiptPreview: releaseReceiptPreviewErrors.length === 0 ? releaseReceiptPreview : null,
     packageIndexPreview: packageIndexPreviewErrors.length === 0 ? packageIndexPreview : null,
     releasePreflight: releasePreflightErrors.length === 0 ? releasePreflight : null,
+    deliveryClosurePacket: deliveryClosurePacketErrors.length === 0 ? deliveryClosurePacket : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...packageEvidenceReviewResult.errors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors],
     privacy: privacyMessage(),
   });
 }

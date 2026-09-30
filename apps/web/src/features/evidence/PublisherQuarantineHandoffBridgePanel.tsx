@@ -21,10 +21,12 @@ import type {
   PublisherPilotPackageReadinessBinding,
   HostedPersistenceOptInDecisionPacket,
   UploadQuarantineReleasePreflight,
+  PublisherDeliveryClosurePacket,
 } from "@living-textbook/content-model";
 import { createPublisherDeliveryOperatorHandoff, createPublisherSubmissionLiveReviewJourney, validatePublisherDeliveryOperatorHandoff, validatePublisherSubmissionLiveReviewJourney } from "@living-textbook/content-model";
 import { LivePublisherSubmissionReviewJourneyPanel } from "@/features/evidence/LivePublisherSubmissionReviewJourneyPanel";
 import { PublisherDeliveryOperatorHandoffPanel } from "@/features/evidence/PublisherDeliveryOperatorHandoffPanel";
+import { PublisherDeliveryClosurePacketPanel } from "@/features/evidence/PublisherDeliveryClosurePacketPanel";
 
 interface PublisherQuarantineHandoffBridgePanelProps {
   tenantId: string;
@@ -55,6 +57,7 @@ type HandoffResponse = {
   packageIndexPreview?: UploadQuarantinePackageIndexPreview | null;
   hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null;
   releasePreflight?: UploadQuarantineReleasePreflight | null;
+  deliveryClosurePacket?: PublisherDeliveryClosurePacket | null;
   errors?: string[];
   privacy?: string;
 };
@@ -86,6 +89,7 @@ export function PublisherQuarantineHandoffBridgePanel({
   const [packageIndexPreview, setPackageIndexPreview] = useState<UploadQuarantinePackageIndexPreview | null>(null);
   const [hostedPersistenceOptInPacket, setHostedPersistenceOptInPacket] = useState<HostedPersistenceOptInDecisionPacket | null>(null);
   const [releasePreflight, setReleasePreflight] = useState<UploadQuarantineReleasePreflight | null>(null);
+  const [deliveryClosurePacket, setDeliveryClosurePacket] = useState<PublisherDeliveryClosurePacket | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
 
   async function loadPreflight(signal?: AbortSignal) {
@@ -137,7 +141,7 @@ export function PublisherQuarantineHandoffBridgePanel({
       signal: controller.signal,
     })
       .then(async (response) => {
-        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null };
+        const next = (await response.json()) as { binding?: PublisherPilotPackageReadinessBinding | null; deliveryManifestPreview?: UploadQuarantineDeliveryManifestPreview | null; deliveryModeDecision?: UploadQuarantineDeliveryModeDecision | null; promotionAdapterDecision?: UploadQuarantinePromotionAdapterDecision | null; packageEvidenceReview?: UploadQuarantinePackageEvidenceReview | null; reviewDecision?: UploadQuarantineReviewDecisionRecord | null; releaseReceiptPreview?: UploadQuarantineReleaseReceiptPreview | null; packageIndexPreview?: UploadQuarantinePackageIndexPreview | null; hostedPersistenceOptInPacket?: HostedPersistenceOptInDecisionPacket | null; releasePreflight?: UploadQuarantineReleasePreflight | null; deliveryClosurePacket?: PublisherDeliveryClosurePacket | null };
         setReadinessBinding(next.binding ?? null);
         setDeliveryManifestPreview(next.deliveryManifestPreview ?? null);
         setDeliveryModeDecision(next.deliveryModeDecision ?? null);
@@ -148,6 +152,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setPackageIndexPreview(next.packageIndexPreview ?? null);
         setHostedPersistenceOptInPacket(next.hostedPersistenceOptInPacket ?? null);
         setReleasePreflight(next.releasePreflight ?? null);
+        setDeliveryClosurePacket(next.deliveryClosurePacket ?? null);
       })
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
@@ -161,6 +166,7 @@ export function PublisherQuarantineHandoffBridgePanel({
         setPackageIndexPreview(null);
         setHostedPersistenceOptInPacket(null);
         setReleasePreflight(null);
+        setDeliveryClosurePacket(null);
       });
 
     return () => controller.abort();
@@ -290,6 +296,7 @@ export function PublisherQuarantineHandoffBridgePanel({
           </p>
           {liveReviewJourney ? <div className="mt-5"><LivePublisherSubmissionReviewJourneyPanel journey={liveReviewJourney} validationErrors={liveReviewJourneyErrors} /></div> : null}
           {operatorHandoff ? <div className="mt-5"><PublisherDeliveryOperatorHandoffPanel plan={operatorHandoff} validationErrors={operatorHandoffErrors} /></div> : null}
+          {deliveryClosurePacket ? <div className="mt-5"><PublisherDeliveryClosurePacketPanel packet={deliveryClosurePacket} /></div> : null}
           <div className="mt-4">
             <QuarantineEvidenceReviewCapture
               tenantId={tenantId}
