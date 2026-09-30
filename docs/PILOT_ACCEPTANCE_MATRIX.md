@@ -90,4 +90,6 @@ record. It binds eight evidence identities and names the expected delivery
 metadata files, but includes no files until release approval. This strengthens
 inspection and auditability without changing the acceptance status: package
 assembly, QR printing, persistence activation, and student-facing use remain
-blocked.
+blocked. The same record is visible on the Sample Publisher reference handoff,
+but that reference tenant remains a review example and does not prove real
+publisher release or saleability.

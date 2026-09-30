@@ -27,6 +27,8 @@ import { samplePilotQrAliasRegistry, samplePilotQrAliasRegistryErrors } from "@/
 import { PilotQrAliasRegistryPreviewPanel } from "@/features/evidence/PilotQrAliasRegistryPreviewPanel";
 import { PilotQrPrintAuthorizationPreflightPanel } from "@/features/evidence/PilotQrPrintAuthorizationPreflightPanel";
 import { samplePilotQrPrintAuthorizationPreflight, samplePilotQrPrintAuthorizationPreflightErrors } from "@/data/samplePilotQrPrintAuthorizationPreflight";
+import { PublisherDeliveryHandoffRecordPanel } from "@/features/evidence/PublisherDeliveryHandoffRecordPanel";
+import { samplePublisherDeliveryHandoffRecord, samplePublisherDeliveryHandoffRecordErrors } from "@/data/samplePublisherDeliveryHandoffRecord";
 
 export default async function TeacherEvidencePacketHandoffPage({
   params,
@@ -82,6 +84,7 @@ export default async function TeacherEvidencePacketHandoffPage({
             <PilotQrPrintAuthorizationPreflightPanel preflight={samplePilotQrPrintAuthorizationPreflight} validationErrors={samplePilotQrPrintAuthorizationPreflightErrors} />
             <PilotDeliveryReleaseReceiptPanel receipt={samplePilotDeliveryReleaseReceipt} validationErrors={samplePilotDeliveryReleaseReceiptErrors} />
             <PilotDeliveryPackageIndexPanel manifest={samplePilotDeliveryManifest} receipt={samplePilotDeliveryReleaseReceipt} />
+            <PublisherDeliveryHandoffRecordPanel record={samplePublisherDeliveryHandoffRecord} validationErrors={samplePublisherDeliveryHandoffRecordErrors} />
             <PackageReadinessReconciliationPanel
               reconciliations={publisherReconciliations}
               evidenceFindings={publisherReconciliationFindings}

@@ -42,9 +42,13 @@ try {
 const route = readFileSync(join(root, "apps", "web", "src", "app", "api", "teacher", "uploads", "package-readiness-binding", "route.ts"), "utf8");
 const bridge = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherQuarantineHandoffBridgePanel.tsx"), "utf8");
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "evidence", "PublisherDeliveryHandoffRecordPanel.tsx"), "utf8");
+const samplePage = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "evidence", "[tenantId]", "handoff", "page.tsx"), "utf8");
+const sampleData = readFileSync(join(root, "apps", "web", "src", "data", "samplePublisherDeliveryHandoffRecord.ts"), "utf8");
 for (const marker of ["createPublisherDeliveryHandoffRecord", "deliveryHandoffRecord", "validatePublisherDeliveryHandoffRecord"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
 for (const marker of ["PublisherDeliveryHandoffRecordPanel", "deliveryHandoffRecord"]) if (!bridge.includes(marker)) failures.push(`live handoff bridge is missing marker: ${marker}`);
 for (const marker of ["Publisher delivery handoff evidence", "Expected metadata files", "Protection boundary"]) if (!panel.includes(marker)) failures.push(`handoff record panel is missing marker: ${marker}`);
+for (const marker of ["PublisherDeliveryHandoffRecordPanel", "samplePublisherDeliveryHandoffRecord"]) if (!samplePage.includes(marker)) failures.push(`sample publisher handoff page is missing marker: ${marker}`);
+for (const marker of ["createPublisherDeliveryHandoffRecord", "samplePublisherDeliveryHandoffRecordErrors"]) if (!sampleData.includes(marker)) failures.push(`sample publisher handoff data is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("handoff record panel must remain read-only");
 if (failures.length > 0) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
 console.log("PASS publisher delivery handoff record binds evidence identities and remains blocked, metadata-only, and side-effect-free.");

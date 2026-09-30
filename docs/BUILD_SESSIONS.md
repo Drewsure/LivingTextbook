@@ -7412,3 +7412,8 @@ This record remains blocked, review-only, and metadata-only. It cannot deliver
 files, include raw payload bytes or learner records, create QR output, activate
 persistence, or enable student-facing use. Added the focused verifier and
 recorded ADR 1332 / DR-1331.
+
+The same record is now mounted on the Sample Publisher reference handoff beside
+the manifest, QR, release-receipt, package-index, and reconciliation panels.
+This makes the intended publisher review conversation visible without treating
+reference data as a released package or enabling any new side effect.
