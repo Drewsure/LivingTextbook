@@ -7270,3 +7270,18 @@ visible safety markers and keeps the current sample pilot honest while making
 the eventual publisher handoff executable.
 
 Recorded ADR 1321 / DR-1320.
+
+## Build session: Publisher submission manifest
+
+Added a tenant/package-scoped submission manifest to the publisher intake
+workspace. It gives the publisher a concrete preparation contract for source
+documents, labelled images, learning audio/music, video/posters,
+transcripts/captions, fonts, and optional game background media.
+
+The shared content-model validator requires a textbook source, unique asset
+identity, accepted file types, rights/accessibility evidence requirements, and
+review-only safety flags. The upload route derives target and support languages
+from the tenant, with a safe English/no-assist fallback for unconfigured
+white-label tenants. No manifest action accepts files or enables student use.
+
+Recorded ADR 1322 / DR-1321.

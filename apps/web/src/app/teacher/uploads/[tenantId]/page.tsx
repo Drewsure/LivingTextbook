@@ -12,6 +12,8 @@ import { sampleUploadQuarantineAdmissionPreviews } from "@/data/sampleUploadQuar
 import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUploadWorkspacePanel";
 import { TenantUploadWorkspaceEmptyStatePanel } from "@/features/content-intake/TenantUploadWorkspaceEmptyStatePanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
+import { createPublisherSubmissionManifestTemplate } from "@/data/publisherSubmissionManifest";
+import { PublisherSubmissionManifestPanel } from "@/features/content-intake/PublisherSubmissionManifestPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -28,9 +30,17 @@ export default async function TeacherUploadWorkspacePage({
   const hasSamplePreview = tenantId === "sample-publisher";
   const quarantineUploadsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true";
   const reviewDecisionsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED === "true";
+  const languageSettings = tenant.languageSettings ?? { targetLanguage: "en", assistLanguages: [] };
+  const submissionManifest = createPublisherSubmissionManifestTemplate({
+    tenantId: tenant.id,
+    packageId: hasSamplePreview ? "sample-publisher-l1-u1-routines-package" : `${tenant.id}-pilot-unit-1-package`,
+    targetLanguage: languageSettings.targetLanguage,
+    supportLanguages: languageSettings.assistLanguages ?? [],
+  });
 
   return (
     <AppShell tenant={tenant}>
+      <PublisherSubmissionManifestPanel manifest={submissionManifest} />
       {hasSamplePreview ? (
         <TeacherUploadWorkspacePanel
           tenantId={tenantId}

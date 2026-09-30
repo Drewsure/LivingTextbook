@@ -2844,6 +2844,16 @@ expectedTextByPath.get("/teacher/deployment")?.push(
   "Student activation allowed",
 );
 
+for (const path of ["/teacher/uploads/sample-publisher", "/teacher/uploads/white-label-review"]) {
+  expectedTextByPath.get(path)?.push(
+    "Publisher submission manifest",
+    "Everything required for one reviewed unit package",
+    "Promotion blocked",
+    "Student use blocked",
+    "Support languages",
+  );
+}
+
 expectedTextByPath.get("/teacher/persistence")?.push(
   "Durable-write activation preflight",
   "Activation blocked",
