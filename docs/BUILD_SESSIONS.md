@@ -7472,3 +7472,9 @@ tenant-authorized response, and the publisher handoff renders that returned
 object instead of making a second independent source-evidence read. The
 readiness verifier is registered in the npm foundation chain so provenance,
 package, delivery, and persistence checks cannot silently drift apart.
+
+The source bridge now reflects reviewed audio, rights, and game lanes from the
+package evidence record when those exact lanes are present. Sentence approval,
+Japanese support review, package release, QR printing, persistence activation,
+and student use remain independent gates; reviewed package evidence never
+silently unlocks them.

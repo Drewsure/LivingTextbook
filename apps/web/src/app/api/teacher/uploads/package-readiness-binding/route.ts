@@ -121,6 +121,8 @@ export async function GET(request: Request) {
   const packet = packetResult.record;
   const deliveryModeDecisionResult = await readQuarantineDeliveryModeDecision(tenantId, quarantineId);
   const deliveryModeDecision = deliveryModeDecisionResult.record;
+  const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
+  const packageEvidenceReview = packageEvidenceReviewResult.record;
   const reviewDecisionResult = await readQuarantineReviewDecision(tenantId, quarantineId);
   const reviewDecision = reviewDecisionResult.record;
   const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
@@ -136,11 +138,11 @@ export async function GET(request: Request) {
     sourceChecksum,
     sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
     sentenceApprovalRecorded: false,
-    audioEvidenceReady: false,
+    audioEvidenceReady: packageEvidenceReview?.reviewedLanes.includes("audio") ?? false,
+    mediaRightsReady: packageEvidenceReview?.reviewedLanes.includes("rights") ?? false,
+    gameVerificationReady: packageEvidenceReview?.reviewedLanes.includes("game") ?? false,
   });
   const sourcePackageEvidenceBindingErrors = validatePublisherSourceToPackageEvidenceBridge(sourcePackageEvidenceBinding);
-  const packageEvidenceReviewResult = await readQuarantinePackageEvidenceReview(tenantId, quarantineId);
-  const packageEvidenceReview = packageEvidenceReviewResult.record;
   const hostedDeliveryMode = deliveryModeDecision?.selectedMode === "hosted-pwa"
     ? "hosted-managed"
     : deliveryModeDecision?.selectedMode === "hybrid"

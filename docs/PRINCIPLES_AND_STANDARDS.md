@@ -9276,3 +9276,17 @@ This standard is recorded in DR-1337 and ADR 1338.
   the contract cannot regress unnoticed.
 
 This standard is recorded in DR-1338 and ADR 1339.
+
+## 582. Evidence Progress Must Be Truthful But Non-Activating
+
+- A source bridge may advance only the evidence lanes proven by the exact
+  tenant-scoped package evidence record.
+- Audio, rights, and game verification are distinct lanes and must not be
+  inferred from a generic package-ready flag.
+- Advancing an evidence lane must never imply sentence approval, support-
+  language approval, release approval, QR authorization, persistence opt-in, or
+  student activation.
+- Verification must cover both the blocked baseline and a partially reviewed
+  package so progress cannot be represented as an all-or-nothing shortcut.
+
+This standard is recorded in DR-1339 and ADR 1340.

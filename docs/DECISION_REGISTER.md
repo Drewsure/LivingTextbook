@@ -10212,3 +10212,10 @@ The package-readiness binding now returns the validated source-to-package
 evidence bridge, and the publisher handoff consumes that response rather than
 performing a second source-evidence read. The focused package-readiness
 verifier is also registered in the foundation command. See ADR 1339.
+
+## DR-1339: Reconcile Reviewed Package Lanes Into Source Evidence
+
+The source bridge now derives its audio, multimedia-rights, and game-verification
+lane status from the exact reviewed lanes on the package evidence record. The
+bridge remains blocked for sentence approval, support-language review, release,
+QR, persistence, and student use. See ADR 1340.
