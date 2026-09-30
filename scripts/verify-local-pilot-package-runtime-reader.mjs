@@ -16,6 +16,8 @@ for (const [source, marker, label] of [
   [reader, "validatePilotQrAliasRegistryRecord", "QR alias registry runtime validation"],
   [reader, "qr-alias-registry.json", "QR alias registry runtime artifact"],
   [reader, "readLocalPilotPackageQrPrintSheet", "QR print sheet runtime reader"],
+  [reader, "readLocalPilotPackageHandoff", "package handoff runtime reader"],
+  [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED", "explicit package handoff read gate"],
   [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED", "explicit QR print read gate"],
   [reader, "htmlChecksum", "QR print HTML checksum binding"],
   [reader, "package-review-binding.json", "review packet binding artifact"],
@@ -33,6 +35,13 @@ for (const [source, marker, label] of [
 const printRoute = readFileSync(resolve(root, "apps/web/src/app/api/local-package/qr-print/route.ts"), "utf8");
 for (const marker of ["readLocalPilotPackageQrPrintSheet", "readBoundedQueryParam", "Content-Security-Policy", "writesAllowed: false", "qrAliasesMutated: false"]) {
   if (!printRoute.includes(marker)) throw new Error(`QR print route is missing: ${marker}`);
+}
+const handoffRoute = readFileSync(resolve(root, "apps/web/src/app/api/local-package/handoff/route.ts"), "utf8");
+for (const marker of ["readLocalPilotPackageHandoff", "readBoundedQueryParam", "writesAllowed: false", "qrAliasesMutated: false"]) {
+  if (!handoffRoute.includes(marker)) throw new Error(`Package handoff route is missing: ${marker}`);
+}
+for (const forbidden of ["writesAllowed: true", "qrAliasesMutated: true", "writeFile", "unlink", "mkdir"]) {
+  if (handoffRoute.includes(forbidden)) throw new Error(`Package handoff route exposes forbidden behavior: ${forbidden}`);
 }
 for (const forbidden of ["writesAllowed: true", "qrAliasesMutated: true", "writeFile", "unlink", "mkdir"]) {
   if (printRoute.includes(forbidden)) throw new Error(`QR print route exposes forbidden behavior: ${forbidden}`);

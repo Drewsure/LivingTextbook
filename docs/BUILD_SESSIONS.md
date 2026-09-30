@@ -7113,3 +7113,15 @@ student-payload-blocked behavior.
 - Added behavior coverage for successful gated reads and tampered HTML
   rejection. Production print authorization, route mutation, student use,
   hosted persistence, and learner-record writes remain disabled.
+
+## Build session: Local package handoff receipt
+
+- Added a versioned, machine-readable handoff receipt for verified local and
+  hybrid packages, bound to release, source, QR print, QR registry, route,
+  game, media, and hosted-persistence identities.
+- Added a separate handoff-read gate and a bounded JSON route so a publisher
+  can receive a concise package record without exposing raw source files or
+  learner data.
+- Added behavior coverage for valid handoff reads and disabled-by-default
+  handoff access. Package writes, QR mutation, production printing, hosted
+  activation, and student launch remain separate gates.

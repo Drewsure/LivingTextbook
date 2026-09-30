@@ -1989,3 +1989,4 @@ export * from "./pilotDeliveryReleasePreflight";
 export * from "./publisherPilotPackagePreview";
 export * from "./publisherPilotPackageReadinessBinding";
 export * from "./localCompanionReleaseContinuity";
+export * from "./localPilotPackageHandoff";

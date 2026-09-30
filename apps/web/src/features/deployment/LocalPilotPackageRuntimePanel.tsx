@@ -3,7 +3,7 @@ import type {
   LocalPilotPackageRuntimeReadResult,
   LocalPilotPackageRuntimeSummary,
 } from "@/server/delivery/localPilotPackageRuntimeReader";
-import { getLocalPilotPackageQrPrintPath } from "@/features/routes/routeContracts";
+import { getLocalPilotPackageHandoffPath, getLocalPilotPackageQrPrintPath } from "@/features/routes/routeContracts";
 
 interface LocalPilotPackageRuntimePanelProps {
   result: LocalPilotPackageRuntimeReadResult;
@@ -78,6 +78,14 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
             className="mt-4 inline-flex w-fit rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-3 text-sm font-bold text-[var(--tenant-text)] underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
           >
             Open verified QR print sheet
+          </a>
+        ) : null}
+        {summary.qrPrintArtifactReady && summary.qrAliasRegistryReady ? (
+          <a
+            href={getLocalPilotPackageHandoffPath(summary.tenantId, summary.packageId, summary.version)}
+            className="mt-3 inline-flex w-fit rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] px-4 py-3 text-sm font-bold text-[var(--tenant-text)] underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tenant-primary)]"
+          >
+            Open verified package handoff receipt
           </a>
         ) : null}
         <div className="mt-5 grid gap-3 lg:grid-cols-2">

@@ -17,7 +17,7 @@ const failures = [];
 try {
   compileSources();
   const { assembleLocalPilotPackage } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageAssembler.js"));
-  const { readLocalPilotPackageContent, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
+  const { readLocalPilotPackageContent, readLocalPilotPackageHandoff, readLocalPilotPackageMedia, readLocalPilotPackageQrPrintSheet, readLocalPilotPackageRuntime } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRuntimeReader.js"));
   const { createLocalPilotPackageRouteMap } = require(join(compiledRoot, "apps", "web", "src", "server", "delivery", "localPilotPackageRouteMap.js"));
   const { createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord } = require(join(compiledRoot, "packages", "content-model", "src", "index.js"));
   const { samplePartnerContentPackage } = require(join(compiledRoot, "apps", "web", "src", "data", "samplePartnerPackage.js"));
@@ -28,6 +28,7 @@ try {
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_CONTENT_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_MEDIA_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED: "true",
+    LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED: "true",
     LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: packageRoot,
     LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: assetRoot,
     LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL: "https://pilot.example.test",
@@ -56,6 +57,17 @@ try {
     assert(typeof qrManifest.htmlChecksum === "string" && qrManifest.htmlChecksum === "sha256:" + createHash("sha256").update(qrHtml).digest("hex"), "QR print manifest must bind the printable HTML checksum");
     const printSheet = await readLocalPilotPackageQrPrintSheet({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(printSheet.status === "available" && printSheet.html === qrHtml, "verified QR print sheet must be readable only through the gated runtime reader");
+    const handoff = await readLocalPilotPackageHandoff({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(handoff.status === "available", "verified local package must expose a handoff receipt through the gated runtime reader");
+    if (handoff.status === "available") {
+      assert(handoff.handoff.qrPrintArtifactId === qrManifest.artifactId, "handoff receipt must bind the QR print artifact identity");
+      assert(handoff.handoff.qrAliasRegistryRecordId === input.qrRegistryRecord.recordId, "handoff receipt must bind the QR registry identity");
+      assert(handoff.handoff.learnerRecordsIncluded === false && handoff.handoff.writesAllowed === false, "handoff receipt must preserve learner-data and write boundaries");
+    }
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED = "false";
+    const disabledHandoff = await readLocalPilotPackageHandoff({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(disabledHandoff.status === "blocked" && disabledHandoff.errors.some((error) => error.includes("handoff reads are disabled")), "package handoff reads must remain disabled unless the explicit handoff-read gate is enabled");
+    process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED = "true";
     process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED = "false";
     const disabledPrintSheet = await readLocalPilotPackageQrPrintSheet({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(disabledPrintSheet.status === "blocked" && disabledPrintSheet.errors.some((error) => error.includes("print reads are disabled")), "QR print sheet reads must remain disabled unless the explicit print-read gate is enabled");

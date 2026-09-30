@@ -8,6 +8,7 @@ import {
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrPrintArtifact,
   validatePilotQrAliasRegistryRecord,
+  validateLocalPilotPackageHandoff,
   validateContentPackage,
   validateTenantConfig,
   type LocalBundleManifest,
@@ -17,6 +18,7 @@ import {
   type PilotDeliveryReleaseReceipt,
   type PilotQrAliasRegistryRecord,
   type TenantConfig,
+  type LocalPilotPackageHandoff,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
 
@@ -72,6 +74,10 @@ export type LocalPilotPackageRuntimeReadResult =
 export type LocalPilotPackageQrPrintReadResult =
   | { status: "blocked" | "not-found"; html: null; errors: string[] }
   | { status: "available"; html: string; errors: [] };
+
+export type LocalPilotPackageHandoffReadResult =
+  | { status: "blocked" | "not-found"; handoff: null; errors: string[] }
+  | { status: "available"; handoff: LocalPilotPackageHandoff; errors: [] };
 
 export type LocalPilotPackageContentReadResult =
   | { status: "blocked" | "not-found"; contentPackage: null; errors: string[] }
@@ -183,6 +189,69 @@ export async function readLocalPilotPackageQrPrintSheet(identity: LocalPilotPack
     return { status: "available", html, errors: [] };
   } catch {
     return { status: "not-found", html: null, errors: ["The verified local package QR print sheet could not be read from the configured package root."] };
+  }
+}
+
+export async function readLocalPilotPackageHandoff(identity: LocalPilotPackageRuntimeIdentity): Promise<LocalPilotPackageHandoffReadResult> {
+  if (process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED !== "true") {
+    return { status: "blocked", handoff: null, errors: ["Local pilot package handoff reads are disabled. Enable the explicit local-package handoff-read gate before serving a handoff receipt."] };
+  }
+
+  const runtime = await readLocalPilotPackageRuntime(identity);
+  if (runtime.status !== "available") return { status: runtime.status, handoff: null, errors: runtime.errors };
+
+  const configuredRoot = process.env.LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT?.trim();
+  if (!configuredRoot) return { status: "blocked", handoff: null, errors: ["Local pilot package handoff reads require an explicit package root."] };
+  const root = resolve(configuredRoot);
+  const directory = resolve(root, identity.tenantId, identity.packageId, identity.version);
+  const boundaryErrors = validateDurableBackupFilesystemPath(directory, root);
+  if (boundaryErrors.length > 0) return { status: "blocked", handoff: null, errors: boundaryErrors };
+
+  try {
+    const [manifestValue, receiptValue, qrPrintValue, qrRegistryValue] = await Promise.all([
+      readJson(join(directory, "metadata/delivery-manifest.json")),
+      readJson(join(directory, "metadata/release-receipt.json")),
+      readJson(join(directory, "metadata/qr-print-sheet.json")),
+      readJson(join(directory, "metadata/qr-alias-registry.json")),
+    ]);
+    if (!isRecord(manifestValue) || !isRecord(receiptValue) || !isRecord(qrPrintValue) || !isRecord(qrRegistryValue)) {
+      return { status: "blocked", handoff: null, errors: ["Local pilot package handoff metadata must contain object records only."] };
+    }
+    const handoff: LocalPilotPackageHandoff = {
+      handoffVersion: 1,
+      handoffId: `${identity.packageId}:${identity.version}:local-package-handoff`,
+      tenantId: identity.tenantId,
+      packageId: identity.packageId,
+      version: identity.version,
+      bundleId: runtime.summary.bundleId,
+      mode: runtime.summary.mode,
+      manifestId: String(manifestValue.manifestId ?? ""),
+      receiptId: String(receiptValue.receiptId ?? ""),
+      sourceAssemblyChecksum: String(manifestValue.sourceAssemblyChecksum ?? ""),
+      qrPrintArtifactId: String(qrPrintValue.artifactId ?? ""),
+      qrPrintHtmlChecksum: String(qrPrintValue.htmlChecksum ?? ""),
+      qrAliasRegistryRecordId: String(qrRegistryValue.recordId ?? ""),
+      routeCount: runtime.summary.routes.length,
+      gameRouteCount: runtime.summary.gameRoutePaths.length,
+      mediaKinds: runtime.summary.mediaKinds.slice(),
+      hostedPersistence: runtime.summary.hostedPersistence,
+      hostedPersistenceDecisionPacketId: runtime.summary.hostedPersistenceDecisionPacketId,
+      status: "verified-local-package",
+      learnerRecordsIncluded: false,
+      writesAllowed: false,
+      hostedPersistenceActivated: false,
+      qrAliasesMutated: false,
+      sideEffect: "none",
+    };
+    const errors = validateLocalPilotPackageHandoff(handoff);
+    if (handoff.tenantId !== String(manifestValue.tenantId ?? "") || handoff.packageId !== String(manifestValue.packageId ?? "") || handoff.version !== String(manifestValue.version ?? "")) errors.push("Local pilot package handoff identity does not match the delivery manifest.");
+    if (handoff.manifestId !== String(receiptValue.manifestId ?? "") || handoff.sourceAssemblyChecksum !== String(receiptValue.sourceAssemblyChecksum ?? "")) errors.push("Local pilot package handoff release receipt binding does not match the delivery manifest.");
+    if (handoff.manifestId !== String(qrPrintValue.manifestId ?? "") || handoff.receiptId !== String(qrPrintValue.receiptId ?? "") || handoff.sourceAssemblyChecksum !== String(qrPrintValue.sourceAssemblyChecksum ?? "")) errors.push("Local pilot package handoff QR print binding does not match the delivery manifest.");
+    if (handoff.manifestId !== String(qrRegistryValue.manifestId ?? "") || handoff.receiptId !== String(qrRegistryValue.receiptId ?? "") || handoff.sourceAssemblyChecksum !== String(qrRegistryValue.sourceAssemblyChecksum ?? "")) errors.push("Local pilot package handoff QR registry binding does not match the delivery manifest.");
+    if (errors.length > 0) return { status: "blocked", handoff: null, errors: [...new Set(errors)] };
+    return { status: "available", handoff, errors: [] };
+  } catch {
+    return { status: "not-found", handoff: null, errors: ["The local pilot package handoff metadata could not be read from the configured package root."] };
   }
 }
 

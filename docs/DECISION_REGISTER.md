@@ -41,6 +41,14 @@ production-print authorization, QR route mutation, hosted persistence, and
 student activation. See
 `docs/decision-register/DR-1308-verified-qr-print-sheet-read-lane.md`.
 
+## DR-1309: Local Package Handoff Receipt
+
+Verified local packages must expose a bounded handoff receipt binding package,
+release, source, QR print, QR registry, route, game, media, and hosted
+persistence identities. The receipt remains behind its own read gate and
+contains no learner data or operational mutation capability. See
+`docs/decision-register/DR-1309-local-package-handoff-receipt.md`.
+
 ## DR-1133: Quarantine-First Upload Intake
 
 Publisher source documents and media may enter only through an explicitly
