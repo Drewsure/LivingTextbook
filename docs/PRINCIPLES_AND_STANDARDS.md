@@ -9636,3 +9636,20 @@ This standard is recorded in DR-1362 and ADR 1362.
   metadata cannot be presented as available evidence.
 
 This standard is recorded in DR-1363 and ADR 1363.
+
+## 607. Manifest Review Requests Must Be Explicit And Machine-Bound
+
+- The reviewed bundle-manifest request shape must be visible as a bounded,
+  read-only operator preview before a custody write is attempted.
+- The preview must show exact tenant, package, version, quarantine, review
+  packet, source-preflight, reviewer, timestamp, and checksum identities.
+- Recording release-grade custody requires the dedicated pilot delivery API
+  token. Teacher browser authorization must not be silently promoted into a
+  package-custody write permission.
+- A request preview must never call the endpoint, display the manifest body,
+  expose credentials, copy files, or imply that assembly, promotion, QR
+  printing, hosted persistence, learner records, or student use is allowed.
+- The request contract and validator belong in the shared content-model so
+  white-label delivery operators cannot invent tenant-specific request shapes.
+
+This standard is recorded in DR-1364 and ADR 1364.

@@ -7750,3 +7750,15 @@ credentials, learner records, or activation capability. Recorded ADR 1363 /
 DR-1363.
 The readiness route validates the assembled summary before returning it, so a
 malformed custody record cannot be presented as available evidence.
+
+## Build session: Make manifest review custody handoff explicit
+
+Added a shared `LocalBundleManifestReviewRequestPreview` contract, sample
+operator packet, and deployment-workbench panel. The panel shows the exact
+identity fields and blocked actions for the machine-authenticated reviewed
+manifest request while making clear that it is only a preview.
+
+No browser write permission was broadened. The preview makes no endpoint call,
+does not expose manifest bytes or credentials, and cannot assemble packages,
+promote assets, print QR codes, activate hosted persistence, create learner
+records, or start students. Recorded ADR 1364 / DR-1364.

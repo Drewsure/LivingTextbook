@@ -15,6 +15,7 @@ import { DeploymentContinuityDecisionPanel } from "@/features/deployment/Deploym
 import { DeploymentContinuityHandoffPanel } from "@/features/deployment/DeploymentContinuityHandoffPanel";
 import { DeploymentProfilePanel } from "@/features/deployment/DeploymentProfilePanel";
 import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManifestPanel";
+import { LocalBundleManifestReviewRequestPanel } from "@/features/deployment/LocalBundleManifestReviewRequestPanel";
 import { LocalCompanionReleaseContinuityPanel } from "@/features/deployment/LocalCompanionReleaseContinuityPanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
@@ -25,6 +26,7 @@ import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCata
 import { readPilotDeploymentConfigurationMatrix } from "@/server/delivery/pilotDeploymentConfiguration";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 import { readPilotOperatorGateSequence } from "@/server/delivery/pilotOperatorGateSequence";
+import { sampleLocalBundleManifestReviewRequest } from "@/data/sampleLocalBundleManifestReviewRequest";
 
 const deploymentLinks = [
   { href: "/teacher/intake", label: "Foundation control room" },
@@ -97,6 +99,7 @@ export default function TeacherDeploymentPage() {
         <MediaBundleIntegrityPanel plan={sampleMediaBundleIntegrityPlan} />
         <LocalDeploymentPreflightPanel plan={sampleLocalDeploymentPreflightPlan} />
         <LocalBundleManifestPanel manifests={sampleLocalBundleManifests} />
+        <LocalBundleManifestReviewRequestPanel request={sampleLocalBundleManifestReviewRequest} />
         <LocalCompanionReleaseContinuityPanel
           packet={sampleLocalCompanionReleaseContinuity}
           errors={sampleLocalCompanionReleaseContinuityErrors}

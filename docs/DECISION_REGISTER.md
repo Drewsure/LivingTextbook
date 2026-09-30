@@ -10441,3 +10441,17 @@ future delivery surfaces from inventing divergent status and privacy fields.
 The shared summary remains metadata-only and activation-blocked. See ADR 1363.
 The readiness route also validates the assembled summary before returning it,
 so malformed custody metadata cannot be presented as available evidence.
+
+## DR-1364: Explicit Machine-Bound Manifest Review Request Preview
+
+The deployment workbench now exposes the exact metadata required to record a
+reviewed local bundle manifest: tenant, package, version, quarantine, review
+packet, source preflight, reviewer, timestamp, and canonical checksum. The
+preview is validated by the shared content-model and clearly identifies the
+dedicated pilot delivery API-token boundary.
+
+The preview does not call the review endpoint, expose the manifest body,
+expose credentials, write custody, assemble a package, promote assets, print
+QR codes, activate hosted persistence, create learner records, or enable
+student use. Teacher browser authorization remains separate from the
+machine-authenticated custody operation. See ADR 1364.

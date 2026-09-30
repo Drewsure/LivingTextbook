@@ -19,6 +19,9 @@ const continuityModel = readSource("../packages/content-model/src/deploymentCont
 const recoveryModel = readSource("../packages/content-model/src/persistenceRecoveryRehearsal.ts");
 const continuitySample = readSource("../apps/web/src/data/sampleDeploymentContinuityDecision.ts");
 const continuityPanel = readSource("../apps/web/src/features/deployment/DeploymentContinuityDecisionPanel.tsx");
+const reviewRequestModel = readSource("../packages/content-model/src/localBundleManifestReviewRequestPreview.ts");
+const reviewRequestSample = readSource("../apps/web/src/data/sampleLocalBundleManifestReviewRequest.ts");
+const reviewRequestPanel = readSource("../apps/web/src/features/deployment/LocalBundleManifestReviewRequestPanel.tsx");
 
 const failures = [];
 
@@ -117,6 +120,18 @@ const requiredIntegrationMarkers = [
   "89 checked routes",
 ];
 
+const requiredReviewRequestMarkers = [
+  "LocalBundleManifestReviewRequestPreview",
+  "/api/teacher/delivery/local-package/bundle-manifest-review",
+  "pilot-delivery-api-token",
+  "manifestChecksumSha256",
+  "sourcePreflightEvidenceId",
+  "No endpoint call",
+  "No manifest body displayed",
+  "No package assembly",
+  "No student records",
+];
+
 for (const marker of requiredGuideMarkers) {
   requireText(guide, marker, `Deployment decision guide missing marker: ${marker}`);
 }
@@ -141,6 +156,14 @@ for (const marker of requiredIntegrationMarkers) {
   );
 }
 
+for (const marker of requiredReviewRequestMarkers) {
+  requireText(
+    reviewRequestModel + reviewRequestSample + reviewRequestPanel + deploymentPage,
+    marker,
+    `Deployment workbench review-request preview missing marker: ${marker}`,
+  );
+}
+
 requireText(guidePanel, "Deployment decision guide", "Deployment guide panel must render its heading.");
 requireText(guidePanel, "Required evidence", "Deployment guide panel must render required evidence.");
 requireText(guidePanel, "Blocked actions", "Deployment guide panel must render blocked actions.");
@@ -151,6 +174,10 @@ requireText(decisionRegister, "DR-550", "Decision register must include DR-550."
 requireText(decisionRecord, "DR-550", "Decision record file must exist.");
 requireText(adr, "ADR 0479", "ADR file must exist.");
 requireText(routeChecks, "Deployment Decision Workbench Checks", "Verification checklist must exist.");
+requireText(principles, "Manifest Review Requests Must Be Explicit And Machine-Bound", "Principles document must include the manifest review request standard.");
+requireText(buildSessions, "Make manifest review custody handoff explicit", "Build sessions must record the manifest review request preview.");
+requireText(decisionRegister, "DR-1364", "Decision register must include DR-1364.");
+requireText(readSource("../docs/adr/1364-explicit-manifest-review-request-preview.md"), "ADR 1364", "ADR 1364 must exist.");
 
 forbidText(deploymentPage, "input type=\"file\"", "Deployment workbench must not include live upload inputs.");
 forbidText(deploymentPage, "navigator.serviceWorker.register", "Deployment workbench must not register a service worker.");
