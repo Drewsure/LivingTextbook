@@ -7561,3 +7561,13 @@ disabled-by-default write gate. It is immutable and idempotent, and remains
 unable to create learner records, mutate QR aliases, activate students, or
 enable hosted persistence. Package assembly consumption is intentionally left
 for the next integration slice. Recorded ADR 1346 / DR-1345.
+
+## Build session: Package assembly promotion binding
+
+Local package assembly now prefers the package-scoped approved asset directory
+created by the promotion writer and requires a valid identity-bound promotion
+record whenever that directory exists. Content, media, posters, and
+transcripts are copied from the selected custody scope, and the assembly
+record records that scope. Tampered promotion metadata blocks assembly before
+package output is written. The flat approved-root path remains only as an
+explicit compatibility rehearsal fallback. Recorded ADR 1347 / DR-1346.

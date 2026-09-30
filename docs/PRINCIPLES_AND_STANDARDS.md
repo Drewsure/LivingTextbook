@@ -9380,3 +9380,13 @@ This standard is recorded in DR-1344 and ADR 1345.
 - Package assembly may consume promoted assets only through a separately reviewed integration slice.
 
 This standard is recorded in DR-1345 and ADR 1346.
+
+## 590. Package Assembly Must Prefer Package-Scoped Approved Custody
+
+- When a tenant/package/version promotion directory exists, local package assembly must require its valid promotion record and use that directory for publisher content and media.
+- The promotion record must bind the exact delivery manifest and release receipt identities before bytes are copied into a local package.
+- Assembly records must state whether package-scoped promotion custody or the temporary compatibility flat-root path was used.
+- Missing, malformed, tampered, cross-tenant, cross-package, and cross-version promotion custody must fail closed before package writes.
+- Promotion custody does not replace independent release, QR, policy, hosted-persistence, student-activation, or learner-record gates.
+
+This standard is recorded in DR-1346 and ADR 1347.

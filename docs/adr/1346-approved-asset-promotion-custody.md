@@ -23,5 +23,5 @@ The writer copies publisher bytes only after those checks, writes an immutable p
 
 ## Consequences
 
-The publisher asset journey now has a concrete, testable custody boundary. The platform can later feed approved package assets into local assembly without allowing browser code or review-only evidence to promote files. A human operator still controls enabling the gate and remains responsible for rights, release, QR, and package decisions. Package-assembly lookup of the package-scoped promoted root remains a separate integration slice.
+The publisher asset journey now has a concrete, testable custody boundary. The platform can feed approved package assets into local assembly without allowing browser code or review-only evidence to promote files. A human operator still controls enabling the gate and remains responsible for rights, release, QR, and package decisions. Package-scoped assembly binding is defined separately in ADR 1347.
 

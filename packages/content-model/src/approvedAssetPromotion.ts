@@ -49,6 +49,7 @@ export interface ApprovedAssetPromotionRecord {
 }
 
 const safeIdentifierPattern = /^[A-Za-z0-9][A-Za-z0-9._:@/-]*$/;
+const safePathSegmentPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const checksumPattern = /^[a-f0-9]{64}$/;
 const safeQuarantinePattern = /^q-[0-9a-f-]{36}$/;
 const safeVersionPattern = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
@@ -71,6 +72,7 @@ export function validateApprovedAssetPromotionRequest(value: unknown): string[] 
   for (const field of ["tenantId", "packageId", "version", "manifestId", "receiptId", "reviewPacketId", "operatorId", "promotedAt"] as const) {
     if (!isSafeIdentifier(String(value[field] ?? ""))) errors.push(`Approved asset promotion ${field} must be a bounded safe identifier.`);
   }
+  for (const field of ["tenantId", "packageId", "version"] as const) if (!safePathSegmentPattern.test(String(value[field] ?? ""))) errors.push(`Approved asset promotion ${field} must be a safe path segment.`);
   if (!safeQuarantinePattern.test(String(value.quarantineId ?? ""))) errors.push("Approved asset promotion quarantineId must be an opaque quarantine identifier.");
   if (!safeVersionPattern.test(String(value.version ?? ""))) errors.push("Approved asset promotion version must be a safe path segment.");
   if (typeof value.promotedAt === "string" && Number.isNaN(Date.parse(value.promotedAt))) errors.push("Approved asset promotion promotedAt must be a valid timestamp.");

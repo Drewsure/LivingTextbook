@@ -10,6 +10,7 @@ import {
   validatePilotDeliveryPackageIndex,
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrAliasRegistryRecord,
+  validateApprovedAssetPromotionRecord,
   createPilotQrPrintArtifactId,
   createLocalPilotPackageIntegrityManifestId,
   validateLocalPilotPackageIntegrity,
@@ -70,6 +71,7 @@ interface AssemblyRecord {
   operatorId: string;
   writtenAt: string;
   qrPrintBaseUrl: string;
+  approvedAssetSourceScope: "package-scoped-promotion" | "legacy-flat-root";
   files: string[];
   copiedAssetCount: number;
   publisherPayloadIncluded: true;
@@ -119,8 +121,11 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
     if (rootErrors.length > 0) return blocked(rootErrors);
     const sourceErrors = validateQuarantineFilesystemPath(join(approvedAssetRoot, "boundary-check"), approvedAssetRootValue);
     if (sourceErrors.length > 0) return blocked(sourceErrors);
+    const sourceRootResult = await resolveApprovedAssetSourceRoot(approvedAssetRoot, input);
+    if (sourceRootResult.errors.length > 0) return blocked(sourceRootResult.errors);
+    const sourceRoot = sourceRootResult.root;
     const sourceFiles = buildSourceFilePlan(input.bundleManifest);
-    const sourcePlanErrors = await validateSourceFilePlan(sourceFiles, approvedAssetRoot);
+    const sourcePlanErrors = await validateSourceFilePlan(sourceFiles, sourceRoot);
     if (sourcePlanErrors.length > 0) return blocked(sourcePlanErrors);
     if (await pathExists(directory)) return reconcileExistingPackage(directory, relativeDirectory, input);
 
@@ -134,11 +139,11 @@ export async function assembleLocalPilotPackage(input: LocalPilotPackageAssembly
       for (const source of sourceFiles) {
         const destination = join(staging, source.destinationPath);
         await mkdir(dirname(destination), { recursive: true });
-        await copyFile(join(approvedAssetRoot, source.sourcePath), destination);
+        await copyFile(join(sourceRoot, source.sourcePath), destination);
       }
       const packageIndex = createPilotDeliveryPackageIndex({ manifest: input.manifest, receipt: input.receipt });
       const qrPrintSheet = await createQrPrintSheet(input, printBaseUrlResult.value);
-      const record = createAssemblyRecord(input, [...generatedFiles, ...sourceFiles.map((source) => source.destinationPath)], sourceFiles.length, printBaseUrlResult.value);
+      const record = createAssemblyRecord(input, [...generatedFiles, ...sourceFiles.map((source) => source.destinationPath)], sourceFiles.length, printBaseUrlResult.value, sourceRootResult.scope);
       await writeJsonFile(join(staging, "metadata/delivery-package.json"), packageIndex);
       await writeJsonFile(join(staging, "metadata/delivery-manifest.json"), input.manifest);
       await writeJsonFile(join(staging, "metadata/release-receipt.json"), input.receipt);
@@ -262,6 +267,31 @@ async function validateSourceFilePlan(plan: SourceFilePlan[], approvedRoot: stri
     }
   }
   return [...new Set(errors)];
+}
+
+async function resolveApprovedAssetSourceRoot(approvedAssetRoot: string, input: LocalPilotPackageAssemblyInput): Promise<{ root: string; scope: AssemblyRecord["approvedAssetSourceScope"]; errors: string[] }> {
+  const packageRoot = resolve(approvedAssetRoot, safeSegment(input.manifest.tenantId), safeSegment(input.manifest.packageId), safeSegment(input.manifest.version));
+  const promotionRecordPath = join(packageRoot, "promotion-record.json");
+  if (await pathExists(packageRoot)) {
+    const pathErrors = [
+      ...validateQuarantineFilesystemPath(packageRoot, approvedAssetRoot),
+      ...validateQuarantineFilesystemPath(promotionRecordPath, approvedAssetRoot),
+    ];
+    if (pathErrors.length > 0) return { root: packageRoot, scope: "package-scoped-promotion", errors: pathErrors };
+    try {
+      const record = JSON.parse(await readFile(promotionRecordPath, "utf8")) as unknown;
+      const recordErrors = validateApprovedAssetPromotionRecord(record);
+      if (recordErrors.length > 0) return { root: packageRoot, scope: "package-scoped-promotion", errors: ["Package-scoped approved asset custody is invalid.", ...recordErrors] };
+      const promotion = record as { tenantId?: string; packageId?: string; version?: string; manifestId?: string; receiptId?: string };
+      if (promotion.tenantId !== input.manifest.tenantId || promotion.packageId !== input.manifest.packageId || promotion.version !== input.manifest.version || promotion.manifestId !== input.manifest.manifestId || promotion.receiptId !== input.receipt.receiptId) {
+        return { root: packageRoot, scope: "package-scoped-promotion", errors: ["Package-scoped approved asset custody does not match the delivery manifest and receipt."] };
+      }
+      return { root: packageRoot, scope: "package-scoped-promotion", errors: [] };
+    } catch {
+      return { root: packageRoot, scope: "package-scoped-promotion", errors: ["Package-scoped approved asset custody requires a readable promotion record."] };
+    }
+  }
+  return { root: approvedAssetRoot, scope: "legacy-flat-root", errors: [] };
 }
 
 interface QrPrintEntry {
@@ -410,11 +440,13 @@ async function verifyPackageIntegrity(directory: string, integrity: LocalPilotPa
 async function reconcileExistingPackage(directory: string, relativeDirectory: string, input: LocalPilotPackageAssemblyInput): Promise<LocalPilotPackageAssemblyResult> {
   try {
     const record = JSON.parse(await readFile(join(directory, "metadata/assembly-record.json"), "utf8")) as AssemblyRecord;
+    const sourceRootResult = await resolveApprovedAssetSourceRoot(resolve(process.env.LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT?.trim() ?? ""), input);
+    if (sourceRootResult.errors.length > 0) return blocked(sourceRootResult.errors);
     const sourceFiles = buildSourceFilePlan(input.bundleManifest);
     const expectedFiles = [...generatedFiles, ...sourceFiles.map((source) => source.destinationPath)];
     const printBaseUrl = readPrintBaseUrl();
     if (!printBaseUrl.valid) return blocked([printBaseUrl.error]);
-    const errors = validateAssemblyRecord(record, createAssemblyRecord(input, expectedFiles, sourceFiles.length, printBaseUrl.value));
+    const errors = validateAssemblyRecord(record, createAssemblyRecord(input, expectedFiles, sourceFiles.length, printBaseUrl.value, sourceRootResult.scope));
     if (errors.length === 0) {
       await verifyStagedPackage(directory, input, record, sourceFiles);
       return { status: "accepted", idempotent: true, relativeDirectory, files: record.files, copiedAssetCount: record.copiedAssetCount, errors: [] };
@@ -425,8 +457,8 @@ async function reconcileExistingPackage(directory: string, relativeDirectory: st
   }
 }
 
-function createAssemblyRecord(input: LocalPilotPackageAssemblyInput, files: string[], copiedAssetCount: number, qrPrintBaseUrl: string): AssemblyRecord {
-  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, hostedPersistenceDecisionPacketId: input.manifest.hostedPersistenceDecisionPacketId, quarantineId: input.reviewPacketBinding.quarantineId, reviewPacketId: input.reviewPacketBinding.packetId, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
+function createAssemblyRecord(input: LocalPilotPackageAssemblyInput, files: string[], copiedAssetCount: number, qrPrintBaseUrl: string, approvedAssetSourceScope: AssemblyRecord["approvedAssetSourceScope"]): AssemblyRecord {
+  return { recordVersion: 1, tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, bundleId: input.bundleManifest.bundle_id, version: input.manifest.version, manifestId: input.manifest.manifestId, receiptId: input.receipt.receiptId, sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum, hostedPersistenceDecisionPacketId: input.manifest.hostedPersistenceDecisionPacketId, quarantineId: input.reviewPacketBinding.quarantineId, reviewPacketId: input.reviewPacketBinding.packetId, operatorId: input.operatorId, writtenAt: input.writtenAt, qrPrintBaseUrl, approvedAssetSourceScope, files: [...files], copiedAssetCount, publisherPayloadIncluded: true, learnerRecordsIncluded: false, sideEffect: "local-package-assembly" };
 }
 
 function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, manifest: PilotDeliveryManifest): string[] {
@@ -443,7 +475,7 @@ function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, ma
 
 function validateAssemblyRecord(value: AssemblyRecord, expected: AssemblyRecord): string[] {
   const errors: string[] = [];
-  if (!value || value.recordVersion !== 1 || value.publisherPayloadIncluded !== true || value.learnerRecordsIncluded !== false || value.sideEffect !== "local-package-assembly") errors.push("Local package assembly record has an unsafe marker.");
+  if (!value || value.recordVersion !== 1 || value.publisherPayloadIncluded !== true || value.learnerRecordsIncluded !== false || value.sideEffect !== "local-package-assembly" || !["package-scoped-promotion", "legacy-flat-root"].includes(value.approvedAssetSourceScope)) errors.push("Local package assembly record has an unsafe marker.");
   if (stableJson(value) !== stableJson(expected)) errors.push("Local package assembly record does not match the approved assembly.");
   return errors;
 }

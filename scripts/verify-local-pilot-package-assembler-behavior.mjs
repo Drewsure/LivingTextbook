@@ -44,6 +44,8 @@ try {
     assert(existsSync(join(assembledDirectory, "metadata/qr-print-sheet.json")), "assembler must write a QR print manifest");
     assert(existsSync(join(assembledDirectory, "metadata/qr-print-sheet.html")), "assembler must write a printable QR sheet");
     assert(existsSync(join(assembledDirectory, "metadata/assembly-record.json")), "assembler must write an assembly record");
+    const assemblyRecord = JSON.parse(readFileSync(join(assembledDirectory, "metadata/assembly-record.json"), "utf8"));
+    assert(assemblyRecord.approvedAssetSourceScope === "package-scoped-promotion", "assembler must prefer the package-scoped approved promotion custody root");
     assert(existsSync(join(assembledDirectory, "metadata/qr-alias-registry.json")), "assembler must write the approved QR alias registry record");
     assert(existsSync(join(assembledDirectory, "metadata/package-integrity.json")), "assembler must write the package integrity manifest");
     const integrityManifest = JSON.parse(readFileSync(join(assembledDirectory, "metadata/package-integrity.json"), "utf8"));
@@ -126,6 +128,15 @@ try {
     assert(unsafeIdentity.status === "blocked", "runtime reader must reject traversal identities");
     const second = await assembleLocalPilotPackage(input);
     assert(second.status === "accepted" && second.idempotent === true, "exact local package replay must be idempotent");
+
+    const promotionRecordPath = join(assetRoot, "tenant-one", "package-one", "1.0.0", "promotion-record.json");
+    const originalPromotionRecord = readFileSync(promotionRecordPath, "utf8");
+    const tamperedPromotionRecord = JSON.parse(originalPromotionRecord);
+    tamperedPromotionRecord.studentFacingUseAllowed = true;
+    writeFileSync(promotionRecordPath, JSON.stringify(tamperedPromotionRecord) + "\n", "utf8");
+    const tamperedPromotion = await assembleLocalPilotPackage(input);
+    assert(tamperedPromotion.status === "blocked" && tamperedPromotion.errors.some((error) => error.includes("Package-scoped approved asset custody is invalid")), "tampered package-scoped promotion custody must block assembly");
+    writeFileSync(promotionRecordPath, originalPromotionRecord, "utf8");
 
     const unsafeFallbackInput = JSON.parse(JSON.stringify(input));
     unsafeFallbackInput.manifest.localFallbackPaths[0] = "/launch/unit-1";
@@ -240,8 +251,9 @@ function normalizeCompiledExtensions(directory) {
 }
 
 function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryReleaseReceipt, createPilotQrAliasRegistryRecord, samplePartnerContentPackage }) {
-  mkdirSync(join(assetRoot, "content", "transcripts"), { recursive: true });
-  mkdirSync(join(assetRoot, "media"), { recursive: true });
+  const packageAssetRoot = join(assetRoot, "tenant-one", "package-one", "1.0.0");
+  mkdirSync(join(packageAssetRoot, "content", "transcripts"), { recursive: true });
+  mkdirSync(join(packageAssetRoot, "media"), { recursive: true });
   const approvedContentRecord = JSON.parse(JSON.stringify(samplePartnerContentPackage));
   for (const cue of approvedContentRecord.audioCues ?? []) delete cue.gameMode;
   approvedContentRecord.multimediaPlans = [];
@@ -254,10 +266,10 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     .replaceAll("sample-publisher-l1-u1-routines-package", "package-one")
     .replaceAll("sample-publisher", "tenant-one")
     ;
-  writeFileSync(join(assetRoot, "content", "package.json"), approvedContent + "\n", "utf8");
-  writeFileSync(join(assetRoot, "content", "transcripts", "greetings.en.txt"), "Hello, friend.\n", "utf8");
-  writeFileSync(join(assetRoot, "media", "greetings.mp3"), "approved-audio-fixture\n", "utf8");
-  const audioChecksum = "sha256-" + createHash("sha256").update(readFileSync(join(assetRoot, "media", "greetings.mp3"))).digest("hex");
+  writeFileSync(join(packageAssetRoot, "content", "package.json"), approvedContent + "\n", "utf8");
+  writeFileSync(join(packageAssetRoot, "content", "transcripts", "greetings.en.txt"), "Hello, friend.\n", "utf8");
+  writeFileSync(join(packageAssetRoot, "media", "greetings.mp3"), "approved-audio-fixture\n", "utf8");
+  const audioChecksum = "sha256-" + createHash("sha256").update(readFileSync(join(packageAssetRoot, "media", "greetings.mp3"))).digest("hex");
   const manifest = {
     manifestId: "manifest-one",
     tenantId: "tenant-one",
@@ -301,6 +313,25 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
     qrPrintAuthorization: "approved",
     rollbackReference: "rollback-one",
   });
+  writeFileSync(join(packageAssetRoot, "promotion-record.json"), JSON.stringify({
+    recordVersion: 1,
+    promotionId: "tenant-one:package-one:1.0.0:approved-assets-promotion",
+    tenantId: "tenant-one",
+    packageId: "package-one",
+    version: "1.0.0",
+    manifestId: manifest.manifestId,
+    receiptId: receipt.receiptId,
+    quarantineId: "q-123e4567-e89b-12d3-a456-426614174000",
+    reviewPacketId: "packet-one",
+    entries: [{ assetId: "greetings-audio", sourceQuarantineId: "q-123e4567-e89b-12d3-a456-426614174000", evidenceReferenceId: "asset-evidence-1", destinationPath: "media/greetings.mp3", kind: "audio", channelId: "audio-music-upload", mimeType: "audio/mpeg", checksumSha256: audioChecksum.replace(/^sha256-/, ""), unitKey: "unit-1" }],
+    operatorId: "operator-one",
+    promotedAt: "2026-10-01T00:00:00.000Z",
+    status: "approved-assets-promoted",
+    promotionAllowed: true,
+    learnerRecordsIncluded: false,
+    studentFacingUseAllowed: false,
+    sideEffect: "approved-asset-promotion",
+  }, null, 2) + "\n", "utf8");
   const packageIndex = createPilotDeliveryPackageIndex({ manifest, receipt });
   const qrRegistryRecord = createPilotQrAliasRegistryRecord({
     manifest,
