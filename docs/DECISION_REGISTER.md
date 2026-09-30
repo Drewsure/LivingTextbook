@@ -9996,3 +9996,13 @@ The record remains review-only. It cannot create a draft, package, route,
 assignment, QR target, media playlist, student payload, or release. Sentence
 authoring, Japanese support review, media/rights evidence, and human release
 approval remain open. See ADR 1313.
+
+## DR-1313: Source-Derived Authoring Proposal Boundary
+
+The MiniStar Unit 1 review workspace now shows two conservative,
+platform-authored sentence candidates: `Stand up, please.` and `Sit down,
+please.`. They are not extracted source text and do not create a draft,
+student payload, route, assignment, QR target, media playlist, local bundle, or
+release package. Teacher approval, English audio, hiragana-only Japanese
+support, media rights, accessibility, package integrity, and release evidence
+remain open. See ADR 1314.

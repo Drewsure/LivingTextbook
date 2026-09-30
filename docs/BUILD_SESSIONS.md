@@ -7175,3 +7175,18 @@ student-payload-blocked behavior.
 - A concurrent verification attempt left a generated Next build lock; the
   lock was removed and only the build processes created by that attempt were
   stopped before the clean build.
+
+## Build session: MiniStar Unit 1 authoring proposal boundary
+
+- Added a review-only authoring proposal beside the real Unit 1 source
+  extraction, with exactly two conservative platform-authored sentence
+  candidates.
+- Preserved the source checksum and review identity while stating that the
+  sentence wording is not present in the supplied DOCX.
+- Added visible gates for teacher approval, English audio, hiragana-only
+  Japanese support, media rights, package integrity, release, and QR output.
+- Kept student assignment, route creation, local bundle creation, package
+  promotion, and QR printing blocked.
+- Added a focused invariant verifier at
+  `scripts/verify-ministar-authoring-proposal.mjs` so exactly-two-sentence,
+  eight-term, review-only behavior cannot drift silently.

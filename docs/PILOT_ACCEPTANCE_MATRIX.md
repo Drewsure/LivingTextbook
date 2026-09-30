@@ -40,6 +40,12 @@ contain the two target sentence structures required by the canonical content
 contract, so this evidence advances source review only; it does not advance
 package approval, student payload, QR release, or saleability.
 
+A separate review-only authoring proposal now offers two conservative candidate
+sentences, `Stand up, please.` and `Sit down, please.`. They are explicitly
+platform-authored proposals, not extracted source text. Teacher approval,
+English audio evidence, Japanese support review, media rights, package
+integrity, release, QR, and student-assignment gates remain closed.
+
 The first saleable pilot is **not yet approved for sale or live student data**.
 The platform has a strong review and rehearsal foundation, including fail-closed
 delivery manifest and release-receipt integrity checks, but the package, QR

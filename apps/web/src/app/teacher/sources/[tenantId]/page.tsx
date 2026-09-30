@@ -4,8 +4,10 @@ import { sampleSourceExtractionReviewPackets } from "@/data/sampleSourceExtracti
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleMinistarSourceDerivedUnitReview } from "@/data/sampleMinistarSourceDerivedUnitReview";
+import { sampleMinistarUnitAuthoringProposal } from "@/data/sampleMinistarUnitAuthoringProposal";
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
 import { MinistarSourceDerivedUnitReviewPanel } from "@/features/content-intake/MinistarSourceDerivedUnitReviewPanel";
+import { MinistarUnitAuthoringProposalPanel } from "@/features/content-intake/MinistarUnitAuthoringProposalPanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherSourceReviewWorkspacePage({
@@ -31,7 +33,12 @@ export default async function TeacherSourceReviewWorkspacePage({
         extractionPreviews={sampleSourceExtractionPreviews}
         quarantineId={query.quarantineId}
       />
-      {tenantId === "ministar" ? <MinistarSourceDerivedUnitReviewPanel review={sampleMinistarSourceDerivedUnitReview} /> : null}
+      {tenantId === "ministar" ? (
+        <>
+          <MinistarSourceDerivedUnitReviewPanel review={sampleMinistarSourceDerivedUnitReview} />
+          <MinistarUnitAuthoringProposalPanel proposal={sampleMinistarUnitAuthoringProposal} />
+        </>
+      ) : null}
     </AppShell>
   );
 }
