@@ -69,6 +69,11 @@ export function PilotDeploymentConfigurationPanel({
           </section>
         ))}
       </div>
+
+      <p className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+        Human operator gates remain staged: configuration can be observed here, but review decisions, package writes, QR
+        registry mutation, release receipts, local assembly, persistence activation, and student activation remain separate.
+      </p>
     </Card>
   );
 }

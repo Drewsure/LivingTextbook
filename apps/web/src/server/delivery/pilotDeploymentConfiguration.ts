@@ -39,6 +39,19 @@ const approvedAssetRootEnvironment = "LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT";
 const printBaseUrlEnvironment = "LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL";
 const persistenceProviderEnvironment = "LIVING_TEXTBOOK_PERSISTENCE_PROVIDER";
 
+const reviewGateEnvironments = [
+  ["LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED", "Quarantine intake gate", "all"],
+  ["LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED", "Source review decision gate", "all"],
+  ["LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED", "Evidence review gate", "all"],
+  ["LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED", "Package evidence gate", "all"],
+  ["LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED", "Package review packet gate", "all"],
+  ["LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED", "Delivery mode decision gate", "all"],
+  ["LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED", "Promotion adapter decision gate", "all"],
+  ["LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED", "Pilot delivery metadata gate", "all"],
+  ["LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED", "Pilot release receipt gate", "all"],
+  ["LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_WRITES_ENABLED", "QR registry write gate", "all"],
+] as const;
+
 const localReadGates = [
   ["LIVING_TEXTBOOOK_LOCAL_PACKAGE_READS_ENABLED", "Local package index reads"],
   ["LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED", "Local handoff reads"],
@@ -71,12 +84,14 @@ export function readPilotDeploymentConfiguration(
   addTenantAllowlistCheck(checks, "delivery-tenant-allowlist", "Pilot delivery tenant allowlist", deliveryTenantEnvironment, safeTenantId, "all");
   addDirectoryCheck(checks, "delivery-root", "Pilot delivery metadata root", deliveryRootEnvironment, "all");
   addDirectoryCheck(checks, "qr-registry-root", "QR registry root", qrRegistryRootEnvironment, "all");
+  for (const [environmentName, label, requiredFor] of reviewGateEnvironments) addManualEnvironmentGate(checks, environmentName, label, requiredFor);
   addManualGateCheck(checks, "review-writes", "Review and package writes", "all", "Write gates are deliberately disabled by default.", "Enable only after human review, rights, and release evidence are accepted.");
 
   if (mode === "closed-local" || mode === "hybrid") {
     addDirectoryCheck(checks, "local-package-root", "Local package root", localPackageRootEnvironment, mode);
     addDirectoryCheck(checks, "approved-asset-root", "Approved asset root", approvedAssetRootEnvironment, mode);
     addPrintBaseUrlCheck(checks, mode);
+    addManualEnvironmentGate(checks, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED", "Local package assembly gate", mode);
     for (const [environmentName, label] of localReadGates) {
       checks.push({
         checkId: environmentName.toLowerCase().replaceAll("_", "-"),
@@ -169,6 +184,23 @@ function addManualGateCheck(
   nextAction: string,
 ): void {
   checks.push({ checkId, label, status: "manual", requiredFor, evidence, nextAction });
+}
+
+function addManualEnvironmentGate(
+  checks: PilotDeploymentConfigurationCheck[],
+  environmentName: string,
+  label: string,
+  requiredFor: PilotDeploymentConfigurationCheck["requiredFor"],
+): void {
+  const enabled = process.env[environmentName] === "true";
+  checks.push({
+    checkId: environmentName.toLowerCase().replaceAll("_", "-"),
+    label,
+    status: "manual",
+    requiredFor,
+    evidence: enabled ? `${environmentName} is enabled, but this preflight does not treat it as release approval.` : `${environmentName} is disabled; this is the safe default.`,
+    nextAction: enabled ? "Confirm the matching human evidence and keep student activation blocked." : `Enable ${environmentName} only at the documented review stage.`,
+  });
 }
 
 function addDirectoryCheck(

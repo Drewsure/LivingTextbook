@@ -44,6 +44,26 @@ and complete the separate persistence policy, session, retention, backup,
 release, and durable-write gates. `process-memory` is a rehearsal provider,
 not a saleable durable storage promise.
 
+## Staged Human Gates
+
+The following flags are intentionally separate from configuration presence:
+
+- `LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED`
+- `LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED`
+- `LIVING_TEXTBOOOK_EVIDENCE_REVIEWS_ENABLED`
+- `LIVING_TEXTBOOOK_PACKAGE_EVIDENCE_REVIEWS_ENABLED`
+- `LIVING_TEXTBOOOK_PACKAGE_REVIEW_PACKETS_ENABLED`
+- `LIVING_TEXTBOOOK_DELIVERY_MODE_DECISIONS_ENABLED`
+- `LIVING_TEXTBOOOK_PROMOTION_ADAPTER_DECISIONS_ENABLED`
+- `LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED`
+- `LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED`
+- `LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_WRITES_ENABLED`
+- `LIVING_TEXTBOOOK_LOCAL_PACKAGE_WRITES_ENABLED` for closed-local or hybrid
+
+Enable these one stage at a time only after the matching evidence and human
+decision are complete. The preflight reports their state but never treats an
+enabled flag as release approval.
+
 ## Verification
 
 Run:
