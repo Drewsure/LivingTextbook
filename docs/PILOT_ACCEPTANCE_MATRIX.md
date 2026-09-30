@@ -31,6 +31,15 @@ required human decisions are recorded.
 
 ## Current Decision
 
+### New source-derived evidence checkpoint
+
+The supplied MiniStar curriculum DOCX is now represented in the source-review
+workspace as a checksum-bound Unit 1 review for `Genki Disco Warmup`. It
+contains the eight source keywords and paragraph provenance. It does not
+contain the two target sentence structures required by the canonical content
+contract, so this evidence advances source review only; it does not advance
+package approval, student payload, QR release, or saleability.
+
 The first saleable pilot is **not yet approved for sale or live student data**.
 The platform has a strong review and rehearsal foundation, including fail-closed
 delivery manifest and release-receipt integrity checks, but the package, QR

@@ -7156,3 +7156,22 @@ student-payload-blocked behavior.
   review-only, white-label, child-safety, or hosted-persistence gates.
 - Recorded the PowerShell verification procedure so the next real publisher
   submission can be executed consistently.
+
+## Build session: Source-derived MiniStar Unit 1 review
+
+- Read the supplied `MINISTAR ENGLISH 8 LEVELS x 40 UNITS.docx` without
+  overwriting it and verified its SHA-256 source identity.
+- Replaced the synthetic MiniStar extraction preview with the actual Unit 01
+  `Genki Disco Warmup` title, topic summary, and eight source keywords.
+- Added a source-derived review panel that shows paragraph provenance, the
+  checksum, the eight terms, and the mismatch between the real source and the
+  old greetings rehearsal package.
+- Recorded that the supplied excerpt contains no target sentence structures;
+  exactly two must be authored and reviewed before any package promotion.
+- Kept draft creation, student payload, assignment, QR, media release, and
+  package promotion blocked.
+- Serial verification passed: source review, source extraction preview, web
+  typecheck, and production webpack build.
+- A concurrent verification attempt left a generated Next build lock; the
+  lock was removed and only the build processes created by that attempt were
+  stopped before the clean build.

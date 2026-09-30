@@ -9982,3 +9982,17 @@ runtime integrity verification. The lane remains separate from raw payload
 access, package export, QR mutation, activation, hosted persistence, and
 learner data. See
 `docs/decision-register/DR-1311-local-package-integrity-read-lane.md`.
+
+## DR-1312: Source-Derived Unit Review Boundary
+
+The supplied MiniStar curriculum DOCX now has a checksum-bound Unit 1 review
+record for `Genki Disco Warmup`, preserving its eight source terms and
+paragraph provenance. The source excerpt does not supply the two target
+sentence structures required by the canonical content contract, so the
+existing greeting demo remains a rehearsal fixture and is not silently treated
+as the source-derived package.
+
+The record remains review-only. It cannot create a draft, package, route,
+assignment, QR target, media playlist, student payload, or release. Sentence
+authoring, Japanese support review, media/rights evidence, and human release
+approval remain open. See ADR 1313.

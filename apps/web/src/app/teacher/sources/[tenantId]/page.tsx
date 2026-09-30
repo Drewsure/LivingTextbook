@@ -3,7 +3,9 @@ import { AppShell } from "@/components/layout/AppShell";
 import { sampleSourceExtractionReviewPackets } from "@/data/sampleSourceExtractionReviewPackets";
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
 import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
+import { sampleMinistarSourceDerivedUnitReview } from "@/data/sampleMinistarSourceDerivedUnitReview";
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
+import { MinistarSourceDerivedUnitReviewPanel } from "@/features/content-intake/MinistarSourceDerivedUnitReviewPanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherSourceReviewWorkspacePage({
@@ -29,6 +31,7 @@ export default async function TeacherSourceReviewWorkspacePage({
         extractionPreviews={sampleSourceExtractionPreviews}
         quarantineId={query.quarantineId}
       />
+      {tenantId === "ministar" ? <MinistarSourceDerivedUnitReviewPanel review={sampleMinistarSourceDerivedUnitReview} /> : null}
     </AppShell>
   );
 }

@@ -26,10 +26,10 @@ export const sampleSourceExtractionReviewPackets: SourceExtractionReviewPacket[]
     ocrConfidenceSummary: "OCR not used. DOCX structure must still be reviewed because headings, tables, and unit breaks can be misread.",
     segmentationReviewPacket: "Level, unit, theme, vocabulary, target sentence, teacher launch, and support-language sections require reviewer signoff.",
     candidatePayloadSummary:
-      "Candidate output: reviewed unit payload with 8 canonical vocabulary terms, 2 target sentence structures, launch protocol, and hiragana-safe Japanese support notes.",
+      "Candidate output: 8 source vocabulary terms for Unit 01 Genki Disco Warmup. Target sentence structures are not present in the supplied DOCX excerpt and must be authored and reviewed before any draft package exists. Review marker: hiragana-safe Japanese support notes remain a separate review gate.",
     requiredReview: [
-      "Confirm the 8 canonical vocabulary terms for each unit.",
-      "Confirm the 2 target sentence structures are age-appropriate.",
+      "Confirm the 8 canonical vocabulary terms for Unit 01 Genki Disco Warmup.",
+      "Author and approve exactly 2 target sentence structures; do not infer approval from the keyword list.",
       "Confirm Foundation/Bronze/Plus Japanese support text remains hiragana-only.",
       "Confirm extracted launch protocol copy is teacher-facing.",
     ],

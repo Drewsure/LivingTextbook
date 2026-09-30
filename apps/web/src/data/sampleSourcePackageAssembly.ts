@@ -21,7 +21,7 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
     label: "MiniStar candidate package assembly",
     mode: "review-only",
     status: "draft-candidate",
-    sourceChecksum: "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    sourceChecksum: "sha256:25fddcd6410fd75dc7f0ff0eea43147dfb00a0538b8c5530c1a070494061154f",
     candidateUnitKeys: ["ministar:ministar-english:L1:U1"],
     candidateMediaAssetIds: ["ministar-l1-u1-greetings-audio", "ministar-l1-u1-greetings-video"],
     approvalLedgerId: "ministar-approval-ledger-preview",
@@ -32,6 +32,7 @@ export const sampleSourcePackageAssemblyPackets: SourcePackageAssemblyPacket[] =
       "teacher_draft_review_handoff",
     ],
     blockers: [
+      "Target sentence structures are absent from the supplied source excerpt and require authored review before package release.",
       "Real partner media files and rights proof remain required before package release.",
       "Teacher review handoff remains evidence-only in the foundation scaffold.",
     ],

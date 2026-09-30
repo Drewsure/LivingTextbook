@@ -50,6 +50,7 @@ export interface SourceExtractionPreview {
   mode: SourceExtractionPreviewMode;
   segments: Array<SourceExtractionPreviewSegment & { normalizedText: string }>;
   unitSummaries: SourceExtractionUnitSummary[];
+  sourceLocationNote?: string;
   blockedActions: readonly string[];
   draftCreationAllowed: false;
   studentFacingPayloadAllowed: false;

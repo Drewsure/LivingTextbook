@@ -84,6 +84,12 @@ export function SourceExtractionReviewPacketPanel({ packets, previews }: SourceE
               <PreviewMetric label="Storage write" value={preview.storageWriteAllowed ? "allowed" : "blocked"} />
             </dl>
 
+            {preview.sourceLocationNote ? (
+              <p className="mt-3 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm leading-6 text-[var(--tenant-muted)]">
+                {preview.sourceLocationNote}
+              </p>
+            ) : null}
+
             <div className="mt-4 grid gap-3">
               {preview.segments.map((segment) => (
                 <section key={segment.segmentId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">

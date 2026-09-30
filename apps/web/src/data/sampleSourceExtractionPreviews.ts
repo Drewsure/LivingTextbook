@@ -7,8 +7,8 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
     sourceId: "src-ministar-master-docx",
     targetPackageId: "ministar-l1-u1-greetings-package",
     sourceType: "docx",
-    sourceChecksum: `sha256:${"a".repeat(64)}`,
-    extractionMethod: "manual-structure",
+    sourceChecksum: "sha256:25fddcd6410fd75dc7f0ff0eea43147dfb00a0538b8c5530c1a070494061154f",
+    extractionMethod: "docx-parse",
     candidateUnitKeys: ["ministar:ministar-english:L1:U1"],
     mode: "review-only",
     segments: [
@@ -18,8 +18,8 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
         sequence: 1,
         kind: "heading",
         unitKey: "ministar:ministar-english:L1:U1",
-        text: "Greetings and introductions",
-        normalizedText: "Greetings and introductions",
+        text: "Unit 01 Genki Disco Warmup",
+        normalizedText: "Unit 01 Genki Disco Warmup",
       },
       {
         segmentId: "ministar-l1-u1-p1-s2",
@@ -27,8 +27,8 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
         sequence: 2,
         kind: "body",
         unitKey: "ministar:ministar-english:L1:U1",
-        text: "Say hello to your teacher and friend.",
-        normalizedText: "Say hello to your teacher and friend.",
+        text: "Basic physical commands and classroom actions.",
+        normalizedText: "Basic physical commands and classroom actions.",
       },
       {
         segmentId: "ministar-l1-u1-p1-s3",
@@ -36,8 +36,8 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
         sequence: 3,
         kind: "instruction",
         unitKey: "ministar:ministar-english:L1:U1",
-        text: "  Listen, point, and repeat. ",
-        normalizedText: "Listen, point, and repeat.",
+        text: "Core Learning Objective Keywords: stand up, sit down, hands up, hands down, clap, cheer, walk, bow.",
+        normalizedText: "Core Learning Objective Keywords: stand up, sit down, hands up, hands down, clap, cheer, walk, bow.",
       },
     ],
     unitSummaries: [
@@ -48,6 +48,8 @@ export const sampleSourceExtractionPreviews: SourceExtractionPreview[] = [
         pageEnd: 1,
       },
     ],
+    sourceLocationNote:
+      "Source-derived from paragraph 16 of the supplied DOCX. DOCX pagination is not stable until a reviewer confirms a rendered page reference; this preview uses document sequence page 1 provisionally.",
     blockedActions: [
       "No teacher draft creation",
       "No package assembly or route creation",
