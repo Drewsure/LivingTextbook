@@ -7459,3 +7459,10 @@ The live publisher quarantine handoff bridge now refreshes the same source
 evidence binding beside package readiness, delivery, release, and persistence
 previews. This keeps provenance and package status on one review surface while
 preserving the separate human gates and all protected-action blockers.
+
+The publisher intake rehearsal exposed and fixed a boundary mismatch: quarantine
+storage records raw hexadecimal checksums while the shared source-evidence
+contract requires the canonical `sha256:<64 hex>` form. The live binding now
+normalizes that representation at the API boundary, and the rehearsal proves
+tenant isolation, checksum continuity, payload exclusion, and blocked package
+activation.

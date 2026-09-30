@@ -10197,3 +10197,11 @@ package evidence projection alongside package readiness and delivery previews.
 This makes source provenance part of the same review conversation without
 merging it into release approval or enabling any protected action. See ADR
 1337.
+
+## DR-1337: Normalize Quarantine Checksums At The Evidence Boundary
+
+Quarantine intake retains a raw hexadecimal SHA-256 value for its storage
+record, while the shared source-to-package evidence contract uses the explicit
+`sha256:<64 hex>` form. The live binding normalizes the value at the API
+boundary and the publisher intake rehearsal verifies that the checksum remains
+continuous without returning source payload data. See ADR 1338.

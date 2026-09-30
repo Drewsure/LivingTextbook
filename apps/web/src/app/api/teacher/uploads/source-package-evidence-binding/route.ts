@@ -39,6 +39,9 @@ export async function GET(request: Request) {
 
   const packageId = requestedPackageId || deriveQuarantinePackageId(tenantId, summary.record.unitKey);
   const reviewDecision = (await readQuarantineReviewDecision(tenantId, quarantineId)).record;
+  const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
+    ? summary.record.checksumSha256
+    : `sha256:${summary.record.checksumSha256}`;
   const bridge = createPublisherSourceToPackageEvidenceBridge({
     tenantId,
     unitKey: summary.record.unitKey || `${tenantId}:unassigned`,
@@ -46,7 +49,7 @@ export async function GET(request: Request) {
     extractionPreviewId: `source-extraction-preview:${quarantineId}:review-only`,
     extractionPacketId: `source-extraction-packet:${quarantineId}:review-only`,
     authoringProposalId: `${packageId}:authoring-proposal:review-only`,
-    sourceChecksum: summary.record.checksumSha256,
+    sourceChecksum,
     sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
     sentenceApprovalRecorded: false,
     audioEvidenceReady: false,

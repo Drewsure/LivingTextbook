@@ -85,6 +85,11 @@ try {
   assert(typeof intake.quarantineId === "string" && intake.record?.studentFacingUseAllowed === false, "quarantine intake must return an opaque id and block student use");
 
   const quarantineId = intake.quarantineId;
+  const sourceBinding = await requestJson(`${baseUrl}/api/teacher/uploads/source-package-evidence-binding?tenantId=${rehearsalTenantId}&quarantineId=${encodeURIComponent(quarantineId)}&packageId=${rehearsalPackageId}`, headers);
+  assert(sourceBinding.status === "review-only" && sourceBinding.bridge?.tenantId === rehearsalTenantId, `fresh publisher source must reach the tenant-scoped source-package evidence binding: ${JSON.stringify(sourceBinding)}`);
+  assert(sourceBinding.bridge?.sourceChecksum === `sha256:${intake.record.checksumSha256}`, "source-package evidence binding must preserve the intake checksum in canonical form");
+  assert(sourceBinding.bridge?.packageAssemblyAllowed === false && sourceBinding.bridge?.studentFacingUseAllowed === false, "source-package evidence binding must remain protected-action blocked");
+  assert(!JSON.stringify(sourceBinding).includes("Publisher Unit 1 rehearsal source"), "source-package evidence binding must not expose raw source payload content");
   const crossTenantReviewResponse = await fetch(`${baseUrl}/api/teacher/uploads/review?tenantId=other-publisher&quarantineId=${encodeURIComponent(quarantineId)}`, { headers, cache: "no-store" });
   const crossTenantReview = await readJson(crossTenantReviewResponse);
   assert([401, 403].includes(crossTenantReviewResponse.status) && crossTenantReview.status === "unauthorized", "the quarantine service token must not authorize review reads for another tenant");
@@ -95,7 +100,7 @@ try {
   const submittedSourceReviewHtml = await submittedSourceReviewPage.text();
   assert(submittedSourceReviewPage.status === 200, "the submitted publisher source must return to the tenant source review workspace");
   assert(submittedSourceReviewHtml.includes("Current publisher submission") && submittedSourceReviewHtml.includes(quarantineId), "source review must carry the opaque quarantine identity forward");
-  assert(submittedSourceReviewHtml.includes("Open metadata review") && submittedSourceReviewHtml.includes("Open package handoff"), "source review must expose the review-only next-step links");
+  assert(submittedSourceReviewHtml.includes("Open metadata review") && submittedSourceReviewHtml.includes("Open package handoff") && submittedSourceReviewHtml.includes("Load live binding"), "source review must expose the review-only next-step links and live binding panel");
   const query = `tenantId=${rehearsalTenantId}&quarantineId=${encodeURIComponent(quarantineId)}&packageId=${rehearsalPackageId}`;
   const handoff = await requestJson(`${baseUrl}/api/teacher/uploads/package-handoff-preview?${query}`, headers);
   assert(handoff.status === "review-only" && handoff.handoff?.writeAllowed === false, "handoff must remain metadata-only");

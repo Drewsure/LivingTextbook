@@ -9250,3 +9250,16 @@ This standard is recorded in DR-1335 and ADR 1336.
   records, credentials, and activation capability.
 
 This standard is recorded in DR-1336 and ADR 1337.
+
+## 580. Normalize Contract Representations At Boundaries
+
+- Storage-specific representations must be normalized at the boundary before
+  they enter a shared evidence or package contract.
+- Checksum records must retain algorithm identity in cross-system evidence, with
+  `sha256:<64 hex>` as the canonical form for the source bridge.
+- Normalization must preserve identity and must never require returning source
+  bytes, filesystem paths, credentials, or learner data.
+- Publisher rehearsals must exercise the real boundary rather than validating
+  only a hand-built sample object.
+
+This standard is recorded in DR-1337 and ADR 1338.
