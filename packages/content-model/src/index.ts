@@ -1966,6 +1966,7 @@ export * from "./gameOffer";
 export * from "./classRoster";
 export * from "./teacherAssignment";
 export * from "./localBundleManifest";
+export * from "./localBundleManifestReviewRecord";
 export * from "./localBundleAssetEvidence";
 export * from "./localBundleHandoff";
 export * from "./localBundleHandoffPersistence";

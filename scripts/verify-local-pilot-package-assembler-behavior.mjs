@@ -6,6 +6,8 @@ import { dirname, join, relative } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+await import("./verify-local-bundle-manifest-review.mjs");
+
 const require = createRequire(import.meta.url);
 const root = dirname(fileURLToPath(new URL("../package.json", import.meta.url)));
 const workspace = mkdtempSync(join(tmpdir(), "living-textbook-local-pilot-assembler-"));

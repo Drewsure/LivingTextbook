@@ -10401,3 +10401,14 @@ delivery metadata, receipt, package index, and QR registry from the supplied
 tenant/package/version custody identity before applying the shared review,
 lineage, asset, bundle, print, and write-gate checks. Placeholder or wildcard
 custody reads are forbidden. See ADR 1359.
+
+## DR-1360: Persist the Reviewed Local Bundle Manifest
+
+The first saleable local pilot now has a durable reviewed bundle-manifest
+record. It binds the exact tenant, package, version, quarantine, package review
+packet, source preflight evidence, reviewer, and canonical manifest checksum.
+The package preflight can reference this record by exact id, so the operator
+does not have to resend an untrusted client copy of the manifest. The record is
+immutable metadata evidence only: package assembly, promotion, QR printing,
+hosted persistence, learner records, and student activation remain false and
+separately gated. See ADR 1360.

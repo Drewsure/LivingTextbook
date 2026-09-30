@@ -9576,3 +9576,21 @@ This standard is recorded in DR-1358 and ADR 1358.
   hosted persistence, or learner-record storage.
 
 This standard is recorded in DR-1359 and ADR 1359.
+
+## 603. Reviewed Bundle Manifests Are Durable Evidence, Not Permission
+
+- A local bundle manifest must be reviewed against the exact tenant, package,
+  version, quarantine, package review packet, and source preflight evidence
+  identities before assembly can be considered.
+- The reviewed manifest is stored as an immutable, tenant-scoped metadata
+  record with a canonical SHA-256 checksum; the package writer may consume its
+  manifest through an exact record id rather than trusting a copied client
+  payload.
+- `reviewed-for-assembly` is an evidence status only. The record must keep
+  package assembly, promotion, QR printing, hosted persistence, student use,
+  and learner-record flags false.
+- The custody root and write gate are separate from package assembly and remain
+  disabled by default. A successful record write never authorizes assembly or
+  release by itself.
+
+This standard is recorded in DR-1360 and ADR 1360.

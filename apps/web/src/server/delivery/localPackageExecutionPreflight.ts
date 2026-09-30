@@ -10,6 +10,7 @@ import { readQuarantinePackageReviewPacket } from "../uploads/quarantineUploadSt
 import { readPilotDeliveryReleaseLineage } from "./pilotDeliveryReleaseLineage";
 import { readPilotDeliveryMetadata } from "./pilotDeliveryMetadataWriter";
 import { readPilotQrAliasRegistry } from "./pilotQrAliasRegistryWriter";
+import { readLocalBundleManifestReview } from "./localBundleManifestReviewWriter";
 import { preflightLocalPilotPackageAssembly, type LocalPilotPackageAssemblyInput, type LocalPilotPackageAssemblyPreflightResult, type LocalPilotPackageReviewBinding } from "./localPilotPackageAssembler";
 
 export type LocalPackageRequest = Omit<LocalPilotPackageAssemblyInput, "reviewPacketBinding"> & {
@@ -22,7 +23,9 @@ export interface LocalPackageRequestDraft {
   packageId: string;
   quarantineId: string;
   reviewPacketId: string;
-  bundleManifest: LocalBundleManifest;
+  version?: string;
+  bundleManifest?: LocalBundleManifest;
+  bundleManifestReviewId?: string;
   operatorId: string;
   writtenAt: string;
 }
@@ -70,19 +73,31 @@ export function isLocalPackageRequest(value: unknown): value is LocalPackageRequ
 export function isLocalPackageRequestDraft(value: unknown): value is LocalPackageRequestDraft {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const candidate = value as Record<string, unknown>;
+  const hasInlineManifest = Boolean(candidate.bundleManifest && typeof candidate.bundleManifest === "object") && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+  const hasReviewedManifestId = typeof candidate.bundleManifestReviewId === "string" && typeof candidate.version === "string" && Boolean(candidate.bundleManifestReviewId.trim()) && Boolean(candidate.version.trim());
   return typeof candidate.tenantId === "string"
     && typeof candidate.packageId === "string"
     && typeof candidate.quarantineId === "string"
     && typeof candidate.reviewPacketId === "string"
     && typeof candidate.operatorId === "string"
     && typeof candidate.writtenAt === "string"
-    && Boolean(candidate.bundleManifest && typeof candidate.bundleManifest === "object")
-    && validateLocalBundleManifest(candidate.bundleManifest).errors.length === 0;
+    && (hasInlineManifest !== hasReviewedManifestId);
 }
 
 export async function hydrateLocalPackageRequestDraft(draft: LocalPackageRequestDraft): Promise<{ input: LocalPackageRequest | null; errors: string[] }> {
   const packageId = draft.packageId;
-  const version = draft.bundleManifest.version;
+  const reviewId = draft.bundleManifestReviewId?.trim();
+  let bundleManifest = draft.bundleManifest;
+  if (reviewId) {
+    const version = draft.version?.trim() ?? "";
+    const reviewed = await readLocalBundleManifestReview({ tenantId: draft.tenantId, packageId, version });
+    if (reviewed.status !== "available") return { input: null, errors: ["The requested reviewed local bundle manifest could not be derived from durable custody.", ...reviewed.errors] };
+    if (reviewed.record.recordId !== reviewId) return { input: null, errors: ["The reviewed local bundle manifest id does not match the exact durable custody record."] };
+    if (reviewed.record.quarantineId !== draft.quarantineId || reviewed.record.reviewPacketId !== draft.reviewPacketId) return { input: null, errors: ["The reviewed local bundle manifest is bound to a different quarantine or review packet."] };
+    bundleManifest = reviewed.record.manifest;
+  }
+  if (!bundleManifest) return { input: null, errors: ["The local package request draft must provide either an inline bundle manifest or a reviewed bundle manifest id."] };
+  const version = bundleManifest.version;
   if (!packageId) return { input: null, errors: ["The local package request draft must provide a bounded package identity before delivery records can be derived."] };
   const [delivery, qrRegistry] = await Promise.all([
     readPilotDeliveryMetadata({ tenantId: draft.tenantId, packageId, version }),
@@ -99,7 +114,7 @@ export async function hydrateLocalPackageRequestDraft(draft: LocalPackageRequest
       receipt: delivery.receipt,
       packageIndex: delivery.packageIndex,
       qrRegistryRecord: qrRegistry.record,
-      bundleManifest: draft.bundleManifest,
+      bundleManifest,
       operatorId: draft.operatorId,
       writtenAt: draft.writtenAt,
       quarantineId: draft.quarantineId,

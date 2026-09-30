@@ -7704,3 +7704,16 @@ gates.
 Full integration requests remain supported. No wildcard custody reads, raw
 record echo, package write, QR print, alias mutation, persistence activation,
 learner record, or student activation was added. Recorded ADR 1359 / DR-1359.
+
+## Build session: Persist the reviewed local bundle manifest
+
+Added a tenant/package/version-scoped reviewed bundle-manifest custody record
+and `POST`/`GET` operator API. The record is checksum-bound to the canonical
+manifest and must match the durable package review packet and publisher source
+preflight evidence. Durable-record local package requests can now reference an
+exact `bundleManifestReviewId` instead of resending the manifest.
+
+The record remains review-only metadata evidence. Its write gate is disabled by
+default and it cannot authorize assembly, promotion, QR printing, hosted
+persistence, learner records, or student-facing activation. Recorded ADR 1360 /
+DR-1360.

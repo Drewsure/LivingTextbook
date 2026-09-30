@@ -34,6 +34,7 @@ const deliveryTokenEnvironment = "LIVING_TEXTBOOOK_PILOT_DELIVERY_API_TOKEN";
 const deliveryTenantEnvironment = "LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS";
 const deliveryRootEnvironment = "LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT";
 const qrRegistryRootEnvironment = "LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_ROOT";
+const localBundleManifestReviewRootEnvironment = "LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT";
 const localPackageRootEnvironment = "LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT";
 const approvedAssetRootEnvironment = "LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT";
 const printBaseUrlEnvironment = "LIVING_TEXTBOOOK_PILOT_PRINT_BASE_URL";
@@ -51,6 +52,7 @@ const reviewGateEnvironments = [
   ["LIVING_TEXTBOOOK_PILOT_DELIVERY_WRITES_ENABLED", "Pilot delivery metadata gate", "all"],
   ["LIVING_TEXTBOOOK_PILOT_RELEASE_RECEIPT_WRITES_ENABLED", "Pilot release receipt gate", "all"],
   ["LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_WRITES_ENABLED", "QR registry write gate", "all"],
+  ["LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_WRITES_ENABLED", "Reviewed local bundle manifest gate", "all"],
   ["LIVING_TEXTBOOOK_APPROVED_ASSET_PROMOTION_WRITES_ENABLED", "Approved asset promotion gate", "all"],
 ] as const;
 
@@ -86,6 +88,7 @@ export function readPilotDeploymentConfiguration(
   addTenantAllowlistCheck(checks, "delivery-tenant-allowlist", "Pilot delivery tenant allowlist", deliveryTenantEnvironment, safeTenantId, "all");
   addDirectoryCheck(checks, "delivery-root", "Pilot delivery metadata root", deliveryRootEnvironment, "all");
   addDirectoryCheck(checks, "qr-registry-root", "QR registry root", qrRegistryRootEnvironment, "all");
+  addDirectoryCheck(checks, "local-bundle-manifest-review-root", "Reviewed local bundle manifest custody root", localBundleManifestReviewRootEnvironment, "all");
   for (const [environmentName, label, requiredFor] of reviewGateEnvironments) addManualEnvironmentGate(checks, environmentName, label, requiredFor);
   addManualGateCheck(checks, "review-writes", "Review and package writes", "all", "Write gates are deliberately disabled by default.", "Enable only after human review, rights, and release evidence are accepted.");
 

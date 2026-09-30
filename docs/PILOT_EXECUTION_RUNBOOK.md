@@ -97,6 +97,17 @@ perform wildcard lookups.
 These are evidence/read lanes, not production print authorization or package
 export controls.
 
+Before the durable-records package request is used, the operator may persist a
+reviewed bundle-manifest record through
+`/api/teacher/delivery/local-package/bundle-manifest-review`. The record is
+bound to the exact tenant/package/version, quarantine, review packet, source
+preflight evidence, reviewer, and canonical manifest checksum. A later
+durable-records request may provide `bundleManifestReviewId` plus `version`
+instead of copying the manifest into the request. This improves custody
+integrity but does not grant assembly or release permission; the record keeps
+all activation and learner-data flags false and the write gate is disabled by
+default.
+
 ## Gate 5: Human Browser Rehearsal
 
 With the real pilot package, a teacher or reviewer must:
