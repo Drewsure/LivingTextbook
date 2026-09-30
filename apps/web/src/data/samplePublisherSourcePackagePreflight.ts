@@ -23,6 +23,8 @@ export const samplePublisherSourcePackageManifest: PublisherSourcePackageManifes
 
 export const samplePublisherSourcePackagePreflight: PublisherSourcePackagePreflightReport = createPublisherSourcePackagePreflightReport({
   manifest: samplePublisherSourcePackageManifest,
+  manifestChecksumSha256: "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  inventoryChecksumSha256: "sha256:2222222222222222222222222222222222222222222222222222222222222222",
   observedFiles: [
     { assetId: "unit-1-source", relativePath: "unit-1/source.pdf", exists: true, sizeBytes: 48210, checksumSha256: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", detectedType: "application/pdf" },
     { assetId: "unit-1-greetings-audio", relativePath: "unit-1/audio/greetings.mp3", exists: true, sizeBytes: 12840, checksumSha256: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", detectedType: "audio/mpeg" },

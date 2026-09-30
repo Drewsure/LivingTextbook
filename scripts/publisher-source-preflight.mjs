@@ -29,20 +29,22 @@ process.exit(report.inventoryStatus === "complete" ? 0 : 2);
 async function preflightDirectory(root) {
   const manifestPath = join(root, "publisher-source-manifest.json");
   let manifest;
+  let manifestBytes;
   try {
-    manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+    manifestBytes = await readFile(manifestPath);
+    manifest = JSON.parse(manifestBytes.toString("utf8"));
   } catch {
     throw new Error(`Publisher source directory must contain publisher-source-manifest.json: ${manifestPath}`);
   }
   const manifestErrors = model.validatePublisherSourcePackageManifest(manifest);
   if (manifestErrors.length > 0) {
-    const report = model.createPublisherSourcePackagePreflightReport({ manifest: normalizeManifest(manifest), observedFiles: [] });
+    const report = model.createPublisherSourcePackagePreflightReport({ manifest: normalizeManifest(manifest), observedFiles: [], manifestChecksumSha256: checksum(manifestBytes), inventoryChecksumSha256: checksum(Buffer.from("", "utf8")) });
     report.blockers.unshift(...manifestErrors.filter((error) => !report.blockers.includes(error)));
     report.inventoryStatus = "incomplete";
     return report;
   }
   const observedFiles = await scanDirectory(root, root, manifest.entries);
-  return model.createPublisherSourcePackagePreflightReport({ manifest, observedFiles });
+  return model.createPublisherSourcePackagePreflightReport({ manifest, observedFiles, manifestChecksumSha256: checksum(manifestBytes), inventoryChecksumSha256: inventoryChecksum(observedFiles) });
 }
 
 async function scanDirectory(root, directory, entries) {
@@ -74,6 +76,18 @@ function mimeTypeFor(relativePath) {
   return ({ pdf: "application/pdf", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", mp3: "audio/mpeg", wav: "audio/wav", mp4: "video/mp4", webm: "video/webm", txt: "text/plain", vtt: "text/vtt", srt: "application/x-subrip", ttf: "font/ttf", otf: "font/otf", woff: "font/woff", woff2: "font/woff2" })[extension] ?? "application/octet-stream";
 }
 
+function checksum(bytes) {
+  return `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+}
+
+function inventoryChecksum(observedFiles) {
+  const canonicalInventory = observedFiles
+    .map((file) => JSON.stringify({ assetId: file.assetId ?? null, relativePath: file.relativePath, exists: file.exists, sizeBytes: file.sizeBytes ?? null, checksumSha256: file.checksumSha256 ?? null, detectedType: file.detectedType ?? null }))
+    .sort()
+    .join("\n");
+  return checksum(Buffer.from(canonicalInventory, "utf8"));
+}
+
 function normalizeManifest(value) {
   return { recordVersion: 1, manifestId: String(value?.manifestId ?? "invalid-manifest"), tenantId: String(value?.tenantId ?? "invalid-tenant"), packageId: String(value?.packageId ?? "invalid-package"), version: String(value?.version ?? "invalid-version"), entries: Array.isArray(value?.entries) ? value.entries : [], reviewOnly: true, quarantineWriteAllowed: false, packageAssemblyAllowed: false, studentFacingUseAllowed: false };
 }
@@ -88,9 +102,13 @@ async function runSelfTest() {
     const complete = await preflightDirectory(root);
     const completeErrors = [...model.validatePublisherSourcePackageManifest(manifest), ...model.validatePublisherSourcePackagePreflightReport(complete)];
     if (complete.inventoryStatus !== "complete" || complete.counts.verified !== 1 || completeErrors.length > 0) throw new Error(`complete source fixture failed: ${JSON.stringify({ complete, completeErrors })}`);
+    if (!/^sha256:[0-9a-f]{64}$/.test(complete.manifestChecksumSha256) || !/^sha256:[0-9a-f]{64}$/.test(complete.inventoryChecksumSha256)) throw new Error("complete source fixture did not produce stable manifest and inventory fingerprints");
+    const tampered = model.validatePublisherSourcePackagePreflightReport({ ...complete, manifestChecksumSha256: "sha256:tampered" });
+    if (!tampered.some((error) => error.includes("manifestChecksumSha256"))) throw new Error("tampered manifest fingerprint was not rejected");
     await writeFile(join(root, "unit-1", "unlisted.txt"), "unlisted", "utf8");
     const blocked = await preflightDirectory(root);
     if (blocked.inventoryStatus !== "incomplete" || blocked.counts.unlisted !== 1 || blocked.studentFacingUseAllowed !== false) throw new Error(`unlisted source fixture was not blocked: ${JSON.stringify(blocked)}`);
+    if (blocked.inventoryChecksumSha256 === complete.inventoryChecksumSha256) throw new Error("inventory fingerprint did not change after an unlisted file was added");
     console.log("PASS publisher source preflight verifies declared files, checksums, supported types, and unlisted-file blocking without package side effects.");
   } finally {
     await rm(root, { recursive: true, force: true });

@@ -57,6 +57,8 @@ export interface PublisherSourcePackagePreflightReport {
   recordVersion: 1;
   reportId: string;
   manifestId: string;
+  manifestChecksumSha256: string;
+  inventoryChecksumSha256: string;
   tenantId: string;
   packageId: string;
   version: string;
@@ -88,6 +90,8 @@ export interface PublisherSourcePackagePreflightReport {
 export function createPublisherSourcePackagePreflightReport(input: {
   manifest: PublisherSourcePackageManifest;
   observedFiles: PublisherSourcePackageObservedFile[];
+  manifestChecksumSha256: string;
+  inventoryChecksumSha256: string;
 }): PublisherSourcePackagePreflightReport {
   const manifestErrors = validatePublisherSourcePackageManifest(input.manifest);
   const entries = Array.isArray(input.manifest.entries) ? input.manifest.entries.filter((entry) => isRecord(entry)) as PublisherSourcePackageManifestEntry[] : [];
@@ -130,6 +134,8 @@ export function createPublisherSourcePackagePreflightReport(input: {
     recordVersion: 1,
     reportId: `${input.manifest.tenantId}:${input.manifest.packageId}:${input.manifest.version}:source-preflight`,
     manifestId: input.manifest.manifestId,
+    manifestChecksumSha256: input.manifestChecksumSha256,
+    inventoryChecksumSha256: input.inventoryChecksumSha256,
     tenantId: input.manifest.tenantId,
     packageId: input.manifest.packageId,
     version: input.manifest.version,
@@ -181,6 +187,7 @@ export function validatePublisherSourcePackagePreflightReport(value: unknown): s
   if (!isRecord(value)) return ["Publisher source package preflight report must be an object."];
   if (value.recordVersion !== 1) errors.push("Publisher source package preflight report recordVersion must be 1.");
   for (const field of ["reportId", "manifestId", "tenantId", "packageId", "version"] as const) if (!isNonEmptyString(value[field])) errors.push(`Publisher source package preflight report ${field} must be non-empty.`);
+  for (const field of ["manifestChecksumSha256", "inventoryChecksumSha256"] as const) if (!/^sha256:[0-9a-f]{64}$/i.test(String(value[field] ?? ""))) errors.push(`Publisher source package preflight report ${field} must use sha256:<64 hexadecimal characters>.`);
   if (value.status !== "blocked" || value.mode !== "review-only" || value.sideEffect !== "none" || value.reviewOnly !== true) errors.push("Publisher source package preflight report must remain blocked, review-only, and side-effect-free.");
   if (!Array.isArray(value.files)) errors.push("Publisher source package preflight report files must be an array.");
   for (const field of ["quarantineWriteAllowed", "packageAssemblyAllowed", "packagePromotionAllowed", "qrPrintAllowed", "hostedPersistenceActivationAllowed", "studentFacingUseAllowed"] as const) if (value[field] !== false) errors.push(`${field} must remain false.`);

@@ -27,6 +27,10 @@ export function PublisherSourcePackagePreflightPanel({ report }: { report: Publi
         <Fact label="Verified" value={String(report.counts.verified)} />
         <Fact label="Unlisted" value={String(report.counts.unlisted)} />
       </dl>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <Fingerprint label="Manifest fingerprint" value={report.manifestChecksumSha256} />
+        <Fingerprint label="Inventory fingerprint" value={report.inventoryChecksumSha256} />
+      </div>
 
       <div className="mt-5 grid gap-3">
         {report.files.map((file) => (
@@ -51,6 +55,10 @@ export function PublisherSourcePackagePreflightPanel({ report }: { report: Publi
       <p className="mt-4 text-xs leading-5 text-[var(--tenant-muted)]">No quarantine write, package assembly, promotion, QR print, hosted activation, or student-facing use is authorized by this report.</p>
     </Card>
   );
+}
+
+function Fingerprint({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3"><p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{label}</p><p className="mt-1 break-all font-mono text-xs text-[var(--tenant-text)]">{value}</p><p className="mt-1 text-xs text-[var(--tenant-muted)]">Use this to reconcile the reviewed folder with later intake evidence.</p></div>;
 }
 
 function Fact({ label, value }: { label: string; value: string }) {

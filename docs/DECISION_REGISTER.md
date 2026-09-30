@@ -10311,3 +10311,12 @@ persistence, create learner records, or start students. It is the first
 publisher-facing source handoff step for the saleable white-label pilot.
 
 See ADR 1350.
+
+## DR-1351: Publisher Source Preflight Fingerprints
+
+Publisher source preflight reports now carry an exact manifest checksum and a
+deterministic aggregate inventory checksum. Later review must reconcile both
+values; a changed fingerprint is a new submission even when tenant, package,
+version, and filenames are unchanged. The fingerprints remain provenance
+evidence only and do not authorize any write, package, QR, persistence, or
+student action. See ADR 1351.

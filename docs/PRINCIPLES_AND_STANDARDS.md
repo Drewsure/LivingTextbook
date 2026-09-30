@@ -9437,3 +9437,19 @@ This standard is recorded in DR-1348 and ADR 1349.
   students.
 
 This standard is recorded in DR-1349 and ADR 1350.
+
+## 594. Publisher Source Preflight Must Preserve Aggregate Fingerprints
+
+- The preflight report must carry a checksum of the exact supplied manifest
+  bytes and a deterministic checksum of the complete observed file inventory.
+- Later source-review evidence must reconcile both fingerprints before treating
+  a preflight as the same publisher submission; matching package identifiers
+  alone are insufficient.
+- A changed fingerprint means a new source submission and requires a new
+  preflight. Operators must not reconcile drift by filename or by trusting a
+  prior report.
+- Aggregate fingerprints are provenance evidence only. They never authorize
+  quarantine, promotion, package assembly, QR printing, persistence, learner
+  records, or student use.
+
+This standard is recorded in DR-1351 and ADR 1351.

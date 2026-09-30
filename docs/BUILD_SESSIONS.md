@@ -7605,3 +7605,12 @@ promote assets, assemble a package, print or mutate QR aliases, activate
 hosted persistence, create learner records, or start students. Added a
 teacher-intake evidence panel, self-test, package command, and ADR 1350 /
 DR-1349.
+
+## Build session: Fingerprint the publisher source handoff
+
+The publisher source preflight now carries an aggregate SHA-256 fingerprint
+for the supplied manifest and a deterministic SHA-256 fingerprint for the
+sorted observed inventory. Per-file checksums remain visible, while the two
+aggregate values make manifest edits and added/removed files detectable during
+later source-review reconciliation. The report remains blocked, local,
+review-only, and side-effect-free. Recorded ADR 1351.

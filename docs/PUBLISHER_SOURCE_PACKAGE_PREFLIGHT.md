@@ -55,6 +55,12 @@ types are accepted, sizes are bounded, checksums are valid, and no unlisted
 files are present. Optional missing files are warnings; they still need human
 review before release.
 
+The report includes two chain-of-custody fingerprints: a checksum of the
+manifest file as supplied and a deterministic checksum of the sorted observed
+file inventory. Preserve both values with the later source-review evidence.
+If either value changes, treat the source folder as a new submission and rerun
+the preflight; do not reconcile it by filename alone.
+
 The output is evidence only. It does not upload, quarantine, promote,
 assemble, print QR codes, activate hosted persistence, create learner records,
 or start students. Follow the existing tenant-scoped source review and
