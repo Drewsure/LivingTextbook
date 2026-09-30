@@ -64,3 +64,6 @@ mode.
 
 This document is an acceptance matrix, not a release approval. It must be
 updated whenever a requirement changes or a closure record is accepted.
+
+The operational path for completing the remaining human gates is documented in
+`docs/PILOT_EXECUTION_RUNBOOK.md`.

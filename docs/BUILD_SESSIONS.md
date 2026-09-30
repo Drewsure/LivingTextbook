@@ -7146,3 +7146,13 @@ student-payload-blocked behavior.
   read, and exposed the read identity from the local package runtime panel.
 - Kept raw payload access, archive/export, QR mutation, package activation,
   hosted persistence, and learner-record writes outside this lane.
+
+## Build session: First pilot execution runbook
+
+- Added one operational runbook from real publisher Unit 1 intake through
+  evidence review, delivery selection, package assembly, QR review, teacher
+  rehearsal, and human release authorization.
+- Made the remaining human closure evidence explicit without weakening
+  review-only, white-label, child-safety, or hosted-persistence gates.
+- Recorded the PowerShell verification procedure so the next real publisher
+  submission can be executed consistently.
