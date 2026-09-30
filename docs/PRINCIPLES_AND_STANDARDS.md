@@ -9469,3 +9469,19 @@ This standard is recorded in DR-1351 and ADR 1351.
   records, or student use.
 
 This standard is recorded in DR-1352 and ADR 1352.
+
+## 596. Source Preflight Evidence Must Be Durable Before Package Review
+
+- A complete preflight report must be attached to the matching quarantine
+  record before the live source-to-package bridge can claim a complete source
+  provenance chain.
+- The attachment must reconcile the verified textbook-source checksum with the
+  quarantined intake checksum and preserve the manifest and inventory
+  fingerprints.
+- Evidence is stored as an immutable, tenant-scoped metadata sidecar. It must
+  not duplicate raw publisher payloads or reveal filesystem paths or URLs.
+- The write gate is disabled by default. The sidecar remains review-only and
+  cannot authorize assembly, promotion, QR printing, hosted persistence,
+  learner records, or student launch.
+
+This standard is recorded in DR-1353 and ADR 1353.

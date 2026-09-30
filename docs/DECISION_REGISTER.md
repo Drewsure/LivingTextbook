@@ -10329,3 +10329,13 @@ fixture shows the intended complete lineage; the live bridge remains blocked
 and reports a provenance gap until a real preflight record is durably attached
 and reconciled. No approval or protected action is inferred from the
 reference. See ADR 1352.
+
+## DR-1353: Durable Publisher Source Preflight Evidence
+
+Complete publisher source preflight reports may be attached to the matching
+tenant/quarantine record as an immutable metadata sidecar. The attachment is
+accepted only when its verified textbook-source checksum matches the
+quarantined intake checksum and its report remains blocked, complete, and
+review-only. The write gate is disabled by default and the sidecar never
+authorizes package assembly, promotion, QR printing, persistence activation,
+student use, or learner data. See ADR 1353.

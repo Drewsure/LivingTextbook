@@ -66,3 +66,19 @@ assemble, print QR codes, activate hosted persistence, create learner records,
 or start students. Follow the existing tenant-scoped source review and
 publisher evidence gates after the preflight passes.
 
+## Attach to quarantine review
+
+After a complete report is reviewed, an authorized teacher or service may
+submit the report to the tenant-scoped source preflight evidence route. The
+route reconciles the report's verified `textbook-source` entry with the exact
+quarantined intake checksum, then writes only a metadata sidecar named
+`source-preflight-evidence.json`. The sidecar preserves the report, manifest,
+version, unit, and aggregate fingerprints needed by later review.
+
+This write path is controlled by the explicit local environment gate
+`LIVING_TEXTBOOOK_SOURCE_PREFLIGHT_EVIDENCE_ENABLED=true` and is disabled by
+default. It is idempotent for the same evidence and rejects conflicting
+evidence. Attaching the report is not approval: package assembly, asset
+promotion, QR printing, hosted persistence, and student use remain blocked by
+their own later gates.
+

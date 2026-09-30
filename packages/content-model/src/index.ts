@@ -1994,6 +1994,8 @@ export * from "./localCompanionReleaseContinuity";
 export * from "./localPilotPackageHandoff";
 export * from "./localPilotPackageOperatorChecklist";
 export * from "./publisherSourcePackagePreflight";
+export * from "./publisherSourcePreflightEvidence";
+export * from "./publisherSourcePreflightEvidence";
 export * from "./localPilotPackageIntegrity";
 export * from "./publisherSubmissionManifest";
 export * from "./publisherSubmissionReviewHandoff";

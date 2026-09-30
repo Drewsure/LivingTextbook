@@ -52,6 +52,7 @@ import {
   readQuarantinePromotionAdapterDecision,
   readQuarantineReviewDecision,
   readQuarantineSentenceApproval,
+  readQuarantineSourcePreflightEvidence,
   readQuarantineUploadRecords,
 } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
@@ -128,6 +129,8 @@ export async function GET(request: Request) {
   const reviewDecisionResult = await readQuarantineReviewDecision(tenantId, quarantineId);
   const reviewDecision = reviewDecisionResult.record;
   const sentenceApprovalResult = await readQuarantineSentenceApproval(tenantId, quarantineId);
+  const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(tenantId, quarantineId);
+  const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
   const sentenceApproval = sentenceApprovalResult.record
     && sentenceApprovalResult.record.packageId === packageId
     && sentenceApprovalResult.record.sourceChecksumSha256 === summary.record.checksumSha256
@@ -149,6 +152,12 @@ export async function GET(request: Request) {
     audioEvidenceReady: packageEvidenceReview?.reviewedLanes.includes("audio") ?? false,
     mediaRightsReady: packageEvidenceReview?.reviewedLanes.includes("rights") ?? false,
     gameVerificationReady: packageEvidenceReview?.reviewedLanes.includes("game") ?? false,
+    preflightReference: sourcePreflightEvidence ? {
+      reportId: sourcePreflightEvidence.reportId,
+      manifestId: sourcePreflightEvidence.manifestId,
+      manifestChecksumSha256: sourcePreflightEvidence.manifestChecksumSha256,
+      inventoryChecksumSha256: sourcePreflightEvidence.inventoryChecksumSha256,
+    } : null,
   });
   const sourcePackageEvidenceBindingErrors = validatePublisherSourceToPackageEvidenceBridge(sourcePackageEvidenceBinding);
   const hostedDeliveryMode = deliveryModeDecision?.selectedMode === "hosted-pwa"
@@ -322,7 +331,7 @@ export async function GET(request: Request) {
     deliveryHandoffRecord: deliveryHandoffRecordErrors.length === 0 ? deliveryHandoffRecord : null,
     sourcePackageEvidenceBinding: sourcePackageEvidenceBindingErrors.length === 0 ? sourcePackageEvidenceBinding : null,
     hostedPersistenceOptInPacket,
-    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...sentenceApprovalResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
+    errors: [...intake.errors, ...packetResult.errors, ...deliveryModeDecisionResult.errors, ...promotionAdapterDecisionResult.errors, ...reviewDecisionResult.errors, ...sentenceApprovalResult.errors, ...sourcePreflightEvidenceResult.errors, ...packageEvidenceReviewResult.errors, ...sourcePackageEvidenceBindingErrors, ...bindingErrors, ...deliveryManifestPreviewErrors, ...releaseReceiptPreviewErrors, ...packageIndexPreviewErrors, ...releasePreflightErrors, ...deliveryClosurePacketErrors, ...assemblyRequestPreviewErrors, ...deliveryHandoffRecordErrors],
     privacy: privacyMessage(),
   });
 }

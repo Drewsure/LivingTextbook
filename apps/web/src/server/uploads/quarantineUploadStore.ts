@@ -34,6 +34,9 @@ import {
   validatePublisherSentenceApprovalRecord,
   type PublisherSentenceApprovalDecision,
   type PublisherSentenceApprovalRecord,
+  createPublisherSourcePreflightEvidenceRecord,
+  validatePublisherSourcePreflightEvidenceRecord,
+  type PublisherSourcePreflightEvidenceRecord,
 } from "@living-textbook/content-model";
 import { validateQuarantineFilesystemPath } from "./quarantinePathPolicy";
 
@@ -187,6 +190,20 @@ export type QuarantineSentenceApprovalReadResult = {
   errors: string[];
 };
 
+export type QuarantineSourcePreflightEvidenceWrite = Omit<PublisherSourcePreflightEvidenceRecord, "recordVersion" | "evidenceId" | "status" | "storageMode" | "reviewOnly" | "packageAssemblyAllowed" | "packagePromotionAllowed" | "qrPrintAllowed" | "hostedPersistenceActivationAllowed" | "studentFacingUseAllowed" | "mode" | "sideEffect">;
+
+export type QuarantineSourcePreflightEvidenceWriteResult = {
+  status: "accepted" | "conflict" | "blocked";
+  idempotent: boolean;
+  record?: PublisherSourcePreflightEvidenceRecord;
+  errors: string[];
+};
+
+export type QuarantineSourcePreflightEvidenceReadResult = {
+  record: PublisherSourcePreflightEvidenceRecord | null;
+  errors: string[];
+};
+
 export async function writeQuarantineUpload(input: QuarantineUploadWrite): Promise<QuarantineUploadWriteResult> {
   const quarantineId = `q-${randomUUID()}`;
   const checksumSha256 = createHash("sha256").update(input.bytes).digest("hex");
@@ -296,6 +313,61 @@ export async function readQuarantineReviewDecision(tenantId: string, quarantineI
     return { record, errors: [] };
   } catch {
     return { record: null, errors: [] };
+  }
+}
+
+export async function readQuarantineSourcePreflightEvidence(tenantId: string, quarantineId: string): Promise<QuarantineSourcePreflightEvidenceReadResult> {
+  if (!isUploadQuarantineSafeTenantId(tenantId) || !safeRecordDirectory(quarantineId)) {
+    return { record: null, errors: ["The source preflight evidence identity did not pass tenant and quarantine boundary checks."] };
+  }
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, tenantId, quarantineId);
+  const evidencePath = resolve(recordDirectory, "source-preflight-evidence.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, evidencePath);
+    assertQuarantineFilesystemPath(evidencePath, root);
+    const value = JSON.parse(await readFile(evidencePath, "utf8")) as unknown;
+    const validationErrors = validatePublisherSourcePreflightEvidenceRecord(value);
+    if (validationErrors.length > 0) return { record: null, errors: ["A stored source preflight evidence record failed validation and was withheld."] };
+    const record = value as PublisherSourcePreflightEvidenceRecord;
+    if (record.tenantId !== tenantId || record.quarantineId !== quarantineId) return { record: null, errors: ["A stored source preflight evidence record failed tenant or identity binding and was withheld."] };
+    return { record, errors: [] };
+  } catch {
+    return { record: null, errors: [] };
+  }
+}
+
+export async function writeQuarantineSourcePreflightEvidence(input: QuarantineSourcePreflightEvidenceWrite): Promise<QuarantineSourcePreflightEvidenceWriteResult> {
+  if (process.env.LIVING_TEXTBOOOK_SOURCE_PREFLIGHT_EVIDENCE_ENABLED !== "true") {
+    return { status: "blocked", idempotent: false, errors: ["Source preflight evidence writes are disabled. Enable the explicit local evidence gate before recording review metadata."] };
+  }
+  const summaries = await readQuarantineUploadRecords(input.tenantId, input.quarantineId);
+  const summary = summaries.records[0];
+  if (!summary || summary.quarantineId !== input.quarantineId) return { status: "blocked", idempotent: false, errors: ["The quarantine record was not available for source preflight evidence capture."] };
+  const intakeChecksum = summary.record.checksumSha256.replace(/^sha256:/i, "").toLowerCase();
+  const sourceChecksum = input.sourceChecksumSha256.replace(/^sha256:/i, "").toLowerCase();
+  if (intakeChecksum !== sourceChecksum) return { status: "blocked", idempotent: false, errors: ["The preflight textbook-source checksum does not match the quarantined intake record."] };
+  const record = createPublisherSourcePreflightEvidenceRecord(input);
+  const validationErrors = validatePublisherSourcePreflightEvidenceRecord(record);
+  if (validationErrors.length > 0) return { status: "blocked", idempotent: false, errors: validationErrors };
+  const root = getQuarantineRoot();
+  const recordDirectory = resolve(root, input.tenantId, input.quarantineId);
+  const evidencePath = resolve(recordDirectory, "source-preflight-evidence.json");
+  try {
+    assertQuarantineFilesystemPath(recordDirectory, root);
+    assertInside(recordDirectory, evidencePath);
+    assertQuarantineFilesystemPath(evidencePath, root);
+    const existing = await readQuarantineSourcePreflightEvidence(input.tenantId, input.quarantineId);
+    if (existing.record) return stableJson(existing.record) === stableJson(record)
+      ? { status: "accepted", idempotent: true, record: existing.record, errors: existing.errors }
+      : { status: "conflict", idempotent: false, errors: ["A different immutable source preflight evidence record is already bound to this quarantine record."] };
+    await writeFile(evidencePath, `${JSON.stringify(record, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    return { status: "accepted", idempotent: false, record, errors: [] };
+  } catch {
+    const existing = await readQuarantineSourcePreflightEvidence(input.tenantId, input.quarantineId);
+    if (existing.record && stableJson(existing.record) === stableJson(record)) return { status: "accepted", idempotent: true, record: existing.record, errors: existing.errors };
+    return { status: "conflict", idempotent: false, errors: ["Source preflight evidence metadata could not be written immutably inside the quarantine custody boundary."] };
   }
 }
 

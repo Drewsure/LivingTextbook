@@ -90,6 +90,20 @@ export function LiveSourcePackageEvidenceBindingPanel({
             <Fact label="Source checksum" value={bridge.sourceChecksum} />
             <Fact label="Open evidence gaps" value={String(bridge.missingEvidence.length)} />
           </div>
+          {bridge.preflightReference ? (
+            <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+              <h3 className="text-sm font-bold text-[var(--tenant-text)]">Publisher source preflight attached</h3>
+              <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
+                <Fact label="Report" value={bridge.preflightReference.reportId} />
+                <Fact label="Manifest" value={bridge.preflightReference.manifestId} />
+                <Fact label="Manifest checksum" value={bridge.preflightReference.manifestChecksumSha256} />
+                <Fact label="Inventory checksum" value={bridge.preflightReference.inventoryChecksumSha256} />
+              </dl>
+              <p className="mt-3 text-xs leading-5 text-[var(--tenant-muted)]">This is immutable review evidence only. It does not approve the source or unlock package assembly.</p>
+            </section>
+          ) : (
+            <p className="mt-5 rounded-lg border border-[var(--tenant-border)] p-4 text-sm leading-6 text-[var(--tenant-muted)]">No durable publisher source preflight evidence is attached to this quarantine record yet.</p>
+          )}
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {bridge.evidenceLanes.map((lane) => (
               <section key={lane.laneId} className="rounded-lg border border-[var(--tenant-border)] p-4">

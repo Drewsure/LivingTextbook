@@ -8,7 +8,7 @@ import {
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
 import { hasUploadQuarantineApiToken } from "@/server/uploads/uploadQuarantineAuthorization";
 import { readBoundedQueryParam } from "@/server/persistence/requestBoundary";
-import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineSentenceApproval, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantineReviewDecision, readQuarantineSentenceApproval, readQuarantineSourcePreflightEvidence, readQuarantineUploadRecords } from "@/server/uploads/quarantineUploadStore";
 import { deriveQuarantinePackageId } from "@/server/uploads/quarantinePackageIdentity";
 
 export const runtime = "nodejs";
@@ -41,6 +41,8 @@ export async function GET(request: Request) {
   const reviewDecision = (await readQuarantineReviewDecision(tenantId, quarantineId)).record;
   const packageEvidenceReview = (await readQuarantinePackageEvidenceReview(tenantId, quarantineId)).record;
   const sentenceApprovalRecord = (await readQuarantineSentenceApproval(tenantId, quarantineId)).record;
+  const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(tenantId, quarantineId);
+  const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
   const sentenceApproval = sentenceApprovalRecord
     && sentenceApprovalRecord.packageId === packageId
     && sentenceApprovalRecord.sourceChecksumSha256 === summary.record.checksumSha256
@@ -63,8 +65,14 @@ export async function GET(request: Request) {
     audioEvidenceReady: reviewedLanes.includes("audio"),
     mediaRightsReady: reviewedLanes.includes("rights"),
     gameVerificationReady: reviewedLanes.includes("game"),
+    preflightReference: sourcePreflightEvidence ? {
+      reportId: sourcePreflightEvidence.reportId,
+      manifestId: sourcePreflightEvidence.manifestId,
+      manifestChecksumSha256: sourcePreflightEvidence.manifestChecksumSha256,
+      inventoryChecksumSha256: sourcePreflightEvidence.inventoryChecksumSha256,
+    } : null,
   });
-  const errors = [...intake.errors, ...validatePublisherSourceToPackageEvidenceBridge(bridge)];
+  const errors = [...intake.errors, ...sourcePreflightEvidenceResult.errors, ...validatePublisherSourceToPackageEvidenceBridge(bridge)];
   return json({ status: "review-only", tenantId, quarantineId, packageId, bridge: errors.length === 0 ? bridge : null, errors, privacy: privacyMessage() });
 }
 

@@ -7623,3 +7623,13 @@ reference shows the complete lineage; the live quarantine bridge remains
 honest when no durable preflight record exists and surfaces that as an open
 provenance gap. Added validation and read-only panel coverage. Recorded ADR
 1352.
+
+## Build session: Durable publisher source preflight evidence
+
+Added a disabled-by-default, tenant/quarantine-scoped metadata sidecar for
+complete publisher source preflight reports. The write path requires a
+verified textbook-source file whose checksum matches the quarantined intake
+record; repeated identical writes are idempotent and conflicting writes fail
+closed. The live source-package and package-readiness bridges now read the
+sidecar and expose only its report and aggregate fingerprints. No payload bytes
+are copied and no protected action is unlocked. Recorded ADR 1353 / DR-1353.
