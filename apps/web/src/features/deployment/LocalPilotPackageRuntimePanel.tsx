@@ -3,6 +3,7 @@ import type {
   LocalPilotPackageRuntimeReadResult,
   LocalPilotPackageRuntimeSummary,
 } from "@/server/delivery/localPilotPackageRuntimeReader";
+import type { LocalPilotPackageOperatorChecklist } from "@living-textbook/content-model";
 import { getLocalPilotPackageHandoffPath, getLocalPilotPackageIntegrityPath, getLocalPilotPackageQrPrintPath } from "@/features/routes/routeContracts";
 
 interface LocalPilotPackageRuntimePanelProps {
@@ -63,6 +64,8 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="Integrity ledger" value={`${summary.integrityFileCount} files verified`} />
         </dl>
       </Card>
+
+      <OperatorChecklistPanel checklist={summary.operatorChecklist} />
 
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -145,6 +148,49 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
       </Card>
 
       <BoundaryPanel />
+    </div>
+  );
+}
+
+function OperatorChecklistPanel({ checklist }: { checklist: LocalPilotPackageOperatorChecklist }) {
+  return (
+    <Card>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-[var(--tenant-muted)]">Publisher delivery packet</p>
+          <h2 className="mt-1 text-xl font-bold">Verified operator handoff checklist</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+            This bounded checklist is the publisher-facing handoff for the verified package. It tells the operator what can be reviewed, printed, and rehearsed without turning the receipt into an export, activation, or learner-data shortcut.
+          </p>
+        </div>
+        <StatusPill label="Verified" tone="success" />
+      </div>
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        {checklist.checks.map((check) => (
+          <section key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <h3 className="text-sm font-bold text-[var(--tenant-text)]">{check.label}</h3>
+              <StatusPill label={check.status} tone="success" />
+            </div>
+            <p className="mt-2 break-words text-xs leading-5 text-[var(--tenant-muted)]">{check.evidence}</p>
+          </section>
+        ))}
+      </div>
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <ChecklistList title="Operator actions" items={checklist.operatorActions} />
+        <ChecklistList title="Still blocked by design" items={checklist.blockedActions} warning />
+      </div>
+    </Card>
+  );
+}
+
+function ChecklistList({ title, items, warning = false }: { title: string; items: string[]; warning?: boolean }) {
+  return (
+    <div className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+      <h3 className="text-sm font-bold text-[var(--tenant-text)]">{title}</h3>
+      <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+        {items.map((item, index) => <li key={`${title}-${index}-${item}`} className={warning ? "border-l-2 border-[var(--tenant-primary)] pl-3" : "border-l-2 border-emerald-500 pl-3"}>{item}</li>)}
+      </ul>
     </div>
   );
 }

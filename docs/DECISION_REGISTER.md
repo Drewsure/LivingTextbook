@@ -10286,3 +10286,13 @@ receipt. Package-scoped promotion is the intended pilot path; the legacy
 flat-root scope remains explicitly labelled as compatibility-only. The receipt
 remains metadata-only and cannot expose raw publisher bytes, learner records,
 credentials, QR mutation, hosted activation, or student writes. See ADR 1348.
+
+## DR-1348: One Bounded Publisher Operator Checklist
+
+The verified local runtime now derives one metadata-only operator checklist
+from the package handoff, assembly custody, QR artifact, route map, game map,
+integrity ledger, privacy boundary, and hosted-persistence state. The checklist
+is white-label and package-scoped, and it can guide review, QR printing, and
+teacher rehearsal. It cannot export payloads, create learner records, mutate
+QR aliases, activate hosted persistence, or authorize student launch. See ADR
+1349.

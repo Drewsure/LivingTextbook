@@ -7581,3 +7581,12 @@ so a generic package-ready flag cannot conceal an unbound asset source. The
 package-scoped promotion path is the intended saleable-pilot path; the
 legacy flat-root path remains named compatibility evidence only. Recorded
 ADR 1348 / DR-1347.
+
+## Build session: Bounded publisher operator checklist
+
+The local package runtime now derives a shared operator checklist from verified
+package records. It presents release lineage, approved asset custody, QR print,
+route fallback, game route, integrity, privacy, and hosted-persistence checks
+in one publisher-facing handoff surface. It also makes the safe operator
+actions explicit while retaining the export, learner-data, QR mutation,
+hosted-activation, and student-launch blockers. Recorded ADR 1349 / DR-1348.

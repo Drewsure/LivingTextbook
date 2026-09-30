@@ -9404,3 +9404,19 @@ This standard is recorded in DR-1346 and ADR 1347.
   records, credentials, QR mutation, hosted activation, or student writes.
 
 This standard is recorded in DR-1347 and ADR 1348.
+
+## 592. Publisher Handoffs Must Have One Bounded Operator Checklist
+
+- A verified local package must expose one shared checklist for release
+  lineage, approved asset custody, QR printing, route fallback, game routes,
+  integrity, privacy, and hosted-persistence policy.
+- Checklist evidence must be derived from the verified runtime records; the UI
+  must not assemble a second, looser interpretation of package readiness.
+- Operator actions may explain review, printing, and rehearsal, but the
+  checklist must not become an export, installer, QR mutation, hosted-activation,
+  learner-record, or student-launch shortcut.
+- The checklist is white-label and package-scoped. It must carry the same
+  tenant, package, version, release, and source checksum identities as the
+  runtime handoff.
+
+This standard is recorded in DR-1348 and ADR 1349.

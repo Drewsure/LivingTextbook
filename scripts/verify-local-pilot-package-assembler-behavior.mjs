@@ -92,6 +92,9 @@ try {
     const runtime = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(runtime.status === "available", "assembled local package must be readable through the runtime reader");
     if (runtime.status === "available") {
+      assert(runtime.summary.operatorChecklist.status === "verified", "runtime must derive a verified operator checklist");
+      assert(runtime.summary.operatorChecklist.checks.length === 8, "operator checklist must cover the eight required handoff checks");
+      assert(runtime.summary.operatorChecklist.blockedActions.includes("No hosted persistence activation"), "operator checklist must preserve hosted activation boundary");
       assert(runtime.summary.tenantConfig.id === "tenant-one" && runtime.summary.tenantConfig.displayName === "Tenant One Textbook", "runtime reader must expose package-owned white-label tenant configuration");
       assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");

@@ -9,6 +9,8 @@ import {
   validatePilotQrPrintArtifact,
   validatePilotQrAliasRegistryRecord,
   validateLocalPilotPackageIntegrity,
+  createLocalPilotPackageOperatorChecklist,
+  validateLocalPilotPackageOperatorChecklist,
   validateLocalPilotPackageHandoff,
   validateContentPackage,
   validateTenantConfig,
@@ -21,6 +23,7 @@ import {
   type TenantConfig,
   type LocalPilotPackageHandoff,
   type LocalPilotPackageIntegrity,
+  type LocalPilotPackageOperatorChecklist,
 } from "@living-textbook/content-model";
 import { validateDurableBackupFilesystemPath } from "../persistence/backupPathPolicy";
 
@@ -68,6 +71,7 @@ export interface LocalPilotPackageRuntimeSummary {
   integrityFileCount: number;
   approvedAssetSourceScope: "package-scoped-promotion" | "legacy-flat-root";
   copiedAssetCount: number;
+  operatorChecklist: LocalPilotPackageOperatorChecklist;
   hostedPersistence: PilotDeliveryManifest["hostedPersistence"];
   hostedPersistenceDecisionPacketId: PilotDeliveryManifest["hostedPersistenceDecisionPacketId"];
   learnerRecordsIncluded: false;
@@ -145,9 +149,7 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
     if (!tenantConfig) return { status: "blocked", summary: null, errors: ["Local package runtime requires an embedded tenant configuration for white-label delivery."] };
     const tenantConfigErrors = validateTenantConfig(tenantConfig, identity.tenantId);
     if (tenantConfigErrors.length > 0) return { status: "blocked", summary: null, errors: tenantConfigErrors };
-    return {
-      status: "available",
-      summary: {
+    const summary: LocalPilotPackageRuntimeSummary = {
         tenantId: identity.tenantId,
         packageId: identity.packageId,
         version: identity.version,
@@ -175,10 +177,29 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         copiedAssetCount: Number(assembly.copiedAssetCount ?? 0),
         hostedPersistence: packageIndex.hostedPersistence,
         hostedPersistenceDecisionPacketId: packageIndex.hostedPersistenceDecisionPacketId,
+        operatorChecklist: createLocalPilotPackageOperatorChecklist({
+          tenantId: identity.tenantId,
+          packageId: identity.packageId,
+          version: identity.version,
+          bundleId: bundle.bundle_id,
+          manifestId: manifest.manifestId,
+          receiptId: String((receiptValue as Record<string, unknown>).receiptId ?? ""),
+          sourceAssemblyChecksum: manifest.sourceAssemblyChecksum,
+          approvedAssetSourceScope: assembly.approvedAssetSourceScope as "package-scoped-promotion" | "legacy-flat-root",
+          copiedAssetCount: Number(assembly.copiedAssetCount ?? 0),
+          qrPrintArtifactId: String((qrPrintValue as Record<string, unknown>).artifactId ?? ""),
+          qrAliasRegistryRecordId: String((qrRegistryValue as Record<string, unknown>).recordId ?? ""),
+          integrityManifestId: String((integrityValue as Record<string, unknown>).integrityManifestId ?? ""),
+          integrityFileCount: Number((integrityValue as Record<string, unknown>).fileCount ?? 0),
+          routeCount: bundle.routes.length,
+          gameRouteCount: packageIndex.gameRoutePaths.length,
+          hostedPersistence: packageIndex.hostedPersistence,
+        }),
         learnerRecordsIncluded: assembly.learnerRecordsIncluded as false,
-      },
-      errors: [],
     };
+    const checklistErrors = validateLocalPilotPackageOperatorChecklist(summary.operatorChecklist);
+    if (checklistErrors.length > 0) return { status: "blocked", summary: null, errors: checklistErrors };
+    return { status: "available", summary, errors: [] };
   } catch {
     return { status: "not-found", summary: null, errors: ["The local pilot package metadata could not be read from the configured package root."] };
   }

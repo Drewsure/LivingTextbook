@@ -17,6 +17,8 @@ for (const [source, marker, label] of [
   [reader, "qr-alias-registry.json", "QR alias registry runtime artifact"],
   [reader, "readLocalPilotPackageQrPrintSheet", "QR print sheet runtime reader"],
   [reader, "readLocalPilotPackageHandoff", "package handoff runtime reader"],
+  [reader, "createLocalPilotPackageOperatorChecklist", "publisher operator checklist"],
+  [reader, "validateLocalPilotPackageOperatorChecklist", "publisher operator checklist validation"],
   [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_HANDOFF_READS_ENABLED", "explicit package handoff read gate"],
   [reader, "LIVING_TEXTBOOOK_LOCAL_PACKAGE_PRINT_READS_ENABLED", "explicit QR print read gate"],
   [reader, "htmlChecksum", "QR print HTML checksum binding"],
