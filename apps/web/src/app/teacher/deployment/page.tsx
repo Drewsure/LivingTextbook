@@ -18,8 +18,10 @@ import { LocalBundleManifestPanel } from "@/features/deployment/LocalBundleManif
 import { LocalCompanionReleaseContinuityPanel } from "@/features/deployment/LocalCompanionReleaseContinuityPanel";
 import { LocalDeploymentPreflightPanel } from "@/features/deployment/LocalDeploymentPreflightPanel";
 import { MediaBundleIntegrityPanel } from "@/features/deployment/MediaBundleIntegrityPanel";
+import { PilotDeploymentConfigurationPanel } from "@/features/deployment/PilotDeploymentConfigurationPanel";
 import { PwaOfflineReadinessPanel } from "@/features/deployment/PwaOfflineReadinessPanel";
 import { PackageTierCatalogPanel } from "@/features/entitlements/PackageTierCatalogPanel";
+import { readPilotDeploymentConfigurationMatrix } from "@/server/delivery/pilotDeploymentConfiguration";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
 
 const deploymentLinks = [
@@ -77,6 +79,9 @@ export default function TeacherDeploymentPage() {
         <DeploymentContinuityHandoffPanel
           handoff={sampleDeploymentContinuityHandoff}
           errors={sampleDeploymentContinuityHandoffErrors}
+        />
+        <PilotDeploymentConfigurationPanel
+          snapshots={readPilotDeploymentConfigurationMatrix(samplePublisherTenant.id)}
         />
         <DeploymentProfilePanel profiles={sampleDeploymentProfiles} />
         <PwaOfflineReadinessPanel gate={samplePwaOfflineReadinessGate} />

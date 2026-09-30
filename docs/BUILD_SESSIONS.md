@@ -7241,3 +7241,17 @@ student-payload-blocked behavior.
 - Extended the publisher rehearsal with a cross-tenant delivery metadata probe.
 - Kept production release, QR printing, hosted persistence activation, and
   student-facing activation behind their existing independent gates.
+## Build session: pilot deployment configuration preflight
+
+Added the first operational configuration layer for the saleable white-label
+pilot. `/teacher/deployment` now mounts a read-only server preflight for the
+hosted PWA, closed local companion, and hybrid paths. The preflight checks the
+exact tenant against upload and delivery allowlists, confirms required custody
+directories, checks local package read lanes, validates the QR print base URL,
+and reports the optional persistence choice.
+
+The snapshot deliberately returns no secret values and cannot enable writes,
+assemble a package, mutate QR routes, activate persistence, or start students.
+Unset environments remain blocked; process-memory remains a non-durable
+rehearsal option. Added `verify:pilot-deployment-configuration` to the
+deployment verification chain and recorded ADR 1320 / DR-1319.
