@@ -7966,3 +7966,14 @@ readiness route derives it from the complete curated-pathway,
 canonical-integration, and package-game-audio record set, so the final closure
 summary cannot appear complete from a generic game lane alone. Recorded ADR
 1387 / DR-1387.
+
+## Build session: Add the publisher pilot intake kit
+
+Added a reusable publisher-facing intake kit generator and shared content-model
+contract. It creates a non-overwriting metadata brief plus folders for source,
+images, audio, video, transcripts, fonts, and background media. The brief
+captures publisher, edition, unit, QR, delivery, reporting, retention, and
+persistence intent, while preserving review-only, no-assembly, and no-student
+flags. The kit reduces the next human handoff to a deterministic package shape;
+rights, scans, accessibility, checksums, package review, QR release, and
+student use remain separate evidence gates. Recorded ADR 1388 / DR-1388.

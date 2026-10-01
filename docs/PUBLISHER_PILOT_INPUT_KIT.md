@@ -1,0 +1,37 @@
+# Publisher Pilot Input Kit
+
+The first saleable white-label pilot needs a real publisher package. This kit
+turns that human handoff into a repeatable, reviewable input without granting
+package assembly, QR printing, persistence, or student use.
+
+## Create A Kit
+
+From PowerShell:
+
+```powershell
+Set-Location -LiteralPath "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+node scripts/create-publisher-pilot-intake-kit.mjs `
+  --root "D:\LIVING TEXTBOOOK PROJECT\publisher-pilot-input" `
+  --tenant-id "publisher-name" `
+  --publisher-name "Publisher Name" `
+  --book-title "Book Title" `
+  --unit-key "series:book:L1:U1"
+```
+
+The generator refuses to overwrite an existing brief. It creates folders for
+source, images, audio, video, transcripts, fonts, and background media, plus a
+`publisher-pilot-intake.json` metadata brief and a handoff README.
+
+## Required Human Completion
+
+The publisher must replace the `REPLACE_WITH_*` placeholders, supply the real
+source and media files, and provide:
+
+- rights owner and permission scope for every file;
+- edition, version, page or section, and unit mapping;
+- target-language audio, transcript/caption, and accessibility evidence;
+- QR page references and the chosen hosted, closed-local, or hybrid mode;
+- teacher reporting, student identity, retention, backup, and persistence policy.
+
+The brief is deliberately review-only. A completed folder is evidence for the
+existing quarantine and source-review workflow, not a release approval.

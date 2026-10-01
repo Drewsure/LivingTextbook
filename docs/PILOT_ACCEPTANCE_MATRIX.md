@@ -83,6 +83,11 @@ updated whenever a requirement changes or a closure record is accepted.
 The operational path for completing the remaining human gates is documented in
 `docs/PILOT_EXECUTION_RUNBOOK.md`.
 
+The next human handoff may use the review-only Publisher Pilot Input Kit in
+`docs/PUBLISHER_PILOT_INPUT_KIT.md`. It standardizes the folder and metadata
+shape but does not count as publisher source, rights, package, QR, persistence,
+or release evidence until the declared files and review records exist.
+
 ## Current Handoff Evidence Boundary
 
 The live publisher handoff now exposes a versioned metadata-only handoff

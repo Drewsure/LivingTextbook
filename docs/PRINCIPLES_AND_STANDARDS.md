@@ -9960,3 +9960,18 @@ This standard is recorded in DR-1386 and ADR 1386.
 - The check remains review evidence only and cannot authorize release, QR printing, persistence activation, or student use.
 
 This standard is recorded in DR-1387 and ADR 1387.
+
+## 631. Publisher Intake Must Be Repeatable And Review-Only
+
+- Every new white-label publisher should receive the same metadata and folder
+  shape for source, images, audio, video, transcripts, fonts, and background
+  media.
+- The intake brief must preserve edition, unit, QR, delivery, reporting,
+  retention, and persistence intent without inventing rights or accessibility
+  approval.
+- Intake kits must refuse accidental overwrite and reject unsafe relative
+  paths.
+- A completed kit is a handoff aid, not proof of package readiness, QR release,
+  persistence activation, or student-facing use.
+
+This standard is recorded in DR-1388 and ADR 1388.

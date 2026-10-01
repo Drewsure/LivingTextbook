@@ -2011,3 +2011,4 @@ export * from "./publisherDeliveryAssemblyRequestPreview";
 export * from "./publisherDeliveryHandoffRecord";
 export * from "./publisherSourceToPackageEvidenceBridge";
 export * from "./approvedAssetPromotion";
+export * from "./publisherPilotIntakeBrief";
