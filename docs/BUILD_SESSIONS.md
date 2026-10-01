@@ -8175,3 +8175,12 @@ with the server-side tenant credential. The panel explicitly states that the
 credential never belongs in JSON, browser fields, QR data, or learner routes.
 This improves operator continuity without adding upload, package, release, QR,
 persistence, or student side effects. Recorded under ADR 1405 / DR-1405.
+
+## Build session: Make the next Z.ai handoff explicit
+
+The pilot acceptance matrix now distinguishes the frozen Z.ai/Phaser snapshot
+from the separate Memory Match candidate evidence package. The next human-side
+external action is to request the complete isolated return package with
+`evidence/return-package.json`; no archive import, route replacement, scoring
+mutation, or student activation is permitted before Codex verification and an
+explicit integration decision. Recorded under ADR 1406 / DR-1406.

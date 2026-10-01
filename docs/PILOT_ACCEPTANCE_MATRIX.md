@@ -27,7 +27,7 @@ required human decisions are recorded.
 | Closed local delivery works | Local companion manifest, package-owned tenant branding across the dynamic package runtime and child routes, route fallback, media inventory, PWA/offline readiness, backup/recovery rehearsal, a package-scoped installer/update/recovery continuity packet, a QR registry record stored beside the print artifact, a verified package handoff receipt, a checksum-bound integrity ledger for copied content/media and generated metadata, and a live review-only assembly request preview that names the exact writer inputs; executable isolated assembly/runtime rehearsal proves typed checksum-bound QR print artifacts, registry binding, verified print-sheet HTML reads, handoff identity binding, integrity read-back, fallback mapping, identity-bound front-door to Memory Match route mapping, content/audio/transcript reads, idempotence, custody, and learner-data exclusion | Planning/review-only | Final checksums, rights, offline package, installer/update artifacts, migration/rollback evidence, local data policy, device test evidence, and human production-print authorization |
 | Opt-in hosted persistence works | Provider-neutral adapter, SQLite implementation, deployment gate, retention/privacy flags, and report recovery rehearsal | Disabled by default | School policy, retention, cost, provider, tenant isolation, backup/restore, and durable-write approval are recorded |
 | White-label packaging is preserved | Tenant-scoped branding, content, language, audio, media, game offer, QR, deployment, policy, pilot command shell, and empty pilot-requirements review contracts; unprovisioned tenants do not inherit Sample Publisher evidence | Foundation-ready | A second publisher package passes the same matrix without MiniStar-only assumptions |
-| Outside game source can be integrated safely | Frozen Phaser/Z.ai source remains isolated; candidate profiles and evidence return-package verifier exist | Import blocked | Complete `evidence/return-package.json`, adjudication, wrapper mapping, contract replay, and explicit integration decision |
+| Outside game source can be integrated safely | Frozen Phaser/Z.ai source remains isolated; candidate profiles, the Memory Match evidence request, human handoff instructions, and the evidence return-package verifier exist | Import blocked; next human handoff | Z.ai returns a separate isolated candidate package containing `evidence/return-package.json`; Codex verifies every lane, adjudicates the wrapper mapping, replays the contract, and records an explicit integration decision |
 
 ## Current Decision
 
@@ -67,6 +67,9 @@ delivery mode.
    delivery mode.
 6. After the evidence packet is complete, authorize QR print and package
    release through the release-control gate.
+7. Ask Z.ai to return the Memory Match evidence package described in
+   `docs/agent-briefs/ZAI_MEMORY_MATCH_HUMAN_HANDOFF.md`. The frozen source ZIP
+   is not that package and must remain outside the repository integration path.
 
 ## Verification Procedure
 

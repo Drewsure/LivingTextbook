@@ -10611,3 +10611,13 @@ while the server credential remains environment-only and the request remains
 review-only. The panel does not create uploads, release packages, print QR
 codes, activate persistence, or enable students. See ADR 1405 and
 `docs/decision-register/DR-1405-visible-source-evidence-submission-handoff.md`.
+
+## DR-1406: Frozen Phaser Snapshot Is Not A Candidate Return Package
+
+The first external game handoff is now explicitly the isolated Memory Match
+evidence package, not the frozen `ministar-lab` ZIP. Z.ai must return
+`evidence/return-package.json` plus the required hash-verified artifacts under
+the approved human handoff. The platform remains review-only until Codex
+verifies the package, replays the shared contracts, maps the wrapper, and
+records an integration decision. See ADR 1406 and
+`docs/decision-register/DR-1406-frozen-snapshot-versus-candidate-return-package.md`.
