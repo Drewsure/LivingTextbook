@@ -230,6 +230,9 @@ execFileSync(process.execPath, ["--experimental-strip-types", "--experimental-sp
 
 const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
 const scripts = packageJson.scripts ?? {};
+const webPackageJson = JSON.parse(readFileSync(new URL("../apps/web/package.json", import.meta.url), "utf8"));
+const auditSource = readFileSync(new URL("./audit-first-saleable-pilot.mjs", import.meta.url), "utf8");
+const buildProofVerifierSource = readFileSync(new URL("./verify-production-build-proof.mjs", import.meta.url), "utf8");
 const foundation = scripts["verify:foundation"] ?? "";
 const requiredCommands = [
   "npm run verify:content-model-boundary",
@@ -260,6 +263,10 @@ const missing = requiredCommands.filter((command) => !foundation.includes(comman
 if (typeof scripts["verify:ai-service"] !== "string") missing.push("scripts.verify:ai-service");
 if (typeof scripts["verify:persistence-runtime"] !== "string") missing.push("scripts.verify:persistence-runtime");
 if (typeof scripts["typecheck:ai-service"] !== "string") missing.push("scripts.typecheck:ai-service");
+if (webPackageJson.scripts?.postbuild !== "node ../../scripts/write-production-build-proof.mjs") missing.push("apps/web postbuild source-bound proof hook");
+if (scripts["verify:production-build-proof"] !== "node scripts/verify-production-build-proof.mjs") missing.push("scripts.verify:production-build-proof");
+if (!auditSource.includes("verify-production-build-proof.mjs") || !auditSource.includes('productionBuildReport?.status === "proved"')) missing.push("saleability audit source-bound build proof gate");
+if (!buildProofVerifierSource.includes("sourceRevision") || !buildProofVerifierSource.includes("buildId")) missing.push("production build proof identity checks");
 
 if (missing.length > 0) {
   for (const item of missing) console.error(`FAIL foundation composition missing: ${item}`);

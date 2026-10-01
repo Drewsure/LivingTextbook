@@ -6,4 +6,8 @@ webpack build; the audit verifies the proof's source revision, build ID,
 timestamp, and command. A commit made after the last build now correctly
 requires a fresh production build before the pilot can advance.
 
+The foundation composition verifier also checks that the web postbuild hook,
+the proof verification command, and the saleability audit remain wired to one
+another.
+
 Recorded under ADR 1415 / DR-1415.
