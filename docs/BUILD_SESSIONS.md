@@ -7947,3 +7947,13 @@ review binding and checked again during staged read-back and runtime reads.
 Negative rehearsal coverage proves that incomplete game evidence and incomplete
 package evidence remain blocked even when delivery, QR, bundle, and asset
 metadata are otherwise valid. Recorded ADR 1385 / DR-1385.
+
+## Build session: Carry canonical game evidence into runtime read-back
+
+The verified local package runtime summary and operator panel now expose the
+reviewed package-evidence status and exact canonical game-derived record IDs
+from the immutable package binding. This gives a publisher-facing operator a
+single evidence trail from review preview through assembled-package read-back,
+without exposing publisher payloads or enabling routes, persistence, QR
+mutation, or student activation. The pilot acceptance matrix now reflects the
+eleven-input assembly preview. Recorded ADR 1386 / DR-1386.

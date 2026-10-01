@@ -55,6 +55,7 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="Version" value={summary.version} />
           <RuntimeFact label="Bundle" value={summary.bundleId} />
           <RuntimeFact label="Delivery mode" value={summary.mode} />
+          <RuntimeFact label="Package evidence" value={summary.packageEvidenceStatus} />
           <RuntimeFact label="Package directory" value={summary.relativeDirectory} />
           <RuntimeFact label="Media kinds" value={summary.mediaKinds.join(", ") || "None"} />
           <RuntimeFact label="Asset custody" value={summary.approvedAssetSourceScope} />
@@ -63,6 +64,24 @@ export function LocalPilotPackageRuntimePanel({ result, tenantDisplayName }: Loc
           <RuntimeFact label="QR registry" value={summary.qrAliasRegistryReady ? "Verified" : "Blocked"} />
           <RuntimeFact label="Integrity ledger" value={`${summary.integrityFileCount} files verified`} />
         </dl>
+      </Card>
+
+      <Card>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Reviewed game evidence</p>
+            <h2 className="mt-1 text-lg font-bold">Canonical game contract carried into the package</h2>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              These platform-derived evidence identities are read back from the immutable package binding. They describe the reviewed game pathway without exposing publisher payloads or enabling new routes.
+            </p>
+          </div>
+          <StatusPill label={`${summary.canonicalGameDerivedEvidenceRecordIds.length} records`} tone="success" />
+        </div>
+        <ul className="mt-4 grid gap-2 md:grid-cols-3">
+          {summary.canonicalGameDerivedEvidenceRecordIds.map((recordId) => (
+            <li key={recordId} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3 text-sm font-semibold text-[var(--tenant-text)]">{recordId}</li>
+          ))}
+        </ul>
       </Card>
 
       <OperatorChecklistPanel checklist={summary.operatorChecklist} />

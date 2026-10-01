@@ -69,6 +69,8 @@ export interface LocalPilotPackageRuntimeSummary {
   tenantConfig: TenantConfig;
   quarantineId: string;
   reviewPacketId: string;
+  packageEvidenceStatus: "reviewed-package-evidence";
+  canonicalGameDerivedEvidenceRecordIds: string[];
   qrPrintArtifactReady: boolean;
   qrAliasRegistryReady: boolean;
   integrityManifestId: string;
@@ -173,6 +175,8 @@ export async function readLocalPilotPackageRuntime(identity: LocalPilotPackageRu
         tenantConfig,
         quarantineId: reviewPacketBinding.quarantineId,
         reviewPacketId: reviewPacketBinding.packetId,
+        packageEvidenceStatus: reviewPacketBinding.packageEvidenceStatus,
+        canonicalGameDerivedEvidenceRecordIds: reviewPacketBinding.canonicalGameDerivedEvidenceRecordIds.slice(),
         qrPrintArtifactReady: true,
         qrAliasRegistryReady: true,
         integrityManifestId: String((integrityValue as Record<string, unknown>).integrityManifestId ?? ""),

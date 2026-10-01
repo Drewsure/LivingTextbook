@@ -145,6 +145,8 @@ try {
       assert(runtime.summary.routes[0]?.localFallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "runtime reader must preserve the resolved package-local QR fallback path");
       assert(runtime.summary.qrPrintArtifactReady === true, "runtime reader must expose the verified QR artifact state");
       assert(runtime.summary.qrAliasRegistryReady === true, "runtime reader must expose the verified QR alias registry state");
+      assert(runtime.summary.packageEvidenceStatus === "reviewed-package-evidence", "runtime reader must expose reviewed package evidence status");
+      assert(runtime.summary.canonicalGameDerivedEvidenceRecordIds.length === 3, "runtime reader must expose the complete canonical game evidence set");
       assert(runtime.summary.integrityFileCount >= 1, "runtime reader must expose the verified integrity ledger state");
       assert(runtime.summary.learnerRecordsIncluded === false, "runtime reader must preserve the learner-record privacy boundary");
       const routeMap = createLocalPilotPackageRouteMap(runtime.summary, "unit-1");

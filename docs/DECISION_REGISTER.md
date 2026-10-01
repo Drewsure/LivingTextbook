@@ -10481,3 +10481,21 @@ never calls the server.
 The generated draft is still subject to the existing machine-authenticated
 preflight, custody, release, QR, asset, package, persistence, privacy, and
 student-safety gates. See ADR 1366.
+
+## DR-1385: Local Assembly Requires Canonical Game Evidence
+
+The local package writer now requires the immutable reviewed package-evidence
+status and all three canonical game-derived record IDs in its review binding.
+The execution preflight reads durable package evidence before producing an
+assembly input, and staged read-back plus runtime reads reject incomplete or
+tampered bindings. The evidence remains metadata-only and does not authorize
+release, QR printing, persistence activation, student use, or learner records.
+See ADR 1385.
+
+## DR-1386: Runtime Read-Back Preserves Game Evidence Lineage
+
+The verified local package runtime now carries the reviewed package-evidence
+status and exact canonical game-derived record IDs into its bounded summary and
+operator panel. The operator can audit the same game evidence after assembly;
+the runtime still cannot expose publisher payloads, create routes, mutate QR
+aliases, activate persistence, or start students. See ADR 1386.

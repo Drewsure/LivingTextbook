@@ -9942,3 +9942,12 @@ This standard is recorded in DR-1384 and ADR 1384.
 - These checks remain evidence gates only; release approval, QR printing, persistence activation, student use, and learner-record writes remain separately controlled.
 
 This standard is recorded in DR-1385 and ADR 1385.
+
+## 629. Runtime Read-Back Must Preserve Game Evidence Lineage
+
+- A verified local package runtime must expose the reviewed package-evidence status and canonical game-derived record IDs as bounded metadata.
+- Operator views may show evidence identities for audit, but must not expose publisher payloads or infer new routes from them.
+- Runtime read-back must use the same immutable binding checked by assembly and must reject evidence drift before presenting the package as verified.
+- This audit surface does not authorize release, QR mutation, persistence activation, student use, or learner-record storage.
+
+This standard is recorded in DR-1386 and ADR 1386.
