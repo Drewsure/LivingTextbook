@@ -9809,3 +9809,19 @@ This standard is recorded in DR-1373 and ADR 1373.
   student use.
 
 This standard is recorded in DR-1374 and ADR 1374.
+
+## 618. Publisher Submission Manifest Lanes Must Match Intake Policy
+
+- The publisher-facing submission manifest must advertise the same accepted
+  format sets as the upload policy, source-manifest starter, and executable
+  preflight; a review UI must not promise a format that a lower gate rejects.
+- Video lanes contain video formats only: MP4, WEBM, and MOV. Poster frames,
+  diagrams, and other still imagery belong to the image lane so rights,
+  accessibility, and later delivery checks remain explicit.
+- Any format-lane change requires a focused verifier covering the declaration,
+  source preflight, and the publisher-facing manifest together.
+- This alignment is compatibility evidence only. It does not establish rights,
+  accessibility approval, package readiness, release authorization, QR printing,
+  persistence, or student-facing use.
+
+This standard is recorded in DR-1375 and ADR 1375.

@@ -48,11 +48,22 @@ try {
 
 const route = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "uploads", "[tenantId]", "page.tsx"), "utf8");
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "content-intake", "PublisherSubmissionManifestPanel.tsx"), "utf8");
+const template = readFileSync(join(root, "apps", "web", "src", "data", "publisherSubmissionManifest.ts"), "utf8");
 if (!route.includes("PublisherSubmissionManifestPanel") || !route.includes("createPublisherSubmissionManifestTemplate")) failures.push("upload route must mount the submission manifest");
 for (const marker of ["Publisher submission manifest", "Promotion blocked", "Student use blocked", "Support languages"]) {
   if (!panel.includes(marker)) failures.push(`submission manifest panel is missing marker: ${marker}`);
 }
 if (panel.includes("type=\"file\"") || panel.includes("fetch(") || panel.includes("navigator.mediaDevices")) failures.push("submission manifest panel must remain read-only");
+for (const marker of [
+  '["pdf", "docx", "txt", "md", "csv"]',
+  '["png", "jpg", "jpeg", "webp", "svg"]',
+  '["mp3", "wav", "m4a", "ogg"]',
+  '["mp4", "webm", "mov"]',
+  '["mp3", "wav", "m4a", "ogg", "mp4", "webm", "mov"]',
+]) {
+  if (!template.includes(marker)) failures.push(`submission manifest template is missing supported format lane: ${marker}`);
+}
+if (template.includes('["mp4", "webm", "jpg", "png"]')) failures.push("video lane must not mix poster image formats with video formats");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);

@@ -25,13 +25,13 @@ export function createPublisherSubmissionManifestTemplate({
     filePromotionAllowed: false,
     studentFacingUseAllowed: false,
     assets: [
-      asset("textbook-source", "Textbook source document", true, unitKey, ["pdf", "docx", "txt"], "Source, scan, and mapping review"),
-      asset("image", "Labelled diagrams and unit images", false, unitKey, ["png", "jpg", "webp"], "Image rights, labels, and accessibility review"),
-      asset("audio", "Learning audio and music tracks", false, unitKey, ["mp3", "wav", "m4a"], "Rights, transcript, cue, and audio-coverage review"),
-      asset("video", "Unit video and poster", false, unitKey, ["mp4", "webm", "jpg", "png"], "Rights, captions, poster, and delivery review"),
+      asset("textbook-source", "Textbook source document", true, unitKey, ["pdf", "docx", "txt", "md", "csv"], "Source, scan, and mapping review"),
+      asset("image", "Labelled diagrams and unit images", false, unitKey, ["png", "jpg", "jpeg", "webp", "svg"], "Image rights, labels, and accessibility review"),
+      asset("audio", "Learning audio and music tracks", false, unitKey, ["mp3", "wav", "m4a", "ogg"], "Rights, transcript, cue, and audio-coverage review"),
+      asset("video", "Unit video", false, unitKey, ["mp4", "webm", "mov"], "Rights, captions, poster image, and delivery review"),
       asset("transcript", "Transcripts and captions", false, unitKey, ["txt", "vtt", "srt"], "Accessibility and language review"),
       asset("font", "Approved learner font package", false, unitKey, ["woff2", "woff", "ttf", "otf"], "Font license, script coverage, and rendering review"),
-      asset("background-media", "Optional game background media", false, unitKey, ["mp3", "wav", "mp4", "webm"], "Background-media policy and learning-audio priority review"),
+      asset("background-media", "Optional game background media", false, unitKey, ["mp3", "wav", "m4a", "ogg", "mp4", "webm", "mov"], "Background-media policy and learning-audio priority review"),
     ],
   };
 }

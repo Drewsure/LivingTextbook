@@ -7850,3 +7850,13 @@ Aligned the source manifest starter and real preflight with the established
 upload policy for Markdown/CSV sources, SVG images, M4A/OGG audio, MOV video,
 and the matching background-media lanes. The helper self-test now runs those
 formats through the real detector. Recorded ADR 1374 / DR-1374.
+
+## Build session: Align the publisher submission manifest format lanes
+
+Aligned the higher-level publisher submission manifest with the same format
+contract used by the upload policy, source manifest starter, and real
+preflight. Markdown/CSV, JPEG/SVG, OGG, MOV, and the complete background-media
+set are now represented consistently. Video no longer claims poster images as
+video files; posters belong to the image lane and remain subject to the same
+rights and accessibility review. Added a regression check for all declared
+lanes. Recorded ADR 1375 / DR-1375.
