@@ -8015,3 +8015,7 @@ this adapter instead of maintaining a second hand-authored QR list.
 The adapter is evidence mapping only. It does not write a registry, authorize
 printing, mutate routes, activate persistence, or enable student use. Recorded
 under ADR 1389 / DR-1389.
+
+Both the source QR preview verifier and the adapter verifier are now part of
+`npm run verify:foundation`, so this provenance boundary is protected by the
+same all-up gate as the rest of the pilot.
