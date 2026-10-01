@@ -10088,3 +10088,19 @@ This standard is recorded in DR-1395 and ADR 1395.
   before a package can be described as ready for delivery.
 
 This standard is recorded in DR-1396 and ADR 1396.
+
+## 641. Pilot Package Delivery Must Be Preflight-First And Deliberate
+
+- A controlled local or hybrid pilot must use a non-overwriting request draft,
+  tenant-scoped operator authorization, and a read-only preflight before any
+  package write.
+- Assembly requires an explicit one-shot operator confirmation and must use
+  the existing source, package-evidence, release, QR, custody, and path gates;
+  it must never infer approval from a reachable endpoint.
+- Operator tokens must remain server-side and outside request JSON, browser
+  fields, QR data, and learner-visible routes.
+- The assembled package must be integrity-verified and rehearsed through its
+  local front door before handoff. Hosted persistence, QR mutation, learner
+  records, and student activation remain separate decisions.
+
+This standard is recorded in DR-1397 and ADR 1397.

@@ -10526,3 +10526,12 @@ immutable package review. Their validators reject missing or duplicate
 lineage, and their panels expose it as review metadata. No release, assembly,
 promotion, QR print, persistence, or student action is enabled. See ADR 1396
 and `docs/decision-register/DR-1396-review-journey-and-closure-evidence-lineage.md`.
+
+## DR-1397: Pilot Package Execution Runbook
+
+The controlled local or hybrid pilot now has an explicit preflight-first
+operator procedure. It creates a non-overwriting request draft, requires
+tenant-scoped machine authorization and one-shot assembly confirmation, and
+requires integrity read-back before handoff. Hosted persistence, QR mutation,
+learner records, and student activation remain separate gates. See ADR 1397
+and `docs/decision-register/DR-1397-pilot-package-execution-runbook.md`.

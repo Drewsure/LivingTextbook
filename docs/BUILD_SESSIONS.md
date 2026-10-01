@@ -8089,3 +8089,14 @@ The lineage remains metadata-only. Missing or duplicate request IDs fail
 closed, while release receipt writes, package assembly, promotion, QR
 printing, persistence activation, and student use remain blocked. Recorded
 under ADR 1396 / DR-1396.
+
+## Build session: Make pilot package delivery executable and deliberate
+
+Added `docs/PILOT_PACKAGE_EXECUTION_RUNBOOK.md` and a foundation verifier for
+the controlled local/hybrid delivery procedure. The runbook turns the existing
+operator command into a repeatable handoff: create a non-overwriting request
+draft, run read-only preflight, require one-shot explicit assembly confirmation,
+verify package integrity and QR output, and rehearse the local front door.
+Operator tokens remain server-side, while hosted persistence, QR mutation,
+learner records, and student activation remain separate gates. Recorded under
+ADR 1397 / DR-1397.
