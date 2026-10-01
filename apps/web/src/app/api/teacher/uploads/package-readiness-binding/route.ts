@@ -263,6 +263,8 @@ export async function GET(request: Request) {
     sourceChecksumSha256: handoff.checksumSha256,
     selectedMode: deliveryManifestPreview.selectedMode,
     sourcePreflightEvidencePresent: Boolean(sourcePreflightEvidence && sourcePreflightEvidence.packageId === packageId && sourcePreflightEvidence.sourceChecksumSha256 === sourceChecksum),
+    reviewedPackageEvidencePresent: packageEvidenceReview?.status === "reviewed-package-evidence",
+    canonicalGameEvidenceComplete: hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds),
     deliveryManifestPresent: false,
     releaseReceiptPresent: false,
     qrRegistryPresent: false,

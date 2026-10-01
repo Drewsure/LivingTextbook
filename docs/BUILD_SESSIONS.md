@@ -7929,3 +7929,11 @@ The metadata-only publisher delivery handoff now preserves the exact canonical
 game-derived evidence IDs from the immutable package review. Its validator
 rejects a complete package status without the full set, and the handoff panel
 exposes the IDs without enabling writes. Recorded ADR 1383 / DR-1383.
+
+## Build session: Require reviewed game evidence at assembly preview
+
+The publisher delivery assembly request preview now enumerates explicit inputs
+for complete reviewed package evidence and complete canonical game evidence.
+The writer boundary therefore cannot look ready from source, bundle, release,
+or QR metadata alone. The preview remains blocked and side-effect-free.
+Recorded ADR 1384 / DR-1384.

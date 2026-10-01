@@ -9922,3 +9922,14 @@ This standard is recorded in DR-1382 and ADR 1382.
   printing, persistence activation, or student-facing use.
 
 This standard is recorded in DR-1383 and ADR 1383.
+
+## 627. Assembly Must Require The Reviewed Multimedia/Game Package
+
+- The assembly preview must explicitly require complete reviewed package
+  evidence and complete canonical game evidence.
+- Source, bundle, release, QR, and operator metadata cannot substitute for the
+  reviewed multimedia/game package promised to a publisher.
+- These inputs remain separate from release approval and do not invoke a
+  writer, create QR output, activate persistence, or expose students.
+
+This standard is recorded in DR-1384 and ADR 1384.
