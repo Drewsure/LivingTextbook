@@ -81,8 +81,9 @@ remaining approved media/font/background entries, then run the preflight above.
 The generated declaration remains review-only: it cannot promote files,
 assemble a package, print QR codes, activate persistence, or start students.
 Its `acceptedTypes` values are MIME types, so the declaration and the
-preflight's detected file types remain aligned for PDF, DOCX, image, audio,
-video, transcript, font, and background-media lanes.
+preflight's detected file types remain aligned for PDF, DOCX, TXT, Markdown,
+CSV, SVG/image, MP3/WAV/M4A/OGG audio, MP4/WEBM/MOV video, transcript, font,
+and background-media lanes.
 
 The report includes two chain-of-custody fingerprints: a checksum of the
 manifest file as supplied and a deterministic checksum of the sorted observed

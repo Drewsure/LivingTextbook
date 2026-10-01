@@ -5,22 +5,22 @@ import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
 const acceptedExtensionsByKind = {
-  "textbook-source": ["pdf", "docx", "txt"],
-  image: ["png", "jpg", "jpeg", "webp"],
-  audio: ["mp3", "wav"],
-  video: ["mp4", "webm"],
+  "textbook-source": ["pdf", "docx", "txt", "md", "csv"],
+  image: ["png", "jpg", "jpeg", "webp", "svg"],
+  audio: ["mp3", "wav", "m4a", "ogg"],
+  video: ["mp4", "webm", "mov"],
   transcript: ["txt", "vtt", "srt"],
   font: ["woff2", "woff", "ttf", "otf"],
-  "background-media": ["mp3", "wav", "mp4", "webm"],
+  "background-media": ["mp3", "wav", "m4a", "ogg", "mp4", "webm", "mov"],
 };
 const acceptedTypesByKind = {
-  "textbook-source": ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain"],
-  image: ["image/png", "image/jpeg", "image/webp"],
-  audio: ["audio/mpeg", "audio/wav"],
-  video: ["video/mp4", "video/webm"],
+  "textbook-source": ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain", "text/markdown", "text/csv"],
+  image: ["image/png", "image/jpeg", "image/webp", "image/svg+xml"],
+  audio: ["audio/mpeg", "audio/wav", "audio/mp4", "audio/ogg"],
+  video: ["video/mp4", "video/webm", "video/quicktime"],
   transcript: ["text/plain", "text/vtt", "application/x-subrip"],
   font: ["font/woff2", "font/woff", "font/ttf", "font/otf"],
-  "background-media": ["audio/mpeg", "audio/wav", "video/mp4", "video/webm"],
+  "background-media": ["audio/mpeg", "audio/wav", "audio/mp4", "audio/ogg", "video/mp4", "video/webm", "video/quicktime"],
 };
 
 const options = parseArguments(process.argv.slice(2));
@@ -117,18 +117,19 @@ async function runSelfTest() {
       "--version", "1.0.0",
       "--unit-key", "self-test:series:L1:U1",
       "--source", "unit-1/source.pdf",
-      "--asset", "image=unit-1/diagram.png",
-      "--asset", "audio=unit-1/greetings.mp3",
-      "--asset", "video=unit-1/lesson.mp4",
+      "--asset", "image=unit-1/diagram.svg",
+      "--asset", "audio=unit-1/greetings.m4a",
+      "--asset", "video=unit-1/lesson.mov",
       "--asset", "transcript=unit-1/lesson.vtt",
+      "--asset", "background-media=unit-1/background.ogg",
     ];
     await mkdir(join(root, "unit-1"), { recursive: true });
-    for (const file of ["source.pdf", "diagram.png", "greetings.mp3", "lesson.mp4", "lesson.vtt"]) await writeFile(join(root, "unit-1", file), `fixture:${file}`, "utf8");
+    for (const file of ["source.pdf", "diagram.svg", "greetings.m4a", "lesson.mov", "lesson.vtt", "background.ogg"]) await writeFile(join(root, "unit-1", file), `fixture:${file}`, "utf8");
     const generated = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (generated.status !== 0) throw new Error(`manifest template CLI failed: ${generated.stderr}`);
     const manifestPath = join(root, "publisher-source-manifest.json");
     const stored = JSON.parse(await readFile(manifestPath, "utf8"));
-    if (stored.entries.length !== 5 || stored.entries[1].acceptedTypes[0] !== "image/png" || stored.entries[0].required !== true || stored.entries[2].kind !== "audio") throw new Error("manifest template self-test did not preserve MIME and entry metadata");
+    if (stored.entries.length !== 6 || stored.entries[1].acceptedTypes[0] !== "image/png" || stored.entries[2].acceptedTypes.includes("audio/mp4") !== true || stored.entries[0].required !== true || stored.entries[2].kind !== "audio") throw new Error("manifest template self-test did not preserve MIME and entry metadata");
     const preflight = spawnSync(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./publisher-source-preflight.mjs", import.meta.url))], { encoding: "utf8", env: { ...process.env, LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY: root } });
     if (preflight.status !== 0 || !preflight.stdout.includes('"inventoryStatus": "complete"')) throw new Error(`generated manifest was not accepted by source preflight: ${preflight.stdout}\n${preflight.stderr}`);
     console.log("PASS publisher source manifest template creates safe MIME declarations accepted by source preflight without package side effects.");

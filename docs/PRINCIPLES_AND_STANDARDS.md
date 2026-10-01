@@ -9793,3 +9793,19 @@ This standard is recorded in DR-1372 and ADR 1372.
   publisher tenant and the empty white-label tenant workspace.
 
 This standard is recorded in DR-1373 and ADR 1373.
+
+## 617. Publisher Media Format Promises Must Be Executable
+
+- Every source format advertised by the white-label upload policy must be
+  accepted or explicitly rejected by the publisher manifest starter and the
+  real source preflight using the same MIME vocabulary.
+- The v1 intake lanes cover PDF, DOCX, TXT, Markdown, CSV, SVG and raster
+  images, MP3/WAV/M4A/OGG audio, MP4/WEBM/MOV video, transcripts, fonts, and
+  approved background media.
+- Adding a format requires detector, declaration, documentation, and fixture
+  coverage together; changing only the visible upload list is not sufficient.
+- Format compatibility remains review evidence only and cannot authorize
+  rights, accessibility, promotion, release, QR printing, persistence, or
+  student use.
+
+This standard is recorded in DR-1374 and ADR 1374.

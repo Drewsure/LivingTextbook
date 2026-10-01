@@ -7843,3 +7843,10 @@ upload workspaces. It presents the safe PowerShell declaration command, the
 expected Unit 1 media lanes, the next preflight action, and the protected
 actions that remain blocked. Active-route verification now guards those
 markers. Recorded ADR 1373 / DR-1373.
+
+## Build session: Reconcile advertised publisher media formats
+
+Aligned the source manifest starter and real preflight with the established
+upload policy for Markdown/CSV sources, SVG images, M4A/OGG audio, MOV video,
+and the matching background-media lanes. The helper self-test now runs those
+formats through the real detector. Recorded ADR 1374 / DR-1374.

@@ -73,7 +73,7 @@ async function scanDirectory(root, directory, entries) {
 
 function mimeTypeFor(relativePath) {
   const extension = relativePath.toLowerCase().split(".").pop();
-  return ({ pdf: "application/pdf", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp", mp3: "audio/mpeg", wav: "audio/wav", mp4: "video/mp4", webm: "video/webm", txt: "text/plain", vtt: "text/vtt", srt: "application/x-subrip", ttf: "font/ttf", otf: "font/otf", woff: "font/woff", woff2: "font/woff2" })[extension] ?? "application/octet-stream";
+  return ({ pdf: "application/pdf", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp", svg: "image/svg+xml", mp3: "audio/mpeg", wav: "audio/wav", m4a: "audio/mp4", ogg: "audio/ogg", mp4: "video/mp4", webm: "video/webm", mov: "video/quicktime", txt: "text/plain", md: "text/markdown", csv: "text/csv", vtt: "text/vtt", srt: "application/x-subrip", ttf: "font/ttf", otf: "font/otf", woff: "font/woff", woff2: "font/woff2" })[extension] ?? "application/octet-stream";
 }
 
 function checksum(bytes) {
