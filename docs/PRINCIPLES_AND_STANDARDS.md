@@ -10321,3 +10321,17 @@ This standard is recorded in DR-1416 and ADR 1416.
   before advancing the saleability gate.
 
 This standard is recorded in DR-1417 and ADR 1417.
+
+## 660. Publisher Preflight Evidence Must Be Durable And Checksum-Bound
+
+- A publisher intake preflight is not saleability evidence unless its
+  create-once report is preserved in the external handoff at
+  `evidence/publisher-intake-preflight.json`.
+- The preserved report must record a complete inventory, review-only protected
+  actions, and the SHA-256 checksum of the exact intake brief that was
+  preflighted.
+- If the publisher edits the intake brief after preflight, the saleability
+  audit must block until a new report is created; stale evidence may not pass
+  by filename or presence alone.
+
+This standard is recorded in DR-1418 and ADR 1418.

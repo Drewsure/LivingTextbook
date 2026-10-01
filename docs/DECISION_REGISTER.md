@@ -10709,3 +10709,12 @@ The saleability audit rejects publisher roots inside the repository before
 canonical preflight. Sample/reference fixtures remain rehearsal material, not
 commercial publisher evidence. See ADR 1417 and
 `docs/decision-register/DR-1417-external-publisher-source-boundary.md`.
+
+## DR-1418: Checksum-Bound Publisher Preflight Evidence
+
+The saleability audit now requires the external publisher handoff to preserve
+the create-once intake preflight report at
+`evidence/publisher-intake-preflight.json`. The report includes the intake
+brief checksum and is rechecked against the current brief, so an edited or
+stale publisher handoff cannot advance by filename presence alone. See ADR
+1418 and `docs/decision-register/DR-1418-checksum-bound-publisher-preflight-evidence.md`.

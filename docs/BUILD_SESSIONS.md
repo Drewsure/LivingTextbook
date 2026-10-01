@@ -8269,3 +8269,12 @@ under ADR 1416 / DR-1416.
 The first-pilot audit now blocks in-repository publisher roots and preserves
 the external custody boundary before canonical source preflight. Its self-test
 covers the false-ready case. Recorded under ADR 1417 / DR-1417.
+
+## Build session: Bind publisher intake evidence to the exact brief
+
+Extended the publisher intake preflight with a versioned report and SHA-256
+checksum of the exact `publisher-pilot-intake.json` that was reviewed. The
+first-pilot audit now requires the durable create-once report at
+`evidence/publisher-intake-preflight.json`, checks that inventory is complete,
+and blocks when the brief has changed since the report was created. Added
+positive and stale-evidence self-tests. Recorded under ADR 1418 / DR-1418.

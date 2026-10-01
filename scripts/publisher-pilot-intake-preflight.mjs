@@ -1,4 +1,5 @@
 import { access, mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -18,8 +19,10 @@ if (!options.root) fail("Missing --root.");
 const root = resolve(options.root);
 const briefPath = join(root, "publisher-pilot-intake.json");
 let brief;
+let briefSource;
 try {
-  brief = JSON.parse(await readFile(briefPath, "utf8"));
+  briefSource = await readFile(briefPath, "utf8");
+  brief = JSON.parse(briefSource);
 } catch (error) {
   fail(`Cannot read publisher-pilot-intake.json: ${error.message}`);
 }
@@ -57,8 +60,10 @@ if (!Array.isArray(brief.evidenceRequests) || brief.evidenceRequests.length === 
 if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) structuralErrors.push("At least one structured QR reference is required.");
 
 const result = {
+  reportVersion: 1,
   briefId: brief.briefId ?? "unknown",
   tenantId: brief.tenantId ?? "unknown",
+  briefChecksumSha256: sha256(briefSource),
   deliveryMode: brief.deliveryMode ?? "unknown",
   inventoryStatus: missingFiles.length === 0 && unsafePaths.length === 0 && placeholderFields.length === 0 && structuralErrors.length === 0 ? "complete" : "incomplete",
   declaredFileCount: declaredFiles.length,
@@ -86,6 +91,10 @@ function findPlaceholders(value, path = "brief") {
   else if (Array.isArray(value)) value.forEach((item, index) => results.push(...findPlaceholders(item, `${path}[${index}]`)));
   else if (value && typeof value === "object") Object.entries(value).forEach(([key, child]) => results.push(...findPlaceholders(child, `${path}.${key}`)));
   return results;
+}
+
+function sha256(value) {
+  return createHash("sha256").update(value, "utf8").digest("hex");
 }
 
 function isSafeRelativePath(value) {
