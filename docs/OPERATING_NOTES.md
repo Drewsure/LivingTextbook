@@ -1656,3 +1656,25 @@ resolver, and readiness-assessment verifiers. This is a test-harness
 workaround for isolated runtime checks, not a production bundling rule. Run
 `npm run verify:local-bundle` and the full `npm run verify:foundation` after
 changing a content-model import graph.
+
+## Windows Next build recovery procedure
+
+If `npm run build --workspace @living-textbook/web` exits with Node code 134,
+`0xC0000409`, or a zone-allocation/out-of-memory error, treat the result as a
+machine-state failure until the typecheck and static verifiers say otherwise.
+Confirm that `apps/web/.next/BUILD_ID` is absent before attempting a preview;
+`next start` cannot rehearse without that production artifact. Close stale
+LivingTextBook/Next development terminals and retry the build. If the process
+count is abnormally high or the stale processes cannot be identified safely,
+restart Windows, then run from the repository root:
+
+```powershell
+Set-Location -LiteralPath "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+git pull --ff-only
+npm run typecheck --workspace @living-textbook/web
+npm run build --workspace @living-textbook/web
+npm run verify:publisher-intake-rehearsal
+```
+
+Do not treat a dev-server `Ready` message as production-build evidence, and do
+not distribute a package until the production build and rehearsal both pass.

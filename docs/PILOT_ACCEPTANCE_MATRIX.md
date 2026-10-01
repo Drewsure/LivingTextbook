@@ -92,6 +92,12 @@ The intake-to-submission adapter preserves all seven canonical review lanes,
 including explicitly omitted optional media, and cannot promote files or mark
 student use ready.
 
+The publisher intake kit now bridges to the canonical MIME-aware source
+manifest with create-once semantics. The live source-to-package binding also
+rechecks tenant, package, unit, and quarantined source checksum before
+exposing preflight lineage. These strengthen the handoff evidence but do not
+close the real-publisher or human-release requirements.
+
 The Sample Publisher reference route now uses the adapter end to end; this is a
 synthetic route rehearsal, not evidence that a real publisher package is
 approved.

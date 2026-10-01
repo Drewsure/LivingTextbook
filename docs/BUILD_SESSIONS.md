@@ -8141,3 +8141,11 @@ metadata matches the requested tenant, package, unit, and quarantined source
 checksum before it exposes the reference. Static contract checks and
 typecheck pass; the production rehearsal remains dependent on a successful
 local Next build. Recorded under ADR 1402 / DR-1402.
+
+## Build session: Record pilot acceptance and Windows build recovery evidence
+
+Updated the pilot acceptance matrix with the canonical intake bridge and
+package-lineage recheck. Added an operating procedure for the current Windows
+Next production-build failure mode so an absent `.next/BUILD_ID`, stale
+process state, and a dev-server-ready message cannot be mistaken for a
+verified pilot rehearsal.
