@@ -20,6 +20,7 @@ export function createPublisherSubmissionPackageReviewJourney(
     evidencePacketId: "evidence-packet-sample-publisher-unit-1-complete",
     packageReviewPacketId,
     packageEvidenceReviewId: `${manifest.packageId}:${quarantineId}:package-evidence-review`,
+    publisherEvidenceRequestIds: manifest.evidenceRequests.map((evidence) => evidence.referenceId),
     sourceChecksumSha256: "a".repeat(64),
     evidenceIndexRoute: `/teacher/evidence/${manifest.tenantId}`,
     evidenceHandoffRoute: `/teacher/evidence/${manifest.tenantId}/handoff`,

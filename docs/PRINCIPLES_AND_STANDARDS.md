@@ -10076,3 +10076,15 @@ This standard is recorded in DR-1394 and ADR 1394.
   assembly, promotion, QR printing, persistence, or student-facing use.
 
 This standard is recorded in DR-1395 and ADR 1395.
+
+## 640. Review Journeys And Closure Packets Must Preserve Evidence Lineage
+
+- The package review journey and delivery closure packet must expose the exact
+  publisher evidence request IDs, not merely a generic package-review ID.
+- These final review surfaces may summarize lineage but may not infer approval
+  from it; source, package, release, QR, persistence, and student gates remain
+  independent.
+- Missing, duplicated, or empty publisher request lineage must fail closed
+  before a package can be described as ready for delivery.
+
+This standard is recorded in DR-1396 and ADR 1396.

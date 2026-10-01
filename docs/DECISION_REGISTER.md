@@ -10517,3 +10517,12 @@ present for publisher lanes while platform-derived game evidence carries no
 publisher request IDs. The change is provenance-only and keeps upload,
 assembly, promotion, QR printing, persistence, and student use blocked. See
 ADR 1395 and `docs/decision-register/DR-1395-immutable-package-review-publisher-request-ids.md`.
+
+## DR-1396: Review Journey And Closure Evidence Lineage
+
+The controlled package review journey and delivery closure packet now carry
+the exact publisher evidence request IDs from the structured manifest and
+immutable package review. Their validators reject missing or duplicate
+lineage, and their panels expose it as review metadata. No release, assembly,
+promotion, QR print, persistence, or student action is enabled. See ADR 1396
+and `docs/decision-register/DR-1396-review-journey-and-closure-evidence-lineage.md`.

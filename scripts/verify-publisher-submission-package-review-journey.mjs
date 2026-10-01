@@ -21,6 +21,7 @@ try {
     evidencePacketId: "evidence-packet-a",
     packageReviewPacketId: "package-review-packet-a",
     packageEvidenceReviewId: "package-evidence-review-a",
+    publisherEvidenceRequestIds: ["rights-evidence", "accessibility-evidence", "scan-evidence"],
     sourceChecksumSha256: "a".repeat(64),
     evidenceIndexRoute: "/teacher/evidence/tenant-a",
     evidenceHandoffRoute: "/teacher/evidence/tenant-a/handoff",
@@ -41,6 +42,7 @@ try {
   if (!model.validatePublisherSubmissionPackageReviewJourney(unsafe).some((error) => error.includes("qrPrintAllowed"))) failures.push("QR print must remain blocked");
   const wrongQuarantine = { ...valid, quarantineId: "https://example.test/q" };
   if (!model.validatePublisherSubmissionPackageReviewJourney(wrongQuarantine).some((error) => error.includes("opaque"))) failures.push("external quarantine identity must be rejected");
+  if (!model.validatePublisherSubmissionPackageReviewJourney({ ...valid, publisherEvidenceRequestIds: [] }).some((error) => error.includes("publisher evidence request IDs"))) failures.push("publisher evidence request lineage must be required");
 } finally {
   rmSync(output, { force: true });
 }

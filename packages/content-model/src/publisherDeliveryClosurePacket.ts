@@ -16,6 +16,7 @@ export interface PublisherDeliveryClosurePacket {
   packageId: string;
   sourceId: string;
   sourceChecksumSha256: string;
+  publisherEvidenceRequestIds: string[];
   selectedMode: "unselected" | "closed-local" | "hosted-pwa" | "hybrid";
   status: "blocked";
   checks: PublisherDeliveryClosureCheck[];
@@ -58,6 +59,7 @@ export function createPublisherDeliveryClosurePacket(input: {
   packageId: string;
   sourceId: string;
   sourceChecksumSha256: string;
+  publisherEvidenceRequestIds: string[];
   selectedMode: PublisherDeliveryClosurePacket["selectedMode"];
   sourceReviewPassed: boolean;
   sentenceApprovalPassed: boolean;
@@ -99,6 +101,7 @@ export function createPublisherDeliveryClosurePacket(input: {
     packageId: input.packageId,
     sourceId: input.sourceId,
     sourceChecksumSha256: input.sourceChecksumSha256,
+    publisherEvidenceRequestIds: [...new Set(input.publisherEvidenceRequestIds)],
     selectedMode: input.selectedMode,
     status: "blocked",
     checks,
@@ -126,6 +129,7 @@ export function validatePublisherDeliveryClosurePacket(value: unknown): string[]
   if (!isRecord(value)) return ["Publisher delivery closure packet must be an object."];
   if (value.recordVersion !== 1) errors.push("Publisher delivery closure packet recordVersion must be 1.");
   for (const field of ["packetId", "tenantId", "quarantineId", "packageId", "sourceId"] as const) if (!isNonEmptyString(value[field])) errors.push(`Publisher delivery closure packet ${field} must be non-empty.`);
+  if (!Array.isArray(value.publisherEvidenceRequestIds) || value.publisherEvidenceRequestIds.length === 0 || value.publisherEvidenceRequestIds.some((referenceId) => !isNonEmptyString(referenceId)) || new Set(value.publisherEvidenceRequestIds).size !== value.publisherEvidenceRequestIds.length) errors.push("Publisher delivery closure packet publisher evidence request IDs must be unique and non-empty.");
   if (!/^[a-f0-9]{64}$/.test(String(value.sourceChecksumSha256 ?? ""))) errors.push("Publisher delivery closure packet checksum must be lowercase SHA-256.");
   if (!["unselected", "closed-local", "hosted-pwa", "hybrid"].includes(String(value.selectedMode))) errors.push("Publisher delivery closure packet selectedMode is unsupported.");
   if (value.status !== "blocked" || value.mode !== "review-only" || value.sideEffect !== "none") errors.push("Publisher delivery closure packet must remain blocked, review-only, and side-effect-free.");

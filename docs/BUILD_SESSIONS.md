@@ -8076,3 +8076,16 @@ evidence must keep an empty publisher-request list.
 The review remains no-write and release-blocked: no uploaded payloads,
 package assembly, promotion, QR printing, persistence activation, or student
 use is enabled. Recorded under ADR 1395 / DR-1395.
+
+## Build session: Carry evidence lineage into journey and closure review
+
+The controlled package review journey and publisher delivery closure packet
+now carry the exact publisher evidence request IDs collected upstream. Their
+operator panels expose this bounded lineage so the final review surfaces do
+not collapse structured rights, accessibility, and scan provenance into a
+generic package-review label.
+
+The lineage remains metadata-only. Missing or duplicate request IDs fail
+closed, while release receipt writes, package assembly, promotion, QR
+printing, persistence activation, and student use remain blocked. Recorded
+under ADR 1396 / DR-1396.

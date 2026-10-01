@@ -35,6 +35,10 @@ export function PublisherSubmissionPackageReviewJourneyPanel({
         <Fact label="Quarantine identity" value={journey.quarantineId} />
         <Fact label="QR print" value="Blocked" />
       </dl>
+      <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Publisher evidence request lineage</p>
+        <p className="mt-1 break-words text-sm leading-6 text-[var(--tenant-muted)]">{journey.publisherEvidenceRequestIds.join(", ")}</p>
+      </div>
 
       {validationErrors.length > 0 ? (
         <ul className="mt-4 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">

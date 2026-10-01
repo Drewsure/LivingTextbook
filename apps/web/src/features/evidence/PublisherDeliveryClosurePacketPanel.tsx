@@ -21,6 +21,10 @@ export function PublisherDeliveryClosurePacketPanel({ packet, validationErrors =
         <Fact label="Source" value={packet.sourceId} />
         <Fact label="Checksum" value={packet.sourceChecksumSha256} />
       </dl>
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+        <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Publisher evidence request lineage</p>
+        <p className="mt-1 break-words text-sm leading-6 text-[var(--tenant-muted)]">{packet.publisherEvidenceRequestIds.join(", ")}</p>
+      </div>
       <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {packet.checks.map((check) => <article key={check.checkId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4"><div className="flex items-start justify-between gap-2"><h3 className="text-sm font-bold">{check.label}</h3><StatusPill label={check.status} tone={check.status === "passed" ? "success" : "warning"} /></div><p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{check.evidence}</p><p className="mt-3 border-t border-[var(--tenant-border)] pt-3 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {check.nextAction}</p></article>)}
       </div>

@@ -248,6 +248,7 @@ export async function GET(request: Request) {
     sentenceApprovalPassed: sentenceApproval?.decision === "approved",
     packageEvidencePassed: packageEvidenceReview?.status === "reviewed-package-evidence",
     canonicalGameEvidencePassed: hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds),
+    publisherEvidenceRequestIds: [...new Set(packageEvidenceReview?.evidenceReferences.flatMap((reference) => reference.publisherEvidenceRequestIds) ?? [])],
     reviewPacketPassed: packet?.status === "ready-for-next-gate",
     assemblyPreflightPassed: preflight?.status === "ready-for-manual-assembly",
     deliveryModePassed: Boolean(deliveryModeDecision && promotionAdapterDecisionResult.record),

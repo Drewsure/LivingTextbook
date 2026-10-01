@@ -18,6 +18,7 @@ export interface PublisherSubmissionPackageReviewJourney {
   evidencePacketId: string;
   packageReviewPacketId: string;
   packageEvidenceReviewId: string;
+  publisherEvidenceRequestIds: string[];
   sourceChecksumSha256: string;
   evidenceIndexRoute: string;
   evidenceHandoffRoute: string;
@@ -41,6 +42,7 @@ export function validatePublisherSubmissionPackageReviewJourney(value: unknown):
     "journeyId", "tenantId", "packageId", "manifestId", "reconciliationId", "quarantineId", "evidencePacketId",
     "packageReviewPacketId", "packageEvidenceReviewId", "sourceChecksumSha256", "evidenceIndexRoute", "evidenceHandoffRoute",
   ] as const) if (!isNonEmptyString(value[field])) errors.push(`Publisher submission review journey ${field} must be non-empty.`);
+  if (!Array.isArray(value.publisherEvidenceRequestIds) || value.publisherEvidenceRequestIds.length === 0 || value.publisherEvidenceRequestIds.some((referenceId) => !isNonEmptyString(referenceId)) || new Set(value.publisherEvidenceRequestIds).size !== value.publisherEvidenceRequestIds.length) errors.push("Publisher submission review journey publisher evidence request IDs must be unique and non-empty.");
   if (!isOpaqueQuarantineId(value.quarantineId)) errors.push("Publisher submission review journey quarantineId must be opaque.");
   if (!/^[a-f0-9]{64}$/.test(String(value.sourceChecksumSha256 ?? ""))) errors.push("Publisher submission review journey checksum must be lowercase SHA-256.");
   if (!isInternalPath(value.evidenceIndexRoute) || !isInternalPath(value.evidenceHandoffRoute)) errors.push("Publisher submission review journey evidence routes must be internal.");

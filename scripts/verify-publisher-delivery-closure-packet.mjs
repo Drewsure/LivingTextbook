@@ -14,6 +14,7 @@ try {
   const packet = model.createPublisherDeliveryClosurePacket({
     tenantId: "publisher-a", quarantineId: "q-00000000-0000-4000-8000-000000000001", packageId: "publisher-a-l1-u1-package",
     sourceId: "quarantine-record:q-00000000-0000-4000-8000-000000000001", sourceChecksumSha256: "a".repeat(64), selectedMode: "closed-local",
+    publisherEvidenceRequestIds: ["rights-evidence", "accessibility-evidence", "scan-evidence"],
     sourceReviewPassed: true, sentenceApprovalPassed: true, packageEvidencePassed: true, canonicalGameEvidencePassed: true, reviewPacketPassed: true, assemblyPreflightPassed: false,
     deliveryModePassed: true, releaseReceiptPassed: false, qrAuthorizationPassed: false, packageIndexPassed: false, rollbackAndPolicyPassed: false,
   });
@@ -22,6 +23,7 @@ try {
   if (packet.checks.length !== 11) failures.push("closure packet must contain eleven closure checks");
   if (packet.checks.find((check) => check.checkId === "assembly-preflight")?.status !== "blocked") failures.push("assembly preflight must remain blocked when unresolved");
   if (packet.releaseWriteAllowed || packet.packageAssemblyAllowed || packet.qrPrintAllowed || packet.persistenceActivationAllowed || packet.studentFacingUseAllowed) failures.push("closure packet must keep all protected actions blocked");
+  if (packet.publisherEvidenceRequestIds.length !== 3) failures.push("closure packet must preserve publisher evidence request lineage");
   const tampered = { ...packet, checks: packet.checks.slice(0, 8) };
   if (!model.validatePublisherDeliveryClosurePacket(tampered).some((error) => error.includes("all required closure checks"))) failures.push("missing closure checks must be rejected");
 } finally { rmSync(output, { force: true }); }
