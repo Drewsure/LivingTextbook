@@ -53,6 +53,16 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "node scripts/verify-pilot-package-review-evidence.mjs `",
     "  --path \"D:\\PublisherPilotReview\\human-evidence\\package-review-evidence.json\"",
   ].join("\n");
+  const packageReviewBridgeCommand = [
+    "node scripts/create-pilot-package-review-evidence-from-record.mjs `",
+    "  --source-preflight \"D:\\PublisherPilotInput\\evidence\\publisher-source-preflight.json\" `",
+    "  --package-review \"D:\\PublisherPilotReview\\package-evidence-review.json\" `",
+    "  --output \"D:\\PublisherPilotReview\\human-evidence\\package-review-evidence.json\" `",
+    "  --unit-key \"series:book:L1:U1\" `",
+    "  --package-checksum \"sha256:<assembled-package-checksum>\" `",
+    "  --game-pathway \"flashcards\" `",
+    "  --game-pathway \"memory-match\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -179,6 +189,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <p className="mb-3 font-semibold text-slate-300">Package review evidence check</p>
           <pre className="whitespace-pre-wrap font-mono">{packageReviewEvidenceCommand}</pre>
           <p className="mt-3 text-xs leading-5 text-slate-300">The packet must name reviewed content, curated game pathways, audio, video, images, fonts, accessibility, and rights evidence. A lane may be not-applicable only with an explicit evidence reference.</p>
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">Derive the packet from reviewed records</p>
+          <pre className="whitespace-pre-wrap font-mono">{packageReviewBridgeCommand}</pre>
+          <p className="mt-3 text-xs leading-5 text-slate-300">This create-once bridge derives the source inventory and review identities. It requires the final package checksum and never copies source files, assembles the package, or activates student use.</p>
         </div>
         <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p className="mb-3 font-semibold text-slate-300">PowerShell audit command</p>

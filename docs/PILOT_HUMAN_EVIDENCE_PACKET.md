@@ -77,6 +77,24 @@ node scripts/verify-pilot-package-review-evidence.mjs `
   --path "D:\PublisherPilotReview\human-evidence\package-review-evidence.json"
 ```
 
+When the tenant-scoped package evidence review has been recorded, derive the
+external record instead of retyping its lane references or source checksum:
+
+```powershell
+node scripts/create-pilot-package-review-evidence-from-record.mjs `
+  --source-preflight "D:\PublisherPilotInput\evidence\publisher-source-preflight.json" `
+  --package-review "D:\PublisherPilotReview\package-evidence-review.json" `
+  --output "D:\PublisherPilotReview\human-evidence\package-review-evidence.json" `
+  --unit-key "series:book:L1:U1" `
+  --package-checksum "sha256:<assembled-package-checksum>" `
+  --game-pathway "flashcards" `
+  --game-pathway "memory-match"
+```
+
+This bridge is create-once and metadata-only. It requires a complete source
+preflight and a completed package-evidence review, and it never copies files,
+assembles a package, prints QR codes, or activates students.
+
 `release-authorization.json` must have:
 
 - `recordVersion: 1` and `status: "approved"`;

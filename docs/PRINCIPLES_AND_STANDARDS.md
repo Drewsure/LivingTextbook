@@ -10380,3 +10380,14 @@ This standard is recorded in DR-1421 and ADR 1421.
   student-facing activation false until the separate release gate passes.
 
 This standard is recorded in DR-1422 and ADR 1422.
+
+## 665. Derive External Review Evidence From Canonical Records
+
+- Once the tenant-scoped package evidence review and publisher source preflight
+  are complete, operators should derive the external package-review evidence
+  record from those records rather than retyping lane references or checksums.
+- The bridge must be create-once, metadata-only, and require the final package
+  checksum explicitly; it must never copy source files, assemble a package,
+  print QR codes, or activate students.
+
+This standard is recorded in DR-1423 and ADR 1423.

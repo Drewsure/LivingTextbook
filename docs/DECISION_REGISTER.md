@@ -10755,3 +10755,12 @@ audio, video, image, font, accessibility, and rights lanes. It binds source
 and package checksums but cannot promote a package or activate students. See
 ADR 1422 and
 `docs/decision-register/DR-1422-durable-reviewed-package-evidence.md`.
+
+## DR-1423: Derive External Package Review Evidence From Canonical Records
+
+The external package-review evidence record can now be derived from the
+complete publisher source preflight and tenant-scoped package evidence review.
+This prevents manual lane/checksum transcription while requiring the final
+package checksum and preserving create-once, metadata-only, activation-blocked
+semantics. See ADR 1423 and
+`docs/decision-register/DR-1423-derive-external-package-review-evidence.md`.

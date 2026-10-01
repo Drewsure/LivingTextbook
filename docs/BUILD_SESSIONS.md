@@ -8312,3 +8312,11 @@ font, accessibility, and rights lanes to source and package checksums. The
 validator and generator remain create-once and metadata-only, with package
 promotion and student activation false. The first-pilot audit now reports
 this as its own human gate. Recorded under ADR 1422 / DR-1422.
+
+## Build session: Derive external package review evidence from canonical records
+
+Added a create-once metadata bridge that derives the external
+`package-review-evidence.json` record from a complete publisher source
+preflight and tenant-scoped package evidence review. The bridge requires an
+explicit assembled-package checksum and curated game pathways, and never copies
+files or enables activation. Recorded under ADR 1423 / DR-1423.
