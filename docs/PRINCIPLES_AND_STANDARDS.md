@@ -9976,7 +9976,7 @@ This standard is recorded in DR-1387 and ADR 1387.
 
 This standard is recorded in DR-1388 and ADR 1388.
 
-## 633. Package QR Review Must Consume The Intake QR Contract
+## 632. Package QR Review Must Consume The Intake QR Contract
 
 - The package-preview QR list must be derived from the structured publisher
   intake preview rather than maintained as a second hand-authored list.
@@ -9989,7 +9989,7 @@ This standard is recorded in DR-1388 and ADR 1388.
 
 This standard is recorded in DR-1389 and ADR 1389.
 
-## 632. QR References Must Be Structured Before Print Review
+## 633. QR References Must Be Structured Before Print Review
 
 - Publisher intake must identify each QR by page reference, unit, activity,
   target type, and language rather than a free-form note alone.
