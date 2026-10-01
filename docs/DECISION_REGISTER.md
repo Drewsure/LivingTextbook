@@ -10702,3 +10702,10 @@ The pilot audit accepts a single nested `evidence/return-package.json` inside
 an outer extraction folder, but rejects zero or multiple matches and preserves
 the canonical review-only verifier boundary. See ADR 1416 and
 `docs/decision-register/DR-1416-pilot-audit-candidate-folder-resolution.md`.
+
+## DR-1417: External Publisher Source Boundary
+
+The saleability audit rejects publisher roots inside the repository before
+canonical preflight. Sample/reference fixtures remain rehearsal material, not
+commercial publisher evidence. See ADR 1417 and
+`docs/decision-register/DR-1417-external-publisher-source-boundary.md`.

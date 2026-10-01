@@ -1,6 +1,6 @@
-import { mkdirSync, mkdtempSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readdirSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
@@ -25,18 +25,27 @@ if (!publisherRoot) {
   record("publisher-source-package", "waiting-human", "no --publisher-root supplied", "Provide the real publisher Unit 1 folder, rights owner, and evidence lanes.");
 } else {
   const publisherPath = resolve(publisherRoot);
-  const hasIntake = exists(join(publisherPath, "publisher-pilot-intake.json"));
-  const hasEvidence = exists(join(publisherPath, "evidence"));
-  if (!hasIntake || !hasEvidence) {
-    record("publisher-source-package", "blocked", publisherPath, "Complete the publisher intake brief and evidence folder before source preflight.");
-  } else {
-    const verification = runNodeScript("publisher-pilot-intake-preflight.mjs", ["--root", publisherPath]);
+  if (isWithinRepository(publisherPath)) {
     record(
       "publisher-source-package",
-      verification.passed ? "proved" : "blocked",
-      `${publisherPath} (canonical preflight: ${verification.passed ? "passed" : "failed"})`,
-      "Fix the publisher intake preflight findings before source review can advance.",
+      "blocked",
+      publisherPath,
+      "Keep the real publisher handoff outside the LivingTextbook repository; sample/reference files cannot prove saleability.",
     );
+  } else {
+    const hasIntake = exists(join(publisherPath, "publisher-pilot-intake.json"));
+    const hasEvidence = exists(join(publisherPath, "evidence"));
+    if (!hasIntake || !hasEvidence) {
+      record("publisher-source-package", "blocked", publisherPath, "Complete the publisher intake brief and evidence folder before source preflight.");
+    } else {
+      const verification = runNodeScript("publisher-pilot-intake-preflight.mjs", ["--root", publisherPath]);
+      record(
+        "publisher-source-package",
+        verification.passed ? "proved" : "blocked",
+        `${publisherPath} (canonical preflight: ${verification.passed ? "passed" : "failed"})`,
+        "Fix the publisher intake preflight findings before source review can advance.",
+      );
+    }
   }
 }
 
@@ -119,6 +128,17 @@ function record(id, status, evidence, nextAction) {
 
 function exists(path) {
   try { return statSync(path).isFile() || statSync(path).isDirectory(); } catch { return false; }
+}
+
+function isWithinRepository(path) {
+  const repositoryPath = safeRealPath(root);
+  const candidatePath = safeRealPath(path);
+  const pathRelative = relative(repositoryPath, candidatePath);
+  return pathRelative === "" || (pathRelative !== ".." && !pathRelative.startsWith("..\\") && !pathRelative.startsWith("../") && !pathRelative.includes(":"));
+}
+
+function safeRealPath(path) {
+  try { return realpathSync(path); } catch { return resolve(path); }
 }
 
 function resolveCandidateRoot(inputPath) {
@@ -228,7 +248,11 @@ function runSelfTest() {
     const ambiguousReport = parseJsonOutput(ambiguous.stdout);
     const ambiguousCheck = ambiguousReport?.checks?.find((check) => check.id === "zai-game-candidate");
     if (ambiguousCheck?.status !== "blocked" || !ambiguousCheck.nextAction?.includes("exact isolated candidate folder")) failSelfTest("ambiguous candidates were not blocked");
-    console.log("PASS pilot saleability audit discovers one nested candidate and rejects ambiguous extraction folders.");
+    const inRepository = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--publisher-root", root], { encoding: "utf8" });
+    const inRepositoryReport = parseJsonOutput(inRepository.stdout);
+    const publisherCheck = inRepositoryReport?.checks?.find((check) => check.id === "publisher-source-package");
+    if (publisherCheck?.status !== "blocked" || !publisherCheck.nextAction?.includes("outside the LivingTextbook repository")) failSelfTest("in-repository publisher roots were not blocked");
+    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, and blocks in-repository publisher roots.");
   } finally {
     rmSync(outerRoot, { recursive: true, force: true });
   }

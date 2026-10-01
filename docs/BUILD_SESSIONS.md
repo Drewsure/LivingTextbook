@@ -8263,3 +8263,9 @@ Added single nested candidate discovery and ambiguity rejection to the first-
 pilot audit, with a self-test for both paths. The canonical Z.ai verifier,
 external-folder boundary, and no-promotion rules remain unchanged. Recorded
 under ADR 1416 / DR-1416.
+
+## Build session: Keep real publisher source outside the repository
+
+The first-pilot audit now blocks in-repository publisher roots and preserves
+the external custody boundary before canonical source preflight. Its self-test
+covers the false-ready case. Recorded under ADR 1417 / DR-1417.

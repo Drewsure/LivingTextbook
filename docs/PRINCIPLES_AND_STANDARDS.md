@@ -10310,3 +10310,14 @@ This standard is recorded in DR-1415 and ADR 1415.
   remain outside the repository.
 
 This standard is recorded in DR-1416 and ADR 1416.
+
+## 659. Real Publisher Source Must Remain External
+
+- The first-pilot audit must reject publisher roots inside the LivingTextBook
+  repository.
+- Sample and reference fixtures can support rehearsals but cannot prove a
+  commercial publisher handoff.
+- External publisher folders must still pass the canonical intake preflight
+  before advancing the saleability gate.
+
+This standard is recorded in DR-1417 and ADR 1417.
