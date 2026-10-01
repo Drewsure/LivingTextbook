@@ -10050,3 +10050,15 @@ This standard is recorded in DR-1392 and ADR 1392.
   files, print QR codes, activate persistence, or assign students.
 
 This standard is recorded in DR-1393 and ADR 1393.
+
+## 638. Package Reconciliation Must Preserve Publisher Evidence IDs
+
+- Package reconciliation lanes must carry the exact publisher evidence request
+  IDs that cover their mapped source assets.
+- Platform-derived game evidence remains separate from publisher-submitted
+  evidence and must not substitute for rights, accessibility, or scan records.
+- Unknown publisher evidence IDs and evidence requests that map to no package
+  lane must fail closed before package assembly, promotion, QR printing,
+  persistence, or student-facing use.
+
+This standard is recorded in DR-1394 and ADR 1394.

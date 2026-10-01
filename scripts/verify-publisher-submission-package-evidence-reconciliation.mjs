@@ -17,6 +17,11 @@ try {
     tenantId: "tenant-a",
     packageId: "package-a",
     assets: [{ assetId: "source-a", kind: "textbook-source" }],
+    evidenceRequests: [
+      { referenceId: "rights-evidence", appliesToAssetIds: ["source-a"] },
+      { referenceId: "accessibility-evidence", appliesToAssetIds: ["source-a"] },
+      { referenceId: "scan-evidence", appliesToAssetIds: ["source-a"] },
+    ],
   };
   const reconciliation = {
     reconciliationId: "reconciliation-a",
@@ -29,6 +34,7 @@ try {
       lane,
       status: lane === "content" ? "review-pending" : "missing",
       sourceAssetIds: lane === "content" ? ["source-a"] : [],
+      publisherEvidenceRequestIds: lane === "content" ? ["rights-evidence", "accessibility-evidence", "scan-evidence"] : [],
       derivedEvidenceRecordIds: lane === "game" ? ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"] : [],
       requiredEvidence: ["Review reference"],
     })),
@@ -53,6 +59,8 @@ try {
   if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(mediaDerived, manifest).some((error) => error.includes("must not claim platform-derived"))) failures.push("media lanes must remain publisher-owned");
   const incompleteGame = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "game" ? { ...lane, derivedEvidenceRecordIds: ["curated_activity_pathway_packet"] } : lane) };
   if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(incompleteGame, manifest).some((error) => error.includes("canonical_game_integration_packet"))) failures.push("game lane must include the canonical derived evidence set");
+  const unknownPublisherEvidence = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "content" ? { ...lane, publisherEvidenceRequestIds: ["unknown-evidence"] } : lane) };
+  if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(unknownPublisherEvidence, manifest).some((error) => error.includes("unknown publisher evidence"))) failures.push("unknown publisher evidence must be rejected");
 } finally {
   rmSync(output, { force: true });
 }
@@ -60,7 +68,7 @@ try {
 const route = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "uploads", "[tenantId]", "page.tsx"), "utf8");
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "content-intake", "PublisherSubmissionPackageEvidenceReconciliationPanel.tsx"), "utf8");
 for (const marker of ["PublisherSubmissionPackageEvidenceReconciliationPanel", "createPublisherSubmissionPackageEvidenceReconciliation", "validatePublisherSubmissionPackageEvidenceReconciliationPreview"]) if (!route.includes(marker)) failures.push(`upload route is missing reconciliation marker: ${marker}`);
-for (const marker of ["Package evidence reconciliation", "Manifest coverage against the canonical review packet", "Assembly blocked", "Unresolved requirements", "Canonical lane", "Derived evidence"]) if (!panel.includes(marker)) failures.push(`reconciliation panel is missing marker: ${marker}`);
+for (const marker of ["Package evidence reconciliation", "Manifest coverage against the canonical review packet", "Assembly blocked", "Unresolved requirements", "Canonical lane", "Publisher evidence", "Derived evidence"]) if (!panel.includes(marker)) failures.push(`reconciliation panel is missing marker: ${marker}`);
 if (panel.includes("type=\"file\"") || panel.includes("fetch(") || panel.includes("navigator.mediaDevices")) failures.push("reconciliation panel must remain read-only");
 if (failures.length > 0) { for (const failure of failures) console.error(`FAIL ${failure}`); process.exit(1); }
 console.log("PASS publisher submission evidence reconciliation covers all canonical package lanes and remains assembly, promotion, QR, and student blocked.");

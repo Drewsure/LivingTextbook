@@ -8052,3 +8052,15 @@ Publisher review-handoff lanes now preserve the exact evidence request IDs that
 cover each manifest asset. The handoff validator rejects unknown references and
 unmapped manifest evidence, while the teacher surface exposes the mapping as
 read-only review evidence. Recorded under ADR 1393 / DR-1393.
+
+## Build session: Carry evidence references into package reconciliation
+
+Package evidence reconciliation now preserves the exact publisher evidence
+request IDs alongside each source-asset lane. The adapter derives those IDs
+from the manifest's asset coverage, while the canonical game lane remains
+platform-derived and source-asset-free. Unknown publisher evidence or an
+evidence request with no reconciliation lane fails closed.
+
+This remains a review-only, no-write boundary. Package assembly, promotion,
+QR printing, persistence, and student-facing use stay blocked until human
+review and later release gates pass. Recorded under ADR 1394 / DR-1394.

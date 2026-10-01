@@ -29,6 +29,9 @@ export function createPublisherSubmissionPackageEvidenceReconciliation(
     const sourceAssetIds = manifest.assets
       .filter((asset) => assetKindsByLane[lane].includes(asset.kind))
       .map((asset) => asset.assetId);
+    const publisherEvidenceRequestIds = manifest.evidenceRequests
+      .filter((evidence) => evidence.appliesToAssetIds.some((assetId) => sourceAssetIds.includes(assetId)))
+      .map((evidence) => evidence.referenceId);
     const derivedEvidenceRecordIds = derivedEvidenceRecordIdsByLane[lane] ?? [];
     const requiredEvidence = lane === "game"
       ? ["Curated activity pathway", "Deterministic scoring and progression replay", "Target-language audio coverage"]
@@ -41,6 +44,7 @@ export function createPublisherSubmissionPackageEvidenceReconciliation(
       lane,
       status: sourceAssetIds.length > 0 || derivedEvidenceRecordIds.length > 0 ? "review-pending" as const : "missing" as const,
       sourceAssetIds,
+      publisherEvidenceRequestIds,
       derivedEvidenceRecordIds,
       requiredEvidence,
     };

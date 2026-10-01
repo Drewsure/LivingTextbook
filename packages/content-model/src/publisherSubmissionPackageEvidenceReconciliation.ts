@@ -39,6 +39,7 @@ export interface PublisherSubmissionPackageEvidenceLaneRecord {
   lane: PublisherSubmissionPackageEvidenceLane;
   status: PublisherSubmissionPackageEvidenceLaneStatus;
   sourceAssetIds: string[];
+  publisherEvidenceRequestIds: string[];
   derivedEvidenceRecordIds: string[];
   requiredEvidence: string[];
 }
@@ -79,6 +80,7 @@ export function validatePublisherSubmissionPackageEvidenceReconciliation(
     tenantId: string;
     packageId: string;
     assets: Array<{ assetId: string }>;
+    evidenceRequests: Array<{ referenceId: string; appliesToAssetIds: string[] }>;
   },
 ): string[] {
   const errors: string[] = [];
@@ -97,6 +99,7 @@ export function validatePublisherSubmissionPackageEvidenceReconciliation(
     if (laneIds.has(lane.lane)) errors.push(`Duplicate package evidence lane: ${lane.lane}.`);
     laneIds.add(lane.lane);
     if (!Array.isArray(lane.sourceAssetIds) || lane.sourceAssetIds.some((assetId) => !assetId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid source assets.`);
+    if (!Array.isArray(lane.publisherEvidenceRequestIds) || lane.publisherEvidenceRequestIds.some((referenceId) => !referenceId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid publisher evidence references.`);
     if (!Array.isArray(lane.derivedEvidenceRecordIds) || lane.derivedEvidenceRecordIds.some((recordId) => !recordId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid derived evidence records.`);
     if (lane.lane === "game") {
       if (lane.sourceAssetIds.length > 0) errors.push("Package evidence game lane must not claim publisher source assets.");
@@ -110,6 +113,13 @@ export function validatePublisherSubmissionPackageEvidenceReconciliation(
   for (const lane of PUBLISHER_SUBMISSION_PACKAGE_EVIDENCE_LANES) if (!laneIds.has(lane)) errors.push(`Missing canonical package evidence lane: ${lane}.`);
   const assetIds = new Set(manifest.assets.map((asset) => asset.assetId));
   for (const lane of reconciliation.lanes) for (const assetId of lane.sourceAssetIds) if (!assetIds.has(assetId)) errors.push(`Package evidence reconciliation references unknown manifest asset ${assetId}.`);
+  const evidenceIds = new Set(manifest.evidenceRequests.map((evidence) => evidence.referenceId));
+  const mappedEvidenceIds = new Set<string>();
+  for (const lane of reconciliation.lanes) for (const referenceId of lane.publisherEvidenceRequestIds) {
+    if (!evidenceIds.has(referenceId)) errors.push(`Package evidence lane ${lane.lane} references unknown publisher evidence ${referenceId}.`);
+    mappedEvidenceIds.add(referenceId);
+  }
+  for (const evidence of manifest.evidenceRequests) if (!mappedEvidenceIds.has(evidence.referenceId)) errors.push(`Publisher evidence ${evidence.referenceId} has no package reconciliation lane.`);
   for (const action of ["No package assembly", "No file promotion", "No QR print", "No student-facing use"]) if (!reconciliation.blockedActions.includes(action)) errors.push(`Package evidence reconciliation must include: ${action}.`);
   if (!Array.isArray(reconciliation.unresolvedRequirements) || reconciliation.unresolvedRequirements.length === 0) errors.push("Package evidence reconciliation must state unresolved requirements.");
   if (!Array.isArray(reconciliation.nextGate) || reconciliation.nextGate.length === 0) errors.push("Package evidence reconciliation must include a next gate.");
