@@ -7895,3 +7895,12 @@ platform-derived and all publisher-supplied content and media lanes must
 remain publisher-asset. Negative coverage now rejects publisher-owned game
 evidence and platform-derived audio evidence before release lineage can pass.
 Recorded ADR 1379 / DR-1379.
+
+## Build session: Bind canonical game evidence at package reconciliation
+
+The publisher submission package reconciliation now requires the complete
+canonical derived game evidence set: curated activity pathway, canonical game
+integration, and package game-audio coverage. It rejects publisher source
+assets on the game lane and derived records on publisher media lanes, keeping
+manifest coverage aligned with the canonical game boundary. Recorded ADR 1380
+/ DR-1380.

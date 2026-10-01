@@ -29,7 +29,7 @@ try {
       lane,
       status: lane === "content" ? "review-pending" : "missing",
       sourceAssetIds: lane === "content" ? ["source-a"] : [],
-      derivedEvidenceRecordIds: lane === "game" ? ["curated_activity_pathway_packet"] : [],
+      derivedEvidenceRecordIds: lane === "game" ? ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"] : [],
       requiredEvidence: ["Review reference"],
     })),
     unresolvedRequirements: ["game evidence is missing"],
@@ -47,6 +47,12 @@ try {
   if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(incomplete, manifest).some((error) => error.includes("every canonical lane"))) failures.push("canonical lane completeness must be enforced");
   const invalidDerived = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "game" ? { ...lane, derivedEvidenceRecordIds: [""] } : lane) };
   if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(invalidDerived, manifest).some((error) => error.includes("derived evidence"))) failures.push("derived evidence ids must be validated");
+  const gameUpload = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "game" ? { ...lane, sourceAssetIds: ["source-a"] } : lane) };
+  if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(gameUpload, manifest).some((error) => error.includes("must not claim publisher source assets"))) failures.push("game lane must remain derived-only");
+  const mediaDerived = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "audio" ? { ...lane, derivedEvidenceRecordIds: ["derived-audio"] } : lane) };
+  if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(mediaDerived, manifest).some((error) => error.includes("must not claim platform-derived"))) failures.push("media lanes must remain publisher-owned");
+  const incompleteGame = { ...reconciliation, lanes: reconciliation.lanes.map((lane) => lane.lane === "game" ? { ...lane, derivedEvidenceRecordIds: ["curated_activity_pathway_packet"] } : lane) };
+  if (!model.validatePublisherSubmissionPackageEvidenceReconciliation(incompleteGame, manifest).some((error) => error.includes("canonical_game_integration_packet"))) failures.push("game lane must include the canonical derived evidence set");
 } finally {
   rmSync(output, { force: true });
 }

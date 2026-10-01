@@ -19,6 +19,12 @@ export const PUBLISHER_SUBMISSION_PACKAGE_EVIDENCE_LANES: readonly PublisherSubm
   "rights",
 ] as const;
 
+export const CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS = [
+  "curated_activity_pathway_packet",
+  "canonical_game_integration_packet",
+  "package_game_audio_coverage",
+] as const;
+
 export type PublisherSubmissionPackageEvidenceLaneStatus = "missing" | "review-pending";
 
 export interface PublisherSubmissionPackageEvidenceLaneRecord {
@@ -72,6 +78,12 @@ export function validatePublisherSubmissionPackageEvidenceReconciliation(
     laneIds.add(lane.lane);
     if (!Array.isArray(lane.sourceAssetIds) || lane.sourceAssetIds.some((assetId) => !assetId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid source assets.`);
     if (!Array.isArray(lane.derivedEvidenceRecordIds) || lane.derivedEvidenceRecordIds.some((recordId) => !recordId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid derived evidence records.`);
+    if (lane.lane === "game") {
+      if (lane.sourceAssetIds.length > 0) errors.push("Package evidence game lane must not claim publisher source assets.");
+      for (const recordId of CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS) if (!lane.derivedEvidenceRecordIds.includes(recordId)) errors.push(`Package evidence game lane must include derived evidence record ${recordId}.`);
+    } else if (lane.derivedEvidenceRecordIds.length > 0) {
+      errors.push(`Package evidence ${lane.lane} lane must not claim platform-derived evidence records.`);
+    }
     if (!Array.isArray(lane.requiredEvidence) || lane.requiredEvidence.length === 0) errors.push(`Package evidence lane ${lane.lane} needs required evidence.`);
     if (lane.status !== "missing" && lane.status !== "review-pending") errors.push(`Package evidence lane ${lane.lane} has an unsupported status.`);
   }

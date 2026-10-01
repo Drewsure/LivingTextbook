@@ -1,6 +1,7 @@
 import {
   PUBLISHER_SUBMISSION_PACKAGE_EVIDENCE_LANES,
   validatePublisherSubmissionPackageEvidenceReconciliation,
+  CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS,
   type PublisherSubmissionPackageEvidenceLane,
   type PublisherSubmissionPackageEvidenceReconciliation,
   type PublisherSubmissionManifest,
@@ -18,7 +19,7 @@ const assetKindsByLane: Record<PublisherSubmissionPackageEvidenceLane, Publisher
 };
 
 const derivedEvidenceRecordIdsByLane: Partial<Record<PublisherSubmissionPackageEvidenceLane, string[]>> = {
-  game: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
+  game: [...CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS],
 };
 
 export function createPublisherSubmissionPackageEvidenceReconciliation(

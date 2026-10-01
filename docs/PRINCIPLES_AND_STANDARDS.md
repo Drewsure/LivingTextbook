@@ -9874,3 +9874,12 @@ This standard is recorded in DR-1378 and ADR 1378.
 - This semantic check protects white-label custody without authorizing assembly, promotion, QR printing, persistence, or student-facing use.
 
 This standard is recorded in DR-1379 and ADR 1379.
+
+## 623. Package Reconciliation Must Bind the Canonical Game Evidence Set
+
+- The game lane must carry the complete curated-pathway, canonical-integration, and game-audio evidence set before it can be review-pending.
+- Publisher source assets must not be used as the canonical game lane evidence in the first pilot contract.
+- Publisher content and media lanes must not carry platform-derived records as substitutes for their own uploaded evidence.
+- This reconciliation remains blocked until reviewer references, rights, accessibility, package, release, QR, and policy gates are complete.
+
+This standard is recorded in DR-1380 and ADR 1380.
