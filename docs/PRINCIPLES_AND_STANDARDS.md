@@ -10144,3 +10144,15 @@ This standard is recorded in DR-1399 and ADR 1399.
   accessibility, package, release, QR, persistence, or student gates.
 
 This standard is recorded in DR-1400 and ADR 1400.
+
+## 645. Publisher Operators Must See The Canonical Handoff Step
+
+- The tenant-scoped publisher intake workspace must show the bridge from the
+  completed intake kit to the canonical source manifest and name its next
+  preflight gate.
+- The visible command is an operator aid only; it must preserve create-once,
+  review-only, no-upload, and student-disabled boundaries.
+- The workspace must distinguish what the bridge creates from what remains
+  blocked, so a publisher cannot mistake a manifest for a released package.
+
+This standard is recorded in DR-1401 and ADR 1401.

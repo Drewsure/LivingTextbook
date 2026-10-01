@@ -8126,3 +8126,10 @@ kit README, and `evidence/` as review sidecars when scanning a publisher kit.
 Unknown files remain unlisted blockers. This makes the intake-to-manifest
 bridge executable without weakening source inventory safety. Recorded under
 ADR 1400 / DR-1400.
+
+## Build session: Expose the canonical publisher handoff in the teacher workspace
+
+Updated the tenant-scoped publisher pilot input panel with the canonical
+intake-to-source-manifest bridge command, next preflight gate, and explicit
+blocked actions. Added active-route expectations so the operator surface stays
+aligned with the documented handoff. Recorded under ADR 1401 / DR-1401.

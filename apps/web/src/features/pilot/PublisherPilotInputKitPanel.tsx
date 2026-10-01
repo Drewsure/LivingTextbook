@@ -14,6 +14,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --book-title \"Book Title\" `",
     "  --unit-key \"series:book:L1:U1\"",
   ].join("\n");
+  const bridgeCommand = [
+    "node scripts/create-publisher-source-manifest-from-pilot-kit.mjs `",
+    "  --root \"D:\\PublisherPilotInput\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -37,12 +41,34 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
       <div className="mt-5 grid gap-3 md:grid-cols-3">
         <KitStep number="1" title="Create privately" detail="Keep publisher-owned files outside the repository and use one kit per submission." />
         <KitStep number="2" title="Replace placeholders" detail="Add the real edition, rights owner, unit, QR page, and policy details." />
-        <KitStep number="3" title="Submit for review" detail="Run source preflight, then use the controlled quarantine and evidence routes." />
+        <KitStep number="3" title="Preflight the intake" detail="Inventory the completed kit and preserve the create-once evidence report." />
       </div>
 
       <div className="mt-5 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
         <p className="mb-3 font-semibold text-slate-300">PowerShell starter command</p>
         <pre className="whitespace-pre-wrap font-mono">{command}</pre>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Canonical handoff</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Bridge the completed kit to source review</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              After the intake preflight is complete, this create-once command generates the canonical source manifest used by the review system. It does not copy, upload, assemble, print, activate, or open student access.
+            </p>
+          </div>
+          <StatusPill label="Create once" tone="neutral" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell bridge command</p>
+          <pre className="whitespace-pre-wrap font-mono">{bridgeCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Creates" value="Canonical source manifest only" />
+          <Boundary label="Next gate" value="MIME-aware source preflight" />
+          <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">

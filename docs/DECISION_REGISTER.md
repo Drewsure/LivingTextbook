@@ -10564,3 +10564,13 @@ without weakening unlisted-file blocking for any other path. Sidecar records
 remain under their own review gates and do not authorize release or student
 use. See ADR 1400 and
 `docs/decision-register/DR-1400-bound-source-preflight-intake-sidecars.md`.
+
+## DR-1401: Show The Canonical Publisher Handoff In The Tenant Workspace
+
+The partner pilot requirements workspace now exposes the create-once bridge
+from the completed publisher intake kit to the canonical source manifest. It
+names the next MIME-aware preflight and the blocked actions directly in the
+tenant surface. This is a review-only operator aid and does not create files,
+upload content, assemble packages, print QR codes, activate persistence, or
+enable students. See ADR 1401 and
+`docs/decision-register/DR-1401-visible-publisher-canonical-handoff.md`.
