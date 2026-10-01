@@ -33,6 +33,13 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
   ].join("\n");
   const saleabilityAuditCommand = "npm run audit:pilot -- --json";
   const saleabilityEvidenceCommand = 'npm run audit:pilot -- --json --human-evidence-root "<external-evidence-folder>"';
+  const humanEvidencePacketCommand = [
+    "npm run create:pilot-human-evidence -- `",
+    "  --root \"D:\\PublisherPilotReview\\human-evidence\" `",
+    `  --tenant-id \"${tenantId}\" `,
+    "  --package-id \"<reviewed-package-id>\" `",
+    "  --unit-key \"series:book:L1:U1\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -127,6 +134,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
             </p>
           </div>
           <StatusPill label="Read-only" tone="neutral" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">Create the external human evidence packet</p>
+          <pre className="whitespace-pre-wrap font-mono">{humanEvidencePacketCommand}</pre>
+          <p className="mt-3 text-xs leading-5 text-slate-300">This creates incomplete, no-overwrite templates outside the repository. Replace every placeholder and pass its validator before auditing.</p>
         </div>
         <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p className="mb-3 font-semibold text-slate-300">PowerShell audit command</p>

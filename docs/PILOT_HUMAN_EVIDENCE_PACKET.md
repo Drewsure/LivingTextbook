@@ -19,6 +19,20 @@ pilot-human-evidence/
   release-authorization.json
 ```
 
+Create the incomplete templates without overwriting existing records:
+
+```powershell
+npm run create:pilot-human-evidence -- `
+  --root "D:\PublisherPilotReview\human-evidence" `
+  --tenant-id "publisher-name" `
+  --package-id "publisher-name-l1-u1-package" `
+  --unit-key "series:book:L1:U1"
+```
+
+The generator intentionally writes `draft` status and `REPLACE_WITH_*`
+placeholders. That output is not evidence until a named adult or policy owner
+completes and reviews it. Existing records are never overwritten.
+
 Run the validator before using the saleability audit:
 
 ```powershell

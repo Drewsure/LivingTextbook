@@ -8235,3 +8235,10 @@ its validator, and the `--human-evidence-root` saleability-audit input. The
 packet binds tenant, package, unit, delivery mode, persistence choice, reviewer,
 QR authorization, rehearsal, rollback, and final checksums while preserving the
 metadata-only/no-activation boundary. Recorded under ADR 1412 / DR-1412.
+
+## Build session: Add the create-once human evidence generator
+
+Added `create:pilot-human-evidence` and exposed it in the publisher
+requirements workspace. It creates external draft templates only, refuses
+overwrites, preserves tenant/package/unit identity, and cannot create approval
+or enable protected actions. Recorded under ADR 1413 / DR-1413.

@@ -10268,3 +10268,14 @@ This standard is recorded in DR-1411 and ADR 1411.
   students.
 
 This standard is recorded in DR-1412 and ADR 1412.
+
+## 655. Human Evidence Templates Must Be Draft And Create-Once
+
+- The platform may generate schema-correct starting templates for human policy
+  and release evidence, but must never generate approval or completed evidence.
+- Templates must be written outside the repository and refuse to overwrite
+  existing records.
+- The generated tenant, package, and unit identities must remain bound across
+  both records until the validator accepts the completed packet.
+
+This standard is recorded in DR-1413 and ADR 1413.
