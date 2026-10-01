@@ -8220,3 +8220,10 @@ tenant workspace now shows the same status boundary as the operator command:
 platform proof is separate from publisher, Z.ai, delivery-policy, and release
 evidence. The panel cannot upload, assemble, print, activate persistence, or
 enable students. Recorded under ADR 1410 / DR-1410.
+
+## Build session: Bind saleability audit to canonical verifiers
+
+The first-pilot audit now invokes the canonical publisher intake preflight and
+the Phaser evidence-return verifier whenever human-supplied roots are present.
+This prevents marker folders, incomplete publisher kits, or frozen snapshots
+from being counted as saleability evidence. Recorded under ADR 1411 / DR-1411.

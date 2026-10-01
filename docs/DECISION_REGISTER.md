@@ -10657,3 +10657,12 @@ between platform proof and human-owned pilot gates visible to the operator
 without adding upload, assembly, QR, persistence, or student side effects. See
 ADR 1410 and
 `docs/decision-register/DR-1410-visible-saleability-audit.md`.
+
+## DR-1411: Saleability Audit Must Reuse Canonical Evidence Verifiers
+
+When a publisher root or Z.ai candidate root is supplied to `npm run
+audit:pilot`, the audit now runs the canonical publisher intake preflight or
+Phaser candidate verifier. A folder containing only a marker file cannot count
+as proved evidence. Failed supplied packages are reported as blocked and keep
+the pilot non-saleable. See ADR 1411 and
+`docs/decision-register/DR-1411-saleability-audit-canonical-verifiers.md`.

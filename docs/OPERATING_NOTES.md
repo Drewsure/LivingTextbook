@@ -1698,6 +1698,11 @@ and release-authorization evidence. Exit code 2 is expected until the real
 publisher package and named release decisions exist; do not convert a sample
 tenant or frozen source snapshot into a saleability claim.
 
+When `--publisher-root` or `--candidate-root` is supplied, the audit also runs
+the canonical publisher intake preflight or Phaser candidate evidence verifier.
+An existing folder or `evidence/return-package.json` marker is not sufficient;
+failed supplied packages remain blocked.
+
 ## Publisher source evidence request procedure
 
 After the publisher intake kit has been completed and the canonical source

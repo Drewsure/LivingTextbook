@@ -10244,3 +10244,14 @@ This standard is recorded in DR-1409 and ADR 1409.
   activate persistence, or enable students.
 
 This standard is recorded in DR-1410 and ADR 1410.
+
+## 653. Saleability Audits Must Execute Canonical Evidence Verification
+
+- A supplied publisher package must pass the canonical publisher intake
+  preflight before its source gate can be marked proved.
+- A supplied outside-game candidate must pass the canonical evidence-return
+  verifier before its candidate gate can be marked proved.
+- A path, directory, marker file, or frozen snapshot must never be treated as
+  proof of a reviewed package.
+
+This standard is recorded in DR-1411 and ADR 1411.

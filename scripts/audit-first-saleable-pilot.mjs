@@ -1,4 +1,5 @@
 import { statSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,7 +18,17 @@ if (!publisherRoot) {
   const publisherPath = resolve(publisherRoot);
   const hasIntake = exists(join(publisherPath, "publisher-pilot-intake.json"));
   const hasEvidence = exists(join(publisherPath, "evidence"));
-  record("publisher-source-package", hasIntake && hasEvidence ? "proved" : "blocked", publisherPath, "Complete the publisher intake brief and evidence folder before source preflight.");
+  if (!hasIntake || !hasEvidence) {
+    record("publisher-source-package", "blocked", publisherPath, "Complete the publisher intake brief and evidence folder before source preflight.");
+  } else {
+    const verification = runNodeScript("publisher-pilot-intake-preflight.mjs", ["--root", publisherPath]);
+    record(
+      "publisher-source-package",
+      verification.passed ? "proved" : "blocked",
+      `${publisherPath} (canonical preflight: ${verification.passed ? "passed" : "failed"})`,
+      "Fix the publisher intake preflight findings before source review can advance.",
+    );
+  }
 }
 
 const candidateRoot = options.candidateRoot;
@@ -26,7 +37,19 @@ if (!candidateRoot) {
 } else {
   const candidatePath = resolve(candidateRoot);
   const returnPackage = join(candidatePath, "evidence", "return-package.json");
-  record("zai-game-candidate", exists(returnPackage) ? "proved" : "blocked", returnPackage, "Do not integrate the frozen snapshot; obtain the complete evidence return package.");
+  if (!exists(returnPackage)) {
+    record("zai-game-candidate", "blocked", returnPackage, "Do not integrate the frozen snapshot; obtain the complete evidence return package.");
+  } else {
+    const verification = runNodeScript("verify-phaser-candidate-package.mjs", [], {
+      LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT: candidatePath,
+    });
+    record(
+      "zai-game-candidate",
+      verification.passed ? "proved" : "blocked",
+      `${returnPackage} (canonical evidence verifier: ${verification.passed ? "passed" : "failed"})`,
+      "Fix the Z.ai evidence return package findings before any mapping or integration review.",
+    );
+  }
 }
 
 record("delivery-policy", "waiting-human", "not inferred from sample tenants", "Choose hosted PWA, closed-local companion, or hybrid and record retention, backup, and cost policy.");
@@ -62,6 +85,19 @@ function exists(path) {
 
 function formatStatus(status) {
   return status === "proved" ? "PASS" : status === "waiting-human" ? "WAIT" : "BLOCK";
+}
+
+function runNodeScript(scriptName, args, environment = {}) {
+  const result = spawnSync(
+    process.execPath,
+    [fileURLToPath(new URL(`./${scriptName}`, import.meta.url)), ...args],
+    {
+      encoding: "utf8",
+      env: { ...process.env, ...environment },
+      maxBuffer: 2 * 1024 * 1024,
+    },
+  );
+  return { passed: result.status === 0 && !result.error };
 }
 
 function parseArguments(args) {
