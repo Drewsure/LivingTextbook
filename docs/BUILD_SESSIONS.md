@@ -7992,3 +7992,8 @@ The completed intake brief now maps through a shared adapter into the canonical
 seven-lane submission manifest. Omitted optional media remains visible as an
 explicit decision gate, while all manifest statuses and promotion flags stay
 review-only. Recorded under ADR 1388 / DR-1388.
+
+The Sample Publisher upload route now exercises that adapter for its synthetic
+reference package; generic white-label tenants retain the empty/template path
+until their own brief is supplied. This proves route integration without
+turning reference data into rights approval or student content.

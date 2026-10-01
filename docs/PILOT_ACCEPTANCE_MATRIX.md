@@ -92,6 +92,10 @@ The intake-to-submission adapter preserves all seven canonical review lanes,
 including explicitly omitted optional media, and cannot promote files or mark
 student use ready.
 
+The Sample Publisher reference route now uses the adapter end to end; this is a
+synthetic route rehearsal, not evidence that a real publisher package is
+approved.
+
 ## Current Handoff Evidence Boundary
 
 The live publisher handoff now exposes a versioned metadata-only handoff

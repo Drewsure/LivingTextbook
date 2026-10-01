@@ -1,0 +1,33 @@
+import type { PublisherPilotIntakeBrief } from "@living-textbook/content-model";
+
+export const samplePublisherPilotIntakeBrief: PublisherPilotIntakeBrief = {
+  recordVersion: 1,
+  briefId: "publisher-pilot-intake:sample-publisher:sample-publisher:partner-textbook-companion:L1:U1",
+  tenantId: "sample-publisher",
+  publisherName: "Sample Publisher Lab",
+  seriesName: "Starter English",
+  bookTitle: "Partner Textbook Companion",
+  edition: "pilot-2026",
+  version: "0.1",
+  targetLanguage: "en",
+  supportLanguages: [],
+  unitKey: "sample-publisher:partner-textbook-companion:L1:U1",
+  sourceOwner: "Sample Publisher Lab reference tenant (synthetic)",
+  sourceFiles: ["source/unit-1.pdf"],
+  mediaRequests: [
+    { kind: "image", relativePath: "media/images/unit-1-diagram.png", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional labelled diagram or unit image." },
+    { kind: "audio", relativePath: "media/audio/unit-1-learning-audio.mp3", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: true, purpose: "Target-language vocabulary and instruction audio." },
+    { kind: "video", relativePath: "media/video/unit-1-video.mp4", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional publisher-owned unit video." },
+    { kind: "transcript", relativePath: "media/transcripts/unit-1-video.vtt", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Transcript or captions for the optional video." },
+    { kind: "font", relativePath: "media/fonts/learner-font.woff2", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional licensed learner font." },
+    { kind: "background-media", relativePath: "media/background/unit-1-background.mp3", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional approved game background media." },
+  ],
+  deliveryMode: "hybrid",
+  hostedPersistenceOptIn: false,
+  qrPageReferences: ["Starter Book pages 6-9, Daily Routines entry"],
+  retentionPolicy: "Synthetic rehearsal only; no learner records.",
+  reportingPolicy: "Teacher report preview only; no live school reporting.",
+  reviewOnly: true,
+  packageAssemblyAllowed: false,
+  studentFacingUseAllowed: false,
+};

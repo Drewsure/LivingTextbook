@@ -50,6 +50,7 @@ const route = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "u
 const panel = readFileSync(join(root, "apps", "web", "src", "features", "content-intake", "PublisherSubmissionManifestPanel.tsx"), "utf8");
 const template = readFileSync(join(root, "apps", "web", "src", "data", "publisherSubmissionManifest.ts"), "utf8");
 if (!route.includes("PublisherSubmissionManifestPanel") || !route.includes("createPublisherSubmissionManifestTemplate")) failures.push("upload route must mount the submission manifest");
+if (!route.includes("createPublisherSubmissionManifestFromPilotIntake") || !route.includes("samplePublisherPilotIntakeBrief")) failures.push("sample publisher route must use the canonical intake-to-manifest adapter");
 for (const marker of ["Publisher submission manifest", "Promotion blocked", "Student use blocked", "Support languages"]) {
   if (!panel.includes(marker)) failures.push(`submission manifest panel is missing marker: ${marker}`);
 }

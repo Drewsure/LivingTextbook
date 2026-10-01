@@ -13,6 +13,7 @@ import { TeacherUploadWorkspacePanel } from "@/features/content-intake/TeacherUp
 import { TenantUploadWorkspaceEmptyStatePanel } from "@/features/content-intake/TenantUploadWorkspaceEmptyStatePanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 import { createPublisherSubmissionManifestTemplate } from "@/data/publisherSubmissionManifest";
+import { samplePublisherPilotIntakeBrief } from "@/data/samplePublisherPilotIntakeBrief";
 import { PublisherSubmissionManifestPanel } from "@/features/content-intake/PublisherSubmissionManifestPanel";
 import { PublisherSourceManifestStarterPanel } from "@/features/content-intake/PublisherSourceManifestStarterPanel";
 import { PublisherSubmissionReviewHandoffPanel } from "@/features/content-intake/PublisherSubmissionReviewHandoffPanel";
@@ -30,6 +31,7 @@ import {
   validatePublisherSubmissionPackageReviewJourneyPreview,
 } from "@/data/publisherSubmissionPackageReviewJourney";
 import { PublisherSubmissionPackageReviewJourneyPanel } from "@/features/content-intake/PublisherSubmissionPackageReviewJourneyPanel";
+import { createPublisherSubmissionManifestFromPilotIntake } from "@living-textbook/content-model";
 
 export const dynamic = "force-dynamic";
 
@@ -47,12 +49,14 @@ export default async function TeacherUploadWorkspacePage({
   const quarantineUploadsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_UPLOADS_ENABLED === "true";
   const reviewDecisionsEnabled = process.env.LIVING_TEXTBOOOK_REVIEW_DECISIONS_ENABLED === "true";
   const languageSettings = tenant.languageSettings ?? { targetLanguage: "en", assistLanguages: [] };
-  const submissionManifest = createPublisherSubmissionManifestTemplate({
-    tenantId: tenant.id,
-    packageId: hasSamplePreview ? "sample-publisher-l1-u1-routines-package" : `${tenant.id}-pilot-unit-1-package`,
-    targetLanguage: languageSettings.targetLanguage,
-    supportLanguages: languageSettings.assistLanguages ?? [],
-  });
+  const submissionManifest = hasSamplePreview
+    ? createPublisherSubmissionManifestFromPilotIntake(samplePublisherPilotIntakeBrief, "sample-publisher-l1-u1-routines-package")
+    : createPublisherSubmissionManifestTemplate({
+        tenantId: tenant.id,
+        packageId: `${tenant.id}-pilot-unit-1-package`,
+        targetLanguage: languageSettings.targetLanguage,
+        supportLanguages: languageSettings.assistLanguages ?? [],
+      });
   const submissionReviewHandoff = createPublisherSubmissionReviewHandoffPreview(submissionManifest, tenant.id);
   const submissionReviewHandoffErrors = validatePublisherSubmissionReviewHandoffPreview(submissionReviewHandoff, submissionManifest);
   const packageEvidenceReconciliation = createPublisherSubmissionPackageEvidenceReconciliation(submissionManifest);
