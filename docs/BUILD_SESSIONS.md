@@ -8166,3 +8166,12 @@ preflight evidence request. It sends only validated review metadata to the
 tenant-bound endpoint, refuses raw-file or protected-action requests, and
 preserves the independent package, release, QR, persistence, and student
 gates. Recorded under ADR 1404 / DR-1404.
+
+## Build session: Expose the guarded source evidence submission handoff
+
+Extended the tenant-scoped Publisher Pilot Input Kit panel to show the complete
+operator sequence: create the immutable metadata-only request, then submit it
+with the server-side tenant credential. The panel explicitly states that the
+credential never belongs in JSON, browser fields, QR data, or learner routes.
+This improves operator continuity without adding upload, package, release, QR,
+persistence, or student side effects. Recorded under ADR 1405 / DR-1405.

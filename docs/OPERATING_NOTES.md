@@ -1716,3 +1716,9 @@ return `recorded-review-only`; any other status is a blocked handoff. Never
 commit or paste the token into a request, log, screenshot, QR code, or client
 route. Run `npm run verify:publisher-source-preflight-evidence-submit` after
 changing this procedure.
+
+The tenant requirements workspace now displays both commands in sequence. Treat
+the first command as the create-once request step and the second as the guarded
+metadata submission step. If the server-side token is unavailable, stop after
+creating the request; do not paste credentials into the browser or replace the
+command with a direct file upload.

@@ -10196,3 +10196,17 @@ This standard is recorded in DR-1403 and ADR 1403.
   assembly, promotion, QR printing, persistence, or student use.
 
 This standard is recorded in DR-1404 and ADR 1404.
+
+## 649. Operator Handoffs Must Show The Complete Guarded Sequence
+
+- A tenant-scoped requirements surface must show the create-once source
+  evidence request step and the credential-gated metadata submission step in
+  their actual execution order.
+- The visible handoff must state that the credential is server-side only and
+  that the submission sends metadata, never raw publisher files or protected
+  action flags.
+- A clearer operator handoff must not be treated as approval: package
+  assembly, release, QR printing, persistence activation, and student use stay
+  independently gated.
+
+This standard is recorded in DR-1405 and ADR 1405.

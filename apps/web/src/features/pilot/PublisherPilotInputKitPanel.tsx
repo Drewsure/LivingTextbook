@@ -25,6 +25,12 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     `  --tenant \"${tenantId}\" `,
     "  --quarantine \"q-<authorized-quarantine-uuid>\"",
   ].join("\n");
+  const evidenceSubmitCommand = [
+    "$env:LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN = \"<server-side-token>\"",
+    "node scripts/submit-publisher-source-preflight-evidence-request.mjs `",
+    "  --request \"D:\\PublisherPilotReview\\source-preflight-evidence-request.json\" `",
+    "  --base-url \"http://127.0.0.1:3000\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -98,6 +104,14 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <Boundary label="Requires" value="Authorized quarantine and matching checksum" />
           <Boundary label="Still blocked" value="Raw upload, assembly, QR, persistence, students" />
         </div>
+        <div className="mt-5 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell submission command</p>
+          <pre className="whitespace-pre-wrap font-mono">{evidenceSubmitCommand}</pre>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-[var(--tenant-muted)]">
+          The token is supplied only through the operator environment. The submitter sends tenant, quarantine, package,
+          and preflight report metadata; it never sends raw files or protected-action flags.
+        </p>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">

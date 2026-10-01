@@ -10601,3 +10601,13 @@ tenant-bound review endpoint. It rejects raw-file or protected-action payloads
 and does not change assembly, promotion, QR, persistence, or student gates.
 See ADR 1404 and
 `docs/decision-register/DR-1404-source-preflight-evidence-submit-command.md`.
+
+## DR-1405: Visible Source Evidence Submission Handoff
+
+The tenant-scoped publisher requirements workspace now shows the create-once
+source evidence request command followed by the credential-gated metadata
+submission command. The operator receives one complete, copy-ready sequence,
+while the server credential remains environment-only and the request remains
+review-only. The panel does not create uploads, release packages, print QR
+codes, activate persistence, or enable students. See ADR 1405 and
+`docs/decision-register/DR-1405-visible-source-evidence-submission-handoff.md`.
