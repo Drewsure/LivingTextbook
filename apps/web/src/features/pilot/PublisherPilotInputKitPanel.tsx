@@ -18,6 +18,13 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "node scripts/create-publisher-source-manifest-from-pilot-kit.mjs `",
     "  --root \"D:\\PublisherPilotInput\"",
   ].join("\n");
+  const evidenceRequestCommand = [
+    "node scripts/create-publisher-source-preflight-evidence-request.mjs `",
+    "  --root \"D:\\PublisherPilotInput\" `",
+    "  --output \"D:\\PublisherPilotReview\\source-preflight-evidence-request.json\" `",
+    `  --tenant \"${tenantId}\" `,
+    "  --quarantine \"q-<authorized-quarantine-uuid>\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -68,6 +75,28 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <Boundary label="Creates" value="Canonical source manifest only" />
           <Boundary label="Next gate" value="MIME-aware source preflight" />
           <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Source evidence request</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Prepare the tenant-bound preflight handoff</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              After the canonical preflight passes, create one metadata-only request for the authorized quarantine record. The quarantine UUID must come from the intake system; do not invent or reuse one from another tenant.
+            </p>
+          </div>
+          <StatusPill label="Metadata only" tone="neutral" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell evidence request command</p>
+          <pre className="whitespace-pre-wrap font-mono">{evidenceRequestCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Creates" value="Create-once evidence request" />
+          <Boundary label="Requires" value="Authorized quarantine and matching checksum" />
+          <Boundary label="Still blocked" value="Raw upload, assembly, QR, persistence, students" />
         </div>
       </div>
 
