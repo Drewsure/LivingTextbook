@@ -8149,3 +8149,12 @@ package-lineage recheck. Added an operating procedure for the current Windows
 Next production-build failure mode so an absent `.next/BUILD_ID`, stale
 process state, and a dev-server-ready message cannot be mistaken for a
 verified pilot rehearsal.
+
+## Build session: Create a source preflight evidence request bridge
+
+Added a create-once operator command that runs the canonical publisher source
+preflight and emits the exact metadata-only request shape accepted by the
+tenant-bound source-preflight evidence route. The request carries tenant,
+quarantine, package, report, and checksum lineage without copying or
+uploading publisher files. Assembly, promotion, QR, persistence, and student
+use remain blocked. Recorded under ADR 1403 / DR-1403.

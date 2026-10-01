@@ -10170,3 +10170,17 @@ This standard is recorded in DR-1401 and ADR 1401.
   enable students.
 
 This standard is recorded in DR-1402 and ADR 1402.
+
+## 647. Source Preflight Evidence Requests Must Be Create-Once And Metadata-Only
+
+- A completed publisher source folder may produce one endpoint-shaped request
+  carrying the validated report, tenant identity, package identity, and
+  opaque quarantine identity.
+- The request generator must reuse the canonical preflight, refuse overwrite,
+  and include no raw publisher bytes or credentials.
+- A generated request is only a handoff aid. The authorized evidence route
+  must still verify the quarantine record and source checksum before recording
+  evidence, and assembly, promotion, QR printing, persistence, and student use
+  remain separate gates.
+
+This standard is recorded in DR-1403 and ADR 1403.

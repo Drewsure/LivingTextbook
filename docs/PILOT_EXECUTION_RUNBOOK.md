@@ -38,6 +38,22 @@ status, retention, and upload timestamp.
 Review the quarantined source at `/teacher/sources/{tenantId}`. Extraction,
 OCR, mapping, accessibility, and rights review remain active gates.
 
+For a completed publisher folder, run the canonical preflight first. Then
+create the endpoint-shaped evidence request with:
+
+```powershell
+node scripts/create-publisher-source-preflight-evidence-request.mjs `
+  --root "<completed-publisher-source-folder>" `
+  --output "<review-folder>\source-preflight-evidence-request.json" `
+  --tenant "<tenant-id>" `
+  --quarantine "<q-uuid>"
+```
+
+The command is create-once and metadata-only. It is safe to hand to the
+authorized evidence route, but it does not upload source files or approve the
+source. The quarantine record and source checksum must still match before the
+server records the evidence.
+
 ## Gate 2: Reviewed Unit Package
 
 The reviewer must resolve canonical content, target-language audio for every

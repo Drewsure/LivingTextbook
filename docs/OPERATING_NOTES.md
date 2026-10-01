@@ -1678,3 +1678,25 @@ npm run verify:publisher-intake-rehearsal
 
 Do not treat a dev-server `Ready` message as production-build evidence, and do
 not distribute a package until the production build and rehearsal both pass.
+
+## Publisher source evidence request procedure
+
+After the publisher intake kit has been completed and the canonical source
+preflight reports a complete inventory, create the metadata-only evidence
+request from the repository root:
+
+```powershell
+node scripts/create-publisher-source-preflight-evidence-request.mjs `
+  --root "<completed-publisher-source-folder>" `
+  --output "<review-folder>\source-preflight-evidence-request.json" `
+  --tenant "<tenant-id>" `
+  --quarantine "<q-uuid>"
+```
+
+The command refuses overwrite and includes no raw publisher bytes. Do not
+change the tenant, quarantine, or package values after creation. Submit the
+request only through the authorized source-preflight evidence route; a
+complete report is still review evidence and cannot authorize assembly,
+promotion, QR printing, persistence, or student use. Run
+`npm run verify:publisher-source-preflight-evidence-request` when changing
+this procedure.

@@ -10583,3 +10583,12 @@ preflight evidence before exposing its reference. A mismatched record is
 withheld and the binding remains blocked. This closes a caller-supplied
 package-id drift path without enabling any downstream action. See ADR 1402
 and `docs/decision-register/DR-1402-source-preflight-lineage-recheck.md`.
+
+## DR-1403: Create A Source Preflight Evidence Request Bridge
+
+The completed publisher source folder can now produce one create-once,
+metadata-only request for the tenant-bound source-preflight evidence route.
+The command reuses the canonical preflight, preserves tenant/package/checksum
+lineage, refuses overwrite, and keeps assembly, promotion, QR printing,
+persistence activation, and student use blocked. See ADR 1403 and
+`docs/decision-register/DR-1403-source-preflight-evidence-request-bridge.md`.
