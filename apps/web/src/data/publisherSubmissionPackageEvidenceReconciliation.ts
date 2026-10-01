@@ -17,6 +17,10 @@ const assetKindsByLane: Record<PublisherSubmissionPackageEvidenceLane, Publisher
   rights: ["textbook-source", "image", "audio", "video", "transcript", "font", "background-media"],
 };
 
+const derivedEvidenceRecordIdsByLane: Partial<Record<PublisherSubmissionPackageEvidenceLane, string[]>> = {
+  game: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
+};
+
 export function createPublisherSubmissionPackageEvidenceReconciliation(
   manifest: PublisherSubmissionManifest,
 ): PublisherSubmissionPackageEvidenceReconciliation {
@@ -24,6 +28,7 @@ export function createPublisherSubmissionPackageEvidenceReconciliation(
     const sourceAssetIds = manifest.assets
       .filter((asset) => assetKindsByLane[lane].includes(asset.kind))
       .map((asset) => asset.assetId);
+    const derivedEvidenceRecordIds = derivedEvidenceRecordIdsByLane[lane] ?? [];
     const requiredEvidence = lane === "game"
       ? ["Curated activity pathway", "Deterministic scoring and progression replay", "Target-language audio coverage"]
       : lane === "accessibility"
@@ -33,13 +38,16 @@ export function createPublisherSubmissionPackageEvidenceReconciliation(
           : ["Manifest asset identity", "Checksum or source lineage", "Reviewer evidence reference"];
     return {
       lane,
-      status: sourceAssetIds.length > 0 ? "review-pending" as const : "missing" as const,
+      status: sourceAssetIds.length > 0 || derivedEvidenceRecordIds.length > 0 ? "review-pending" as const : "missing" as const,
       sourceAssetIds,
+      derivedEvidenceRecordIds,
       requiredEvidence,
     };
   });
   const unresolvedRequirements = lanes.flatMap((lane) => [
-    ...(lane.status === "missing" ? [`${lane.lane} evidence has no mapped manifest asset.`] : [`${lane.lane} evidence is awaiting reviewer references.`]),
+    ...(lane.status === "missing"
+      ? [`${lane.lane} evidence has no mapped manifest asset or derived evidence record.`]
+      : [`${lane.lane} evidence is awaiting reviewer references.`]),
     ...lane.requiredEvidence.map((evidence) => `${lane.lane}: ${evidence}`),
   ]);
   return {

@@ -7860,3 +7860,13 @@ set are now represented consistently. Video no longer claims poster images as
 video files; posters belong to the image lane and remain subject to the same
 rights and accessibility review. Added a regression check for all declared
 lanes. Recorded ADR 1375 / DR-1375.
+
+## Build session: Distinguish derived game evidence from uploaded assets
+
+The package evidence reconciliation now records derived evidence IDs separately
+from publisher manifest asset IDs. Curated activity pathway, canonical game
+integration, and package game-audio evidence are platform-generated review
+inputs, so the game lane is correctly review-pending instead of falsely
+missing an uploaded game file. All other lanes remain asset-bound, and the
+reconciliation remains blocked for assembly, promotion, QR printing, and
+student-facing use. Recorded ADR 1376 / DR-1376.

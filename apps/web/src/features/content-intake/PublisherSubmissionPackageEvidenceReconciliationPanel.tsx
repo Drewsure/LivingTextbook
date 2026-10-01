@@ -56,6 +56,7 @@ export function PublisherSubmissionPackageEvidenceReconciliationPanel({
               <StatusPill label={lane.status} tone={lane.status === "review-pending" ? "neutral" : "warning"} />
             </div>
             <p className="mt-3 text-sm text-[var(--tenant-muted)]">Manifest assets: {lane.sourceAssetIds.length > 0 ? lane.sourceAssetIds.join(", ") : "none mapped"}</p>
+            {lane.derivedEvidenceRecordIds.length > 0 ? <p className="mt-2 text-sm text-[var(--tenant-muted)]">Derived evidence: {lane.derivedEvidenceRecordIds.join(", ")}</p> : null}
             <ListBlock title="Required evidence" items={lane.requiredEvidence} />
           </article>
         ))}

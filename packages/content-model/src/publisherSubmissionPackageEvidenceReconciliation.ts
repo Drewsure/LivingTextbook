@@ -25,6 +25,7 @@ export interface PublisherSubmissionPackageEvidenceLaneRecord {
   lane: PublisherSubmissionPackageEvidenceLane;
   status: PublisherSubmissionPackageEvidenceLaneStatus;
   sourceAssetIds: string[];
+  derivedEvidenceRecordIds: string[];
   requiredEvidence: string[];
 }
 
@@ -70,6 +71,7 @@ export function validatePublisherSubmissionPackageEvidenceReconciliation(
     if (laneIds.has(lane.lane)) errors.push(`Duplicate package evidence lane: ${lane.lane}.`);
     laneIds.add(lane.lane);
     if (!Array.isArray(lane.sourceAssetIds) || lane.sourceAssetIds.some((assetId) => !assetId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid source assets.`);
+    if (!Array.isArray(lane.derivedEvidenceRecordIds) || lane.derivedEvidenceRecordIds.some((recordId) => !recordId.trim())) errors.push(`Package evidence lane ${lane.lane} has invalid derived evidence records.`);
     if (!Array.isArray(lane.requiredEvidence) || lane.requiredEvidence.length === 0) errors.push(`Package evidence lane ${lane.lane} needs required evidence.`);
     if (lane.status !== "missing" && lane.status !== "review-pending") errors.push(`Package evidence lane ${lane.lane} has an unsupported status.`);
   }

@@ -9825,3 +9825,19 @@ This standard is recorded in DR-1374 and ADR 1374.
   persistence, or student-facing use.
 
 This standard is recorded in DR-1375 and ADR 1375.
+
+## 619. Derived Game Evidence Must Stay Distinct From Publisher Assets
+
+- Publisher uploads and platform-generated game evidence are different
+  custody types and must be represented by separate identity fields.
+- A curated activity pathway, canonical engine integration record, or package
+  game-audio record may make the game lane review-pending; it must never be
+  represented as a fake uploaded file or as proof of package approval.
+- Asset-bound lanes remain missing until their declared publisher assets and
+  evidence are present. Derived game evidence remains subject to reviewer
+  references, content compatibility, audio coverage, deterministic scoring,
+  and release gates.
+- This distinction does not authorize game assembly, route creation, QR
+  printing, persistence, promotion, or student-facing use.
+
+This standard is recorded in DR-1376 and ADR 1376.
