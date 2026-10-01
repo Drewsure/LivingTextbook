@@ -89,11 +89,14 @@ Then run the canonical source preflight against the same folder:
 
 ```powershell
 $env:LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY = "D:\PublisherPilotInput"
-$env:LIVING_TEXTBOOOK_PUBLISHER_PREFLIGHT_OUTPUT = "D:\PublisherPilotOperator\evidence\publisher-source-preflight.json"
+$env:LIVING_TEXTBOOOK_PUBLISHER_PREFLIGHT_OUTPUT = "D:\PublisherPilotInput\evidence\publisher-source-preflight.json"
 npm run preflight:publisher-source
 ```
 
-The canonical preflight is the next review handoff. Its report is still
+The canonical preflight is the next review handoff. Its report is create-once
+and must remain beside the publisher folder at
+`evidence/publisher-source-preflight.json`; rerun it to a new handoff folder
+after changing the manifest or source inventory. The report is still
 review-only evidence; a complete inventory does not prove rights,
 accessibility, package approval, release, QR authorization, persistence, or
 student readiness.

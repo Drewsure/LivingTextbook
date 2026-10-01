@@ -8294,3 +8294,12 @@ generation time, current source-bound build revision, gate results, and next
 actions; it is written only to an external path and refuses overwrite or
 repository output. Added self-tests and exposed the operator command in the
 publisher intake workspace. Recorded under ADR 1420 / DR-1420.
+
+## Build session: Require durable canonical source review evidence
+
+Extended the publisher-source saleability gate beyond intake inventory. A
+publisher handoff must now carry the generated review-only source manifest and
+the create-once `evidence/publisher-source-preflight.json` report. The audit
+reruns source preflight in a temporary comparison lane and checks manifest and
+inventory fingerprints, report identity, completeness, and protected actions.
+Recorded under ADR 1421 / DR-1421.

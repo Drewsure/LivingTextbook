@@ -10736,3 +10736,13 @@ statuses, and next actions. It rejects repository paths and overwrites. This
 gives operators a durable handoff without making the report an approval or
 activation mechanism. See ADR 1420 and
 `docs/decision-register/DR-1420-external-create-once-pilot-audit-report.md`.
+
+## DR-1421: Require Durable Canonical Publisher Source Preflight
+
+The publisher-source saleability gate now requires both
+`publisher-source-manifest.json` and
+`evidence/publisher-source-preflight.json`. The audit reruns the canonical
+source preflight in a temporary read-only comparison lane and rejects stale
+manifest checksums, inventory checksums, report identities, incomplete
+inventory, or unsafe action flags. See ADR 1421 and
+`docs/decision-register/DR-1421-durable-canonical-publisher-source-preflight.md`.

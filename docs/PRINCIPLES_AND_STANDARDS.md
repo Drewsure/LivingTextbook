@@ -10357,3 +10357,13 @@ This standard is recorded in DR-1419 and ADR 1419.
   package assembly, QR printing, persistence, or student use by itself.
 
 This standard is recorded in DR-1420 and ADR 1420.
+
+## 663. Publisher Source Review Requires A Durable Canonical Preflight
+
+- Intake inventory alone cannot satisfy the publisher-source gate.
+- The external publisher handoff must contain the generated review-only source
+  manifest and a create-once canonical source-preflight report beside it.
+- The audit must rerun source preflight and compare manifest, inventory, report
+  identity, and protected-action fields before accepting the persisted report.
+
+This standard is recorded in DR-1421 and ADR 1421.

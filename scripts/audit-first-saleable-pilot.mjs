@@ -37,6 +37,8 @@ if (!publisherRoot) {
     const hasIntake = exists(join(publisherPath, "publisher-pilot-intake.json"));
     const hasEvidence = exists(join(publisherPath, "evidence"));
     const preflightEvidencePath = join(publisherPath, "evidence", "publisher-intake-preflight.json");
+    const sourceManifestPath = join(publisherPath, "publisher-source-manifest.json");
+    const sourcePreflightEvidencePath = join(publisherPath, "evidence", "publisher-source-preflight.json");
     if (!hasIntake || !hasEvidence) {
       record("publisher-source-package", "blocked", publisherPath, "Complete the publisher intake brief and evidence folder before source preflight.");
     } else if (!exists(preflightEvidencePath)) {
@@ -46,14 +48,30 @@ if (!publisherRoot) {
         preflightEvidencePath,
         "Run the canonical intake preflight with --output evidence/publisher-intake-preflight.json and preserve the create-once report with the publisher handoff.",
       );
+    } else if (!exists(sourceManifestPath)) {
+      record(
+        "publisher-source-package",
+        "blocked",
+        sourceManifestPath,
+        "Generate publisher-source-manifest.json from the completed intake kit before canonical source review.",
+      );
+    } else if (!exists(sourcePreflightEvidencePath)) {
+      record(
+        "publisher-source-package",
+        "blocked",
+        sourcePreflightEvidencePath,
+        "Run the canonical source preflight with its output at evidence/publisher-source-preflight.json and preserve the create-once report.",
+      );
     } else {
       const verification = runNodeScript("publisher-pilot-intake-preflight.mjs", ["--root", publisherPath]);
       const evidenceErrors = validatePublisherPreflightEvidence(publisherPath, preflightEvidencePath);
+      const sourceEvidenceErrors = validatePublisherSourcePreflightEvidence(publisherPath, sourceManifestPath, sourcePreflightEvidencePath);
+      const allEvidenceErrors = [...evidenceErrors, ...sourceEvidenceErrors];
       record(
         "publisher-source-package",
-        verification.passed && evidenceErrors.length === 0 ? "proved" : "blocked",
-        `${publisherPath} (canonical preflight: ${verification.passed ? "passed" : "failed"}; durable evidence: ${evidenceErrors.length === 0 ? "bound" : "invalid"})`,
-        evidenceErrors.length > 0 ? evidenceErrors[0] : "Fix the publisher intake preflight findings before source review can advance.",
+        verification.passed && allEvidenceErrors.length === 0 ? "proved" : "blocked",
+        `${publisherPath} (intake preflight: ${verification.passed ? "passed" : "failed"}; source preflight: ${sourceEvidenceErrors.length === 0 ? "bound" : "invalid"})`,
+        allEvidenceErrors.length > 0 ? allEvidenceErrors[0] : "Fix the publisher intake and source preflight findings before source review can advance.",
       );
     }
   }
@@ -177,6 +195,51 @@ function validatePublisherPreflightEvidence(publisherPath, evidencePath) {
     errors.push("Durable publisher preflight evidence must preserve review-only protected actions.");
   }
   return errors;
+}
+
+function validatePublisherSourcePreflightEvidence(publisherPath, manifestPath, evidencePath) {
+  let evidence;
+  let manifestSource;
+  try {
+    evidence = JSON.parse(readFileSync(evidencePath, "utf8"));
+    manifestSource = readFileSync(manifestPath, "utf8");
+  } catch (error) {
+    return [`Cannot read durable publisher source preflight evidence: ${error.message}`];
+  }
+  const errors = [];
+  const current = runPublisherSourcePreflight(publisherPath);
+  if (!current.report) errors.push(current.error ?? "Canonical publisher source preflight did not produce a report.");
+  if (evidence.recordVersion !== 1 || evidence.status !== "blocked" || evidence.inventoryStatus !== "complete") {
+    errors.push("Durable publisher source preflight evidence must be version 1, complete, and review-only blocked.");
+  }
+  if (evidence.manifestChecksumSha256 !== `sha256:${sha256(manifestSource)}`) errors.push("Durable publisher source preflight evidence does not match the current source manifest checksum.");
+  if (evidence.reviewOnly !== true || evidence.packageAssemblyAllowed !== false || evidence.qrPrintAllowed !== false || evidence.studentFacingUseAllowed !== false) {
+    errors.push("Durable publisher source preflight evidence must preserve all protected actions as false.");
+  }
+  if (current.report) {
+    for (const key of ["reportId", "manifestId", "tenantId", "packageId", "version", "manifestChecksumSha256", "inventoryChecksumSha256", "inventoryStatus"]) {
+      if (evidence[key] !== current.report[key]) errors.push(`Durable publisher source preflight evidence does not match the current ${key}.`);
+    }
+    if (JSON.stringify(evidence.counts) !== JSON.stringify(current.report.counts)) errors.push("Durable publisher source preflight evidence counts are stale.");
+  }
+  return errors;
+}
+
+function runPublisherSourcePreflight(publisherPath) {
+  const temporaryRoot = mkdtempSync(join(tmpdir(), "living-textbook-source-preflight-audit-"));
+  const outputPath = join(temporaryRoot, "publisher-source-preflight.json");
+  try {
+    const result = spawnSync(
+      process.execPath,
+      ["--experimental-strip-types", fileURLToPath(new URL("./publisher-source-preflight.mjs", import.meta.url))],
+      { encoding: "utf8", env: { ...process.env, LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY: publisherPath, LIVING_TEXTBOOOK_PUBLISHER_PREFLIGHT_OUTPUT: outputPath }, maxBuffer: 2 * 1024 * 1024 },
+    );
+    if (!exists(outputPath)) return { report: undefined, error: `Canonical publisher source preflight did not write ${outputPath}.` };
+    try { return { report: JSON.parse(readFileSync(outputPath, "utf8")), error: result.status === 0 ? undefined : result.stderr || result.stdout }; }
+    catch (error) { return { report: undefined, error: `Canonical publisher source preflight report is invalid JSON: ${error.message}` }; }
+  } finally {
+    rmSync(temporaryRoot, { recursive: true, force: true });
+  }
 }
 
 function sha256(value) {
@@ -330,6 +393,11 @@ function runSelfTest() {
     const preflightOutput = join(publisherRoot, "evidence", "publisher-intake-preflight.json");
     const preflight = spawnSync(process.execPath, [fileURLToPath(new URL("./publisher-pilot-intake-preflight.mjs", import.meta.url)), "--root", publisherRoot, "--output", preflightOutput], { encoding: "utf8" });
     if (preflight.status !== 0) failSelfTest(`publisher preflight evidence generation failed: ${preflight.stderr || preflight.stdout}`);
+    const sourceManifest = spawnSync(process.execPath, [fileURLToPath(new URL("./create-publisher-source-manifest-from-pilot-kit.mjs", import.meta.url)), "--root", publisherRoot], { encoding: "utf8" });
+    if (sourceManifest.status !== 0) failSelfTest(`publisher source manifest generation failed: ${sourceManifest.stderr || sourceManifest.stdout}`);
+    const sourcePreflightOutput = join(publisherRoot, "evidence", "publisher-source-preflight.json");
+    const sourcePreflight = spawnSync(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./publisher-source-preflight.mjs", import.meta.url))], { encoding: "utf8", env: { ...process.env, LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY: publisherRoot, LIVING_TEXTBOOOK_PUBLISHER_PREFLIGHT_OUTPUT: sourcePreflightOutput } });
+    if (sourcePreflight.status !== 0) failSelfTest(`publisher source preflight generation failed: ${sourcePreflight.stderr || sourcePreflight.stdout}`);
     const validPublisherReport = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--publisher-root", publisherRoot], { encoding: "utf8" });
     const validPublisherCheck = parseJsonOutput(validPublisherReport.stdout)?.checks?.find((check) => check.id === "publisher-source-package");
     if (validPublisherCheck?.status !== "proved") failSelfTest("checksum-bound publisher preflight evidence was not accepted");
@@ -346,7 +414,7 @@ function runSelfTest() {
     if (overwriteAudit.status === 0) failSelfTest("audit report export allowed an overwrite");
     const inRepositoryOutput = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", join(root, "audit-self-test.json")], { encoding: "utf8" });
     if (inRepositoryOutput.status === 0 || !inRepositoryOutput.stderr.includes("outside the LivingTextbook repository")) failSelfTest("in-repository audit report output was not blocked");
-    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound publisher preflight evidence, and exports a create-once external report.");
+    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound intake and source preflight evidence, and exports a create-once external report.");
   } finally {
     rmSync(outerRoot, { recursive: true, force: true });
   }

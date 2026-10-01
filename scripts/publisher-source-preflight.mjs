@@ -21,7 +21,12 @@ if (!sourceDirectory) {
 const report = await preflightDirectory(resolve(sourceDirectory));
 if (outputPath) {
   await mkdir(dirname(resolve(outputPath)), { recursive: true });
-  await writeFile(resolve(outputPath), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+  try {
+    await writeFile(resolve(outputPath), `${JSON.stringify(report, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+  } catch (error) {
+    console.error(`FAIL Could not create ${resolve(outputPath)}. The source preflight report refuses overwrite: ${error.message}`);
+    process.exit(2);
+  }
 }
 console.log(JSON.stringify({ reportId: report.reportId, inventoryStatus: report.inventoryStatus, counts: report.counts, blockers: report.blockers, outputPath: outputPath ? resolve(outputPath) : null }, null, 2));
 process.exit(report.inventoryStatus === "complete" ? 0 : 2);

@@ -101,6 +101,12 @@ rechecks tenant, package, unit, and quarantined source checksum before
 exposing preflight lineage. These strengthen the handoff evidence but do not
 close the real-publisher or human-release requirements.
 
+The first-pilot audit now requires that external handoff to preserve both the
+source manifest and the canonical source-preflight report. It reruns the
+preflight and compares manifest, inventory, report identity, and protected
+action fields, so intake inventory cannot be mistaken for completed source
+review.
+
 The Sample Publisher reference route now uses the adapter end to end; this is a
 synthetic route rehearsal, not evidence that a real publisher package is
 approved.
