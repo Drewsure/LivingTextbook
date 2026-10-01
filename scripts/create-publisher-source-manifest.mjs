@@ -1,8 +1,10 @@
 import { access, mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 import { join, resolve, posix } from "node:path";
 import { tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 
-const acceptedTypesByKind = {
+const acceptedExtensionsByKind = {
   "textbook-source": ["pdf", "docx", "txt"],
   image: ["png", "jpg", "jpeg", "webp"],
   audio: ["mp3", "wav"],
@@ -10,6 +12,15 @@ const acceptedTypesByKind = {
   transcript: ["txt", "vtt", "srt"],
   font: ["woff2", "woff", "ttf", "otf"],
   "background-media": ["mp3", "wav", "mp4", "webm"],
+};
+const acceptedTypesByKind = {
+  "textbook-source": ["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "text/plain"],
+  image: ["image/png", "image/jpeg", "image/webp"],
+  audio: ["audio/mpeg", "audio/wav"],
+  video: ["video/mp4", "video/webm"],
+  transcript: ["text/plain", "text/vtt", "application/x-subrip"],
+  font: ["font/woff2", "font/woff", "font/ttf", "font/otf"],
+  "background-media": ["audio/mpeg", "audio/wav", "video/mp4", "video/webm"],
 };
 
 const options = parseArguments(process.argv.slice(2));
@@ -39,7 +50,7 @@ try {
 const entries = [createEntry("textbook-source", options.source, options.unitKey, true)];
 for (const asset of options.assets) {
   const [kind, relativePath] = asset.split("=", 2);
-  if (!acceptedTypesByKind[kind]) fail(`Unsupported --asset kind: ${kind}`);
+  if (!acceptedExtensionsByKind[kind]) fail(`Unsupported --asset kind: ${kind}`);
   if (!relativePath) fail(`Asset ${asset} must use kind=relative/path.ext.`);
   entries.push(createEntry(kind, relativePath, options.unitKey, false));
 }
@@ -63,8 +74,9 @@ console.log(JSON.stringify({ manifestPath, entryCount: entries.length, contentFi
 function createEntry(kind, relativePath, unitKey, requiredEntry) {
   const safePath = validateRelativePath(relativePath);
   const extension = safePath.split(".").pop()?.toLowerCase() ?? "";
+  const acceptedExtensions = acceptedExtensionsByKind[kind];
   const acceptedTypes = acceptedTypesByKind[kind];
-  if (!acceptedTypes.includes(extension)) fail(`${kind} path must use one of: ${acceptedTypes.join(", ")}.`);
+  if (!acceptedExtensions.includes(extension)) fail(`${kind} path must use one of: ${acceptedExtensions.join(", ")}.`);
   const assetId = `${kind}-${safePath.replace(/[^A-Za-z0-9]+/g, "-").toLowerCase().replace(/^-|-$/g, "")}`;
   return { assetId, kind, relativePath: safePath, unitKey, acceptedTypes, required: requiredEntry };
 }
@@ -97,15 +109,29 @@ function toCamelCase(value) { return value.replace(/-([a-z])/g, (_, letter) => l
 async function runSelfTest() {
   const root = await mkdtemp(join(tmpdir(), "living-textbook-publisher-manifest-"));
   try {
-    const args = { root, tenantId: "self-test-tenant", packageId: "self-test-package", version: "1.0.0", unitKey: "self-test:series:L1:U1", source: "unit-1/source.pdf", assets: ["image=unit-1/diagram.png", "audio=unit-1/greetings.mp3", "video=unit-1/lesson.mp4"] };
-    const entries = [createEntry("textbook-source", args.source, args.unitKey, true), ...args.assets.map((asset) => { const [kind, path] = asset.split("=", 2); return createEntry(kind, path, args.unitKey, false); })];
-    if (entries.length !== 4 || entries[1].acceptedTypes[0] !== "png") throw new Error("manifest template self-test did not create the expected entries");
-    await mkdir(root, { recursive: true });
+    const args = [
+      fileURLToPath(import.meta.url),
+      "--root", root,
+      "--tenant-id", "self-test-tenant",
+      "--package-id", "self-test-package",
+      "--version", "1.0.0",
+      "--unit-key", "self-test:series:L1:U1",
+      "--source", "unit-1/source.pdf",
+      "--asset", "image=unit-1/diagram.png",
+      "--asset", "audio=unit-1/greetings.mp3",
+      "--asset", "video=unit-1/lesson.mp4",
+      "--asset", "transcript=unit-1/lesson.vtt",
+    ];
+    await mkdir(join(root, "unit-1"), { recursive: true });
+    for (const file of ["source.pdf", "diagram.png", "greetings.mp3", "lesson.mp4", "lesson.vtt"]) await writeFile(join(root, "unit-1", file), `fixture:${file}`, "utf8");
+    const generated = spawnSync(process.execPath, args, { encoding: "utf8" });
+    if (generated.status !== 0) throw new Error(`manifest template CLI failed: ${generated.stderr}`);
     const manifestPath = join(root, "publisher-source-manifest.json");
-    await writeFile(manifestPath, JSON.stringify({ entries }, null, 2), "utf8");
     const stored = JSON.parse(await readFile(manifestPath, "utf8"));
-    if (stored.entries[0].required !== true || stored.entries[2].kind !== "audio") throw new Error("manifest template self-test did not preserve entry metadata");
-    console.log("PASS publisher source manifest template creates safe, review-only, multi-media declarations without creating publisher content files.");
+    if (stored.entries.length !== 5 || stored.entries[1].acceptedTypes[0] !== "image/png" || stored.entries[0].required !== true || stored.entries[2].kind !== "audio") throw new Error("manifest template self-test did not preserve MIME and entry metadata");
+    const preflight = spawnSync(process.execPath, ["--experimental-strip-types", fileURLToPath(new URL("./publisher-source-preflight.mjs", import.meta.url))], { encoding: "utf8", env: { ...process.env, LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY: root } });
+    if (preflight.status !== 0 || !preflight.stdout.includes('"inventoryStatus": "complete"')) throw new Error(`generated manifest was not accepted by source preflight: ${preflight.stdout}\n${preflight.stderr}`);
+    console.log("PASS publisher source manifest template creates safe MIME declarations accepted by source preflight without package side effects.");
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -117,5 +143,5 @@ function fail(message) {
 }
 
 function printUsage() {
-  console.log(`Usage:\n  node scripts/create-publisher-source-manifest.mjs --root <folder> --tenant-id <id> --package-id <id> --version <version> --unit-key <key> --source <relative/path.pdf> [--asset kind=relative/path.ext]\n\nSupported asset kinds: ${Object.keys(acceptedTypesByKind).join(", ")}\nThe command creates only publisher-source-manifest.json and refuses to overwrite it.`);
+  console.log(`Usage:\n  node scripts/create-publisher-source-manifest.mjs --root <folder> --tenant-id <id> --package-id <id> --version <version> --unit-key <key> --source <relative/path.pdf> [--asset kind=relative/path.ext]\n\nSupported asset kinds: ${Object.keys(acceptedExtensionsByKind).join(", ")}\nThe command creates only publisher-source-manifest.json and refuses to overwrite it.`);
 }

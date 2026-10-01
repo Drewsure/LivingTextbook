@@ -9763,3 +9763,18 @@ This standard is recorded in DR-1370 and ADR 1370.
   publisher content is present, licensed, reviewed, or student-ready.
 
 This standard is recorded in DR-1371 and ADR 1371.
+
+## 615. Publisher Intake Declarations Must Match Detected Media Types
+
+- A generated publisher source manifest must declare MIME types consumed by
+  the source preflight, not a second incompatible vocabulary of extensions.
+- The preflight detector and the declaration starter must cover the same
+  supported lanes, including PDF, DOCX, images, audio, video, transcripts,
+  fonts, and background media.
+- A starter self-test must run the generated declaration through the real
+  source preflight with temporary fixture files before the helper is treated as
+  an operator-ready intake aid.
+- Type compatibility does not prove rights, accessibility, source ownership,
+  review, package readiness, release authorization, or student-facing use.
+
+This standard is recorded in DR-1372 and ADR 1372.

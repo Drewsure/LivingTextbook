@@ -25,6 +25,8 @@ the repository and are never read by the template command.
   one repeatable command.
 - Missing files, rights, checksums, accessibility, and review decisions still
   fail or block at the existing preflight and later gates.
+- The generated `acceptedTypes` values use MIME types consumed by the source
+  preflight, keeping the starter compatible with the real inventory check.
 - The manifest generator does not add a second intake path or weaken custody.
 
 ## Verification

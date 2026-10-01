@@ -12,6 +12,7 @@ rights are granted, or that any content is student-ready. Existing preflight,
 quarantine, media, accessibility, package, release, QR, persistence, and
 launch gates remain mandatory.
 
-**Verification:** The template self-test proves safe multi-media declarations,
-review-only flags, and no content-file creation.
+**Verification:** The template self-test proves safe multi-media MIME
+declarations, compatibility with source preflight, review-only flags, and no
+package side effects.
 

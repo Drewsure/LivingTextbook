@@ -7828,3 +7828,10 @@ validates safe relative paths, refuses overwrites, creates no content files,
 and points the operator to the existing source preflight. The full foundation
 composition now runs its self-test as a standing regression guard. Recorded
 ADR 1371 / DR-1371.
+
+## Build session: Align publisher manifest MIME declarations with preflight
+
+The publisher manifest starter now declares MIME types rather than file
+extensions, and the source preflight recognizes DOCX and WEBP in the same
+lanes. Its self-test creates a temporary multi-media source folder, generates
+the manifest, and runs the real preflight against it. Recorded ADR 1372 / DR-1372.
