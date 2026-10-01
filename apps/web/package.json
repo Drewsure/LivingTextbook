@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
+    "postbuild": "node ../../scripts/write-production-build-proof.mjs",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "next typegen && tsc --noEmit"

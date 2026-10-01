@@ -10688,3 +10688,10 @@ Policy and release records must agree before either human gate can count toward
 saleability. Identity drift blocks the audit even when the individual records
 are valid, and the verifier self-test covers that mismatch. See ADR 1414 and
 `docs/decision-register/DR-1414-human-evidence-identity-gate.md`.
+
+## DR-1415: Source-Bound Production Build Proof
+
+The production-build gate now requires a post-build proof tied to the current
+source revision and Next build ID. A stale `.next/BUILD_ID` cannot make the
+pilot appear ready. See ADR 1415 and
+`docs/decision-register/DR-1415-source-bound-production-build-proof.md`.

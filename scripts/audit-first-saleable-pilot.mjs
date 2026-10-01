@@ -7,7 +7,14 @@ const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const options = parseArguments(process.argv.slice(2));
 const checks = [];
 
-record("production-build", exists(join(root, "apps", "web", ".next", "BUILD_ID")) ? "proved" : "blocked", "apps/web/.next/BUILD_ID", "Run the production build before browser rehearsal.");
+const productionBuildVerification = runNodeScript("verify-production-build-proof.mjs", ["--json"]);
+const productionBuildReport = parseJsonOutput(productionBuildVerification.stdout);
+record(
+  "production-build",
+  productionBuildVerification.passed && productionBuildReport?.status === "proved" ? "proved" : "blocked",
+  productionBuildReport?.proofPath ?? "apps/web/.next/living-textbook-build-proof.json",
+  "Run the current webpack production build before browser rehearsal; stale build output cannot prove pilot readiness.",
+);
 record("operator-handoff", exists(join(root, "scripts", "verify-local-package-operator-behavior.mjs")) ? "proved" : "blocked", "scripts/verify-local-package-operator-behavior.mjs", "Restore the closed-local operator behavior check.");
 record("foundation-contracts", exists(join(root, "docs", "PILOT_ACCEPTANCE_MATRIX.md")) && exists(join(root, "docs", "PILOT_EXECUTION_RUNBOOK.md")) ? "proved" : "blocked", "pilot acceptance matrix and execution runbook", "Restore the pilot operating contracts.");
 

@@ -10290,3 +10290,13 @@ This standard is recorded in DR-1413 and ADR 1413.
   saleability evidence.
 
 This standard is recorded in DR-1414 and ADR 1414.
+
+## 657. Saleability Audits Require A Source-Bound Production Build
+
+- An existing `.next/BUILD_ID` is not sufficient evidence of a current build.
+- The web build must write a source-revision and build-ID proof only after a
+  successful webpack production build.
+- The saleability audit must block when that proof does not match the current
+  source revision.
+
+This standard is recorded in DR-1415 and ADR 1415.

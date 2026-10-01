@@ -8249,3 +8249,10 @@ The saleability audit now requires the canonical human-evidence verifier to
 prove cross-record identity binding before either delivery-policy or release-
 authorization gate is counted. A negative self-test mutates the package
 identity and confirms the result is blocked. Recorded under ADR 1414 / DR-1414.
+
+## Build session: Bind pilot build evidence to the current source revision
+
+Added a post-build source proof and changed the first-pilot audit to require
+that proof to match the current commit and Next build ID. This prevents stale
+production output from being counted as current saleability evidence. Recorded
+under ADR 1415 / DR-1415.
