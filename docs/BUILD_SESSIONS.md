@@ -7922,3 +7922,10 @@ Teacher capture exposes explicit confirmation controls, and live source/package
 readiness derives game completeness from the stored set instead of lane
 presence. Partial confirmations remain incomplete and all release gates stay
 blocked. Recorded ADR 1382 / DR-1382.
+
+## Build session: Carry canonical game evidence into delivery handoff
+
+The metadata-only publisher delivery handoff now preserves the exact canonical
+game-derived evidence IDs from the immutable package review. Its validator
+rejects a complete package status without the full set, and the handoff panel
+exposes the IDs without enabling writes. Recorded ADR 1383 / DR-1383.

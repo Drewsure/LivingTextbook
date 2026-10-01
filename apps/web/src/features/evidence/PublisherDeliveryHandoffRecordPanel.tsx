@@ -33,6 +33,13 @@ export function PublisherDeliveryHandoffRecordPanel({ record, validationErrors =
           <Fact label="Publisher assets" value={String(record.packageEvidence.publisherAssetReferenceCount)} />
           <Fact label="Platform-derived" value={String(record.packageEvidence.platformDerivedReferenceCount)} />
         </dl>
+        <div className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3">
+          <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Canonical game evidence</p>
+          <p className="mt-1 text-sm leading-6 text-[var(--tenant-muted)]">These platform-derived records must travel with the reviewed package before game readiness can be shown.</p>
+          <ul className="mt-2 grid gap-2 text-xs text-[var(--tenant-muted)]">
+            {record.packageEvidence.canonicalGameDerivedEvidenceRecordIds.length > 0 ? record.packageEvidence.canonicalGameDerivedEvidenceRecordIds.map((recordId) => <li key={recordId} className="rounded border border-[var(--tenant-border)] p-2">{recordId}</li>) : <li className="rounded border border-[var(--tenant-border)] p-2">Not recorded</li>}
+          </ul>
+        </div>
         {record.packageEvidence.references.length > 0 ? <ul className="mt-4 grid gap-2 sm:grid-cols-2">{record.packageEvidence.references.map((reference) => <li key={reference.lane} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm"><span className="font-bold">{reference.lane}</span><span className="ml-2 text-[var(--tenant-muted)]">{reference.origin}</span><p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">{reference.referenceId}</p></li>)}</ul> : <p className="mt-4 text-sm leading-6 text-[var(--tenant-muted)]">No package evidence references are recorded in this review-only handoff.</p>}
       </section>
       <div className="mt-5 grid gap-4 lg:grid-cols-2">

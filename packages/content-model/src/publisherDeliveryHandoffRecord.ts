@@ -3,6 +3,7 @@ import type {
   UploadQuarantinePackageEvidenceReferenceOrigin,
   UploadQuarantinePackageEvidenceReview,
 } from "./uploadQuarantinePackageEvidenceReview";
+import { hasCompleteCanonicalGameEvidenceRecordIds } from "./publisherSubmissionPackageEvidenceReconciliation";
 
 export type PublisherDeliveryHandoffEvidenceStatus = "present" | "preview-only" | "missing" | "blocked";
 export type PublisherDeliveryHandoffEvidenceOrigin = "publisher-asset" | "platform-derived" | "delivery-control";
@@ -27,6 +28,7 @@ export interface PublisherDeliveryHandoffPackageEvidenceSummary {
   status: UploadQuarantinePackageEvidenceReview["status"] | "not-recorded";
   reviewId: string | null;
   references: PublisherDeliveryHandoffPackageEvidenceReference[];
+  canonicalGameDerivedEvidenceRecordIds: string[];
   publisherAssetReferenceCount: number;
   platformDerivedReferenceCount: number;
 }
@@ -96,7 +98,7 @@ export function createPublisherDeliveryHandoffRecord(input: {
   sentenceApprovalPassed: boolean;
   packageReviewPacketId: string | null;
   packageReviewPacketReady: boolean;
-  packageEvidenceReview: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences"> | null;
+  packageEvidenceReview: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences" | "canonicalGameDerivedEvidenceRecordIds"> | null;
   deliveryManifestPreviewId: string;
   releaseReceiptPreviewId: string;
   packageIndexPreviewId: string;
@@ -147,13 +149,14 @@ export function createPublisherDeliveryHandoffRecord(input: {
 }
 
 export function createPublisherDeliveryHandoffPackageEvidenceSummary(
-  review: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences"> | null,
+  review: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences" | "canonicalGameDerivedEvidenceRecordIds"> | null,
 ): PublisherDeliveryHandoffPackageEvidenceSummary {
   const references = review?.evidenceReferences.map((reference) => ({ ...reference })) ?? [];
   return {
     status: review?.status ?? "not-recorded",
     reviewId: review?.reviewId ?? null,
     references,
+    canonicalGameDerivedEvidenceRecordIds: review?.canonicalGameDerivedEvidenceRecordIds ?? [],
     publisherAssetReferenceCount: references.filter((reference) => reference.origin === "publisher-asset").length,
     platformDerivedReferenceCount: references.filter((reference) => reference.origin === "platform-derived").length,
   };
@@ -205,6 +208,9 @@ function validatePackageEvidenceSummary(value: unknown, errors: string[]) {
   }
   const publisherCount = references.filter((reference) => isRecord(reference) && reference.origin === "publisher-asset").length;
   const derivedCount = references.filter((reference) => isRecord(reference) && reference.origin === "platform-derived").length;
+  const canonicalGameIds = value.canonicalGameDerivedEvidenceRecordIds;
+  if (!Array.isArray(canonicalGameIds) || canonicalGameIds.some((recordId) => !isNonEmptyString(recordId))) errors.push("Publisher delivery handoff canonical game evidence IDs must be an array of non-empty strings.");
+  if (value.status === "reviewed-package-evidence" && !hasCompleteCanonicalGameEvidenceRecordIds(Array.isArray(canonicalGameIds) ? canonicalGameIds : [])) errors.push("Reviewed package evidence must carry the complete canonical game evidence set.");
   if (value.publisherAssetReferenceCount !== publisherCount || value.platformDerivedReferenceCount !== derivedCount) errors.push("Publisher delivery handoff package evidence origin counts must match references.");
   if (value.status === "not-recorded" && (references.length !== 0 || value.reviewId !== null)) errors.push("Unrecorded package evidence must not expose review references.");
 }

@@ -9910,3 +9910,15 @@ This standard is recorded in DR-1381 and ADR 1381.
   QR printing, persistence activation, or student-facing use.
 
 This standard is recorded in DR-1382 and ADR 1382.
+
+## 626. Delivery Handoffs Must Preserve Canonical Game Evidence
+
+- A delivery handoff claiming complete reviewed package evidence must carry the
+  exact canonical game-derived record IDs from package review.
+- Origin counts alone are not enough to establish game readiness.
+- Local, hosted, and hybrid delivery reviews must inspect the same canonical
+  game evidence set.
+- Handoff evidence remains metadata-only and cannot authorize release, QR
+  printing, persistence activation, or student-facing use.
+
+This standard is recorded in DR-1383 and ADR 1383.
