@@ -30,4 +30,6 @@ folder scaffold reduces intake errors and keeps later preflight deterministic.
 
 `node scripts/verify-publisher-pilot-intake-kit.mjs`
 
+`node scripts/publisher-pilot-intake-preflight.mjs --self-test`
+
 See `docs/PUBLISHER_PILOT_INPUT_KIT.md` and the active pilot acceptance matrix.

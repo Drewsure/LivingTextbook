@@ -38,6 +38,7 @@ export interface PublisherPilotIntakeBrief {
 export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBrief): string[] {
   const errors: string[] = [];
   if (brief.recordVersion !== 1) errors.push("recordVersion must be 1.");
+  if (JSON.stringify(brief).includes("REPLACE_WITH_")) errors.push("The intake brief still contains unresolved REPLACE_WITH_* placeholders.");
 
   for (const [field, value] of Object.entries(brief)) {
     if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "qrPageReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;

@@ -7981,3 +7981,9 @@ student use remain separate evidence gates. Recorded ADR 1388 / DR-1388.
 The intake-kit verifier now guards the shared safety flags, generator behavior,
 and requirements-route mount so future refactors cannot hide or bypass the
 publisher handoff boundary.
+
+Added a no-write intake preflight that rejects unresolved placeholders, unsafe
+paths, missing declared source/media files, and invalid safety flags before a
+publisher folder enters quarantine. A complete inventory is evidence for the
+existing source preflight only; it does not authorize package assembly, QR
+printing, persistence, or students.

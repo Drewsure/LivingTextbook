@@ -35,3 +35,14 @@ source and media files, and provide:
 
 The brief is deliberately review-only. A completed folder is evidence for the
 existing quarantine and source-review workflow, not a release approval.
+
+Before source preflight, run the no-write inventory check:
+
+```powershell
+node scripts/publisher-pilot-intake-preflight.mjs `
+  --root "D:\PublisherPilotInput"
+```
+
+It must report `inventoryStatus: "complete"`. An incomplete result names
+missing files, unsafe paths, unresolved placeholders, and structural errors; it
+does not write or promote anything.
