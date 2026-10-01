@@ -21,6 +21,11 @@ try {
     version: "draft",
     targetLanguage: "en",
     supportLanguages: ["ja"],
+    evidenceRequests: [
+      { referenceId: "rights-evidence", kind: "rights", relativePath: "evidence/rights.md", appliesToAssetIds: ["source-a"], required: true, status: "missing" },
+      { referenceId: "accessibility-evidence", kind: "accessibility", relativePath: "evidence/accessibility.md", appliesToAssetIds: ["source-a"], required: true, status: "missing" },
+      { referenceId: "scan-evidence", kind: "scan", relativePath: "evidence/scan.json", appliesToAssetIds: ["source-a"], required: true, status: "missing" },
+    ],
     reviewOnly: true,
     filePromotionAllowed: false,
     studentFacingUseAllowed: false,
@@ -43,6 +48,7 @@ try {
     evidenceHandoffRoute: "/teacher/evidence/tenant-a/handoff",
   });
   if (model.validatePublisherSubmissionReviewHandoff(valid, manifest).length !== 0) failures.push("valid submission review handoff must pass");
+  if (valid.lanes[0]?.evidenceRequestIds.length !== 3) failures.push("review handoff must carry all evidence references to the covered asset");
   const unsafe = { ...valid, blockedActions: valid.blockedActions.filter((action) => action !== "No QR print") };
   if (!model.validatePublisherSubmissionReviewHandoff(unsafe, manifest).some((error) => error.includes("No QR print"))) failures.push("QR printing must remain blocked");
   const missingLane = { ...valid, lanes: [] };
@@ -63,4 +69,4 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
 }
-console.log("PASS publisher submission review handoff maps every manifest asset to evidence while blocking promotion, QR print, export, and student use.");
+console.log("PASS publisher submission review handoff maps every manifest asset to its evidence references while blocking promotion, QR print, export, and student use.");

@@ -7,6 +7,7 @@ export interface PublisherSubmissionEvidenceLane {
   assetId: string;
   label: string;
   sourceRoute: string;
+  evidenceRequestIds: string[];
   requiredEvidence: string[];
   status: "awaiting-evidence";
 }
@@ -55,11 +56,21 @@ export function validatePublisherSubmissionReviewHandoff(
     assetIds.add(lane.assetId);
     if (!isInternalPath(lane.sourceRoute)) errors.push(`Evidence lane ${lane.laneId} must use an internal route.`);
     if (lane.status !== "awaiting-evidence") errors.push(`Evidence lane ${lane.laneId} must remain awaiting-evidence.`);
+    if (!Array.isArray(lane.evidenceRequestIds) || lane.evidenceRequestIds.some((referenceId) => !referenceId.trim())) errors.push(`Evidence lane ${lane.laneId} needs evidence request ids.`);
     if (!Array.isArray(lane.requiredEvidence) || lane.requiredEvidence.length === 0) errors.push(`Evidence lane ${lane.laneId} needs required evidence.`);
   }
   for (const asset of manifest.assets) {
     if (!assetIds.has(asset.assetId)) errors.push(`Manifest asset ${asset.assetId} has no evidence lane.`);
   }
+  const evidenceIds = new Set(manifest.evidenceRequests.map((evidence) => evidence.referenceId));
+  const coveredEvidenceIds = new Set<string>();
+  for (const lane of lanes) {
+    for (const referenceId of lane.evidenceRequestIds) {
+      if (!evidenceIds.has(referenceId)) errors.push(`Evidence lane ${lane.laneId} references unknown evidence request ${referenceId}.`);
+      coveredEvidenceIds.add(referenceId);
+    }
+  }
+  for (const evidence of manifest.evidenceRequests) if (!coveredEvidenceIds.has(evidence.referenceId)) errors.push(`Manifest evidence request ${evidence.referenceId} has no review handoff lane.`);
 
   for (const action of [
     "No file promotion",
@@ -90,6 +101,10 @@ export function createPublisherSubmissionReviewHandoff(
     ...routes,
     status: "review-only",
     lanes: manifest.assets.map((asset) => ({
+      ...(() => {
+        const evidenceRequestIds = manifest.evidenceRequests.filter((evidence) => evidence.appliesToAssetIds.includes(asset.assetId)).map((evidence) => evidence.referenceId);
+        return { evidenceRequestIds };
+      })(),
       laneId: `evidence-lane:${asset.assetId}`,
       assetId: asset.assetId,
       label: asset.label,

@@ -10039,3 +10039,14 @@ This standard is recorded in DR-1391 and ADR 1391.
   for any supplied or requested content must remain explicit and traceable.
 
 This standard is recorded in DR-1392 and ADR 1392.
+
+## 637. Review Handoff Lanes Must Carry Evidence References
+
+- Every publisher review-handoff lane must identify the structured evidence
+  request IDs covering its manifest asset.
+- Unknown evidence IDs and manifest evidence with no handoff lane must fail
+  closed before package review can appear complete.
+- The mapping is read-only provenance. It does not approve evidence, promote
+  files, print QR codes, activate persistence, or assign students.
+
+This standard is recorded in DR-1393 and ADR 1393.

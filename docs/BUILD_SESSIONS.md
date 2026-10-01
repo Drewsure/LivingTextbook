@@ -8045,3 +8045,10 @@ The intake and submission validators now require a required rights,
 accessibility/caption, and scan evidence request. A handoff with only one
 evidence kind cannot appear structurally complete, even when its files and
 paths are otherwise valid. Recorded under ADR 1392 / DR-1392.
+
+## Build session: Carry evidence references into review handoff lanes
+
+Publisher review-handoff lanes now preserve the exact evidence request IDs that
+cover each manifest asset. The handoff validator rejects unknown references and
+unmapped manifest evidence, while the teacher surface exposes the mapping as
+read-only review evidence. Recorded under ADR 1393 / DR-1393.

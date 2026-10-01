@@ -58,6 +58,9 @@ export function PublisherSubmissionReviewHandoffPanel({
               <StatusPill label="Awaiting evidence" tone="warning" />
             </div>
             <ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">
+              <li className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-2">
+                Evidence records: {lane.evidenceRequestIds.length > 0 ? lane.evidenceRequestIds.join(", ") : "none mapped"}
+              </li>
               {lane.requiredEvidence.map((item, index) => (
                 <li key={`${lane.laneId}-evidence-${index}-${item}`} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">{item}</li>
               ))}
