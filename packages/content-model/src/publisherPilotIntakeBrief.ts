@@ -1,6 +1,16 @@
 import type { PublisherSubmissionAssetKind } from "./publisherSubmissionManifest";
 
 export type PublisherPilotDeliveryMode = "hosted-pwa" | "closed-local" | "hybrid";
+export type PublisherPilotQrTargetType = "front-door" | "unit-launch" | "game-mode" | "media-playlist";
+
+export interface PublisherPilotQrReference {
+  referenceId: string;
+  pageReference: string;
+  unitId: string;
+  activitySlug: string;
+  targetType: PublisherPilotQrTargetType;
+  language: string;
+}
 
 export interface PublisherPilotMediaRequest {
   kind: PublisherSubmissionAssetKind;
@@ -28,6 +38,7 @@ export interface PublisherPilotIntakeBrief {
   deliveryMode: PublisherPilotDeliveryMode;
   hostedPersistenceOptIn: boolean;
   qrPageReferences: string[];
+  qrReferences: PublisherPilotQrReference[];
   retentionPolicy: string;
   reportingPolicy: string;
   reviewOnly: true;
@@ -41,7 +52,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   if (JSON.stringify(brief).includes("REPLACE_WITH_")) errors.push("The intake brief still contains unresolved REPLACE_WITH_* placeholders.");
 
   for (const [field, value] of Object.entries(brief)) {
-    if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "qrPageReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
+    if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "qrPageReferences", "qrReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${field} is required.`);
   }
 
@@ -50,6 +61,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   }
   if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) errors.push("At least one source file is required.");
   if (!Array.isArray(brief.qrPageReferences) || brief.qrPageReferences.length === 0) errors.push("At least one QR page reference is required.");
+  if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) errors.push("At least one structured QR reference is required.");
   if (!Array.isArray(brief.mediaRequests) || brief.mediaRequests.length === 0) errors.push("At least one media request is required.");
   if (!("hosted-pwa" === brief.deliveryMode || "closed-local" === brief.deliveryMode || "hybrid" === brief.deliveryMode)) errors.push("deliveryMode is unsupported.");
   if (brief.reviewOnly !== true) errors.push("reviewOnly must remain true.");
@@ -62,6 +74,13 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   for (const request of brief.mediaRequests ?? []) {
     if (!request.unitKey.trim() || !request.purpose.trim()) errors.push("Every media request needs a unitKey and purpose.");
     if (!request.kind) errors.push("Every media request needs a supported kind.");
+  }
+  const qrIds = new Set<string>();
+  for (const reference of brief.qrReferences ?? []) {
+    if (!reference.referenceId.trim() || !reference.pageReference.trim() || !reference.unitId.trim() || !reference.activitySlug.trim() || !reference.language.trim()) errors.push("Every QR reference needs identity, page, unit, activity, and language metadata.");
+    if (qrIds.has(reference.referenceId)) errors.push(`Duplicate QR reference id: ${reference.referenceId}.`);
+    qrIds.add(reference.referenceId);
+    if (!("front-door" === reference.targetType || "unit-launch" === reference.targetType || "game-mode" === reference.targetType || "media-playlist" === reference.targetType)) errors.push(`Unsupported QR target type: ${reference.targetType}.`);
   }
   if (brief.hostedPersistenceOptIn && brief.deliveryMode === "closed-local") {
     errors.push("closed-local delivery cannot opt in to hosted persistence.");

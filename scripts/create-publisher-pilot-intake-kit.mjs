@@ -63,6 +63,7 @@ function createBrief(options) {
     deliveryMode: "hybrid",
     hostedPersistenceOptIn: false,
     qrPageReferences: ["REPLACE_WITH_TEXTBOOK_PAGE_OR_SECTION"],
+    qrReferences: [{ referenceId: "unit-1-entry", pageReference: "REPLACE_WITH_TEXTBOOK_PAGE_OR_SECTION", unitId: "unit-1", activitySlug: "unit-1-entry", targetType: "unit-launch", language: "en" }],
     retentionPolicy: "REPLACE_WITH_SCHOOL_RETENTION_POLICY",
     reportingPolicy: "REPLACE_WITH_TEACHER_REPORTING_POLICY",
     reviewOnly: true,
@@ -80,7 +81,7 @@ function validateBrief(brief) {
   for (const key of ["briefId", "tenantId", "publisherName", "seriesName", "bookTitle", "edition", "version", "targetLanguage", "unitKey", "sourceOwner", "retentionPolicy", "reportingPolicy"]) {
     if (!brief[key]?.trim()) errors.push(`${key} is required.`);
   }
-  if (!brief.sourceFiles.length || !brief.mediaRequests.length || !brief.qrPageReferences.length) errors.push("source, media, and QR placeholders are required.");
+  if (!brief.sourceFiles.length || !brief.mediaRequests.length || !brief.qrPageReferences.length || !brief.qrReferences.length) errors.push("source, media, and structured QR placeholders are required.");
   if (brief.reviewOnly !== true || brief.packageAssemblyAllowed !== false || brief.studentFacingUseAllowed !== false) errors.push("safety flags are invalid.");
   return errors;
 }

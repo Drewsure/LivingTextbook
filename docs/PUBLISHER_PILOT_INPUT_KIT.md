@@ -46,3 +46,7 @@ node scripts/publisher-pilot-intake-preflight.mjs `
 It must report `inventoryStatus: "complete"`. An incomplete result names
 missing files, unsafe paths, unresolved placeholders, and structural errors; it
 does not write or promote anything.
+
+Structured QR references then produce a review-only alias preview. The preview
+binds page, unit, activity, language, edition, package, and local fallback
+identity before the separate QR registry and print-authorization gates.

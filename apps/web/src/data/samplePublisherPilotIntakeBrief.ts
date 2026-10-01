@@ -25,6 +25,7 @@ export const samplePublisherPilotIntakeBrief: PublisherPilotIntakeBrief = {
   deliveryMode: "hybrid",
   hostedPersistenceOptIn: false,
   qrPageReferences: ["Starter Book pages 6-9, Daily Routines entry"],
+  qrReferences: [{ referenceId: "daily-routines-entry", pageReference: "Starter Book pages 6-9", unitId: "unit-1", activitySlug: "daily-routines-entry", targetType: "unit-launch", language: "en" }],
   retentionPolicy: "Synthetic rehearsal only; no learner records.",
   reportingPolicy: "Teacher report preview only; no live school reporting.",
   reviewOnly: true,

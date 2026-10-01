@@ -37,6 +37,7 @@ try {
     deliveryMode: "hybrid",
     hostedPersistenceOptIn: false,
     qrPageReferences: ["page-1"],
+    qrReferences: [{ referenceId: "unit-1-entry", pageReference: "page-1", unitId: "unit-1", activitySlug: "unit-1-entry", targetType: "unit-launch", language: "en" }],
     retentionPolicy: "School policy",
     reportingPolicy: "Teacher reports",
     reviewOnly: true,

@@ -7997,3 +7997,9 @@ The Sample Publisher upload route now exercises that adapter for its synthetic
 reference package; generic white-label tenants retain the empty/template path
 until their own brief is supplied. This proves route integration without
 turning reference data into rights approval or student content.
+
+Structured QR references now produce a stable alias and package-bound local
+fallback preview in the Sample Publisher review workspace. The preview is
+print-blocked, route-mutation-blocked, student-blocked, and side-effect-free;
+durable registry, rollback, release, and human print authorization remain
+separate gates.

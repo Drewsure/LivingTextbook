@@ -9975,3 +9975,14 @@ This standard is recorded in DR-1387 and ADR 1387.
   persistence activation, or student-facing use.
 
 This standard is recorded in DR-1388 and ADR 1388.
+
+## 632. QR References Must Be Structured Before Print Review
+
+- Publisher intake must identify each QR by page reference, unit, activity,
+  target type, and language rather than a free-form note alone.
+- Alias previews must bind tenant, package, edition, version, and local
+  fallback identities using safe internal paths.
+- QR previews remain print-blocked and side-effect-free until release,
+  rollback, registry, and human authorization gates pass.
+
+This standard is recorded in DR-1388 and ADR 1388.

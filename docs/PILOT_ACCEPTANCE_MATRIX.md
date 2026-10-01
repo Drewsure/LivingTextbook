@@ -96,6 +96,11 @@ The Sample Publisher reference route now uses the adapter end to end; this is a
 synthetic route rehearsal, not evidence that a real publisher package is
 approved.
 
+The same reference route now shows structured QR alias and local-fallback
+preview identities. This advances mapping evidence only; production printing
+still requires release approval, rollback evidence, registry deployment, and
+explicit human authorization.
+
 ## Current Handoff Evidence Boundary
 
 The live publisher handoff now exposes a versioned metadata-only handoff

@@ -31,6 +31,8 @@ import {
   validatePublisherSubmissionPackageReviewJourneyPreview,
 } from "@/data/publisherSubmissionPackageReviewJourney";
 import { PublisherSubmissionPackageReviewJourneyPanel } from "@/features/content-intake/PublisherSubmissionPackageReviewJourneyPanel";
+import { PublisherPilotQrPreviewPanel } from "@/features/content-intake/PublisherPilotQrPreviewPanel";
+import { samplePublisherPilotQrPreview, samplePublisherPilotQrPreviewErrors } from "@/data/samplePublisherPilotQrPreview";
 import { createPublisherSubmissionManifestFromPilotIntake } from "@living-textbook/content-model";
 
 export const dynamic = "force-dynamic";
@@ -67,6 +69,7 @@ export default async function TeacherUploadWorkspacePage({
   return (
     <AppShell tenant={tenant}>
       <PublisherSubmissionManifestPanel manifest={submissionManifest} />
+      {hasSamplePreview ? <PublisherPilotQrPreviewPanel preview={samplePublisherPilotQrPreview} errors={samplePublisherPilotQrPreviewErrors} /> : null}
       <PublisherSourceManifestStarterPanel manifest={submissionManifest} />
       <PublisherSubmissionReviewHandoffPanel handoff={submissionReviewHandoff} validationErrors={submissionReviewHandoffErrors} />
       <PublisherSubmissionPackageEvidenceReconciliationPanel reconciliation={packageEvidenceReconciliation} validationErrors={packageEvidenceReconciliationErrors} />
