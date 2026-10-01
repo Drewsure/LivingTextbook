@@ -10027,3 +10027,15 @@ This standard is recorded in DR-1390 and ADR 1390.
   each evidence record covers without exposing a write or release action.
 
 This standard is recorded in DR-1391 and ADR 1391.
+
+## 636. Publisher Intake Must Declare The Complete Evidence Triad
+
+- Every publisher handoff must declare required rights, accessibility/caption,
+  and scan evidence before it can be structurally complete.
+- The three lanes remain evidence requests, not approvals; their presence must
+  never bypass human review, rights adjudication, package release, QR print,
+  persistence, or student-use gates.
+- Optional media can be intentionally omitted, but the evidence requirements
+  for any supplied or requested content must remain explicit and traceable.
+
+This standard is recorded in DR-1392 and ADR 1392.

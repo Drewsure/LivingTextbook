@@ -30,7 +30,11 @@ try {
     sourceOwner: "Publisher A",
     sourceFiles: ["source/unit-1.pdf"],
     mediaRequests: [{ kind: "audio", relativePath: "media/audio/unit-1.mp3", unitKey: "tenant-a:book:L1:U1", required: true, purpose: "Learning audio" }],
-    evidenceRequests: [{ referenceId: "rights", kind: "rights", relativePath: "evidence/rights.md", appliesTo: ["source/unit-1.pdf"], required: true }],
+    evidenceRequests: [
+      { referenceId: "rights", kind: "rights", relativePath: "evidence/rights.md", appliesTo: ["source/unit-1.pdf"], required: true },
+      { referenceId: "accessibility", kind: "accessibility", relativePath: "evidence/accessibility.md", appliesTo: ["media/audio/unit-1.mp3"], required: true },
+      { referenceId: "scan", kind: "scan", relativePath: "evidence/scan.json", appliesTo: ["source/unit-1.pdf"], required: true },
+    ],
     deliveryMode: "hybrid",
     hostedPersistenceOptIn: false,
     qrPageReferences: ["page-1"],

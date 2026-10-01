@@ -8038,3 +8038,10 @@ evidence records retain safe paths, required status, and exact canonical asset
 coverage. Unknown coverage fails closed, and the teacher manifest panel shows
 the trace without accepting files or inferring approval. Recorded under ADR
 1391 / DR-1391.
+
+## Build session: Require the complete publisher evidence triad
+
+The intake and submission validators now require a required rights,
+accessibility/caption, and scan evidence request. A handoff with only one
+evidence kind cannot appear structurally complete, even when its files and
+paths are otherwise valid. Recorded under ADR 1392 / DR-1392.

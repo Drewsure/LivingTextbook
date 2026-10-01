@@ -102,6 +102,9 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
     if (!isSafeRelativePath(request.relativePath)) errors.push(`Unsafe evidence relative path: ${request.relativePath}.`);
     for (const path of request.appliesTo ?? []) if (!declaredContentPaths.has(path)) errors.push(`Evidence request ${request.referenceId} references undeclared content path: ${path}.`);
   }
+  for (const kind of ["rights", "accessibility", "scan"] as const) {
+    if (!(brief.evidenceRequests ?? []).some((request) => request.kind === kind && request.required)) errors.push(`A required ${kind} evidence request is mandatory.`);
+  }
   const qrIds = new Set<string>();
   for (const reference of brief.qrReferences ?? []) {
     if (!reference.referenceId.trim() || !reference.pageReference.trim() || !reference.unitId.trim() || !reference.activitySlug.trim() || !reference.language.trim()) errors.push("Every QR reference needs identity, page, unit, activity, and language metadata.");

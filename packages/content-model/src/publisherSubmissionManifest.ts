@@ -92,6 +92,9 @@ export function validatePublisherSubmissionManifest(manifest: PublisherSubmissio
     for (const assetId of evidence.appliesToAssetIds ?? []) if (!assetIds.has(assetId)) errors.push(`Submission evidence ${evidence.referenceId} references unknown asset ${assetId}.`);
     if (!["missing", "provided", "reviewed"].includes(evidence.status)) errors.push(`Submission evidence ${evidence.referenceId} has an unsupported status.`);
   }
+  for (const kind of ["rights", "accessibility", "scan"] as const) {
+    if (!(manifest.evidenceRequests ?? []).some((evidence) => evidence.kind === kind && evidence.required)) errors.push(`A required ${kind} submission evidence request is mandatory.`);
+  }
   return errors;
 }
 

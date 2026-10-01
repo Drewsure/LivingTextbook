@@ -34,7 +34,11 @@ try {
     sourceOwner: "Publisher A",
     sourceFiles: ["source/unit-1.pdf"],
     mediaRequests: [{ kind: "audio", relativePath: "media/audio/unit-1.mp3", unitKey: "tenant-a:book:L1:U1", required: true, purpose: "Learning audio" }],
-    evidenceRequests: [{ referenceId: "rights", kind: "rights", relativePath: "evidence/rights.md", appliesTo: ["source/unit-1.pdf"], required: true }],
+    evidenceRequests: [
+      { referenceId: "rights", kind: "rights", relativePath: "evidence/rights.md", appliesTo: ["source/unit-1.pdf"], required: true },
+      { referenceId: "accessibility", kind: "accessibility", relativePath: "evidence/accessibility.md", appliesTo: ["media/audio/unit-1.mp3"], required: true },
+      { referenceId: "scan", kind: "scan", relativePath: "evidence/scan.json", appliesTo: ["source/unit-1.pdf"], required: true },
+    ],
     deliveryMode: "hybrid",
     hostedPersistenceOptIn: false,
     qrPageReferences: ["page-1"],
@@ -49,7 +53,7 @@ try {
   if (manifest.assets.length !== 7) failures.push("adapter must preserve all canonical review lanes");
   if (manifest.assets.find((asset) => asset.kind === "audio")?.required !== true) failures.push("declared required audio must remain required");
   if (manifest.assets.find((asset) => asset.kind === "video")?.label.includes("not declared") !== true) failures.push("undeclared optional video must remain visible as a decision gate");
-  if (manifest.evidenceRequests.length !== 1) failures.push("adapter must carry every structured intake evidence request");
+  if (manifest.evidenceRequests.length !== 3) failures.push("adapter must carry every structured intake evidence request");
   if (manifest.evidenceRequests[0]?.appliesToAssetIds[0] !== manifest.assets.find((asset) => asset.kind === "textbook-source")?.assetId) failures.push("evidence coverage must resolve to canonical manifest asset ids");
   if (manifest.evidenceRequests[0]?.status !== "missing") failures.push("evidence status must remain review-pending at intake");
   if (manifest.reviewOnly !== true || manifest.filePromotionAllowed !== false || manifest.studentFacingUseAllowed !== false) failures.push("adapter must preserve blocked safety flags");
