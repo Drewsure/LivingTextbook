@@ -10062,3 +10062,17 @@ This standard is recorded in DR-1393 and ADR 1393.
   persistence, or student-facing use.
 
 This standard is recorded in DR-1394 and ADR 1394.
+
+## 639. Immutable Package Reviews Must Preserve Publisher Request IDs
+
+- Every publisher-owned package evidence reference must carry the exact
+  publisher evidence request IDs that support it.
+- Platform-derived game references must carry no publisher request IDs; game
+  provenance remains separate from publisher rights, accessibility, and scan
+  evidence.
+- The capture route, immutable quarantine record, and delivery handoff must
+  validate this distinction before downstream readiness can advance.
+- Request-ID traceability remains evidence only. It does not authorize upload,
+  assembly, promotion, QR printing, persistence, or student-facing use.
+
+This standard is recorded in DR-1395 and ADR 1395.

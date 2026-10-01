@@ -8064,3 +8064,15 @@ evidence request with no reconciliation lane fails closed.
 This remains a review-only, no-write boundary. Package assembly, promotion,
 QR printing, persistence, and student-facing use stay blocked until human
 review and later release gates pass. Recorded under ADR 1394 / DR-1394.
+
+## Build session: Preserve publisher request IDs in immutable package review
+
+Immutable package-evidence review references now carry the exact publisher
+evidence request IDs supporting each publisher-owned lane. The review capture
+surface accepts those IDs as bounded metadata, the route validates their
+shape, and the delivery handoff carries them forward. Platform-derived game
+evidence must keep an empty publisher-request list.
+
+The review remains no-write and release-blocked: no uploaded payloads,
+package assembly, promotion, QR printing, persistence activation, or student
+use is enabled. Recorded under ADR 1395 / DR-1395.

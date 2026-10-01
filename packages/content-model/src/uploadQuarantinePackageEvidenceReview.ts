@@ -11,6 +11,7 @@ export interface UploadQuarantinePackageEvidenceReference {
   lane: UploadQuarantinePackageEvidenceLane;
   referenceId: string;
   origin: UploadQuarantinePackageEvidenceReferenceOrigin;
+  publisherEvidenceRequestIds: string[];
 }
 
 export const UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES: readonly UploadQuarantinePackageEvidenceLane[] = [
@@ -66,12 +67,14 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
     .map((reference) => ({
       ...reference,
       origin: reference.origin ?? (reference.lane === "game" ? "platform-derived" : "publisher-asset"),
+      publisherEvidenceRequestIds: [...new Set(reference.publisherEvidenceRequestIds ?? [])],
     }))
     .filter((reference, index, references) => references.findIndex((candidate) => candidate.lane === reference.lane) === index)
     .sort((left, right) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(left.lane) - UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(right.lane));
   const missingLanes = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => {
     const reference = evidenceReferences.find((candidate) => candidate.lane === lane);
-    return !reviewedLanes.includes(lane) || !reference?.referenceId.trim();
+    const requestIdsComplete = lane === "game" ? reference?.publisherEvidenceRequestIds.length === 0 : Boolean(reference?.publisherEvidenceRequestIds.length);
+    return !reviewedLanes.includes(lane) || !reference?.referenceId.trim() || !requestIdsComplete;
   });
   const canonicalGameDerivedEvidenceRecordIds = [...new Set(input.canonicalGameDerivedEvidenceRecordIds ?? [])];
   if (reviewedLanes.includes("game") && !hasCompleteCanonicalGameEvidenceRecordIds(canonicalGameDerivedEvidenceRecordIds)) missingLanes.push("game");
@@ -136,12 +139,20 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
       errors.push("Upload quarantine package evidence review evidenceReferences must contain safe lane and referenceId pairs.");
       continue;
     }
+    const publisherEvidenceRequestIds = reference.publisherEvidenceRequestIds;
+    if (!Array.isArray(publisherEvidenceRequestIds) || publisherEvidenceRequestIds.some((requestId) => !isSafeIdentifier(requestId)) || new Set(publisherEvidenceRequestIds).size !== publisherEvidenceRequestIds.length) errors.push("Upload quarantine package evidence review publisher evidence request IDs must be unique safe strings.");
     if (reference.lane === "game" && reference.origin !== "platform-derived") errors.push("Upload quarantine package evidence review game evidence must be platform-derived.");
+    if (reference.lane === "game" && Array.isArray(publisherEvidenceRequestIds) && publisherEvidenceRequestIds.length > 0) errors.push("Upload quarantine package evidence review game evidence must not carry publisher evidence request IDs.");
     if (reference.lane !== "game" && reference.origin !== "publisher-asset") errors.push(`Upload quarantine package evidence review ${reference.lane} evidence must be publisher-asset.`);
+    if (reference.lane !== "game" && Array.isArray(publisherEvidenceRequestIds) && publisherEvidenceRequestIds.length === 0) errors.push(`Upload quarantine package evidence review ${reference.lane} evidence must carry publisher evidence request IDs.`);
     referenceLanes.push(String(reference.lane));
   }
   if (new Set(referenceLanes).size !== referenceLanes.length) errors.push("Upload quarantine package evidence review evidenceReferences must contain unique lanes.");
-  const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane) || !referenceLanes.includes(lane));
+  const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => {
+    const reference = evidenceReferences.find((candidate) => isRecord(candidate) && candidate.lane === lane);
+    const requestIdsComplete = lane === "game" ? isRecord(reference) && Array.isArray(reference.publisherEvidenceRequestIds) && reference.publisherEvidenceRequestIds.length === 0 : isRecord(reference) && Array.isArray(reference.publisherEvidenceRequestIds) && reference.publisherEvidenceRequestIds.length > 0;
+    return !reviewedLanes.includes(lane) || !referenceLanes.includes(lane) || !requestIdsComplete;
+  });
   if (reviewedLanes.includes("game") && referenceLanes.includes("game") && !hasCompleteCanonicalGameEvidenceRecordIds(Array.isArray(canonicalGameDerivedEvidenceRecordIds) ? canonicalGameDerivedEvidenceRecordIds : [])) missing.push("game");
   const uniqueMissing = [...new Set(missing)];
   if (value.status !== (uniqueMissing.length === 0 ? "reviewed-package-evidence" : "incomplete")) errors.push("Upload quarantine package evidence review status does not match reviewed lanes and canonical game evidence.");

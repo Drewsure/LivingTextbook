@@ -22,6 +22,7 @@ export interface PublisherDeliveryHandoffPackageEvidenceReference {
   lane: UploadQuarantinePackageEvidenceLane;
   referenceId: string;
   origin: UploadQuarantinePackageEvidenceReferenceOrigin;
+  publisherEvidenceRequestIds: string[];
 }
 
 export interface PublisherDeliveryHandoffPackageEvidenceSummary {
@@ -151,7 +152,7 @@ export function createPublisherDeliveryHandoffRecord(input: {
 export function createPublisherDeliveryHandoffPackageEvidenceSummary(
   review: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences" | "canonicalGameDerivedEvidenceRecordIds"> | null,
 ): PublisherDeliveryHandoffPackageEvidenceSummary {
-  const references = review?.evidenceReferences.map((reference) => ({ ...reference })) ?? [];
+  const references = review?.evidenceReferences.map((reference) => ({ ...reference, publisherEvidenceRequestIds: [...reference.publisherEvidenceRequestIds] })) ?? [];
   return {
     status: review?.status ?? "not-recorded",
     reviewId: review?.reviewId ?? null,
@@ -203,6 +204,10 @@ function validatePackageEvidenceSummary(value: unknown, errors: string[]) {
       errors.push("Publisher delivery handoff package evidence references must carry safe lane, identity, and origin.");
       continue;
     }
+    const publisherEvidenceRequestIds = reference.publisherEvidenceRequestIds;
+    if (!Array.isArray(publisherEvidenceRequestIds) || publisherEvidenceRequestIds.some((requestId) => !isNonEmptyString(requestId)) || new Set(publisherEvidenceRequestIds).size !== publisherEvidenceRequestIds.length) errors.push("Publisher delivery handoff package evidence publisher request IDs must be unique and non-empty.");
+    if (reference.lane === "game" && Array.isArray(publisherEvidenceRequestIds) && publisherEvidenceRequestIds.length > 0) errors.push("Publisher delivery handoff game evidence must not carry publisher request IDs.");
+    if (reference.lane !== "game" && Array.isArray(publisherEvidenceRequestIds) && publisherEvidenceRequestIds.length === 0) errors.push("Publisher delivery handoff publisher evidence must carry publisher request IDs.");
     if (lanes.has(String(reference.lane))) errors.push("Publisher delivery handoff package evidence references must contain unique lanes.");
     lanes.add(String(reference.lane));
   }

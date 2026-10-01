@@ -56,7 +56,7 @@ try {
     packageId,
     sourceChecksumSha256: checksum,
     status: "reviewed-package-evidence",
-    evidenceReferences: [{ lane: "audio", referenceId: "asset-evidence-1" }],
+    evidenceReferences: [{ lane: "audio", referenceId: "asset-evidence-1", publisherEvidenceRequestIds: ["audio-evidence-1"] }],
   };
 
   process.env.LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ROOT = quarantineRoot;

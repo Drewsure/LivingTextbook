@@ -28,7 +28,7 @@ try {
     packageEvidenceReview: {
       status: "reviewed-package-evidence",
       reviewId: "publisher-a-l1-u1-package-evidence-review",
-      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `review-${lane}`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `review-${lane}`, origin: lane === "game" ? "platform-derived" : "publisher-asset", publisherEvidenceRequestIds: lane === "game" ? [] : [`publisher-${lane}-evidence`] })),
       canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     },
     deliveryManifestPreviewId: "publisher-a-l1-u1-package:delivery-manifest-preview",

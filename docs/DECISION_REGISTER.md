@@ -10507,3 +10507,13 @@ game evidence set from the broader package-evidence lane. The live route binds
 curated activity pathway, canonical integration, and package game-audio records
 into the closure check while retaining all release and student-safety blocks.
 See ADR 1387.
+
+## DR-1395: Immutable Package Review Publisher Request IDs
+
+Immutable package-evidence references now preserve the exact publisher
+evidence request IDs supporting each publisher-owned lane. The capture route,
+quarantine record, and delivery handoff validate that publisher evidence is
+present for publisher lanes while platform-derived game evidence carries no
+publisher request IDs. The change is provenance-only and keeps upload,
+assembly, promotion, QR printing, persistence, and student use blocked. See
+ADR 1395 and `docs/decision-register/DR-1395-immutable-package-review-publisher-request-ids.md`.

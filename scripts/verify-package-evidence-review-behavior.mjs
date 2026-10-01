@@ -37,7 +37,7 @@ try {
     reviewerId: "reviewer-1",
     reviewerNote: "Every pilot package lane was checked against a bounded review record.",
     reviewedLanes: lanes,
-    evidenceReferences: lanes.map((lane) => ({ lane, referenceId: `review-${lane}-1`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+    evidenceReferences: lanes.map((lane) => ({ lane, referenceId: `review-${lane}-1`, origin: lane === "game" ? "platform-derived" : "publisher-asset", publisherEvidenceRequestIds: lane === "game" ? [] : [`publisher-${lane}-evidence-1`] })),
     canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     reviewedAt: "2026-09-30T00:00:00.000Z",
   });
@@ -55,9 +55,12 @@ try {
   }
   if (complete.evidenceReferences.find((reference) => reference.lane === "game")?.origin !== "platform-derived") throw new Error("Game evidence must be marked platform-derived.");
   if (complete.evidenceReferences.find((reference) => reference.lane === "content")?.origin !== "publisher-asset") throw new Error("Content evidence must be marked publisher-asset.");
+  if (complete.evidenceReferences.find((reference) => reference.lane === "content")?.publisherEvidenceRequestIds.length !== 1) throw new Error("Publisher content evidence must preserve its request ID.");
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, origin: "unknown" } : reference) }), "safe lane and referenceId pairs", "unsupported evidence origin");
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, origin: "publisher-asset" } : reference) }), "game evidence must be platform-derived", "publisher-owned game evidence");
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "audio" ? { ...reference, origin: "platform-derived" } : reference) }), "audio evidence must be publisher-asset", "derived audio evidence");
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, publisherEvidenceRequestIds: ["publisher-game-request"] } : reference) }), "game evidence must not carry publisher evidence request IDs", "publisher game request IDs");
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "audio" ? { ...reference, publisherEvidenceRequestIds: [] } : reference) }), "audio evidence must carry publisher evidence request IDs", "missing publisher request IDs");
 
   const unsafeReference = { ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, referenceId: "../game-record" } : reference) };
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview(unsafeReference), "safe lane and referenceId pairs", "unsafe evidence reference");

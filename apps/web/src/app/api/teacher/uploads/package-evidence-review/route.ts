@@ -70,7 +70,17 @@ function isPackageEvidenceReviewRequest(value: unknown): value is PackageEvidenc
     && Array.isArray(candidate.evidenceReferences)
     && Array.isArray(candidate.canonicalGameDerivedEvidenceRecordIds)
     && candidate.canonicalGameDerivedEvidenceRecordIds.every((recordId) => typeof recordId === "string")
-    && candidate.evidenceReferences.every((reference) => Boolean(reference) && typeof reference === "object" && !Array.isArray(reference) && UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes((reference as { lane?: string }).lane as UploadQuarantinePackageEvidenceLane) && typeof (reference as { referenceId?: unknown }).referenceId === "string" && ["publisher-asset", "platform-derived"].includes(String((reference as { origin?: unknown }).origin)));
+    && candidate.evidenceReferences.every(isPackageEvidenceReferenceRequest);
+}
+
+function isPackageEvidenceReferenceRequest(reference: unknown): reference is UploadQuarantinePackageEvidenceReference {
+  if (!reference || typeof reference !== "object" || Array.isArray(reference)) return false;
+  const candidate = reference as Record<string, unknown>;
+  return UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(candidate.lane as UploadQuarantinePackageEvidenceLane)
+    && typeof candidate.referenceId === "string"
+    && ["publisher-asset", "platform-derived"].includes(String(candidate.origin))
+    && Array.isArray(candidate.publisherEvidenceRequestIds)
+    && candidate.publisherEvidenceRequestIds.every((requestId) => typeof requestId === "string");
 }
 
 function hasReviewAuthorization(request: Request, tenantId: string): boolean { return hasUploadQuarantineApiToken(request, tenantId) || hasTeacherOperationsReadAuthorization(request, tenantId); }

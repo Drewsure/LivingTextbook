@@ -36,6 +36,7 @@ export function PackageEvidenceReviewCapture({
   const [reviewerNote, setReviewerNote] = useState("");
   const [reviewedLanes, setReviewedLanes] = useState<UploadQuarantinePackageEvidenceLane[]>(review?.reviewedLanes ?? []);
   const [evidenceReferences, setEvidenceReferences] = useState<Record<UploadQuarantinePackageEvidenceLane, string>>(() => Object.fromEntries((review?.evidenceReferences ?? []).map((reference) => [reference.lane, reference.referenceId])) as Record<UploadQuarantinePackageEvidenceLane, string>);
+  const [publisherEvidenceRequestIds, setPublisherEvidenceRequestIds] = useState<Record<UploadQuarantinePackageEvidenceLane, string>>(() => Object.fromEntries((review?.evidenceReferences ?? []).map((reference) => [reference.lane, reference.publisherEvidenceRequestIds.join(", ")])) as Record<UploadQuarantinePackageEvidenceLane, string>);
   const [canonicalGameEvidenceIds, setCanonicalGameEvidenceIds] = useState<string[]>(review?.canonicalGameDerivedEvidenceRecordIds ?? []);
   const [state, setState] = useState<"idle" | "submitting" | "recorded" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -66,6 +67,7 @@ export function PackageEvidenceReviewCapture({
               lane,
               referenceId: evidenceReferences[lane]?.trim() ?? "",
               origin: lane === "game" ? "platform-derived" as const : "publisher-asset" as const,
+              publisherEvidenceRequestIds: lane === "game" ? [] : (publisherEvidenceRequestIds[lane] ?? "").split(",").map((item) => item.trim()).filter(Boolean),
             }))
             .filter((reference) => reference.referenceId.length > 0),
         }),
@@ -117,6 +119,14 @@ export function PackageEvidenceReviewCapture({
                 <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">
                   Evidence origin: {lane === "game" ? "platform-derived canonical game record" : "publisher-asset review record"}
                 </p>
+                {lane !== "game" ? <input
+                  aria-label={`${laneLabels[lane]} publisher evidence request IDs`}
+                  value={publisherEvidenceRequestIds[lane] ?? ""}
+                  onChange={(event) => setPublisherEvidenceRequestIds((current) => ({ ...current, [lane]: event.target.value }))}
+                  maxLength={1000}
+                  placeholder="publisher-evidence-request-id"
+                  className="mt-2 min-h-10 w-full rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-sm"
+                /> : null}
                 {lane === "game" ? (
                   <fieldset className="mt-3 grid gap-2 border-t border-[var(--tenant-border)] pt-3">
                     <legend className="text-xs font-semibold text-[var(--tenant-text)]">Confirm canonical game evidence</legend>

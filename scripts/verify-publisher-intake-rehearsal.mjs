@@ -215,7 +215,7 @@ try {
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
-      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset", publisherEvidenceRequestIds: lane === "game" ? [] : [`synthetic-${lane}-publisher-evidence`] })),
       canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     }),
   });
@@ -266,7 +266,7 @@ try {
       reviewerId: "publisher-intake-reviewer",
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
-      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+      evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset", publisherEvidenceRequestIds: lane === "game" ? [] : [`synthetic-${lane}-publisher-evidence`] })),
       canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     }),
   });
