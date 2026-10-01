@@ -44,36 +44,47 @@ export async function GET(request: Request) {
   const sentenceApprovalRecord = (await readQuarantineSentenceApproval(tenantId, quarantineId)).record;
   const sourcePreflightEvidenceResult = await readQuarantineSourcePreflightEvidence(tenantId, quarantineId);
   const sourcePreflightEvidence = sourcePreflightEvidenceResult.record;
+  const intakeUnitKey = summary.record.unitKey || `${tenantId}:unassigned`;
+  const intakeChecksum = summary.record.checksumSha256.startsWith("sha256:")
+    ? summary.record.checksumSha256
+    : `sha256:${summary.record.checksumSha256}`;
+  const preflightReferenceMatches = Boolean(
+    sourcePreflightEvidence
+      && sourcePreflightEvidence.tenantId === tenantId
+      && sourcePreflightEvidence.packageId === packageId
+      && sourcePreflightEvidence.sourceUnitKey === intakeUnitKey
+      && sourcePreflightEvidence.sourceChecksumSha256 === intakeChecksum,
+  );
   const sentenceApproval = sentenceApprovalRecord
     && sentenceApprovalRecord.packageId === packageId
     && sentenceApprovalRecord.sourceChecksumSha256 === summary.record.checksumSha256
     ? sentenceApprovalRecord
     : null;
   const reviewedLanes = packageEvidenceReview?.reviewedLanes ?? [];
-  const sourceChecksum = summary.record.checksumSha256.startsWith("sha256:")
-    ? summary.record.checksumSha256
-    : `sha256:${summary.record.checksumSha256}`;
   const bridge = createPublisherSourceToPackageEvidenceBridge({
     tenantId,
-    unitKey: summary.record.unitKey || `${tenantId}:unassigned`,
+    unitKey: intakeUnitKey,
     sourceReviewId: reviewDecision?.decisionId ?? `source-review:${quarantineId}:pending`,
     extractionPreviewId: `source-extraction-preview:${quarantineId}:review-only`,
     extractionPacketId: `source-extraction-packet:${quarantineId}:review-only`,
     authoringProposalId: `${packageId}:authoring-proposal:review-only`,
-    sourceChecksum,
+    sourceChecksum: intakeChecksum,
     sourceTermsReviewed: reviewDecision?.decision === "accepted-for-package-review",
     sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: reviewedLanes.includes("audio"),
     mediaRightsReady: reviewedLanes.includes("rights"),
     canonicalGameEvidenceComplete: hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds),
-    preflightReference: sourcePreflightEvidence ? {
+    preflightReference: preflightReferenceMatches && sourcePreflightEvidence ? {
       reportId: sourcePreflightEvidence.reportId,
       manifestId: sourcePreflightEvidence.manifestId,
       manifestChecksumSha256: sourcePreflightEvidence.manifestChecksumSha256,
       inventoryChecksumSha256: sourcePreflightEvidence.inventoryChecksumSha256,
     } : null,
   });
-  const errors = [...intake.errors, ...sourcePreflightEvidenceResult.errors, ...validatePublisherSourceToPackageEvidenceBridge(bridge)];
+  const preflightLineageErrors = sourcePreflightEvidence && !preflightReferenceMatches
+    ? ["The stored source preflight evidence does not match the requested tenant, package, unit, or quarantined source checksum."]
+    : [];
+  const errors = [...intake.errors, ...sourcePreflightEvidenceResult.errors, ...preflightLineageErrors, ...validatePublisherSourceToPackageEvidenceBridge(bridge)];
   return json({ status: "review-only", tenantId, quarantineId, packageId, bridge: errors.length === 0 ? bridge : null, errors, privacy: privacyMessage() });
 }
 

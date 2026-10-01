@@ -10574,3 +10574,12 @@ tenant surface. This is a review-only operator aid and does not create files,
 upload content, assemble packages, print QR codes, activate persistence, or
 enable students. See ADR 1401 and
 `docs/decision-register/DR-1401-visible-publisher-canonical-handoff.md`.
+
+## DR-1402: Recheck Source Preflight Lineage At Package Binding
+
+The live source-to-package evidence binding now rechecks tenant, requested
+package, unit, and quarantined source checksum against the stored source
+preflight evidence before exposing its reference. A mismatched record is
+withheld and the binding remains blocked. This closes a caller-supplied
+package-id drift path without enabling any downstream action. See ADR 1402
+and `docs/decision-register/DR-1402-source-preflight-lineage-recheck.md`.

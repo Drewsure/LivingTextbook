@@ -8133,3 +8133,11 @@ Updated the tenant-scoped publisher pilot input panel with the canonical
 intake-to-source-manifest bridge command, next preflight gate, and explicit
 blocked actions. Added active-route expectations so the operator surface stays
 aligned with the documented handoff. Recorded under ADR 1401 / DR-1401.
+
+## Build session: Recheck source preflight lineage at package binding
+
+The live source-to-package evidence route now confirms that stored preflight
+metadata matches the requested tenant, package, unit, and quarantined source
+checksum before it exposes the reference. Static contract checks and
+typecheck pass; the production rehearsal remains dependent on a successful
+local Next build. Recorded under ADR 1402 / DR-1402.

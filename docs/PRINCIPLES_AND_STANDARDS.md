@@ -10156,3 +10156,17 @@ This standard is recorded in DR-1400 and ADR 1400.
   blocked, so a publisher cannot mistake a manifest for a released package.
 
 This standard is recorded in DR-1401 and ADR 1401.
+
+## 646. Source Preflight Evidence Must Match The Requested Package
+
+- A live source-to-package binding must recheck the stored preflight evidence
+  against the requested tenant, package, unit, and quarantined source
+  checksum before exposing its preflight reference.
+- A valid preflight record from another package or source must fail closed; it
+  must never become an apparently complete package-review lane through a
+  caller-supplied package id.
+- This lineage check is metadata validation only. It does not approve source,
+  assemble or promote a package, print QR codes, activate persistence, or
+  enable students.
+
+This standard is recorded in DR-1402 and ADR 1402.
