@@ -39,6 +39,10 @@ The quarantine root, review gates, and approved-asset promotion custody must
 already be provisioned according to `docs/OPERATING_NOTES.md`. Do not invent a
 path or use a placeholder folder for an actual package run.
 
+Before quarantine intake, preserve the publisher's completed inventory as a
+new evidence file using `scripts/publisher-pilot-intake-preflight.mjs --output`.
+The helper uses create-once semantics and must not replace an earlier report.
+
 ## Procedure
 
 1. Confirm the live handoff shows the exact tenant, quarantine, package,

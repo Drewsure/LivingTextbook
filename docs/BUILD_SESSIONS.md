@@ -8100,3 +8100,12 @@ verify package integrity and QR output, and rehearse the local front door.
 Operator tokens remain server-side, while hosted persistence, QR mutation,
 learner records, and student activation remain separate gates. Recorded under
 ADR 1397 / DR-1397.
+
+## Build session: Preserve publisher intake preflight as evidence
+
+Extended `scripts/publisher-pilot-intake-preflight.mjs` with an explicit
+`--output` path. The report is written with create-once semantics, so a later
+run cannot silently replace earlier publisher evidence. The report remains
+inventory metadata only and does not promote files or enable package assembly,
+QR printing, persistence, or student use. Updated the publisher input kit and
+operator runbook, and added verifier coverage. Recorded under ADR 1398 / DR-1398.

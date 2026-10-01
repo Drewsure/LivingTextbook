@@ -10535,3 +10535,12 @@ tenant-scoped machine authorization and one-shot assembly confirmation, and
 requires integrity read-back before handoff. Hosted persistence, QR mutation,
 learner records, and student activation remain separate gates. See ADR 1397
 and `docs/decision-register/DR-1397-pilot-package-execution-runbook.md`.
+
+## DR-1398: Durable Publisher Intake Preflight Evidence
+
+The publisher intake preflight now supports an explicit, create-once JSON
+evidence report. This preserves the completed source-folder inventory for the
+operator handoff without promoting files or treating inventory completeness as
+package approval. The report remains bounded metadata: no credentials, learner
+records, raw payload bytes, or student-facing release decision are included.
+See ADR 1398 and `docs/decision-register/DR-1398-durable-publisher-intake-preflight-evidence.md`.

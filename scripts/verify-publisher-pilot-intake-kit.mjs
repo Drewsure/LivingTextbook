@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const generator = join(root, "scripts/create-publisher-pilot-intake-kit.mjs");
 const contract = await readFile(join(root, "packages/content-model/src/publisherPilotIntakeBrief.ts"), "utf8");
+const preflight = await readFile(join(root, "scripts/publisher-pilot-intake-preflight.mjs"), "utf8");
 const panel = await readFile(join(root, "apps/web/src/features/pilot/PublisherPilotInputKitPanel.tsx"), "utf8");
 const route = await readFile(join(root, "apps/web/src/app/teacher/pilot/requirements/[tenantId]/page.tsx"), "utf8");
 const failures = [];
@@ -16,6 +17,9 @@ if (selfTest.status !== 0 || !selfTest.stdout.includes("PASS publisher pilot int
 }
 for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences"]) {
   if (!contract.includes(marker) && !generator.includes(marker)) failures.push(`contract/generator missing safety marker: ${marker}`);
+}
+for (const marker of ["--output", "flag: \"wx\"", "Evidence report written once"]) {
+  if (!preflight.includes(marker)) failures.push(`preflight missing non-overwriting evidence report marker: ${marker}`);
 }
 for (const marker of ["Publisher pilot input kit", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs"]) {
   if (!panel.includes(marker)) failures.push(`panel missing marker: ${marker}`);

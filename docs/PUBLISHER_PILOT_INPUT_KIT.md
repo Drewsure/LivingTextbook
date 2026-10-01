@@ -54,6 +54,20 @@ It must report `inventoryStatus: "complete"`. An incomplete result names
 missing files, unsafe paths, unresolved placeholders, and structural errors; it
 does not write or promote anything.
 
+To preserve the completed inventory as a handoff artifact, provide a new output
+path. The preflight report refuses to overwrite an existing report:
+
+```powershell
+node scripts/publisher-pilot-intake-preflight.mjs `
+  --root "D:\PublisherPilotInput" `
+  --output "D:\PublisherPilotOperator\evidence\publisher-intake-preflight.json"
+```
+
+This report contains bounded inventory metadata and gate results only. It does
+not contain bearer credentials, learner records, raw payload bytes, or a
+student-facing release decision. Keep it with the publisher handoff and attach
+it to the later quarantine/source-review record.
+
 Structured QR references then produce a review-only alias preview. The preview
 binds page, unit, activity, language, edition, package, and local fallback
 identity before the separate QR registry and print-authorization gates.

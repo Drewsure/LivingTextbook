@@ -10104,3 +10104,17 @@ This standard is recorded in DR-1396 and ADR 1396.
   records, and student activation remain separate decisions.
 
 This standard is recorded in DR-1397 and ADR 1397.
+
+## 642. Publisher Intake Preflight Reports Must Be Durable And Create-Once
+
+- A completed publisher intake inventory must be preservable as a bounded
+  evidence report before quarantine admission; terminal output alone is not a
+  sufficient handoff record.
+- Report export must be explicit, must refuse to overwrite an existing path,
+  and must contain inventory and gate metadata only. It must never include
+  bearer credentials, learner records, raw payload bytes, or a student-facing
+  release decision.
+- The report is evidence for source review, not proof of rights, package
+  approval, QR authorization, persistence activation, or student use.
+
+This standard is recorded in DR-1398 and ADR 1398.

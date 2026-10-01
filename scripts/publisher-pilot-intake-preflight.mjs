@@ -1,12 +1,12 @@
 import { access, mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
-  console.log("Usage: node scripts/publisher-pilot-intake-preflight.mjs --root <publisher-pilot-input-folder>");
+  console.log("Usage: node scripts/publisher-pilot-intake-preflight.mjs --root <publisher-pilot-input-folder> [--output <evidence-report.json>]");
   process.exit(0);
 }
 if (options.selfTest) {
@@ -70,7 +70,14 @@ const result = {
   packageAssemblyAllowed: brief.packageAssemblyAllowed === true,
   studentFacingUseAllowed: brief.studentFacingUseAllowed === true,
 };
-console.log(JSON.stringify(result, null, 2));
+const serializedResult = `${JSON.stringify(result, null, 2)}\n`;
+console.log(serializedResult.trimEnd());
+if (options.output) {
+  const outputPath = resolve(options.output);
+  await mkdir(dirname(outputPath), { recursive: true });
+  await writeFile(outputPath, serializedResult, { encoding: "utf8", flag: "wx" });
+  console.log(`Evidence report written once to ${outputPath}`);
+}
 if (result.inventoryStatus !== "complete") process.exit(2);
 
 function findPlaceholders(value, path = "brief") {
@@ -87,12 +94,13 @@ function isSafeRelativePath(value) {
 }
 
 function parseArguments(args) {
-  const result = { root: "", help: false, selfTest: false };
+  const result = { root: "", output: "", help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--help" || arg === "-h") result.help = true;
     else if (arg === "--self-test") result.selfTest = true;
     else if (arg === "--root") result.root = args[++index] ?? "";
+    else if (arg === "--output") result.output = args[++index] ?? "";
     else fail(`Unknown argument: ${arg}`);
   }
   return result;
