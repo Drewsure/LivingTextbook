@@ -6,7 +6,8 @@ import {
   type PilotDeliveryReleaseReceipt,
   type PilotQrAliasRegistryRecord,
 } from "@living-textbook/content-model";
-import { readQuarantinePackageReviewPacket } from "../uploads/quarantineUploadStore";
+import { readQuarantinePackageEvidenceReview, readQuarantinePackageReviewPacket } from "../uploads/quarantineUploadStore";
+import { hasCompleteCanonicalGameEvidenceRecordIds } from "@living-textbook/content-model";
 import { readPilotDeliveryReleaseLineage } from "./pilotDeliveryReleaseLineage";
 import { readPilotDeliveryMetadata } from "./pilotDeliveryMetadataWriter";
 import { readPilotQrAliasRegistry } from "./pilotQrAliasRegistryWriter";
@@ -165,6 +166,15 @@ export async function readLocalPackageExecutionPreflight(input: LocalPackageRequ
   const packetErrors = validateReviewPacketBinding(input, packet);
   if (packetErrors.length > 0) return blocked(packetErrors, { lineageBound: true });
 
+  const packageEvidenceResult = await readQuarantinePackageEvidenceReview(input.manifest.tenantId, input.quarantineId);
+  const packageEvidence = packageEvidenceResult.record;
+  const packageEvidenceErrors = [
+    ...(packageEvidence?.status === "reviewed-package-evidence" ? [] : ["The durable package evidence review is not complete for local package assembly."]),
+    ...(hasCompleteCanonicalGameEvidenceRecordIds(packageEvidence?.canonicalGameDerivedEvidenceRecordIds ?? []) ? [] : ["The durable package evidence review does not carry the complete canonical game evidence set."]),
+    ...packageEvidenceResult.errors,
+  ];
+  if (packageEvidenceErrors.length > 0) return blocked(unique(packageEvidenceErrors), { lineageBound: true, reviewPacketBound: true });
+
   const [storedDelivery, storedQrRegistry] = await Promise.all([
     readPilotDeliveryMetadata({ tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, version: input.manifest.version }),
     readPilotQrAliasRegistry({ tenantId: input.manifest.tenantId, packageId: input.manifest.packageId, version: input.manifest.version }),
@@ -187,6 +197,8 @@ export async function readLocalPackageExecutionPreflight(input: LocalPackageRequ
     sourcePreflightEvidenceId: packet.sourcePreflightEvidenceId ?? "",
     packageId: packet.packageId,
     sourceChecksumSha256: packet.checksumSha256,
+    packageEvidenceStatus: "reviewed-package-evidence",
+    canonicalGameDerivedEvidenceRecordIds: packageEvidence?.canonicalGameDerivedEvidenceRecordIds ?? [],
     status: "ready-for-next-gate",
   };
   const assemblyInput: LocalPilotPackageAssemblyInput = { ...input, reviewPacketBinding };

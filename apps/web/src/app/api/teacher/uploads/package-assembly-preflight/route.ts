@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   createUploadQuarantinePackageAssemblyPreflight,
+  hasCompleteCanonicalGameEvidenceRecordIds,
   isUploadQuarantineSafeTenantId,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
@@ -40,6 +41,7 @@ export async function GET(request: Request) {
     additionalBlockers: [
       ...(sourcePreflightEvidence ? [] : ["A durable publisher source preflight evidence record is not linked to this package review packet."]),
       ...(packageEvidenceReview?.status === "reviewed-package-evidence" ? [] : ["A complete reviewed multimedia and game evidence sidecar is not linked to this quarantine review packet."]),
+      ...(hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds ?? []) ? [] : ["The package evidence review does not carry the complete canonical game evidence set."]),
       ...(sentenceApprovalBound ? [] : ["Exactly two approved English target sentences are not bound to this package checksum."]),
       "An approved delivery manifest is not linked to this quarantine review packet.",
       "A manual release receipt and QR print authorization are not linked to this quarantine review packet.",

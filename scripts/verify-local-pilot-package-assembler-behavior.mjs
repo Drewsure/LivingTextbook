@@ -70,6 +70,14 @@ try {
     const readyPreflight = await preflightLocalPilotPackageAssembly(input);
     assert(readyPreflight.status === "ready-for-assembly" && readyPreflight.executionReady === true, "approved local package must pass the read-only execution preflight before assembly");
     assert(readyPreflight.sideEffect === "none" && readyPreflight.sourceFileCount === 3, "execution preflight must remain side-effect-free and enumerate the approved source file plan");
+    const missingCanonicalGameEvidence = JSON.parse(JSON.stringify(input));
+    missingCanonicalGameEvidence.reviewPacketBinding.canonicalGameDerivedEvidenceRecordIds = ["curated_activity_pathway_packet"];
+    const blockedByCanonicalGameEvidence = await preflightLocalPilotPackageAssembly(missingCanonicalGameEvidence);
+    assert(blockedByCanonicalGameEvidence.status === "blocked" && blockedByCanonicalGameEvidence.errors.some((error) => error.includes("complete canonical game evidence set")), "local package assembly must fail closed when canonical game evidence is incomplete");
+    const missingPackageEvidence = JSON.parse(JSON.stringify(input));
+    missingPackageEvidence.reviewPacketBinding.packageEvidenceStatus = "incomplete";
+    const blockedByPackageEvidence = await preflightLocalPilotPackageAssembly(missingPackageEvidence);
+    assert(blockedByPackageEvidence.status === "blocked" && blockedByPackageEvidence.errors.some((error) => error.includes("reviewed multimedia and game package evidence")), "local package assembly must fail closed when reviewed package evidence is incomplete");
     const first = await assembleLocalPilotPackage(input);
     assert(first.status === "accepted" && first.idempotent === false, "approved local package must assemble once");
     assert(first.copiedAssetCount === 3, "assembler must copy content, media, and transcript evidence");
@@ -482,6 +490,8 @@ function createFixture({ createPilotDeliveryPackageIndex, createPilotDeliveryRel
       sourcePreflightEvidenceId: "quarantine-one:source-preflight:report-one",
       packageId: "package-one",
       sourceChecksumSha256: "b".repeat(64),
+      packageEvidenceStatus: "reviewed-package-evidence",
+      canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
       status: "ready-for-next-gate",
     },
     operatorId: "operator-one",

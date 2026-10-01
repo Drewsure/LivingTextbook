@@ -11,6 +11,7 @@ import {
   validatePilotDeliveryReleaseReceipt,
   validatePilotQrAliasRegistryRecord,
   validateApprovedAssetPromotionRecord,
+  hasCompleteCanonicalGameEvidenceRecordIds,
   createPilotQrPrintArtifactId,
   createLocalPilotPackageIntegrityManifestId,
   validateLocalPilotPackageIntegrity,
@@ -45,6 +46,8 @@ export interface LocalPilotPackageReviewBinding {
   sourcePreflightEvidenceId: string;
   packageId: string;
   sourceChecksumSha256: string;
+  packageEvidenceStatus: "reviewed-package-evidence";
+  canonicalGameDerivedEvidenceRecordIds: string[];
   status: "ready-for-next-gate";
 }
 
@@ -530,6 +533,8 @@ function validateReviewPacketBinding(binding: LocalPilotPackageReviewBinding, ma
   if (!isNonEmptyString(binding?.sourcePreflightEvidenceId)) errors.push("Local package review binding source preflight evidence identity is required.");
   if (!isNonEmptyString(binding?.packageId) || binding.packageId !== manifest.packageId) errors.push("Local package review binding package does not match the delivery manifest.");
   if (!/^sha256:[0-9a-f]{64}$/i.test(manifest.sourceAssemblyChecksum) || binding?.sourceChecksumSha256 !== manifest.sourceAssemblyChecksum.replace(/^sha256:/, "")) errors.push("Local package review binding checksum does not match the delivery manifest.");
+  if (binding?.packageEvidenceStatus !== "reviewed-package-evidence") errors.push("Local package assembly requires reviewed multimedia and game package evidence.");
+  if (!hasCompleteCanonicalGameEvidenceRecordIds(binding?.canonicalGameDerivedEvidenceRecordIds ?? [])) errors.push("Local package assembly requires the complete canonical game evidence set.");
   if (binding?.status !== "ready-for-next-gate") errors.push("Local package assembly requires a review packet ready for the next gate.");
   return [...new Set(errors)];
 }

@@ -7937,3 +7937,13 @@ for complete reviewed package evidence and complete canonical game evidence.
 The writer boundary therefore cannot look ready from source, bundle, release,
 or QR metadata alone. The preview remains blocked and side-effect-free.
 Recorded ADR 1384 / DR-1384.
+
+## Build session: Require canonical game evidence at the local writer boundary
+
+The local package assembler and execution preflight now require the durable
+reviewed package-evidence status and the complete canonical game evidence set.
+The exact three platform-derived game evidence IDs are carried in the package
+review binding and checked again during staged read-back and runtime reads.
+Negative rehearsal coverage proves that incomplete game evidence and incomplete
+package evidence remain blocked even when delivery, QR, bundle, and asset
+metadata are otherwise valid. Recorded ADR 1385 / DR-1385.

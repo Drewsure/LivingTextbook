@@ -9933,3 +9933,12 @@ This standard is recorded in DR-1383 and ADR 1383.
   writer, create QR output, activate persistence, or expose students.
 
 This standard is recorded in DR-1384 and ADR 1384.
+
+## 628. The Local Writer Must Recheck Canonical Game Evidence
+
+- The final local package writer must require the durable reviewed package-evidence status, not only a preview signal.
+- The writer binding must preserve the complete curated-pathway, canonical-integration, and package-game-audio evidence set.
+- Staged package read-back and runtime reads must reject missing, partial, or tampered canonical game evidence.
+- These checks remain evidence gates only; release approval, QR printing, persistence activation, student use, and learner-record writes remain separately controlled.
+
+This standard is recorded in DR-1385 and ADR 1385.
