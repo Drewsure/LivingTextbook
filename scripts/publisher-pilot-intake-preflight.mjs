@@ -26,7 +26,11 @@ try {
 
 const missingFiles = [];
 const unsafePaths = [];
-const declaredFiles = [...(brief.sourceFiles ?? []), ...(brief.mediaRequests ?? []).map((request) => request.relativePath)];
+const declaredFiles = [
+  ...(brief.sourceFiles ?? []),
+  ...(brief.mediaRequests ?? []).map((request) => request.relativePath),
+  ...(brief.evidenceRequests ?? []).map((request) => request.relativePath),
+];
 for (const relativePath of declaredFiles) {
   if (!isSafeRelativePath(relativePath)) {
     unsafePaths.push(relativePath);
@@ -49,6 +53,7 @@ if (brief.packageAssemblyAllowed !== false) structuralErrors.push("packageAssemb
 if (brief.studentFacingUseAllowed !== false) structuralErrors.push("studentFacingUseAllowed must remain false.");
 if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) structuralErrors.push("At least one source file is required.");
 if (!Array.isArray(brief.mediaRequests) || brief.mediaRequests.length === 0) structuralErrors.push("At least one media request is required.");
+if (!Array.isArray(brief.evidenceRequests) || brief.evidenceRequests.length === 0) structuralErrors.push("At least one structured evidence request is required.");
 if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) structuralErrors.push("At least one structured QR reference is required.");
 
 const result = {
@@ -106,7 +111,7 @@ async function runSelfTest() {
     brief.qrPageReferences = ["page-1"];
     brief.qrReferences = [{ referenceId: "unit-1-entry", pageReference: "page-1", unitId: "unit-1", activitySlug: "unit-1-entry", targetType: "unit-launch", language: "en" }];
     await writeFile(briefPath, `${JSON.stringify(brief, null, 2)}\n`, "utf8");
-    for (const relativePath of [...brief.sourceFiles, ...brief.mediaRequests.map((request) => request.relativePath)]) {
+    for (const relativePath of [...brief.sourceFiles, ...brief.mediaRequests.map((request) => request.relativePath), ...brief.evidenceRequests.map((request) => request.relativePath)]) {
       await mkdir(join(root, relativePath, ".."), { recursive: true });
       await writeFile(join(root, relativePath), "self-test", "utf8");
     }

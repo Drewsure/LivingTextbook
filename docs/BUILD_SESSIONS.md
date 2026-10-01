@@ -8019,3 +8019,13 @@ under ADR 1389 / DR-1389.
 Both the source QR preview verifier and the adapter verifier are now part of
 `npm run verify:foundation`, so this provenance boundary is protected by the
 same all-up gate as the rest of the pilot.
+
+## Build session: Make publisher evidence lanes structured
+
+The publisher pilot intake brief now declares rights, accessibility/caption,
+and scan evidence files with safe paths and the assets or source records they
+cover. The intake-kit generator creates the evidence folder, and the no-write
+preflight inventories those declarations alongside source and media files.
+Missing evidence remains an incomplete handoff; the contract does not infer
+rights approval, accessibility approval, package assembly, QR printing,
+persistence activation, or student use. Recorded under ADR 1390 / DR-1390.

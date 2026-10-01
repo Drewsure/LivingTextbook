@@ -22,12 +22,19 @@ The generator refuses to overwrite an existing brief. It creates folders for
 source, images, audio, video, transcripts, fonts, and background media, plus a
 `publisher-pilot-intake.json` metadata brief and a handoff README.
 
+The kit also creates an `evidence` folder with structured declarations for
+rights, accessibility/captions, and scan evidence. These declarations are
+inventory inputs only; they do not assert that the evidence is valid or
+approved.
+
 ## Required Human Completion
 
 The publisher must replace the `REPLACE_WITH_*` placeholders, supply the real
 source and media files, and provide:
 
 - rights owner and permission scope for every file;
+- a rights, accessibility/captions, and scan evidence file at every declared
+  evidence path;
 - edition, version, page or section, and unit mapping;
 - target-language audio, transcript/caption, and accessibility evidence;
 - QR page references and the chosen hosted, closed-local, or hybrid mode;

@@ -22,6 +22,11 @@ export const samplePublisherPilotIntakeBrief: PublisherPilotIntakeBrief = {
     { kind: "font", relativePath: "media/fonts/learner-font.woff2", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional licensed learner font." },
     { kind: "background-media", relativePath: "media/background/unit-1-background.mp3", unitKey: "sample-publisher:partner-textbook-companion:L1:U1", required: false, purpose: "Optional approved game background media." },
   ],
+  evidenceRequests: [
+    { referenceId: "rights-evidence", kind: "rights", relativePath: "evidence/rights-and-permissions.md", appliesTo: ["source/unit-1.pdf", "media/images/unit-1-diagram.png", "media/audio/unit-1-learning-audio.mp3"], required: true },
+    { referenceId: "accessibility-evidence", kind: "accessibility", relativePath: "evidence/accessibility-and-captions.md", appliesTo: ["media/audio/unit-1-learning-audio.mp3", "media/video/unit-1-video.mp4"], required: true },
+    { referenceId: "scan-evidence", kind: "scan", relativePath: "evidence/scan-report.json", appliesTo: ["source/unit-1.pdf"], required: true },
+  ],
   deliveryMode: "hybrid",
   hostedPersistenceOptIn: false,
   qrPageReferences: ["Starter Book pages 6-9, Daily Routines entry"],

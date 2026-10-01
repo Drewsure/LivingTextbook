@@ -14,7 +14,7 @@ const selfTest = spawnSync(process.execPath, [generator, "--self-test"], { encod
 if (selfTest.status !== 0 || !selfTest.stdout.includes("PASS publisher pilot intake kit")) {
   failures.push(`generator self-test failed: ${selfTest.stderr || selfTest.stdout}`);
 }
-for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false", "mediaRequests", "qrPageReferences", "qrReferences"]) {
+for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences"]) {
   if (!contract.includes(marker) && !generator.includes(marker)) failures.push(`contract/generator missing safety marker: ${marker}`);
 }
 for (const marker of ["Publisher pilot input kit", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs"]) {

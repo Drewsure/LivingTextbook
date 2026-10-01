@@ -9999,3 +9999,17 @@ This standard is recorded in DR-1389 and ADR 1389.
   rollback, registry, and human authorization gates pass.
 
 This standard is recorded in DR-1388 and ADR 1388.
+
+## 634. Publisher Evidence Lanes Must Be Structured At Intake
+
+- A publisher intake brief must declare rights, accessibility/caption, and
+  scan evidence files with safe paths and explicit source or asset coverage.
+- The no-write intake preflight must inventory evidence files alongside source
+  and media files and report missing evidence as an incomplete handoff.
+- Evidence declarations are provenance inputs only. They do not prove rights,
+  accessibility, scanning, package review, release, QR printing, persistence,
+  or student-facing approval.
+- Future custody and review routes must consume these declarations without
+  allowing the intake kit to bypass their independent gates.
+
+This standard is recorded in DR-1390 and ADR 1390.

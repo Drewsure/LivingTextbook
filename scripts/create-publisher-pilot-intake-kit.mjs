@@ -30,7 +30,7 @@ const brief = createBrief(options);
 const validationErrors = validateBrief(brief);
 if (validationErrors.length > 0) fail(validationErrors.join(" "));
 await mkdir(root, { recursive: true });
-for (const directory of ["source", "media/images", "media/audio", "media/video", "media/transcripts", "media/fonts", "media/background"]) {
+for (const directory of ["source", "media/images", "media/audio", "media/video", "media/transcripts", "media/fonts", "media/background", "evidence"]) {
   await mkdir(join(root, directory), { recursive: true });
 }
 await writeFile(briefPath, `${JSON.stringify(brief, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
@@ -60,6 +60,11 @@ function createBrief(options) {
       { kind: "font", relativePath: "media/fonts/tenant-font.woff2", unitKey: options.unitKey, required: false, purpose: "Optional licensed tenant font." },
       { kind: "background-media", relativePath: "media/background/unit-1-background.ogg", unitKey: options.unitKey, required: false, purpose: "Optional approved game background media." },
     ],
+    evidenceRequests: [
+      { referenceId: "rights-evidence", kind: "rights", relativePath: "evidence/rights-and-permissions.md", appliesTo: ["source/unit-1.pdf"], required: true },
+      { referenceId: "accessibility-evidence", kind: "accessibility", relativePath: "evidence/accessibility-and-captions.md", appliesTo: ["media/audio/unit-1-learning-audio.mp3", "media/video/unit-1-video.mp4"], required: true },
+      { referenceId: "scan-evidence", kind: "scan", relativePath: "evidence/scan-report.json", appliesTo: ["source/unit-1.pdf"], required: true },
+    ],
     deliveryMode: "hybrid",
     hostedPersistenceOptIn: false,
     qrPageReferences: ["REPLACE_WITH_TEXTBOOK_PAGE_OR_SECTION"],
@@ -81,7 +86,7 @@ function validateBrief(brief) {
   for (const key of ["briefId", "tenantId", "publisherName", "seriesName", "bookTitle", "edition", "version", "targetLanguage", "unitKey", "sourceOwner", "retentionPolicy", "reportingPolicy"]) {
     if (!brief[key]?.trim()) errors.push(`${key} is required.`);
   }
-  if (!brief.sourceFiles.length || !brief.mediaRequests.length || !brief.qrPageReferences.length || !brief.qrReferences.length) errors.push("source, media, and structured QR placeholders are required.");
+  if (!brief.sourceFiles.length || !brief.mediaRequests.length || !brief.evidenceRequests.length || !brief.qrPageReferences.length || !brief.qrReferences.length) errors.push("source, media, evidence, and structured QR placeholders are required.");
   if (brief.reviewOnly !== true || brief.packageAssemblyAllowed !== false || brief.studentFacingUseAllowed !== false) errors.push("safety flags are invalid.");
   return errors;
 }
@@ -106,7 +111,7 @@ async function runSelfTest() {
   const generated = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1"], { encoding: "utf8" });
   if (generated.status !== 0) fail(`self-test generator failed: ${generated.stderr}`);
   const stored = JSON.parse(await readFile(join(root, "publisher-pilot-intake.json"), "utf8"));
-  if (stored.reviewOnly !== true || stored.mediaRequests.length !== 6 || stored.deliveryMode !== "hybrid") fail("self-test did not preserve the review-only pilot brief.");
+  if (stored.reviewOnly !== true || stored.mediaRequests.length !== 6 || stored.evidenceRequests.length !== 3 || stored.deliveryMode !== "hybrid") fail("self-test did not preserve the review-only pilot brief.");
   await rm(root, { recursive: true, force: true });
   console.log("PASS publisher pilot intake kit creates a safe review-only brief and media folder scaffold.");
 }

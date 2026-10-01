@@ -20,6 +20,16 @@ export interface PublisherPilotMediaRequest {
   purpose: string;
 }
 
+export type PublisherPilotEvidenceKind = "rights" | "accessibility" | "scan";
+
+export interface PublisherPilotEvidenceRequest {
+  referenceId: string;
+  kind: PublisherPilotEvidenceKind;
+  relativePath: string;
+  appliesTo: string[];
+  required: boolean;
+}
+
 export interface PublisherPilotIntakeBrief {
   recordVersion: 1;
   briefId: string;
@@ -35,6 +45,7 @@ export interface PublisherPilotIntakeBrief {
   sourceOwner: string;
   sourceFiles: string[];
   mediaRequests: PublisherPilotMediaRequest[];
+  evidenceRequests: PublisherPilotEvidenceRequest[];
   deliveryMode: PublisherPilotDeliveryMode;
   hostedPersistenceOptIn: boolean;
   qrPageReferences: string[];
@@ -52,7 +63,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   if (JSON.stringify(brief).includes("REPLACE_WITH_")) errors.push("The intake brief still contains unresolved REPLACE_WITH_* placeholders.");
 
   for (const [field, value] of Object.entries(brief)) {
-    if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "qrPageReferences", "qrReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
+    if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${field} is required.`);
   }
 
@@ -63,6 +74,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   if (!Array.isArray(brief.qrPageReferences) || brief.qrPageReferences.length === 0) errors.push("At least one QR page reference is required.");
   if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) errors.push("At least one structured QR reference is required.");
   if (!Array.isArray(brief.mediaRequests) || brief.mediaRequests.length === 0) errors.push("At least one media request is required.");
+  if (!Array.isArray(brief.evidenceRequests) || brief.evidenceRequests.length === 0) errors.push("At least one structured evidence request is required.");
   if (!("hosted-pwa" === brief.deliveryMode || "closed-local" === brief.deliveryMode || "hybrid" === brief.deliveryMode)) errors.push("deliveryMode is unsupported.");
   if (brief.reviewOnly !== true) errors.push("reviewOnly must remain true.");
   if (brief.packageAssemblyAllowed !== false) errors.push("packageAssemblyAllowed must remain false.");
@@ -74,6 +86,16 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   for (const request of brief.mediaRequests ?? []) {
     if (!request.unitKey.trim() || !request.purpose.trim()) errors.push("Every media request needs a unitKey and purpose.");
     if (!request.kind) errors.push("Every media request needs a supported kind.");
+  }
+  const evidenceIds = new Set<string>();
+  for (const request of brief.evidenceRequests ?? []) {
+    if (!request.referenceId.trim() || !request.relativePath.trim() || !Array.isArray(request.appliesTo) || request.appliesTo.length === 0 || request.appliesTo.some((value) => !value.trim())) {
+      errors.push("Every evidence request needs an id, safe path, and at least one appliesTo identity.");
+    }
+    if (evidenceIds.has(request.referenceId)) errors.push(`Duplicate evidence request id: ${request.referenceId}.`);
+    evidenceIds.add(request.referenceId);
+    if (!("rights" === request.kind || "accessibility" === request.kind || "scan" === request.kind)) errors.push(`Unsupported evidence request kind: ${request.kind}.`);
+    if (!isSafeRelativePath(request.relativePath)) errors.push(`Unsafe evidence relative path: ${request.relativePath}.`);
   }
   const qrIds = new Set<string>();
   for (const reference of brief.qrReferences ?? []) {
