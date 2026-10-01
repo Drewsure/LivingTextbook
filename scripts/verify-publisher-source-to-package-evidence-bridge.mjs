@@ -19,11 +19,15 @@ try {
   if (bridge.missingEvidence.length < 7) failures.push("blocked bridge must enumerate missing evidence");
   if (bridge.draftCreationAllowed || bridge.packageAssemblyAllowed || bridge.packagePromotionAllowed || bridge.qrPrintAllowed || bridge.studentFacingUseAllowed || bridge.storageWriteAllowed) failures.push("bridge must keep protected actions disabled");
   const reviewedLanesBridge = model.createPublisherSourceToPackageEvidenceBridge({
-    tenantId: "publisher-a", unitKey: "publisher-a:book:L1:U1", sourceReviewId: "review-1", extractionPreviewId: "preview-1", extractionPacketId: "packet-1", authoringProposalId: "proposal-1", sourceChecksum: `sha256:${"a".repeat(64)}`, sourceTermsReviewed: true, sentenceApprovalRecorded: false, audioEvidenceReady: true, mediaRightsReady: true, gameVerificationReady: true,
+    tenantId: "publisher-a", unitKey: "publisher-a:book:L1:U1", sourceReviewId: "review-1", extractionPreviewId: "preview-1", extractionPacketId: "packet-1", authoringProposalId: "proposal-1", sourceChecksum: `sha256:${"a".repeat(64)}`, sourceTermsReviewed: true, sentenceApprovalRecorded: false, audioEvidenceReady: true, mediaRightsReady: true, canonicalGameEvidenceComplete: true,
   });
   if (reviewedLanesBridge.evidenceLanes.find((lane) => lane.laneId === "target-language-audio")?.status !== "present") failures.push("reviewed audio evidence must advance the target-language audio lane");
   if (reviewedLanesBridge.evidenceLanes.find((lane) => lane.laneId === "media-rights")?.status !== "present") failures.push("reviewed rights evidence must advance the media-rights lane");
-  if (reviewedLanesBridge.evidenceLanes.find((lane) => lane.laneId === "game-verification")?.status !== "present") failures.push("reviewed game evidence must advance the game-verification lane");
+  if (reviewedLanesBridge.evidenceLanes.find((lane) => lane.laneId === "game-verification")?.status !== "present") failures.push("complete canonical game evidence must advance the game-verification lane");
+  const incompleteCanonicalGameBridge = model.createPublisherSourceToPackageEvidenceBridge({
+    tenantId: "publisher-a", unitKey: "publisher-a:book:L1:U1", sourceReviewId: "review-1", extractionPreviewId: "preview-1", extractionPacketId: "packet-1", authoringProposalId: "proposal-1", sourceChecksum: `sha256:${"a".repeat(64)}`, sourceTermsReviewed: true, sentenceApprovalRecorded: false, audioEvidenceReady: true, mediaRightsReady: true, canonicalGameEvidenceComplete: false,
+  });
+  if (incompleteCanonicalGameBridge.evidenceLanes.find((lane) => lane.laneId === "game-verification")?.status !== "blocked") failures.push("partial game review must keep the game-verification lane blocked");
   if (reviewedLanesBridge.status !== "blocked" || reviewedLanesBridge.packageAssemblyAllowed || reviewedLanesBridge.studentFacingUseAllowed) failures.push("reviewed evidence must not unlock release or student actions");
   const tampered = { ...bridge, status: "ready" };
   if (!model.validatePublisherSourceToPackageEvidenceBridge(tampered).some((error) => error.includes("blocked, review-only"))) failures.push("ready status must be rejected");

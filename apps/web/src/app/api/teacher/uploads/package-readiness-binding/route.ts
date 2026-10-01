@@ -165,7 +165,7 @@ export async function GET(request: Request) {
     sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: packageEvidenceReview?.reviewedLanes.includes("audio") ?? false,
     mediaRightsReady: packageEvidenceReview?.reviewedLanes.includes("rights") ?? false,
-    gameVerificationReady: packageEvidenceReview?.reviewedLanes.includes("game") ?? false,
+    canonicalGameEvidenceComplete: false,
     preflightReference: sourcePreflightEvidence ? {
       reportId: sourcePreflightEvidence.reportId,
       manifestId: sourcePreflightEvidence.manifestId,

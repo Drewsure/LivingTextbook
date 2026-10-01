@@ -52,6 +52,18 @@ export interface PublisherSubmissionPackageEvidenceReconciliation {
   studentFacingUseAllowed: false;
 }
 
+export function hasCompleteCanonicalGameEvidence(
+  value: Pick<PublisherSubmissionPackageEvidenceReconciliation, "lanes"> | null | undefined,
+): boolean {
+  const gameLane = value?.lanes.find((lane) => lane.lane === "game");
+  return Boolean(
+    gameLane
+      && gameLane.status === "review-pending"
+      && gameLane.sourceAssetIds.length === 0
+      && CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.every((recordId) => gameLane.derivedEvidenceRecordIds.includes(recordId)),
+  );
+}
+
 export function validatePublisherSubmissionPackageEvidenceReconciliation(
   reconciliation: PublisherSubmissionPackageEvidenceReconciliation,
   manifest: {

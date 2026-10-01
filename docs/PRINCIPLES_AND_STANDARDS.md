@@ -9883,3 +9883,17 @@ This standard is recorded in DR-1379 and ADR 1379.
 - This reconciliation remains blocked until reviewer references, rights, accessibility, package, release, QR, and policy gates are complete.
 
 This standard is recorded in DR-1380 and ADR 1380.
+
+## 624. Game Readiness Must Mean Canonical Evidence Completeness
+
+- A reviewed game lane is not the same thing as a complete canonical game
+  evidence set.
+- The source-to-package bridge must use an explicit
+  `canonicalGameEvidenceComplete` signal, never lane presence alone.
+- Until a trusted reconciliation record binds curated activity pathways,
+  canonical game integration, and package game-audio coverage, live routes must
+  remain blocked.
+- This signal changes review visibility only; it cannot authorize assembly,
+  promotion, QR printing, persistence activation, or student-facing use.
+
+This standard is recorded in DR-1381 and ADR 1381.

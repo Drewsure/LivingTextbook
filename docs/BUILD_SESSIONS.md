@@ -7904,3 +7904,12 @@ integration, and package game-audio coverage. It rejects publisher source
 assets on the game lane and derived records on publisher media lanes, keeping
 manifest coverage aligned with the canonical game boundary. Recorded ADR 1380
 / DR-1380.
+
+## Build session: Align game readiness with canonical evidence completeness
+
+Separated the source-to-package bridge's explicit canonical game completeness
+signal from the package review's lane-presence flag. The live source and
+package-readiness routes now fail closed because their stored review record
+cannot prove the complete curated-pathway, canonical-integration, and
+game-audio evidence set. The bridge verifier covers both complete and partial
+game evidence paths. Recorded ADR 1381 / DR-1381.

@@ -56,20 +56,20 @@ export function createPublisherSourceToPackageEvidenceBridge(input: {
   sentenceApprovalRecorded: boolean;
   audioEvidenceReady: boolean;
   mediaRightsReady?: boolean;
-  gameVerificationReady?: boolean;
+  canonicalGameEvidenceComplete?: boolean;
 }): PublisherSourceToPackageEvidenceBridge {
   const missingEvidence: string[] = [];
   const sourceReviewStatus: PublisherSourceEvidenceBridgeStatus = input.sourceTermsReviewed ? "present" : "blocked";
   const sentenceStatus: PublisherSourceEvidenceBridgeStatus = input.sentenceApprovalRecorded ? "present" : "blocked";
   const audioStatus: PublisherSourceEvidenceBridgeStatus = input.audioEvidenceReady ? "present" : "blocked";
   const mediaRightsStatus: PublisherSourceEvidenceBridgeStatus = input.mediaRightsReady ? "present" : "missing";
-  const gameVerificationStatus: PublisherSourceEvidenceBridgeStatus = input.gameVerificationReady ? "present" : "blocked";
+  const gameVerificationStatus: PublisherSourceEvidenceBridgeStatus = input.canonicalGameEvidenceComplete ? "present" : "blocked";
   if (!input.sourceTermsReviewed) missingEvidence.push("teacher source-term review");
   if (!input.sentenceApprovalRecorded) missingEvidence.push("teacher approval of exactly two target sentence structures");
   if (!input.audioEvidenceReady) missingEvidence.push("reviewed English audio evidence");
   missingEvidence.push("Japanese support review", "package and release approval");
   if (!input.mediaRightsReady) missingEvidence.push("multimedia rights evidence");
-  if (!input.gameVerificationReady) missingEvidence.push("game verification replay");
+  if (!input.canonicalGameEvidenceComplete) missingEvidence.push("complete canonical game evidence set");
   if (!input.preflightReference) missingEvidence.push("publisher source preflight fingerprint reconciliation");
   return {
     recordVersion: 1,
@@ -91,7 +91,7 @@ export function createPublisherSourceToPackageEvidenceBridge(input: {
       { laneId: "sentence-approval", label: "Sentence approval", status: sentenceStatus, identity: input.authoringProposalId, details: "The two sentence candidates are platform-authored and are never treated as extracted source text.", nextAction: "Approve or edit exactly two sentence structures after reviewing the source terms." },
       { laneId: "target-language-audio", label: "Target-language audio", status: audioStatus, identity: `${input.unitKey}:audio-evidence`, details: input.audioEvidenceReady ? "Reviewed English audio evidence is attached." : "No reviewed term, sentence, instruction, or feedback audio is attached.", nextAction: "Attach reviewed English audio evidence before any game route can be considered." },
       { laneId: "media-rights", label: "Multimedia rights", status: mediaRightsStatus, identity: `${input.unitKey}:media-rights`, details: input.mediaRightsReady ? "Reviewed rights evidence is attached to the package evidence record." : "The source does not yet have reviewed rights evidence for images, video, music, fonts, or game background media.", nextAction: input.mediaRightsReady ? "Keep rights references aligned with the final delivery mode and release checksum." : "Supply rights owner, permitted use, captions/transcripts, and local/hosted distribution decisions." },
-      { laneId: "game-verification", label: "Game verification replay", status: gameVerificationStatus, identity: `${input.unitKey}:game-verification`, details: input.gameVerificationReady ? "Reviewed game evidence is attached to the package evidence record." : "Curated activity pathways are not verified against an approved payload yet.", nextAction: input.gameVerificationReady ? "Keep replay evidence aligned with the canonical payload and release candidate." : "Verify each selected game with deterministic scoring, audio coverage, mobile behavior, and progression events." },
+      { laneId: "game-verification", label: "Game verification replay", status: gameVerificationStatus, identity: `${input.unitKey}:game-verification`, details: input.canonicalGameEvidenceComplete ? "The complete canonical game evidence set is attached to the package evidence record." : "The package review has not proven the complete canonical game evidence set.", nextAction: input.canonicalGameEvidenceComplete ? "Keep replay evidence aligned with the canonical payload and release candidate." : "Bind curated activity pathways, canonical game integration, and game-audio coverage before marking game verification present." },
       { laneId: "package-release", label: "Package and release", status: "blocked", identity: `${input.unitKey}:release`, details: "No package, QR, assignment, local bundle, or hosted persistence release is authorized.", nextAction: "Complete all upstream evidence, then use the separate human release gate." },
     ],
     missingEvidence,

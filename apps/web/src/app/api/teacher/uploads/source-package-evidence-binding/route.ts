@@ -64,7 +64,7 @@ export async function GET(request: Request) {
     sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: reviewedLanes.includes("audio"),
     mediaRightsReady: reviewedLanes.includes("rights"),
-    gameVerificationReady: reviewedLanes.includes("game"),
+    canonicalGameEvidenceComplete: false,
     preflightReference: sourcePreflightEvidence ? {
       reportId: sourcePreflightEvidence.reportId,
       manifestId: sourcePreflightEvidence.manifestId,
