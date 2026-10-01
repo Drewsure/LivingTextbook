@@ -35,6 +35,7 @@ export function PublisherSubmissionManifestPanel({
         <Fact label="Target language" value={manifest.targetLanguage} />
         <Fact label="Required assets" value={String(requiredCount)} />
         <Fact label="Supplied / reviewed" value={`${suppliedCount} / ${reviewedCount}`} />
+        <Fact label="Evidence records" value={`${manifest.evidenceRequests.length} declared`} />
       </dl>
 
       <section className="mt-4 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
@@ -51,6 +52,26 @@ export function PublisherSubmissionManifestPanel({
       <div className="mt-5 grid gap-3">
         {manifest.assets.map((asset) => <AssetRow key={asset.assetId} asset={asset} />)}
       </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Evidence trace</p>
+            <h3 className="mt-1 text-sm font-bold text-[var(--tenant-text)]">Declared records carried from intake</h3>
+          </div>
+          <StatusPill label="Review-pending" tone="warning" />
+        </div>
+        <div className="mt-3 grid gap-3 md:grid-cols-3">
+          {manifest.evidenceRequests.map((evidence) => (
+            <article key={evidence.referenceId} className="rounded-lg border border-[var(--tenant-border)] p-3">
+              <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">{evidence.kind} · {evidence.required ? "required" : "optional"}</p>
+              <p className="mt-1 break-words text-sm font-bold text-[var(--tenant-text)]">{evidence.referenceId}</p>
+              <p className="mt-2 break-words text-xs text-[var(--tenant-muted)]">{evidence.relativePath}</p>
+              <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">Covers {evidence.appliesToAssetIds.length} manifest asset(s). No approval is inferred.</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </Card>
   );
 }

@@ -27,6 +27,10 @@ export function createPublisherSubmissionManifestFromPilotIntake(
     };
   });
 
+  const assetIdByPath = new Map<string, string>();
+  for (const sourcePath of brief.sourceFiles) assetIdByPath.set(sourcePath, assets.find((asset) => asset.kind === "textbook-source")!.assetId);
+  for (const request of brief.mediaRequests) assetIdByPath.set(request.relativePath, assets.find((asset) => asset.kind === request.kind)!.assetId);
+
   return {
     manifestId: `publisher-submission:${brief.tenantId}:${packageId}:${brief.version}:from-pilot-intake`,
     tenantId: brief.tenantId,
@@ -35,6 +39,14 @@ export function createPublisherSubmissionManifestFromPilotIntake(
     version: brief.version,
     targetLanguage: brief.targetLanguage,
     supportLanguages: brief.supportLanguages,
+    evidenceRequests: brief.evidenceRequests.map((evidence) => ({
+      referenceId: evidence.referenceId,
+      kind: evidence.kind,
+      relativePath: evidence.relativePath,
+      appliesToAssetIds: evidence.appliesTo.map((path) => assetIdByPath.get(path) ?? "unknown-asset"),
+      required: evidence.required,
+      status: "missing" as const,
+    })),
     reviewOnly: true,
     filePromotionAllowed: false,
     studentFacingUseAllowed: false,

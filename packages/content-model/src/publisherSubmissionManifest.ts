@@ -8,6 +8,7 @@ export type PublisherSubmissionAssetKind =
   | "background-media";
 
 export type PublisherSubmissionAssetStatus = "missing" | "provided" | "reviewed";
+export type PublisherSubmissionEvidenceKind = "rights" | "accessibility" | "scan";
 
 export interface PublisherSubmissionAsset {
   assetId: string;
@@ -22,6 +23,15 @@ export interface PublisherSubmissionAsset {
   nextGate: string;
 }
 
+export interface PublisherSubmissionEvidenceRequest {
+  referenceId: string;
+  kind: PublisherSubmissionEvidenceKind;
+  relativePath: string;
+  appliesToAssetIds: string[];
+  required: boolean;
+  status: "missing" | "provided" | "reviewed";
+}
+
 export interface PublisherSubmissionManifest {
   manifestId: string;
   tenantId: string;
@@ -31,6 +41,7 @@ export interface PublisherSubmissionManifest {
   targetLanguage: string;
   supportLanguages: string[];
   assets: PublisherSubmissionAsset[];
+  evidenceRequests: PublisherSubmissionEvidenceRequest[];
   reviewOnly: true;
   filePromotionAllowed: false;
   studentFacingUseAllowed: false;
@@ -39,7 +50,7 @@ export interface PublisherSubmissionManifest {
 export function validatePublisherSubmissionManifest(manifest: PublisherSubmissionManifest): string[] {
   const errors: string[] = [];
   for (const [field, value] of Object.entries(manifest)) {
-    if (["assets", "supportLanguages", "reviewOnly", "filePromotionAllowed", "studentFacingUseAllowed"].includes(field)) continue;
+    if (["assets", "evidenceRequests", "supportLanguages", "reviewOnly", "filePromotionAllowed", "studentFacingUseAllowed"].includes(field)) continue;
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${field} is required.`);
   }
   if (manifest.reviewOnly !== true) errors.push("reviewOnly must remain true.");
@@ -51,6 +62,9 @@ export function validatePublisherSubmissionManifest(manifest: PublisherSubmissio
   if (!Array.isArray(manifest.assets) || manifest.assets.length === 0) {
     errors.push("At least one publisher submission asset is required.");
     return errors;
+  }
+  if (!Array.isArray(manifest.evidenceRequests) || manifest.evidenceRequests.length === 0) {
+    errors.push("At least one publisher submission evidence request is required.");
   }
 
   const assetIds = new Set<string>();
@@ -67,5 +81,21 @@ export function validatePublisherSubmissionManifest(manifest: PublisherSubmissio
   if (!manifest.assets.some((asset) => asset.kind === "textbook-source" && asset.required)) {
     errors.push("A required textbook-source asset is mandatory.");
   }
+  const evidenceIds = new Set<string>();
+  for (const evidence of manifest.evidenceRequests ?? []) {
+    if (!evidence.referenceId.trim() || !evidence.relativePath.trim()) errors.push("Each submission evidence request needs an id and relative path.");
+    if (evidenceIds.has(evidence.referenceId)) errors.push(`Duplicate submission evidence id: ${evidence.referenceId}.`);
+    evidenceIds.add(evidence.referenceId);
+    if (!["rights", "accessibility", "scan"].includes(evidence.kind)) errors.push(`Unsupported submission evidence kind: ${evidence.kind}.`);
+    if (!isSafeRelativePath(evidence.relativePath)) errors.push(`Submission evidence path must be safe: ${evidence.relativePath}.`);
+    if (!Array.isArray(evidence.appliesToAssetIds) || evidence.appliesToAssetIds.length === 0) errors.push(`Submission evidence ${evidence.referenceId} needs asset coverage.`);
+    for (const assetId of evidence.appliesToAssetIds ?? []) if (!assetIds.has(assetId)) errors.push(`Submission evidence ${evidence.referenceId} references unknown asset ${assetId}.`);
+    if (!["missing", "provided", "reviewed"].includes(evidence.status)) errors.push(`Submission evidence ${evidence.referenceId} has an unsupported status.`);
+  }
   return errors;
+}
+
+function isSafeRelativePath(value: string): boolean {
+  const normalized = String(value).replaceAll("\\", "/");
+  return Boolean(normalized) && !normalized.startsWith("/") && !normalized.includes("//") && !normalized.split("/").includes("..") && !/[<>:"|?*]/.test(normalized);
 }

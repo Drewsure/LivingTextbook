@@ -10013,3 +10013,17 @@ This standard is recorded in DR-1388 and ADR 1388.
   allowing the intake kit to bypass their independent gates.
 
 This standard is recorded in DR-1390 and ADR 1390.
+
+## 635. Submission Manifests Must Preserve Evidence Traceability
+
+- Intake evidence requests must survive into the canonical publisher
+  submission manifest with their reference id, kind, safe path, required state,
+  and exact manifest-asset coverage.
+- Evidence coverage may not resolve to an unknown or undeclared asset.
+- A missing or review-pending evidence record is not approval and must not
+  authorize package assembly, promotion, QR printing, persistence, or student
+  use.
+- Teacher review surfaces should expose this trace so a publisher can see what
+  each evidence record covers without exposing a write or release action.
+
+This standard is recorded in DR-1391 and ADR 1391.

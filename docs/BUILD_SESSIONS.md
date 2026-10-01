@@ -8029,3 +8029,12 @@ preflight inventories those declarations alongside source and media files.
 Missing evidence remains an incomplete handoff; the contract does not infer
 rights approval, accessibility approval, package assembly, QR printing,
 persistence activation, or student use. Recorded under ADR 1390 / DR-1390.
+
+## Build session: Carry intake evidence into the submission manifest
+
+The canonical publisher submission manifest now preserves each structured
+rights, accessibility/caption, and scan declaration from the intake brief. Its
+evidence records retain safe paths, required status, and exact canonical asset
+coverage. Unknown coverage fails closed, and the teacher manifest panel shows
+the trace without accepting files or inferring approval. Recorded under ADR
+1391 / DR-1391.

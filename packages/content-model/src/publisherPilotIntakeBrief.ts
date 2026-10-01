@@ -88,6 +88,10 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
     if (!request.kind) errors.push("Every media request needs a supported kind.");
   }
   const evidenceIds = new Set<string>();
+  const declaredContentPaths = new Set([
+    ...(brief.sourceFiles ?? []),
+    ...(brief.mediaRequests ?? []).map((request) => request.relativePath),
+  ]);
   for (const request of brief.evidenceRequests ?? []) {
     if (!request.referenceId.trim() || !request.relativePath.trim() || !Array.isArray(request.appliesTo) || request.appliesTo.length === 0 || request.appliesTo.some((value) => !value.trim())) {
       errors.push("Every evidence request needs an id, safe path, and at least one appliesTo identity.");
@@ -96,6 +100,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
     evidenceIds.add(request.referenceId);
     if (!("rights" === request.kind || "accessibility" === request.kind || "scan" === request.kind)) errors.push(`Unsupported evidence request kind: ${request.kind}.`);
     if (!isSafeRelativePath(request.relativePath)) errors.push(`Unsafe evidence relative path: ${request.relativePath}.`);
+    for (const path of request.appliesTo ?? []) if (!declaredContentPaths.has(path)) errors.push(`Evidence request ${request.referenceId} references undeclared content path: ${path}.`);
   }
   const qrIds = new Set<string>();
   for (const reference of brief.qrReferences ?? []) {

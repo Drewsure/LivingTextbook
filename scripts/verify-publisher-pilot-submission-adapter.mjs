@@ -49,6 +49,9 @@ try {
   if (manifest.assets.length !== 7) failures.push("adapter must preserve all canonical review lanes");
   if (manifest.assets.find((asset) => asset.kind === "audio")?.required !== true) failures.push("declared required audio must remain required");
   if (manifest.assets.find((asset) => asset.kind === "video")?.label.includes("not declared") !== true) failures.push("undeclared optional video must remain visible as a decision gate");
+  if (manifest.evidenceRequests.length !== 1) failures.push("adapter must carry every structured intake evidence request");
+  if (manifest.evidenceRequests[0]?.appliesToAssetIds[0] !== manifest.assets.find((asset) => asset.kind === "textbook-source")?.assetId) failures.push("evidence coverage must resolve to canonical manifest asset ids");
+  if (manifest.evidenceRequests[0]?.status !== "missing") failures.push("evidence status must remain review-pending at intake");
   if (manifest.reviewOnly !== true || manifest.filePromotionAllowed !== false || manifest.studentFacingUseAllowed !== false) failures.push("adapter must preserve blocked safety flags");
   const invalid = { ...brief, edition: "REPLACE_WITH_EDITION" };
   try {
@@ -65,4 +68,4 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
 }
-console.log("PASS publisher pilot intake maps to a seven-lane review manifest without promoting files or hiding omitted media decisions.");
+console.log("PASS publisher pilot intake maps to a seven-lane review manifest with evidence traceability without promoting files or hiding omitted media decisions.");
