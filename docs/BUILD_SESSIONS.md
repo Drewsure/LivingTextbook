@@ -7987,3 +7987,8 @@ paths, missing declared source/media files, and invalid safety flags before a
 publisher folder enters quarantine. A complete inventory is evidence for the
 existing source preflight only; it does not authorize package assembly, QR
 printing, persistence, or students.
+
+The completed intake brief now maps through a shared adapter into the canonical
+seven-lane submission manifest. Omitted optional media remains visible as an
+explicit decision gate, while all manifest statuses and promotion flags stay
+review-only. Recorded under ADR 1388 / DR-1388.

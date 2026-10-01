@@ -88,6 +88,10 @@ The next human handoff may use the review-only Publisher Pilot Input Kit in
 shape but does not count as publisher source, rights, package, QR, persistence,
 or release evidence until the declared files and review records exist.
 
+The intake-to-submission adapter preserves all seven canonical review lanes,
+including explicitly omitted optional media, and cannot promote files or mark
+student use ready.
+
 ## Current Handoff Evidence Boundary
 
 The live publisher handoff now exposes a versioned metadata-only handoff
