@@ -8193,3 +8193,13 @@ white-label platform that must also support modest local publisher machines.
 The setting is a future-build safeguard, not permission to terminate unrelated
 Node processes, and the Windows recovery procedure remains required for the
 current stale-process state. Recorded under ADR 1407 / DR-1407.
+
+## Build session: Behavior-test the local package operator handoff
+
+Added `scripts/verify-local-package-operator-behavior.mjs` and exposed it as
+`npm run verify:local-package-operator-behavior`. The self-test proves the
+operator refuses assembly without the one-shot confirmation, selects the
+correct preflight or assembly route, uses the delivery credential, forwards
+the tenant/package/version identity, and never places the credential in JSON.
+The check is included in foundation composition. Recorded under ADR 1408 /
+DR-1408.

@@ -1685,6 +1685,13 @@ local pilot builds and low-cost white-label deployments predictable. It does
 not repair already-running stale Node processes; close those terminals or
 restart Windows before retrying a blocked build.
 
+The closed-local operator now has a behavioral self-test. Run
+`npm run verify:local-package-operator-behavior` after changing the operator
+command or its route contract. The check uses a local HTTP stub, confirms that
+assembly without `ASSEMBLE_LOCAL_PACKAGE` sends no request, and confirms that
+the preflight and assembly requests use the tenant delivery credential without
+leaking it into the JSON body.
+
 ## Publisher source evidence request procedure
 
 After the publisher intake kit has been completed and the canonical source

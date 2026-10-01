@@ -10210,3 +10210,14 @@ This standard is recorded in DR-1404 and ADR 1404.
   independently gated.
 
 This standard is recorded in DR-1405 and ADR 1405.
+
+## 650. Closed-Local Operator Behavior Must Be Rehearsed
+
+- The local package operator must have a behavioral check in addition to static
+  marker checks; the check must exercise both the read-only preflight route and
+  the explicitly confirmed assembly route.
+- Assembly without the exact one-shot confirmation must send no request.
+- The operator may use a tenant delivery credential only as an authorization
+  header and must never serialize it into the request body or output payload.
+
+This standard is recorded in DR-1408 and ADR 1408.

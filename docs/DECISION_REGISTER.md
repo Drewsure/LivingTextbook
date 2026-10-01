@@ -10630,3 +10630,12 @@ cost and reliability remain predictable on modest machines. It does not mask a
 failed build or clear existing stale processes; production build and browser
 rehearsal evidence remain mandatory. See ADR 1407 and
 `docs/decision-register/DR-1407-bound-next-production-build-resources.md`.
+
+## DR-1408: Behavior-Test The Closed-Local Operator Handoff
+
+The local package operator now has an HTTP-backed self-test in addition to its
+static safety check. The test proves that the one-shot assembly confirmation
+is required, the preflight and assembly paths are distinct, the tenant delivery
+credential is used only as an authorization header, and the bounded request
+identity is forwarded without credential leakage. See ADR 1408 and
+`docs/decision-register/DR-1408-local-package-operator-behavior-test.md`.
