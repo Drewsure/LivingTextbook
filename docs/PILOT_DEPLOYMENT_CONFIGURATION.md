@@ -16,6 +16,7 @@ Set these values for the exact publisher tenant id:
 - `LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS`
 - `LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT`
 - `LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_ROOT`
+- `LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT`
 
 Filesystem roots must already exist, be absolute paths, and be owned by the
 deployment custody policy. Tenant allowlists are comma-separated exact ids;

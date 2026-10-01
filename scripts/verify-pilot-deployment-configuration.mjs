@@ -15,6 +15,7 @@ const environmentNames = [
   "LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS",
   "LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT",
   "LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_ROOT",
+  "LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT",
   "LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT",
   "LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT",
   "LIVING_TEXTBOOOK_HOSTED_PERSISTENCE_ACTIVATION_ROOT",
@@ -54,7 +55,7 @@ try {
     assert(blocked.exposedSecretValues === false && JSON.stringify(blocked).includes("token-value") === false, "configuration snapshot must not expose secret values");
 
     const rootDirectory = join(output, "roots");
-    for (const child of ["quarantine", "delivery", "qr", "package", "approved", "hosted-activation"]) mkdirSync(join(rootDirectory, child), { recursive: true });
+    for (const child of ["quarantine", "delivery", "qr", "manifest-review", "package", "approved", "hosted-activation"]) mkdirSync(join(rootDirectory, child), { recursive: true });
     setEnvironment({
       LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN: "token-value",
       LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_ALLOWED_TENANTS: "other, sample-publisher",
@@ -63,6 +64,7 @@ try {
       LIVING_TEXTBOOOK_PILOT_DELIVERY_ALLOWED_TENANTS: "sample-publisher",
       LIVING_TEXTBOOOK_PILOT_DELIVERY_ROOT: join(rootDirectory, "delivery"),
       LIVING_TEXTBOOOK_PILOT_QR_REGISTRY_ROOT: join(rootDirectory, "qr"),
+      LIVING_TEXTBOOOK_LOCAL_BUNDLE_MANIFEST_REVIEW_ROOT: join(rootDirectory, "manifest-review"),
       LIVING_TEXTBOOOK_LOCAL_PACKAGE_ROOT: join(rootDirectory, "package"),
       LIVING_TEXTBOOOK_APPROVED_ASSET_ROOT: join(rootDirectory, "approved"),
       LIVING_TEXTBOOOK_HOSTED_PERSISTENCE_ACTIVATION_ROOT: join(rootDirectory, "hosted-activation"),

@@ -9702,3 +9702,16 @@ This standard is recorded in DR-1366 and ADR 1366.
   hosted persistence records.
 
 This standard is recorded in DR-1367 and ADR 1367.
+
+## 611. Deployment Verifiers Must Model The Complete Operator Shape
+
+- A deployment preflight verifier must configure every filesystem root and
+  server-side identity that the production configuration contract evaluates.
+- A synthetic readiness fixture may not omit a required root and then present
+  the resulting blocked status as evidence of an application defect.
+- New deployment environment variables must be added together to the runtime
+  configuration contract, operator documentation, and verifier fixture.
+- Readiness verification must continue to report secret names only; fixture
+  secrets are test values and must never appear in output or snapshots.
+
+This standard is recorded in DR-1368 and ADR 1368.

@@ -7788,3 +7788,12 @@ and passed its package identity into `PlayableGameRouteShell`. Direct game URLs
 now start locked; only the validated browser-session handoff written after
 target-language flashcard practice can establish the unlocked progression.
 Recorded ADR 1367 / DR-1367.
+
+## Build session: Make deployment readiness verification faithful
+
+The deployment preflight verifier was missing the reviewed local
+bundle-manifest custody root from its synthetic complete configuration. Added
+that root to the fixture and operator documentation, then reran the full
+foundation suite successfully across the publisher rehearsal, 96 routes,
+production build, persistence/runtime checks, and language/audio gates.
+Recorded ADR 1368 / DR-1368.
