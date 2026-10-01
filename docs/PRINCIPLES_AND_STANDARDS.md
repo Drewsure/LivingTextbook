@@ -10407,3 +10407,15 @@ This standard is recorded in DR-1423 and ADR 1423.
   into the repository or treated as commercial approval.
 
 This standard is recorded in DR-1424 and ADR 1424.
+
+## 667. Publisher Source Format Must Be Explicit And Canonical
+
+- The intake-kit generator must default to PDF but permit an explicit safe
+  source path for DOCX, TXT, Markdown, or CSV publisher material.
+- The declared source path must remain relative to the external handoff's
+  `source/` directory and must be validated against the canonical manifest
+  format contract.
+- Format flexibility must not bypass rights, checksum, extraction, package,
+  release, QR, persistence, or student-use review gates.
+
+This standard is recorded in DR-1425 and ADR 1425.

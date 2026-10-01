@@ -8330,3 +8330,12 @@ audit gates while the overall audit remains non-saleable without real
 publisher and outside-builder evidence. Synthetic records remain outside the
 repository and cannot authorize any protected action. Recorded under ADR 1424
 / DR-1424.
+
+## Build session: Accept explicit publisher source formats
+
+Widened the external publisher intake-kit generator from a hard-coded PDF
+scaffold to an explicit safe source path. PDF remains the default, while DOCX,
+TXT, Markdown, and CSV now align with the canonical source-manifest contract.
+The source remains external and review-only; no upload, extraction, promotion,
+assembly, QR, persistence, or student action is enabled. Recorded under ADR
+1425 / DR-1425.

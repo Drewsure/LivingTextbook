@@ -10773,3 +10773,11 @@ release-authorization gates are individually proved. The overall result still
 remains non-saleable without real publisher, Z.ai, and named human evidence.
 See ADR 1424 and
 `docs/decision-register/DR-1424-complete-human-packet-audit-wiring.md`.
+
+## DR-1425: Explicit Publisher Source Format
+
+The publisher intake-kit generator now defaults to PDF while accepting an
+explicit safe DOCX, TXT, Markdown, or CSV source path. This aligns the real
+publisher handoff with the canonical source manifest without weakening any
+review or activation boundary. See ADR 1425 and
+`docs/decision-register/DR-1425-explicit-publisher-source-format.md`.

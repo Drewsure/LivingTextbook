@@ -22,6 +22,12 @@ The generator refuses to overwrite an existing brief. It creates folders for
 source, images, audio, video, transcripts, fonts, and background media, plus a
 `publisher-pilot-intake.json` metadata brief and a handoff README.
 
+The default source declaration is `source/unit-1.pdf`. For an editable or
+text-based publisher handoff, pass an explicit safe source path such as
+`--source-file source/unit-1.docx`, `source/unit-1.txt`, `source/unit-1.md`,
+or `source/unit-1.csv`. The canonical source contract validates the declared
+type and the same review-only gates apply to every format.
+
 The kit also creates an `evidence` folder with structured declarations for
 rights, accessibility/captions, and scan evidence. These declarations are
 inventory inputs only; they do not assert that the evidence is valid or
