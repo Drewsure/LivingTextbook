@@ -9856,3 +9856,12 @@ This standard is recorded in DR-1376 and ADR 1376.
   assembly, promotion, QR printing, persistence activation, or student use.
 
 This standard is recorded in DR-1377 and ADR 1377.
+
+## 621. Delivery Handoffs Must Preserve Evidence Provenance
+
+- The publisher delivery handoff must carry the origin of every evidence reference: publisher asset, platform-derived record, or delivery-control record.
+- The package-evidence summary must retain lane, reference identity, review status, and origin counts so a reviewer can reconcile the package without guessing custody.
+- Platform-derived game evidence may support a curated activity pathway, but it must remain visibly distinct from publisher uploads and may not be treated as proof of release approval.
+- Provenance is audit information only. It does not authorize assembly, promotion, QR printing, persistence activation, or student-facing use.
+
+This standard is recorded in DR-1378 and ADR 1378.

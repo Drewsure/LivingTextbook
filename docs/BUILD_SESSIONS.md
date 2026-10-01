@@ -7879,3 +7879,11 @@ platform-derived, the API requires an explicit safe origin, and the canonical
 record preserves it for handoff and audit. Package assembly, promotion, QR
 printing, persistence, and student-facing use remain blocked. Recorded ADR
 1377 / DR-1377.
+
+## Build session: Carry evidence provenance into the delivery handoff
+
+The review-only publisher delivery handoff now carries an origin on each
+delivery-control reference and a validated package-evidence provenance summary.
+The live readiness route passes the actual package evidence review into this
+record, while the panel exposes publisher-asset and platform-derived counts
+without exposing payloads or enabling writes. Recorded ADR 1378 / DR-1378.

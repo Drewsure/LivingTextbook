@@ -21,6 +21,7 @@ try {
     sentenceApprovalPassed: true,
     packageReviewPacketId: "publisher-a-l1-u1-package:q-00000000-0000-4000-8000-000000000001:package-review-packet",
     packageReviewPacketReady: true,
+    packageEvidenceReview: null,
     deliveryManifestPreviewId: "publisher-a-l1-u1-package:delivery-manifest-preview",
     releaseReceiptPreviewId: "publisher-a-l1-u1-package:release-receipt-preview",
     packageIndexPreviewId: "publisher-a-l1-u1-package:package-index-preview",
@@ -30,6 +31,8 @@ try {
   const errors = model.validatePublisherDeliveryHandoffRecord(record);
   if (errors.length > 0) failures.push(`valid handoff record was rejected: ${errors.join(" ")}`);
   if (record.evidence.length !== 9) failures.push("handoff record must bind nine evidence references");
+  if (record.evidence.some((item) => !item.origin)) failures.push("handoff evidence must preserve origin");
+  if (record.packageEvidence.status !== "not-recorded") failures.push("null package evidence must remain not-recorded");
   if (record.includedMetadataFiles.length !== 0) failures.push("review-only handoff must include no files");
   if (record.rawPayloadIncluded || record.learnerRecordsIncluded || record.qrPrintArtifactCreated || record.packageAssemblyAllowed || record.releaseWriteAllowed || record.qrPrintAllowed || record.persistenceActivationAllowed || record.studentFacingUseAllowed) failures.push("handoff record must keep every protected action disabled");
   const tampered = { ...record, status: "delivered" };
@@ -46,8 +49,9 @@ const panel = readFileSync(join(root, "apps", "web", "src", "features", "evidenc
 const samplePage = readFileSync(join(root, "apps", "web", "src", "app", "teacher", "evidence", "[tenantId]", "handoff", "page.tsx"), "utf8");
 const sampleData = readFileSync(join(root, "apps", "web", "src", "data", "samplePublisherDeliveryHandoffRecord.ts"), "utf8");
 for (const marker of ["createPublisherDeliveryHandoffRecord", "deliveryHandoffRecord", "validatePublisherDeliveryHandoffRecord"]) if (!route.includes(marker)) failures.push(`readiness route is missing marker: ${marker}`);
+for (const marker of ["packageEvidenceReview", "packageEvidence"]) if (!route.includes(marker)) failures.push(`readiness route is missing provenance marker: ${marker}`);
 for (const marker of ["PublisherDeliveryHandoffRecordPanel", "deliveryHandoffRecord"]) if (!bridge.includes(marker)) failures.push(`live handoff bridge is missing marker: ${marker}`);
-for (const marker of ["Publisher delivery handoff evidence", "Expected metadata files", "Protection boundary"]) if (!panel.includes(marker)) failures.push(`handoff record panel is missing marker: ${marker}`);
+for (const marker of ["Publisher delivery handoff evidence", "Package evidence provenance", "Expected metadata files", "Protection boundary"]) if (!panel.includes(marker)) failures.push(`handoff record panel is missing marker: ${marker}`);
 for (const marker of ["PublisherDeliveryHandoffRecordPanel", "samplePublisherDeliveryHandoffRecord"]) if (!samplePage.includes(marker)) failures.push(`sample publisher handoff page is missing marker: ${marker}`);
 for (const marker of ["createPublisherDeliveryHandoffRecord", "samplePublisherDeliveryHandoffRecordErrors"]) if (!sampleData.includes(marker)) failures.push(`sample publisher handoff data is missing marker: ${marker}`);
 if (panel.includes("fetch(") || panel.includes('type="file"') || panel.includes("method: \"POST\"")) failures.push("handoff record panel must remain read-only");

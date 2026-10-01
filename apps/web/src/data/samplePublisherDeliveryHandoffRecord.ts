@@ -26,6 +26,7 @@ export const samplePublisherDeliveryHandoffRecord: PublisherDeliveryHandoffRecor
   sentenceApprovalPassed: false,
   packageReviewPacketId: sampleHostedPersistenceOptInDecisionPacket.reviewPacketId,
   packageReviewPacketReady: false,
+  packageEvidenceReview: null,
   deliveryManifestPreviewId: `${samplePilotDeliveryManifest.manifestId}:preview`,
   releaseReceiptPreviewId: `${samplePilotDeliveryReleaseReceipt.receiptId}:preview`,
   packageIndexPreviewId: `${samplePilotDeliveryManifest.manifestId}:package-index:preview`,

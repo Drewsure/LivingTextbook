@@ -282,6 +282,7 @@ export async function GET(request: Request) {
     sentenceApprovalPassed: sentenceApproval?.decision === "approved",
     packageReviewPacketId: packet?.packetId ?? null,
     packageReviewPacketReady: packet?.status === "ready-for-next-gate",
+    packageEvidenceReview,
     deliveryManifestPreviewId: deliveryManifestPreview.previewId,
     releaseReceiptPreviewId: releaseReceiptPreview.previewId,
     packageIndexPreviewId: packageIndexPreview.previewId,

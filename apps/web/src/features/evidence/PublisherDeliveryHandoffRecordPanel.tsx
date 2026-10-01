@@ -20,6 +20,21 @@ export function PublisherDeliveryHandoffRecordPanel({ record, validationErrors =
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
         {record.evidence.map((item) => <article key={item.evidenceId} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4"><div className="flex items-start justify-between gap-3"><h3 className="text-sm font-bold">{item.label}</h3><StatusPill label={item.status} tone={item.status === "present" ? "success" : "warning"} /></div><p className="mt-2 break-words text-xs font-semibold text-[var(--tenant-muted)]">{item.identity}</p><p className="mt-2 text-sm leading-6 text-[var(--tenant-muted)]">{item.details}</p><p className="mt-3 border-t border-[var(--tenant-border)] pt-3 text-xs font-semibold leading-5 text-[var(--tenant-muted)]">Next: {item.nextAction}</p></article>)}
       </div>
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Package evidence provenance</p>
+            <h3 className="mt-1 text-base font-bold">Publisher assets and platform-derived games remain separate</h3>
+          </div>
+          <StatusPill label={record.packageEvidence.status} tone={record.packageEvidence.status === "reviewed-package-evidence" ? "success" : "warning"} />
+        </div>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Fact label="Review record" value={record.packageEvidence.reviewId ?? "Not recorded"} />
+          <Fact label="Publisher assets" value={String(record.packageEvidence.publisherAssetReferenceCount)} />
+          <Fact label="Platform-derived" value={String(record.packageEvidence.platformDerivedReferenceCount)} />
+        </dl>
+        {record.packageEvidence.references.length > 0 ? <ul className="mt-4 grid gap-2 sm:grid-cols-2">{record.packageEvidence.references.map((reference) => <li key={reference.lane} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-3 text-sm"><span className="font-bold">{reference.lane}</span><span className="ml-2 text-[var(--tenant-muted)]">{reference.origin}</span><p className="mt-1 break-words text-xs text-[var(--tenant-muted)]">{reference.referenceId}</p></li>)}</ul> : <p className="mt-4 text-sm leading-6 text-[var(--tenant-muted)]">No package evidence references are recorded in this review-only handoff.</p>}
+      </section>
       <div className="mt-5 grid gap-4 lg:grid-cols-2">
         <section className="rounded-lg border border-[var(--tenant-border)] p-4"><h3 className="text-sm font-bold">Expected metadata files</h3><ul className="mt-3 grid gap-2 text-sm leading-6 text-[var(--tenant-muted)]">{record.expectedMetadataFiles.map((file) => <li key={file} className="rounded-lg border border-[var(--tenant-border)] bg-white/80 p-2">{file}</li>)}</ul><p className="mt-3 text-xs leading-5 text-[var(--tenant-muted)]">Included now: none. The list is a contract preview, not a delivery receipt.</p></section>
         <section className="rounded-lg border border-[var(--tenant-border)] p-4"><h3 className="text-sm font-bold">Fallback and recovery</h3><dl className="mt-3 grid gap-3"><Fact label="Fallback status" value={record.fallbackRoute.status} /><Fact label="Route pattern" value={record.fallbackRoute.routePattern} /><Fact label="Rollback" value={record.rollback.status} /></dl><p className="mt-3 text-xs leading-5 text-[var(--tenant-muted)]">{record.rollback.nextAction}</p></section>

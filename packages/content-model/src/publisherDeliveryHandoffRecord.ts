@@ -1,12 +1,34 @@
+import type {
+  UploadQuarantinePackageEvidenceLane,
+  UploadQuarantinePackageEvidenceReferenceOrigin,
+  UploadQuarantinePackageEvidenceReview,
+} from "./uploadQuarantinePackageEvidenceReview";
+
 export type PublisherDeliveryHandoffEvidenceStatus = "present" | "preview-only" | "missing" | "blocked";
+export type PublisherDeliveryHandoffEvidenceOrigin = "publisher-asset" | "platform-derived" | "delivery-control";
 
 export interface PublisherDeliveryHandoffEvidenceRef {
   evidenceId: string;
   label: string;
   status: PublisherDeliveryHandoffEvidenceStatus;
+  origin: PublisherDeliveryHandoffEvidenceOrigin;
   identity: string;
   details: string;
   nextAction: string;
+}
+
+export interface PublisherDeliveryHandoffPackageEvidenceReference {
+  lane: UploadQuarantinePackageEvidenceLane;
+  referenceId: string;
+  origin: UploadQuarantinePackageEvidenceReferenceOrigin;
+}
+
+export interface PublisherDeliveryHandoffPackageEvidenceSummary {
+  status: UploadQuarantinePackageEvidenceReview["status"] | "not-recorded";
+  reviewId: string | null;
+  references: PublisherDeliveryHandoffPackageEvidenceReference[];
+  publisherAssetReferenceCount: number;
+  platformDerivedReferenceCount: number;
 }
 
 export interface PublisherDeliveryHandoffRecord {
@@ -20,6 +42,7 @@ export interface PublisherDeliveryHandoffRecord {
   status: "blocked";
   reviewOnly: true;
   evidence: PublisherDeliveryHandoffEvidenceRef[];
+  packageEvidence: PublisherDeliveryHandoffPackageEvidenceSummary;
   expectedMetadataFiles: string[];
   includedMetadataFiles: string[];
   fallbackRoute: {
@@ -73,12 +96,14 @@ export function createPublisherDeliveryHandoffRecord(input: {
   sentenceApprovalPassed: boolean;
   packageReviewPacketId: string | null;
   packageReviewPacketReady: boolean;
+  packageEvidenceReview: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences"> | null;
   deliveryManifestPreviewId: string;
   releaseReceiptPreviewId: string;
   packageIndexPreviewId: string;
   assemblyRequestPreviewId: string;
   qrRegistryId: string | null;
 }): PublisherDeliveryHandoffRecord {
+  const packageEvidence = createPublisherDeliveryHandoffPackageEvidenceSummary(input.packageEvidenceReview);
   const evidence = (entry: Omit<PublisherDeliveryHandoffEvidenceRef, "status"> & { status: PublisherDeliveryHandoffEvidenceStatus }): PublisherDeliveryHandoffEvidenceRef => entry;
   const sourceReviewStatus: PublisherDeliveryHandoffEvidenceStatus = input.sourceReviewPassed ? "present" : "blocked";
   const packageReviewStatus: PublisherDeliveryHandoffEvidenceStatus = input.packageReviewPacketReady ? "present" : input.packageReviewPacketId ? "blocked" : "missing";
@@ -93,16 +118,17 @@ export function createPublisherDeliveryHandoffRecord(input: {
     status: "blocked",
     reviewOnly: true,
     evidence: [
-      evidence({ evidenceId: "source-review", label: "Source review decision", status: sourceReviewStatus, identity: `${input.quarantineId}:review-decision`, details: sourceReviewStatus === "present" ? "The accepted source decision is bound to this quarantine checksum." : "An accepted source decision is not yet bound to this handoff.", nextAction: "Record and reconcile the human source review decision." }),
-      evidence({ evidenceId: "sentence-approval", label: "English sentence approval", status: input.sentenceApprovalPassed ? "present" : "blocked", identity: `${input.packageId}:sentence-approval`, details: input.sentenceApprovalPassed ? "Exactly two approved English target sentences are bound to this package checksum." : "The checksum-bound approval for the two English target sentences is missing or mismatched.", nextAction: "Approve exactly two distinct English target sentences before release review." }),
-      evidence({ evidenceId: "package-review-packet", label: "Package review packet", status: packageReviewStatus, identity: input.packageReviewPacketId ?? `${input.packageId}:package-review-packet`, details: packageReviewStatus === "present" ? "The immutable package review packet is ready for downstream reconciliation." : "The package review packet is missing or still has blockers.", nextAction: "Complete the reviewed content, game, media, rights, and accessibility evidence packet." }),
-      evidence({ evidenceId: "delivery-manifest", label: "Delivery manifest preview", status: "preview-only", identity: input.deliveryManifestPreviewId, details: "The manifest identity is previewed, not written or approved.", nextAction: "Obtain a human-approved delivery manifest before assembly." }),
-      evidence({ evidenceId: "release-receipt", label: "Release receipt preview", status: "blocked", identity: input.releaseReceiptPreviewId, details: "The receipt identity is reserved for review; no release approval is recorded.", nextAction: "Record named reviewer, rollback reference, policy decision, and release time." }),
-      evidence({ evidenceId: "package-index", label: "Delivery package index preview", status: "blocked", identity: input.packageIndexPreviewId, details: "The metadata-only index is not created until manifest and receipt approval align.", nextAction: "Create and read back the index only after release approval." }),
-      evidence({ evidenceId: "assembly-request", label: "Assembly request preview", status: "preview-only", identity: input.assemblyRequestPreviewId, details: "Writer inputs are enumerated without invoking a writer or copying files.", nextAction: "Supply every approved writer input to the separately gated package assembler." }),
-      evidence({ evidenceId: "qr-registry", label: "QR alias registry", status: input.qrRegistryId ? "blocked" : "missing", identity: input.qrRegistryId ?? `${input.packageId}:qr-registry`, details: input.qrRegistryId ? "A registry identity exists but print authorization is not recorded." : "No approved QR alias registry is bound to this handoff.", nextAction: "Reconcile stable aliases, fallback routes, checksums, and print authorization." }),
-      evidence({ evidenceId: "fallback-route", label: "Closed-local fallback route", status: "preview-only", identity: `${input.packageId}:fallback-route`, details: "The route shape is reserved for a future local or hybrid package; it is not live student access.", nextAction: "Verify the assembled local bundle and rollback route before any classroom use." }),
+      evidence({ evidenceId: "source-review", label: "Source review decision", status: sourceReviewStatus, origin: "publisher-asset", identity: `${input.quarantineId}:review-decision`, details: sourceReviewStatus === "present" ? "The accepted source decision is bound to this quarantine checksum." : "An accepted source decision is not yet bound to this handoff.", nextAction: "Record and reconcile the human source review decision." }),
+      evidence({ evidenceId: "sentence-approval", label: "English sentence approval", status: input.sentenceApprovalPassed ? "present" : "blocked", origin: "publisher-asset", identity: `${input.packageId}:sentence-approval`, details: input.sentenceApprovalPassed ? "Exactly two approved English target sentences are bound to this package checksum." : "The checksum-bound approval for the two English target sentences is missing or mismatched.", nextAction: "Approve exactly two distinct English target sentences before release review." }),
+      evidence({ evidenceId: "package-review-packet", label: "Package review packet", status: packageReviewStatus, origin: "delivery-control", identity: input.packageReviewPacketId ?? `${input.packageId}:package-review-packet`, details: packageReviewStatus === "present" ? "The immutable package review packet is ready for downstream reconciliation." : "The package review packet is missing or still has blockers.", nextAction: "Complete the reviewed content, game, media, rights, and accessibility evidence packet." }),
+      evidence({ evidenceId: "delivery-manifest", label: "Delivery manifest preview", status: "preview-only", origin: "delivery-control", identity: input.deliveryManifestPreviewId, details: "The manifest identity is previewed, not written or approved.", nextAction: "Obtain a human-approved delivery manifest before assembly." }),
+      evidence({ evidenceId: "release-receipt", label: "Release receipt preview", status: "blocked", origin: "delivery-control", identity: input.releaseReceiptPreviewId, details: "The receipt identity is reserved for review; no release approval is recorded.", nextAction: "Record named reviewer, rollback reference, policy decision, and release time." }),
+      evidence({ evidenceId: "package-index", label: "Delivery package index preview", status: "blocked", origin: "delivery-control", identity: input.packageIndexPreviewId, details: "The metadata-only index is not created until manifest and receipt approval align.", nextAction: "Create and read back the index only after release approval." }),
+      evidence({ evidenceId: "assembly-request", label: "Assembly request preview", status: "preview-only", origin: "delivery-control", identity: input.assemblyRequestPreviewId, details: "Writer inputs are enumerated without invoking a writer or copying files.", nextAction: "Supply every approved writer input to the separately gated package assembler." }),
+      evidence({ evidenceId: "qr-registry", label: "QR alias registry", status: input.qrRegistryId ? "blocked" : "missing", origin: "delivery-control", identity: input.qrRegistryId ?? `${input.packageId}:qr-registry`, details: input.qrRegistryId ? "A registry identity exists but print authorization is not recorded." : "No approved QR alias registry is bound to this handoff.", nextAction: "Reconcile stable aliases, fallback routes, checksums, and print authorization." }),
+      evidence({ evidenceId: "fallback-route", label: "Closed-local fallback route", status: "preview-only", origin: "delivery-control", identity: `${input.packageId}:fallback-route`, details: "The route shape is reserved for a future local or hybrid package; it is not live student access.", nextAction: "Verify the assembled local bundle and rollback route before any classroom use." }),
     ],
+    packageEvidence,
     expectedMetadataFiles: [...expectedMetadataFiles],
     includedMetadataFiles: [],
     fallbackRoute: { status: "planned", routePattern: `/q/tenant/${input.tenantId}/package/${input.packageId}/unit/{unit}/activity/{activity}`, identity: `${input.packageId}:fallback-route` },
@@ -117,6 +143,19 @@ export function createPublisherDeliveryHandoffRecord(input: {
     studentFacingUseAllowed: false,
     mode: "review-only",
     sideEffect: "none",
+  };
+}
+
+export function createPublisherDeliveryHandoffPackageEvidenceSummary(
+  review: Pick<UploadQuarantinePackageEvidenceReview, "status" | "reviewId" | "evidenceReferences"> | null,
+): PublisherDeliveryHandoffPackageEvidenceSummary {
+  const references = review?.evidenceReferences.map((reference) => ({ ...reference })) ?? [];
+  return {
+    status: review?.status ?? "not-recorded",
+    reviewId: review?.reviewId ?? null,
+    references,
+    publisherAssetReferenceCount: references.filter((reference) => reference.origin === "publisher-asset").length,
+    platformDerivedReferenceCount: references.filter((reference) => reference.origin === "platform-derived").length,
   };
 }
 
@@ -137,14 +176,37 @@ export function validatePublisherDeliveryHandoffRecord(value: unknown): string[]
     seen.add(evidenceId);
     for (const field of ["label", "identity", "details", "nextAction"] as const) if (!isNonEmptyString(item[field])) errors.push(`Publisher delivery handoff evidence ${field} must be non-empty.`);
     if (!["present", "preview-only", "missing", "blocked"].includes(String(item.status))) errors.push("Publisher delivery handoff evidence status is unsupported.");
+    if (!["publisher-asset", "platform-derived", "delivery-control"].includes(String(item.origin))) errors.push("Publisher delivery handoff evidence origin is unsupported.");
   }
   for (const id of expectedEvidenceIds) if (!seen.has(id)) errors.push(`Publisher delivery handoff is missing evidence ${id}.`);
   if (!sameStringArray(value.expectedMetadataFiles, expectedMetadataFiles)) errors.push("Publisher delivery handoff expected metadata file list is invalid.");
   if (!sameStringArray(value.includedMetadataFiles, [])) errors.push("Publisher delivery handoff must not claim metadata files were delivered before release.");
+  validatePackageEvidenceSummary(value.packageEvidence, errors);
   if (!isRecord(value.fallbackRoute) || value.fallbackRoute.status !== "planned" || !isNonEmptyString(value.fallbackRoute.routePattern) || !isNonEmptyString(value.fallbackRoute.identity)) errors.push("Publisher delivery handoff fallback route must remain planned and identified.");
   if (!isRecord(value.rollback) || value.rollback.status !== "missing" || value.rollback.reference !== null || !isNonEmptyString(value.rollback.nextAction)) errors.push("Publisher delivery handoff rollback must remain missing until human approval.");
   for (const field of ["rawPayloadIncluded", "learnerRecordsIncluded", "qrPrintArtifactCreated", "packageAssemblyAllowed", "releaseWriteAllowed", "qrPrintAllowed", "persistenceActivationAllowed", "studentFacingUseAllowed"] as const) if (value[field] !== false) errors.push(`${field} must remain false.`);
   return [...new Set(errors)];
+}
+
+function validatePackageEvidenceSummary(value: unknown, errors: string[]) {
+  if (!isRecord(value)) { errors.push("Publisher delivery handoff package evidence summary must be present."); return; }
+  if (!["not-recorded", "incomplete", "reviewed-package-evidence"].includes(String(value.status))) errors.push("Publisher delivery handoff package evidence status is unsupported.");
+  if (value.reviewId !== null && !isNonEmptyString(value.reviewId)) errors.push("Publisher delivery handoff package evidence reviewId must be null or non-empty.");
+  const references = Array.isArray(value.references) ? value.references : [];
+  if (!Array.isArray(value.references)) errors.push("Publisher delivery handoff package evidence references must be an array.");
+  const lanes = new Set<string>();
+  for (const reference of references) {
+    if (!isRecord(reference) || !isNonEmptyString(reference.lane) || !isNonEmptyString(reference.referenceId) || !["publisher-asset", "platform-derived"].includes(String(reference.origin))) {
+      errors.push("Publisher delivery handoff package evidence references must carry safe lane, identity, and origin.");
+      continue;
+    }
+    if (lanes.has(String(reference.lane))) errors.push("Publisher delivery handoff package evidence references must contain unique lanes.");
+    lanes.add(String(reference.lane));
+  }
+  const publisherCount = references.filter((reference) => isRecord(reference) && reference.origin === "publisher-asset").length;
+  const derivedCount = references.filter((reference) => isRecord(reference) && reference.origin === "platform-derived").length;
+  if (value.publisherAssetReferenceCount !== publisherCount || value.platformDerivedReferenceCount !== derivedCount) errors.push("Publisher delivery handoff package evidence origin counts must match references.");
+  if (value.status === "not-recorded" && (references.length !== 0 || value.reviewId !== null)) errors.push("Unrecorded package evidence must not expose review references.");
 }
 
 function sameStringArray(value: unknown, expected: readonly string[]): boolean { return Array.isArray(value) && value.length === expected.length && value.every((item, index) => item === expected[index]); }
