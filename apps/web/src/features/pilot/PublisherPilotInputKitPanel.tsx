@@ -18,6 +18,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "node scripts/create-publisher-source-manifest-from-pilot-kit.mjs `",
     "  --root \"D:\\PublisherPilotInput\"",
   ].join("\n");
+  const intakePreflightCommand = [
+    "node scripts/publisher-pilot-intake-preflight.mjs `",
+    "  --root \"D:\\PublisherPilotInput\" `",
+    "  --output \"D:\\PublisherPilotInput\\evidence\\publisher-intake-preflight.json\"",
+  ].join("\n");
   const evidenceRequestCommand = [
     "node scripts/create-publisher-source-preflight-evidence-request.mjs `",
     "  --root \"D:\\PublisherPilotInput\" `",
@@ -64,6 +69,28 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         <KitStep number="1" title="Create privately" detail="Keep publisher-owned files outside the repository and use one kit per submission." />
         <KitStep number="2" title="Replace placeholders" detail="Add the real edition, rights owner, unit, QR page, and policy details." />
         <KitStep number="3" title="Preflight the intake" detail="Inventory the completed kit and preserve the create-once evidence report." />
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Durable intake evidence</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Bind the report to the exact brief</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              Run this after replacing every placeholder and adding the declared files. The create-once report records the current brief checksum; editing the brief later requires a fresh report before the publisher gate can advance.
+            </p>
+          </div>
+          <StatusPill label="Checksum-bound" tone="success" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell intake preflight command</p>
+          <pre className="whitespace-pre-wrap font-mono">{intakePreflightCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Creates" value="evidence/publisher-intake-preflight.json" />
+          <Boundary label="Binds" value="Current brief checksum and complete inventory" />
+          <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
+        </div>
       </div>
 
       <div className="mt-5 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">

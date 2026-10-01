@@ -8278,3 +8278,11 @@ first-pilot audit now requires the durable create-once report at
 `evidence/publisher-intake-preflight.json`, checks that inventory is complete,
 and blocks when the brief has changed since the report was created. Added
 positive and stale-evidence self-tests. Recorded under ADR 1418 / DR-1418.
+
+## Build session: Keep publisher intake guidance aligned with the audit
+
+Updated the teacher/publisher intake workspace with the exact durable preflight
+command, `evidence/publisher-intake-preflight.json` destination, checksum
+binding explanation, and protected-action boundary. Extended the intake-kit
+verifier to require those operator-facing markers. Recorded under ADR 1419 /
+DR-1419.

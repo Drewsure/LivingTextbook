@@ -18,10 +18,10 @@ if (selfTest.status !== 0 || !selfTest.stdout.includes("PASS publisher pilot int
 for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences"]) {
   if (!contract.includes(marker) && !generator.includes(marker)) failures.push(`contract/generator missing safety marker: ${marker}`);
 }
-for (const marker of ["--output", "flag: \"wx\"", "Evidence report written once"]) {
+for (const marker of ["--output", "flag: \"wx\"", "Evidence report written once", "briefChecksumSha256", "reportVersion"]) {
   if (!preflight.includes(marker)) failures.push(`preflight missing non-overwriting evidence report marker: ${marker}`);
 }
-for (const marker of ["Publisher pilot input kit", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "submit-publisher-source-preflight-evidence-request.mjs", "never sends raw files", "Saleability status audit", "create:pilot-human-evidence", "npm run audit:pilot", "human-evidence-root", "external-evidence-folder", "A sample tenant never counts as saleability"]) {
+for (const marker of ["Publisher pilot input kit", "Durable intake evidence", "publisher-intake-preflight.json", "Checksum-bound", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "submit-publisher-source-preflight-evidence-request.mjs", "never sends raw files", "Saleability status audit", "create:pilot-human-evidence", "npm run audit:pilot", "human-evidence-root", "external-evidence-folder", "A sample tenant never counts as saleability"]) {
   if (!panel.includes(marker)) failures.push(`panel missing marker: ${marker}`);
 }
 if (!route.includes("PublisherPilotInputKitPanel")) failures.push("requirements route must mount the intake kit panel.");

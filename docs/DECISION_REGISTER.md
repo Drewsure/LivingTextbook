@@ -10718,3 +10718,12 @@ the create-once intake preflight report at
 brief checksum and is rechecked against the current brief, so an edited or
 stale publisher handoff cannot advance by filename presence alone. See ADR
 1418 and `docs/decision-register/DR-1418-checksum-bound-publisher-preflight-evidence.md`.
+
+## DR-1419: Keep Publisher Intake UI And Audit In Lockstep
+
+The publisher requirements workspace now shows the exact durable preflight
+command, output path, checksum meaning, and protected actions that the
+saleability audit enforces. The UI remains review-only and the contract
+verifier checks the guidance markers so operator instructions cannot drift
+from the CLI boundary. See ADR 1419 and
+`docs/decision-register/DR-1419-publisher-intake-ui-audit-lockstep.md`.

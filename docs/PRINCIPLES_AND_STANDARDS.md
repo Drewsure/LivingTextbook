@@ -10335,3 +10335,14 @@ This standard is recorded in DR-1417 and ADR 1417.
   by filename or presence alone.
 
 This standard is recorded in DR-1418 and ADR 1418.
+
+## 661. Operator Guidance Must Mirror Saleability Evidence Rules
+
+- The publisher intake workspace must show the exact command and durable output
+  path required by the canonical audit.
+- It must explain what the checksum binds and that later brief edits require a
+  fresh report.
+- The operator surface must keep upload, assembly, QR printing, persistence,
+  and student-facing use visibly blocked until their separate gates pass.
+
+This standard is recorded in DR-1419 and ADR 1419.
