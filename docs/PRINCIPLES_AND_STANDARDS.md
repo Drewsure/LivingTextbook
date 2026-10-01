@@ -9732,4 +9732,19 @@ This standard is recorded in DR-1367 and ADR 1367.
 
 This standard is recorded in DR-1369 and ADR 1369.
 
+## 613. QR Payloads Must Match Their Declared Alias
+
+- Every printed entry must carry the complete embedded SVG that was generated
+  for that entry; a checksum field without the payload is insufficient for a
+  local package handoff.
+- The encoded QR URL must equal the declared print base URL joined with the
+  entry's stable alias path. A valid-looking URL pointing at another unit or
+  tenant is still invalid.
+- Runtime readers must reject alias/payload drift before exposing the print
+  artifact to an operator.
+- Fallback paths remain separately package-scoped and may not be inferred from
+  the encoded hosted URL.
+
+This standard is recorded in DR-1370 and ADR 1370.
+
 This standard is recorded in DR-1368 and ADR 1368.

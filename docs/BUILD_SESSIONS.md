@@ -7810,3 +7810,11 @@ the machine-readable/HTML agreement.
 Tenant-specific profiles remain a later versioned white-label decision. This
 slice does not authorize printing, alias mutation, package release, hosted
 persistence, learner records, or student use. Recorded ADR 1369 / DR-1369.
+
+## Build session: Close QR payload and alias drift
+
+Extended the shared QR print entry contract to retain the complete generated
+SVG and validate that each encoded URL is exactly the configured print base URL
+joined with its declared alias path. The local package runtime now rejects a
+valid-looking QR URL that points to a different route, as well as incomplete
+SVG evidence. Recorded ADR 1370 / DR-1370.

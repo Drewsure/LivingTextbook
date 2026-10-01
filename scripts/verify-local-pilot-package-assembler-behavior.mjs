@@ -94,6 +94,7 @@ try {
     assert(qrManifest.entries[0].encodedUrl === "https://pilot.example.test/q/tenant-one/unit-one", "QR print URL must use the configured safe base URL");
     assert(qrManifest.entries[0].fallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "QR print entry must use the resolved package-local fallback path");
     assert(qrManifest.entries[0].svg.includes("<svg"), "QR print manifest must contain generated SVG evidence");
+    assert(qrManifest.entries[0].svg.includes("</svg>"), "QR print manifest must contain a complete embedded SVG element");
     const qrHtml = readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.html"), "utf8");
     assert(qrHtml.includes("https://pilot.example.test/q/tenant-one/unit-one") && qrHtml.includes("<svg"), "printable QR HTML must contain the approved alias and SVG");
     assert(qrHtml.includes("@page{size:A4 portrait") && qrHtml.includes("width:260px;height:260px"), "printable QR HTML must bind the approved paper and QR geometry profile");
@@ -214,6 +215,13 @@ try {
     const tamperedRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(tamperedRead.status === "blocked" && tamperedRead.errors.some((error) => error.includes("QR print artifact does not match")), "runtime reader must reject QR artifact checksum drift");
     writeFileSync(tamperedArtifact, originalArtifact, "utf8");
+    const originalRouteArtifact = readFileSync(tamperedArtifact, "utf8");
+    const tamperedRouteArtifact = JSON.parse(originalRouteArtifact);
+    tamperedRouteArtifact.entries[0].encodedUrl = "https://pilot.example.test/q/tenant-one/other-unit";
+    writeFileSync(tamperedArtifact, JSON.stringify(tamperedRouteArtifact) + "\n", "utf8");
+    const tamperedRouteRead = await readLocalPilotPackageRuntime({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
+    assert(tamperedRouteRead.status === "blocked" && tamperedRouteRead.errors.some((error) => error.includes("encodedUrl must match baseUrl plus aliasPath")), "runtime reader must reject QR payload URL/alias drift");
+    writeFileSync(tamperedArtifact, originalRouteArtifact, "utf8");
     const tamperedHtmlPath = join(assembledDirectory, "metadata/qr-print-sheet.html");
     const originalHtml = readFileSync(tamperedHtmlPath, "utf8");
     writeFileSync(tamperedHtmlPath, originalHtml.replace("Living Textbook QR print sheet", "Tampered QR print sheet"), "utf8");

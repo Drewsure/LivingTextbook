@@ -3,6 +3,7 @@ export interface PilotQrPrintArtifactEntry {
   aliasPath: string;
   fallbackPath: string;
   encodedUrl: string;
+  svg: string;
   svgChecksum: string;
 }
 
@@ -69,7 +70,7 @@ export function validatePilotQrPrintArtifact(value: unknown): string[] {
         errors.push("Pilot QR print artifact entries must be objects.");
         continue;
       }
-      for (const field of ["printedQrId", "aliasPath", "fallbackPath", "encodedUrl", "svgChecksum"] as const) {
+      for (const field of ["printedQrId", "aliasPath", "fallbackPath", "encodedUrl", "svg", "svgChecksum"] as const) {
         if (!isNonEmptyString(entry[field])) errors.push(`Pilot QR print artifact entry ${field} must be non-empty.`);
       }
       if (isNonEmptyString(entry.printedQrId) && !qrIds.add(entry.printedQrId)) errors.push("Pilot QR print artifact printed QR ids must be unique.");
@@ -77,6 +78,11 @@ export function validatePilotQrPrintArtifact(value: unknown): string[] {
       if (!isSafeInternalPath(entry.aliasPath)) errors.push("Pilot QR print artifact aliasPath must be a safe internal route.");
       if (!isSafeInternalPath(entry.fallbackPath)) errors.push("Pilot QR print artifact fallbackPath must be a safe internal route.");
       if (!isHttpUrl(entry.encodedUrl)) errors.push("Pilot QR print artifact encodedUrl must be an absolute http or https URL.");
+      if (isNonEmptyString(entry.svg) && (!entry.svg.includes("<svg") || !entry.svg.includes("</svg>"))) errors.push("Pilot QR print artifact svg must contain a complete SVG element.");
+      if (isHttpUrl(value.baseUrl) && isSafeInternalPath(entry.aliasPath) && isHttpUrl(entry.encodedUrl)) {
+        const expectedUrl = new URL(entry.aliasPath, value.baseUrl).toString();
+        if (entry.encodedUrl !== expectedUrl) errors.push("Pilot QR print artifact encodedUrl must match baseUrl plus aliasPath.");
+      }
       if (!isSha256(entry.svgChecksum)) errors.push("Pilot QR print artifact svgChecksum must be sha256:<64 hexadecimal characters>.");
     }
   }
