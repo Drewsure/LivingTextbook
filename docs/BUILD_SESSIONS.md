@@ -7977,3 +7977,7 @@ persistence intent, while preserving review-only, no-assembly, and no-student
 flags. The kit reduces the next human handoff to a deterministic package shape;
 rights, scans, accessibility, checksums, package review, QR release, and
 student use remain separate evidence gates. Recorded ADR 1388 / DR-1388.
+
+The intake-kit verifier now guards the shared safety flags, generator behavior,
+and requirements-route mount so future refactors cannot hide or bypass the
+publisher handoff boundary.
