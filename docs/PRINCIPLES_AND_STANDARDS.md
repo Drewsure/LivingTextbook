@@ -10233,3 +10233,14 @@ This standard is recorded in DR-1408 and ADR 1408.
   status until the real package and named approvals exist.
 
 This standard is recorded in DR-1409 and ADR 1409.
+
+## 652. Tenant Operators Must See The Same Saleability Boundary
+
+- The tenant requirements workspace must expose the same read-only saleability
+  audit command used by operators and CI.
+- The visible surface must explain that platform proof does not equal a real
+  publisher release and must name the remaining human-owned gates.
+- The panel remains informational; it cannot upload, assemble, print QR codes,
+  activate persistence, or enable students.
+
+This standard is recorded in DR-1410 and ADR 1410.

@@ -31,6 +31,7 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --request \"D:\\PublisherPilotReview\\source-preflight-evidence-request.json\" `",
     "  --base-url \"http://127.0.0.1:3000\"",
   ].join("\n");
+  const saleabilityAuditCommand = "npm run audit:pilot -- --json";
 
   return (
     <Card>
@@ -112,6 +113,29 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           The token is supplied only through the operator environment. The submitter sends tenant, quarantine, package,
           and preflight report metadata; it never sends raw files or protected-action flags.
         </p>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Saleability status audit</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Separate platform proof from human gates</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              This read-only report shows what the platform has proved and what still needs a real publisher package,
+              outside-game evidence, delivery policy, or named release approval. A sample tenant never counts as saleability.
+            </p>
+          </div>
+          <StatusPill label="Read-only" tone="neutral" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell audit command</p>
+          <pre className="whitespace-pre-wrap font-mono">{saleabilityAuditCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Proves" value="Build, routes, contracts, operator handoff" />
+          <Boundary label="Waits for" value="Publisher, Z.ai, policy, release evidence" />
+          <Boundary label="Never does" value="Upload, assemble, print, activate, enable students" />
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">

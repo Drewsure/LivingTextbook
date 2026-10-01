@@ -8212,3 +8212,11 @@ delivery-policy, and release-authorization gates. It accepts explicit
 publisher and candidate folders, reports exact next actions, and exits 2 while
 the pilot is not saleable. It never promotes files or infers approval from a
 sample tenant or frozen source snapshot. Recorded under ADR 1409 / DR-1409.
+
+## Build session: Expose saleability audit in the tenant workspace
+
+Added a read-only audit command panel to the Publisher Pilot Input Kit. The
+tenant workspace now shows the same status boundary as the operator command:
+platform proof is separate from publisher, Z.ai, delivery-policy, and release
+evidence. The panel cannot upload, assemble, print, activate persistence, or
+enable students. Recorded under ADR 1410 / DR-1410.

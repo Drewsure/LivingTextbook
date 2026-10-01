@@ -10648,3 +10648,12 @@ saleable pilot. It checks production/build and operator evidence, then reports
 publisher source, Z.ai return package, delivery policy, and named release
 authorization as waiting or blocked until supplied. See ADR 1409 and
 `docs/decision-register/DR-1409-first-pilot-saleability-audit.md`.
+
+## DR-1410: Show Saleability Audit In The Tenant Workspace
+
+The Publisher Pilot Input Kit now exposes the read-only `npm run audit:pilot
+-- --json` command beside the source handoff steps. This makes the difference
+between platform proof and human-owned pilot gates visible to the operator
+without adding upload, assembly, QR, persistence, or student side effects. See
+ADR 1410 and
+`docs/decision-register/DR-1410-visible-saleability-audit.md`.
