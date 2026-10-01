@@ -10279,3 +10279,14 @@ This standard is recorded in DR-1412 and ADR 1412.
   both records until the validator accepts the completed packet.
 
 This standard is recorded in DR-1413 and ADR 1413.
+
+## 656. Human Evidence Identity Binding Is A Saleability Gate
+
+- Policy and release records must agree on tenant, package, unit, delivery
+  mode, and hosted-persistence choice.
+- Identity drift blocks both delivery and release checks even if each record is
+  otherwise valid.
+- Negative verification must prove mismatched records cannot become
+  saleability evidence.
+
+This standard is recorded in DR-1414 and ADR 1414.

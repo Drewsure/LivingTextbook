@@ -66,17 +66,18 @@ if (!humanEvidenceRoot) {
     if (publisherRoot) verifierArgs.push("--publisher-root", resolve(publisherRoot));
     const verification = runNodeScript("verify-pilot-human-evidence.mjs", verifierArgs);
     const report = parseJsonOutput(verification.stdout);
+    const identityValid = report?.checks?.identityBinding === "proved";
     record(
       "delivery-policy",
-      report?.checks?.deliveryPolicy === "proved" ? "proved" : "blocked",
-      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.deliveryPolicy === "proved" ? "passed" : "failed"})`,
-      "Fix the delivery policy evidence before the selected delivery path can advance.",
+      report?.checks?.deliveryPolicy === "proved" && identityValid ? "proved" : "blocked",
+      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.deliveryPolicy === "proved" && identityValid ? "passed" : "failed"})`,
+      "Fix the delivery policy and tenant/package/unit identity binding before the selected delivery path can advance.",
     );
     record(
       "release-authorization",
-      report?.checks?.releaseAuthorization === "proved" ? "proved" : "blocked",
-      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.releaseAuthorization === "proved" ? "passed" : "failed"})`,
-      "Fix the release authorization, QR print, rehearsal, rollback, and checksum evidence before release.",
+      report?.checks?.releaseAuthorization === "proved" && identityValid ? "proved" : "blocked",
+      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.releaseAuthorization === "proved" && identityValid ? "passed" : "failed"})`,
+      "Fix the release authorization, QR print, rehearsal, rollback, checksum, and identity evidence before release.",
     );
   }
 }

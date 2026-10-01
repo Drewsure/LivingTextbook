@@ -10666,3 +10666,25 @@ Phaser candidate verifier. A folder containing only a marker file cannot count
 as proved evidence. Failed supplied packages are reported as blocked and keep
 the pilot non-saleable. See ADR 1411 and
 `docs/decision-register/DR-1411-saleability-audit-canonical-verifiers.md`.
+
+## DR-1412: Use An External Human Evidence Packet
+
+Delivery policy and release authorization remain explicit, external,
+metadata-only evidence. The packet names delivery mode, persistence choice,
+reviewer, QR authorization, rehearsal, rollback, and final checksums without
+activating any protected workflow. See ADR 1412 and
+`docs/decision-register/DR-1412-pilot-human-evidence-packet.md`.
+
+## DR-1413: Create-Once Human Evidence Packet Generator
+
+Provide `npm run create:pilot-human-evidence` for incomplete external templates.
+The generator refuses overwrites and cannot fabricate approval evidence. See
+ADR 1413 and
+`docs/decision-register/DR-1413-create-pilot-human-evidence-packet.md`.
+
+## DR-1414: Human Evidence Identity Must Gate Both Decisions
+
+Policy and release records must agree before either human gate can count toward
+saleability. Identity drift blocks the audit even when the individual records
+are valid, and the verifier self-test covers that mismatch. See ADR 1414 and
+`docs/decision-register/DR-1414-human-evidence-identity-gate.md`.

@@ -8242,3 +8242,10 @@ Added `create:pilot-human-evidence` and exposed it in the publisher
 requirements workspace. It creates external draft templates only, refuses
 overwrites, preserves tenant/package/unit identity, and cannot create approval
 or enable protected actions. Recorded under ADR 1413 / DR-1413.
+
+## Build session: Gate saleability on human evidence identity binding
+
+The saleability audit now requires the canonical human-evidence verifier to
+prove cross-record identity binding before either delivery-policy or release-
+authorization gate is counted. A negative self-test mutates the package
+identity and confirms the result is blocked. Recorded under ADR 1414 / DR-1414.

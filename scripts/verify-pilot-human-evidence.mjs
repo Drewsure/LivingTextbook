@@ -173,6 +173,11 @@ function runSelfTest() {
     writeFileSync(join(root, "release-authorization.json"), `${JSON.stringify(release)}\n`);
     const result = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--json"], { encoding: "utf8" });
     if (result.status !== 0 || !result.stdout.includes('"status": "passed"')) fail(`self-test failed: ${result.stderr || result.stdout}`);
+    const releasePath = join(root, "release-authorization.json");
+    const mismatchedRelease = { ...release, packageId: "different-package" };
+    writeFileSync(releasePath, `${JSON.stringify(mismatchedRelease)}\n`);
+    const mismatch = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--json"], { encoding: "utf8" });
+    if (mismatch.status === 0 || !mismatch.stdout.includes('"identityBinding": "blocked"')) fail("validator self-test allowed policy/release identity drift.");
     console.log("PASS pilot human evidence validator enforces policy, release, identity, checksum, and no-side-effect boundaries.");
   } finally { rmSync(root, { recursive: true, force: true }); }
 }
