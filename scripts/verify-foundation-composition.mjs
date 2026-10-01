@@ -68,6 +68,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-upload-quarantin
 execFileSync(process.execPath, [fileURLToPath(new URL("./create-publisher-source-manifest.mjs", import.meta.url)), "--self-test"], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-publisher-pilot-source-manifest-bridge.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-publisher-pilot-package-preview.mjs", import.meta.url))], {
   stdio: "inherit",
 });

@@ -68,6 +68,36 @@ not contain bearer credentials, learner records, raw payload bytes, or a
 student-facing release decision. Keep it with the publisher handoff and attach
 it to the later quarantine/source-review record.
 
+## Bridge To The Canonical Source Manifest
+
+After the intake brief is complete and the create-once intake preflight reports
+`inventoryStatus: "complete"`, generate the canonical source declaration from
+the same kit:
+
+```powershell
+node scripts/create-publisher-source-manifest-from-pilot-kit.mjs `
+  --root "D:\PublisherPilotInput"
+```
+
+This bridge reads `publisher-pilot-intake.json` and creates only
+`publisher-source-manifest.json`. It refuses to overwrite an existing
+manifest, does not copy or upload files, and keeps package assembly,
+promotion, QR printing, persistence, and student use blocked. It creates a
+deterministic pilot package identity from the tenant and unit metadata.
+
+Then run the canonical source preflight against the same folder:
+
+```powershell
+$env:LIVING_TEXTBOOOK_PUBLISHER_SOURCE_DIRECTORY = "D:\PublisherPilotInput"
+$env:LIVING_TEXTBOOOK_PUBLISHER_PREFLIGHT_OUTPUT = "D:\PublisherPilotOperator\evidence\publisher-source-preflight.json"
+npm run preflight:publisher-source
+```
+
+The canonical preflight is the next review handoff. Its report is still
+review-only evidence; a complete inventory does not prove rights,
+accessibility, package approval, release, QR authorization, persistence, or
+student readiness.
+
 Structured QR references then produce a review-only alias preview. The preview
 binds page, unit, activity, language, edition, package, and local fallback
 identity before the separate QR registry and print-authorization gates.

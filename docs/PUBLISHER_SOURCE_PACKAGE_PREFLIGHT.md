@@ -135,3 +135,12 @@ release, QR registration, and local-package metadata. A packet or release
 record with no matching `sourcePreflightEvidenceId` is stale and must fail
 closed rather than becoming a pilot package.
 
+## Intake kit sidecars
+
+When the source root is also a completed publisher pilot intake kit, the
+preflight intentionally ignores only these operator sidecars:
+`publisher-pilot-intake.json`, the kit `README.md`, and files under
+`evidence/`. Those records are reviewed by the intake preflight and evidence
+workflow. Every other file remains an unlisted source asset and blocks the
+inventory, so this exception cannot hide undeclared content.
+

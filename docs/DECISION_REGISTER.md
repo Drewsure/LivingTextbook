@@ -10544,3 +10544,23 @@ operator handoff without promoting files or treating inventory completeness as
 package approval. The report remains bounded metadata: no credentials, learner
 records, raw payload bytes, or student-facing release decision are included.
 See ADR 1398 and `docs/decision-register/DR-1398-durable-publisher-intake-preflight-evidence.md`.
+
+## DR-1399: Bridge Publisher Intake To The Canonical Source Manifest
+
+The publisher pilot intake kit now has one deliberate bridge to the canonical
+`publisher-source-manifest.json` consumed by the real source preflight. The
+bridge preserves declared asset lanes and MIME types, derives a deterministic
+pilot package identity, refuses overwrite, and has no copy, upload, assembly,
+QR, persistence, or student side effects. This removes operator duplication
+without treating a generated manifest as approval. See ADR 1399 and
+`docs/decision-register/DR-1399-publisher-intake-canonical-source-manifest-bridge.md`.
+
+## DR-1400: Bound Source Preflight Intake Sidecars
+
+Canonical source preflight now ignores only the pilot kit's known metadata and
+evidence sidecars: `publisher-pilot-intake.json`, `README.md`, and
+`evidence/`. The exception makes the bridge executable against the real kit
+without weakening unlisted-file blocking for any other path. Sidecar records
+remain under their own review gates and do not authorize release or student
+use. See ADR 1400 and
+`docs/decision-register/DR-1400-bound-source-preflight-intake-sidecars.md`.

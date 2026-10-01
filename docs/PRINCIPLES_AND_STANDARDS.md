@@ -10118,3 +10118,29 @@ This standard is recorded in DR-1397 and ADR 1397.
   approval, QR authorization, persistence activation, or student use.
 
 This standard is recorded in DR-1398 and ADR 1398.
+
+## 643. Publisher Intake Must Bridge To The Canonical Source Manifest
+
+- A completed publisher pilot intake kit must be convertible into the same
+  canonical source manifest consumed by source preflight and later review
+  gates; operators must not maintain two incompatible declarations.
+- The bridge must refuse overwrite, preserve tenant, unit, version, asset
+  lane, required state, and accepted MIME types, and must create no content
+  files or remote side effects.
+- A successful bridge is structural review evidence only. It cannot authorize
+  quarantine admission, package assembly, promotion, QR printing, persistence,
+  or student-facing use.
+
+This standard is recorded in DR-1399 and ADR 1399.
+
+## 644. Source Preflight May Ignore Only Declared Intake Sidecars
+
+- A canonical source preflight may operate directly on a publisher pilot kit
+  only when it ignores the known intake brief, kit README, and `evidence/`
+  sidecar records that have their own review path.
+- The exception must be exact and bounded; every other undeclared file remains
+  an unlisted asset and blocks inventory completeness.
+- Sidecar exclusion does not approve evidence or change the separate rights,
+  accessibility, package, release, QR, persistence, or student gates.
+
+This standard is recorded in DR-1400 and ADR 1400.

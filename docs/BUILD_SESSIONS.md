@@ -8109,3 +8109,20 @@ run cannot silently replace earlier publisher evidence. The report remains
 inventory metadata only and does not promote files or enable package assembly,
 QR printing, persistence, or student use. Updated the publisher input kit and
 operator runbook, and added verifier coverage. Recorded under ADR 1398 / DR-1398.
+
+## Build session: Bridge the publisher intake kit to canonical source preflight
+
+Added a create-once bridge from `publisher-pilot-intake.json` to
+`publisher-source-manifest.json`. The operator now has one source declaration
+for the canonical MIME-aware source preflight, while the bridge preserves
+review-only and no-side-effect boundaries. The bridge self-test covers a full
+publisher kit, complete source preflight, and overwrite refusal. Recorded
+under ADR 1399 / DR-1399.
+
+## Build session: Bound source preflight sidecar handling
+
+The canonical source preflight now recognizes only the pilot intake brief,
+kit README, and `evidence/` as review sidecars when scanning a publisher kit.
+Unknown files remain unlisted blockers. This makes the intake-to-manifest
+bridge executable without weakening source inventory safety. Recorded under
+ADR 1400 / DR-1400.

@@ -53,6 +53,7 @@ async function scanDirectory(root, directory, entries) {
     const absolutePath = join(directory, entry.name);
     const relativePath = relative(root, absolutePath).replaceAll("\\", "/");
     if (relativePath === "publisher-source-manifest.json") continue;
+    if (isReviewSidecar(relativePath)) continue;
     if (entry.isDirectory()) {
       observed.push(...await scanDirectory(root, absolutePath, entries));
       continue;
@@ -69,6 +70,10 @@ async function scanDirectory(root, directory, entries) {
     observed.push({ assetId: declared?.assetId, relativePath, exists: true, sizeBytes: fileStat.size, checksumSha256, detectedType: mimeTypeFor(relativePath) });
   }
   return observed;
+}
+
+function isReviewSidecar(relativePath) {
+  return relativePath === "publisher-pilot-intake.json" || relativePath === "README.md" || relativePath === "evidence" || relativePath.startsWith("evidence/");
 }
 
 function mimeTypeFor(relativePath) {
