@@ -9841,3 +9841,18 @@ This standard is recorded in DR-1375 and ADR 1375.
   printing, persistence, promotion, or student-facing use.
 
 This standard is recorded in DR-1376 and ADR 1376.
+
+## 620. Package Evidence References Must Declare Their Origin
+
+- Every package-evidence reference must declare whether it comes from a
+  publisher asset review record or a platform-derived record.
+- The game lane must use the platform-derived origin for curated pathway,
+  canonical engine, and game-audio evidence; content and media lanes remain
+  publisher-asset evidence unless a later contract explicitly says otherwise.
+- The origin travels through browser capture, API validation, immutable review
+  storage, and downstream handoff so reviewers can audit custody without
+  treating derived evidence as an uploaded file.
+- Origin labeling does not change the blocked state: it cannot authorize
+  assembly, promotion, QR printing, persistence activation, or student use.
+
+This standard is recorded in DR-1377 and ADR 1377.

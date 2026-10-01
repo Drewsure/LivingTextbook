@@ -37,7 +37,7 @@ try {
     reviewerId: "reviewer-1",
     reviewerNote: "Every pilot package lane was checked against a bounded review record.",
     reviewedLanes: lanes,
-    evidenceReferences: lanes.map((lane) => ({ lane, referenceId: `review-${lane}-1` })),
+    evidenceReferences: lanes.map((lane) => ({ lane, referenceId: `review-${lane}-1`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
     reviewedAt: "2026-09-30T00:00:00.000Z",
   });
   assertEmpty(model.validateUploadQuarantinePackageEvidenceReview(complete), "complete evidence with references");
@@ -48,6 +48,9 @@ try {
   if (model.createUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: missingReference.evidenceReferences }).status !== "incomplete") {
     throw new Error("A missing evidence reference must keep the package review incomplete.");
   }
+  if (complete.evidenceReferences.find((reference) => reference.lane === "game")?.origin !== "platform-derived") throw new Error("Game evidence must be marked platform-derived.");
+  if (complete.evidenceReferences.find((reference) => reference.lane === "content")?.origin !== "publisher-asset") throw new Error("Content evidence must be marked publisher-asset.");
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, origin: "unknown" } : reference) }), "safe lane and referenceId pairs", "unsupported evidence origin");
 
   const unsafeReference = { ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, referenceId: "../game-record" } : reference) };
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview(unsafeReference), "safe lane and referenceId pairs", "unsafe evidence reference");

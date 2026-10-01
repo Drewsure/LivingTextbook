@@ -1,9 +1,11 @@
 export type UploadQuarantinePackageEvidenceLane = "content" | "game" | "audio" | "video" | "image" | "font" | "accessibility" | "rights";
 export type UploadQuarantinePackageEvidenceReviewStatus = "incomplete" | "reviewed-package-evidence";
+export type UploadQuarantinePackageEvidenceReferenceOrigin = "publisher-asset" | "platform-derived";
 
 export interface UploadQuarantinePackageEvidenceReference {
   lane: UploadQuarantinePackageEvidenceLane;
   referenceId: string;
+  origin: UploadQuarantinePackageEvidenceReferenceOrigin;
 }
 
 export const UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES: readonly UploadQuarantinePackageEvidenceLane[] = [
@@ -54,6 +56,10 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
 }): UploadQuarantinePackageEvidenceReview {
   const reviewedLanes = [...new Set(input.reviewedLanes)];
   const evidenceReferences = [...input.evidenceReferences]
+    .map((reference) => ({
+      ...reference,
+      origin: reference.origin ?? (reference.lane === "game" ? "platform-derived" : "publisher-asset"),
+    }))
     .filter((reference, index, references) => references.findIndex((candidate) => candidate.lane === reference.lane) === index)
     .sort((left, right) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(left.lane) - UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.indexOf(right.lane));
   const missingLanes = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => {
@@ -111,7 +117,7 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
   if (!Array.isArray(value.evidenceReferences)) errors.push("Upload quarantine package evidence review evidenceReferences must be an array.");
   const referenceLanes: string[] = [];
   for (const reference of evidenceReferences) {
-    if (!isRecord(reference) || !UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(reference.lane as UploadQuarantinePackageEvidenceLane) || !isSafeIdentifier(reference.referenceId)) {
+    if (!isRecord(reference) || !UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(reference.lane as UploadQuarantinePackageEvidenceLane) || !isSafeIdentifier(reference.referenceId) || !["publisher-asset", "platform-derived"].includes(String(reference.origin))) {
       errors.push("Upload quarantine package evidence review evidenceReferences must contain safe lane and referenceId pairs.");
       continue;
     }

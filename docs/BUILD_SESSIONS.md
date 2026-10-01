@@ -7870,3 +7870,12 @@ inputs, so the game lane is correctly review-pending instead of falsely
 missing an uploaded game file. All other lanes remain asset-bound, and the
 reconciliation remains blocked for assembly, promotion, QR printing, and
 student-facing use. Recorded ADR 1376 / DR-1376.
+
+## Build session: Bind evidence origin at the package review boundary
+
+Package evidence references now carry an explicit origin: publisher-asset or
+platform-derived. The browser review capture marks the game lane as
+platform-derived, the API requires an explicit safe origin, and the canonical
+record preserves it for handoff and audit. Package assembly, promotion, QR
+printing, persistence, and student-facing use remain blocked. Recorded ADR
+1377 / DR-1377.

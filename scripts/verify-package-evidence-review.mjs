@@ -19,6 +19,7 @@ const required = [
   ["source decision gate", route, "readQuarantineReviewDecision"],
   ["source decision blocker", route, "accepted-for-package-review source decision is required before package evidence can be recorded"],
   ["reference request", route, "evidenceReferences"],
+  ["derived game origin", panel, "platform-derived"],
   ["metadata-only UI", panel, "without uploading files"],
   ["reference inputs", panel, "evidence reference"],
   ["source decision UI gate", panel, "sourceDecision"],

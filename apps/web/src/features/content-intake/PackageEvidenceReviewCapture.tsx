@@ -60,7 +60,11 @@ export function PackageEvidenceReviewCapture({
           reviewerNote,
           reviewedLanes,
           evidenceReferences: UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES
-            .map((lane) => ({ lane, referenceId: evidenceReferences[lane]?.trim() ?? "" }))
+            .map((lane) => ({
+              lane,
+              referenceId: evidenceReferences[lane]?.trim() ?? "",
+              origin: lane === "game" ? "platform-derived" as const : "publisher-asset" as const,
+            }))
             .filter((reference) => reference.referenceId.length > 0),
         }),
       });
@@ -108,6 +112,9 @@ export function PackageEvidenceReviewCapture({
                   placeholder="review-record-id"
                   className="mt-2 min-h-10 w-full rounded-lg border border-[var(--tenant-border)] bg-white px-3 py-2 text-sm"
                 />
+                <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">
+                  Evidence origin: {lane === "game" ? "platform-derived canonical game record" : "publisher-asset review record"}
+                </p>
               </div>
             ))}
           </fieldset>
