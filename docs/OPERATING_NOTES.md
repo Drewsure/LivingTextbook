@@ -1700,3 +1700,19 @@ complete report is still review evidence and cannot authorize assembly,
 promotion, QR printing, persistence, or student use. Run
 `npm run verify:publisher-source-preflight-evidence-request` when changing
 this procedure.
+
+To submit the request through an authorized review service, set the token only
+in the operator environment and run:
+
+```powershell
+$env:LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN = "<server-side-token>"
+node scripts/submit-publisher-source-preflight-evidence-request.mjs `
+  --request "<review-folder>\source-preflight-evidence-request.json" `
+  --base-url "http://127.0.0.1:3000"
+```
+
+The command sends no raw files and accepts only a review-only request. It must
+return `recorded-review-only`; any other status is a blocked handoff. Never
+commit or paste the token into a request, log, screenshot, QR code, or client
+route. Run `npm run verify:publisher-source-preflight-evidence-submit` after
+changing this procedure.

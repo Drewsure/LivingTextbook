@@ -54,6 +54,21 @@ authorized evidence route, but it does not upload source files or approve the
 source. The quarantine record and source checksum must still match before the
 server records the evidence.
 
+If the review service is available and the deployment operator has the
+tenant-allowlisted quarantine credential, submit the request without copying
+publisher files into the command:
+
+```powershell
+$env:LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN = "<server-side-token>"
+node scripts/submit-publisher-source-preflight-evidence-request.mjs `
+  --request "<review-folder>\source-preflight-evidence-request.json" `
+  --base-url "http://127.0.0.1:3000"
+```
+
+Never place the token in the JSON request, browser fields, QR data, or learner
+routes. A `recorded-review-only` response is evidence capture only; continue
+through the remaining package and release gates.
+
 ## Gate 2: Reviewed Unit Package
 
 The reviewer must resolve canonical content, target-language audio for every

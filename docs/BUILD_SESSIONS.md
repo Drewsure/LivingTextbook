@@ -8158,3 +8158,11 @@ tenant-bound source-preflight evidence route. The request carries tenant,
 quarantine, package, report, and checksum lineage without copying or
 uploading publisher files. Assembly, promotion, QR, persistence, and student
 use remain blocked. Recorded under ADR 1403 / DR-1403.
+
+## Build session: Submit source preflight evidence through a guarded command
+
+Added the credential-gated submission command for the create-once source
+preflight evidence request. It sends only validated review metadata to the
+tenant-bound endpoint, refuses raw-file or protected-action requests, and
+preserves the independent package, release, QR, persistence, and student
+gates. Recorded under ADR 1404 / DR-1404.

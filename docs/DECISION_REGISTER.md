@@ -10592,3 +10592,12 @@ The command reuses the canonical preflight, preserves tenant/package/checksum
 lineage, refuses overwrite, and keeps assembly, promotion, QR printing,
 persistence activation, and student use blocked. See ADR 1403 and
 `docs/decision-register/DR-1403-source-preflight-evidence-request-bridge.md`.
+
+## DR-1404: Guarded Source Preflight Evidence Submission
+
+The source evidence request now has a credential-gated submission command that
+sends only tenant, quarantine, package, and validated report metadata to the
+tenant-bound review endpoint. It rejects raw-file or protected-action payloads
+and does not change assembly, promotion, QR, persistence, or student gates.
+See ADR 1404 and
+`docs/decision-register/DR-1404-source-preflight-evidence-submit-command.md`.

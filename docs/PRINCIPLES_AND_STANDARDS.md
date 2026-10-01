@@ -10184,3 +10184,15 @@ This standard is recorded in DR-1402 and ADR 1402.
   remain separate gates.
 
 This standard is recorded in DR-1403 and ADR 1403.
+
+## 648. Source Preflight Evidence Submission Must Be Credential-Gated And Metadata-Only
+
+- A command that submits source preflight evidence must require the
+  server-side tenant-bound quarantine credential and a bounded request file.
+- It may send only tenant, quarantine, package, and validated report metadata;
+  raw publisher paths, bytes, and credentials must never enter the request.
+- The server must recheck quarantine identity and source checksum, and a
+  successful evidence response must not imply package approval or unlock
+  assembly, promotion, QR printing, persistence, or student use.
+
+This standard is recorded in DR-1404 and ADR 1404.
