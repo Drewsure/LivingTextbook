@@ -10221,3 +10221,15 @@ This standard is recorded in DR-1405 and ADR 1405.
   header and must never serialize it into the request body or output payload.
 
 This standard is recorded in DR-1408 and ADR 1408.
+
+## 651. Saleability Status Must Be Fail-Closed And Evidence-Separated
+
+- The repository must provide one audit that distinguishes proved platform
+  evidence from real publisher, outside-builder, delivery-policy, and human
+  release evidence.
+- The audit must not infer saleability from sample tenants, frozen source
+  snapshots, preview routes, or review-only records.
+- Missing human evidence must produce explicit next actions and a non-success
+  status until the real package and named approvals exist.
+
+This standard is recorded in DR-1409 and ADR 1409.

@@ -10639,3 +10639,12 @@ is required, the preflight and assembly paths are distinct, the tenant delivery
 credential is used only as an authorization header, and the bounded request
 identity is forwarded without credential leakage. See ADR 1408 and
 `docs/decision-register/DR-1408-local-package-operator-behavior-test.md`.
+
+## DR-1409: Add A Fail-Closed First-Pilot Saleability Audit
+
+The repository now exposes `npm run audit:pilot` to report the difference
+between proved platform evidence and the human-owned gates required for a
+saleable pilot. It checks production/build and operator evidence, then reports
+publisher source, Z.ai return package, delivery policy, and named release
+authorization as waiting or blocked until supplied. See ADR 1409 and
+`docs/decision-register/DR-1409-first-pilot-saleability-audit.md`.

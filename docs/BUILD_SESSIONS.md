@@ -8203,3 +8203,12 @@ correct preflight or assembly route, uses the delivery credential, forwards
 the tenant/package/version identity, and never places the credential in JSON.
 The check is included in foundation composition. Recorded under ADR 1408 /
 DR-1408.
+
+## Build session: Add the first-pilot saleability audit
+
+Added `npm run audit:pilot`, a fail-closed report that separates proved
+platform evidence from human-owned publisher source, Z.ai candidate,
+delivery-policy, and release-authorization gates. It accepts explicit
+publisher and candidate folders, reports exact next actions, and exits 2 while
+the pilot is not saleable. It never promotes files or infers approval from a
+sample tenant or frozen source snapshot. Recorded under ADR 1409 / DR-1409.

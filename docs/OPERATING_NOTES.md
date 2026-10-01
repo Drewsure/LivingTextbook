@@ -1692,6 +1692,12 @@ assembly without `ASSEMBLE_LOCAL_PACKAGE` sends no request, and confirms that
 the preflight and assembly requests use the tenant delivery credential without
 leaking it into the JSON body.
 
+Run `npm run audit:pilot` when reporting first-pilot status. The audit separates
+proved platform evidence from waiting-human publisher, Z.ai, delivery-policy,
+and release-authorization evidence. Exit code 2 is expected until the real
+publisher package and named release decisions exist; do not convert a sample
+tenant or frozen source snapshot into a saleability claim.
+
 ## Publisher source evidence request procedure
 
 After the publisher intake kit has been completed and the canonical source
