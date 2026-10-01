@@ -9951,3 +9951,12 @@ This standard is recorded in DR-1385 and ADR 1385.
 - This audit surface does not authorize release, QR mutation, persistence activation, student use, or learner-record storage.
 
 This standard is recorded in DR-1386 and ADR 1386.
+
+## 630. Closure Review Must Name Canonical Game Evidence
+
+- The final publisher delivery closure packet must include a dedicated canonical-game-evidence check.
+- The general package-evidence lane may not stand in for the curated pathway, canonical integration, and package game-audio records.
+- Closure summaries must remain blocked until the named game evidence is complete, even when other delivery metadata is present.
+- The check remains review evidence only and cannot authorize release, QR printing, persistence activation, or student use.
+
+This standard is recorded in DR-1387 and ADR 1387.

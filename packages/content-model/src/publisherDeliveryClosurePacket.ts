@@ -34,6 +34,7 @@ const requiredCheckIds = [
   "source-review",
   "sentence-approval",
   "package-evidence",
+  "canonical-game-evidence",
   "review-packet",
   "assembly-preflight",
   "delivery-mode",
@@ -61,6 +62,7 @@ export function createPublisherDeliveryClosurePacket(input: {
   sourceReviewPassed: boolean;
   sentenceApprovalPassed: boolean;
   packageEvidencePassed: boolean;
+  canonicalGameEvidencePassed: boolean;
   reviewPacketPassed: boolean;
   assemblyPreflightPassed: boolean;
   deliveryModePassed: boolean;
@@ -80,6 +82,7 @@ export function createPublisherDeliveryClosurePacket(input: {
     check("source-review", "Source review", input.sourceReviewPassed, input.sourceReviewPassed ? "The source review decision is accepted for package review." : "The source review decision is not accepted for package release.", "Record an accepted source review decision against this quarantine."),
     check("sentence-approval", "English sentence approval", input.sentenceApprovalPassed, input.sentenceApprovalPassed ? "Exactly two approved English target sentences are bound to this package checksum." : "The checksum-bound approval for the two English target sentences is missing or mismatched.", "Approve exactly two distinct English target sentences before release review."),
     check("package-evidence", "Content, game, and multimedia evidence", input.packageEvidencePassed, input.packageEvidencePassed ? "The reviewed content, game, audio, video, image, font, accessibility, and rights lanes are recorded." : "One or more content, game, audio, media, accessibility, or rights lanes remain incomplete.", "Complete and bind every reviewed package evidence lane."),
+    check("canonical-game-evidence", "Canonical game evidence", input.canonicalGameEvidencePassed, input.canonicalGameEvidencePassed ? "The curated pathway, canonical game integration, and package game-audio evidence records are complete." : "The complete canonical game evidence set is missing or incomplete.", "Confirm all canonical game-derived evidence records before package closure."),
     check("review-packet", "Immutable review packet", input.reviewPacketPassed, input.reviewPacketPassed ? "The package review packet is ready for the next gate." : "The package review packet is missing or blocked.", "Record and reconcile the immutable package review packet."),
     check("assembly-preflight", "Package assembly preflight", input.assemblyPreflightPassed, input.assemblyPreflightPassed ? "Assembly inputs are reconciled for human release review." : "Package assembly preflight still has blockers or missing inputs.", "Resolve the preflight blockers without treating preflight as approval."),
     check("delivery-mode", "Delivery mode and adapter", input.deliveryModePassed, input.deliveryModePassed ? `The ${input.selectedMode} delivery shape is selected.` : "No complete delivery mode and adapter decision is recorded.", "Choose closed-local, hosted PWA, or hybrid and record its policy evidence."),

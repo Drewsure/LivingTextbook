@@ -7957,3 +7957,12 @@ single evidence trail from review preview through assembled-package read-back,
 without exposing publisher payloads or enabling routes, persistence, QR
 mutation, or student activation. The pilot acceptance matrix now reflects the
 eleven-input assembly preview. Recorded ADR 1386 / DR-1386.
+
+## Build session: Add canonical game evidence to closure review
+
+The publisher delivery closure packet now has a dedicated canonical-game-
+evidence check in addition to the broader package-evidence check. The live
+readiness route derives it from the complete curated-pathway,
+canonical-integration, and package-game-audio record set, so the final closure
+summary cannot appear complete from a generic game lane alone. Recorded ADR
+1387 / DR-1387.

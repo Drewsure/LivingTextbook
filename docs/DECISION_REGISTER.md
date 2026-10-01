@@ -10499,3 +10499,11 @@ status and exact canonical game-derived record IDs into its bounded summary and
 operator panel. The operator can audit the same game evidence after assembly;
 the runtime still cannot expose publisher payloads, create routes, mutate QR
 aliases, activate persistence, or start students. See ADR 1386.
+
+## DR-1387: Closure Review Names Canonical Game Evidence
+
+The publisher delivery closure packet now distinguishes the complete canonical
+game evidence set from the broader package-evidence lane. The live route binds
+curated activity pathway, canonical integration, and package game-audio records
+into the closure check while retaining all release and student-safety blocks.
+See ADR 1387.
