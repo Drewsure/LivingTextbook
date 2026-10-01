@@ -82,6 +82,11 @@ npm run audit:pilot -- --json `
   --human-evidence-root "D:\PublisherPilotReview\human-evidence"
 ```
 
+The Z.ai candidate path may be either the exact extracted candidate folder or
+an outer extraction folder containing exactly one nested
+`evidence/return-package.json`. The audit resolves that single candidate but
+refuses to guess when multiple returned packages are present.
+
 The audit can report `saleable-pilot-ready` only when the platform proof, real
 publisher preflight, Z.ai evidence verifier, human packet, and every other
 pilot gate all pass. A passing packet still does not perform release or

@@ -8256,3 +8256,10 @@ Added a post-build source proof and changed the first-pilot audit to require
 that proof to match the current commit and Next build ID. This prevents stale
 production output from being counted as current saleability evidence. Recorded
 under ADR 1415 / DR-1415.
+
+## Build session: Make single-package extraction handoff operator-safe
+
+Added single nested candidate discovery and ambiguity rejection to the first-
+pilot audit, with a self-test for both paths. The canonical Z.ai verifier,
+external-folder boundary, and no-promotion rules remain unchanged. Recorded
+under ADR 1416 / DR-1416.

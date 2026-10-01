@@ -10695,3 +10695,10 @@ The production-build gate now requires a post-build proof tied to the current
 source revision and Next build ID. A stale `.next/BUILD_ID` cannot make the
 pilot appear ready. See ADR 1415 and
 `docs/decision-register/DR-1415-source-bound-production-build-proof.md`.
+
+## DR-1416: Resolve One Nested Z.ai Candidate Package
+
+The pilot audit accepts a single nested `evidence/return-package.json` inside
+an outer extraction folder, but rejects zero or multiple matches and preserves
+the canonical review-only verifier boundary. See ADR 1416 and
+`docs/decision-register/DR-1416-pilot-audit-candidate-folder-resolution.md`.

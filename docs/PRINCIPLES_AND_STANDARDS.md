@@ -10300,3 +10300,13 @@ This standard is recorded in DR-1414 and ADR 1414.
   source revision.
 
 This standard is recorded in DR-1415 and ADR 1415.
+
+## 658. Candidate Folder Resolution Must Remain Fail-Closed
+
+- The pilot audit may discover exactly one nested Z.ai evidence package inside
+  an outer extraction folder.
+- Zero or multiple candidate packages must remain blocked rather than guessed.
+- Any discovered candidate must still pass the canonical evidence verifier and
+  remain outside the repository.
+
+This standard is recorded in DR-1416 and ADR 1416.
