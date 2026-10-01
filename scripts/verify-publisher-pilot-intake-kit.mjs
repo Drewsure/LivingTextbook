@@ -21,7 +21,7 @@ for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "stud
 for (const marker of ["--output", "flag: \"wx\"", "Evidence report written once"]) {
   if (!preflight.includes(marker)) failures.push(`preflight missing non-overwriting evidence report marker: ${marker}`);
 }
-for (const marker of ["Publisher pilot input kit", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "submit-publisher-source-preflight-evidence-request.mjs", "never sends raw files", "Saleability status audit", "npm run audit:pilot", "A sample tenant never counts as saleability"]) {
+for (const marker of ["Publisher pilot input kit", "Still blocked", "Assembly, QR, persistence, students", "create-publisher-pilot-intake-kit.mjs", "LIVING_TEXTBOOOK_UPLOAD_QUARANTINE_API_TOKEN", "submit-publisher-source-preflight-evidence-request.mjs", "never sends raw files", "Saleability status audit", "npm run audit:pilot", "human-evidence-root", "external-evidence-folder", "A sample tenant never counts as saleability"]) {
   if (!panel.includes(marker)) failures.push(`panel missing marker: ${marker}`);
 }
 if (!route.includes("PublisherPilotInputKitPanel")) failures.push("requirements route must mount the intake kit panel.");

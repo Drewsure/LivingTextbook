@@ -8227,3 +8227,11 @@ The first-pilot audit now invokes the canonical publisher intake preflight and
 the Phaser evidence-return verifier whenever human-supplied roots are present.
 This prevents marker folders, incomplete publisher kits, or frozen snapshots
 from being counted as saleability evidence. Recorded under ADR 1411 / DR-1411.
+
+## Build session: Add the pilot human evidence packet
+
+Added the external delivery-policy and release-authorization packet contract,
+its validator, and the `--human-evidence-root` saleability-audit input. The
+packet binds tenant, package, unit, delivery mode, persistence choice, reviewer,
+QR authorization, rehearsal, rollback, and final checksums while preserving the
+metadata-only/no-activation boundary. Recorded under ADR 1412 / DR-1412.

@@ -10255,3 +10255,16 @@ This standard is recorded in DR-1410 and ADR 1410.
   proof of a reviewed package.
 
 This standard is recorded in DR-1411 and ADR 1411.
+
+## 654. Human Pilot Decisions Must Use An Explicit External Evidence Packet
+
+- Delivery mode, hosted-persistence choice, retention, backup, cost, and
+  identity policy must be supplied as explicit human evidence.
+- Release authorization must name the reviewer, QR-print decision, rehearsal,
+  rollback evidence, student-use decision, and final source/package/QR
+  checksums.
+- The evidence packet remains outside the repository and metadata-only; its
+  verifier cannot upload, assemble, print, activate persistence, or enable
+  students.
+
+This standard is recorded in DR-1412 and ADR 1412.

@@ -8,6 +8,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-long-term-build-
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integrity.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-human-evidence.mjs", import.meta.url)), "--self-test"], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-package-assembler.mjs", import.meta.url))], {
   stdio: "inherit",
 });

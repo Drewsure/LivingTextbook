@@ -52,8 +52,34 @@ if (!candidateRoot) {
   }
 }
 
-record("delivery-policy", "waiting-human", "not inferred from sample tenants", "Choose hosted PWA, closed-local companion, or hybrid and record retention, backup, and cost policy.");
-record("release-authorization", "waiting-human", "not inferred from review previews", "Attach named human release approval, QR print authorization, rollback evidence, and final checksums.");
+const humanEvidenceRoot = options.humanEvidenceRoot;
+if (!humanEvidenceRoot) {
+  record("delivery-policy", "waiting-human", "no --human-evidence-root supplied", "Choose hosted PWA, closed-local companion, or hybrid and record retention, backup, and cost policy.");
+  record("release-authorization", "waiting-human", "no --human-evidence-root supplied", "Attach named human release approval, QR print authorization, rollback evidence, and final checksums.");
+} else {
+  const humanEvidencePath = resolve(humanEvidenceRoot);
+  if (!exists(humanEvidencePath)) {
+    record("delivery-policy", "blocked", humanEvidencePath, "Provide the external human evidence folder with delivery-policy.json and release-authorization.json.");
+    record("release-authorization", "blocked", humanEvidencePath, "Provide the external human evidence folder with delivery-policy.json and release-authorization.json.");
+  } else {
+    const verifierArgs = ["--root", humanEvidencePath, "--json"];
+    if (publisherRoot) verifierArgs.push("--publisher-root", resolve(publisherRoot));
+    const verification = runNodeScript("verify-pilot-human-evidence.mjs", verifierArgs);
+    const report = parseJsonOutput(verification.stdout);
+    record(
+      "delivery-policy",
+      report?.checks?.deliveryPolicy === "proved" ? "proved" : "blocked",
+      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.deliveryPolicy === "proved" ? "passed" : "failed"})`,
+      "Fix the delivery policy evidence before the selected delivery path can advance.",
+    );
+    record(
+      "release-authorization",
+      report?.checks?.releaseAuthorization === "proved" ? "proved" : "blocked",
+      `${humanEvidencePath} (human evidence verifier: ${report?.checks?.releaseAuthorization === "proved" ? "passed" : "failed"})`,
+      "Fix the release authorization, QR print, rehearsal, rollback, and checksum evidence before release.",
+    );
+  }
+}
 
 const summary = {
   status: checks.some((check) => check.status === "blocked") ? "blocked" : checks.some((check) => check.status === "waiting-human") ? "waiting-human" : "saleable-pilot-ready",
@@ -97,7 +123,11 @@ function runNodeScript(scriptName, args, environment = {}) {
       maxBuffer: 2 * 1024 * 1024,
     },
   );
-  return { passed: result.status === 0 && !result.error };
+  return { passed: result.status === 0 && !result.error, stdout: result.stdout ?? "", stderr: result.stderr ?? "" };
+}
+
+function parseJsonOutput(value) {
+  try { return JSON.parse(String(value).trim()); } catch { return undefined; }
 }
 
 function parseArguments(args) {
@@ -105,14 +135,16 @@ function parseArguments(args) {
     json: false,
     publisherRoot: process.env.LIVING_TEXTBOOOK_PUBLISHER_ROOT?.trim() || "",
     candidateRoot: process.env.LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT?.trim() || "",
+    humanEvidenceRoot: process.env.LIVING_TEXTBOOOK_PILOT_HUMAN_EVIDENCE_ROOT?.trim() || "",
   };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--json") result.json = true;
     else if (arg === "--publisher-root") result.publisherRoot = args[++index] ?? "";
     else if (arg === "--candidate-root") result.candidateRoot = args[++index] ?? "";
+    else if (arg === "--human-evidence-root") result.humanEvidenceRoot = args[++index] ?? "";
     else if (arg === "--help" || arg === "-h") {
-      console.log("Usage: node scripts/audit-first-saleable-pilot.mjs [--json] [--publisher-root <folder>] [--candidate-root <folder>]\n\nAudits platform proof separately from real publisher, Z.ai, delivery-policy, and human-release evidence. Exit code 2 means the pilot is not yet saleable.");
+      console.log("Usage: node scripts/audit-first-saleable-pilot.mjs [--json] [--publisher-root <folder>] [--candidate-root <folder>] [--human-evidence-root <folder>]\n\nAudits platform proof separately from real publisher, Z.ai, delivery-policy, and human-release evidence. Exit code 2 means the pilot is not yet saleable.");
       process.exit(0);
     } else {
       console.error(`ERROR Unknown argument: ${arg}`);
