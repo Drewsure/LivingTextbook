@@ -12,7 +12,8 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     `  --tenant-id \"${tenantId}\" `,
     `  --publisher-name \"${tenantName}\" `,
     "  --book-title \"Book Title\" `",
-    "  --unit-key \"series:book:L1:U1\"",
+    "  --unit-key \"series:book:L1:U1\" `",
+    "  --source-file \"source/unit-1.pdf\"",
   ].join("\n");
   const bridgeCommand = [
     "node scripts/create-publisher-source-manifest-from-pilot-kit.mjs `",
@@ -114,6 +115,9 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
       <div className="mt-5 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
         <p className="mb-3 font-semibold text-slate-300">PowerShell starter command</p>
         <pre className="whitespace-pre-wrap font-mono">{command}</pre>
+        <p className="mt-3 text-xs leading-5 text-slate-300">
+          PDF is the default source format. Keep the path under <code>source/</code> and change it to a licensed DOCX, TXT, Markdown, or CSV source when that is the publisher&apos;s authoritative material.
+        </p>
       </div>
 
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
