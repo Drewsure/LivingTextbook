@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   createPublisherSourceToPackageEvidenceBridge,
+  hasCompleteCanonicalGameEvidenceRecordIds,
   isUploadQuarantineSafeTenantId,
   validatePublisherSourceToPackageEvidenceBridge,
   type PublisherSourceToPackageEvidenceBridge,
@@ -64,7 +65,7 @@ export async function GET(request: Request) {
     sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: reviewedLanes.includes("audio"),
     mediaRightsReady: reviewedLanes.includes("rights"),
-    canonicalGameEvidenceComplete: false,
+    canonicalGameEvidenceComplete: hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds),
     preflightReference: sourcePreflightEvidence ? {
       reportId: sourcePreflightEvidence.reportId,
       manifestId: sourcePreflightEvidence.manifestId,

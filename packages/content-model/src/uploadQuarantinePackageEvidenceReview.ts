@@ -1,3 +1,8 @@
+import {
+  CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS,
+  hasCompleteCanonicalGameEvidenceRecordIds,
+} from "./publisherSubmissionPackageEvidenceReconciliation";
+
 export type UploadQuarantinePackageEvidenceLane = "content" | "game" | "audio" | "video" | "image" | "font" | "accessibility" | "rights";
 export type UploadQuarantinePackageEvidenceReviewStatus = "incomplete" | "reviewed-package-evidence";
 export type UploadQuarantinePackageEvidenceReferenceOrigin = "publisher-asset" | "platform-derived";
@@ -32,6 +37,7 @@ export interface UploadQuarantinePackageEvidenceReview {
   requiredLanes: UploadQuarantinePackageEvidenceLane[];
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
   evidenceReferences: UploadQuarantinePackageEvidenceReference[];
+  canonicalGameDerivedEvidenceRecordIds: string[];
   status: UploadQuarantinePackageEvidenceReviewStatus;
   blockers: string[];
   nextSteps: string[];
@@ -52,6 +58,7 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
   reviewerNote: string;
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
   evidenceReferences: UploadQuarantinePackageEvidenceReference[];
+  canonicalGameDerivedEvidenceRecordIds?: string[];
   reviewedAt: string;
 }): UploadQuarantinePackageEvidenceReview {
   const reviewedLanes = [...new Set(input.reviewedLanes)];
@@ -66,7 +73,10 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
     const reference = evidenceReferences.find((candidate) => candidate.lane === lane);
     return !reviewedLanes.includes(lane) || !reference?.referenceId.trim();
   });
-  const complete = missingLanes.length === 0;
+  const canonicalGameDerivedEvidenceRecordIds = [...new Set(input.canonicalGameDerivedEvidenceRecordIds ?? [])];
+  if (reviewedLanes.includes("game") && !hasCompleteCanonicalGameEvidenceRecordIds(canonicalGameDerivedEvidenceRecordIds)) missingLanes.push("game");
+  const uniqueMissingLanes = [...new Set(missingLanes)];
+  const complete = uniqueMissingLanes.length === 0;
   return {
     recordVersion: 1,
     reviewId: `${input.packageId}:${input.quarantineId}:package-evidence-review`,
@@ -80,8 +90,9 @@ export function createUploadQuarantinePackageEvidenceReview(input: {
     requiredLanes: [...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES],
     reviewedLanes,
     evidenceReferences,
+    canonicalGameDerivedEvidenceRecordIds,
     status: complete ? "reviewed-package-evidence" : "incomplete",
-    blockers: complete ? [] : missingLanes.map((lane) => `${lane} evidence has not been reviewed.`),
+    blockers: complete ? [] : uniqueMissingLanes.map((lane) => `${lane} evidence has not been reviewed or is incomplete.`),
     nextSteps: [
       ...(complete ? ["Keep package assembly, release, and QR authorization as separate gates."] : ["Review every content, game, audio, video, image, font, accessibility, and rights lane."]),
       "Attach the final release receipt only after the reviewed package is assembled and rehearsed.",
@@ -111,6 +122,10 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
     if (!Array.isArray(value[field]) || value[field].some((lane) => !UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(lane as UploadQuarantinePackageEvidenceLane))) errors.push(`Upload quarantine package evidence review ${field} contains an unsupported lane.`);
     if (Array.isArray(value[field]) && new Set(value[field]).size !== value[field].length) errors.push(`Upload quarantine package evidence review ${field} must contain unique lanes.`);
   }
+  const canonicalGameDerivedEvidenceRecordIds = value.canonicalGameDerivedEvidenceRecordIds;
+  if (!Array.isArray(canonicalGameDerivedEvidenceRecordIds) || canonicalGameDerivedEvidenceRecordIds.some((recordId) => !isSafeIdentifier(recordId))) errors.push("Upload quarantine package evidence review canonical game evidence IDs must be safe strings.");
+  if (Array.isArray(canonicalGameDerivedEvidenceRecordIds) && new Set(canonicalGameDerivedEvidenceRecordIds).size !== canonicalGameDerivedEvidenceRecordIds.length) errors.push("Upload quarantine package evidence review canonical game evidence IDs must be unique.");
+  if (Array.isArray(canonicalGameDerivedEvidenceRecordIds) && canonicalGameDerivedEvidenceRecordIds.some((recordId) => !CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.includes(recordId as typeof CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS[number]))) errors.push("Upload quarantine package evidence review canonical game evidence IDs must use the canonical derived record set.");
   if (JSON.stringify(value.requiredLanes) !== JSON.stringify([...UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES])) errors.push("Upload quarantine package evidence review requiredLanes must use the canonical lane order.");
   const reviewedLanes = Array.isArray(value.reviewedLanes) ? value.reviewedLanes as string[] : [];
   const evidenceReferences = Array.isArray(value.evidenceReferences) ? value.evidenceReferences : [];
@@ -127,8 +142,10 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
   }
   if (new Set(referenceLanes).size !== referenceLanes.length) errors.push("Upload quarantine package evidence review evidenceReferences must contain unique lanes.");
   const missing = UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.filter((lane) => !reviewedLanes.includes(lane) || !referenceLanes.includes(lane));
-  if (value.status !== (missing.length === 0 ? "reviewed-package-evidence" : "incomplete")) errors.push("Upload quarantine package evidence review status does not match reviewed lanes.");
-  if (!Array.isArray(value.blockers) || value.blockers.some((item) => !isNonEmptyString(item)) || (missing.length > 0 && value.blockers.length === 0) || (missing.length === 0 && value.blockers.length > 0)) errors.push("Upload quarantine package evidence review blockers must match lane completeness.");
+  if (reviewedLanes.includes("game") && referenceLanes.includes("game") && !hasCompleteCanonicalGameEvidenceRecordIds(Array.isArray(canonicalGameDerivedEvidenceRecordIds) ? canonicalGameDerivedEvidenceRecordIds : [])) missing.push("game");
+  const uniqueMissing = [...new Set(missing)];
+  if (value.status !== (uniqueMissing.length === 0 ? "reviewed-package-evidence" : "incomplete")) errors.push("Upload quarantine package evidence review status does not match reviewed lanes and canonical game evidence.");
+  if (!Array.isArray(value.blockers) || value.blockers.some((item) => !isNonEmptyString(item)) || (uniqueMissing.length > 0 && value.blockers.length === 0) || (uniqueMissing.length === 0 && value.blockers.length > 0)) errors.push("Upload quarantine package evidence review blockers must match lane and canonical game completeness.");
   if (!Array.isArray(value.nextSteps) || value.nextSteps.length === 0 || value.nextSteps.some((item) => !isNonEmptyString(item))) errors.push("Upload quarantine package evidence review nextSteps must contain non-empty strings.");
   for (const field of ["packageAssemblyAllowed", "promotionAllowed", "qrPrintAllowed", "studentFacingUseAllowed"] as const) if (value[field] !== false) errors.push(`Upload quarantine package evidence review ${field} must remain false.`);
   if (value.mode !== "review-only" || value.sideEffect !== "none") errors.push("Upload quarantine package evidence review must remain review-only and side-effect-free.");

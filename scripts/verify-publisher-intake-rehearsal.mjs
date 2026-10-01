@@ -216,6 +216,7 @@ try {
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
       evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+      canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     }),
   });
   const blockedPackageEvidence = await readJson(blockedPackageEvidenceResponse);
@@ -266,6 +267,7 @@ try {
       reviewerNote: "Synthetic complete multimedia and game evidence for controlled pilot rehearsal.",
       reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"],
       evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `synthetic-${lane}-evidence`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+      canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     }),
   });
   const packageEvidence = await readJson(packageEvidenceResponse);

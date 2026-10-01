@@ -38,10 +38,15 @@ try {
     reviewerNote: "Every pilot package lane was checked against a bounded review record.",
     reviewedLanes: lanes,
     evidenceReferences: lanes.map((lane) => ({ lane, referenceId: `review-${lane}-1`, origin: lane === "game" ? "platform-derived" : "publisher-asset" })),
+    canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet", "package_game_audio_coverage"],
     reviewedAt: "2026-09-30T00:00:00.000Z",
   });
   assertEmpty(model.validateUploadQuarantinePackageEvidenceReview(complete), "complete evidence with references");
   if (complete.status !== "reviewed-package-evidence") throw new Error("Complete evidence references must produce reviewed-package-evidence.");
+
+  const incompleteCanonicalGame = { ...complete, canonicalGameDerivedEvidenceRecordIds: ["curated_activity_pathway_packet", "canonical_game_integration_packet"] };
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview(incompleteCanonicalGame), "canonical game evidence", "incomplete canonical game evidence");
+  if (model.createUploadQuarantinePackageEvidenceReview(incompleteCanonicalGame).status !== "incomplete") throw new Error("An incomplete canonical game evidence set must keep package review incomplete.");
 
   const missingReference = { ...complete, evidenceReferences: complete.evidenceReferences.filter((reference) => reference.lane !== "audio") };
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview(missingReference), "status does not match", "missing audio reference status");

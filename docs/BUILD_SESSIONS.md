@@ -7913,3 +7913,12 @@ package-readiness routes now fail closed because their stored review record
 cannot prove the complete curated-pathway, canonical-integration, and
 game-audio evidence set. The bridge verifier covers both complete and partial
 game evidence paths. Recorded ADR 1381 / DR-1381.
+
+## Build session: Store canonical game evidence confirmation
+
+The immutable package-evidence review now stores the exact curated pathway,
+canonical integration, and game-audio record IDs confirmed by the reviewer.
+Teacher capture exposes explicit confirmation controls, and live source/package
+readiness derives game completeness from the stored set instead of lane
+presence. Partial confirmations remain incomplete and all release gates stay
+blocked. Recorded ADR 1382 / DR-1382.

@@ -25,6 +25,14 @@ export const CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS = [
   "package_game_audio_coverage",
 ] as const;
 
+export function hasCompleteCanonicalGameEvidenceRecordIds(value: readonly string[] | null | undefined): boolean {
+  return Boolean(
+    value
+      && value.length === CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.length
+      && CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.every((recordId) => value.includes(recordId)),
+  );
+}
+
 export type PublisherSubmissionPackageEvidenceLaneStatus = "missing" | "review-pending";
 
 export interface PublisherSubmissionPackageEvidenceLaneRecord {
@@ -60,7 +68,7 @@ export function hasCompleteCanonicalGameEvidence(
     gameLane
       && gameLane.status === "review-pending"
       && gameLane.sourceAssetIds.length === 0
-      && CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.every((recordId) => gameLane.derivedEvidenceRecordIds.includes(recordId)),
+      && hasCompleteCanonicalGameEvidenceRecordIds(gameLane.derivedEvidenceRecordIds),
   );
 }
 

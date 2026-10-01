@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { StatusPill } from "@living-textbook/ui";
-import { UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES, type UploadQuarantinePackageEvidenceLane, type UploadQuarantinePackageEvidenceReview, type UploadQuarantineReviewDecisionRecord } from "@living-textbook/content-model";
+import { CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS, UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES, type UploadQuarantinePackageEvidenceLane, type UploadQuarantinePackageEvidenceReview, type UploadQuarantineReviewDecisionRecord } from "@living-textbook/content-model";
 
 const laneLabels: Record<UploadQuarantinePackageEvidenceLane, string> = {
   content: "Textbook content and unit mapping",
@@ -36,6 +36,7 @@ export function PackageEvidenceReviewCapture({
   const [reviewerNote, setReviewerNote] = useState("");
   const [reviewedLanes, setReviewedLanes] = useState<UploadQuarantinePackageEvidenceLane[]>(review?.reviewedLanes ?? []);
   const [evidenceReferences, setEvidenceReferences] = useState<Record<UploadQuarantinePackageEvidenceLane, string>>(() => Object.fromEntries((review?.evidenceReferences ?? []).map((reference) => [reference.lane, reference.referenceId])) as Record<UploadQuarantinePackageEvidenceLane, string>);
+  const [canonicalGameEvidenceIds, setCanonicalGameEvidenceIds] = useState<string[]>(review?.canonicalGameDerivedEvidenceRecordIds ?? []);
   const [state, setState] = useState<"idle" | "submitting" | "recorded" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -59,6 +60,7 @@ export function PackageEvidenceReviewCapture({
           reviewerId,
           reviewerNote,
           reviewedLanes,
+          canonicalGameDerivedEvidenceRecordIds: canonicalGameEvidenceIds,
           evidenceReferences: UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES
             .map((lane) => ({
               lane,
@@ -115,6 +117,17 @@ export function PackageEvidenceReviewCapture({
                 <p className="mt-2 text-xs leading-5 text-[var(--tenant-muted)]">
                   Evidence origin: {lane === "game" ? "platform-derived canonical game record" : "publisher-asset review record"}
                 </p>
+                {lane === "game" ? (
+                  <fieldset className="mt-3 grid gap-2 border-t border-[var(--tenant-border)] pt-3">
+                    <legend className="text-xs font-semibold text-[var(--tenant-text)]">Confirm canonical game evidence</legend>
+                    {CANONICAL_GAME_DERIVED_EVIDENCE_RECORD_IDS.map((recordId) => (
+                      <label key={recordId} className="flex items-start gap-2 text-xs leading-5 text-[var(--tenant-muted)]">
+                        <input type="checkbox" checked={canonicalGameEvidenceIds.includes(recordId)} onChange={() => setCanonicalGameEvidenceIds((current) => current.includes(recordId) ? current.filter((item) => item !== recordId) : [...current, recordId])} className="mt-1" />
+                        <span>{recordId}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+                ) : null}
               </div>
             ))}
           </fieldset>

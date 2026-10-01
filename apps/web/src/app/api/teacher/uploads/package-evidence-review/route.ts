@@ -22,6 +22,7 @@ type PackageEvidenceReviewRequest = {
   reviewerNote: string;
   reviewedLanes: UploadQuarantinePackageEvidenceLane[];
   evidenceReferences: UploadQuarantinePackageEvidenceReference[];
+  canonicalGameDerivedEvidenceRecordIds: string[];
 };
 
 export async function GET(request: Request) {
@@ -67,6 +68,8 @@ function isPackageEvidenceReviewRequest(value: unknown): value is PackageEvidenc
     && Array.isArray(candidate.reviewedLanes)
     && candidate.reviewedLanes.every((lane) => UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes(lane as UploadQuarantinePackageEvidenceLane))
     && Array.isArray(candidate.evidenceReferences)
+    && Array.isArray(candidate.canonicalGameDerivedEvidenceRecordIds)
+    && candidate.canonicalGameDerivedEvidenceRecordIds.every((recordId) => typeof recordId === "string")
     && candidate.evidenceReferences.every((reference) => Boolean(reference) && typeof reference === "object" && !Array.isArray(reference) && UPLOAD_QUARANTINE_PACKAGE_EVIDENCE_LANES.includes((reference as { lane?: string }).lane as UploadQuarantinePackageEvidenceLane) && typeof (reference as { referenceId?: unknown }).referenceId === "string" && ["publisher-asset", "platform-derived"].includes(String((reference as { origin?: unknown }).origin)));
 }
 

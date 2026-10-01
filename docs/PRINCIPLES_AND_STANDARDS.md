@@ -9897,3 +9897,16 @@ This standard is recorded in DR-1380 and ADR 1380.
   promotion, QR printing, persistence activation, or student-facing use.
 
 This standard is recorded in DR-1381 and ADR 1381.
+
+## 625. Store The Canonical Game Evidence Confirmation
+
+- Package-evidence review must persist the exact canonical game-derived record
+  IDs confirmed by the reviewer.
+- A checked game lane without curated pathway, canonical integration, and
+  game-audio confirmation remains incomplete.
+- Live readiness may consume the stored completeness signal, but it must not
+  infer it from lane presence alone.
+- This record remains evidence only and cannot authorize assembly, promotion,
+  QR printing, persistence activation, or student-facing use.
+
+This standard is recorded in DR-1382 and ADR 1382.

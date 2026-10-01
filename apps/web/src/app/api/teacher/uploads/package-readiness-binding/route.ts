@@ -37,6 +37,7 @@ import {
   createPublisherDeliveryHandoffRecord,
   validatePublisherDeliveryHandoffRecord,
   createPublisherSourceToPackageEvidenceBridge,
+  hasCompleteCanonicalGameEvidenceRecordIds,
   validatePublisherSourceToPackageEvidenceBridge,
   type PublisherDeliveryHandoffRecord,
   type PublisherSourceToPackageEvidenceBridge,
@@ -165,7 +166,7 @@ export async function GET(request: Request) {
     sentenceApprovalRecorded: sentenceApproval?.decision === "approved",
     audioEvidenceReady: packageEvidenceReview?.reviewedLanes.includes("audio") ?? false,
     mediaRightsReady: packageEvidenceReview?.reviewedLanes.includes("rights") ?? false,
-    canonicalGameEvidenceComplete: false,
+    canonicalGameEvidenceComplete: hasCompleteCanonicalGameEvidenceRecordIds(packageEvidenceReview?.canonicalGameDerivedEvidenceRecordIds),
     preflightReference: sourcePreflightEvidence ? {
       reportId: sourcePreflightEvidence.reportId,
       manifestId: sourcePreflightEvidence.manifestId,
