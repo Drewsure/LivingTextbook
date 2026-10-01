@@ -125,7 +125,12 @@ async function runSelfTest() {
     }
     const preflight = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root], { encoding: "utf8" });
     if (preflight.status !== 0 || !preflight.stdout.includes('"inventoryStatus": "complete"')) fail(`preflight self-test failed: ${preflight.stderr || preflight.stdout}`);
-    console.log("PASS publisher pilot intake preflight detects placeholders, unsafe paths, missing files, and complete inventory without writing package output.");
+    const outputPath = join(root, "evidence", "publisher-intake-preflight.json");
+    const exported = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--output", outputPath], { encoding: "utf8" });
+    if (exported.status !== 0 || !exported.stdout.includes("Evidence report written once") || !exported.stdout.includes('"inventoryStatus": "complete"')) fail(`preflight evidence export self-test failed: ${exported.stderr || exported.stdout}`);
+    const overwrite = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--output", outputPath], { encoding: "utf8" });
+    if (overwrite.status === 0) fail("preflight evidence export self-test allowed an overwrite.");
+    console.log("PASS publisher pilot intake preflight detects placeholders, unsafe paths, missing files, complete inventory, and create-once evidence export.");
   } finally {
     await rm(root, { recursive: true, force: true });
   }
