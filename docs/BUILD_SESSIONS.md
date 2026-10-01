@@ -8320,3 +8320,13 @@ Added a create-once metadata bridge that derives the external
 preflight and tenant-scoped package evidence review. The bridge requires an
 explicit assembled-package checksum and curated game pathways, and never copies
 files or enables activation. Recorded under ADR 1423 / DR-1423.
+
+## Build session: Verify complete human packet wiring in the pilot audit
+
+Extended the first-pilot audit self-test with a complete temporary external
+human-evidence packet. The test now proves that valid delivery-policy,
+package-review, and release-authorization records advance their respective
+audit gates while the overall audit remains non-saleable without real
+publisher and outside-builder evidence. Synthetic records remain outside the
+repository and cannot authorize any protected action. Recorded under ADR 1424
+/ DR-1424.

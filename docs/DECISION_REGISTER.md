@@ -10764,3 +10764,12 @@ This prevents manual lane/checksum transcription while requiring the final
 package checksum and preserving create-once, metadata-only, activation-blocked
 semantics. See ADR 1423 and
 `docs/decision-register/DR-1423-derive-external-package-review-evidence.md`.
+
+## DR-1424: Complete Human Packet Audit Wiring
+
+The first-pilot audit self-test now composes a complete temporary external
+human-evidence packet and confirms that delivery-policy, package-review, and
+release-authorization gates are individually proved. The overall result still
+remains non-saleable without real publisher, Z.ai, and named human evidence.
+See ADR 1424 and
+`docs/decision-register/DR-1424-complete-human-packet-audit-wiring.md`.

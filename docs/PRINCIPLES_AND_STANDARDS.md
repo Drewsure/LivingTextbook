@@ -10391,3 +10391,16 @@ This standard is recorded in DR-1422 and ADR 1422.
   print QR codes, or activate students.
 
 This standard is recorded in DR-1423 and ADR 1423.
+
+## 666. Saleability Audit Composition Must Be Tested End To End
+
+- The first-pilot audit self-test must include a complete synthetic external
+  human-evidence packet and verify that delivery-policy, package-review, and
+  release-authorization gates are each reported as proved.
+- The same self-test must keep the overall result non-saleable when real
+  publisher source, outside-builder evidence, or other required human inputs
+  are absent.
+- Synthetic records are temporary test fixtures only and must never be copied
+  into the repository or treated as commercial approval.
+
+This standard is recorded in DR-1424 and ADR 1424.

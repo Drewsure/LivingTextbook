@@ -413,6 +413,70 @@ function runSelfTest() {
     const stalePublisherCheck = parseJsonOutput(stalePublisherReport.stdout)?.checks?.find((check) => check.id === "publisher-source-package");
     if (stalePublisherCheck?.status !== "blocked" || !stalePublisherCheck.nextAction?.includes("checksum")) failSelfTest("stale publisher preflight evidence was not blocked");
 
+    const humanEvidenceRoot = join(outerRoot, "human-evidence");
+    mkdirSync(humanEvidenceRoot, { recursive: true });
+    const selfTestIdentity = { tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1" };
+    const selfTestChecksum = "a".repeat(64);
+    const selfTestPolicy = {
+      recordVersion: 1,
+      status: "accepted",
+      ...selfTestIdentity,
+      mode: "hybrid",
+      hostedPersistenceOptIn: false,
+      policyVersion: "policy-v1",
+      reviewerId: "adult-reviewer",
+      approvedAt: "2026-10-01T00:00:00.000Z",
+      retentionPolicyRef: "retention-v1",
+      backupPolicyRef: "backup-v1",
+      costPolicyRef: "cost-v1",
+      rollbackPolicyRef: "rollback-v1",
+      studentIdentityPolicyRef: "identity-v1",
+    };
+    const selfTestRelease = {
+      recordVersion: 1,
+      status: "approved",
+      ...selfTestIdentity,
+      mode: "hybrid",
+      hostedPersistenceOptIn: false,
+      reviewerId: "adult-reviewer",
+      approvedAt: "2026-10-01T00:00:00.000Z",
+      qrPrintAuthorization: "approved",
+      studentUseAuthorization: "approved",
+      browserRehearsalEvidenceRef: "rehearsal-v1",
+      rollbackEvidenceRef: "rollback-v1",
+      finalChecksums: ["source", "package", "qr-print-artifact"].map((kind) => ({ kind, sha256: selfTestChecksum })),
+    };
+    const selfTestPackageReview = {
+      recordVersion: 1,
+      status: "reviewed",
+      ...selfTestIdentity,
+      reviewPacketId: "review-packet-1",
+      reviewerId: "adult-reviewer",
+      reviewedAt: "2026-10-01T00:00:00.000Z",
+      sourceInventoryChecksumSha256: `sha256:${selfTestChecksum}`,
+      packageChecksumSha256: `sha256:${selfTestChecksum}`,
+      gamePathwayIds: ["flashcards", "memory-match"],
+      audioCoverage: "reviewed",
+      accessibilityCoverage: "reviewed",
+      rightsCoverage: "reviewed",
+      reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({
+        lane,
+        status: lane === "video" ? "not-applicable" : "reviewed",
+        evidenceRefs: [`${lane}-review`],
+      })),
+      promotionAllowed: false,
+      studentFacingActivationAllowed: false,
+    };
+    writeFileSync(join(humanEvidenceRoot, "delivery-policy.json"), `${JSON.stringify(selfTestPolicy, null, 2)}\n`, { encoding: "utf8" });
+    writeFileSync(join(humanEvidenceRoot, "release-authorization.json"), `${JSON.stringify(selfTestRelease, null, 2)}\n`, { encoding: "utf8" });
+    writeFileSync(join(humanEvidenceRoot, "package-review-evidence.json"), `${JSON.stringify(selfTestPackageReview, null, 2)}\n`, { encoding: "utf8" });
+    const completeHumanEvidenceReport = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--human-evidence-root", humanEvidenceRoot], { encoding: "utf8" });
+    const completeHumanEvidence = parseJsonOutput(completeHumanEvidenceReport.stdout);
+    const completeHumanChecks = new Map(completeHumanEvidence?.checks?.map((check) => [check.id, check.status]));
+    for (const gate of ["delivery-policy", "package-review-evidence", "release-authorization"]) {
+      if (completeHumanEvidenceReport.status !== 2 || completeHumanChecks.get(gate) !== "proved") failSelfTest(`complete external human evidence did not prove ${gate}`);
+    }
+
     const auditOutput = join(outerRoot, "operator-review", "first-pilot-audit.json");
     const exportedAudit = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", auditOutput], { encoding: "utf8" });
     const exportedReport = parseJsonOutput(exportedAudit.stdout);
@@ -421,7 +485,7 @@ function runSelfTest() {
     if (overwriteAudit.status === 0) failSelfTest("audit report export allowed an overwrite");
     const inRepositoryOutput = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", join(root, "audit-self-test.json")], { encoding: "utf8" });
     if (inRepositoryOutput.status === 0 || !inRepositoryOutput.stderr.includes("outside the LivingTextbook repository")) failSelfTest("in-repository audit report output was not blocked");
-    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound intake and source preflight evidence, and exports a create-once external report.");
+    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound intake and source preflight evidence, proves a complete external human packet, and exports a create-once external report.");
   } finally {
     rmSync(outerRoot, { recursive: true, force: true });
   }

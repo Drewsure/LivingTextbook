@@ -140,3 +140,10 @@ DOCX-derived evidence to the proposed sentence packet and enumerates the
 remaining human evidence lanes. This is a stronger review handoff, not a
 package approval: teacher approval, audio, Japanese support, media rights,
 game verification, release, QR, and student-use gates remain blocked.
+
+The first-pilot audit self-test now composes a complete temporary external
+human-evidence packet and proves that delivery-policy, package-review, and
+release-authorization gates are wired through the canonical validator. This is
+composition evidence only; the temporary records remain outside the
+repository, and the live pilot still waits for real publisher, Z.ai, and named
+human evidence.
