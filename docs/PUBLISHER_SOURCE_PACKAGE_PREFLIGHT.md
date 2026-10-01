@@ -55,6 +55,32 @@ types are accepted, sizes are bounded, checksums are valid, and no unlisted
 files are present. Optional missing files are warnings; they still need human
 review before release.
 
+### Create the manifest first
+
+For a new publisher folder, create only the declaration file with the bounded
+template command below. It never creates, copies, uploads, or guesses any
+publisher content files, and it refuses to overwrite an existing manifest:
+
+```powershell
+Set-Location -LiteralPath "D:\LIVING TEXTBOOOK PROJECT\LivingTextbook"
+node scripts/create-publisher-source-manifest.mjs `
+  --root "D:\PublisherPackage" `
+  --tenant-id "publisher-tenant" `
+  --package-id "publisher-level-1-unit-1" `
+  --version "2026.10.01" `
+  --unit-key "publisher:series:L1:U1" `
+  --source "unit-1/source.pdf" `
+  --asset "image=unit-1/diagram.png" `
+  --asset "audio=unit-1/greetings.mp3" `
+  --asset "video=unit-1/lesson.mp4" `
+  --asset "transcript=unit-1/lesson.vtt"
+```
+
+Place the publisher-owned files at the declared relative paths, add any
+remaining approved media/font/background entries, then run the preflight above.
+The generated declaration remains review-only: it cannot promote files,
+assemble a package, print QR codes, activate persistence, or start students.
+
 The report includes two chain-of-custody fingerprints: a checksum of the
 manifest file as supplied and a deterministic checksum of the sorted observed
 file inventory. Preserve both values with the later source-review evidence.

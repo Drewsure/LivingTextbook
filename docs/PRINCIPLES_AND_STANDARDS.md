@@ -9714,6 +9714,8 @@ This standard is recorded in DR-1367 and ADR 1367.
 - Readiness verification must continue to report secret names only; fixture
   secrets are test values and must never appear in output or snapshots.
 
+This standard is recorded in DR-1368 and ADR 1368.
+
 ## 612. Printed QR Artifacts Need A Reproducible Physical Profile
 
 - A reviewed QR print artifact must declare its physical print profile alongside
@@ -9747,4 +9749,17 @@ This standard is recorded in DR-1369 and ADR 1369.
 
 This standard is recorded in DR-1370 and ADR 1370.
 
-This standard is recorded in DR-1368 and ADR 1368.
+## 614. Publisher Intake Must Be Easy Without Becoming An Upload Shortcut
+
+- A publisher may generate a bounded source-manifest template from explicit
+  tenant, package, unit, and relative-path inputs.
+- The template command may create only the declaration file. It must not copy,
+  upload, promote, assemble, print, activate persistence, or create learner
+  records, and it must refuse to overwrite an existing manifest.
+- Every declared media lane remains subject to the same source preflight,
+  checksum, rights, accessibility, review, and package gates as a manually
+  authored manifest.
+- A convenient intake command is an operator aid, not evidence that the
+  publisher content is present, licensed, reviewed, or student-ready.
+
+This standard is recorded in DR-1371 and ADR 1371.

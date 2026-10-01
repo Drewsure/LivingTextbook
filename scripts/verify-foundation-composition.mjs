@@ -65,6 +65,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-durable-progress
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-upload-quarantine-filesystem-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./create-publisher-source-manifest.mjs", import.meta.url)), "--self-test"], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-publisher-pilot-package-preview.mjs", import.meta.url))], {
   stdio: "inherit",
 });

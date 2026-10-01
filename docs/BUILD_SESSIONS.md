@@ -7818,3 +7818,13 @@ SVG and validate that each encoded URL is exactly the configured print base URL
 joined with its declared alias path. The local package runtime now rejects a
 valid-looking QR URL that points to a different route, as well as incomplete
 SVG evidence. Recorded ADR 1370 / DR-1370.
+
+## Build session: Add a bounded publisher source-manifest starter
+
+Added `scripts/create-publisher-source-manifest.mjs` so a publisher operator
+can create the exact review-only declaration for a Unit 1 PDF and optional
+image, audio, video, transcript, font, or background-media files. The command
+validates safe relative paths, refuses overwrites, creates no content files,
+and points the operator to the existing source preflight. The full foundation
+composition now runs its self-test as a standing regression guard. Recorded
+ADR 1371 / DR-1371.
