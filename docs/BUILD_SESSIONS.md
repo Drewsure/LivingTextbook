@@ -7887,3 +7887,11 @@ delivery-control reference and a validated package-evidence provenance summary.
 The live readiness route passes the actual package evidence review into this
 record, while the panel exposes publisher-asset and platform-derived counts
 without exposing payloads or enabling writes. Recorded ADR 1378 / DR-1378.
+
+## Build session: Enforce semantic evidence origins by lane
+
+Hardened package evidence validation so the game lane must remain
+platform-derived and all publisher-supplied content and media lanes must
+remain publisher-asset. Negative coverage now rejects publisher-owned game
+evidence and platform-derived audio evidence before release lineage can pass.
+Recorded ADR 1379 / DR-1379.

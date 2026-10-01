@@ -9865,3 +9865,12 @@ This standard is recorded in DR-1377 and ADR 1377.
 - Provenance is audit information only. It does not authorize assembly, promotion, QR printing, persistence activation, or student-facing use.
 
 This standard is recorded in DR-1378 and ADR 1378.
+
+## 622. Evidence Origins Must Match Their Lane
+
+- The game lane must use `platform-derived`; curated game pathways and canonical engine records are not publisher-uploaded files.
+- Content, audio, video, image, font, accessibility, and rights lanes must use `publisher-asset` until a future contract explicitly introduces another custody type.
+- A safe origin value is not enough by itself: lane-origin mismatches are validation failures and must block release lineage.
+- This semantic check protects white-label custody without authorizing assembly, promotion, QR printing, persistence, or student-facing use.
+
+This standard is recorded in DR-1379 and ADR 1379.

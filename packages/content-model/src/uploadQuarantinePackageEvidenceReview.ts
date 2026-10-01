@@ -121,6 +121,8 @@ export function validateUploadQuarantinePackageEvidenceReview(value: unknown): s
       errors.push("Upload quarantine package evidence review evidenceReferences must contain safe lane and referenceId pairs.");
       continue;
     }
+    if (reference.lane === "game" && reference.origin !== "platform-derived") errors.push("Upload quarantine package evidence review game evidence must be platform-derived.");
+    if (reference.lane !== "game" && reference.origin !== "publisher-asset") errors.push(`Upload quarantine package evidence review ${reference.lane} evidence must be publisher-asset.`);
     referenceLanes.push(String(reference.lane));
   }
   if (new Set(referenceLanes).size !== referenceLanes.length) errors.push("Upload quarantine package evidence review evidenceReferences must contain unique lanes.");

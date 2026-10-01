@@ -51,6 +51,8 @@ try {
   if (complete.evidenceReferences.find((reference) => reference.lane === "game")?.origin !== "platform-derived") throw new Error("Game evidence must be marked platform-derived.");
   if (complete.evidenceReferences.find((reference) => reference.lane === "content")?.origin !== "publisher-asset") throw new Error("Content evidence must be marked publisher-asset.");
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, origin: "unknown" } : reference) }), "safe lane and referenceId pairs", "unsupported evidence origin");
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, origin: "publisher-asset" } : reference) }), "game evidence must be platform-derived", "publisher-owned game evidence");
+  assertIncludes(model.validateUploadQuarantinePackageEvidenceReview({ ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "audio" ? { ...reference, origin: "platform-derived" } : reference) }), "audio evidence must be publisher-asset", "derived audio evidence");
 
   const unsafeReference = { ...complete, evidenceReferences: complete.evidenceReferences.map((reference) => reference.lane === "game" ? { ...reference, referenceId: "../game-record" } : reference) };
   assertIncludes(model.validateUploadQuarantinePackageEvidenceReview(unsafeReference), "safe lane and referenceId pairs", "unsafe evidence reference");
