@@ -10621,3 +10621,12 @@ the approved human handoff. The platform remains review-only until Codex
 verifies the package, replays the shared contracts, maps the wrapper, and
 records an integration decision. See ADR 1406 and
 `docs/decision-register/DR-1406-frozen-snapshot-versus-candidate-return-package.md`.
+
+## DR-1407: Bound Next Production Build Resources
+
+The web app uses a two-CPU Next production worker cap with memory-aware worker
+selection. This is the default for local and white-label deployment builds so
+cost and reliability remain predictable on modest machines. It does not mask a
+failed build or clear existing stale processes; production build and browser
+rehearsal evidence remain mandatory. See ADR 1407 and
+`docs/decision-register/DR-1407-bound-next-production-build-resources.md`.

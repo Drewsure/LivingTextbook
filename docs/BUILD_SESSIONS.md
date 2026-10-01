@@ -8184,3 +8184,12 @@ external action is to request the complete isolated return package with
 `evidence/return-package.json`; no archive import, route replacement, scoring
 mutation, or student activation is permitted before Codex verification and an
 explicit integration decision. Recorded under ADR 1406 / DR-1406.
+
+## Build session: Bound Next production build resources
+
+Configured the web app to use a two-CPU Next worker cap with memory-aware
+worker selection. This reduces build variance and deployment cost for a
+white-label platform that must also support modest local publisher machines.
+The setting is a future-build safeguard, not permission to terminate unrelated
+Node processes, and the Windows recovery procedure remains required for the
+current stale-process state. Recorded under ADR 1407 / DR-1407.

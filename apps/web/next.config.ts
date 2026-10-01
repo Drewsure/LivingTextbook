@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@living-textbook/content-model", "@living-textbook/ui"],
+  experimental: {
+    cpus: 2,
+    memoryBasedWorkersCount: true,
+  },
   async headers() {
     return [
       {

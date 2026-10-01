@@ -1679,6 +1679,12 @@ npm run verify:publisher-intake-rehearsal
 Do not treat a dev-server `Ready` message as production-build evidence, and do
 not distribute a package until the production build and rehearsal both pass.
 
+The web app deliberately caps Next production worker scheduling at two CPUs and
+enables memory-aware worker selection in `apps/web/next.config.ts`. This keeps
+local pilot builds and low-cost white-label deployments predictable. It does
+not repair already-running stale Node processes; close those terminals or
+restart Windows before retrying a blocked build.
+
 ## Publisher source evidence request procedure
 
 After the publisher intake kit has been completed and the canonical source
