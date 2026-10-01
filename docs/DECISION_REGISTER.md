@@ -10727,3 +10727,12 @@ saleability audit enforces. The UI remains review-only and the contract
 verifier checks the guidance markers so operator instructions cannot drift
 from the CLI boundary. See ADR 1419 and
 `docs/decision-register/DR-1419-publisher-intake-ui-audit-lockstep.md`.
+
+## DR-1420: Preserve The First-Pilot Audit As An External Create-Once Report
+
+The first-pilot audit now accepts an external `--output` path and writes one
+metadata-only JSON report containing the source-bound build revision, gate
+statuses, and next actions. It rejects repository paths and overwrites. This
+gives operators a durable handoff without making the report an approval or
+activation mechanism. See ADR 1420 and
+`docs/decision-register/DR-1420-external-create-once-pilot-audit-report.md`.

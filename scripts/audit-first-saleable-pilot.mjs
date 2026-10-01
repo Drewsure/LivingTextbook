@@ -1,7 +1,7 @@
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { join, relative, resolve } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
@@ -113,11 +113,17 @@ if (!humanEvidenceRoot) {
 }
 
 const summary = {
+  reportVersion: 1,
+  auditTool: "first-saleable-pilot",
+  generatedAt: new Date().toISOString(),
+  sourceRevision: productionBuildReport?.sourceRevision ?? null,
   status: checks.some((check) => check.status === "blocked") ? "blocked" : checks.some((check) => check.status === "waiting-human") ? "waiting-human" : "saleable-pilot-ready",
   saleable: checks.every((check) => check.status === "proved"),
   checks,
   nextActions: checks.filter((check) => check.status !== "proved").map((check) => check.nextAction),
 };
+
+if (options.output) writeAuditReport(options.output, summary);
 
 if (options.json) {
   console.log(JSON.stringify(summary, null, 2));
@@ -243,6 +249,7 @@ function parseJsonOutput(value) {
 function parseArguments(args) {
   const result = {
     json: false,
+    output: "",
     selfTest: false,
     publisherRoot: process.env.LIVING_TEXTBOOOK_PUBLISHER_ROOT?.trim() || "",
     candidateRoot: process.env.LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT?.trim() || "",
@@ -251,12 +258,13 @@ function parseArguments(args) {
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--json") result.json = true;
+    else if (arg === "--output") result.output = args[++index] ?? "";
     else if (arg === "--self-test") result.selfTest = true;
     else if (arg === "--publisher-root") result.publisherRoot = args[++index] ?? "";
     else if (arg === "--candidate-root") result.candidateRoot = args[++index] ?? "";
     else if (arg === "--human-evidence-root") result.humanEvidenceRoot = args[++index] ?? "";
     else if (arg === "--help" || arg === "-h") {
-      console.log("Usage: node scripts/audit-first-saleable-pilot.mjs [--json] [--self-test] [--publisher-root <folder>] [--candidate-root <folder>] [--human-evidence-root <folder>]\n\nAudits platform proof separately from real publisher, Z.ai, delivery-policy, and human-release evidence. Exit code 2 means the pilot is not yet saleable.");
+      console.log("Usage: node scripts/audit-first-saleable-pilot.mjs [--json] [--output <external-report.json>] [--self-test] [--publisher-root <folder>] [--candidate-root <folder>] [--human-evidence-root <folder>]\n\nAudits platform proof separately from real publisher, Z.ai, delivery-policy, and human-release evidence. Exit code 2 means the pilot is not yet saleable.");
       process.exit(0);
     } else {
       console.error(`ERROR Unknown argument: ${arg}`);
@@ -264,6 +272,22 @@ function parseArguments(args) {
     }
   }
   return result;
+}
+
+function writeAuditReport(output, report) {
+  const outputPath = resolve(output);
+  if (isWithinRepository(outputPath)) {
+    console.error("ERROR Audit reports must be written outside the LivingTextbook repository.");
+    process.exit(2);
+  }
+  try {
+    mkdirSync(dirname(outputPath), { recursive: true });
+    writeFileSync(outputPath, `${JSON.stringify(report, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+  } catch (error) {
+    console.error(`ERROR Cannot write create-once audit report: ${error.message}`);
+    process.exit(2);
+  }
+  console.error(`Audit report written once to ${outputPath}`);
 }
 
 function runSelfTest() {
@@ -313,7 +337,16 @@ function runSelfTest() {
     const stalePublisherReport = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--publisher-root", publisherRoot], { encoding: "utf8" });
     const stalePublisherCheck = parseJsonOutput(stalePublisherReport.stdout)?.checks?.find((check) => check.id === "publisher-source-package");
     if (stalePublisherCheck?.status !== "blocked" || !stalePublisherCheck.nextAction?.includes("checksum")) failSelfTest("stale publisher preflight evidence was not blocked");
-    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, and requires checksum-bound publisher preflight evidence.");
+
+    const auditOutput = join(outerRoot, "operator-review", "first-pilot-audit.json");
+    const exportedAudit = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", auditOutput], { encoding: "utf8" });
+    const exportedReport = parseJsonOutput(exportedAudit.stdout);
+    if (exportedAudit.status !== 2 || exportedReport?.reportVersion !== 1 || exportedReport?.auditTool !== "first-saleable-pilot" || !exists(auditOutput)) failSelfTest("external create-once audit report was not written with identity metadata");
+    const overwriteAudit = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", auditOutput], { encoding: "utf8" });
+    if (overwriteAudit.status === 0) failSelfTest("audit report export allowed an overwrite");
+    const inRepositoryOutput = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", join(root, "audit-self-test.json")], { encoding: "utf8" });
+    if (inRepositoryOutput.status === 0 || !inRepositoryOutput.stderr.includes("outside the LivingTextbook repository")) failSelfTest("in-repository audit report output was not blocked");
+    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound publisher preflight evidence, and exports a create-once external report.");
   } finally {
     rmSync(outerRoot, { recursive: true, force: true });
   }

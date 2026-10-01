@@ -8286,3 +8286,11 @@ command, `evidence/publisher-intake-preflight.json` destination, checksum
 binding explanation, and protected-action boundary. Extended the intake-kit
 verifier to require those operator-facing markers. Recorded under ADR 1419 /
 DR-1419.
+
+## Build session: Add the external create-once pilot audit report
+
+Added `--output` to the first-pilot audit. The report records its version,
+generation time, current source-bound build revision, gate results, and next
+actions; it is written only to an external path and refuses overwrite or
+repository output. Added self-tests and exposed the operator command in the
+publisher intake workspace. Recorded under ADR 1420 / DR-1420.

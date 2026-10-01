@@ -37,6 +37,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --base-url \"http://127.0.0.1:3000\"",
   ].join("\n");
   const saleabilityAuditCommand = "npm run audit:pilot -- --json";
+  const saleabilityReportCommand = [
+    "npm run audit:pilot -- --json `",
+    "  --output \"D:\\PublisherPilotReview\\first-pilot-audit.json\"",
+  ].join("\n");
   const saleabilityEvidenceCommand = 'npm run audit:pilot -- --json --human-evidence-root "<external-evidence-folder>"';
   const humanEvidencePacketCommand = [
     "npm run create:pilot-human-evidence -- `",
@@ -172,6 +176,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <pre className="whitespace-pre-wrap font-mono">{saleabilityAuditCommand}</pre>
           <p className="mt-3 text-xs leading-5 text-slate-300">After the human evidence packet exists outside the repository, add its path:</p>
           <pre className="mt-2 whitespace-pre-wrap font-mono text-slate-200">{saleabilityEvidenceCommand}</pre>
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell create-once audit report</p>
+          <pre className="whitespace-pre-wrap font-mono">{saleabilityReportCommand}</pre>
+          <p className="mt-3 text-xs leading-5 text-slate-300">The report is written outside the repository and records the current source-bound build, proved gates, waiting human inputs, and next actions. It cannot be overwritten and is not itself an approval.</p>
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <Boundary label="Proves" value="Build, routes, contracts, operator handoff" />

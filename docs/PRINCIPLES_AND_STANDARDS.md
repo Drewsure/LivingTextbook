@@ -10346,3 +10346,14 @@ This standard is recorded in DR-1418 and ADR 1418.
   and student-facing use visibly blocked until their separate gates pass.
 
 This standard is recorded in DR-1419 and ADR 1419.
+
+## 662. Saleability Audit Reports Must Be External And Create-Once
+
+- Operators may preserve the first-pilot audit as a metadata-only JSON report,
+  but only outside the LivingTextbook repository.
+- The report must bind to the current source revision, record proved and
+  waiting-human gates, and refuse overwrite.
+- A report is a review handoff, not a release approval and must never enable
+  package assembly, QR printing, persistence, or student use by itself.
+
+This standard is recorded in DR-1420 and ADR 1420.
