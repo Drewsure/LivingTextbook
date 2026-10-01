@@ -10746,3 +10746,12 @@ source preflight in a temporary read-only comparison lane and rejects stale
 manifest checksums, inventory checksums, report identities, incomplete
 inventory, or unsafe action flags. See ADR 1421 and
 `docs/decision-register/DR-1421-durable-canonical-publisher-source-preflight.md`.
+
+## DR-1422: Durable Reviewed Package Evidence
+
+The external human evidence packet now requires a create-once
+`package-review-evidence.json` record covering content, curated game pathways,
+audio, video, image, font, accessibility, and rights lanes. It binds source
+and package checksums but cannot promote a package or activate students. See
+ADR 1422 and
+`docs/decision-register/DR-1422-durable-reviewed-package-evidence.md`.

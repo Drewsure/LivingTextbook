@@ -11,6 +11,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-standards-integr
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-human-evidence.mjs", import.meta.url)), "--self-test"], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-pilot-package-review-evidence.mjs", import.meta.url)), "--self-test"], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./create-pilot-human-evidence-packet.mjs", import.meta.url)), "--self-test"], {
   stdio: "inherit",
 });

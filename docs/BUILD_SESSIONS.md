@@ -8303,3 +8303,12 @@ the create-once `evidence/publisher-source-preflight.json` report. The audit
 reruns source preflight in a temporary comparison lane and checks manifest and
 inventory fingerprints, report identity, completeness, and protected actions.
 Recorded under ADR 1421 / DR-1421.
+
+## Build session: Require durable reviewed package evidence
+
+Added the external `package-review-evidence.json` record to the human pilot
+packet. It binds reviewed content, curated game pathways, audio, video, image,
+font, accessibility, and rights lanes to source and package checksums. The
+validator and generator remain create-once and metadata-only, with package
+promotion and student activation false. The first-pilot audit now reports
+this as its own human gate. Recorded under ADR 1422 / DR-1422.

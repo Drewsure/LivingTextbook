@@ -24,7 +24,8 @@ if (isWithin(repositoryRoot, root)) fail("Human evidence must be created outside
 
 const policyPath = join(root, "delivery-policy.json");
 const releasePath = join(root, "release-authorization.json");
-for (const path of [policyPath, releasePath]) {
+const packageReviewPath = join(root, "package-review-evidence.json");
+for (const path of [policyPath, releasePath, packageReviewPath]) {
   try {
     await access(path);
     fail(`Refusing to overwrite an existing evidence record: ${path}`);
@@ -70,13 +71,31 @@ const release = {
     { kind: "qr-print-artifact", sha256: "REPLACE_WITH_SHA256" },
   ],
 };
+const packageReview = {
+  recordVersion: 1,
+  status: "draft",
+  ...identity,
+  reviewPacketId: "REPLACE_WITH_REVIEW_PACKET_ID",
+  reviewerId: "REPLACE_WITH_NAMED_REVIEWER",
+  reviewedAt: "REPLACE_WITH_ISO_REVIEW_TIMESTAMP",
+  sourceInventoryChecksumSha256: "REPLACE_WITH_SHA256_PREFIXED_SOURCE_INVENTORY_CHECKSUM",
+  packageChecksumSha256: "REPLACE_WITH_SHA256_PREFIXED_PACKAGE_CHECKSUM",
+  gamePathwayIds: ["REPLACE_WITH_CURATED_GAME_ID"],
+  audioCoverage: "REPLACE_WITH_REVIEW_STATUS",
+  accessibilityCoverage: "REPLACE_WITH_REVIEW_STATUS",
+  rightsCoverage: "REPLACE_WITH_REVIEW_STATUS",
+  reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, status: "REPLACE_WITH_REVIEW_STATUS", evidenceRefs: [`REPLACE_WITH_${lane.toUpperCase()}_EVIDENCE_REF`] })),
+  promotionAllowed: false,
+  studentFacingActivationAllowed: false,
+};
 await writeFile(policyPath, `${JSON.stringify(policy, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
 await writeFile(releasePath, `${JSON.stringify(release, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+await writeFile(packageReviewPath, `${JSON.stringify(packageReview, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
 await writeFile(join(root, "README.md"), createReadme(identity), { encoding: "utf8", flag: "wx" });
-console.log(JSON.stringify({ root, policyPath, releasePath, reviewOnly: true, writesEnabled: false, studentActivationAllowed: false }, null, 2));
+console.log(JSON.stringify({ root, policyPath, releasePath, packageReviewPath, reviewOnly: true, writesEnabled: false, studentActivationAllowed: false }, null, 2));
 
 function createReadme(identity) {
-  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nReplace every REPLACE_WITH_* value, choose the delivery mode, and obtain the required named human decisions. Keep the folder outside LivingTextbook.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
+  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nReplace every REPLACE_WITH_* value, choose the delivery mode, and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
 }
 
 function parseArguments(args) {
@@ -110,7 +129,8 @@ async function runSelfTest() {
     if (generated.status !== 0) fail(`generator self-test failed: ${generated.stderr || generated.stdout}`);
     const policy = JSON.parse(await readFile(join(root, "delivery-policy.json"), "utf8"));
     const release = JSON.parse(await readFile(join(root, "release-authorization.json"), "utf8"));
-    if (policy.status !== "draft" || release.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package") fail("generator self-test did not preserve draft identity-bound records.");
+    const packageReview = JSON.parse(await readFile(join(root, "package-review-evidence.json"), "utf8"));
+    if (policy.status !== "draft" || release.status !== "draft" || packageReview.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package" || packageReview.unitKey !== "series:book:L1:U1") fail("generator self-test did not preserve draft identity-bound records.");
     const overwrite = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (overwrite.status === 0 || !overwrite.stderr.includes("Refusing to overwrite")) fail("generator self-test allowed an overwrite.");
     console.log("PASS pilot human evidence generator creates external draft templates, preserves identity, and refuses overwrite.");

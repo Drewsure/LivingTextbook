@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { join, resolve, sep } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
+import { validatePilotPackageReviewEvidence } from "./pilot-package-review-evidence.mjs";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
@@ -24,6 +25,7 @@ if (isWithin(repositoryRoot, evidenceRealPath)) fail("Human evidence must remain
 const errors = [];
 const policy = readJson(join(evidenceRealPath, "delivery-policy.json"), "delivery-policy.json");
 const release = readJson(join(evidenceRealPath, "release-authorization.json"), "release-authorization.json");
+const packageReview = readJson(join(evidenceRealPath, "package-review-evidence.json"), "package-review-evidence.json");
 
 const policyErrorCount = errors.length;
 validatePolicy(policy);
@@ -31,18 +33,33 @@ const policyValid = policy && errors.length === policyErrorCount;
 const releaseErrorCount = errors.length;
 validateRelease(release);
 const releaseValid = release && errors.length === releaseErrorCount;
+const packageReviewErrorCount = errors.length;
+if (packageReview) errors.push(...validatePilotPackageReviewEvidence(packageReview));
+const packageReviewValid = packageReview && errors.length === packageReviewErrorCount;
 if (policy && release) {
   for (const key of ["tenantId", "packageId", "unitKey", "mode"]) {
     if (policy[key] !== release[key]) errors.push(`Policy and release ${key} must match.`);
   }
   if (policy.hostedPersistenceOptIn !== release.hostedPersistenceOptIn) errors.push("Policy and release hostedPersistenceOptIn must match.");
 }
+if (policy && packageReview) {
+  for (const key of ["tenantId", "packageId", "unitKey"]) {
+    if (policy[key] !== packageReview[key]) errors.push(`Policy and package review ${key} must match.`);
+  }
+  const packageChecksum = release?.finalChecksums?.find((checksum) => checksum?.kind === "package")?.sha256;
+  if (packageChecksum && packageReview.packageChecksumSha256 !== `sha256:${packageChecksum}`) errors.push("Package review package checksum must match release package checksum.");
+}
 
 if (options.publisherRoot && policy) {
-  const publisherBrief = readJson(join(resolve(options.publisherRoot), "publisher-pilot-intake.json"), "publisher-pilot-intake.json");
+  const publisherRootPath = resolve(options.publisherRoot);
+  const publisherBrief = readJson(join(publisherRootPath, "publisher-pilot-intake.json"), "publisher-pilot-intake.json");
+  const publisherSourcePreflight = readJson(join(publisherRootPath, "evidence", "publisher-source-preflight.json"), "publisher-source-preflight.json");
   if (publisherBrief) {
     if (policy.tenantId !== publisherBrief.tenantId) errors.push("Human evidence tenantId must match the publisher intake tenantId.");
     if (policy.unitKey !== publisherBrief.unitKey) errors.push("Human evidence unitKey must match the publisher intake unitKey.");
+  }
+  if (packageReview && publisherSourcePreflight && packageReview.sourceInventoryChecksumSha256 !== publisherSourcePreflight.inventoryChecksumSha256) {
+    errors.push("Package review source inventory checksum must match publisher source preflight.");
   }
 }
 
@@ -52,6 +69,7 @@ const report = {
   checks: {
     deliveryPolicy: policyValid ? "proved" : "blocked",
     releaseAuthorization: releaseValid ? "proved" : "blocked",
+    packageReviewEvidence: packageReviewValid ? "proved" : "blocked",
     identityBinding: errors.some((error) => error.includes("must match")) ? "blocked" : "proved",
   },
   errors,
@@ -169,8 +187,12 @@ function runSelfTest() {
     const release = {
       recordVersion: 1, status: "approved", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", mode: "hybrid", hostedPersistenceOptIn: false, reviewerId: "adult-reviewer", approvedAt: "2026-10-01T00:00:00.000Z", qrPrintAuthorization: "approved", studentUseAuthorization: "approved", browserRehearsalEvidenceRef: "rehearsal-v1", rollbackEvidenceRef: "rollback-v1", finalChecksums: ["source", "package", "qr-print-artifact"].map((kind) => ({ kind, sha256: "a".repeat(64) })),
     };
+    const packageReview = {
+      recordVersion: 1, status: "reviewed", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", reviewPacketId: "review-packet-1", reviewerId: "adult-reviewer", reviewedAt: "2026-10-01T00:00:00.000Z", sourceInventoryChecksumSha256: `sha256:${"a".repeat(64)}`, packageChecksumSha256: `sha256:${"a".repeat(64)}`, gamePathwayIds: ["flashcards", "memory-match"], audioCoverage: "reviewed", accessibilityCoverage: "reviewed", rightsCoverage: "reviewed", reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, status: lane === "video" ? "not-applicable" : "reviewed", evidenceRefs: [`${lane}-review`] })), promotionAllowed: false, studentFacingActivationAllowed: false,
+    };
     writeFileSync(join(root, "delivery-policy.json"), `${JSON.stringify(policy)}\n`);
     writeFileSync(join(root, "release-authorization.json"), `${JSON.stringify(release)}\n`);
+    writeFileSync(join(root, "package-review-evidence.json"), `${JSON.stringify(packageReview)}\n`);
     const result = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--json"], { encoding: "utf8" });
     if (result.status !== 0 || !result.stdout.includes('"status": "passed"')) fail(`self-test failed: ${result.stderr || result.stdout}`);
     const releasePath = join(root, "release-authorization.json");
@@ -178,6 +200,6 @@ function runSelfTest() {
     writeFileSync(releasePath, `${JSON.stringify(mismatchedRelease)}\n`);
     const mismatch = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--json"], { encoding: "utf8" });
     if (mismatch.status === 0 || !mismatch.stdout.includes('"identityBinding": "blocked"')) fail("validator self-test allowed policy/release identity drift.");
-    console.log("PASS pilot human evidence validator enforces policy, release, identity, checksum, and no-side-effect boundaries.");
+    console.log("PASS pilot human evidence validator enforces policy, package review, release, identity, checksum, and no-side-effect boundaries.");
   } finally { rmSync(root, { recursive: true, force: true }); }
 }

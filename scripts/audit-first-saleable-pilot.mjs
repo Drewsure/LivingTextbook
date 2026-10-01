@@ -103,6 +103,7 @@ if (!candidateRoot) {
 const humanEvidenceRoot = options.humanEvidenceRoot;
 if (!humanEvidenceRoot) {
   record("delivery-policy", "waiting-human", "no --human-evidence-root supplied", "Choose hosted PWA, closed-local companion, or hybrid and record retention, backup, and cost policy.");
+  record("package-review-evidence", "waiting-human", "no --human-evidence-root supplied", "Provide the external package-review-evidence.json record covering reviewed content, games, audio, video, images, fonts, accessibility, and rights lanes.");
   record("release-authorization", "waiting-human", "no --human-evidence-root supplied", "Attach named human release approval, QR print authorization, rollback evidence, and final checksums.");
 } else {
   const humanEvidencePath = resolve(humanEvidenceRoot);
@@ -120,6 +121,12 @@ if (!humanEvidenceRoot) {
       report?.checks?.deliveryPolicy === "proved" && identityValid ? "proved" : "blocked",
       `${humanEvidencePath} (human evidence verifier: ${report?.checks?.deliveryPolicy === "proved" && identityValid ? "passed" : "failed"})`,
       "Fix the delivery policy and tenant/package/unit identity binding before the selected delivery path can advance.",
+    );
+    record(
+      "package-review-evidence",
+      report?.checks?.packageReviewEvidence === "proved" && identityValid ? "proved" : "blocked",
+      `${humanEvidencePath} (package review evidence: ${report?.checks?.packageReviewEvidence === "proved" && identityValid ? "passed" : "failed"})`,
+      "Complete package-review-evidence.json and bind its source/package checksums before release.",
     );
     record(
       "release-authorization",

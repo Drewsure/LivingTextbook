@@ -49,6 +49,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --package-id \"<reviewed-package-id>\" `",
     "  --unit-key \"series:book:L1:U1\"",
   ].join("\n");
+  const packageReviewEvidenceCommand = [
+    "node scripts/verify-pilot-package-review-evidence.mjs `",
+    "  --path \"D:\\PublisherPilotReview\\human-evidence\\package-review-evidence.json\"",
+  ].join("\n");
 
   return (
     <Card>
@@ -172,6 +176,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <p className="mt-3 text-xs leading-5 text-slate-300">This creates incomplete, no-overwrite templates outside the repository. Replace every placeholder and pass its validator before auditing.</p>
         </div>
         <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">Package review evidence check</p>
+          <pre className="whitespace-pre-wrap font-mono">{packageReviewEvidenceCommand}</pre>
+          <p className="mt-3 text-xs leading-5 text-slate-300">The packet must name reviewed content, curated game pathways, audio, video, images, fonts, accessibility, and rights evidence. A lane may be not-applicable only with an explicit evidence reference.</p>
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p className="mb-3 font-semibold text-slate-300">PowerShell audit command</p>
           <pre className="whitespace-pre-wrap font-mono">{saleabilityAuditCommand}</pre>
           <p className="mt-3 text-xs leading-5 text-slate-300">After the human evidence packet exists outside the repository, add its path:</p>
@@ -184,7 +193,7 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <Boundary label="Proves" value="Build, routes, contracts, operator handoff" />
-          <Boundary label="Waits for" value="Publisher, Z.ai, policy, release evidence" />
+          <Boundary label="Waits for" value="Publisher, Z.ai, package review, policy, release evidence" />
           <Boundary label="Never does" value="Upload, assemble, print, activate, enable students" />
         </div>
       </div>

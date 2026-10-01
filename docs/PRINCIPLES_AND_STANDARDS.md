@@ -10367,3 +10367,16 @@ This standard is recorded in DR-1420 and ADR 1420.
   identity, and protected-action fields before accepting the persisted report.
 
 This standard is recorded in DR-1421 and ADR 1421.
+
+## 664. Saleability Requires A Durable Reviewed Package Record
+
+- The human evidence packet must include one create-once
+  `package-review-evidence.json` record covering content, curated game
+  pathways, audio, video, images, fonts, accessibility, and rights.
+- The record must bind to the publisher source inventory checksum and the
+  release package checksum; lane evidence must be explicit, including for
+  not-applicable media.
+- Package review evidence remains metadata-only and must keep promotion and
+  student-facing activation false until the separate release gate passes.
+
+This standard is recorded in DR-1422 and ADR 1422.

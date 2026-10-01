@@ -16,6 +16,7 @@ activate persistence, or enable students.
 ```text
 pilot-human-evidence/
   delivery-policy.json
+  package-review-evidence.json
   release-authorization.json
 ```
 
@@ -51,6 +52,30 @@ hosted-persistence choice. `delivery-policy.json` must have:
 - `hostedPersistenceOptIn` as an explicit boolean;
 - policy version, reviewer identity, approval timestamp, retention, backup,
   cost, rollback, and student-identity references.
+
+`package-review-evidence.json` must have:
+
+- `recordVersion: 1` and `status: "reviewed"`;
+- the same tenant, package, and unit identity;
+- a named review packet, reviewer, review timestamp, source inventory checksum,
+  and package checksum;
+- at least one curated game pathway;
+- reviewed content, game, audio, video, image, font, accessibility, and rights
+  lanes, with explicit evidence references; a lane may be `not-applicable` only
+  when its evidence reference explains why;
+- `promotionAllowed: false` and `studentFacingActivationAllowed: false`.
+
+The package checksum must match the `package` checksum in the release record.
+The source inventory checksum must match the durable publisher source preflight
+when a publisher root is supplied to the audit.
+
+Validate the package review record directly before the combined human packet
+check:
+
+```powershell
+node scripts/verify-pilot-package-review-evidence.mjs `
+  --path "D:\PublisherPilotReview\human-evidence\package-review-evidence.json"
+```
 
 `release-authorization.json` must have:
 
