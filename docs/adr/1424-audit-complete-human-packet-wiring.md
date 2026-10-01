@@ -8,6 +8,10 @@ reviewed package evidence, and release authorization records each advance
 their corresponding audit gate while the audit still remains non-saleable when
 real publisher and outside-builder evidence is absent.
 
+When both external roots are supplied, the composed audit must also reject a
+package-review record whose source inventory checksum differs from the
+publisher source preflight.
+
 ## Rationale
 
 The individual human-evidence validator already checks each record and their

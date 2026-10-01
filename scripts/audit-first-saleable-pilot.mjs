@@ -476,6 +476,12 @@ function runSelfTest() {
     for (const gate of ["delivery-policy", "package-review-evidence", "release-authorization"]) {
       if (completeHumanEvidenceReport.status !== 2 || completeHumanChecks.get(gate) !== "proved") failSelfTest(`complete external human evidence did not prove ${gate}`);
     }
+    const crossBoundMismatch = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--publisher-root", publisherRoot, "--human-evidence-root", humanEvidenceRoot], { encoding: "utf8" });
+    const crossBoundReport = parseJsonOutput(crossBoundMismatch.stdout);
+    const crossBoundChecks = new Map(crossBoundReport?.checks?.map((check) => [check.id, check]));
+    if (crossBoundMismatch.status !== 2 || crossBoundChecks.get("publisher-source-package")?.status !== "blocked" || crossBoundChecks.get("package-review-evidence")?.status !== "blocked") {
+      failSelfTest("publisher/package source checksum drift was not blocked across the composed audit");
+    }
 
     const auditOutput = join(outerRoot, "operator-review", "first-pilot-audit.json");
     const exportedAudit = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", auditOutput], { encoding: "utf8" });
@@ -485,7 +491,7 @@ function runSelfTest() {
     if (overwriteAudit.status === 0) failSelfTest("audit report export allowed an overwrite");
     const inRepositoryOutput = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--json", "--output", join(root, "audit-self-test.json")], { encoding: "utf8" });
     if (inRepositoryOutput.status === 0 || !inRepositoryOutput.stderr.includes("outside the LivingTextbook repository")) failSelfTest("in-repository audit report output was not blocked");
-    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound intake and source preflight evidence, proves a complete external human packet, and exports a create-once external report.");
+    console.log("PASS pilot saleability audit discovers one nested candidate, rejects ambiguity, blocks in-repository publisher roots, requires checksum-bound intake and source preflight evidence, proves a complete external human packet, rejects publisher/package checksum drift, and exports a create-once external report.");
   } finally {
     rmSync(outerRoot, { recursive: true, force: true });
   }

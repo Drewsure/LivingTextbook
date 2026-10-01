@@ -10400,6 +10400,9 @@ This standard is recorded in DR-1423 and ADR 1423.
 - The same self-test must keep the overall result non-saleable when real
   publisher source, outside-builder evidence, or other required human inputs
   are absent.
+- When both publisher and human evidence roots are supplied, source inventory
+  checksum drift between the publisher preflight and package-review record
+  must block the composed audit.
 - Synthetic records are temporary test fixtures only and must never be copied
   into the repository or treated as commercial approval.
 

@@ -4,7 +4,8 @@
   human-evidence packet and require its delivery-policy, package-review, and
   release gates to be reported as proved.
 - **Reason:** Confirm the audit composes the canonical human validator without
-  weakening the separate real-publisher, Z.ai, and named-approval boundaries.
+  weakening the separate real-publisher, Z.ai, and named-approval boundaries;
+  source checksum drift across external roots must remain blocked.
 - **Boundary:** Temporary synthetic records only; no repository evidence,
   package assembly, QR printing, persistence activation, or student use.
 - **Verification:** `node scripts/audit-first-saleable-pilot.mjs --self-test`
