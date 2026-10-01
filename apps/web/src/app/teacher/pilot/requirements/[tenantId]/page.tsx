@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { getPartnerPilotRequirementsIntake } from "@/data/samplePartnerPilotRequirementsIntake";
 import { PartnerPilotRequirementsIntakePanel } from "@/features/pilot/PartnerPilotRequirementsIntakePanel";
 import { TenantPilotRequirementsEmptyStatePanel } from "@/features/pilot/TenantPilotRequirementsEmptyStatePanel";
+import { PublisherPilotInputKitPanel } from "@/features/pilot/PublisherPilotInputKitPanel";
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 
 export default async function TeacherPilotRequirementsPage({
@@ -40,6 +41,8 @@ export default async function TeacherPilotRequirementsPage({
             </a>
           </div>
         </section>
+
+        <PublisherPilotInputKitPanel tenantId={tenant.id} tenantName={tenant.displayName} />
 
         {intake ? (
           <PartnerPilotRequirementsIntakePanel intake={intake} />
