@@ -101,6 +101,11 @@ preview identities. This advances mapping evidence only; production printing
 still requires release approval, rollback evidence, registry deployment, and
 explicit human authorization.
 
+The Sample Publisher package preview now consumes those structured QR
+identities through a fail-closed adapter. Tenant, package, and version drift
+blocks the mapping, and the adapted entries remain draft-only and print
+blocked. This is provenance continuity, not production QR evidence.
+
 ## Current Handoff Evidence Boundary
 
 The live publisher handoff now exposes a versioned metadata-only handoff

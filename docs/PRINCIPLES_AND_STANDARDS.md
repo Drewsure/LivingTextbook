@@ -9976,6 +9976,19 @@ This standard is recorded in DR-1387 and ADR 1387.
 
 This standard is recorded in DR-1388 and ADR 1388.
 
+## 633. Package QR Review Must Consume The Intake QR Contract
+
+- The package-preview QR list must be derived from the structured publisher
+  intake preview rather than maintained as a second hand-authored list.
+- The adapter must preserve printed QR identity, stable alias, and package
+  fallback while rejecting tenant, package, or version drift.
+- Adaptation is provenance mapping only. It must not write a registry,
+  authorize printing, mutate routes, activate persistence, or enable students.
+- Any future package writer or QR registry writer must consume the later,
+  separately approved custody records rather than this preview adapter.
+
+This standard is recorded in DR-1389 and ADR 1389.
+
 ## 632. QR References Must Be Structured Before Print Review
 
 - Publisher intake must identify each QR by page reference, unit, activity,

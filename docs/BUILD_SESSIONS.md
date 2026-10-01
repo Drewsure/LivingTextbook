@@ -8003,3 +8003,15 @@ fallback preview in the Sample Publisher review workspace. The preview is
 print-blocked, route-mutation-blocked, student-blocked, and side-effect-free;
 durable registry, rollback, release, and human print authorization remain
 separate gates.
+
+## Build session: Bridge structured QR preview into package review
+
+Added a fail-closed adapter from the publisher upload QR preview to the
+canonical package-preview QR shape. The adapter preserves the printed QR id,
+stable alias, and package-bound local fallback while requiring tenant, package,
+and version identity to match. The Sample Publisher package preview now uses
+this adapter instead of maintaining a second hand-authored QR list.
+
+The adapter is evidence mapping only. It does not write a registry, authorize
+printing, mutate routes, activate persistence, or enable student use. Recorded
+under ADR 1389 / DR-1389.

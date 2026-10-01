@@ -1,9 +1,11 @@
 import {
+  createPublisherPilotPackageQrPreviewsFromIntakePreview,
   validatePublisherPilotPackagePreview,
   validatePublisherPilotPackageReadinessBinding,
   type PublisherPilotPackagePreview,
 } from "@living-textbook/content-model";
 import { samplePackageReadinessReconciliations } from "@/data/samplePackageReadinessReconciliation";
+import { samplePublisherPilotQrPreview } from "@/data/samplePublisherPilotQrPreview";
 
 const samplePublisherReadinessReconciliation = samplePackageReadinessReconciliations.find(
   (reconciliation) => reconciliation.tenantId === "sample-publisher",
@@ -104,26 +106,11 @@ export const samplePublisherPilotPackagePreview: PublisherPilotPackagePreview = 
       studentFacingAllowed: false,
     },
   ],
-  qrPreviews: [
-    {
-      printedQrId: "qr-sample-publisher-starter-l1-u1-hello",
-      aliasPath: "/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0",
-      fallbackPath: "/enter/sample-publisher",
-      targetLabel: "Unit 1 front door",
-      deploymentTargets: ["hosted-route", "local-bundle", "hybrid"],
-      status: "draft-only",
-      printAllowed: false,
-    },
-    {
-      printedQrId: "qr-sample-publisher-starter-l1-u1-activity",
-      aliasPath: "/q/tenant/sample-publisher/series/starter-english/book/level-1/unit/unit-1/activity/hello-friends/language/en/edition/2026/version/1.0.0/activity-hub",
-      fallbackPath: "/activities/partner-demo-unit-1",
-      targetLabel: "Unit 1 activity hub",
-      deploymentTargets: ["hosted-route", "hybrid"],
-      status: "blocked",
-      printAllowed: false,
-    },
-  ],
+  qrPreviews: createPublisherPilotPackageQrPreviewsFromIntakePreview(samplePublisherPilotQrPreview, {
+    tenantId: "sample-publisher",
+    packageId: "sample-publisher-l1-u1-routines-package",
+    version: "2026.1-review-preview",
+  }),
   blockedActions: [
     "No package archive export",
     "No production QR print authorization",
