@@ -6,6 +6,15 @@ export interface PilotQrPrintArtifactEntry {
   svgChecksum: string;
 }
 
+export interface PilotQrPrintProfile {
+  pageSize: "A4";
+  orientation: "portrait";
+  cardsPerRow: 2;
+  qrPixelWidth: 260;
+  quietZoneModules: 2;
+  colorMode: "monochrome";
+}
+
 export interface PilotQrPrintArtifact {
   artifactVersion: 1;
   artifactId: string;
@@ -17,6 +26,7 @@ export interface PilotQrPrintArtifact {
   sourceAssemblyChecksum: string;
   baseUrl: string;
   htmlChecksum: string;
+  printProfile: PilotQrPrintProfile;
   printAuthorized: true;
   entries: PilotQrPrintArtifactEntry[];
   sideEffect: "local-package-assembly";
@@ -36,6 +46,17 @@ export function validatePilotQrPrintArtifact(value: unknown): string[] {
   if (!isSha256(value.sourceAssemblyChecksum)) errors.push("Pilot QR print artifact sourceAssemblyChecksum must be sha256:<64 hexadecimal characters>.");
   if (!isSha256(value.htmlChecksum)) errors.push("Pilot QR print artifact htmlChecksum must be sha256:<64 hexadecimal characters>.");
   if (!isHttpUrl(value.baseUrl)) errors.push("Pilot QR print artifact baseUrl must be an absolute http or https URL without credentials, query, or fragment.");
+  const printProfile = value.printProfile;
+  if (!isRecord(printProfile)) {
+    errors.push("Pilot QR print artifact printProfile must be present.");
+  } else {
+    if (printProfile.pageSize !== "A4") errors.push("Pilot QR print artifact printProfile pageSize must be A4.");
+    if (printProfile.orientation !== "portrait") errors.push("Pilot QR print artifact printProfile orientation must be portrait.");
+    if (printProfile.cardsPerRow !== 2) errors.push("Pilot QR print artifact printProfile cardsPerRow must be 2.");
+    if (printProfile.qrPixelWidth !== 260) errors.push("Pilot QR print artifact printProfile qrPixelWidth must be 260.");
+    if (printProfile.quietZoneModules !== 2) errors.push("Pilot QR print artifact printProfile quietZoneModules must be 2.");
+    if (printProfile.colorMode !== "monochrome") errors.push("Pilot QR print artifact printProfile colorMode must be monochrome.");
+  }
   if (value.printAuthorized !== true) errors.push("Pilot QR print artifact must preserve explicit print authorization.");
   if (value.sideEffect !== "local-package-assembly") errors.push("Pilot QR print artifact sideEffect must be local-package-assembly.");
   if (!Array.isArray(value.entries) || value.entries.length === 0) {

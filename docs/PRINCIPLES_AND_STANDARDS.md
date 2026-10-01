@@ -9714,4 +9714,22 @@ This standard is recorded in DR-1367 and ADR 1367.
 - Readiness verification must continue to report secret names only; fixture
   secrets are test values and must never appear in output or snapshots.
 
+## 612. Printed QR Artifacts Need A Reproducible Physical Profile
+
+- A reviewed QR print artifact must declare its physical print profile alongside
+  its route, package, checksum, and alias identity.
+- The v1 profile is deliberately fixed: A4 portrait, two cards per row,
+  monochrome output, a 260px QR rendering, and a two-module quiet zone.
+- The generated HTML, embedded SVG, and machine-readable print manifest must
+  agree with the same profile. A metadata-only claim is not enough for a
+  publisher handoff.
+- Tenant-specific paper sizes, card grids, and branding profiles may be added
+  later as reviewed white-label configuration. They must be versioned and
+  validated rather than silently changing the v1 artifact geometry.
+- A print profile does not authorize release, alias mutation, hosted
+  persistence, student use, or learner-record writes. Those gates remain
+  separate and fail closed.
+
+This standard is recorded in DR-1369 and ADR 1369.
+
 This standard is recorded in DR-1368 and ADR 1368.

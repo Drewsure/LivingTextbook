@@ -7797,3 +7797,16 @@ that root to the fixture and operator documentation, then reran the full
 foundation suite successfully across the publisher rehearsal, 96 routes,
 production build, persistence/runtime checks, and language/audio gates.
 Recorded ADR 1368 / DR-1368.
+
+## Build session: Bind a deterministic physical QR print profile
+
+The local package assembler already generated identity-bound QR SVG and HTML,
+but the reviewed artifact did not declare the physical print geometry. Added a
+shared v1 profile for A4 portrait sheets, two cards per row, 260px monochrome
+QR output, and a two-module quiet zone. The assembler now binds the manifest,
+SVG generation, and print CSS to that profile, and the behavior harness checks
+the machine-readable/HTML agreement.
+
+Tenant-specific profiles remain a later versioned white-label decision. This
+slice does not authorize printing, alias mutation, package release, hosted
+persistence, learner records, or student use. Recorded ADR 1369 / DR-1369.

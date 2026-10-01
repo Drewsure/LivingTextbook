@@ -87,12 +87,16 @@ try {
     assert(qrManifest.printAuthorized === true, "QR print manifest must preserve print authorization");
     assert(typeof qrManifest.artifactId === "string" && qrManifest.artifactId.includes("manifest-one"), "QR print manifest must preserve deterministic artifact identity");
     assert(qrManifest.sourceAssemblyChecksum === input.manifest.sourceAssemblyChecksum, "QR print manifest must preserve source checksum identity");
+    assert(qrManifest.printProfile?.pageSize === "A4" && qrManifest.printProfile?.orientation === "portrait", "QR print manifest must declare the approved A4 portrait profile");
+    assert(qrManifest.printProfile?.cardsPerRow === 2 && qrManifest.printProfile?.qrPixelWidth === 260 && qrManifest.printProfile?.quietZoneModules === 2, "QR print manifest must declare deterministic card geometry and quiet zone");
+    assert(qrManifest.printProfile?.colorMode === "monochrome", "QR print manifest must declare the monochrome print profile");
     assert(qrManifest.entries.length === 1, "QR print manifest must contain the approved route count");
     assert(qrManifest.entries[0].encodedUrl === "https://pilot.example.test/q/tenant-one/unit-one", "QR print URL must use the configured safe base URL");
     assert(qrManifest.entries[0].fallbackPath === "/local/package/tenant-one/package-one/1.0.0/front-door/unit-1", "QR print entry must use the resolved package-local fallback path");
     assert(qrManifest.entries[0].svg.includes("<svg"), "QR print manifest must contain generated SVG evidence");
     const qrHtml = readFileSync(join(assembledDirectory, "metadata/qr-print-sheet.html"), "utf8");
     assert(qrHtml.includes("https://pilot.example.test/q/tenant-one/unit-one") && qrHtml.includes("<svg"), "printable QR HTML must contain the approved alias and SVG");
+    assert(qrHtml.includes("@page{size:A4 portrait") && qrHtml.includes("width:260px;height:260px"), "printable QR HTML must bind the approved paper and QR geometry profile");
     assert(typeof qrManifest.htmlChecksum === "string" && qrManifest.htmlChecksum === "sha256:" + createHash("sha256").update(qrHtml).digest("hex"), "QR print manifest must bind the printable HTML checksum");
     const printSheet = await readLocalPilotPackageQrPrintSheet({ tenantId: "tenant-one", packageId: "package-one", version: "1.0.0" });
     assert(printSheet.status === "available" && printSheet.html === qrHtml, "verified QR print sheet must be readable only through the gated runtime reader");

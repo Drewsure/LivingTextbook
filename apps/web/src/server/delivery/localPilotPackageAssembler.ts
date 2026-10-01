@@ -390,6 +390,14 @@ async function createQrPrintSheet(input: LocalPilotPackageAssemblyInput, baseUrl
     sourceAssemblyChecksum: input.manifest.sourceAssemblyChecksum,
     baseUrl,
     htmlChecksum: "sha256:pending",
+    printProfile: {
+      pageSize: "A4",
+      orientation: "portrait",
+      cardsPerRow: 2,
+      qrPixelWidth: 260,
+      quietZoneModules: 2,
+      colorMode: "monochrome",
+    },
     printAuthorized: true,
     entries,
     sideEffect: "local-package-assembly",
@@ -405,7 +413,7 @@ async function createQrPrintSheet(input: LocalPilotPackageAssemblyInput, baseUrl
   ].join("")).join("\n");
   const html = "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>" +
     htmlEscape(input.manifest.packageId + " QR print sheet " + input.manifest.version) +
-    "</title><style>body{font-family:Arial,sans-serif;margin:24px;color:#111}h1{font-size:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.qr-card{break-inside:avoid;border:1px solid #bbb;padding:18px}.qr{text-align:center;background:#fff;padding:8px}.qr svg{max-width:260px;width:100%;height:auto}.url,.fallback{font:12px monospace;overflow-wrap:anywhere}@media print{body{margin:10mm}.grid{gap:10mm}.qr-card{border-color:#888}}</style></head><body><h1>Living Textbook QR print sheet</h1><p>Package: " +
+    "</title><style>@page{size:A4 portrait;margin:10mm}body{font-family:Arial,sans-serif;margin:24px;color:#111}h1{font-size:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.qr-card{break-inside:avoid;border:1px solid #bbb;padding:18px}.qr{text-align:center;background:#fff;padding:8px}.qr svg{display:block;max-width:260px;width:260px;height:260px;margin:0 auto}.url,.fallback{font:12px monospace;overflow-wrap:anywhere}@media print{body{margin:0}.grid{gap:10mm}.qr-card{border-color:#888}}</style></head><body><h1>Living Textbook QR print sheet</h1><p>Package: " +
     htmlEscape(input.manifest.packageId) + " | Version: " + htmlEscape(input.manifest.version) + "</p><div class=\"grid\">" + htmlEntries + "</div></body></html>";
   manifest.htmlChecksum = "sha256:" + createHash("sha256").update(html).digest("hex");
   return { manifest, html };
