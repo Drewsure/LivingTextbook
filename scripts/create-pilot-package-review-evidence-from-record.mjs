@@ -98,6 +98,14 @@ async function runSelfTest() {
     if (result.status !== 0 || !result.stdout.includes('"reviewOnly": true')) fail(`bridge self-test failed: ${result.stderr || result.stdout}`);
     const overwrite = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", outputPath, "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
     if (overwrite.status === 0 || !overwrite.stderr.includes("Refusing to overwrite")) fail("bridge self-test allowed an overwrite.");
+    await writeFile(reviewPath, JSON.stringify({ status: "reviewed-package-evidence", tenantId: "self-test", packageId: "self-test-package", reviewId: "review-1", reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", sourceChecksumSha256: "c".repeat(64), reviewedLanes: ["content"], evidenceReferences: [{ lane: "content", referenceId: "content-review" }] }));
+    const checksumDrift = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "checksum-drift.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
+    if (checksumDrift.status === 0 || !checksumDrift.stderr.includes("source checksum must match")) fail("bridge self-test allowed source checksum drift.");
+    const incomplete = JSON.parse(await readFile(reviewPath, "utf8"));
+    incomplete.status = "incomplete";
+    await writeFile(reviewPath, JSON.stringify(incomplete));
+    const incompleteReview = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "incomplete-review.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
+    if (incompleteReview.status === 0 || !incompleteReview.stderr.includes("must be complete")) fail("bridge self-test allowed an incomplete package review.");
     console.log("PASS package review evidence bridge derives checksum-bound external metadata without activation.");
   } finally {
     rmSync(directory, { recursive: true, force: true });
