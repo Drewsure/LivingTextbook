@@ -7835,3 +7835,11 @@ The publisher manifest starter now declares MIME types rather than file
 extensions, and the source preflight recognizes DOCX and WEBP in the same
 lanes. Its self-test creates a temporary multi-media source folder, generates
 the manifest, and runs the real preflight against it. Recorded ADR 1372 / DR-1372.
+
+## Build session: Expose the publisher intake starter in the workspace
+
+Added a tenant-scoped starter panel to both the reference and empty publisher
+upload workspaces. It presents the safe PowerShell declaration command, the
+expected Unit 1 media lanes, the next preflight action, and the protected
+actions that remain blocked. Active-route verification now guards those
+markers. Recorded ADR 1373 / DR-1373.

@@ -9778,3 +9778,18 @@ This standard is recorded in DR-1371 and ADR 1371.
   review, package readiness, release authorization, or student-facing use.
 
 This standard is recorded in DR-1372 and ADR 1372.
+
+## 616. Publisher Intake Must Expose The First Safe Next Step
+
+- The white-label teacher workspace must show a publisher how to create the
+  review-only source declaration, place files at declared paths, and run the
+  source preflight without requiring hidden engineering knowledge.
+- The starter view must identify the declaration it creates, the next
+  preflight action, and the actions that remain blocked.
+- A visible starter is an operator aid only. It must not imply that a file was
+  uploaded, that rights or accessibility were accepted, or that package,
+  release, QR, persistence, or student gates have advanced.
+- Route verification must check the starter markers on both the reference
+  publisher tenant and the empty white-label tenant workspace.
+
+This standard is recorded in DR-1373 and ADR 1373.

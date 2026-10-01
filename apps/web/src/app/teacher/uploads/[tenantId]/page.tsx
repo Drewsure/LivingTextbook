@@ -14,6 +14,7 @@ import { TenantUploadWorkspaceEmptyStatePanel } from "@/features/content-intake/
 import { resolveTenantConfig } from "@/features/tenant/tenantResolver";
 import { createPublisherSubmissionManifestTemplate } from "@/data/publisherSubmissionManifest";
 import { PublisherSubmissionManifestPanel } from "@/features/content-intake/PublisherSubmissionManifestPanel";
+import { PublisherSourceManifestStarterPanel } from "@/features/content-intake/PublisherSourceManifestStarterPanel";
 import { PublisherSubmissionReviewHandoffPanel } from "@/features/content-intake/PublisherSubmissionReviewHandoffPanel";
 import {
   createPublisherSubmissionReviewHandoffPreview,
@@ -62,6 +63,7 @@ export default async function TeacherUploadWorkspacePage({
   return (
     <AppShell tenant={tenant}>
       <PublisherSubmissionManifestPanel manifest={submissionManifest} />
+      <PublisherSourceManifestStarterPanel manifest={submissionManifest} />
       <PublisherSubmissionReviewHandoffPanel handoff={submissionReviewHandoff} validationErrors={submissionReviewHandoffErrors} />
       <PublisherSubmissionPackageEvidenceReconciliationPanel reconciliation={packageEvidenceReconciliation} validationErrors={packageEvidenceReconciliationErrors} />
       <PublisherSubmissionPackageReviewJourneyPanel journey={packageReviewJourney} validationErrors={packageReviewJourneyErrors} />
