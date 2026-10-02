@@ -10916,3 +10916,6 @@ replacement, scoring mutation, persistence ownership, promotion, or student
 assignment. Keyboard navigation, focus management, and reduced-motion support
 remain wrapper review requirements. See
 `docs/decision-register/DR-1441-memory-match-evidence-admission.md`.
+## DR-1442: Memory Match Wrapper Bridge Review
+
+Returned Z.ai Memory Match evidence is now represented by a blocked, platform-owned wrapper bridge. The bridge records canonical scoring, event, accessibility, and Codex-decision requirements without importing or promoting Phaser source. See `docs/decision-register/DR-1442-memory-match-wrapper-bridge-review.md`.

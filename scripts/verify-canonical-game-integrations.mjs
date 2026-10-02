@@ -274,6 +274,26 @@ const standardEventTypes = [
 ];
 
 const failures = [];
+const wrapperBridgeSources = [
+  readText("packages/content-model/src/phaserCandidateWrapperBridge.ts"),
+  readText("apps/web/src/data/sampleMemoryMatchWrapperBridge.ts"),
+  readText("apps/web/src/features/game-offers/MemoryMatchWrapperBridgePanel.tsx"),
+];
+for (const marker of [
+  "PhaserCandidateWrapperBridge",
+  "pairing-reinforcement-v1",
+  "memory-match-v1",
+  "No direct source import",
+  "status: \"blocked\"",
+  "keyboard navigation",
+]) {
+  if (!wrapperBridgeSources.some((source) => source.includes(marker))) {
+    failures.push(`Memory Match wrapper bridge: missing ${marker}`);
+  }
+}
+if ((wrapperBridgeSources[1].match(/checkId: \"/g) ?? []).length !== 8) {
+  failures.push("Memory Match wrapper bridge must expose eight admission checks.");
+}
 
 for (const integration of integrations) {
   const component = readText(integration.component);

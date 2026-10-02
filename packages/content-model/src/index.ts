@@ -1875,6 +1875,7 @@ export * from "./phaserCandidateIntegrationEligibility";
 export * from "./phaserCandidateEvidenceReturnPacket";
 export * from "./phaserCandidateEvidenceAdjudication";
 export * from "./phaserCandidateSourceIdentity";
+export * from "./phaserCandidateWrapperBridge";
 export * from "./whiteLabelReleaseReadiness";
 export * from "./browserRehearsalObservation";
 export * from "./browserRehearsalObservationHandoff";
