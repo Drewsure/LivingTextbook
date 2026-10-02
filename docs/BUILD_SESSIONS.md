@@ -8495,3 +8495,8 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Kept the check read-only and independent of publisher evidence or extraction
   actions.
 - Added ADR 1440, DR-1440, and standard 682.
+## Build session: First saleable pilot audit reaches waiting-human
+
+- Refreshed the source-bound production build proof after the Memory Match wrapper evidence gate.
+- Confirmed production-build, operator-handoff, and foundation-contract checks pass.
+- Recorded the remaining publisher, delivery, rights, release, QR, checksum, and corrected Z.ai evidence gates under ADR 1443 / DR-1443.

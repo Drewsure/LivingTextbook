@@ -10919,3 +10919,6 @@ remain wrapper review requirements. See
 ## DR-1442: Memory Match Wrapper Bridge Review
 
 Returned Z.ai Memory Match evidence is now represented by a blocked, platform-owned wrapper bridge. The bridge records canonical scoring, event, accessibility, and Codex-decision requirements without importing or promoting Phaser source. See `docs/decision-register/DR-1442-memory-match-wrapper-bridge-review.md`.
+## DR-1443: First Saleable Pilot Audit Waiting-Human State
+
+The pilot audit is now `waiting-human` after source-bound build proof, operator-handoff, and foundation-contract checks pass. Publisher source, rights, delivery, package-review, release, QR, checksum, and corrected Z.ai evidence remain human gates. See `docs/decision-register/DR-1443-pilot-audit-waiting-human.md`.
