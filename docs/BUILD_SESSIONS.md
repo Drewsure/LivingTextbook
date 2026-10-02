@@ -8355,3 +8355,10 @@ publisher intake-kit generator. Publishers can now declare a bounded target
 language and choose hosted PWA, closed-local, or hybrid delivery. Hosted
 persistence remains a separate explicit opt-in and is rejected for closed-local
 delivery. Recorded under ADR 1427 / DR-1427.
+
+## Build session: Revalidate edited intake policy
+
+Strengthened the external publisher preflight so manually edited briefs cannot
+bypass bounded language ids, duplicate support-language rules, delivery-mode
+validation, or the closed-local hosted-persistence prohibition. The check stays
+review-only and metadata-only. Recorded under ADR 1428 / DR-1428.

@@ -98,10 +98,11 @@ function parseSupportLanguages(value) {
     .map((language) => language.trim())
     .filter(Boolean);
   const unique = [...new Set(languages)];
-  if (unique.some((language) => !/^[A-Za-z0-9][A-Za-z0-9-]{1,19}$/.test(language))) {
+  const normalized = unique.map((language) => language.toLowerCase());
+  if (normalized.some((language) => !/^[A-Za-z0-9][A-Za-z0-9-]{1,19}$/.test(language))) {
     fail(`Unsupported support-language id: ${value}`);
   }
-  return unique;
+  return normalized;
 }
 
 function parseLanguageId(value, label) {

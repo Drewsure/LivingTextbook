@@ -10441,3 +10441,15 @@ This standard is recorded in DR-1426 and ADR 1426.
   package, QR, persistence, release, or student-use gates.
 
 This standard is recorded in DR-1427 and ADR 1427.
+
+## 670. External Intake Must Revalidate Edited Policy
+
+- The external publisher preflight must independently revalidate target
+  language, support-language ids, delivery mode, and hosted-persistence policy
+  after the generated brief is edited.
+- Duplicate support-language ids and hosted persistence requested for
+  closed-local delivery must remain incomplete.
+- Revalidation remains metadata-only and cannot authorize upload, assembly, QR
+  printing, persistence activation, or student use.
+
+This standard is recorded in DR-1428 and ADR 1428.

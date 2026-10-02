@@ -10797,3 +10797,11 @@ choices while preserving reference defaults. Hosted persistence requires a
 separate opt-in and is incompatible with closed-local delivery; all choices
 remain review-only until the independent release gates pass. See ADR 1427 and
 `docs/decision-register/DR-1427-explicit-publisher-language-and-delivery.md`.
+
+## DR-1428: Revalidate Edited Intake Policy
+
+The publisher intake preflight independently rechecks language ids, support
+language duplicates, delivery mode, and hosted-persistence policy after an
+external brief is edited. Invalid policy remains incomplete and cannot enable
+any protected action. See ADR 1428 and
+`docs/decision-register/DR-1428-revalidate-edited-intake-policy.md`.

@@ -55,6 +55,11 @@ has separately approved hosted storage, retention, backup, cost, and reporting
 policy. The flag is rejected for `closed-local` delivery and all generated
 kits remain review-only.
 
+The intake preflight independently rechecks these language and delivery fields
+after generation. If a publisher edits the JSON manually, malformed language
+ids, duplicate support languages, unsupported delivery modes, or an invalid
+closed-local hosted opt-in keep the inventory incomplete.
+
 The kit also creates an `evidence` folder with structured declarations for
 rights, accessibility/captions, and scan evidence. These declarations are
 inventory inputs only; they do not assert that the evidence is valid or

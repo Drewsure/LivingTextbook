@@ -57,6 +57,9 @@ export interface PublisherPilotIntakeBrief {
   studentFacingUseAllowed: false;
 }
 
+const languageIdPattern = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
+const supportLanguageIdPattern = /^[A-Za-z0-9][A-Za-z0-9-]{1,19}$/;
+
 export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBrief): string[] {
   const errors: string[] = [];
   if (brief.recordVersion !== 1) errors.push("recordVersion must be 1.");
@@ -69,6 +72,13 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
 
   if (!Array.isArray(brief.supportLanguages) || brief.supportLanguages.some((language) => !language.trim())) {
     errors.push("supportLanguages must contain only non-blank language ids.");
+  }
+  if (!languageIdPattern.test(brief.targetLanguage)) errors.push("targetLanguage must be a bounded language id.");
+  if (Array.isArray(brief.supportLanguages) && brief.supportLanguages.some((language) => !supportLanguageIdPattern.test(language))) {
+    errors.push("supportLanguages must contain bounded language ids.");
+  }
+  if (Array.isArray(brief.supportLanguages) && new Set(brief.supportLanguages.map((language) => language.toLowerCase())).size !== brief.supportLanguages.length) {
+    errors.push("supportLanguages must not contain duplicate ids.");
   }
   if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) errors.push("At least one source file is required.");
   if (!Array.isArray(brief.qrPageReferences) || brief.qrPageReferences.length === 0) errors.push("At least one QR page reference is required.");

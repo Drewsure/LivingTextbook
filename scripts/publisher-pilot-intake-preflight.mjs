@@ -58,6 +58,12 @@ if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) structu
 if (!Array.isArray(brief.mediaRequests) || brief.mediaRequests.length === 0) structuralErrors.push("At least one media request is required.");
 if (!Array.isArray(brief.evidenceRequests) || brief.evidenceRequests.length === 0) structuralErrors.push("At least one structured evidence request is required.");
 if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) structuralErrors.push("At least one structured QR reference is required.");
+if (typeof brief.targetLanguage !== "string" || !/^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(brief.targetLanguage)) structuralErrors.push("targetLanguage must be a bounded language id.");
+if (!Array.isArray(brief.supportLanguages) || brief.supportLanguages.some((language) => typeof language !== "string" || !/^[A-Za-z0-9][A-Za-z0-9-]{1,19}$/.test(language))) structuralErrors.push("supportLanguages must contain bounded language ids.");
+if (Array.isArray(brief.supportLanguages) && new Set(brief.supportLanguages.map((language) => language.toLowerCase())).size !== brief.supportLanguages.length) structuralErrors.push("supportLanguages must not contain duplicate ids.");
+if (!["hosted-pwa", "closed-local", "hybrid"].includes(brief.deliveryMode)) structuralErrors.push("deliveryMode is unsupported.");
+if (typeof brief.hostedPersistenceOptIn !== "boolean") structuralErrors.push("hostedPersistenceOptIn must be boolean.");
+if (brief.hostedPersistenceOptIn === true && brief.deliveryMode === "closed-local") structuralErrors.push("closed-local delivery cannot opt in to hosted persistence.");
 
 const result = {
   reportVersion: 1,
@@ -139,7 +145,15 @@ async function runSelfTest() {
     if (exported.status !== 0 || !exported.stdout.includes("Evidence report written once") || !exported.stdout.includes('"inventoryStatus": "complete"')) fail(`preflight evidence export self-test failed: ${exported.stderr || exported.stdout}`);
     const overwrite = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--output", outputPath], { encoding: "utf8" });
     if (overwrite.status === 0) fail("preflight evidence export self-test allowed an overwrite.");
-    console.log("PASS publisher pilot intake preflight detects placeholders, unsafe paths, missing files, complete inventory, and create-once evidence export.");
+    const duplicateLanguageBrief = { ...brief, supportLanguages: ["ja", "JA"] };
+    await writeFile(briefPath, `${JSON.stringify(duplicateLanguageBrief, null, 2)}\n`, "utf8");
+    const duplicateLanguage = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root], { encoding: "utf8" });
+    if (duplicateLanguage.status === 0 || !duplicateLanguage.stdout.includes("supportLanguages must not contain duplicate ids")) fail("preflight self-test allowed duplicate support-language ids");
+    const invalidHostedBrief = { ...brief, deliveryMode: "closed-local", hostedPersistenceOptIn: true };
+    await writeFile(briefPath, `${JSON.stringify(invalidHostedBrief, null, 2)}\n`, "utf8");
+    const invalidHosted = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root], { encoding: "utf8" });
+    if (invalidHosted.status === 0 || !invalidHosted.stdout.includes("closed-local delivery cannot opt in")) fail("preflight self-test allowed hosted persistence for closed-local delivery");
+    console.log("PASS publisher pilot intake preflight detects placeholders, unsafe paths, missing files, complete inventory, edited language/delivery policy, and create-once evidence export.");
   } finally {
     await rm(root, { recursive: true, force: true });
   }
