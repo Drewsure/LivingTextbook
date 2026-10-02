@@ -134,7 +134,7 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <pre className="whitespace-pre-wrap font-mono">{revisionCommand}</pre>
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <Boundary label="Copies" value="Brief and declared review inputs" />
+          <Boundary label="Creates" value="New folder + evidence/publisher-handoff-revision.json" />
           <Boundary label="Excludes" value="Old manifests and preflight reports" />
           <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
         </div>
