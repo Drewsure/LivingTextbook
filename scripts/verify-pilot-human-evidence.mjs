@@ -95,6 +95,7 @@ function validatePolicy(value) {
   requireSafeIdentity(value.unitKey, "Delivery policy unitKey");
   requireOneOf(value.mode, ["hosted", "closed-local", "hybrid"], "Delivery policy mode");
   requireBoolean(value.hostedPersistenceOptIn, "Delivery policy hostedPersistenceOptIn");
+  if (value.mode === "closed-local" && value.hostedPersistenceOptIn === true) errors.push("Delivery policy closed-local delivery cannot opt in to hosted persistence.");
   requireText(value.policyVersion, "Delivery policy policyVersion");
   requireSafeIdentity(value.reviewerId, "Delivery policy reviewerId");
   requireTimestamp(value.approvedAt, "Delivery policy approvedAt");
@@ -112,6 +113,7 @@ function validateRelease(value) {
   requireSafeIdentity(value.unitKey, "Release authorization unitKey");
   requireOneOf(value.mode, ["hosted", "closed-local", "hybrid"], "Release authorization mode");
   requireBoolean(value.hostedPersistenceOptIn, "Release authorization hostedPersistenceOptIn");
+  if (value.mode === "closed-local" && value.hostedPersistenceOptIn === true) errors.push("Release authorization closed-local delivery cannot opt in to hosted persistence.");
   requireSafeIdentity(value.reviewerId, "Release authorization reviewerId");
   requireTimestamp(value.approvedAt, "Release authorization approvedAt");
   requireOneOf(value.qrPrintAuthorization, ["approved"], "Release authorization qrPrintAuthorization");

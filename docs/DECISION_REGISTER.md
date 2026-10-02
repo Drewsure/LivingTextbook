@@ -10805,3 +10805,11 @@ language duplicates, delivery mode, and hosted-persistence policy after an
 external brief is edited. Invalid policy remains incomplete and cannot enable
 any protected action. See ADR 1428 and
 `docs/decision-register/DR-1428-revalidate-edited-intake-policy.md`.
+
+## DR-1429: Align Human Delivery Evidence With Intake Modes
+
+The human evidence generator now accepts the same delivery choices as the
+publisher intake and normalizes `hosted-pwa` to canonical `hosted` evidence.
+Hosted persistence opt-in is preserved across policy and release records, and
+closed-local contradictions remain blocked. See ADR 1429 and
+`docs/decision-register/DR-1429-align-human-delivery-evidence.md`.

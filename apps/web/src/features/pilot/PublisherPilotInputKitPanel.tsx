@@ -48,7 +48,8 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --root \"D:\\PublisherPilotReview\\human-evidence\" `",
     `  --tenant-id \"${tenantId}\" `,
     "  --package-id \"<reviewed-package-id>\" `",
-    "  --unit-key \"series:book:L1:U1\"",
+    "  --unit-key \"series:book:L1:U1\" `",
+    "  --delivery-mode \"hybrid\"",
   ].join("\n");
   const packageReviewEvidenceCommand = [
     "node scripts/verify-pilot-package-review-evidence.mjs `",

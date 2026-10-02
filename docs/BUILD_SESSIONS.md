@@ -8362,3 +8362,10 @@ Strengthened the external publisher preflight so manually edited briefs cannot
 bypass bounded language ids, duplicate support-language rules, delivery-mode
 validation, or the closed-local hosted-persistence prohibition. The check stays
 review-only and metadata-only. Recorded under ADR 1428 / DR-1428.
+
+## Build session: Align human delivery evidence with intake modes
+
+Aligned the external human evidence generator with publisher-facing delivery
+choices. Hosted PWA now normalizes to the canonical hosted evidence value, the
+explicit persistence opt-in is preserved across policy and release drafts, and
+closed-local contradictions are rejected. Recorded under ADR 1429 / DR-1429.

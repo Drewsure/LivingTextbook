@@ -27,12 +27,18 @@ npm run create:pilot-human-evidence -- `
   --root "D:\PublisherPilotReview\human-evidence" `
   --tenant-id "publisher-name" `
   --package-id "publisher-name-l1-u1-package" `
-  --unit-key "series:book:L1:U1"
+  --unit-key "series:book:L1:U1" `
+  --delivery-mode "hybrid"
 ```
 
 The generator intentionally writes `draft` status and `REPLACE_WITH_*`
 placeholders. That output is not evidence until a named adult or policy owner
 completes and reviews it. Existing records are never overwritten.
+
+Use `--delivery-mode hosted-pwa` when the publisher's hosted PWA policy is the
+selected path; the human evidence records normalize that name to `hosted`.
+Add `--hosted-persistence-opt-in` only when hosted storage has separate school
+approval. The flag is rejected for `closed-local` delivery.
 
 Run the validator before using the saleability audit:
 

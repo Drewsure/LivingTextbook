@@ -10453,3 +10453,14 @@ This standard is recorded in DR-1427 and ADR 1427.
   printing, persistence activation, or student use.
 
 This standard is recorded in DR-1428 and ADR 1428.
+
+## 671. Human Delivery Evidence Must Match Intake Naming
+
+- Human evidence generation must accept the publisher-facing delivery choices
+  and normalize `hosted-pwa` to the canonical evidence value `hosted`.
+- The hosted-persistence opt-in must be copied consistently into delivery
+  policy and release authorization records.
+- Contradictory closed-local hosted opt-ins must remain blocked in generation
+  and validation.
+
+This standard is recorded in DR-1429 and ADR 1429.

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
-  console.log("Usage: node scripts/create-pilot-human-evidence-packet.mjs --root <external-folder> --tenant-id <id> --package-id <id> --unit-key <key>");
+  console.log("Usage: node scripts/create-pilot-human-evidence-packet.mjs --root <external-folder> --tenant-id <id> --package-id <id> --unit-key <key> [--delivery-mode hosted-pwa|closed-local|hybrid] [--hosted-persistence-opt-in]");
   process.exit(0);
 }
 if (options.selfTest) {
@@ -39,8 +39,8 @@ const identity = {
   tenantId: options.tenantId,
   packageId: options.packageId,
   unitKey: options.unitKey,
-  mode: "REPLACE_WITH_MODE",
-  hostedPersistenceOptIn: false,
+  mode: normalizeDeliveryMode(options.deliveryMode),
+  hostedPersistenceOptIn: options.hostedPersistenceOptIn,
 };
 const policy = {
   recordVersion: 1,
@@ -95,22 +95,32 @@ await writeFile(join(root, "README.md"), createReadme(identity), { encoding: "ut
 console.log(JSON.stringify({ root, policyPath, releasePath, packageReviewPath, reviewOnly: true, writesEnabled: false, studentActivationAllowed: false }, null, 2));
 
 function createReadme(identity) {
-  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nReplace every REPLACE_WITH_* value, choose the delivery mode, and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
+  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nDeclared delivery mode: **${identity.mode}**. Hosted persistence opt-in: **${identity.hostedPersistenceOptIn ? "requested for review" : "not requested"}**.\n\nReplace every REPLACE_WITH_* value and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
 }
 
 function parseArguments(args) {
-  const result = { root: "", tenantId: "", packageId: "", unitKey: "", help: false, selfTest: false };
+  const result = { root: "", tenantId: "", packageId: "", unitKey: "", deliveryMode: "hybrid", hostedPersistenceOptIn: false, help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--root") result.root = args[++index] ?? "";
     else if (arg === "--tenant-id") result.tenantId = args[++index] ?? "";
     else if (arg === "--package-id") result.packageId = args[++index] ?? "";
     else if (arg === "--unit-key") result.unitKey = args[++index] ?? "";
+    else if (arg === "--delivery-mode") result.deliveryMode = args[++index] ?? "";
+    else if (arg === "--hosted-persistence-opt-in") result.hostedPersistenceOptIn = true;
     else if (arg === "--self-test") result.selfTest = true;
     else if (arg === "--help" || arg === "-h") result.help = true;
     else fail(`Unknown argument: ${arg}`);
   }
   return result;
+}
+
+function normalizeDeliveryMode(value) {
+  const normalized = String(value || "hybrid").trim().toLowerCase();
+  if (!["hosted-pwa", "hosted", "closed-local", "hybrid"].includes(normalized)) fail(`Unsupported delivery-mode: ${value}`);
+  if (normalized === "hosted-pwa") return "hosted";
+  if (normalized === "closed-local" && options.hostedPersistenceOptIn) fail("closed-local delivery cannot opt in to hosted persistence.");
+  return normalized;
 }
 
 function isWithin(parent, child) {
@@ -124,15 +134,17 @@ function fail(message) { console.error(`ERROR ${message}`); process.exit(2); }
 async function runSelfTest() {
   const root = mkdtempSync(join(tmpdir(), "living-textbook-human-evidence-generator-"));
   try {
-    const args = [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1"];
+    const args = [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1", "--delivery-mode", "hosted-pwa", "--hosted-persistence-opt-in"];
     const generated = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (generated.status !== 0) fail(`generator self-test failed: ${generated.stderr || generated.stdout}`);
     const policy = JSON.parse(await readFile(join(root, "delivery-policy.json"), "utf8"));
     const release = JSON.parse(await readFile(join(root, "release-authorization.json"), "utf8"));
     const packageReview = JSON.parse(await readFile(join(root, "package-review-evidence.json"), "utf8"));
-    if (policy.status !== "draft" || release.status !== "draft" || packageReview.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package" || packageReview.unitKey !== "series:book:L1:U1") fail("generator self-test did not preserve draft identity-bound records.");
+    if (policy.status !== "draft" || release.status !== "draft" || packageReview.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package" || packageReview.unitKey !== "series:book:L1:U1" || policy.mode !== "hosted" || policy.hostedPersistenceOptIn !== true) fail("generator self-test did not preserve draft identity-bound delivery choices.");
     const overwrite = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (overwrite.status === 0 || !overwrite.stderr.includes("Refusing to overwrite")) fail("generator self-test allowed an overwrite.");
+    const invalid = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "invalid"), "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1", "--delivery-mode", "closed-local", "--hosted-persistence-opt-in"], { encoding: "utf8" });
+    if (invalid.status === 0 || !invalid.stderr.includes("closed-local delivery cannot opt in")) fail("generator self-test allowed a closed-local hosted opt-in.");
     console.log("PASS pilot human evidence generator creates external draft templates, preserves identity, and refuses overwrite.");
   } finally {
     rmSync(root, { recursive: true, force: true });
