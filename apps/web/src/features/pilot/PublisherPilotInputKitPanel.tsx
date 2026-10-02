@@ -24,6 +24,11 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --root \"D:\\PublisherPilotInput\" `",
     "  --output \"D:\\PublisherPilotInput\\evidence\\publisher-intake-preflight.json\"",
   ].join("\n");
+  const revisionCommand = [
+    "node scripts/create-publisher-pilot-intake-revision.mjs `",
+    "  --source-root \"D:\\PublisherPilotInput\" `",
+    "  --output-root \"D:\\PublisherPilotInput-revision-YYYY-MM-DD\"",
+  ].join("\n");
   const evidenceRequestCommand = [
     "node scripts/create-publisher-source-preflight-evidence-request.mjs `",
     "  --root \"D:\\PublisherPilotInput\" `",
@@ -109,6 +114,28 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <Boundary label="Creates" value="evidence/publisher-intake-preflight.json" />
           <Boundary label="Binds" value="Current brief checksum and complete inventory" />
+          <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-white/80 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[var(--tenant-muted)]">Versioned revision</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Preserve the old handoff when files change</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              When a publisher supplies missing audio, captions, images, or corrected policy, create a new external folder. The helper copies only declared review inputs and leaves old manifests and preflight reports untouched.
+            </p>
+          </div>
+          <StatusPill label="Create new folder" tone="warning" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell revision command</p>
+          <pre className="whitespace-pre-wrap font-mono">{revisionCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Copies" value="Brief and declared review inputs" />
+          <Boundary label="Excludes" value="Old manifests and preflight reports" />
           <Boundary label="Still blocked" value="Upload, assembly, QR, persistence, students" />
         </div>
       </div>
