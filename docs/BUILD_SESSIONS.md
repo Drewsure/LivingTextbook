@@ -8460,3 +8460,11 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Preserved fail-closed boundaries: no source import, route replacement,
   scene-owned scoring, persistence, package promotion, or student activation.
   Recorded under ADR 1437 / DR-1437.
+
+## Build session: Guard the Z.ai handoff surface
+
+- Extended the publisher intake verifier to require the visible candidate
+  verification command, external candidate-root boundary, return-package
+  marker, and combined audit marker.
+- Kept the UI guidance aligned with the fail-closed candidate verifier rather
+  than treating a frozen source archive as an integration candidate.
