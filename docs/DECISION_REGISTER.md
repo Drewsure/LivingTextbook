@@ -10877,3 +10877,11 @@ required returned package containing `evidence/return-package.json` and keeps
 source import, route replacement, scoring, persistence, package promotion, and
 student activation blocked. See ADR 1437 and
 `apps/web/src/features/pilot/PublisherPilotInputKitPanel.tsx`.
+
+## DR-1438: Tenant Pilot Stage Rail
+
+Non-reference tenant pilot dashboards now expose a tenant-generic six-stage
+path from publisher intake through teacher-led launch. It makes the saleable
+white-label journey visible without inheriting MiniStar data, inventing
+evidence, enabling writes, printing QR codes, or activating students. See ADR
+1438 and `docs/decision-register/DR-1438-tenant-pilot-stage-rail.md`.

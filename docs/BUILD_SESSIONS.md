@@ -8468,3 +8468,12 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
   marker, and combined audit marker.
 - Kept the UI guidance aligned with the fail-closed candidate verifier rather
   than treating a frozen source archive as an integration candidate.
+
+## Build session: Add the tenant pilot stage rail
+
+- Replaced the generic non-reference tenant empty state with a tenant-scoped,
+  review-only stage rail covering publisher intake, content/media review,
+  curated package, QR release, delivery choice, and teacher-led launch.
+- Added links to delivery and persistence review surfaces without enabling
+  writes, sample-data inheritance, QR printing, or student access.
+- Added route markers, ADR 1438, DR-1438, and standard 680.

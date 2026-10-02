@@ -27,6 +27,24 @@ export function TenantPilotDashboardEmptyStatePanel({ tenant }: TenantPilotDashb
       label: "Open media review",
       detail: "Confirm that unit media is not yet bound to this tenant.",
     },
+    {
+      href: "/teacher/deployment",
+      label: "Review delivery choices",
+      detail: "Compare hosted PWA, closed-local, and hybrid evidence requirements.",
+    },
+    {
+      href: "/teacher/persistence",
+      label: "Review persistence policy",
+      detail: "Inspect the opt-in hosted persistence and local recovery boundary.",
+    },
+  ];
+  const pilotStages = [
+    { id: "intake", label: "Publisher intake", detail: "Source, unit mapping, rights owner, and retention policy.", status: "Awaiting source" },
+    { id: "review", label: "Content and media review", detail: "Text, images, audio, video, captions, fonts, and accessibility.", status: "Review-only" },
+    { id: "package", label: "Curated package", detail: "Approved content, audio-first pathways, games, and deterministic scoring.", status: "Blocked" },
+    { id: "qr", label: "QR release", detail: "Tenant-bound aliases, fallback identity, print artifact, and rollback evidence.", status: "Blocked" },
+    { id: "delivery", label: "Delivery decision", detail: "Closed-local, hosted, or hybrid policy and cost choice.", status: "Blocked" },
+    { id: "launch", label: "Teacher-led launch", detail: "Teacher rehearsal, student progression, reporting, and approved persistence.", status: "Blocked" },
   ];
 
   return (
@@ -59,6 +77,27 @@ export function TenantPilotDashboardEmptyStatePanel({ tenant }: TenantPilotDashb
           </a>
         ))}
       </div>
+
+      <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-surface)] p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Pilot stage rail</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">One governed path from publisher source to classroom</h3>
+          </div>
+          <StatusPill label="0 stages released" tone="warning" />
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {pilotStages.map((stage) => (
+            <article key={stage.id} className="rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-3">
+              <div className="flex items-start justify-between gap-2">
+                <h4 className="text-sm font-bold text-[var(--tenant-text)]">{stage.label}</h4>
+                <StatusPill label={stage.status} tone="warning" />
+              </div>
+              <p className="mt-2 text-sm leading-5 text-[var(--tenant-muted)]">{stage.detail}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">
         <p className="text-xs font-semibold uppercase text-[var(--tenant-muted)]">Pilot boundary</p>

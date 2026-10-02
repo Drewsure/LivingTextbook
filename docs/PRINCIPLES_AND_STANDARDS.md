@@ -10557,3 +10557,14 @@ routes, own scoring, enable persistence, assign students, or promote a
 package.
 
 This standard is recorded in DR-1437 and ADR 1437.
+
+## 680. Every White-Label Tenant Needs A Review-Only Pilot Stage Rail
+
+Non-reference tenant dashboards must expose the same publisher-to-classroom
+sequence: source intake, content/media review, curated package, QR release,
+delivery decision, and teacher-led launch. The rail is tenant-generic and must
+not inherit MiniStar data, fabricate evidence, enable writes, print QR codes,
+or activate students. Each stage remains closed until its own evidence and
+human decision gates are complete.
+
+This standard is recorded in DR-1438 and ADR 1438.
