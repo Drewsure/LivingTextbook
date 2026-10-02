@@ -10885,3 +10885,12 @@ path from publisher intake through teacher-led launch. It makes the saleable
 white-label journey visible without inheriting MiniStar data, inventing
 evidence, enabling writes, printing QR codes, or activating students. See ADR
 1438 and `docs/decision-register/DR-1438-tenant-pilot-stage-rail.md`.
+
+## DR-1439: Tenant-Empty Source Review Queues
+
+Generic white-label source-review workspaces now receive an explicit empty
+tenant queue and no sample extraction packets or previews. MiniStar and the
+sample publisher remain the only reference tenants allowed to display the
+maintained fixtures. The route-level gate prevents sample data from becoming a
+white-label default and keeps source intake review-only. See ADR 1439 and
+`docs/decision-register/DR-1439-tenant-empty-source-review-queues.md`.

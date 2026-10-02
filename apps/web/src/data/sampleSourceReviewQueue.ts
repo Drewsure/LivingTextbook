@@ -137,6 +137,19 @@ export const sampleSourceReviewQueue: SourceReviewQueue = {
   ],
 };
 
+export function createEmptySourceReviewQueue(tenantId: string, tenantName: string): SourceReviewQueue {
+  return {
+    queueId: `${tenantId}-source-review-queue`,
+    label: `${tenantName} source review workspace`,
+    summary:
+      "A tenant-scoped review lane awaiting publisher source records. No sample records, extraction previews, or student-facing content are inherited.",
+    hardRules: sampleSourceReviewQueue.hardRules.slice(),
+    requiredRecords: sampleSourceReviewQueue.requiredRecords.slice(),
+    blockedShortcuts: sampleSourceReviewQueue.blockedShortcuts.slice(),
+    items: [],
+  };
+}
+
 export function countSourceReviewItemsByStatus(queue: SourceReviewQueue, status: SourceReviewStatus): number {
   return queue.items.filter((item) => item.status === status).length;
 }

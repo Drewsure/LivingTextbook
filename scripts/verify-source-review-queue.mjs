@@ -169,6 +169,10 @@ requireText(quarantineSubmissionPanel, "Current publisher submission", "Source r
 requireText(quarantineSubmissionPanel, "Open package handoff", "Source review quarantine submission panel must expose the package handoff link.");
 requireText(quarantineMetadataPanel, "Authorized review contract", "Quarantine metadata panel must expose the authorized review contract.");
 requireText(sourceWorkspaceRoute, "TeacherSourceReviewWorkspacePanel", "Source review route must render the workspace panel.");
+requireText(sourceWorkspaceRoute, "createEmptySourceReviewQueue", "Source review route must provide an empty queue factory for non-reference tenants.");
+requireText(sourceWorkspaceRoute, "hasSampleSourceReview", "Source review route must explicitly scope sample review fixtures to reference tenants.");
+requireText(sourceWorkspaceRoute, "const extractionPackets = hasSampleSourceReview ? sampleSourceExtractionReviewPackets : [];", "Source review route must withhold sample extraction packets from non-reference tenants.");
+requireText(sourceWorkspaceRoute, "const extractionPreviews = hasSampleSourceReview ? sampleSourceExtractionPreviews : [];", "Source review route must withhold sample extraction previews from non-reference tenants.");
 requireText(sourceWorkspaceRoute, "sampleSourceReviewQueue", "Source review route must pass the source review queue.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionReviewPackets", "Source review route must pass extraction review packets.");
 requireText(sourceWorkspaceRoute, "sampleSourceExtractionPreviews", "Source review route must pass structured extraction previews.");
@@ -194,6 +198,8 @@ requireText(migrationSpecs, "spec-source-extraction-review-packet", "Migration s
 requireText(routeVerifier, "Required records before extraction promotion", "Active route verifier must check required source review records.");
 requireText(routeVerifier, "Blocked extraction shortcuts", "Active route verifier must check blocked source review shortcuts.");
 requireText(sourceReviewChecks, "Extraction review packets remain review evidence", "Source review checklist must preserve evidence-only extraction boundary.");
+requireText(queueData, "createEmptySourceReviewQueue", "Source review queue data must provide tenant-empty queue construction.");
+requireText(queueData, "No sample records, extraction previews, or student-facing content are inherited.", "Empty source review queues must state the sample-data isolation boundary.");
 
 if (failures.length > 0) {
   for (const failure of failures) {

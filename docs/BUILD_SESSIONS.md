@@ -8477,3 +8477,13 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Added links to delivery and persistence review surfaces without enabling
   writes, sample-data inheritance, QR printing, or student access.
 - Added route markers, ADR 1438, DR-1438, and standard 680.
+
+## Build session: Close generic source-review fixture inheritance
+
+- Added an explicit empty source-review queue factory for generic white-label
+  tenants.
+- Restricted sample queue, extraction packet, and extraction preview fixtures
+  to the MiniStar and sample-publisher reference tenants at route selection.
+- Preserved visible review rules and the no-live-extraction boundary without
+  fabricating publisher evidence.
+- Added the route verifier guard plus ADR 1439, DR-1439, and standard 681.

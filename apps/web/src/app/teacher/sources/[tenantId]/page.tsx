@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { AppShell } from "@/components/layout/AppShell";
 import { sampleSourceExtractionReviewPackets } from "@/data/sampleSourceExtractionReviewPackets";
 import { sampleSourceExtractionPreviews } from "@/data/sampleSourceExtractionPreviews";
-import { sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
+import { createEmptySourceReviewQueue, sampleSourceReviewQueue } from "@/data/sampleSourceReviewQueue";
 import { sampleMinistarSourceDerivedUnitReview } from "@/data/sampleMinistarSourceDerivedUnitReview";
 import { sampleMinistarUnitAuthoringProposal } from "@/data/sampleMinistarUnitAuthoringProposal";
 import { TeacherSourceReviewWorkspacePanel } from "@/features/content-intake/TeacherSourceReviewWorkspacePanel";
@@ -26,14 +26,21 @@ export default async function TeacherSourceReviewWorkspacePage({
 
   if (!tenant) notFound();
 
+  const hasSampleSourceReview = tenantId === "ministar" || tenantId === "sample-publisher";
+  const queue = hasSampleSourceReview
+    ? sampleSourceReviewQueue
+    : createEmptySourceReviewQueue(tenant.id, tenant.displayName);
+  const extractionPackets = hasSampleSourceReview ? sampleSourceExtractionReviewPackets : [];
+  const extractionPreviews = hasSampleSourceReview ? sampleSourceExtractionPreviews : [];
+
   return (
     <AppShell tenant={tenant}>
       <TeacherSourceReviewWorkspacePanel
         tenantId={tenantId}
         tenantName={tenant.displayName}
-        queue={sampleSourceReviewQueue}
-        extractionPackets={sampleSourceExtractionReviewPackets}
-        extractionPreviews={sampleSourceExtractionPreviews}
+        queue={queue}
+        extractionPackets={extractionPackets}
+        extractionPreviews={extractionPreviews}
         quarantineId={query.quarantineId}
       />
       {query.quarantineId ? (

@@ -10568,3 +10568,15 @@ or activate students. Each stage remains closed until its own evidence and
 human decision gates are complete.
 
 This standard is recorded in DR-1438 and ADR 1438.
+
+## 681. Non-Reference Source Workspaces Must Start Empty
+
+Reference tenants may display their own review fixtures, but a generic
+white-label tenant must start with an explicit empty source-review queue and
+empty extraction packet and preview collections. Sample-data filtering inside
+the presentation component is only a defensive layer; route-level fixture
+selection is the actual tenant-isolation boundary. An empty workspace may show
+rules and next-step guidance, but it must not invent source evidence or enable
+extraction, package assembly, QR release, persistence, or student activation.
+
+This standard is recorded in DR-1439 and ADR 1439.
