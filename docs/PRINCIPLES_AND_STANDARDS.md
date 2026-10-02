@@ -10489,3 +10489,15 @@ This standard is recorded in DR-1430 and ADR 1430.
   mapping, and release checks; omission is never approval.
 
 This standard is recorded in DR-1431 and ADR 1431.
+
+## 674. Pilot Audit Diagnostics Must Separate Incomplete From Invalid
+
+- A well-formed publisher handoff with required files still missing must be
+  reported as incomplete, not malformed or tampered.
+- Audit output should name the missing relative paths and direct the operator
+  to create a new versioned evidence packet because existing reports are
+  immutable.
+- Diagnostic clarity must never relax checksum, schema, identity, release, or
+  student-use gates.
+
+This standard is recorded in DR-1432 and ADR 1432.

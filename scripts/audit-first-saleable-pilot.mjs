@@ -67,11 +67,16 @@ if (!publisherRoot) {
       const evidenceErrors = validatePublisherPreflightEvidence(publisherPath, preflightEvidencePath);
       const sourceEvidenceErrors = validatePublisherSourcePreflightEvidence(publisherPath, sourceManifestPath, sourcePreflightEvidencePath);
       const allEvidenceErrors = [...evidenceErrors, ...sourceEvidenceErrors];
+      const sourceEvidenceStatus = sourceEvidenceErrors.length === 0
+        ? "bound"
+        : sourceEvidenceErrors.some((error) => error.includes("must be version 1, complete"))
+          ? "incomplete"
+          : "invalid";
       record(
         "publisher-source-package",
         verification.passed && allEvidenceErrors.length === 0 ? "proved" : "blocked",
-        `${publisherPath} (intake preflight: ${verification.passed ? "passed" : "failed"}; source preflight: ${sourceEvidenceErrors.length === 0 ? "bound" : "invalid"})`,
-        allEvidenceErrors.length > 0 ? allEvidenceErrors[0] : "Fix the publisher intake and source preflight findings before source review can advance.",
+        `${publisherPath} (intake preflight: ${verification.passed ? "passed" : "failed"}; source preflight: ${sourceEvidenceStatus})`,
+        allEvidenceErrors.length > 0 ? describePublisherSourceBlock(preflightEvidencePath, sourcePreflightEvidencePath, allEvidenceErrors) : "Fix the publisher intake and source preflight findings before source review can advance.",
       );
     }
   }
@@ -202,6 +207,25 @@ function validatePublisherPreflightEvidence(publisherPath, evidencePath) {
     errors.push("Durable publisher preflight evidence must preserve review-only protected actions.");
   }
   return errors;
+}
+
+function describePublisherSourceBlock(preflightEvidencePath, sourcePreflightEvidencePath, errors) {
+  const requiredFiles = new Set();
+  for (const path of [preflightEvidencePath, sourcePreflightEvidencePath]) {
+    try {
+      const evidence = JSON.parse(readFileSync(path, "utf8"));
+      for (const file of evidence.missingFiles ?? []) requiredFiles.add(file);
+      for (const file of evidence.files ?? []) {
+        if (file.required === true && file.status === "missing") requiredFiles.add(file.relativePath);
+      }
+    } catch {
+      // The validator below already reports unreadable evidence; keep this summary side-effect-free.
+    }
+  }
+  if (requiredFiles.size > 0) {
+    return `Supply required publisher files: ${[...requiredFiles].join(", ")}. Then create a new versioned preflight evidence packet; existing evidence is immutable.`;
+  }
+  return errors[0] ?? "Fix the publisher intake and source preflight findings before source review can advance.";
 }
 
 function validatePublisherSourcePreflightEvidence(publisherPath, manifestPath, evidencePath) {

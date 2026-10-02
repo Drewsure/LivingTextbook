@@ -10828,3 +10828,10 @@ Publisher intake preflight now honors each media request's `required` flag.
 Required source/audio/evidence gaps remain blocking, while omitted optional
 media are visible as separate review metadata. See ADR 1431 and
 `docs/decision-register/DR-1431-respect-optional-publisher-media.md`.
+
+## DR-1432: Clarify Publisher Audit Blockers
+
+The first-pilot audit now distinguishes incomplete publisher handoffs from
+invalid evidence and names required missing files while preserving immutable
+reports and fail-closed release gates. See ADR 1432 and
+`docs/decision-register/DR-1432-clarify-publisher-audit-blockers.md`.

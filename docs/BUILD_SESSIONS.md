@@ -8387,3 +8387,10 @@ Corrected publisher preflight so required source/audio/evidence gaps remain
 blocking while omitted optional image, video, transcript, font, and background
 media are reported separately. Added a regression self-test and preserved the
 review-only boundary. Recorded under ADR 1431 / DR-1431.
+
+## Build session: Clarify publisher audit blockers
+
+Improved the first-pilot audit diagnostics so incomplete publisher source
+handoffs are distinguished from invalid evidence and required missing relative
+paths are named. Existing evidence remains immutable and all release gates stay
+fail-closed. Recorded under ADR 1432 / DR-1432.
