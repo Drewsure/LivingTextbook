@@ -29,6 +29,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --source-root \"D:\\PublisherPilotInput\" `",
     "  --output-root \"D:\\PublisherPilotInput-revision-YYYY-MM-DD\"",
   ].join("\n");
+  const revisionValidatorCommand = [
+    "node scripts/verify-publisher-pilot-intake-revision.mjs `",
+    "  --root \"D:\\PublisherPilotInput-revision-YYYY-MM-DD\"",
+  ].join("\n");
   const evidenceRequestCommand = [
     "node scripts/create-publisher-source-preflight-evidence-request.mjs `",
     "  --root \"D:\\PublisherPilotInput\" `",
@@ -132,6 +136,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
           <p className="mb-3 font-semibold text-slate-300">PowerShell revision command</p>
           <pre className="whitespace-pre-wrap font-mono">{revisionCommand}</pre>
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-[var(--tenant-border)] bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">Read-only revision validator</p>
+          <pre className="whitespace-pre-wrap font-mono">{revisionValidatorCommand}</pre>
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           <Boundary label="Creates" value="New folder + evidence/publisher-handoff-revision.json" />
