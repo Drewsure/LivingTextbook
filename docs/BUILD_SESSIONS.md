@@ -8410,3 +8410,14 @@ Improved the first-pilot audit diagnostics so incomplete publisher source
 handoffs are distinguished from invalid evidence and required missing relative
 paths are named. Existing evidence remains immutable and all release gates stay
 fail-closed. Recorded under ADR 1432 / DR-1432.
+
+## Build session: Publisher parent-path custody
+
+- Hardened versioned publisher revisions to inspect every existing path segment
+  below the external handoff root.
+- Rejected linked parent directories before any declared file copy, closing a
+  symlink/junction escape that leaf-only checks could miss.
+- Preserved missing-file evidence and review-only action blocks.
+- Added a junction regression test with a filesystem-permission skip when the
+  environment cannot create junctions, plus ADR 1434, DR-1434, and standard
+  676.

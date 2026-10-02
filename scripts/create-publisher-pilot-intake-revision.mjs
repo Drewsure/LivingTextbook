@@ -1,4 +1,4 @@
-import { access, copyFile, lstat, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { access, copyFile, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -49,6 +49,7 @@ const omittedOptionalFiles = [];
 
 for (const relativePath of declared) {
   validateRelativePath(relativePath);
+  await assertNoLinkSegments(sourceRoot, relativePath);
   const sourcePath = join(sourceRoot, relativePath);
   const targetPath = join(outputRoot, relativePath);
   const sourceStat = await optionalRegularFile(sourcePath);
@@ -110,6 +111,20 @@ async function optionalRegularFile(path) {
   } catch (error) {
     if (error?.code === "ENOENT") return "missing";
     throw error;
+  }
+}
+
+async function assertNoLinkSegments(root, relativePath) {
+  let current = root;
+  for (const segment of relativePath.split("/")) {
+    current = join(current, segment);
+    try {
+      const stat = await lstat(current);
+      if (stat.isSymbolicLink()) fail(`Refusing linked publisher path: ${relativePath}`);
+    } catch (error) {
+      if (error?.code === "ENOENT") return;
+      throw error;
+    }
   }
 }
 
@@ -196,6 +211,19 @@ async function runSelfTest() {
     if ((await optionalRegularFile(join(outputRoot, "evidence", "publisher-intake-preflight.json"))) !== "missing") fail("revision copied stale intake report");
     const second = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-root", sourceRoot, "--output-root", outputRoot], { encoding: "utf8" });
     if (second.status === 0 || !second.stderr.includes("non-empty output root")) fail("revision must refuse overwrite");
+    const linkedParent = join(sourceRoot, "media", "linked-parent");
+    const linkedOutput = join(root, "linked-revision");
+    try {
+      await mkdir(join(root, "outside"), { recursive: true });
+      await symlink(join(root, "outside"), linkedParent, "junction");
+      const linkedBrief = { ...brief, mediaRequests: [...brief.mediaRequests, { kind: "audio", relativePath: "media/linked-parent/escape.mp3", unitKey: brief.unitKey, required: false }] };
+      await writeFile(briefPath, `${JSON.stringify(linkedBrief, null, 2)}\n`, "utf8");
+      const linked = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-root", sourceRoot, "--output-root", linkedOutput], { encoding: "utf8" });
+      if (linked.status === 0 || !linked.stderr.includes("Refusing linked publisher path")) fail("revision allowed a linked parent directory to escape custody");
+    } catch (error) {
+      if (!(["EACCES", "EPERM", "ENOSYS"].includes(error?.code))) throw error;
+      console.log("SKIP linked-parent escape test: filesystem does not permit junction creation in this environment.");
+    }
     const insideRepo = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-root", sourceRoot, "--output-root", fileURLToPath(new URL("../revision-self-test", import.meta.url))], { encoding: "utf8" });
     if (insideRepo.status === 0 || !insideRepo.stderr.includes("outside the LivingTextbook repository")) fail("revision allowed repository-local output");
     console.log("PASS publisher pilot revisions copy declared review inputs, exclude stale reports/manifests, and refuse overwrite or repository-local output.");

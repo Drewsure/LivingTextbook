@@ -10844,3 +10844,10 @@ preflight reports, preserves missing-file status, and blocks repository-local
 or overwrite paths. Fresh preflight evidence is required for every revision;
 no release, assembly, QR, persistence, or student action is enabled. See ADR
 1433 and `docs/decision-register/DR-1433-versioned-publisher-handoff-revisions.md`.
+
+## DR-1434: Publisher Handoff Parent-Path Custody
+
+Versioned publisher revisions inspect every existing source-root path segment
+and reject linked parent directories before copying. Missing paths remain
+explicit evidence and no protected action is enabled. See ADR 1434 and
+`docs/decision-register/DR-1434-publisher-handoff-parent-path-custody.md`.

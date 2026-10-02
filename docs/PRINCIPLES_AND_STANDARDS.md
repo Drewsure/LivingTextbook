@@ -10513,3 +10513,13 @@ assembly, QR printing, persistence activation, and student activation. A
 revision is custody evidence, never release approval.
 
 This standard is recorded in DR-1433 and ADR 1433.
+
+## 676. Publisher Revisions Must Validate Every Existing Parent Path
+
+Publisher revision custody applies to every existing segment below the
+external handoff root, not only the final file. Symlinked or junction-like
+parent directories must be rejected before copying. Missing parents remain
+missing-file evidence, and the revision stays review-only with package,
+student, QR, persistence, and upload actions blocked.
+
+This standard is recorded in DR-1434 and ADR 1434.
