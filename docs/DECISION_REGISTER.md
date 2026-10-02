@@ -10835,3 +10835,12 @@ The first-pilot audit now distinguishes incomplete publisher handoffs from
 invalid evidence and names required missing files while preserving immutable
 reports and fail-closed release gates. See ADR 1432 and
 `docs/decision-register/DR-1432-clarify-publisher-audit-blockers.md`.
+
+## DR-1433: Versioned Publisher Handoff Revisions
+
+External publisher handoffs are revised into new create-once folders. The
+revision helper copies declared review inputs, excludes stale manifests and
+preflight reports, preserves missing-file status, and blocks repository-local
+or overwrite paths. Fresh preflight evidence is required for every revision;
+no release, assembly, QR, persistence, or student action is enabled. See ADR
+1433 and `docs/decision-register/DR-1433-versioned-publisher-handoff-revisions.md`.

@@ -142,3 +142,24 @@ student readiness.
 Structured QR references then produce a review-only alias preview. The preview
 binds page, unit, activity, language, edition, package, and local fallback
 identity before the separate QR registry and print-authorization gates.
+
+## Create A Versioned Revision
+
+When a publisher supplies a missing asset or changes an intake input, preserve
+the old handoff and create a new external folder. Never overwrite the earlier
+preflight reports or manifest. The revision helper copies only the brief,
+README, and files declared by the brief; it excludes old manifests and
+preflight reports and remains review-only:
+
+```powershell
+node scripts/create-publisher-pilot-intake-revision.mjs `
+  --source-root "D:\PublisherPilotInput" `
+  --output-root "D:\PublisherPilotInput-2026-10-03-audio-revision"
+```
+
+The command refuses repository-local roots, symlinked inputs, non-empty output
+folders, and overwrite. It reports missing required files and omitted optional
+media without inventing placeholders. After the revision is created, run the
+intake preflight with a new output path, then regenerate the canonical source
+manifest only when the brief and required files are complete. A revision is a
+custody-preserving handoff, not an approval or a package release.

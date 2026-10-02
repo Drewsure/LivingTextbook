@@ -4,6 +4,22 @@ Latest hardening: DR-602 replaces audio count-based completeness with per-text c
 
 This document gives the project an explicit build-session structure. It should be reviewed when choosing the next work block and updated as the platform matures.
 
+## Build session: Versioned publisher handoff revisions
+
+- Added a create-once revision helper for external publisher intake folders.
+- Copied only the intake brief, README, and paths declared by that brief.
+- Excluded stale canonical manifests and prior preflight reports so every
+  revision receives fresh evidence.
+- Rejected repository-local roots, symlinked inputs, non-empty destinations,
+  and overwrite while preserving review-only, package-blocked, and
+  student-blocked flags.
+- Added self-test, verifier markers, ADR 1433, DR-1433, and standard 675.
+
+The helper does not upload, assemble, print QR codes, enable persistence, or
+activate students. The external MiniStar handoff remains blocked until the
+publisher supplies `media/audio/unit-1-learning-audio.mp3` and the required
+rights, accessibility, scan, policy, and release evidence is reviewed.
+
 The structure follows the standing rule: foundation first, interaction second, premium polish third.
 
 The playlist role/context slice now rejects a playlist marked for game-background playback unless its usage role is background. This keeps media review, game adapters, and local package manifests aligned.

@@ -10501,3 +10501,15 @@ This standard is recorded in DR-1431 and ADR 1431.
   student-use gates.
 
 This standard is recorded in DR-1432 and ADR 1432.
+
+## 675. Publisher Handoff Revisions Must Be Versioned And Create-Once
+
+External publisher inputs are immutable review records. When an asset or
+policy changes, create a new handoff folder with the revision helper. Copy only
+declared inputs, exclude old manifests and preflight reports, preserve missing
+required and omitted optional status, and require fresh evidence. Reject
+repository-local roots, symlinked inputs, non-empty output folders, upload,
+assembly, QR printing, persistence activation, and student activation. A
+revision is custody evidence, never release approval.
+
+This standard is recorded in DR-1433 and ADR 1433.
