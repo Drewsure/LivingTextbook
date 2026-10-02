@@ -46,7 +46,10 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "  --request \"D:\\PublisherPilotReview\\source-preflight-evidence-request.json\" `",
     "  --base-url \"http://127.0.0.1:3000\"",
   ].join("\n");
-  const saleabilityAuditCommand = "npm run audit:pilot -- --json";
+  const saleabilityAuditCommand = [
+    "npm run audit:pilot -- --json `",
+    "  --publisher-root \"D:\\PublisherPilotInput\"",
+  ].join("\n");
   const saleabilityReportCommand = [
     "npm run audit:pilot -- --json `",
     "  --output \"D:\\PublisherPilotReview\\first-pilot-audit.json\"",

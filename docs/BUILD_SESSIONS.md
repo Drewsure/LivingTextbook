@@ -8439,3 +8439,12 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
   and excluded path state.
 - Added tamper regression coverage and kept every release-side action blocked.
 - Added ADR 1436, DR-1436, and standard 678.
+
+## Build session: Audit the real external publisher root
+
+- Updated the publisher requirements surface to show the saleability audit with
+  an explicit `--publisher-root` argument.
+- Kept sample tenants and repository fixtures from being mistaken for the real
+  publisher submission.
+- Preserved the audit's read-only, external-root, package-blocked, and
+  student-blocked behavior.
