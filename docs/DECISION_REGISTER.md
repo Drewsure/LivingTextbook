@@ -10903,3 +10903,16 @@ HTTP response and empty-state copy alone are not sufficient tenant-isolation
 evidence. The check remains read-only and does not enable extraction or source
 promotion. See ADR 1440 and
 `docs/decision-register/DR-1440-runtime-source-review-non-leakage.md`.
+
+## DR-1441: Memory Match Evidence Admission
+
+The hash-verified Memory Match candidate is admitted for provenance-bound
+wrapper review only. Its candidate work commit is
+`c343e12e5bb82b7c3012c9afdf9310881741406d` on `main`; the later
+`1a1726c95e801cfebba81e7c66ca6d0ab3c2fc53` is recorded as an
+evidence-preserving autosave head. The package remains outside LivingTextbook
+and `review-only`; verifier success does not authorize source import, route
+replacement, scoring mutation, persistence ownership, promotion, or student
+assignment. Keyboard navigation, focus management, and reduced-motion support
+remain wrapper review requirements. See
+`docs/decision-register/DR-1441-memory-match-evidence-admission.md`.
