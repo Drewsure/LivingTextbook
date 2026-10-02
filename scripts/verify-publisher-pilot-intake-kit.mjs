@@ -21,7 +21,7 @@ const revisionSelfTest = spawnSync(process.execPath, [revision, "--self-test"], 
 if (revisionSelfTest.status !== 0 || !revisionSelfTest.stdout.includes("PASS publisher pilot revisions")) {
   failures.push(`revision self-test failed: ${revisionSelfTest.stderr || revisionSelfTest.stdout}`);
 }
-for (const marker of ["exclude stale reports/manifests", "outside the LivingTextbook repository", "Refusing linked publisher path", "reviewOnly: true", "missingRequiredFiles", "omittedOptionalFiles"]) {
+for (const marker of ["exclude stale reports/manifests", "outside the LivingTextbook repository", "Refusing linked publisher path", "publisher-handoff-revision.json", "sourceBriefChecksumSha256", "reviewOnly: true", "missingRequiredFiles", "omittedOptionalFiles"]) {
   if (!revisionSource.includes(marker)) failures.push(`revision helper missing custody marker: ${marker}`);
 }
 for (const marker of ["reviewOnly: true", "packageAssemblyAllowed: false", "studentFacingUseAllowed: false", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences"]) {

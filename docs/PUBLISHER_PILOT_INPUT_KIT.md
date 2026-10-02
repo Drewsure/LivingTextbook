@@ -162,4 +162,8 @@ folders, and overwrite. It reports missing required files and omitted optional
 media without inventing placeholders. After the revision is created, run the
 intake preflight with a new output path, then regenerate the canonical source
 manifest only when the brief and required files are complete. A revision is a
-custody-preserving handoff, not an approval or a package release.
+custody-preserving handoff, not an approval or a package release. It also
+creates `evidence/publisher-handoff-revision.json`, a checksum-bound,
+metadata-only record of copied, missing, omitted, and excluded paths. That
+record is create-once and remains blocked from package assembly, QR printing,
+persistence, and student use.

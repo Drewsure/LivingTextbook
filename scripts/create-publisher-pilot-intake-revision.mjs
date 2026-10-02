@@ -1,4 +1,5 @@
 import { access, copyFile, lstat, mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { join, relative, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -26,7 +27,13 @@ await requireDirectory(sourceRoot, "source root");
 await requireAbsentOrEmptyDirectory(outputRoot);
 
 const briefPath = join(sourceRoot, "publisher-pilot-intake.json");
-const brief = await readJsonFile(briefPath, "publisher-pilot-intake.json");
+const briefSource = await readFile(briefPath, "utf8");
+let brief;
+try {
+  brief = JSON.parse(briefSource);
+} catch (error) {
+  fail(`Cannot read publisher-pilot-intake.json as JSON: ${error.message}`);
+}
 validateReviewOnlyBrief(brief);
 await mkdir(outputRoot, { recursive: true });
 
@@ -69,10 +76,29 @@ const excludedFiles = [
   "evidence/publisher-intake-preflight.json",
   "evidence/publisher-source-preflight.json",
 ];
+const revisionRecordPath = join(outputRoot, "evidence", "publisher-handoff-revision.json");
+await mkdir(join(outputRoot, "evidence"), { recursive: true });
+const revisionRecord = {
+  recordVersion: 1,
+  revisionId: `publisher-handoff-revision:${brief.briefId ?? "unknown"}:${sha256(briefSource).slice(0, 16)}`,
+  sourceRootName: sourceRoot.split(/[\\/]/).pop() || "external-handoff",
+  sourceBriefChecksumSha256: sha256(briefSource),
+  revisionBriefChecksumSha256: sha256(await readFile(join(outputRoot, "publisher-pilot-intake.json"), "utf8")),
+  copiedFiles,
+  missingRequiredFiles,
+  omittedOptionalFiles,
+  excludedFiles,
+  reviewOnly: true,
+  packageAssemblyAllowed: false,
+  studentFacingUseAllowed: false,
+  generatedAt: new Date().toISOString(),
+};
+await writeFile(revisionRecordPath, `${JSON.stringify(revisionRecord, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
 const result = {
   recordVersion: 1,
   sourceRoot,
   outputRoot,
+  revisionRecordPath,
   copiedFiles,
   missingRequiredFiles,
   omittedOptionalFiles,
@@ -172,6 +198,8 @@ async function readJsonFile(path, label) {
   catch (error) { fail(`Cannot read ${label}: ${error.message}`); }
 }
 
+function sha256(value) { return createHash("sha256").update(value).digest("hex"); }
+
 function parseArguments(args) {
   const result = { sourceRoot: "", outputRoot: "", help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
@@ -209,6 +237,9 @@ async function runSelfTest() {
     if ((await optionalRegularFile(join(outputRoot, "publisher-pilot-intake.json"))) !== "file") fail("revision omitted publisher brief");
     if ((await optionalRegularFile(join(outputRoot, "publisher-source-manifest.json"))) !== "missing") fail("revision copied stale source manifest");
     if ((await optionalRegularFile(join(outputRoot, "evidence", "publisher-intake-preflight.json"))) !== "missing") fail("revision copied stale intake report");
+    if ((await optionalRegularFile(join(outputRoot, "evidence", "publisher-handoff-revision.json"))) !== "file") fail("revision omitted durable revision evidence");
+    const revisionEvidence = JSON.parse(await readFile(join(outputRoot, "evidence", "publisher-handoff-revision.json"), "utf8"));
+    if (revisionEvidence.reviewOnly !== true || revisionEvidence.packageAssemblyAllowed !== false || revisionEvidence.studentFacingUseAllowed !== false || revisionEvidence.sourceBriefChecksumSha256 !== revisionEvidence.revisionBriefChecksumSha256) fail("revision evidence lost checksum or safety binding");
     const second = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-root", sourceRoot, "--output-root", outputRoot], { encoding: "utf8" });
     if (second.status === 0 || !second.stderr.includes("non-empty output root")) fail("revision must refuse overwrite");
     const linkedParent = join(sourceRoot, "media", "linked-parent");

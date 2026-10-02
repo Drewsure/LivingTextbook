@@ -8421,3 +8421,13 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Added a junction regression test with a filesystem-permission skip when the
   environment cannot create junctions, plus ADR 1434, DR-1434, and standard
   676.
+
+## Build session: Durable publisher revision evidence
+
+- Added a create-once `evidence/publisher-handoff-revision.json` record to
+  every versioned publisher revision.
+- Bound source and copied brief checksums plus copied, missing, omitted, and
+  excluded paths to the review-only safety flags.
+- Kept rights, source preflight, package assembly, QR, persistence, release,
+  and student gates separate from this custody record.
+- Added ADR 1435, DR-1435, and standard 677.

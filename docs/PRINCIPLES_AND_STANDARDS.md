@@ -10523,3 +10523,14 @@ missing-file evidence, and the revision stays review-only with package,
 student, QR, persistence, and upload actions blocked.
 
 This standard is recorded in DR-1434 and ADR 1434.
+
+## 677. Publisher Revisions Must Leave Durable Checksum-Bound Evidence
+
+Every versioned publisher revision must create one no-overwrite,
+metadata-only `evidence/publisher-handoff-revision.json` record. It must bind
+the source and copied brief checksums, copied/missing/omitted/excluded paths,
+and review-only safety flags. This record supports custody review but never
+constitutes rights approval, package assembly, QR authorization, persistence,
+release, or student activation.
+
+This standard is recorded in DR-1435 and ADR 1435.

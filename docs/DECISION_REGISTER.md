@@ -10851,3 +10851,11 @@ Versioned publisher revisions inspect every existing source-root path segment
 and reject linked parent directories before copying. Missing paths remain
 explicit evidence and no protected action is enabled. See ADR 1434 and
 `docs/decision-register/DR-1434-publisher-handoff-parent-path-custody.md`.
+
+## DR-1435: Durable Publisher Revision Evidence
+
+Every versioned publisher revision creates a checksum-bound,
+metadata-only `evidence/publisher-handoff-revision.json` record with copied,
+missing, omitted, and excluded paths. It is create-once and review-only; it
+does not approve rights, assembly, QR, persistence, release, or students. See
+ADR 1435 and `docs/decision-register/DR-1435-durable-publisher-revision-evidence.md`.
