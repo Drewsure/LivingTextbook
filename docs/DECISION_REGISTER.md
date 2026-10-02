@@ -10859,3 +10859,11 @@ metadata-only `evidence/publisher-handoff-revision.json` record with copied,
 missing, omitted, and excluded paths. It is create-once and review-only; it
 does not approve rights, assembly, QR, persistence, release, or students. See
 ADR 1435 and `docs/decision-register/DR-1435-durable-publisher-revision-evidence.md`.
+
+## DR-1436: Validate Durable Publisher Revision Evidence
+
+External publisher revisions now have a read-only validator that recomputes
+the brief checksum, checks declared file and omission state, rejects excluded
+stale artifacts, and fails on tampering. It never writes, promotes, assembles,
+prints, persists, releases, or activates students. See ADR 1436 and
+`docs/decision-register/DR-1436-validate-durable-publisher-revision-evidence.md`.

@@ -167,3 +167,14 @@ creates `evidence/publisher-handoff-revision.json`, a checksum-bound,
 metadata-only record of copied, missing, omitted, and excluded paths. That
 record is create-once and remains blocked from package assembly, QR printing,
 persistence, and student use.
+
+Reopen and validate that custody record without writing anything:
+
+```powershell
+node scripts/verify-publisher-pilot-intake-revision.mjs `
+  --root "D:\PublisherPilotInput-2026-10-03-audio-revision"
+```
+
+This validator checks the current brief checksum, declared file presence,
+intentional omissions, excluded stale artifacts, and review-only flags. It does
+not approve the publisher package or advance any release gate.

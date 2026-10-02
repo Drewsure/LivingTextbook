@@ -10534,3 +10534,13 @@ constitutes rights approval, package assembly, QR authorization, persistence,
 release, or student activation.
 
 This standard is recorded in DR-1435 and ADR 1435.
+
+## 678. Publisher Revision Evidence Must Be Reopenable And Fail Closed
+
+Durable publisher revision records must have a read-only validator that
+recomputes the current brief checksum, checks copied and intentionally absent
+paths, rejects excluded stale artifacts, and enforces review-only flags. A
+valid custody record is evidence for later review, never rights approval,
+package assembly, QR authorization, persistence, release, or student use.
+
+This standard is recorded in DR-1436 and ADR 1436.

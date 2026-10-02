@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const generator = join(root, "scripts/create-publisher-pilot-intake-kit.mjs");
 const revision = join(root, "scripts/create-publisher-pilot-intake-revision.mjs");
+const revisionVerifier = join(root, "scripts/verify-publisher-pilot-intake-revision.mjs");
 const revisionSource = await readFile(revision, "utf8");
 const contract = await readFile(join(root, "packages/content-model/src/publisherPilotIntakeBrief.ts"), "utf8");
 const preflight = await readFile(join(root, "scripts/publisher-pilot-intake-preflight.mjs"), "utf8");
@@ -20,6 +21,10 @@ if (selfTest.status !== 0 || !selfTest.stdout.includes("PASS publisher pilot int
 const revisionSelfTest = spawnSync(process.execPath, [revision, "--self-test"], { encoding: "utf8" });
 if (revisionSelfTest.status !== 0 || !revisionSelfTest.stdout.includes("PASS publisher pilot revisions")) {
   failures.push(`revision self-test failed: ${revisionSelfTest.stderr || revisionSelfTest.stdout}`);
+}
+const revisionVerifierSelfTest = spawnSync(process.execPath, [revisionVerifier, "--self-test"], { encoding: "utf8" });
+if (revisionVerifierSelfTest.status !== 0 || !revisionVerifierSelfTest.stdout.includes("PASS publisher revision evidence verifier")) {
+  failures.push(`revision evidence verifier self-test failed: ${revisionVerifierSelfTest.stderr || revisionVerifierSelfTest.stdout}`);
 }
 for (const marker of ["exclude stale reports/manifests", "outside the LivingTextbook repository", "Refusing linked publisher path", "publisher-handoff-revision.json", "sourceBriefChecksumSha256", "reviewOnly: true", "missingRequiredFiles", "omittedOptionalFiles"]) {
   if (!revisionSource.includes(marker)) failures.push(`revision helper missing custody marker: ${marker}`);

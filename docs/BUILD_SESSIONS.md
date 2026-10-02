@@ -8431,3 +8431,11 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Kept rights, source preflight, package assembly, QR, persistence, release,
   and student gates separate from this custody record.
 - Added ADR 1435, DR-1435, and standard 677.
+
+## Build session: Validate durable publisher revision evidence
+
+- Added a read-only validator for `evidence/publisher-handoff-revision.json`.
+- Recomputed the current brief checksum and checked copied, missing, omitted,
+  and excluded path state.
+- Added tamper regression coverage and kept every release-side action blocked.
+- Added ADR 1436, DR-1436, and standard 678.
