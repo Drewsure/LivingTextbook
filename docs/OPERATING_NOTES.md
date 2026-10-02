@@ -1746,3 +1746,13 @@ the first command as the create-once request step and the second as the guarded
 metadata submission step. If the server-side token is unavailable, stop after
 creating the request; do not paste credentials into the browser or replace the
 command with a direct file upload.
+### Publisher pilot intake command alias
+
+The publisher intake generator is exposed through the canonical package command
+`npm run create:publisher-pilot-intake-kit`. If this command is missing after a
+checkout, the repository is out of sync with its own intake documentation; do
+not invoke a different generator or place publisher files inside the repository.
+Restore the package script from the current branch, then verify with
+`npm run verify:publisher-pilot-intake-kit` before creating an external intake
+folder. Generated intake folders remain outside `LivingTextbook` and remain
+review-only until source preflight and human evidence are complete.

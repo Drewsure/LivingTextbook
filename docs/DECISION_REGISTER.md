@@ -10922,3 +10922,15 @@ Returned Z.ai Memory Match evidence is now represented by a blocked, platform-ow
 ## DR-1443: First Saleable Pilot Audit Waiting-Human State
 
 The pilot audit is now `waiting-human` after source-bound build proof, operator-handoff, and foundation-contract checks pass. Publisher source, rights, delivery, package-review, release, QR, checksum, and corrected Z.ai evidence remain human gates. See `docs/decision-register/DR-1443-pilot-audit-waiting-human.md`.
+### DR-1444: Restore the documented publisher intake command
+
+- **Decision:** Expose `scripts/create-publisher-pilot-intake-kit.mjs` as
+  `npm run create:publisher-pilot-intake-kit`.
+- **Reason:** The generator and documentation existed, but the package script
+  alias was absent. Human operators received `Missing script` before they could
+  create the external review-only intake structure.
+- **Boundary:** This is a command-path repair only. It does not create real
+  publisher evidence, upload files, assemble packages, print QR codes, activate
+  persistence, or enable students.
+- **Verification:** `npm run create:publisher-pilot-intake-kit -- --help` and
+  `npm run verify:publisher-pilot-intake-kit` pass.
