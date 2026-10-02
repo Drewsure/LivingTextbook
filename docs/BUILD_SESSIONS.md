@@ -8448,3 +8448,15 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
   publisher submission.
 - Preserved the audit's read-only, external-root, package-blocked, and
   student-blocked behavior.
+
+## Build session: Surface the Z.ai candidate handoff gate
+
+- Added the exact external candidate-root verification command to the
+  publisher pilot requirements surface.
+- Added a combined read-only audit command that accepts both the real
+  publisher root and the isolated Z.ai candidate root.
+- Made the frozen snapshot versus returned `evidence/return-package.json`
+  distinction explicit for operators.
+- Preserved fail-closed boundaries: no source import, route replacement,
+  scene-owned scoring, persistence, package promotion, or student activation.
+  Recorded under ADR 1437 / DR-1437.

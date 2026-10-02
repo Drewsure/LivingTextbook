@@ -54,6 +54,16 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
     "npm run audit:pilot -- --json `",
     "  --output \"D:\\PublisherPilotReview\\first-pilot-audit.json\"",
   ].join("\n");
+  const zaiCandidateRoot = "D:\\LIVING TEXTBOOOK PROJECT\\zai-review\\memory-match-candidate-YYYY-MM-DD";
+  const zaiCandidateVerifyCommand = [
+    `$env:LIVING_TEXTBOOOK_ZAI_CANDIDATE_ROOT = \"${zaiCandidateRoot}\"`,
+    "npm run verify:phaser-candidate-package",
+  ].join("\n");
+  const zaiCandidateAuditCommand = [
+    "npm run audit:pilot -- --json `",
+    "  --publisher-root \"D:\\PublisherPilotInput\" `",
+    `  --candidate-root \"${zaiCandidateRoot}\"`,
+  ].join("\n");
   const saleabilityEvidenceCommand = 'npm run audit:pilot -- --json --human-evidence-root "<external-evidence-folder>"';
   const humanEvidencePacketCommand = [
     "npm run create:pilot-human-evidence -- `",
@@ -259,6 +269,32 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
           <Boundary label="Proves" value="Build, routes, contracts, operator handoff" />
           <Boundary label="Waits for" value="Publisher, Z.ai, package review, policy, release evidence" />
           <Boundary label="Never does" value="Upload, assemble, print, activate, enable students" />
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-lg border border-amber-300 bg-amber-50 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-amber-800">Z.ai candidate handoff</p>
+            <h3 className="mt-1 text-base font-bold text-[var(--tenant-text)]">Verify the returned game package before any review decision</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--tenant-muted)]">
+              A frozen repository ZIP proves provenance only. Extract the separately returned candidate outside this repository and verify that it contains exactly one <code>evidence/return-package.json</code> plus the reviewed artifact set. A missing or ambiguous package stays blocked.
+            </p>
+          </div>
+          <StatusPill label="Human handoff" tone="warning" />
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-amber-200 bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell candidate verification</p>
+          <pre className="whitespace-pre-wrap font-mono">{zaiCandidateVerifyCommand}</pre>
+        </div>
+        <div className="mt-4 overflow-x-auto rounded-lg border border-amber-200 bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+          <p className="mb-3 font-semibold text-slate-300">PowerShell combined pilot audit</p>
+          <pre className="whitespace-pre-wrap font-mono">{zaiCandidateAuditCommand}</pre>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <Boundary label="Candidate custody" value="Outside LivingTextbook and outside active app routes" />
+          <Boundary label="Required marker" value="evidence/return-package.json plus eight reviewed artifacts" />
+          <Boundary label="Still blocked" value="Source copy, route replacement, scoring, persistence, students" />
         </div>
       </div>
 

@@ -10867,3 +10867,13 @@ the brief checksum, checks declared file and omission state, rejects excluded
 stale artifacts, and fails on tampering. It never writes, promotes, assembles,
 prints, persists, releases, or activates students. See ADR 1436 and
 `docs/decision-register/DR-1436-validate-durable-publisher-revision-evidence.md`.
+
+## DR-1437: Surface The Z.ai Candidate Handoff Gate
+
+The publisher pilot requirements surface now provides the operator commands
+for verifying an isolated Z.ai candidate and running the combined read-only
+pilot audit. The guidance distinguishes a frozen provenance snapshot from the
+required returned package containing `evidence/return-package.json` and keeps
+source import, route replacement, scoring, persistence, package promotion, and
+student activation blocked. See ADR 1437 and
+`apps/web/src/features/pilot/PublisherPilotInputKitPanel.tsx`.

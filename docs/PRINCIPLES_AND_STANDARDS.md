@@ -10544,3 +10544,16 @@ valid custody record is evidence for later review, never rights approval,
 package assembly, QR authorization, persistence, release, or student use.
 
 This standard is recorded in DR-1436 and ADR 1436.
+
+## 679. Z.ai Candidate Handoffs Must Be Operator-Visible And Fail Closed
+
+The publisher pilot requirements surface must show the exact external
+candidate-root verification command and the combined read-only pilot audit.
+Operators must be told that a frozen Z.ai snapshot proves provenance only and
+that the returned candidate must contain exactly one
+`evidence/return-package.json` plus the reviewed artifact set. Candidate
+verification remains outside the repository and cannot copy source, replace
+routes, own scoring, enable persistence, assign students, or promote a
+package.
+
+This standard is recorded in DR-1437 and ADR 1437.
