@@ -8376,7 +8376,10 @@ Staged the existing MiniStar curriculum DOCX in an external review-only
 publisher intake kit and recorded its source identity, owner declaration,
 language policy, and hybrid delivery preference. Preflight correctly remains
 incomplete until the required audio, media, rights, accessibility, scan, QR,
-retention, and reporting evidence is supplied. Recorded under ADR 1430 / DR-1430.
+retention, and reporting evidence is supplied. The review-only canonical source
+manifest has now been generated; canonical source preflight records one
+verified DOCX and one required missing audio lane, while optional media remain
+visible as omissions. Recorded under ADR 1430 / DR-1430.
 
 ## Build session: Respect optional publisher media during intake
 

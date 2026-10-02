@@ -20,9 +20,10 @@ remain human review items.
 ## Safety boundary
 
 The source stays outside `LivingTextbook` until canonical source review passes.
-An incomplete intake cannot produce a source manifest, package, QR print
-artifact, persistence activation, or student-facing route. No missing media or
-approval is inferred from the MiniStar ownership declaration.
+An incomplete intake may produce a review-only source manifest and preflight
+report, but it cannot produce an approved source package, QR print artifact,
+persistence activation, or student-facing route. No missing media or approval
+is inferred from the MiniStar ownership declaration.
 
 ## Verification
 
