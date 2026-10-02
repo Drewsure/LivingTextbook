@@ -8377,3 +8377,10 @@ publisher intake kit and recorded its source identity, owner declaration,
 language policy, and hybrid delivery preference. Preflight correctly remains
 incomplete until the required audio, media, rights, accessibility, scan, QR,
 retention, and reporting evidence is supplied. Recorded under ADR 1430 / DR-1430.
+
+## Build session: Respect optional publisher media during intake
+
+Corrected publisher preflight so required source/audio/evidence gaps remain
+blocking while omitted optional image, video, transcript, font, and background
+media are reported separately. Added a regression self-test and preserved the
+review-only boundary. Recorded under ADR 1431 / DR-1431.

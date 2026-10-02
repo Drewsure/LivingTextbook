@@ -154,3 +154,9 @@ declaration are present, but the preflight correctly remains incomplete until
 target-language audio, declared media, rights, accessibility, scan, QR,
 retention, and reporting evidence are supplied. This is a genuine source
 handoff, not package or release approval.
+
+The intake preflight now distinguishes missing required learning audio from
+omitted optional media. A publisher may proceed with source review without
+inventing optional image, video, transcript, font, or background assets; any
+later addition still requires its own rights, accessibility, mapping, and
+release evidence.

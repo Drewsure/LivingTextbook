@@ -28,13 +28,22 @@ try {
 }
 
 const missingFiles = [];
+const omittedOptionalFiles = [];
 const unsafePaths = [];
 const declaredFiles = [
   ...(brief.sourceFiles ?? []),
   ...(brief.mediaRequests ?? []).map((request) => request.relativePath),
   ...(brief.evidenceRequests ?? []).map((request) => request.relativePath),
 ];
-for (const relativePath of declaredFiles) {
+const requiredFiles = [
+  ...(brief.sourceFiles ?? []),
+  ...(brief.mediaRequests ?? []).filter((request) => request.required).map((request) => request.relativePath),
+  ...(brief.evidenceRequests ?? []).filter((request) => request.required).map((request) => request.relativePath),
+];
+const optionalFiles = (brief.mediaRequests ?? [])
+  .filter((request) => !request.required)
+  .map((request) => request.relativePath);
+for (const relativePath of requiredFiles) {
   if (!isSafeRelativePath(relativePath)) {
     unsafePaths.push(relativePath);
     continue;
@@ -43,6 +52,17 @@ for (const relativePath of declaredFiles) {
     await access(join(root, relativePath));
   } catch {
     missingFiles.push(relativePath);
+  }
+}
+for (const relativePath of optionalFiles) {
+  if (!isSafeRelativePath(relativePath)) {
+    unsafePaths.push(relativePath);
+    continue;
+  }
+  try {
+    await access(join(root, relativePath));
+  } catch {
+    omittedOptionalFiles.push(relativePath);
   }
 }
 
@@ -74,6 +94,7 @@ const result = {
   inventoryStatus: missingFiles.length === 0 && unsafePaths.length === 0 && placeholderFields.length === 0 && structuralErrors.length === 0 ? "complete" : "incomplete",
   declaredFileCount: declaredFiles.length,
   missingFiles,
+  omittedOptionalFiles,
   unsafePaths,
   placeholderFields,
   structuralErrors,
@@ -145,6 +166,31 @@ async function runSelfTest() {
     if (exported.status !== 0 || !exported.stdout.includes("Evidence report written once") || !exported.stdout.includes('"inventoryStatus": "complete"')) fail(`preflight evidence export self-test failed: ${exported.stderr || exported.stdout}`);
     const overwrite = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--output", outputPath], { encoding: "utf8" });
     if (overwrite.status === 0) fail("preflight evidence export self-test allowed an overwrite.");
+    const optionalRoot = await mkdtemp(join(tmpdir(), "living-textbook-pilot-optional-"));
+    try {
+      const optionalGenerated = spawnSync(process.execPath, [fileURLToPath(new URL("./create-publisher-pilot-intake-kit.mjs", import.meta.url)), "--root", optionalRoot, "--tenant-id", "optional-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1"], { encoding: "utf8" });
+      if (optionalGenerated.status !== 0) fail(`optional-media kit generator failed: ${optionalGenerated.stderr}`);
+      const optionalBriefPath = join(optionalRoot, "publisher-pilot-intake.json");
+      const optionalBrief = JSON.parse(await readFile(optionalBriefPath, "utf8"));
+      for (const key of ["seriesName", "edition", "version", "sourceOwner", "retentionPolicy", "reportingPolicy"]) {
+        if (typeof optionalBrief[key] === "string") optionalBrief[key] = optionalBrief[key].replace(/^REPLACE_WITH_.*$/, `confirmed-${key}`);
+      }
+      optionalBrief.qrPageReferences = ["page-1"];
+      optionalBrief.qrReferences = [{ referenceId: "unit-1-entry", pageReference: "page-1", unitId: "unit-1", activitySlug: "unit-1-entry", targetType: "unit-launch", language: "en" }];
+      await writeFile(optionalBriefPath, `${JSON.stringify(optionalBrief, null, 2)}\n`, "utf8");
+      for (const relativePath of [
+        ...optionalBrief.sourceFiles,
+        ...optionalBrief.mediaRequests.filter((request) => request.required).map((request) => request.relativePath),
+        ...optionalBrief.evidenceRequests.filter((request) => request.required).map((request) => request.relativePath),
+      ]) {
+        await mkdir(join(optionalRoot, relativePath, ".."), { recursive: true });
+        await writeFile(join(optionalRoot, relativePath), "required-self-test", "utf8");
+      }
+      const optionalPreflight = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", optionalRoot], { encoding: "utf8" });
+      if (optionalPreflight.status !== 0 || !optionalPreflight.stdout.includes('"inventoryStatus": "complete"') || !optionalPreflight.stdout.includes('"omittedOptionalFiles"')) fail(`optional media omission self-test failed: ${optionalPreflight.stderr || optionalPreflight.stdout}`);
+    } finally {
+      await rm(optionalRoot, { recursive: true, force: true });
+    }
     const duplicateLanguageBrief = { ...brief, supportLanguages: ["ja", "JA"] };
     await writeFile(briefPath, `${JSON.stringify(duplicateLanguageBrief, null, 2)}\n`, "utf8");
     const duplicateLanguage = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root], { encoding: "utf8" });

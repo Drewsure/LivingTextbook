@@ -10821,3 +10821,10 @@ publisher-source submission. Its known identity and ownership are recorded,
 but incomplete audio, media, rights, accessibility, scan, QR, retention, and
 reporting evidence keep source review and saleability blocked. See ADR 1430
 and `docs/decision-register/DR-1430-register-ministar-source-submission.md`.
+
+## DR-1431: Respect Optional Publisher Media During Intake
+
+Publisher intake preflight now honors each media request's `required` flag.
+Required source/audio/evidence gaps remain blocking, while omitted optional
+media are visible as separate review metadata. See ADR 1431 and
+`docs/decision-register/DR-1431-respect-optional-publisher-media.md`.

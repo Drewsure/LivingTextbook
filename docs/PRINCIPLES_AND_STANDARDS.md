@@ -10477,3 +10477,15 @@ This standard is recorded in DR-1429 and ADR 1429.
   use.
 
 This standard is recorded in DR-1430 and ADR 1430.
+
+## 673. Intake Must Distinguish Required And Optional Media
+
+- Preflight must block missing learner-critical source, target-language audio,
+  and required evidence files.
+- Preflight must report omitted optional image, video, transcript, font, and
+  background-media lanes separately rather than treating them as missing
+  required files.
+- Adding an optional asset later reopens its own rights, accessibility,
+  mapping, and release checks; omission is never approval.
+
+This standard is recorded in DR-1431 and ADR 1431.
