@@ -10430,3 +10430,14 @@ This standard is recorded in DR-1425 and ADR 1425.
   next activity, award mastery, or replace target-language completion.
 
 This standard is recorded in DR-1426 and ADR 1426.
+
+## 669. Publisher Language And Delivery Must Be Explicit
+
+- White-label intake may retain English and hybrid as reference defaults, but
+  target language and delivery mode must be explicit, validated tenant choices.
+- Hosted persistence must require a separate opt-in and must be rejected for a
+  closed-local package.
+- These choices shape review metadata only; they cannot bypass rights, audio,
+  package, QR, persistence, release, or student-use gates.
+
+This standard is recorded in DR-1427 and ADR 1427.

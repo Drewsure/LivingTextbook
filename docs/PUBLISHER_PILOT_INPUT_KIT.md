@@ -33,6 +33,28 @@ Assist languages are optional and tenant-selected. Add
 or school approves the support-language policy. Support language is assistive
 only; English/target-language completion remains the progression trigger.
 
+The target language and delivery mode are also explicit tenant choices. The
+kit defaults to `--target-language en` and `--delivery-mode hybrid` for the
+reference pilot, but a publisher may choose another bounded language id and
+`hosted-pwa`, `closed-local`, or `hybrid` delivery:
+
+```powershell
+node scripts/create-publisher-pilot-intake-kit.mjs `
+  --root "D:\PublisherPilotInput" `
+  --tenant-id "publisher-name" `
+  --publisher-name "Publisher Name" `
+  --book-title "Book Title" `
+  --unit-key "series:book:L1:U1" `
+  --target-language "ja" `
+  --delivery-mode "closed-local"
+```
+
+Hosted persistence remains opt-in and is never inferred from `hosted-pwa` or
+`hybrid`. Add `--hosted-persistence-opt-in` only when the publisher or school
+has separately approved hosted storage, retention, backup, cost, and reporting
+policy. The flag is rejected for `closed-local` delivery and all generated
+kits remain review-only.
+
 The kit also creates an `evidence` folder with structured declarations for
 rights, accessibility/captions, and scan evidence. These declarations are
 inventory inputs only; they do not assert that the evidence is valid or

@@ -121,6 +121,9 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         <p className="mt-2 text-xs leading-5 text-slate-300">
           Assist languages are optional and tenant-selected. Add <code>--support-languages &quot;ja&quot;</code> only when approved; support text can assist the learner but never triggers progression.
         </p>
+        <p className="mt-2 text-xs leading-5 text-slate-300">
+          Target language and delivery mode are publisher choices: use <code>--target-language</code>, <code>--delivery-mode hosted-pwa|closed-local|hybrid</code>, and <code>--hosted-persistence-opt-in</code> only after school approval.
+        </p>
       </div>
 
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

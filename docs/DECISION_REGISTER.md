@@ -10789,3 +10789,11 @@ approved support languages explicitly, and the handoff preserves the rule that
 support language assists only while target-language completion drives
 progression. See ADR 1426 and
 `docs/decision-register/DR-1426-optional-tenant-support-languages.md`.
+
+## DR-1427: Explicit Publisher Language And Delivery Choices
+
+Publisher intake kits now allow explicit target-language and delivery-mode
+choices while preserving reference defaults. Hosted persistence requires a
+separate opt-in and is incompatible with closed-local delivery; all choices
+remain review-only until the independent release gates pass. See ADR 1427 and
+`docs/decision-register/DR-1427-explicit-publisher-language-and-delivery.md`.

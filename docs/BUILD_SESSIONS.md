@@ -8347,3 +8347,11 @@ generator. Support languages are now an explicit bounded, deduplicated option,
 with no assist language by default. The tenant-facing handoff explains that
 support language is assistive only and never drives progression. Recorded under
 ADR 1426 / DR-1426.
+
+## Build session: Make publisher language and delivery explicit
+
+Removed the remaining hard-coded English and hybrid assumptions from the
+publisher intake-kit generator. Publishers can now declare a bounded target
+language and choose hosted PWA, closed-local, or hybrid delivery. Hosted
+persistence remains a separate explicit opt-in and is rejected for closed-local
+delivery. Recorded under ADR 1427 / DR-1427.
