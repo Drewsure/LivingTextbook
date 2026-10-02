@@ -877,6 +877,19 @@ const forbiddenTextByPath = new Map([
     ["AI-generated MiniStar greetings draft preview", "MiniStar AI support language ready"],
   ],
   ["/teacher/review/ministar", ["AI-generated daily routines draft preview", "Sample Publisher Lab source review workspace"]],
+  [
+    "/teacher/sources/white-label-review",
+    [
+      "MiniStar master curriculum DOCX",
+      "Partner textbook sample unit PDF",
+      "Unit audio and chant folder",
+      "Unit video folder",
+      "src-ministar-master-docx",
+      "src-sample-publisher-unit-pdf",
+      "src-sample-publisher-audio-folder",
+      "src-sample-publisher-video-folder",
+    ],
+  ],
 ]);
 
 expectedTextByPath.get("/teacher/review")?.push(

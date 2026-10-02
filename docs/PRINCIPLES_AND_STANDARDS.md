@@ -10580,3 +10580,13 @@ rules and next-step guidance, but it must not invent source evidence or enable
 extraction, package assembly, QR release, persistence, or student activation.
 
 This standard is recorded in DR-1439 and ADR 1439.
+
+## 682. White-Label Source Routes Must Prove Non-Leakage At Runtime
+
+Generic tenant source-review route verification must inspect the rendered
+response and reject reference-tenant source labels, identifiers, and media
+records. A route status of 200 and an empty-state heading are insufficient
+proof of tenant isolation. Runtime checks must remain read-only and must not
+require publisher evidence or enable source extraction.
+
+This standard is recorded in DR-1440 and ADR 1440.

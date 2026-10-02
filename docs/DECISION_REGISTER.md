@@ -10894,3 +10894,12 @@ sample publisher remain the only reference tenants allowed to display the
 maintained fixtures. The route-level gate prevents sample data from becoming a
 white-label default and keeps source intake review-only. See ADR 1439 and
 `docs/decision-register/DR-1439-tenant-empty-source-review-queues.md`.
+
+## DR-1440: Runtime Non-Leakage Check For Generic Source Review
+
+The active route verifier now checks the rendered generic source-review route
+for reference-tenant source labels, identifiers, and media records. A passing
+HTTP response and empty-state copy alone are not sufficient tenant-isolation
+evidence. The check remains read-only and does not enable extraction or source
+promotion. See ADR 1440 and
+`docs/decision-register/DR-1440-runtime-source-review-non-leakage.md`.

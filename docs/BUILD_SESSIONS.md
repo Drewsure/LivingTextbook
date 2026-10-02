@@ -8487,3 +8487,11 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Preserved visible review rules and the no-live-extraction boundary without
   fabricating publisher evidence.
 - Added the route verifier guard plus ADR 1439, DR-1439, and standard 681.
+
+## Build session: Verify generic source-review non-leakage at runtime
+
+- Added forbidden rendered-response markers for reference-tenant source labels,
+  identifiers, and media records on the generic source-review route.
+- Kept the check read-only and independent of publisher evidence or extraction
+  actions.
+- Added ADR 1440, DR-1440, and standard 682.
