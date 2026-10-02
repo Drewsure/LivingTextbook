@@ -10781,3 +10781,11 @@ explicit safe DOCX, TXT, Markdown, or CSV source path. This aligns the real
 publisher handoff with the canonical source manifest without weakening any
 review or activation boundary. See ADR 1425 and
 `docs/decision-register/DR-1425-explicit-publisher-source-format.md`.
+
+## DR-1426: Optional Tenant Support Languages
+
+Publisher intake kits no longer force Japanese support. Operators must select
+approved support languages explicitly, and the handoff preserves the rule that
+support language assists only while target-language completion drives
+progression. See ADR 1426 and
+`docs/decision-register/DR-1426-optional-tenant-support-languages.md`.

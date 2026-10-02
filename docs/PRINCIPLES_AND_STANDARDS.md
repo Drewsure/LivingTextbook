@@ -10419,3 +10419,14 @@ This standard is recorded in DR-1424 and ADR 1424.
   release, QR, persistence, or student-use review gates.
 
 This standard is recorded in DR-1425 and ADR 1425.
+
+## 668. Support Languages Must Be Optional And Non-Progression-Capable
+
+- White-label intake must default to no assist language and require explicit
+  tenant or school choice for each support-language id.
+- Support-language identifiers must be bounded, deduplicated, and carried as
+  policy/input metadata rather than universal MiniStar assumptions.
+- Support text or audio may assist understanding but must never unlock the
+  next activity, award mastery, or replace target-language completion.
+
+This standard is recorded in DR-1426 and ADR 1426.

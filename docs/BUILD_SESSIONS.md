@@ -8339,3 +8339,11 @@ TXT, Markdown, and CSV now align with the canonical source-manifest contract.
 The source remains external and review-only; no upload, extraction, promotion,
 assembly, QR, persistence, or student action is enabled. Recorded under ADR
 1425 / DR-1425.
+
+## Build session: Make assist languages optional per tenant
+
+Removed the hard-coded Japanese support default from the publisher intake-kit
+generator. Support languages are now an explicit bounded, deduplicated option,
+with no assist language by default. The tenant-facing handoff explains that
+support language is assistive only and never drives progression. Recorded under
+ADR 1426 / DR-1426.

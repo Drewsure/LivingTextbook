@@ -118,6 +118,9 @@ export function PublisherPilotInputKitPanel({ tenantId, tenantName }: PublisherP
         <p className="mt-3 text-xs leading-5 text-slate-300">
           PDF is the default source format. Keep the path under <code>source/</code> and change it to a licensed DOCX, TXT, Markdown, or CSV source when that is the publisher&apos;s authoritative material.
         </p>
+        <p className="mt-2 text-xs leading-5 text-slate-300">
+          Assist languages are optional and tenant-selected. Add <code>--support-languages &quot;ja&quot;</code> only when approved; support text can assist the learner but never triggers progression.
+        </p>
       </div>
 
       <div className="mt-5 rounded-lg border border-[var(--tenant-border)] bg-[var(--tenant-primary-soft)] p-4">

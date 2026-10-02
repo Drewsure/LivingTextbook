@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
-  console.log("Usage: node scripts/create-publisher-pilot-intake-kit.mjs --root <folder> --tenant-id <id> --publisher-name <name> --book-title <title> --unit-key <key> [--source-file source/unit-1.pdf|source/unit-1.docx|source/unit-1.txt|source/unit-1.md|source/unit-1.csv]");
+  console.log("Usage: node scripts/create-publisher-pilot-intake-kit.mjs --root <folder> --tenant-id <id> --publisher-name <name> --book-title <title> --unit-key <key> [--source-file source/unit-1.pdf|source/unit-1.docx|source/unit-1.txt|source/unit-1.md|source/unit-1.csv] [--support-languages ja,es]");
   process.exit(0);
 }
 if (options.selfTest) {
@@ -49,7 +49,7 @@ function createBrief(options) {
     edition: "REPLACE_WITH_EDITION",
     version: "REPLACE_WITH_VERSION",
     targetLanguage: "en",
-    supportLanguages: ["ja"],
+    supportLanguages: parseSupportLanguages(options.supportLanguages),
     unitKey: options.unitKey,
     sourceOwner: "REPLACE_WITH_RIGHTS_OWNER",
     sourceFiles: [sourceFile],
@@ -92,6 +92,18 @@ function validateSourceFile(value) {
   return normalized;
 }
 
+function parseSupportLanguages(value) {
+  const languages = String(value || "")
+    .split(",")
+    .map((language) => language.trim())
+    .filter(Boolean);
+  const unique = [...new Set(languages)];
+  if (unique.some((language) => !/^[A-Za-z0-9][A-Za-z0-9-]{1,19}$/.test(language))) {
+    fail(`Unsupported support-language id: ${value}`);
+  }
+  return unique;
+}
+
 function validateBrief(brief) {
   const errors = [];
   for (const key of ["briefId", "tenantId", "publisherName", "seriesName", "bookTitle", "edition", "version", "targetLanguage", "unitKey", "sourceOwner", "retentionPolicy", "reportingPolicy"]) {
@@ -103,12 +115,12 @@ function validateBrief(brief) {
 }
 
 function parseArguments(args) {
-  const result = { root: "", tenantId: "", publisherName: "", bookTitle: "", unitKey: "", sourceFile: "source/unit-1.pdf", help: false, selfTest: false };
+  const result = { root: "", tenantId: "", publisherName: "", bookTitle: "", unitKey: "", sourceFile: "source/unit-1.pdf", supportLanguages: "", help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--help" || arg === "-h") result.help = true;
     else if (arg === "--self-test") result.selfTest = true;
-    else if (["root", "tenant-id", "publisher-name", "book-title", "unit-key", "source-file"].includes(arg.slice(2))) result[toCamelCase(arg.slice(2))] = args[++index] ?? "";
+    else if (["root", "tenant-id", "publisher-name", "book-title", "unit-key", "source-file", "support-languages"].includes(arg.slice(2))) result[toCamelCase(arg.slice(2))] = args[++index] ?? "";
     else fail(`Unknown argument: ${arg}`);
   }
   return result;
@@ -119,16 +131,18 @@ function toCamelCase(value) { return value.replace(/-([a-z])/g, (_, letter) => l
 async function runSelfTest() {
   const root = resolve(`${process.env.TEMP ?? process.env.TMP ?? "."}/living-textbook-pilot-kit-self-test`);
   await rm(root, { recursive: true, force: true });
-  const generated = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.docx"], { encoding: "utf8" });
+  const generated = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.docx", "--support-languages", "ja,es,ja"], { encoding: "utf8" });
   if (generated.status !== 0) fail(`self-test generator failed: ${generated.stderr}`);
   const stored = JSON.parse(await readFile(join(root, "publisher-pilot-intake.json"), "utf8"));
-  if (stored.reviewOnly !== true || stored.sourceFiles?.[0] !== "source/unit-1.docx" || stored.mediaRequests.length !== 6 || stored.evidenceRequests.length !== 3 || stored.deliveryMode !== "hybrid") fail("self-test did not preserve the review-only pilot brief and explicit source type.");
+  if (stored.reviewOnly !== true || stored.sourceFiles?.[0] !== "source/unit-1.docx" || JSON.stringify(stored.supportLanguages) !== JSON.stringify(["ja", "es"]) || stored.mediaRequests.length !== 6 || stored.evidenceRequests.length !== 3 || stored.deliveryMode !== "hybrid") fail("self-test did not preserve the review-only pilot brief, explicit source type, and optional support languages.");
   const unsafePath = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "unsafe-path"), "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/../outside.pdf"], { encoding: "utf8" });
   if (unsafePath.status === 0 || !unsafePath.stderr.includes("Unsafe textbook source path")) fail("self-test allowed a source path traversal");
   const unsupportedType = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "unsupported-type"), "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.exe"], { encoding: "utf8" });
   if (unsupportedType.status === 0 || !unsupportedType.stderr.includes("Unsupported textbook source extension")) fail("self-test allowed an unsupported source extension");
+  const invalidLanguage = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "invalid-language"), "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--support-languages", "ja,en us"], { encoding: "utf8" });
+  if (invalidLanguage.status === 0 || !invalidLanguage.stderr.includes("Unsupported support-language id")) fail("self-test allowed an unsafe support-language id");
   await rm(root, { recursive: true, force: true });
-  console.log("PASS publisher pilot intake kit creates a safe review-only brief, supports explicit source formats, and rejects unsafe or unsupported source paths.");
+  console.log("PASS publisher pilot intake kit creates a safe review-only brief, supports explicit source formats and optional support languages, and rejects unsafe inputs.");
 }
 
 function fail(message) { console.error(`ERROR ${message}`); process.exit(2); }

@@ -28,6 +28,11 @@ text-based publisher handoff, pass an explicit safe source path such as
 or `source/unit-1.csv`. The canonical source contract validates the declared
 type and the same review-only gates apply to every format.
 
+Assist languages are optional and tenant-selected. Add
+`--support-languages ja` (or a comma-separated list) only after the publisher
+or school approves the support-language policy. Support language is assistive
+only; English/target-language completion remains the progression trigger.
+
 The kit also creates an `evidence` folder with structured declarations for
 rights, accessibility/captions, and scan evidence. These declarations are
 inventory inputs only; they do not assert that the evidence is valid or
