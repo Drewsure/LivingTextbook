@@ -6,6 +6,7 @@
 - Bound the returned `memory-match-candidate-2026-10-02` provenance to the frozen MiniStar source snapshot.
 - Added a teacher game-readiness panel showing eight admission checks and the normalization plan.
 - Added a review-only verifier for the bridge surface.
+- Added an isolated candidate evidence verifier that reports canonical corrections without mutating the candidate or active app.
 - Kept the canonical Memory Match route and platform-owned pairing engine unchanged.
 
 ## Verification intent
