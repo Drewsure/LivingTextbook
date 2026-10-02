@@ -147,3 +147,10 @@ release-authorization gates are wired through the canonical validator. This is
 composition evidence only; the temporary records remain outside the
 repository, and the live pilot still waits for real publisher, Z.ai, and named
 human evidence.
+
+The first real MiniStar source submission is now staged outside the repository
+in a review-only intake folder. The curriculum DOCX and source-owner
+declaration are present, but the preflight correctly remains incomplete until
+target-language audio, declared media, rights, accessibility, scan, QR,
+retention, and reporting evidence are supplied. This is a genuine source
+handoff, not package or release approval.

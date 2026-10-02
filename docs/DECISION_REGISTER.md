@@ -10813,3 +10813,11 @@ publisher intake and normalizes `hosted-pwa` to canonical `hosted` evidence.
 Hosted persistence opt-in is preserved across policy and release records, and
 closed-local contradictions remain blocked. See ADR 1429 and
 `docs/decision-register/DR-1429-align-human-delivery-evidence.md`.
+
+## DR-1430: Register MiniStar Unit 1 Source Submission
+
+The existing MiniStar curriculum DOCX is staged as the first real external
+publisher-source submission. Its known identity and ownership are recorded,
+but incomplete audio, media, rights, accessibility, scan, QR, retention, and
+reporting evidence keep source review and saleability blocked. See ADR 1430
+and `docs/decision-register/DR-1430-register-ministar-source-submission.md`.

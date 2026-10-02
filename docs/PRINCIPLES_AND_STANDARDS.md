@@ -10464,3 +10464,16 @@ This standard is recorded in DR-1428 and ADR 1428.
   and validation.
 
 This standard is recorded in DR-1429 and ADR 1429.
+
+## 672. Real Source Submissions Must Remain Incomplete Until Evidence Exists
+
+- A real publisher source may be staged in the external review custody area,
+  but it must not be copied into active app routes or repository source as a
+  shortcut around review.
+- Missing target-language audio, media, rights, accessibility, scan, QR,
+  retention, or reporting evidence must remain visible as an incomplete gate.
+- Ownership declarations establish provenance only; they do not authorize
+  package assembly, QR printing, persistence activation, release, or student
+  use.
+
+This standard is recorded in DR-1430 and ADR 1430.

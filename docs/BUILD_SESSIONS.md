@@ -8369,3 +8369,11 @@ Aligned the external human evidence generator with publisher-facing delivery
 choices. Hosted PWA now normalizes to the canonical hosted evidence value, the
 explicit persistence opt-in is preserved across policy and release drafts, and
 closed-local contradictions are rejected. Recorded under ADR 1429 / DR-1429.
+
+## Build session: Register real MiniStar Unit 1 source submission
+
+Staged the existing MiniStar curriculum DOCX in an external review-only
+publisher intake kit and recorded its source identity, owner declaration,
+language policy, and hybrid delivery preference. Preflight correctly remains
+incomplete until the required audio, media, rights, accessibility, scan, QR,
+retention, and reporting evidence is supplied. Recorded under ADR 1430 / DR-1430.
