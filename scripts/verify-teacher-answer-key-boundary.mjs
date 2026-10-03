@@ -18,10 +18,10 @@ const studentRoutes = [
 ];
 
 for (const [source, markers, label] of [
-  [contract, ["TeacherAnswerKeyReviewRequest", "contentIncluded: false", "studentFacing: false", "teacher/answers/", "validateStudentBundleTeacherAnswerExclusion"], "answer-key contract"],
+  [contract, ["TeacherAnswerKeyReviewRequest", "contentIncluded: false", "studentFacing: false", "teacher/answers/", "validateStudentBundleTeacherAnswerExclusion", "validateTeacherAnswerKeyReviewRecordBinding"], "answer-key contract"],
   [bundleManifest, ["validateStudentBundleTeacherAnswerExclusion(value)"], "student bundle manifest"],
   [assembler, ["validateStudentBundleTeacherAnswerExclusion", "buildSourceFilePlan(input.bundleManifest)", "Local pilot package assembly requires"], "local package assembler"],
-  [reviewRoute, ["hasTeacherOperationsReadAuthorization(request, requestShape.tenantId)", "getTeacherAnswerKeyReviewProvider", 'accessMode: "teacher-review"', "contentIncluded: false", "studentFacing: false"], "teacher answer-key review route"],
+  [reviewRoute, ["hasTeacherOperationsReadAuthorization(request, requestShape.tenantId)", "getTeacherAnswerKeyReviewProvider", "validateTeacherAnswerKeyReviewRecordBinding", 'accessMode: "teacher-review"', "contentIncluded: false", "studentFacing: false"], "teacher answer-key review route"],
   [reviewAdapter, ["TeacherAnswerKeyReviewProvider", "no answer content or synthetic record", "validateTeacherAnswerKeyReviewRequest"], "teacher answer-key review adapter"],
   [authorization, ['claims?.role === "teacher"', "claims.scope === TEACHER_PERSISTENCE_READ_SCOPE", "claims.tenantId === tenantId"], "teacher authorization"],
 ]) {

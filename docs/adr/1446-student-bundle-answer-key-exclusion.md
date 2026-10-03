@@ -17,8 +17,10 @@ The local bundle validator and assembler call the shared
 
 The teacher answer-key review API requires the exact tenant-scoped teacher
 authorization boundary and returns `contentIncluded: false` and
-`studentFacing: false`. It does not synthesize a record, read the external PDF,
-or expose answer content.
+`studentFacing: false`. Any future provider record must match the requested
+tenant, package, version, and asset identity and must carry its own checksum.
+The current adapter does not synthesize a record, read the external PDF, or
+expose answer content.
 
 ## Status
 

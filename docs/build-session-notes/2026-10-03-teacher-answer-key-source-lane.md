@@ -21,3 +21,7 @@ validation and assembly reject teacher-answer-key kinds, teacher-only markers,
 and `teacher/answers/` paths. A tenant-scoped teacher review API exists as a
 metadata-only, provider-blocked boundary with `contentIncluded: false`; it does
 not read or expose the external Teacher PDF.
+
+The review contract now also validates provider records against the exact
+tenant, package, version, and asset identity requested by the teacher, while
+requiring the answer source checksum to remain present.

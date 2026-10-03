@@ -63,6 +63,21 @@ export function validateTeacherAnswerKeyReviewRecord(value: unknown): string[] {
   return [...new Set(errors)];
 }
 
+export function validateTeacherAnswerKeyReviewRecordBinding(
+  record: unknown,
+  request: TeacherAnswerKeyReviewRequest,
+): string[] {
+  const errors = [
+    ...validateTeacherAnswerKeyReviewRecord(record),
+    ...validateTeacherAnswerKeyReviewRequest(request),
+  ];
+  if (!isRecord(record)) return [...new Set(errors)];
+  for (const field of ["tenantId", "packageId", "version", "assetId"] as const) {
+    if (record[field] !== request[field]) errors.push(`Teacher answer-key review ${field} does not match the requested package scope.`);
+  }
+  return [...new Set(errors)];
+}
+
 export function validateStudentBundleTeacherAnswerExclusion(value: unknown): string[] {
   const errors: string[] = [];
   if (!isRecord(value)) return ["Student bundle manifest must be an object before teacher answer-key exclusion can be proven."];

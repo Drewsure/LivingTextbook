@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import {
   validateTeacherAnswerKeyReviewRequest,
+  validateTeacherAnswerKeyReviewRecordBinding,
   type TeacherAnswerKeyReviewRequest,
 } from "@living-textbook/content-model";
 import { hasTeacherOperationsReadAuthorization } from "@/server/persistence/teacherOperationsAuthorization";
@@ -40,6 +41,20 @@ export function GET(request: Request) {
   }
 
   const result = getTeacherAnswerKeyReviewProvider().read(requestShape);
+  const recordErrors = result.record
+    ? validateTeacherAnswerKeyReviewRecordBinding(result.record, requestShape)
+    : [];
+  if (recordErrors.length > 0) {
+    return json({
+      status: "blocked",
+      provider: result.provider,
+      record: null,
+      errors: recordErrors,
+      studentFacing: false,
+      contentIncluded: false,
+      accessMode: "teacher-review",
+    }, 423);
+  }
   return json({
     status: result.status,
     provider: result.provider,
