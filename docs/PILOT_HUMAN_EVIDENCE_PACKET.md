@@ -28,12 +28,19 @@ npm run create:pilot-human-evidence -- `
   --tenant-id "publisher-name" `
   --package-id "publisher-name-l1-u1-package" `
   --unit-key "series:book:L1:U1" `
+  --publisher-root "D:\PublisherPilotInput" `
   --delivery-mode "hybrid"
 ```
 
 The generator intentionally writes `draft` status and `REPLACE_WITH_*`
 placeholders. That output is not evidence until a named adult or policy owner
 completes and reviews it. Existing records are never overwritten.
+
+When `--publisher-root` is supplied, the generator reads the declared teacher
+answer paths from the external intake and writes only their SHA-256 checksums
+into `teacherAnswerKeyEvidence`. It never copies the PDF or extracts answers.
+Reviewer, rights, and answer-mapping fields remain placeholders until a human
+completes them.
 
 Use `--delivery-mode hosted-pwa` when the publisher's hosted PWA policy is the
 selected path; the human evidence records normalize that name to `hosted`.

@@ -1,4 +1,5 @@
 import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
 import { mkdtempSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
@@ -7,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
-  console.log("Usage: node scripts/create-pilot-human-evidence-packet.mjs --root <external-folder> --tenant-id <id> --package-id <id> --unit-key <key> [--delivery-mode hosted-pwa|closed-local|hybrid] [--hosted-persistence-opt-in]");
+  console.log("Usage: node scripts/create-pilot-human-evidence-packet.mjs --root <external-folder> --tenant-id <id> --package-id <id> --unit-key <key> [--publisher-root <publisher-folder>] [--delivery-mode hosted-pwa|closed-local|hybrid] [--hosted-persistence-opt-in]");
   process.exit(0);
 }
 if (options.selfTest) {
@@ -85,7 +86,7 @@ const packageReview = {
   accessibilityCoverage: "REPLACE_WITH_REVIEW_STATUS",
   rightsCoverage: "REPLACE_WITH_REVIEW_STATUS",
   reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, status: "REPLACE_WITH_REVIEW_STATUS", evidenceRefs: [`REPLACE_WITH_${lane.toUpperCase()}_EVIDENCE_REF`] })),
-  teacherAnswerKeyEvidence: [],
+  teacherAnswerKeyEvidence: await createTeacherAnswerKeyEvidence(options.publisherRoot, identity),
   promotionAllowed: false,
   studentFacingActivationAllowed: false,
 };
@@ -96,17 +97,55 @@ await writeFile(join(root, "README.md"), createReadme(identity), { encoding: "ut
 console.log(JSON.stringify({ root, policyPath, releasePath, packageReviewPath, reviewOnly: true, writesEnabled: false, studentActivationAllowed: false }, null, 2));
 
 function createReadme(identity) {
-  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nDeclared delivery mode: **${identity.mode}**. Hosted persistence opt-in: **${identity.hostedPersistenceOptIn ? "requested for review" : "not requested"}**.\n\nReplace every REPLACE_WITH_* value and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nIf the publisher intake declares teacher answer files, add one metadata-only teacherAnswerKeyEvidence record per declared file. Record its external relative path and SHA-256 only; do not copy the PDF, extracted answers, bytes, or answer text into this packet. Each record must remain teacherOnly=true, studentFacing=false, contentIncluded=false, and status=review-only.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence" --publisher-root "D:\\PublisherPilotInput"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
+  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nDeclared delivery mode: **${identity.mode}**. Hosted persistence opt-in: **${identity.hostedPersistenceOptIn ? "requested for review" : "not requested"}**.\n\nReplace every REPLACE_WITH_* value and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nIf the publisher intake declares teacher answer files, the generator records each external file's SHA-256 in teacherAnswerKeyEvidence when --publisher-root is supplied. Complete the reviewer, rights, and answer-mapping fields, but do not copy the PDF, extracted answers, bytes, or answer text into this packet. Each record must remain teacherOnly=true, studentFacing=false, contentIncluded=false, and status=review-only.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence" --publisher-root "D:\\PublisherPilotInput"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
+}
+
+async function createTeacherAnswerKeyEvidence(publisherRoot, identity) {
+  if (!publisherRoot) return [];
+  const publisherPath = resolve(publisherRoot);
+  if (isWithin(repositoryRoot, publisherPath)) fail("Publisher source must remain outside the LivingTextbook repository.");
+  let brief;
+  try {
+    brief = JSON.parse(await readFile(join(publisherPath, "publisher-pilot-intake.json"), "utf8"));
+  } catch (error) {
+    fail(`Cannot read publisher intake for teacher answer-key evidence: ${error.message}`);
+  }
+  return await Promise.all((brief.teacherAnswerFiles ?? []).map(async (relativePath) => {
+    let checksum = "REPLACE_WITH_SHA256_PREFIXED_EXTERNAL_FILE_CHECKSUM";
+    try {
+      const bytes = await readFile(join(publisherPath, relativePath));
+      checksum = `sha256:${createHash("sha256").update(bytes).digest("hex")}`;
+    } catch {
+      // Keep an explicit placeholder so the validator blocks an incomplete packet.
+    }
+    return {
+      evidenceId: `teacher-answer-key:${identity.tenantId}:${relativePath}`,
+      tenantId: identity.tenantId,
+      packageId: identity.packageId,
+      unitKey: identity.unitKey,
+      relativePath,
+      checksumSha256: checksum,
+      reviewerId: "REPLACE_WITH_NAMED_REVIEWER",
+      reviewedAt: "REPLACE_WITH_ISO_REVIEW_TIMESTAMP",
+      rightsEvidenceRef: "REPLACE_WITH_TEACHER_ANSWER_RIGHTS_EVIDENCE_REF",
+      answerMappingEvidenceRef: "REPLACE_WITH_TEACHER_ANSWER_MAPPING_EVIDENCE_REF",
+      teacherOnly: true,
+      studentFacing: false,
+      contentIncluded: false,
+      status: "review-only",
+    };
+  }));
 }
 
 function parseArguments(args) {
-  const result = { root: "", tenantId: "", packageId: "", unitKey: "", deliveryMode: "hybrid", hostedPersistenceOptIn: false, help: false, selfTest: false };
+  const result = { root: "", tenantId: "", packageId: "", unitKey: "", publisherRoot: "", deliveryMode: "hybrid", hostedPersistenceOptIn: false, help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--root") result.root = args[++index] ?? "";
     else if (arg === "--tenant-id") result.tenantId = args[++index] ?? "";
     else if (arg === "--package-id") result.packageId = args[++index] ?? "";
     else if (arg === "--unit-key") result.unitKey = args[++index] ?? "";
+    else if (arg === "--publisher-root") result.publisherRoot = args[++index] ?? "";
     else if (arg === "--delivery-mode") result.deliveryMode = args[++index] ?? "";
     else if (arg === "--hosted-persistence-opt-in") result.hostedPersistenceOptIn = true;
     else if (arg === "--self-test") result.selfTest = true;
@@ -135,13 +174,17 @@ function fail(message) { console.error(`ERROR ${message}`); process.exit(2); }
 async function runSelfTest() {
   const root = mkdtempSync(join(tmpdir(), "living-textbook-human-evidence-generator-"));
   try {
-    const args = [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1", "--delivery-mode", "hosted-pwa", "--hosted-persistence-opt-in"];
+    const publisherRoot = join(root, "publisher-input");
+    await mkdir(join(publisherRoot, "teacher", "answers"), { recursive: true });
+    await writeFile(join(publisherRoot, "publisher-pilot-intake.json"), JSON.stringify({ teacherAnswerFiles: ["teacher/answers/unit-1-answers.pdf"] }));
+    await writeFile(join(publisherRoot, "teacher/answers/unit-1-answers.pdf"), "self-test-answer-key");
+    const args = [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1", "--publisher-root", publisherRoot, "--delivery-mode", "hosted-pwa", "--hosted-persistence-opt-in"];
     const generated = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (generated.status !== 0) fail(`generator self-test failed: ${generated.stderr || generated.stdout}`);
     const policy = JSON.parse(await readFile(join(root, "delivery-policy.json"), "utf8"));
     const release = JSON.parse(await readFile(join(root, "release-authorization.json"), "utf8"));
     const packageReview = JSON.parse(await readFile(join(root, "package-review-evidence.json"), "utf8"));
-    if (policy.status !== "draft" || release.status !== "draft" || packageReview.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package" || packageReview.unitKey !== "series:book:L1:U1" || policy.mode !== "hosted" || policy.hostedPersistenceOptIn !== true) fail("generator self-test did not preserve draft identity-bound delivery choices.");
+    if (policy.status !== "draft" || release.status !== "draft" || packageReview.status !== "draft" || policy.tenantId !== "self-test" || release.packageId !== "self-test-package" || packageReview.unitKey !== "series:book:L1:U1" || policy.mode !== "hosted" || policy.hostedPersistenceOptIn !== true || packageReview.teacherAnswerKeyEvidence?.length !== 1 || !/^sha256:[0-9a-f]{64}$/i.test(packageReview.teacherAnswerKeyEvidence[0].checksumSha256)) fail("generator self-test did not preserve draft identity-bound delivery choices or bind the external answer-key checksum.");
     const overwrite = spawnSync(process.execPath, args, { encoding: "utf8" });
     if (overwrite.status === 0 || !overwrite.stderr.includes("Refusing to overwrite")) fail("generator self-test allowed an overwrite.");
     const invalid = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "invalid"), "--tenant-id", "self-test", "--package-id", "self-test-package", "--unit-key", "series:book:L1:U1", "--delivery-mode", "closed-local", "--hosted-persistence-opt-in"], { encoding: "utf8" });
