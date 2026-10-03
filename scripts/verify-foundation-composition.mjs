@@ -29,6 +29,9 @@ execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-pilot-pack
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-answer-key-boundary.mjs", import.meta.url))], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, [fileURLToPath(new URL("./verify-teacher-answer-key-evidence-binding.mjs", import.meta.url))], {
+  stdio: "inherit",
+});
 execFileSync(process.execPath, [fileURLToPath(new URL("./verify-local-package-operator-behavior.mjs", import.meta.url))], {
   stdio: "inherit",
 });

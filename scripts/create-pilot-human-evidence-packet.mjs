@@ -85,6 +85,7 @@ const packageReview = {
   accessibilityCoverage: "REPLACE_WITH_REVIEW_STATUS",
   rightsCoverage: "REPLACE_WITH_REVIEW_STATUS",
   reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, status: "REPLACE_WITH_REVIEW_STATUS", evidenceRefs: [`REPLACE_WITH_${lane.toUpperCase()}_EVIDENCE_REF`] })),
+  teacherAnswerKeyEvidence: [],
   promotionAllowed: false,
   studentFacingActivationAllowed: false,
 };
@@ -95,7 +96,7 @@ await writeFile(join(root, "README.md"), createReadme(identity), { encoding: "ut
 console.log(JSON.stringify({ root, policyPath, releasePath, packageReviewPath, reviewOnly: true, writesEnabled: false, studentActivationAllowed: false }, null, 2));
 
 function createReadme(identity) {
-  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nDeclared delivery mode: **${identity.mode}**. Hosted persistence opt-in: **${identity.hostedPersistenceOptIn ? "requested for review" : "not requested"}**.\n\nReplace every REPLACE_WITH_* value and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
+  return `# Pilot Human Evidence Packet\n\nThis create-once packet is for ${identity.tenantId} / ${identity.packageId} / ${identity.unitKey}.\n\nDeclared delivery mode: **${identity.mode}**. Hosted persistence opt-in: **${identity.hostedPersistenceOptIn ? "requested for review" : "not requested"}**.\n\nReplace every REPLACE_WITH_* value and obtain the required named human decisions. Keep the folder outside LivingTextbook. The package-review-evidence.json record must list the reviewed content, game, audio, video, image, font, accessibility, and rights lanes; use not-applicable only with explicit evidence.\n\nIf the publisher intake declares teacher answer files, add one metadata-only teacherAnswerKeyEvidence record per declared file. Record its external relative path and SHA-256 only; do not copy the PDF, extracted answers, bytes, or answer text into this packet. Each record must remain teacherOnly=true, studentFacing=false, contentIncluded=false, and status=review-only.\n\nRun:\n\n    npm run verify:pilot-human-evidence -- --root "${identity.tenantId}-human-evidence" --publisher-root "D:\\PublisherPilotInput"\n\nThe validator must pass before the packet can advance the saleability audit. This packet never uploads, assembles, prints, activates persistence, or enables students.\n`;
 }
 
 function parseArguments(args) {

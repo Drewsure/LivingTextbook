@@ -10949,3 +10949,8 @@ verifier.
 The teacher persistence workbench now exposes a metadata-only status card for
 this boundary. It reuses tenant-scoped teacher operations authorization and
 keeps the provider blocked until storage and rights evidence are approved.
+
+When the intake brief declares teacher answer files, the external package
+review evidence must now bind each file's SHA-256 without embedding its
+contents. The validator rejects missing records, path or identity drift,
+checksum drift, student-facing flags, and answer-bearing fields.

@@ -46,6 +46,7 @@ const review = {
     status: "reviewed",
     evidenceRefs: [reference.referenceId],
   })),
+  ...(Array.isArray(packageReview.teacherAnswerKeyEvidence) ? { teacherAnswerKeyEvidence: packageReview.teacherAnswerKeyEvidence } : {}),
   promotionAllowed: false,
   studentFacingActivationAllowed: false,
 };

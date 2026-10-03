@@ -16,3 +16,7 @@
   card that calls the same bounded API after tenant authorization. It reports
   metadata availability or the intentionally blocked provider state; it never
   displays answer content.
+- **External evidence:** When intake declares teacher answer files, the
+  external `package-review-evidence.json` must include one checksum-bound,
+  review-only metadata record per file. The validator hashes the external file
+  in place and rejects answer text, bytes, student-facing flags, or drift.

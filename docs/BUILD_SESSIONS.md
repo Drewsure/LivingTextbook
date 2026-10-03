@@ -8519,3 +8519,15 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - It displays only review metadata, provider state, and checksum binding; it
   never renders answer text or downloads the external teacher PDF.
 - Reused the existing API authorization and fail-closed provider boundary.
+
+## Build session: Bind external teacher answer-key evidence
+
+- Added the `teacherAnswerKeyEvidence` package-review lane for declared
+  teacher answer files.
+- The human-evidence validator hashes the external file in place and binds
+  tenant, package, unit, relative path, reviewer, rights reference, mapping
+  reference, and checksum metadata.
+- The validator rejects checksum drift and answer-bearing fields, and keeps
+  `teacherOnly`, `studentFacing`, `contentIncluded`, and `status` explicit.
+- The PDF remains outside LivingTextbook and is never copied into a student
+  bundle or repository evidence folder.

@@ -3,7 +3,8 @@ import { spawnSync } from "node:child_process";
 import { join, resolve, sep } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { validatePilotPackageReviewEvidence } from "./pilot-package-review-evidence.mjs";
+import { createHash } from "node:crypto";
+import { validatePilotPackageReviewEvidence, validateTeacherAnswerKeyEvidence } from "./pilot-package-review-evidence.mjs";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
@@ -60,6 +61,22 @@ if (options.publisherRoot && policy) {
   }
   if (packageReview && publisherSourcePreflight && packageReview.sourceInventoryChecksumSha256 !== publisherSourcePreflight.inventoryChecksumSha256) {
     errors.push("Package review source inventory checksum must match publisher source preflight.");
+  }
+  if (publisherBrief?.teacherAnswerFiles?.length) {
+    const teacherAnswerErrors = validateTeacherAnswerKeyEvidence(packageReview?.teacherAnswerKeyEvidence, {
+      tenantId: policy.tenantId,
+      packageId: policy.packageId,
+      unitKey: policy.unitKey,
+      expectedPaths: publisherBrief.teacherAnswerFiles,
+      readFileChecksum(relativePath) {
+        try {
+          return `sha256:${createHash("sha256").update(readFileSync(join(publisherRootPath, relativePath))).digest("hex")}`;
+        } catch {
+          return "";
+        }
+      },
+    });
+    errors.push(...teacherAnswerErrors);
   }
 }
 

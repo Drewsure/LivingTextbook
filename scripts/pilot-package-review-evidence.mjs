@@ -9,6 +9,44 @@ export const PILOT_PACKAGE_REVIEW_LANES = [
   "rights",
 ];
 
+export function validateTeacherAnswerKeyEvidence(value, options = {}) {
+  const errors = [];
+  const expectedPaths = Array.isArray(options.expectedPaths) ? options.expectedPaths : [];
+  if (!Array.isArray(value)) return ["Teacher answer-key evidence must be an array when teacher answer files are declared."];
+  if (value.length !== expectedPaths.length) errors.push("Teacher answer-key evidence must contain exactly one record per declared teacher answer file.");
+  const seenPaths = new Set();
+  for (const record of value) {
+    if (!isRecord(record)) {
+      errors.push("Teacher answer-key evidence records must be objects.");
+      continue;
+    }
+    for (const [field, label] of [["evidenceId", "evidence id"], ["tenantId", "tenant id"], ["packageId", "package id"], ["unitKey", "unit key"], ["relativePath", "relative path"], ["checksumSha256", "checksum"], ["reviewerId", "reviewer id"], ["reviewedAt", "review timestamp"], ["rightsEvidenceRef", "rights evidence reference"], ["answerMappingEvidenceRef", "answer mapping evidence reference"]]) {
+      if (!isBoundedText(record[field])) errors.push(`Teacher answer-key evidence ${label} is required.`);
+    }
+    if (!isSafeTeacherAnswerPath(record.relativePath)) errors.push(`Teacher answer-key evidence path must remain under teacher/answers/: ${record.relativePath ?? "(missing)"}.`);
+    if (seenPaths.has(record.relativePath)) errors.push(`Teacher answer-key evidence path is repeated: ${record.relativePath}.`);
+    seenPaths.add(record.relativePath);
+    if (record.tenantId !== options.tenantId) errors.push(`Teacher answer-key evidence ${record.relativePath} must match the publisher tenant.`);
+    if (record.packageId !== options.packageId) errors.push(`Teacher answer-key evidence ${record.relativePath} must match the reviewed package.`);
+    if (record.unitKey !== options.unitKey) errors.push(`Teacher answer-key evidence ${record.relativePath} must match the reviewed unit.`);
+    if (!/^sha256:[0-9a-f]{64}$/i.test(record.checksumSha256 ?? "")) errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must use sha256:<64 hexadecimal characters>.`);
+    if (record.teacherOnly !== true) errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must be teacher-only.`);
+    if (record.studentFacing !== false) errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must not be student-facing.`);
+    if (record.contentIncluded !== false) errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must not include answer content.`);
+    if (record.status !== "review-only") errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must remain review-only.`);
+    for (const forbiddenKey of ["content", "answerText", "rawText", "extractedText", "bytes", "base64"]) {
+      if (Object.prototype.hasOwnProperty.call(record, forbiddenKey)) errors.push(`Teacher answer-key evidence ${record.relativePath ?? "(unnamed)"} must not contain ${forbiddenKey}.`);
+    }
+    if (typeof options.readFileChecksum === "function" && isSafeTeacherAnswerPath(record.relativePath)) {
+      const actualChecksum = options.readFileChecksum(record.relativePath);
+      if (!actualChecksum) errors.push(`Teacher answer-key evidence file is missing or unreadable: ${record.relativePath}.`);
+      else if (record.checksumSha256.toLowerCase() !== actualChecksum.toLowerCase()) errors.push(`Teacher answer-key evidence checksum does not match the external file: ${record.relativePath}.`);
+    }
+  }
+  for (const expectedPath of expectedPaths) if (!seenPaths.has(expectedPath)) errors.push(`Teacher answer-key evidence is missing declared file: ${expectedPath}.`);
+  return [...new Set(errors)];
+}
+
 export function validatePilotPackageReviewEvidence(value) {
   const errors = [];
   if (!isRecord(value)) return ["Package review evidence must be a JSON object."];
@@ -49,3 +87,11 @@ export function validatePilotPackageReviewEvidence(value) {
 function isRecord(value) { return typeof value === "object" && value !== null && !Array.isArray(value); }
 function isBoundedText(value) { return typeof value === "string" && value.trim().length > 0 && value.length <= 240 && !value.includes("REPLACE_WITH_"); }
 function isIsoTimestamp(value) { return typeof value === "string" && Number.isFinite(Date.parse(value)); }
+function isSafeTeacherAnswerPath(value) {
+  const normalized = String(value ?? "").replaceAll("\\", "/");
+  return normalized.startsWith("teacher/answers/")
+    && !normalized.includes("//")
+    && !normalized.split("/").includes("..")
+    && !/[<>:\"|?*]/.test(normalized)
+    && /\.(pdf|docx|txt|md|csv)$/i.test(normalized);
+}

@@ -30,3 +30,9 @@ The teacher persistence workbench now exposes this boundary through a
 review-only Answer-key status card. It reuses the existing teacher session
 event, checks the exact scope, and displays only provider/status/checksum
 metadata. It never renders answer text or downloads the external PDF.
+
+The external human package-review evidence now has a checksum-binding lane for
+declared teacher answer files. When the intake brief declares
+`teacherAnswerFiles`, the validator requires one record per file, hashes the
+file in the external publisher folder, and rejects checksum drift, student
+facing flags, or answer-bearing fields. The repository never copies the PDF.
