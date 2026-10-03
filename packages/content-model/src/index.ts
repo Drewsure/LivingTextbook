@@ -2016,3 +2016,4 @@ export * from "./publisherPilotIntakeBrief";
 export * from "./publisherPilotSubmissionAdapter";
 export * from "./publisherPilotQrPreview";
 export * from "./publisherPilotQrPreviewAdapter";
+export * from "./teacherAnswerKeyReview";

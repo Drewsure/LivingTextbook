@@ -1,4 +1,5 @@
 import { validateTenantConfig, type TenantConfig } from "./tenant";
+import { validateStudentBundleTeacherAnswerExclusion } from "./teacherAnswerKeyReview";
 
 export type LocalBundleAssetKind = "audio" | "video" | "image" | "font" | "source-document";
 export type LocalBundleAssetScanStatus = "pending" | "passed";
@@ -150,6 +151,7 @@ export function validateLocalBundleManifest(value: unknown): LocalBundleManifest
   if (!isRecord(value)) {
     return { valid: false, errors: ["Local bundle manifest must be an object."], warnings: [] };
   }
+  errors.push(...validateStudentBundleTeacherAnswerExclusion(value));
 
   for (const field of ["bundle_id", "tenant_id", "version", "created_at", "content_package_path", "media_root"] as const) {
     if (!readString(value[field])) errors.push(`Local bundle manifest ${field} is required.`);

@@ -15,6 +15,7 @@ import {
   createPilotQrPrintArtifactId,
   createLocalPilotPackageIntegrityManifestId,
   validateLocalPilotPackageIntegrity,
+  validateStudentBundleTeacherAnswerExclusion,
   type PilotQrPrintArtifact,
   type LocalPilotPackageIntegrity,
   type LocalBundleManifest,
@@ -237,6 +238,7 @@ function validateAssemblyInput(input: LocalPilotPackageAssemblyInput): string[] 
     ...validatePilotQrAliasRegistryRecord(input.qrRegistryRecord),
     ...validatePilotDeliveryPackageIndex(input.packageIndex),
     ...validateLocalBundleManifest(input.bundleManifest).errors,
+    ...validateStudentBundleTeacherAnswerExclusion(input.bundleManifest),
   ];
   errors.push(...evaluateLocalBundleAssetEvidenceSet(input.bundleManifest.assets).blockers);
   errors.push(...validateReviewPacketBinding(input.reviewPacketBinding, input.manifest));

@@ -8500,3 +8500,13 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
 - Refreshed the source-bound production build proof after the Memory Match wrapper evidence gate.
 - Confirmed production-build, operator-handoff, and foundation-contract checks pass.
 - Recorded the remaining publisher, delivery, rights, release, QR, checksum, and corrected Z.ai evidence gates under ADR 1443 / DR-1443.
+
+## Build session: Prove teacher answer-key exclusion
+
+- Added an explicit shared exclusion guard for local student bundles.
+- Local bundle validation and assembly now reject `teacher-answer-key`,
+  `teacherOnly: true`, and `teacher/answers/` paths.
+- Added a tenant-scoped teacher answer-key review API boundary that is
+  metadata-only, provider-blocked, non-student-facing, and content-free.
+- Added boundary verification and recorded ADR 1446 / DR-1446.
+- No answer PDF was copied into the repository or a student bundle.

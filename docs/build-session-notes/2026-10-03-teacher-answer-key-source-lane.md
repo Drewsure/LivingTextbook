@@ -15,3 +15,9 @@ not place teacher-only files in its student command.
 
 Remaining gate: verify final student-bundle omission and tenant-scoped teacher
 answer review access before any answer content can be promoted.
+
+The next hardening slice now makes that gate explicit: local student bundle
+validation and assembly reject teacher-answer-key kinds, teacher-only markers,
+and `teacher/answers/` paths. A tenant-scoped teacher review API exists as a
+metadata-only, provider-blocked boundary with `contentIncluded: false`; it does
+not read or expose the external Teacher PDF.

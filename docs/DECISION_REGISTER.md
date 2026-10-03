@@ -10934,3 +10934,14 @@ The pilot audit is now `waiting-human` after source-bound build proof, operator-
   persistence, or enable students.
 - **Verification:** `npm run create:publisher-pilot-intake-kit -- --help` and
   `npm run verify:publisher-pilot-intake-kit` pass.
+
+## DR-1446: Student Bundle Answer-Key Exclusion
+
+The first publisher pilot includes separate student and teacher PDFs. The local
+student bundle therefore has an explicit fail-closed exclusion guard: teacher
+answer-key kinds, teacher-only markers, and `teacher/answers/` paths are
+rejected by the shared manifest validator and assembler. A separate
+tenant-scoped teacher review API returns metadata only and remains blocked until
+an approved provider is configured. No answer content is student-facing or
+copied into the bundle. See ADR 1446 and the teacher answer-key boundary
+verifier.
