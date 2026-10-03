@@ -24,11 +24,28 @@ export function createPublisherSubmissionManifestFromPilotIntake(
       accessibilityEvidenceRequired: true,
       status: "missing" as const,
       nextGate: request ? `Review ${kind} file, rights, accessibility, and mapping evidence` : `Publisher must confirm whether ${kind} is supplied or intentionally omitted`,
+      teacherOnly: false,
     };
   });
+  if (brief.teacherAnswerFiles?.length) {
+    assets.push({
+      assetId: `teacher-answer-key-${brief.unitKey.replace(/[^A-Za-z0-9]+/g, "-").toLowerCase().replace(/^-|-$/g, "")}`,
+      kind: "teacher-answer-key",
+      label: "Teacher-only answer-key source",
+      required: true,
+      unitKey: brief.unitKey,
+      acceptedTypes: acceptedTypesByKind["teacher-answer-key"],
+      rightsEvidenceRequired: true,
+      accessibilityEvidenceRequired: true,
+      status: "missing" as const,
+      nextGate: "Review teacher-only answer-key rights, scan, access control, and answer mapping evidence",
+      teacherOnly: true,
+    });
+  }
 
   const assetIdByPath = new Map<string, string>();
   for (const sourcePath of brief.sourceFiles) assetIdByPath.set(sourcePath, assets.find((asset) => asset.kind === "textbook-source")!.assetId);
+  for (const answerPath of brief.teacherAnswerFiles ?? []) assetIdByPath.set(answerPath, assets.find((asset) => asset.kind === "teacher-answer-key")!.assetId);
   for (const request of brief.mediaRequests) assetIdByPath.set(request.relativePath, assets.find((asset) => asset.kind === request.kind)!.assetId);
 
   return {
@@ -66,6 +83,7 @@ const canonicalKinds: PublisherSubmissionAssetKind[] = [
 
 const acceptedTypesByKind: Record<PublisherSubmissionAssetKind, string[]> = {
   "textbook-source": ["pdf", "docx", "txt", "md", "csv"],
+  "teacher-answer-key": ["pdf", "docx", "txt", "md", "csv"],
   image: ["png", "jpg", "jpeg", "webp", "svg"],
   audio: ["mp3", "wav", "m4a", "ogg"],
   video: ["mp4", "webm", "mov"],

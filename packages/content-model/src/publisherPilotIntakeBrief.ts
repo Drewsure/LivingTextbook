@@ -44,6 +44,7 @@ export interface PublisherPilotIntakeBrief {
   unitKey: string;
   sourceOwner: string;
   sourceFiles: string[];
+  teacherAnswerFiles?: string[];
   mediaRequests: PublisherPilotMediaRequest[];
   evidenceRequests: PublisherPilotEvidenceRequest[];
   deliveryMode: PublisherPilotDeliveryMode;
@@ -66,7 +67,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   if (JSON.stringify(brief).includes("REPLACE_WITH_")) errors.push("The intake brief still contains unresolved REPLACE_WITH_* placeholders.");
 
   for (const [field, value] of Object.entries(brief)) {
-    if (["recordVersion", "supportLanguages", "sourceFiles", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
+    if (["recordVersion", "supportLanguages", "sourceFiles", "teacherAnswerFiles", "mediaRequests", "evidenceRequests", "qrPageReferences", "qrReferences", "hostedPersistenceOptIn", "reviewOnly", "packageAssemblyAllowed", "studentFacingUseAllowed"].includes(field)) continue;
     if (typeof value !== "string" || value.trim().length === 0) errors.push(`${field} is required.`);
   }
 
@@ -81,6 +82,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
     errors.push("supportLanguages must not contain duplicate ids.");
   }
   if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) errors.push("At least one source file is required.");
+  if (brief.teacherAnswerFiles !== undefined && (!Array.isArray(brief.teacherAnswerFiles) || brief.teacherAnswerFiles.some((path) => !isSafeTeacherAnswerPath(path)))) errors.push("teacherAnswerFiles must contain only safe teacher/answers source paths.");
   if (!Array.isArray(brief.qrPageReferences) || brief.qrPageReferences.length === 0) errors.push("At least one QR page reference is required.");
   if (!Array.isArray(brief.qrReferences) || brief.qrReferences.length === 0) errors.push("At least one structured QR reference is required.");
   if (!Array.isArray(brief.mediaRequests) || brief.mediaRequests.length === 0) errors.push("At least one media request is required.");
@@ -90,7 +92,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   if (brief.packageAssemblyAllowed !== false) errors.push("packageAssemblyAllowed must remain false.");
   if (brief.studentFacingUseAllowed !== false) errors.push("studentFacingUseAllowed must remain false.");
 
-  for (const path of [...(brief.sourceFiles ?? []), ...(brief.mediaRequests ?? []).map((request) => request.relativePath)]) {
+  for (const path of [...(brief.sourceFiles ?? []), ...(brief.teacherAnswerFiles ?? []), ...(brief.mediaRequests ?? []).map((request) => request.relativePath)]) {
     if (!isSafeRelativePath(path)) errors.push(`Unsafe relative path: ${path}.`);
   }
   for (const request of brief.mediaRequests ?? []) {
@@ -100,6 +102,7 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
   const evidenceIds = new Set<string>();
   const declaredContentPaths = new Set([
     ...(brief.sourceFiles ?? []),
+    ...(brief.teacherAnswerFiles ?? []),
     ...(brief.mediaRequests ?? []).map((request) => request.relativePath),
   ]);
   for (const request of brief.evidenceRequests ?? []) {
@@ -126,6 +129,11 @@ export function validatePublisherPilotIntakeBrief(brief: PublisherPilotIntakeBri
     errors.push("closed-local delivery cannot opt in to hosted persistence.");
   }
   return errors;
+}
+
+function isSafeTeacherAnswerPath(value: string): boolean {
+  const normalized = String(value).replaceAll("\\", "/");
+  return normalized.startsWith("teacher/answers/") && isSafeRelativePath(normalized) && /\.(pdf|docx|txt|md|csv)$/i.test(normalized);
 }
 
 function isSafeRelativePath(value: string): boolean {

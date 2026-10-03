@@ -3,6 +3,7 @@ import type { PublisherSubmissionManifest } from "@living-textbook/content-model
 
 const suggestedPaths: Record<PublisherSubmissionManifest["assets"][number]["kind"], string> = {
   "textbook-source": "unit-1/source.pdf",
+  "teacher-answer-key": "teacher/answers/unit-1-answers.pdf",
   image: "unit-1/diagram.png",
   audio: "unit-1/greetings.mp3",
   video: "unit-1/lesson.mp4",
@@ -23,7 +24,7 @@ export function PublisherSourceManifestStarterPanel({ manifest }: { manifest: Pu
     `  --unit-key \"${unitKey}\" `,
     `  --source \"${suggestedPaths["textbook-source"]}\" `,
     ...manifest.assets
-      .filter((asset) => asset.kind !== "textbook-source")
+      .filter((asset) => asset.kind !== "textbook-source" && asset.teacherOnly !== true)
       .map((asset) => `  --asset \"${asset.kind}=${suggestedPaths[asset.kind]}\" `),
   ].join("\n");
 

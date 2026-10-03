@@ -4,10 +4,14 @@ Received the MiniStar Foundation Unit 1 Teacher PDF and stored it outside the
 repository at `D:\PublisherPilotInput\teacher\answers\unit-1-answers.pdf`.
 
 The student PDF remains at `D:\PublisherPilotInput\source\unit-1.pdf`.
-Separate SHA-256 checksums were captured. The teacher file is not currently
-declared in the student intake manifest because the manifest does not yet have
-a teacher-only answer-key asset kind.
+Separate SHA-256 checksums were captured. The teacher file is declared only in
+the external publisher intake brief under `teacher/answers/`; it is never added
+to the student source command or student-facing payload.
 
-Next implementation slice: extend the intake and package contracts so answer
-keys can be reviewed and used by teachers without entering learner routes,
-student bundles, QR launches, or learner payloads.
+Implemented the first contract slice: intake briefs, source manifests, source
+preflight, and submission review manifests now recognize `teacher-answer-key`
+with an explicit `teacherOnly: true` boundary. The student source starter does
+not place teacher-only files in its student command.
+
+Remaining gate: verify final student-bundle omission and tenant-scoped teacher
+answer review access before any answer content can be promoted.

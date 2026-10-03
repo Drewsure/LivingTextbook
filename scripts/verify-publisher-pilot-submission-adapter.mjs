@@ -33,6 +33,7 @@ try {
     unitKey: "tenant-a:book:L1:U1",
     sourceOwner: "Publisher A",
     sourceFiles: ["source/unit-1.pdf"],
+    teacherAnswerFiles: ["teacher/answers/unit-1-answers.pdf"],
     mediaRequests: [{ kind: "audio", relativePath: "media/audio/unit-1.mp3", unitKey: "tenant-a:book:L1:U1", required: true, purpose: "Learning audio" }],
     evidenceRequests: [
       { referenceId: "rights", kind: "rights", relativePath: "evidence/rights.md", appliesTo: ["source/unit-1.pdf"], required: true },
@@ -50,13 +51,28 @@ try {
     studentFacingUseAllowed: false,
   };
   const manifest = model.createPublisherSubmissionManifestFromPilotIntake(brief, "package-a");
-  if (manifest.assets.length !== 7) failures.push("adapter must preserve all canonical review lanes");
+  if (manifest.assets.length !== 8) failures.push("adapter must preserve canonical review lanes and the optional teacher answer-key lane");
+  const teacherAnswerAsset = manifest.assets.find((asset) => asset.kind === "teacher-answer-key");
+  if (teacherAnswerAsset?.teacherOnly !== true || teacherAnswerAsset?.required !== true) failures.push("teacher answer-key source must remain a required teacher-only asset");
+  if (teacherAnswerAsset?.acceptedTypes.includes("pdf") !== true) failures.push("teacher answer-key source must accept the supplied PDF format");
+  if (manifest.assets.some((asset) => asset.kind !== "teacher-answer-key" && asset.teacherOnly === true)) failures.push("student-facing asset lanes must never be marked teacher-only");
   if (manifest.assets.find((asset) => asset.kind === "audio")?.required !== true) failures.push("declared required audio must remain required");
   if (manifest.assets.find((asset) => asset.kind === "video")?.label.includes("not declared") !== true) failures.push("undeclared optional video must remain visible as a decision gate");
   if (manifest.evidenceRequests.length !== 3) failures.push("adapter must carry every structured intake evidence request");
   if (manifest.evidenceRequests[0]?.appliesToAssetIds[0] !== manifest.assets.find((asset) => asset.kind === "textbook-source")?.assetId) failures.push("evidence coverage must resolve to canonical manifest asset ids");
   if (manifest.evidenceRequests[0]?.status !== "missing") failures.push("evidence status must remain review-pending at intake");
   if (manifest.reviewOnly !== true || manifest.filePromotionAllowed !== false || manifest.studentFacingUseAllowed !== false) failures.push("adapter must preserve blocked safety flags");
+  const teacherRightsEvidence = { ...brief.evidenceRequests[0], appliesTo: ["teacher/answers/unit-1-answers.pdf"] };
+  const teacherBrief = { ...brief, evidenceRequests: [teacherRightsEvidence, ...brief.evidenceRequests.slice(1)] };
+  const teacherManifest = model.createPublisherSubmissionManifestFromPilotIntake(teacherBrief, "package-teacher-a");
+  if (teacherManifest.evidenceRequests[0]?.appliesToAssetIds[0] !== teacherAnswerAsset?.assetId) failures.push("teacher answer-key evidence must resolve to the teacher-only asset id");
+  const invalidTeacher = { ...brief, teacherAnswerFiles: ["source/answers.pdf"] };
+  try {
+    model.createPublisherSubmissionManifestFromPilotIntake(invalidTeacher, "package-a");
+    failures.push("teacher answer-key paths outside teacher/answers must block manifest preview");
+  } catch {
+    // Expected fail-closed behavior.
+  }
   const invalid = { ...brief, edition: "REPLACE_WITH_EDITION" };
   try {
     model.createPublisherSubmissionManifestFromPilotIntake(invalid, "package-a");
@@ -72,4 +88,4 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL ${failure}`);
   process.exit(1);
 }
-console.log("PASS publisher pilot intake maps to a seven-lane review manifest with evidence traceability without promoting files or hiding omitted media decisions.");
+console.log("PASS publisher pilot intake maps to canonical review lanes plus a teacher-only answer-key lane with evidence traceability without promoting files or hiding omitted media decisions.");

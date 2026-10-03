@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
-  console.log("Usage: node scripts/create-publisher-pilot-intake-kit.mjs --root <folder> --tenant-id <id> --publisher-name <name> --book-title <title> --unit-key <key> [--source-file source/unit-1.pdf|source/unit-1.docx|source/unit-1.txt|source/unit-1.md|source/unit-1.csv] [--target-language en] [--support-languages ja,es] [--delivery-mode hosted-pwa|closed-local|hybrid] [--hosted-persistence-opt-in]");
+  console.log("Usage: node scripts/create-publisher-pilot-intake-kit.mjs --root <folder> --tenant-id <id> --publisher-name <name> --book-title <title> --unit-key <key> [--source-file source/unit-1.pdf|source/unit-1.docx|source/unit-1.txt|source/unit-1.md|source/unit-1.csv] [--teacher-answer-file teacher/answers/unit-1-answers.pdf] [--target-language en] [--support-languages ja,es] [--delivery-mode hosted-pwa|closed-local|hybrid] [--hosted-persistence-opt-in]");
   process.exit(0);
 }
 if (options.selfTest) {
@@ -30,7 +30,7 @@ const brief = createBrief(options);
 const validationErrors = validateBrief(brief);
 if (validationErrors.length > 0) fail(validationErrors.join(" "));
 await mkdir(root, { recursive: true });
-for (const directory of ["source", "media/images", "media/audio", "media/video", "media/transcripts", "media/fonts", "media/background", "evidence"]) {
+  for (const directory of ["source", "teacher/answers", "media/images", "media/audio", "media/video", "media/transcripts", "media/fonts", "media/background", "evidence"]) {
   await mkdir(join(root, directory), { recursive: true });
 }
 await writeFile(briefPath, `${JSON.stringify(brief, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
@@ -53,6 +53,7 @@ function createBrief(options) {
     unitKey: options.unitKey,
     sourceOwner: "REPLACE_WITH_RIGHTS_OWNER",
     sourceFiles: [sourceFile],
+    teacherAnswerFiles: options.teacherAnswerFile ? [validateTeacherAnswerFile(options.teacherAnswerFile)] : [],
     mediaRequests: [
       { kind: "image", relativePath: "media/images/unit-1-diagram.png", unitKey: options.unitKey, required: false, purpose: "Optional labelled diagram or game image." },
       { kind: "audio", relativePath: "media/audio/unit-1-learning-audio.mp3", unitKey: options.unitKey, required: true, purpose: "Target-language text and instruction audio." },
@@ -62,7 +63,7 @@ function createBrief(options) {
       { kind: "background-media", relativePath: "media/background/unit-1-background.ogg", unitKey: options.unitKey, required: false, purpose: "Optional approved game background media." },
     ],
     evidenceRequests: [
-      { referenceId: "rights-evidence", kind: "rights", relativePath: "evidence/rights-and-permissions.md", appliesTo: [sourceFile], required: true },
+      { referenceId: "rights-evidence", kind: "rights", relativePath: "evidence/rights-and-permissions.md", appliesTo: [sourceFile, ...(options.teacherAnswerFile ? [validateTeacherAnswerFile(options.teacherAnswerFile)] : [])], required: true },
       { referenceId: "accessibility-evidence", kind: "accessibility", relativePath: "evidence/accessibility-and-captions.md", appliesTo: ["media/audio/unit-1-learning-audio.mp3", "media/video/unit-1-video.mp4"], required: true },
       { referenceId: "scan-evidence", kind: "scan", relativePath: "evidence/scan-report.json", appliesTo: [sourceFile], required: true },
     ],
@@ -89,6 +90,16 @@ function validateSourceFile(value) {
   }
   const extension = normalized.toLowerCase().split(".").pop() ?? "";
   if (!["pdf", "docx", "txt", "md", "csv"].includes(extension)) fail(`Unsupported textbook source extension: ${normalized}`);
+  return normalized;
+}
+
+function validateTeacherAnswerFile(value) {
+  const normalized = String(value || "").replaceAll("\\", "/");
+  if (!normalized.startsWith("teacher/answers/") || normalized.startsWith("/") || normalized.includes("//") || normalized.split("/").includes("..") || /[<>:\"|?*]/.test(normalized)) {
+    fail(`Unsafe teacher answer-key path: ${value}`);
+  }
+  const extension = normalized.toLowerCase().split(".").pop() ?? "";
+  if (!["pdf", "docx", "txt", "md", "csv"].includes(extension)) fail(`Unsupported teacher answer-key extension: ${normalized}`);
   return normalized;
 }
 
@@ -123,19 +134,20 @@ function validateBrief(brief) {
     if (!brief[key]?.trim()) errors.push(`${key} is required.`);
   }
   if (!brief.sourceFiles.length || !brief.mediaRequests.length || !brief.evidenceRequests.length || !brief.qrPageReferences.length || !brief.qrReferences.length) errors.push("source, media, evidence, and structured QR placeholders are required.");
+  if ((brief.teacherAnswerFiles ?? []).some((path) => !String(path).startsWith("teacher/answers/"))) errors.push("teacher answer-key files must remain under teacher/answers/.");
   if (brief.reviewOnly !== true || brief.packageAssemblyAllowed !== false || brief.studentFacingUseAllowed !== false) errors.push("safety flags are invalid.");
   if (brief.hostedPersistenceOptIn === true && brief.deliveryMode === "closed-local") errors.push("closed-local delivery cannot opt in to hosted persistence.");
   return errors;
 }
 
 function parseArguments(args) {
-  const result = { root: "", tenantId: "", publisherName: "", bookTitle: "", unitKey: "", sourceFile: "source/unit-1.pdf", targetLanguage: "en", supportLanguages: "", deliveryMode: "hybrid", hostedPersistenceOptIn: false, help: false, selfTest: false };
+  const result = { root: "", tenantId: "", publisherName: "", bookTitle: "", unitKey: "", sourceFile: "source/unit-1.pdf", teacherAnswerFile: "", targetLanguage: "en", supportLanguages: "", deliveryMode: "hybrid", hostedPersistenceOptIn: false, help: false, selfTest: false };
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--help" || arg === "-h") result.help = true;
     else if (arg === "--self-test") result.selfTest = true;
     else if (arg === "--hosted-persistence-opt-in") result.hostedPersistenceOptIn = true;
-    else if (["root", "tenant-id", "publisher-name", "book-title", "unit-key", "source-file", "target-language", "support-languages", "delivery-mode"].includes(arg.slice(2))) result[toCamelCase(arg.slice(2))] = args[++index] ?? "";
+    else if (["root", "tenant-id", "publisher-name", "book-title", "unit-key", "source-file", "teacher-answer-file", "target-language", "support-languages", "delivery-mode"].includes(arg.slice(2))) result[toCamelCase(arg.slice(2))] = args[++index] ?? "";
     else fail(`Unknown argument: ${arg}`);
   }
   return result;
@@ -146,10 +158,10 @@ function toCamelCase(value) { return value.replace(/-([a-z])/g, (_, letter) => l
 async function runSelfTest() {
   const root = resolve(`${process.env.TEMP ?? process.env.TMP ?? "."}/living-textbook-pilot-kit-self-test`);
   await rm(root, { recursive: true, force: true });
-  const generated = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.docx", "--target-language", "ja", "--support-languages", "en,es,en", "--delivery-mode", "closed-local"], { encoding: "utf8" });
+  const generated = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", root, "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.docx", "--teacher-answer-file", "teacher/answers/unit-1-answers.pdf", "--target-language", "ja", "--support-languages", "en,es,en", "--delivery-mode", "closed-local"], { encoding: "utf8" });
   if (generated.status !== 0) fail(`self-test generator failed: ${generated.stderr}`);
   const stored = JSON.parse(await readFile(join(root, "publisher-pilot-intake.json"), "utf8"));
-  if (stored.reviewOnly !== true || stored.sourceFiles?.[0] !== "source/unit-1.docx" || stored.targetLanguage !== "ja" || JSON.stringify(stored.supportLanguages) !== JSON.stringify(["en", "es"]) || stored.mediaRequests.length !== 6 || stored.evidenceRequests.length !== 3 || stored.deliveryMode !== "closed-local" || stored.hostedPersistenceOptIn !== false) fail("self-test did not preserve the review-only pilot brief, explicit source type, language choices, or delivery mode.");
+  if (stored.reviewOnly !== true || stored.sourceFiles?.[0] !== "source/unit-1.docx" || stored.teacherAnswerFiles?.[0] !== "teacher/answers/unit-1-answers.pdf" || stored.targetLanguage !== "ja" || JSON.stringify(stored.supportLanguages) !== JSON.stringify(["en", "es"]) || stored.mediaRequests.length !== 6 || stored.evidenceRequests.length !== 3 || stored.deliveryMode !== "closed-local" || stored.hostedPersistenceOptIn !== false) fail("self-test did not preserve the review-only pilot brief, teacher answer-key lane, explicit source type, language choices, or delivery mode.");
   const unsafePath = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "unsafe-path"), "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/../outside.pdf"], { encoding: "utf8" });
   if (unsafePath.status === 0 || !unsafePath.stderr.includes("Unsafe textbook source path")) fail("self-test allowed a source path traversal");
   const unsupportedType = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--root", join(root, "unsupported-type"), "--tenant-id", "self-test", "--publisher-name", "Example Publisher", "--book-title", "Example Book", "--unit-key", "example:book:L1:U1", "--source-file", "source/unit-1.exe"], { encoding: "utf8" });

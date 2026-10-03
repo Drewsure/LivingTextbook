@@ -1,5 +1,6 @@
 export type PublisherSubmissionAssetKind =
   | "textbook-source"
+  | "teacher-answer-key"
   | "image"
   | "audio"
   | "video"
@@ -21,6 +22,7 @@ export interface PublisherSubmissionAsset {
   accessibilityEvidenceRequired: boolean;
   status: PublisherSubmissionAssetStatus;
   nextGate: string;
+  teacherOnly?: boolean;
 }
 
 export interface PublisherSubmissionEvidenceRequest {
@@ -73,6 +75,8 @@ export function validatePublisherSubmissionManifest(manifest: PublisherSubmissio
     if (assetIds.has(asset.assetId)) errors.push(`Duplicate submission asset id: ${asset.assetId}.`);
     assetIds.add(asset.assetId);
     if (!asset.label.trim() || !asset.unitKey.trim() || !asset.nextGate.trim()) errors.push(`Submission asset ${asset.assetId} has blank identity or gate text.`);
+    if (asset.kind === "teacher-answer-key" && asset.teacherOnly !== true) errors.push(`Teacher answer-key asset ${asset.assetId} must be teacher-only.`);
+    if (asset.kind !== "teacher-answer-key" && asset.teacherOnly === true) errors.push(`Only teacher-answer-key assets may be teacher-only (${asset.assetId}).`);
     if (!Array.isArray(asset.acceptedTypes) || asset.acceptedTypes.length === 0) errors.push(`Submission asset ${asset.assetId} needs accepted types.`);
     if (asset.status === "reviewed" && (!asset.rightsEvidenceRequired || !asset.accessibilityEvidenceRequired)) {
       errors.push(`Reviewed submission asset ${asset.assetId} must retain rights and accessibility evidence requirements.`);

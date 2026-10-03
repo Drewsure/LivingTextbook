@@ -2,6 +2,7 @@ export type PublisherSourcePackagePreflightStatus = "verified" | "missing" | "un
 
 export type PublisherSourcePackagePreflightAssetKind =
   | "textbook-source"
+  | "teacher-answer-key"
   | "image"
   | "audio"
   | "video"
@@ -16,6 +17,7 @@ export interface PublisherSourcePackageManifestEntry {
   unitKey: string;
   acceptedTypes: string[];
   required: boolean;
+  teacherOnly?: boolean;
 }
 
 export interface PublisherSourcePackageManifest {
@@ -173,7 +175,9 @@ export function validatePublisherSourcePackageManifest(value: unknown): string[]
     const assetId = String(entry.assetId ?? "");
     if (!isNonEmptyString(entry.assetId) || seen.has(assetId)) errors.push("Publisher source package manifest asset ids must be unique and non-empty.");
     seen.add(assetId);
-    if (!isNonEmptyString(entry.kind) || !["textbook-source", "image", "audio", "video", "transcript", "font", "background-media"].includes(String(entry.kind))) errors.push(`Publisher source package entry ${assetId} has an unsupported kind.`);
+    if (!isNonEmptyString(entry.kind) || !["textbook-source", "teacher-answer-key", "image", "audio", "video", "transcript", "font", "background-media"].includes(String(entry.kind))) errors.push(`Publisher source package entry ${assetId} has an unsupported kind.`);
+    if (entry.kind === "teacher-answer-key" && entry.teacherOnly !== true) errors.push(`Publisher source package entry ${assetId} must be teacher-only.`);
+    if (entry.kind !== "teacher-answer-key" && entry.teacherOnly === true) errors.push(`Only teacher-answer-key entries may be teacher-only (${assetId}).`);
     if (!isNonEmptyString(entry.relativePath) || !isSafeRelativePath(String(entry.relativePath))) errors.push(`Publisher source package entry ${assetId} has an unsafe relative path.`);
     if (!isNonEmptyString(entry.unitKey)) errors.push(`Publisher source package entry ${assetId} needs a unitKey.`);
     if (!Array.isArray(entry.acceptedTypes) || entry.acceptedTypes.length === 0 || entry.acceptedTypes.some((type) => !isNonEmptyString(type))) errors.push(`Publisher source package entry ${assetId} needs accepted types.`);

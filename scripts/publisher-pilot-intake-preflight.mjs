@@ -32,11 +32,13 @@ const omittedOptionalFiles = [];
 const unsafePaths = [];
 const declaredFiles = [
   ...(brief.sourceFiles ?? []),
+  ...(brief.teacherAnswerFiles ?? []),
   ...(brief.mediaRequests ?? []).map((request) => request.relativePath),
   ...(brief.evidenceRequests ?? []).map((request) => request.relativePath),
 ];
 const requiredFiles = [
   ...(brief.sourceFiles ?? []),
+  ...(brief.teacherAnswerFiles ?? []),
   ...(brief.mediaRequests ?? []).filter((request) => request.required).map((request) => request.relativePath),
   ...(brief.evidenceRequests ?? []).filter((request) => request.required).map((request) => request.relativePath),
 ];

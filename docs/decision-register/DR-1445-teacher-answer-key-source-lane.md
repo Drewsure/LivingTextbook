@@ -9,8 +9,9 @@
 - **Evidence:** External Teacher PDF copied to
   `D:\PublisherPilotInput\teacher\answers\unit-1-answers.pdf` with a
   checksum-bound record in ADR 1445.
-- **Implementation gate:** Add a `teacher-answer-key` manifest asset kind,
-  teacher-only access checks, separate evidence coverage, and student-bundle
-  exclusion before the answer file can enter source preflight or assembly.
-- **Verification:** Current student and teacher files remain physically
-  separate; no promotion or student activation is enabled.
+- **Implementation gate:** The `teacher-answer-key` manifest asset kind and
+  separate evidence coverage are now present. Runtime tenant-scoped access and
+  final student-bundle exclusion remain required before promotion.
+- **Verification:** Adapter regression coverage passes; current student and
+  teacher files remain physically separate; no promotion or student activation
+  is enabled.

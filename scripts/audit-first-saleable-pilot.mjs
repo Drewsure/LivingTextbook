@@ -416,7 +416,7 @@ function runSelfTest() {
     brief.qrPageReferences = ["page-1"];
     brief.qrReferences = [{ referenceId: "unit-1-entry", pageReference: "page-1", unitId: "unit-1", activitySlug: "unit-1-entry", targetType: "unit-launch", language: "en" }];
     writeFileSync(briefPath, `${JSON.stringify(brief, null, 2)}\n`, { encoding: "utf8" });
-    const declaredFiles = [...brief.sourceFiles, ...brief.mediaRequests.map((request) => request.relativePath), ...brief.evidenceRequests.map((request) => request.relativePath)];
+    const declaredFiles = [...brief.sourceFiles, ...(brief.teacherAnswerFiles ?? []), ...brief.mediaRequests.map((request) => request.relativePath), ...brief.evidenceRequests.map((request) => request.relativePath)];
     for (const relativePath of declaredFiles) {
       mkdirSync(join(publisherRoot, relativePath, ".."), { recursive: true });
       writeFileSync(join(publisherRoot, relativePath), "self-test", { encoding: "utf8" });

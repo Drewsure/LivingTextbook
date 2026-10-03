@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const acceptedTypesByKind = {
   "textbook-source": { pdf: "application/pdf", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", txt: "text/plain", md: "text/markdown", csv: "text/csv" },
+  "teacher-answer-key": { pdf: "application/pdf", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", txt: "text/plain", md: "text/markdown", csv: "text/csv" },
   image: { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", webp: "image/webp", svg: "image/svg+xml" },
   audio: { mp3: "audio/mpeg", wav: "audio/wav", m4a: "audio/mp4", ogg: "audio/ogg" },
   video: { mp4: "video/mp4", webm: "video/webm", mov: "video/quicktime" },
@@ -49,6 +50,10 @@ function validateBriefForBridge(brief) {
   if (!Array.isArray(brief.sourceFiles) || brief.sourceFiles.length === 0) fail("The intake brief must declare at least one source file.");
   if (!Array.isArray(brief.mediaRequests)) fail("The intake brief mediaRequests field must be an array.");
   for (const path of brief.sourceFiles) validateRelativePath(path);
+  for (const path of brief.teacherAnswerFiles ?? []) {
+    validateRelativePath(path);
+    if (!path.replaceAll("\\", "/").startsWith("teacher/answers/")) fail(`Teacher answer-key path must remain under teacher/answers/: ${path}`);
+  }
   for (const request of brief.mediaRequests) {
     if (!request || typeof request !== "object") fail("Every media request must be an object.");
     if (!acceptedTypesByKind[request.kind]) fail(`Unsupported media request kind: ${request.kind}`);
@@ -59,18 +64,19 @@ function validateBriefForBridge(brief) {
 
 function createManifest(brief) {
   const entries = [];
-  for (const sourcePath of brief.sourceFiles) entries.push(createEntry("textbook-source", sourcePath, brief.unitKey, true));
+  for (const sourcePath of brief.sourceFiles) entries.push(createEntry("textbook-source", sourcePath, brief.unitKey, true, false));
+  for (const answerPath of brief.teacherAnswerFiles ?? []) entries.push(createEntry("teacher-answer-key", answerPath, brief.unitKey, true, true));
   for (const request of brief.mediaRequests) entries.push(createEntry(request.kind, request.relativePath, request.unitKey || brief.unitKey, request.required));
   const packageId = `${slug(brief.tenantId)}-${slug(brief.unitKey)}-pilot`;
   return { recordVersion: 1, manifestId: `publisher-source:${brief.tenantId}:${packageId}:${brief.version}`, tenantId: brief.tenantId, packageId, version: brief.version, entries, reviewOnly: true, quarantineWriteAllowed: false, packageAssemblyAllowed: false, studentFacingUseAllowed: false };
 }
 
-function createEntry(kind, relativePath, unitKey, required) {
+function createEntry(kind, relativePath, unitKey, required, teacherOnly = false) {
   const safePath = validateRelativePath(relativePath);
   const extension = safePath.toLowerCase().split(".").pop() ?? "";
   if (!acceptedTypesByKind[kind]?.[extension]) fail(`${kind} path must use a supported extension: ${relativePath}`);
   const assetId = `${kind}-${slug(safePath)}`;
-  return { assetId, kind, relativePath: safePath, unitKey, acceptedTypes: [...new Set(Object.values(acceptedTypesByKind[kind]))], required };
+  return { assetId, kind, relativePath: safePath, unitKey, acceptedTypes: [...new Set(Object.values(acceptedTypesByKind[kind]))], required, teacherOnly };
 }
 
 function validateRelativePath(value) {
