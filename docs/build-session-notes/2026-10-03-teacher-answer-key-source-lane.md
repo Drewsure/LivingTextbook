@@ -25,3 +25,8 @@ not read or expose the external Teacher PDF.
 The review contract now also validates provider records against the exact
 tenant, package, version, and asset identity requested by the teacher, while
 requiring the answer source checksum to remain present.
+
+The teacher persistence workbench now exposes this boundary through a
+review-only Answer-key status card. It reuses the existing teacher session
+event, checks the exact scope, and displays only provider/status/checksum
+metadata. It never renders answer text or downloads the external PDF.

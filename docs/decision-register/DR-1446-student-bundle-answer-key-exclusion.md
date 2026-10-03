@@ -12,3 +12,7 @@
 - **Verification:** Foundation composition includes the answer-key boundary
   verifier. No answer file is copied into the student bundle or exposed by the
   web app.
+- **Teacher UI:** The persistence workbench now offers a teacher-only status
+  card that calls the same bounded API after tenant authorization. It reports
+  metadata availability or the intentionally blocked provider state; it never
+  displays answer content.

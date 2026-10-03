@@ -8510,3 +8510,12 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
   metadata-only, provider-blocked, non-student-facing, and content-free.
 - Added boundary verification and recorded ADR 1446 / DR-1446.
 - No answer PDF was copied into the repository or a student bundle.
+
+## Build session: Expose teacher answer-key status safely
+
+- Added the persistence-workbench Answer-key review status card.
+- The card is tenant/package/version/asset scoped and re-checks after a
+  teacher operations session changes.
+- It displays only review metadata, provider state, and checksum binding; it
+  never renders answer text or downloads the external teacher PDF.
+- Reused the existing API authorization and fail-closed provider boundary.

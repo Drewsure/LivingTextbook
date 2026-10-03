@@ -10945,3 +10945,7 @@ tenant-scoped teacher review API returns metadata only and remains blocked until
 an approved provider is configured. No answer content is student-facing or
 copied into the bundle. See ADR 1446 and the teacher answer-key boundary
 verifier.
+
+The teacher persistence workbench now exposes a metadata-only status card for
+this boundary. It reuses tenant-scoped teacher operations authorization and
+keeps the provider blocked until storage and rights evidence are approved.

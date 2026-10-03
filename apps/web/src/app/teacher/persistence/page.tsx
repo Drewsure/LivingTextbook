@@ -32,6 +32,7 @@ import { HostedProgressionAdapterPanel } from "@/features/persistence/HostedProg
 import { PersistenceOperationsStatusPanel } from "@/features/persistence/PersistenceOperationsStatusPanel";
 import { PersistenceOperationsEvidencePanel } from "@/features/persistence/PersistenceOperationsEvidencePanel";
 import { TeacherOperationsAccessPanel } from "@/features/persistence/TeacherOperationsAccessPanel";
+import { TeacherAnswerKeyReviewStatusPanel } from "@/features/persistence/TeacherAnswerKeyReviewStatusPanel";
 import { PilotBackendSelectionGatePanel } from "@/features/persistence/PilotBackendSelectionGatePanel";
 import { PersistenceHandoffPacketPanel } from "@/features/persistence/PersistenceHandoffPacketPanel";
 import { samplePublisherTenant } from "@/features/tenant/samplePublisherTenant";
@@ -210,6 +211,12 @@ export default function TeacherPersistencePage() {
         />
         <PersistenceOperationsStatusPanel tenantId={samplePublisherTenant.id} />
         <TeacherOperationsAccessPanel tenantId={samplePublisherTenant.id} />
+        <TeacherAnswerKeyReviewStatusPanel
+          tenantId={samplePublisherTenant.id}
+          packageId="sample-publisher-l1-u1-routines-package"
+          version="1.0.0"
+          assetId="teacher-answer-key-sample-publisher-l1-u1-routines"
+        />
         <PersistenceOperationsEvidencePanel tenantId={samplePublisherTenant.id} />
         <PersistenceBoundaryPanel
           boundaries={samplePersistenceBoundaries}
