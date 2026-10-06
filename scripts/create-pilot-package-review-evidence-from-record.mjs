@@ -4,7 +4,7 @@ import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { validatePilotPackageReviewEvidence } from "./pilot-package-review-evidence.mjs";
+import { validatePilotPackageReviewEvidence, validateTeacherAnswerKeyEvidence } from "./pilot-package-review-evidence.mjs";
 
 const options = parseArguments(process.argv.slice(2));
 if (options.help) {
@@ -25,6 +25,19 @@ if (packageReview.status !== "reviewed-package-evidence") fail("Package evidence
 if (packageReview.tenantId !== sourcePreflight.tenantId || packageReview.packageId !== sourcePreflight.packageId) fail("Package evidence review and source preflight identities must match.");
 if (packageReview.sourceChecksumSha256 !== String(sourcePreflight.inventoryChecksumSha256).replace(/^sha256:/, "")) fail("Package evidence review source checksum must match source preflight inventory checksum.");
 if (!/^sha256:[0-9a-f]{64}$/i.test(options.packageChecksum)) fail("Package checksum must use sha256:<64 hexadecimal characters> format.");
+const declaredTeacherAnswerPaths = (sourcePreflight.files ?? [])
+  .filter((file) => file?.kind === "teacher-answer-key" && file?.unitKey === options.unitKey)
+  .map((file) => file.relativePath);
+const sourceTeacherAnswerEvidence = packageReview.teacherAnswerKeyEvidence;
+const teacherAnswerErrors = declaredTeacherAnswerPaths.length > 0 || Object.prototype.hasOwnProperty.call(packageReview, "teacherAnswerKeyEvidence")
+  ? validateTeacherAnswerKeyEvidence(sourceTeacherAnswerEvidence, {
+    tenantId: sourcePreflight.tenantId,
+    packageId: sourcePreflight.packageId,
+    unitKey: options.unitKey,
+    expectedPaths: declaredTeacherAnswerPaths,
+  })
+  : [];
+if (teacherAnswerErrors.length > 0) fail(`Teacher answer-key evidence cannot cross the package-review bridge: ${teacherAnswerErrors.join("; ")}`);
 
 const review = {
   recordVersion: 1,
@@ -46,7 +59,7 @@ const review = {
     status: "reviewed",
     evidenceRefs: [reference.referenceId],
   })),
-  ...(Array.isArray(packageReview.teacherAnswerKeyEvidence) ? { teacherAnswerKeyEvidence: packageReview.teacherAnswerKeyEvidence } : {}),
+  ...(declaredTeacherAnswerPaths.length > 0 || Array.isArray(sourceTeacherAnswerEvidence) ? { teacherAnswerKeyEvidence: sourceTeacherAnswerEvidence } : {}),
   promotionAllowed: false,
   studentFacingActivationAllowed: false,
 };
@@ -93,13 +106,23 @@ async function runSelfTest() {
     const sourcePath = join(directory, "publisher-source-preflight.json");
     const reviewPath = join(directory, "package-evidence-review.json");
     const outputPath = join(directory, "package-review-evidence.json");
-    await writeFile(sourcePath, JSON.stringify({ inventoryStatus: "complete", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", inventoryChecksumSha256: `sha256:${"a".repeat(64)}` }));
-    await writeFile(reviewPath, JSON.stringify({ status: "reviewed-package-evidence", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", reviewId: "review-1", reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", sourceChecksumSha256: "a".repeat(64), reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"], evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `${lane}-review` })) }));
+    await writeFile(sourcePath, JSON.stringify({ inventoryStatus: "complete", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", inventoryChecksumSha256: `sha256:${"a".repeat(64)}`, files: [{ kind: "teacher-answer-key", relativePath: "teacher/answers/unit-1-answers.pdf", unitKey: "series:book:L1:U1" }] }));
+    const teacherAnswerKeyEvidence = [{ evidenceId: "teacher-answer-key:self-test:teacher/answers/unit-1-answers.pdf", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", relativePath: "teacher/answers/unit-1-answers.pdf", checksumSha256: `sha256:${"c".repeat(64)}`, reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", rightsEvidenceRef: "rights-review", answerMappingEvidenceRef: "mapping-review", teacherOnly: true, studentFacing: false, contentIncluded: false, status: "review-only" }];
+    await writeFile(reviewPath, JSON.stringify({ status: "reviewed-package-evidence", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", reviewId: "review-1", reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", sourceChecksumSha256: "a".repeat(64), reviewedLanes: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"], evidenceReferences: ["content", "game", "audio", "video", "image", "font", "accessibility", "rights"].map((lane) => ({ lane, referenceId: `${lane}-review` })), teacherAnswerKeyEvidence }));
     const result = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", outputPath, "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards", "--game-pathway", "memory-match"], { encoding: "utf8" });
     if (result.status !== 0 || !result.stdout.includes('"reviewOnly": true')) fail(`bridge self-test failed: ${result.stderr || result.stdout}`);
     const overwrite = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", outputPath, "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
     if (overwrite.status === 0 || !overwrite.stderr.includes("Refusing to overwrite")) fail("bridge self-test allowed an overwrite.");
-    await writeFile(reviewPath, JSON.stringify({ status: "reviewed-package-evidence", tenantId: "self-test", packageId: "self-test-package", reviewId: "review-1", reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", sourceChecksumSha256: "c".repeat(64), reviewedLanes: ["content"], evidenceReferences: [{ lane: "content", referenceId: "content-review" }] }));
+    const contentBearingReview = JSON.parse(await readFile(reviewPath, "utf8"));
+    contentBearingReview.teacherAnswerKeyEvidence[0].answerText = "Hello";
+    await writeFile(reviewPath, JSON.stringify(contentBearingReview));
+    const contentBearing = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "content-bearing.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
+    if (contentBearing.status === 0 || !contentBearing.stderr.includes("must not contain answerText")) fail("bridge self-test allowed answer content.");
+    contentBearingReview.teacherAnswerKeyEvidence = [];
+    await writeFile(reviewPath, JSON.stringify(contentBearingReview));
+    const omitted = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "omitted-answer-key.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
+    if (omitted.status === 0 || !omitted.stderr.includes("exactly one record per declared teacher answer file")) fail("bridge self-test allowed an omitted answer-key record.");
+    await writeFile(reviewPath, JSON.stringify({ status: "reviewed-package-evidence", tenantId: "self-test", packageId: "self-test-package", unitKey: "series:book:L1:U1", reviewId: "review-1", reviewerId: "reviewer-1", reviewedAt: "2026-10-01T00:00:00.000Z", sourceChecksumSha256: "c".repeat(64), reviewedLanes: ["content"], evidenceReferences: [{ lane: "content", referenceId: "content-review" }], teacherAnswerKeyEvidence }));
     const checksumDrift = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "checksum-drift.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
     if (checksumDrift.status === 0 || !checksumDrift.stderr.includes("source checksum must match")) fail("bridge self-test allowed source checksum drift.");
     const incomplete = JSON.parse(await readFile(reviewPath, "utf8"));

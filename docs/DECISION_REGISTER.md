@@ -10954,3 +10954,12 @@ When the intake brief declares teacher answer files, the external package
 review evidence must now bind each file's SHA-256 without embedding its
 contents. The validator rejects missing records, path or identity drift,
 checksum drift, student-facing flags, and answer-bearing fields.
+
+## DR-1447: Teacher Answer-Key Bridge Completeness
+
+The package-review evidence bridge now requires exactly one valid, content-free
+teacher answer-key metadata record for every source-preflight teacher answer
+file in the selected unit. This prevents a partial review record from being
+derived into the final packet. The bridge remains review-only and never reads,
+copies, extracts, or exposes answer content. See
+`docs/decision-register/DR-1447-teacher-answer-key-bridge-completeness.md`.

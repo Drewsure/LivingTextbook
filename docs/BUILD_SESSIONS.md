@@ -8531,3 +8531,14 @@ fail-closed. Recorded under ADR 1432 / DR-1432.
   `teacherOnly`, `studentFacing`, `contentIncluded`, and `status` explicit.
 - The PDF remains outside LivingTextbook and is never copied into a student
   bundle or repository evidence folder.
+
+## Build session: Enforce teacher answer-key bridge completeness
+
+- The package-review evidence bridge now derives teacher answer-key metadata
+  only after comparing it with source-preflight teacher-answer-key entries for
+  the selected unit.
+- Exactly one record per declared file is required; answer-bearing fields,
+  identity drift, unsafe paths, and review-state drift remain blocked.
+- Added DR-1447 and covered valid, omitted, content-bearing, checksum-drift,
+  overwrite, and incomplete-review cases in the bridge self-test.
+- No teacher PDF was read for content, copied, promoted, or exposed.
