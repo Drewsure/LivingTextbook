@@ -23,8 +23,12 @@ const packageReview = await readJson(options.packageReview, "package evidence re
 if (sourcePreflight.inventoryStatus !== "complete") fail("Publisher source preflight must be complete before package review evidence can be derived.");
 if (packageReview.status !== "reviewed-package-evidence") fail("Package evidence review must be complete before external package review evidence can be derived.");
 if (packageReview.tenantId !== sourcePreflight.tenantId || packageReview.packageId !== sourcePreflight.packageId) fail("Package evidence review and source preflight identities must match.");
+if (packageReview.unitKey && packageReview.unitKey !== options.unitKey) fail("Package evidence review unit key must match the requested unit.");
 if (packageReview.sourceChecksumSha256 !== String(sourcePreflight.inventoryChecksumSha256).replace(/^sha256:/, "")) fail("Package evidence review source checksum must match source preflight inventory checksum.");
 if (!/^sha256:[0-9a-f]{64}$/i.test(options.packageChecksum)) fail("Package checksum must use sha256:<64 hexadecimal characters> format.");
+if (!Array.isArray(sourcePreflight.files)) fail("Publisher source preflight files must be an array.");
+if (!Array.isArray(packageReview.reviewedLanes) || packageReview.reviewedLanes.length === 0) fail("Package evidence review reviewedLanes must be a non-empty array.");
+if (!Array.isArray(packageReview.evidenceReferences) || packageReview.evidenceReferences.length === 0) fail("Package evidence review evidenceReferences must be a non-empty array.");
 const declaredTeacherAnswerPaths = (sourcePreflight.files ?? [])
   .filter((file) => file?.kind === "teacher-answer-key" && file?.unitKey === options.unitKey)
   .map((file) => file.relativePath);
@@ -130,6 +134,13 @@ async function runSelfTest() {
     await writeFile(reviewPath, JSON.stringify(incomplete));
     const incompleteReview = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "incomplete-review.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
     if (incompleteReview.status === 0 || !incompleteReview.stderr.includes("must be complete")) fail("bridge self-test allowed an incomplete package review.");
+    const malformedReview = JSON.parse(await readFile(reviewPath, "utf8"));
+    malformedReview.status = "reviewed-package-evidence";
+    malformedReview.sourceChecksumSha256 = "a".repeat(64);
+    malformedReview.reviewedLanes = null;
+    await writeFile(reviewPath, JSON.stringify(malformedReview));
+    const malformed = spawnSync(process.execPath, [fileURLToPath(import.meta.url), "--source-preflight", sourcePath, "--package-review", reviewPath, "--output", join(directory, "malformed-review.json"), "--unit-key", "series:book:L1:U1", "--package-checksum", `sha256:${"b".repeat(64)}`, "--game-pathway", "flashcards"], { encoding: "utf8" });
+    if (malformed.status === 0 || !malformed.stderr.includes("reviewedLanes must be a non-empty array")) fail("bridge self-test did not reject a malformed review record.");
     console.log("PASS package review evidence bridge derives checksum-bound external metadata without activation.");
   } finally {
     rmSync(directory, { recursive: true, force: true });
